@@ -146,3 +146,57 @@ fill.** One execution lever (hybrid fill) and external data remain before final 
 
 Wave-4 dispatched: 4A hybrid-fill move-ride closer · 4B s3 cross-sectional/regime (the 2C redirect, n_eff-adequate) ·
 4C hbr/te/stbl/DVOL as a regime overlay (n_eff-adequate, with the IC-0.13 robustness probe first).
+
+## §8 — Wave 4 results
+
+- **4C price/flow/vol/stablecoin conditioners (hbr_eta_xratio, te_in/te_out, stbl_z30, DVOL) as regime overlays → ALL NULL.**
+  Rigorous: rolling-window IC + regime-split + shuffled-conditioner null + block-bootstrap; n_eff-adequate (daily, n_eff
+  300-580, NOT per-trade — the 2C lesson applied); UNSEEN once.
+  - **hbr/te: REGIME-ARTIFACT** — the Wave-1 "IC ~0.13" is REFUTED as a robust signal: pre-registered (negative) direction
+    held in OOS then SIGN-FLIPPED in UNSEEN; cross-sectional t never p<0.05 held-out. A single-window (mid-2025) effect.
+  - **stbl_z30: NULL (macro-regime-conditional)** — IC real per-bar (the IC-as-objective trap) but the book-level return
+    differential REVERSES sign bull→bear (OOS +127pp / UNSEEN −27pp). Possible future use: an INPUT to the regime
+    classifier, not a standalone gate.
+  - **DVOL: STRUCTURALLY UNUSABLE** — non-stationary (vol-compression since 2022) ⇒ a static threshold fires ~100% in
+    OOS/UNSEEN = zero discrimination; rolling-normalized still IC≈0 in UNSEEN.
+  - **None promotes** — closes the hbr/te/stbl/dvol "embedded opportunity" candidates from §3. Script
+    `src/strat/wave4c_regime_overlay.py`. (Apparatus killed its own Wave-1 false positive — good.)
+
+- **4B s3 cross-sectional tilt + global overlay (n_eff-adequate: 5,820 XS decisions) → NOT book-eligible standalone, but
+  REAL XS skill with a natural home.** Shuffled-conditioner null + timing-vs-exposure decomposition, UNSEEN once.
+  - **Cross-sectional tilt: TIMING SKILL IS REAL** — beats the shuffled-null p=0.000 on BOTH OOS and UNSEEN
+    (Bonferroni-passing; genuine info in `top_pos_lsr` for ordering assets) — **but UNDERPERFORMS EW baseline −4.44pp OOS**:
+    the tilt sacrifices diversification (eff-N 20→14.6) and the concentration cost outweighs the discrimination in a
+    long-only EW basket where EW is already near-optimal.
+  - **Global overlay: exposure-reduction only** (+4.71pp vs EW but the shuffled null matches it, p=0.36). Combined: cancels.
+  - **NON-DEAD RESIDUAL:** s3's real XS discrimination's natural habitat is the FUNDING-CARRY sleeve (already an
+    unequal-weight cross-sectional in/out decision where diversification doesn't auto-resolve the pick) → a `carry+LSR-tilt`
+    Wave-5 hypothesis. Reinforces the theme: **internal signals show REAL discrimination but aren't harvestable long-only
+    once cost + diversification are honest.** Script `src/strat/s3_wave4b_redirect.py`.
+
+- **4A hybrid-fill move-ride closer → INTERNAL-DATA LONG-ONLY MOVE-RIDING IS DEFINITIVELY CLOSED.** Hybrid fill (passive
+  bid + marketable fallback to CATCH the runners — the one lever 2A left), 1024 configs swept, A2 gate, arbiter null with
+  identical fill, TRAIN/VAL→UNSEEN once. TRAIN+VAL looked strongly alive (beat-null **+0.78%/ev**, 10/10, stable top-15
+  cluster) → **UNSEEN beat-null −0.135%/ev, p05 −0.465, breadth 3/9, GATE FAILS 3/3.** Three converging kills: (1) fill-mix
+  degrades in the choppier 2024+ regime (passive 34→21%, so 79% of UNSEEN fills are marketable = taker+slip on exactly the
+  legs needing gross); (2) A2 calibration decays (base-rate 37.7→30→26%); (3) the marketable gross (~+0.05%) doesn't cover
+  its ~34bps cost; (4) TRVAL→UNSEEN reversal = best-of-1024 overfit. **Complete kill chain: unconditional(taker) →
+  A2-passive-maker → A2-hybrid-fill — all dead UNSEEN.** A2's RANKING signal is real but UN-HARVESTABLE long-only at honest
+  cost+fill: every affordable execution adversely-selects against the legs the signal picks. Out-of-scope levers: external
+  whale/basis/orderbook data; maker-only sub-minute (data not in pipeline). Script `src/mining/mover_ride_hybrid_fill.py`.
+
+## §9 — CAMPAIGN SYNTHESIS (interim, post kill-sweep)
+
+The internal-data, long-only, directional / move-capture frontier is **freshly RE-EARNED as exhausted** — not inherited.
+Every candidate this campaign tested shows the SAME shape: **real discrimination, un-harvestable under honest long-only +
+cost + diversification.** A2 move-ranking (durable AUC 0.646) — killed by maker adverse-selection. s3 cross-sectional
+positioning (real, p=0.000 vs random concentration) — beaten by free EW diversification. hbr/te/stbl/dvol — regime-
+artifacts / IC-as-objective traps. TI×TF — de-risked beta. The ONLY held-out-positive edge (funding-dispersion carry,
+deflation-survived) is market-neutral ⇒ LO-blocked. **The earned value sits in: (a) the de-risked-beta + carry BOOK
+(confirmed: core_satellite ~Sharpe 1.6 / maxDD −33%, satellite corr +0.015); (b) the external-data door (untested, needs
+spend); (c) the carry sleeve as the natural high-n_eff home for the real cross-sectional signals (s3-tilt Wave-5).**
+Reusable referee lessons banked: match conditioner cadence to n_eff; honest fill model exposes adverse-selection; IC-
+significance ≠ harvestable (regime-conditional sign-flips). PIVOT: kill-sweep → CONSTRUCTIVE build of (a).
+
+Frontier status: 4A ✅ 4B ✅ 4C ✅ — committed; **4D (WM regime gate) still running.** Next: canonical dead-list entry for
+move-riding closure, then the CONSTRUCTIVE core+satellite book build (incorporating 4D's regime-overlay verdict).
