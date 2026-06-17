@@ -1,0 +1,17 @@
+{"t": 1780685625.47, "event": "plan", "seeded": 2}
+{"t": 1780685625.51, "event": "dispatch", "ran": ["n1", "n2"], "parallel": 2, "parked_for_approval": []}
+{"t": 1780685625.51, "event": "judge", "node": "n1", "verdict": "pass", "votes": ["pass"]}
+{"t": 1780685625.51, "event": "judge", "node": "n2", "verdict": "pass", "votes": ["pass", "pass", "pass"]}
+{"t": 1780685625.51, "event": "reflect", "cycle": 1, "adjacent": 1, "open_left": 1, "status": "running"}
+{"t": 1780685625.53, "event": "dispatch", "ran": ["a1"], "parallel": 1, "parked_for_approval": []}
+{"t": 1780685625.53, "event": "judge", "node": "a1", "verdict": "pass", "votes": ["pass"]}
+{"t": 1780685625.53, "event": "reflect", "cycle": 2, "adjacent": 1, "open_left": 1, "status": "running"}
+{"t": 1780685626.24, "event": "dispatch", "ran": ["a2"], "parallel": 1, "parked_for_approval": []}
+{"t": 1780685626.24, "event": "judge", "node": "a2", "verdict": "pass", "votes": ["pass"]}
+{"t": 1780685626.24, "event": "reflect", "cycle": 3, "adjacent": 1, "open_left": 1, "status": "running"}
+{"t": 1780685626.27, "event": "dispatch", "ran": ["a3"], "parallel": 1, "parked_for_approval": []}
+{"t": 1780685626.27, "event": "judge", "node": "a3", "verdict": "pass", "votes": ["pass"]}
+{"t": 1780685626.27, "event": "reflect", "cycle": 4, "adjacent": 1, "open_left": 1, "status": "running"}
+{"t": 1780685626.29, "event": "dispatch", "ran": ["a4"], "parallel": 1, "parked_for_approval": []}
+{"t": 1780685626.29, "event": "judge", "node": "a4", "verdict": "pass", "votes": ["pass"]}
+{"t": 1780685626.29, "event": "reflect", "cycle": 5, "adjacent": 0, "open_left": 0, "status": "solved"}

@@ -1,0 +1,114 @@
+{
+  "tool": "ti_oracle_anchor",
+  "anchor_not_gate": true,
+  "asset": "BTCUSDT",
+  "cadences": [
+    "15m"
+  ],
+  "spec": {
+    "price_roi_band": [
+      0.02,
+      0.1
+    ],
+    "window_bars": {
+      "15m": [
+        672,
+        1344
+      ]
+    },
+    "ma_types": [
+      "SMA",
+      "EMA"
+    ],
+    "fast_grid": [
+      5,
+      10,
+      20,
+      50
+    ],
+    "slow_grid": [
+      20,
+      50,
+      100,
+      200
+    ],
+    "taker_rt": 0.0024,
+    "fills": "next_bar_open",
+    "events": "non_overlapping",
+    "hindsight": "config_choice_only (signals causal)"
+  },
+  "per_cadence": [
+    {
+      "cadence": "15m",
+      "n_events": 250,
+      "price_oracle_mean": 0.05550677520337689,
+      "price_oracle_median": 0.051106568179534365,
+      "ti_oracle_mean": 0.020585132397525192,
+      "ti_oracle_median": 0.016309418727422115,
+      "capture_ratio_of_means": 0.3708580136767312,
+      "capture_ratio_median_of_per_event": 0.2836363552610609,
+      "winning_config_distribution": {
+        "SMA_50_200": 34,
+        "EMA_50_200": 27,
+        "SMA_50_100": 26,
+        "SMA_20_200": 18,
+        "SMA_20_50": 17,
+        "EMA_50_100": 15,
+        "EMA_20_200": 12,
+        "SMA_20_100": 10,
+        "EMA_5_200": 9,
+        "SMA_10_100": 9,
+        "EMA_10_200": 9,
+        "EMA_10_50": 9,
+        "SMA_10_200": 8,
+        "EMA_20_100": 8,
+        "EMA_20_50": 7,
+        "SMA_5_200": 7,
+        "SMA_10_20": 6,
+        "SMA_5_50": 4,
+        "EMA_5_100": 3,
+        "EMA_10_20": 3,
+        "EMA_10_100": 3,
+        "SMA_5_100": 3,
+        "SMA_10_50": 2,
+        "EMA_5_50": 1
+      }
+    }
+  ],
+  "aggregate": {
+    "cadence": "AGGREGATE",
+    "n_events": 250,
+    "price_oracle_mean": 0.05550677520337689,
+    "price_oracle_median": 0.051106568179534365,
+    "ti_oracle_mean": 0.020585132397525192,
+    "ti_oracle_median": 0.016309418727422115,
+    "capture_ratio_of_means": 0.3708580136767312,
+    "capture_ratio_median_of_per_event": 0.2836363552610609,
+    "winning_config_distribution": {
+      "SMA_50_200": 34,
+      "EMA_50_200": 27,
+      "SMA_50_100": 26,
+      "SMA_20_200": 18,
+      "SMA_20_50": 17,
+      "EMA_50_100": 15,
+      "EMA_20_200": 12,
+      "SMA_20_100": 10,
+      "EMA_5_200": 9,
+      "SMA_10_100": 9,
+      "EMA_10_200": 9,
+      "EMA_10_50": 9,
+      "SMA_10_200": 8,
+      "EMA_20_100": 8,
+      "EMA_20_50": 7,
+      "SMA_5_200": 7,
+      "SMA_10_20": 6,
+      "SMA_5_50": 4,
+      "EMA_5_100": 3,
+      "EMA_10_20": 3,
+      "EMA_10_100": 3,
+      "SMA_5_100": 3,
+      "SMA_10_50": 2,
+      "EMA_5_50": 1
+    }
+  }
+}

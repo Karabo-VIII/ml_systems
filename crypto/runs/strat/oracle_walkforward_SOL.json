@@ -1,0 +1,120 @@
+{
+  "tool": "oracle_walkforward",
+  "question": "does this week's oracle config work next week?",
+  "asset": "SOLUSDT",
+  "cadences": [
+    "4h",
+    "1h"
+  ],
+  "spec": {
+    "period_definition": "consecutive event-blocks (NOT calendar weeks)",
+    "test_events_per_block": 4,
+    "train_events_per_block": 12,
+    "min_train_events": 6,
+    "min_test_events": 3,
+    "fixed_config": "F2_CROSS/SMA/5x20",
+    "n_random": 8,
+    "capture_units": "realized_long_roi_net_taker (NOT divided by price-oracle)",
+    "causal": "rolled config fitted on TRAIN events only; no refit on TEST"
+  },
+  "per_cadence": [
+    {
+      "cadence": "4h",
+      "n_events": 175,
+      "n_steps": 41,
+      "skipped": 0,
+      "skip_reasons": {},
+      "fixed_config": "F2_CROSS/SMA/5x20",
+      "fixed_config_available": true,
+      "capture_means": {
+        "rolled": -0.0003008634578812274,
+        "next_oracle": 0.06037689034009,
+        "fixed": -0.024810034874376947,
+        "random": -0.015957229024812097
+      },
+      "capture_medians": {
+        "rolled": 0.0024267699729670703,
+        "next_oracle": 0.05031666892072921,
+        "fixed": -0.022647494831884257,
+        "random": -0.015081343246665576
+      },
+      "persistence_ratio": -0.0049830896587506985,
+      "translate_vs_fixed": {
+        "rolled_beats_fixed_winrate": 0.7560975609756098,
+        "mean_delta_rolled_minus_fixed": 0.02450917141649572
+      },
+      "vs_random": {
+        "rolled_beats_random_winrate": 0.6829268292682927,
+        "mean_delta_rolled_minus_random": 0.01565636556693087
+      },
+      "config_repeat_rate": 0.0,
+      "verdict": "(iii) DOES NOT TRANSLATE / OVERFIT: rolled (-0.0003) LOSES money on the next period while the next-period oracle ceiling is +0.0604 -- last period's best config did not carry forward. (still > a also-losing fixed -0.0248, but that is not forward value)"
+    },
+    {
+      "cadence": "1h",
+      "n_events": 165,
+      "n_steps": 38,
+      "skipped": 1,
+      "skip_reasons": {
+        "test_too_small": 1
+      },
+      "fixed_config": "F2_CROSS/SMA/5x20",
+      "fixed_config_available": true,
+      "capture_means": {
+        "rolled": -0.01155036611186215,
+        "next_oracle": 0.06178989103646764,
+        "fixed": -0.023232057257438484,
+        "random": -0.025204127447483286
+      },
+      "capture_medians": {
+        "rolled": -0.0016711514845467196,
+        "next_oracle": 0.05169331574397584,
+        "fixed": -0.020127791837622318,
+        "random": -0.024131913146392635
+      },
+      "persistence_ratio": -0.18692970513648038,
+      "translate_vs_fixed": {
+        "rolled_beats_fixed_winrate": 0.5526315789473685,
+        "mean_delta_rolled_minus_fixed": 0.011681691145576337
+      },
+      "vs_random": {
+        "rolled_beats_random_winrate": 0.6052631578947368,
+        "mean_delta_rolled_minus_random": 0.013653761335621142
+      },
+      "config_repeat_rate": 0.02631578947368421,
+      "verdict": "(iii) DOES NOT TRANSLATE / OVERFIT: rolled (-0.0116) LOSES money on the next period while the next-period oracle ceiling is +0.0618 -- last period's best config did not carry forward. (still > a also-losing fixed -0.0232, but that is not forward value)"
+    }
+  ],
+  "aggregate": {
+    "cadence": "AGGREGATE",
+    "n_events": 340,
+    "n_steps": 79,
+    "skipped": 0,
+    "skip_reasons": {},
+    "fixed_config": "F2_CROSS/SMA/5x20",
+    "fixed_config_available": true,
+    "capture_means": {
+      "rolled": -0.005712016633213822,
+      "next_oracle": 0.061056561561132414,
+      "fixed": -0.024051007666229335,
+      "random": -0.020405104215464064
+    },
+    "capture_medians": {
+      "rolled": -0.00012441817376827174,
+      "next_oracle": 0.05131334207395885,
+      "fixed": -0.021445902917124313,
+      "random": -0.018605071611715988
+    },
+    "persistence_ratio": -0.09355287109469322,
+    "translate_vs_fixed": {
+      "rolled_beats_fixed_winrate": 0.6582278481012658,
+      "mean_delta_rolled_minus_fixed": 0.018338991033015513
+    },
+    "vs_random": {
+      "rolled_beats_random_winrate": 0.6455696202531646,
+      "mean_delta_rolled_minus_random": 0.01469308758225024
+    },
+    "config_repeat_rate": 0.012658227848101266,
+    "verdict": "(iii) DOES NOT TRANSLATE / OVERFIT: rolled (-0.0057) LOSES money on the next period while the next-period oracle ceiling is +0.0611 -- last period's best config did not carry forward. (still > a also-losing fixed -0.0241, but that is not forward value)"
+  }
+}

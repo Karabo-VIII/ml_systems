@@ -1,0 +1,165 @@
+{
+  "universe": "u10",
+  "cadence": "1d",
+  "hold_bars": 3,
+  "trigger": "rv20[t] > 1.5 * expanding-median(min50).shift(1)  [src/mining/conditional.py:88-95]",
+  "cost_source": "src/strat/fill_model.py::MODES['maker_pessimistic']",
+  "cost_rt": 0.001,
+  "adverse_selection": 0.96,
+  "n_trades": 1940,
+  "n_pool_eligible": 22034,
+  "n_null_resamples": 2000,
+  "n_assets_used": 10,
+  "assets_used": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "BNBUSDT",
+    "XRPUSDT",
+    "DOGEUSDT",
+    "ADAUSDT",
+    "AVAXUSDT",
+    "LINKUSDT",
+    "LTCUSDT"
+  ],
+  "skipped": [],
+  "up_rate_trigger_signed": 0.514,
+  "up_rate_pool_signed": 0.507,
+  "bootstrap_p_signed_long_beats_random": 0.0,
+  "bootstrap_p_abs_move_beats_random": 0.0,
+  "gross": {
+    "signed_long_bps": 121.9,
+    "abs_magnitude_bps": 948.4,
+    "null_signed_bps": 28.2,
+    "null_signed_std_bps": 20.1,
+    "null_abs_bps": 582.2,
+    "null_abs_std_bps": 15.7,
+    "excess_signed_bps": 93.6,
+    "excess_abs_bps": 366.2
+  },
+  "breakeven_roundtrip_cost_bps": 366.7,
+  "taker_baseline_directional": {
+    "cost_source": "src/strat/fill_model.py::MODES['taker'] (solid; p_fill 1.0, no adverse)",
+    "cost_rt": 0.0024,
+    "signed_net_trig_bps": 97.88,
+    "signed_net_null_bps": 4.25,
+    "signed_net_excess_bps": 93.63,
+    "survives": true
+  },
+  "net_after_cost_by_p_fill": {
+    "0.25": {
+      "signed_net_trig_bps": -199.64,
+      "signed_net_null_bps": -135.12,
+      "signed_net_excess_bps": -64.52,
+      "signed_survives": false,
+      "abs_net_trig_bps": 6.98,
+      "abs_net_null_bps": 3.32,
+      "abs_net_excess_bps": 3.67,
+      "abs_survives": true
+    },
+    "0.4": {
+      "signed_net_trig_bps": -319.43,
+      "signed_net_null_bps": -216.19,
+      "signed_net_excess_bps": -103.24,
+      "signed_survives": false,
+      "abs_net_trig_bps": 11.17,
+      "abs_net_null_bps": 5.31,
+      "abs_net_excess_bps": 5.87,
+      "abs_survives": true
+    },
+    "0.8": {
+      "signed_net_trig_bps": -638.86,
+      "signed_net_null_bps": -432.38,
+      "signed_net_excess_bps": -206.48,
+      "signed_survives": false,
+      "abs_net_trig_bps": 22.35,
+      "abs_net_null_bps": 10.61,
+      "abs_net_excess_bps": 11.73,
+      "abs_survives": true
+    }
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "n_trig": 178,
+      "n_pool": 2281,
+      "mean_signed_bps": 122.6,
+      "mean_abs_bps": 594.2,
+      "pool_signed_bps": 28.2,
+      "pool_abs_bps": 383.1
+    },
+    "ETHUSDT": {
+      "n_trig": 99,
+      "n_pool": 2273,
+      "mean_signed_bps": 74.8,
+      "mean_abs_bps": 705.4,
+      "pool_signed_bps": 28.4,
+      "pool_abs_bps": 512.6
+    },
+    "SOLUSDT": {
+      "n_trig": 88,
+      "n_pool": 2030,
+      "mean_signed_bps": 70.6,
+      "mean_abs_bps": 1069.1,
+      "pool_signed_bps": 60.2,
+      "pool_abs_bps": 714.4
+    },
+    "BNBUSDT": {
+      "n_trig": 191,
+      "n_pool": 2272,
+      "mean_signed_bps": 286.2,
+      "mean_abs_bps": 941.9,
+      "pool_signed_bps": 46.3,
+      "pool_abs_bps": 460.2
+    },
+    "XRPUSDT": {
+      "n_trig": 390,
+      "n_pool": 2272,
+      "mean_signed_bps": 2.2,
+      "mean_abs_bps": 885.9,
+      "pool_signed_bps": 23.3,
+      "pool_abs_bps": 558.0
+    },
+    "DOGEUSDT": {
+      "n_trig": 286,
+      "n_pool": 2056,
+      "mean_signed_bps": 341.7,
+      "mean_abs_bps": 1262.3,
+      "pool_signed_bps": 52.9,
+      "pool_abs_bps": 674.6
+    },
+    "ADAUSDT": {
+      "n_trig": 176,
+      "n_pool": 2269,
+      "mean_signed_bps": 248.0,
+      "mean_abs_bps": 957.6,
+      "pool_signed_bps": 23.2,
+      "pool_abs_bps": 611.3
+    },
+    "AVAXUSDT": {
+      "n_trig": 148,
+      "n_pool": 2022,
+      "mean_signed_bps": 78.4,
+      "mean_abs_bps": 1316.0,
+      "pool_signed_bps": 13.9,
+      "pool_abs_bps": 743.2
+    },
+    "LINKUSDT": {
+      "n_trig": 162,
+      "n_pool": 2277,
+      "mean_signed_bps": -3.1,
+      "mean_abs_bps": 882.2,
+      "pool_signed_bps": 10.2,
+      "pool_abs_bps": 661.1
+    },
+    "LTCUSDT": {
+      "n_trig": 222,
+      "n_pool": 2282,
+      "mean_signed_bps": -31.4,
+      "mean_abs_bps": 799.6,
+      "pool_signed_bps": -2.8,
+      "pool_abs_bps": 540.0
+    }
+  },
+  "verdict_note": "DIRECTION is a coin flip at the trigger (up_rate ~0.49-0.51) -> the realizable directional-long edge is the SIGNED excess over a MONTE-CARLO random-entry null. The magnitude-ceiling variant is the UPPER bound earnable only WITH a (non-existent) direction edge. Survives = NET excess-over-null > 0 AND bootstrap p < 0.05 (a positive excess that is not significant vs random = drift, not edge).",
+  "_elapsed_s": 0.3
+}

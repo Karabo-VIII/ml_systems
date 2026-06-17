@@ -1,0 +1,244 @@
+{
+ "1d": {
+  "EMA": {
+   "base": {
+    "net": 23.6,
+    "cost_drag": 0.1,
+    "maxdd": -13.1,
+    "whipsaw": 0.0,
+    "n_trades": 2.2,
+    "time_in": 0.3
+   },
+   "confirm": {
+    "net": 22.8,
+    "cost_drag": 0.1,
+    "maxdd": -12.7,
+    "whipsaw": 0.0,
+    "n_trades": 1.9,
+    "time_in": 0.2
+   },
+   "voltgt": {
+    "net": 21.4,
+    "cost_drag": 0.1,
+    "maxdd": -8.7,
+    "whipsaw": 0.0,
+    "n_trades": 1.9,
+    "time_in": 0.2
+   },
+   "d_whipsaw_confirm": 0.0,
+   "d_cost_confirm": 0.0,
+   "d_maxdd_voltgt": 4.4,
+   "characteristic_weakness": "balanced; mild lag+chop whipsaw"
+  },
+  "SMA": {
+   "base": {
+    "net": 22.8,
+    "cost_drag": 0.1,
+    "maxdd": -14.0,
+    "whipsaw": 0.0,
+    "n_trades": 2.3,
+    "time_in": 0.3
+   },
+   "confirm": {
+    "net": 20.8,
+    "cost_drag": 0.1,
+    "maxdd": -13.6,
+    "whipsaw": 0.0,
+    "n_trades": 2.0,
+    "time_in": 0.3
+   },
+   "voltgt": {
+    "net": 22.4,
+    "cost_drag": 0.1,
+    "maxdd": -9.3,
+    "whipsaw": 0.0,
+    "n_trades": 2.0,
+    "time_in": 0.2
+   },
+   "d_whipsaw_confirm": 0.0,
+   "d_cost_confirm": 0.0,
+   "d_maxdd_voltgt": 4.7,
+   "characteristic_weakness": "MOST LAG (equal weights) -> low participation"
+  },
+  "WMA": {
+   "base": {
+    "net": 22.2,
+    "cost_drag": 0.1,
+    "maxdd": -15.2,
+    "whipsaw": 0.0,
+    "n_trades": 2.9,
+    "time_in": 0.4
+   },
+   "confirm": {
+    "net": 19.9,
+    "cost_drag": 0.1,
+    "maxdd": -15.0,
+    "whipsaw": 0.0,
+    "n_trades": 2.5,
+    "time_in": 0.3
+   },
+   "voltgt": {
+    "net": 21.4,
+    "cost_drag": 0.1,
+    "maxdd": -10.5,
+    "whipsaw": 0.0,
+    "n_trades": 2.5,
+    "time_in": 0.3
+   },
+   "d_whipsaw_confirm": 0.0,
+   "d_cost_confirm": 0.0,
+   "d_maxdd_voltgt": 4.7,
+   "characteristic_weakness": "moderate lag"
+  },
+  "HMA": {
+   "base": {
+    "net": 24.1,
+    "cost_drag": 0.2,
+    "maxdd": -17.4,
+    "whipsaw": 1.4,
+    "n_trades": 5.3,
+    "time_in": 0.5
+   },
+   "confirm": {
+    "net": 23.2,
+    "cost_drag": 0.2,
+    "maxdd": -16.7,
+    "whipsaw": 0.0,
+    "n_trades": 4.9,
+    "time_in": 0.5
+   },
+   "voltgt": {
+    "net": 23.6,
+    "cost_drag": 0.2,
+    "maxdd": -11.8,
+    "whipsaw": 0.0,
+    "n_trades": 4.9,
+    "time_in": 0.4
+   },
+   "d_whipsaw_confirm": -1.4,
+   "d_cost_confirm": 0.0,
+   "d_maxdd_voltgt": 5.6,
+   "characteristic_weakness": "low-lag but OVERSHOOTS reversals (whipsaw)"
+  },
+  "DEMA": {
+   "base": {
+    "net": 22.8,
+    "cost_drag": 0.2,
+    "maxdd": -16.4,
+    "whipsaw": 0.0,
+    "n_trades": 3.7,
+    "time_in": 0.4
+   },
+   "confirm": {
+    "net": 23.1,
+    "cost_drag": 0.1,
+    "maxdd": -14.9,
+    "whipsaw": 0.0,
+    "n_trades": 3.2,
+    "time_in": 0.3
+   },
+   "voltgt": {
+    "net": 23.8,
+    "cost_drag": 0.1,
+    "maxdd": -10.6,
+    "whipsaw": 0.0,
+    "n_trades": 3.2,
+    "time_in": 0.3
+   },
+   "d_whipsaw_confirm": 0.0,
+   "d_cost_confirm": -0.1,
+   "d_maxdd_voltgt": 5.8,
+   "characteristic_weakness": "low-lag, OVERSHOOT whipsaw on reversals"
+  },
+  "TEMA": {
+   "base": {
+    "net": 24.5,
+    "cost_drag": 0.2,
+    "maxdd": -16.8,
+    "whipsaw": 1.5,
+    "n_trades": 4.5,
+    "time_in": 0.5
+   },
+   "confirm": {
+    "net": 23.1,
+    "cost_drag": 0.2,
+    "maxdd": -16.5,
+    "whipsaw": 1.1,
+    "n_trades": 4.0,
+    "time_in": 0.4
+   },
+   "voltgt": {
+    "net": 22.8,
+    "cost_drag": 0.2,
+    "maxdd": -11.9,
+    "whipsaw": 1.1,
+    "n_trades": 4.0,
+    "time_in": 0.4
+   },
+   "d_whipsaw_confirm": -0.4,
+   "d_cost_confirm": 0.0,
+   "d_maxdd_voltgt": 4.9,
+   "characteristic_weakness": "lowest-lag, WORST overshoot whipsaw"
+  },
+  "KAMA": {
+   "base": {
+    "net": 21.2,
+    "cost_drag": 0.1,
+    "maxdd": -12.0,
+    "whipsaw": 0.0,
+    "n_trades": 2.2,
+    "time_in": 0.2
+   },
+   "confirm": {
+    "net": 17.6,
+    "cost_drag": 0.1,
+    "maxdd": -11.9,
+    "whipsaw": 0.0,
+    "n_trades": 1.9,
+    "time_in": 0.2
+   },
+   "voltgt": {
+    "net": 16.0,
+    "cost_drag": 0.1,
+    "maxdd": -7.8,
+    "whipsaw": 0.0,
+    "n_trades": 1.9,
+    "time_in": 0.2
+   },
+   "d_whipsaw_confirm": 0.0,
+   "d_cost_confirm": 0.0,
+   "d_maxdd_voltgt": 4.2,
+   "characteristic_weakness": "adaptive; STALLS in low-efficiency chop (under-participates)"
+  },
+  "VIDYA": {
+   "base": {
+    "net": 5.6,
+    "cost_drag": 0.0,
+    "maxdd": -4.5,
+    "whipsaw": 0.0,
+    "n_trades": 1.5,
+    "time_in": 0.1
+   },
+   "confirm": {
+    "net": 3.5,
+    "cost_drag": 0.0,
+    "maxdd": -4.5,
+    "whipsaw": 0.0,
+    "n_trades": 1.2,
+    "time_in": 0.1
+   },
+   "voltgt": {
+    "net": 3.5,
+    "cost_drag": 0.0,
+    "maxdd": -2.7,
+    "whipsaw": 0.0,
+    "n_trades": 1.2,
+    "time_in": 0.1
+   },
+   "d_whipsaw_confirm": 0.0,
+   "d_cost_confirm": 0.0,
+   "d_maxdd_voltgt": 1.8,
+   "characteristic_weakness": "adaptive (CMO); stalls in low-momentum chop"
+  }
+ }
+}

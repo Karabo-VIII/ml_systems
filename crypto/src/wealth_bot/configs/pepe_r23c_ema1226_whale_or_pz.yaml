@@ -1,0 +1,97 @@
+# R23c — EMA(12,26)_cross AND (whale_net>0 OR premium_z90<0) (static, no LGBM)
+#
+# Wired 2026-05-25 evening SAST by INST fdbdb2bb to close the
+# "R23c has audit data but no production YAML" gap from session report.
+#
+# Mechanism: EMA(12,26) cross is the entry signal; (whale OR pz<0) is the
+# confirmation. The OR composite catches BOTH bull-flow signals (whale_net>0)
+# AND mean-revert-bull signals (premium_z90<0 = perp basis compressed below
+# spot, often a contrarian local-bottom indicator).
+#
+# Audit provenance:
+#   runs/audit/AUTONOMOUS_MAXX_PEPE_BOT_2026_05_24/data/r23c_nm_ema1226_whalepz_audit.json
+#   - n_unseen=20 (retrofit; previously cached at n=17 was wrong)
+#   - UNSEEN compound: +33.13% (PATCHED, post-retrofit honest number)
+#   - jackknife K=2: -15.68%
+#   - combined K2+S9: -30.67%
+#   - block-boot p05: -38.98%
+#   - all_4_positive: FALSE post-retrofit
+#   - mechanism_falsifier_check: TBD (Pattern Q-clean at H=0.113, but cached
+#     all-4-positive flip means it needs a fresh full audit)
+#
+# Grade per INST fdbdb2bb session report: C+ (cached-number-drift caveat)
+#
+# DO NOT capital-allocate without:
+#   1. Fresh full audit under sim_next_bar_close_v1_2_claim (run framework)
+#   2. Verify n_unseen >= 20 + jackknife K=2 > 0 OR documented relaxation
+#   3. Verify premium_z90 column is fresh in chimera (no >24h staleness)
+#   4. Confirm OR-filter doesn't fall through to ValueError at runtime
+#      (smoke: `python -m wealth_bot.framework.data_loader` against this YAML)
+
+asset: PEPE
+cadence: 4h
+indicator_family: EMA
+n_seeds: 1   # static rule, no LGBM ensemble required
+fwd_bars: 7
+chimera_lag_bars: 6
+purge_bars: 0   # legacy behavior; bump to 400 if retroactive segment-mask purge desired
+
+windows:
+  use_canonical: legacy
+  train_start: '2023-05-06'
+  unseen_end: '2026-05-22'
+
+chimera_features:
+- wh_whale_net_usd
+- premium_z90
+- bs_basis_z30
+- rv_rv_5m
+- hbr_eta_imbalance
+- te_btc_imb
+
+strategies:
+- ma_type: EMA_cross
+  fast: 12
+  slow: 26
+  filter_kind: whale_OR_pz_neg
+  threshold_pct: 0.0  # not used for *_cross
+
+model:
+  n_estimators: 100
+  max_depth: 3
+  num_leaves: 7
+  min_child_samples: 10
+  learning_rate: 0.05
+  reg_alpha: 0.3
+  reg_lambda: 0.3
+  bagging_fraction: 0.8
+  feature_fraction: 0.8
+  wf_train_window: 1500
+  wf_step: 200
+  min_signal_count_per_refit: 30
+
+upgrades:
+  u1_seed_ensemble: false
+  u2_threshold_calibration: false
+  u3_regime_conditional: false
+  u4_synthetic_augmentation: false
+  u1_n_seeds: 1
+
+risk:
+  starting_capital_usd: 5000.0
+  max_position_pct: 1.0
+  kelly_fraction: 0.25
+  max_drawdown_pct: 25.0
+  max_consecutive_losses: 10
+  cost_per_side_pct: 0.22
+  whale_freshness_max_hours: 28.0
+
+# Reproduce a fresh audit:
+#   from wealth_bot.framework.config import load_config
+#   from wealth_bot.framework.data_loader import prepare
+#   from wealth_bot.framework.walk_forward import n_seed_audit
+#   cfg = load_config('src/wealth_bot/configs/pepe_r23c_ema1226_whale_or_pz.yaml')
+#   df, df_lag, signals, fwd_ret, masks = prepare(cfg)
+#   res = n_seed_audit(cfg, df_lag, signals, fwd_ret, masks, seeds=[0])
+
+output_dir: runs/audit/wealth_bot/pepe_r23c_ema1226_whale_or_pz

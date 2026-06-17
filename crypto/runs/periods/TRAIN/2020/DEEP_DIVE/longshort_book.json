@@ -1,0 +1,7534 @@
+{
+ "repro": {
+  "command": "python -m strat.longshort_ma_engine --seeds 20 --cadences 1d,4h,2h,1h,30m,15m",
+  "git_sha": "a183f0f",
+  "cost_maker": 0.0006,
+  "borrow_bps_base": 20.0,
+  "borrow_bps_grid": [
+   0.0,
+   10.0,
+   20.0,
+   30.0
+  ],
+  "phase1a_winners": {
+   "1d": {
+    "ma_type": "KAMA",
+    "confirm_k": 0,
+    "exit": "none"
+   },
+   "4h": {
+    "ma_type": "VIDYA",
+    "confirm_k": 0,
+    "exit": "none"
+   },
+   "2h": {
+    "ma_type": "VIDYA",
+    "confirm_k": 2,
+    "exit": "none"
+   },
+   "1h": {
+    "ma_type": "VIDYA",
+    "confirm_k": 2,
+    "exit": "minhold"
+   },
+   "30m": {
+    "ma_type": "VIDYA",
+    "confirm_k": 3,
+    "exit": "minhold"
+   },
+   "15m": {
+    "ma_type": "VIDYA",
+    "confirm_k": 3,
+    "exit": "minhold"
+   }
+  },
+  "calib_window": [
+   "2020-01-01",
+   "2021-01-01"
+  ],
+  "regime_periods": {
+   "bear": [
+    "2020-02-15",
+    "2020-03-25"
+   ],
+   "chop": [
+    "2020-04-01",
+    "2020-07-15"
+   ],
+   "bull": [
+    "2020-10-01",
+    "2021-01-01"
+   ]
+  },
+  "n_seeds": 20,
+  "cadences": [
+   "1d",
+   "4h",
+   "2h",
+   "1h",
+   "30m",
+   "15m"
+  ],
+  "sleeves": [
+   "TREND",
+   "MR",
+   "LONGSHORT",
+   "VOLTGT_DEF"
+  ],
+  "weight_policy": "equal_risk",
+  "constraint": "SYNTHETIC (PHASE 3/4b validated generator) + 2020 calibration/OOS ONLY; never 2026/other; LONGSHORT = RESEARCH (deploy needs LO-exception sign-off)"
+ },
+ "generator_validation": {
+  "bear": {
+   "real": {
+    "mean": -0.0109,
+    "std": 0.0948,
+    "kurt": 7.9289,
+    "skew": -1.716,
+    "ar1": -0.3092,
+    "vol_cluster": 0.2349
+   },
+   "synth": {
+    "mean": -0.0123,
+    "std": 0.1018,
+    "kurt": 5.8497,
+    "skew": 0.3422,
+    "ar1": -0.3309,
+    "vol_cluster": 0.2323
+   },
+   "match": {
+    "mean_sign": true,
+    "std_within_40pct": true,
+    "kurt_both_fat": true,
+    "vol_cluster_sign": true
+   },
+   "all_match": true,
+   "n_real": 266,
+   "n_synth": 27300
+  },
+  "chop": {
+   "real": {
+    "mean": 0.0066,
+    "std": 0.0398,
+    "kurt": 3.5477,
+    "skew": 1.0333,
+    "ar1": -0.1399,
+    "vol_cluster": 0.0384
+   },
+   "synth": {
+    "mean": 0.005,
+    "std": 0.0396,
+    "kurt": 1.8226,
+    "skew": 0.0332,
+    "ar1": -0.1623,
+    "vol_cluster": 0.0354
+   },
+   "match": {
+    "mean_sign": true,
+    "std_within_40pct": true,
+    "kurt_both_fat": true,
+    "vol_cluster_sign": true
+   },
+   "all_match": true,
+   "n_real": 728,
+   "n_synth": 27300
+  },
+  "bull": {
+   "real": {
+    "mean": 0.0054,
+    "std": 0.0575,
+    "kurt": 10.136,
+    "skew": 0.6921,
+    "ar1": -0.0129,
+    "vol_cluster": 0.2553
+   },
+   "synth": {
+    "mean": 0.0027,
+    "std": 0.055,
+    "kurt": 1.8771,
+    "skew": 0.0505,
+    "ar1": -0.0131,
+    "vol_cluster": 0.088
+   },
+   "match": {
+    "mean_sign": true,
+    "std_within_40pct": true,
+    "kurt_both_fat": true,
+    "vol_cluster_sign": true
+   },
+   "all_match": true,
+   "n_real": 910,
+   "n_synth": 27300
+  },
+  "_summary": {
+   "regimes_validated": 3,
+   "regimes_all_match": 3,
+   "verdict": "VALIDATED (synthetic brackets real 2020 stylized facts)"
+  }
+ },
+ "engine": {
+  "1d": {
+   "borrow_sensitivity": {
+    "0.0": {
+     "bull": {
+      "mean": -0.95,
+      "std": 2.53,
+      "worst": -5.6,
+      "median": -1.05,
+      "p25": -2.2,
+      "n": 20
+     },
+     "bear": {
+      "mean": -0.55,
+      "std": 5.37,
+      "worst": -15.5,
+      "median": 0.25,
+      "p25": -3.67,
+      "n": 20
+     },
+     "chop": {
+      "mean": 3.19,
+      "std": 3.92,
+      "worst": -4.5,
+      "median": 4.25,
+      "p25": 0.33,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 11.77,
+      "std": 9.99,
+      "worst": -2.2,
+      "median": 10.65,
+      "p25": 3.0,
+      "n": 20
+     }
+    },
+    "10.0": {
+     "bull": {
+      "mean": -0.95,
+      "std": 2.53,
+      "worst": -5.6,
+      "median": -1.05,
+      "p25": -2.2,
+      "n": 20
+     },
+     "bear": {
+      "mean": -0.55,
+      "std": 5.37,
+      "worst": -15.5,
+      "median": 0.25,
+      "p25": -3.67,
+      "n": 20
+     },
+     "chop": {
+      "mean": 3.19,
+      "std": 3.92,
+      "worst": -4.5,
+      "median": 4.25,
+      "p25": 0.33,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 11.77,
+      "std": 9.99,
+      "worst": -2.2,
+      "median": 10.65,
+      "p25": 3.0,
+      "n": 20
+     }
+    },
+    "20.0": {
+     "bull": {
+      "mean": -0.95,
+      "std": 2.53,
+      "worst": -5.6,
+      "median": -1.05,
+      "p25": -2.2,
+      "n": 20
+     },
+     "bear": {
+      "mean": -0.55,
+      "std": 5.37,
+      "worst": -15.5,
+      "median": 0.25,
+      "p25": -3.67,
+      "n": 20
+     },
+     "chop": {
+      "mean": 3.19,
+      "std": 3.92,
+      "worst": -4.5,
+      "median": 4.25,
+      "p25": 0.33,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 11.76,
+      "std": 9.99,
+      "worst": -2.2,
+      "median": 10.65,
+      "p25": 2.98,
+      "n": 20
+     }
+    },
+    "30.0": {
+     "bull": {
+      "mean": -0.95,
+      "std": 2.53,
+      "worst": -5.6,
+      "median": -1.05,
+      "p25": -2.2,
+      "n": 20
+     },
+     "bear": {
+      "mean": -0.55,
+      "std": 5.37,
+      "worst": -15.5,
+      "median": 0.25,
+      "p25": -3.67,
+      "n": 20
+     },
+     "chop": {
+      "mean": 3.19,
+      "std": 3.92,
+      "worst": -4.5,
+      "median": 4.25,
+      "p25": 0.33,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 11.75,
+      "std": 9.99,
+      "worst": -2.2,
+      "median": 10.65,
+      "p25": 2.98,
+      "n": 20
+     }
+    }
+   },
+   "bull": {
+    "longshort_net": {
+     "mean": -0.95,
+     "std": 2.53,
+     "worst": -5.6,
+     "median": -1.05,
+     "p25": -2.2,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": -0.74,
+     "std": 1.79,
+     "worst": -4.78,
+     "median": -0.75,
+     "p25": -1.54,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -4.12,
+     "std": 1.32,
+     "worst": -6.2,
+     "median": -4.4,
+     "p25": -5.22,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -6.05,
+     "std": 2.29,
+     "worst": -9.6,
+     "median": -5.85,
+     "p25": -7.53,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 1.06,
+     "std": 4.69,
+     "worst": -6.0,
+     "median": 1.65,
+     "p25": -3.43,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -5.29,
+     "std": 1.64,
+     "worst": -8.4,
+     "median": -5.1,
+     "p25": -6.65,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.78,
+     "std": 2.14,
+     "worst": -3.3,
+     "median": 0.5,
+     "p25": -0.2,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.18,
+     "std": 1.17,
+     "worst": -1.5,
+     "median": 1.35,
+     "p25": 0.95,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -2.0,
+     "std": 3.0,
+     "worst": -7.7,
+     "median": -2.3,
+     "p25": -3.9,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.4,
+    "ls_beats_null_margin": -1.72
+   },
+   "bear": {
+    "longshort_net": {
+     "mean": -0.55,
+     "std": 5.37,
+     "worst": -15.5,
+     "median": 0.25,
+     "p25": -3.67,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": -0.52,
+     "std": 3.68,
+     "worst": -7.89,
+     "median": 0.21,
+     "p25": -3.26,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -4.48,
+     "std": 3.01,
+     "worst": -16.5,
+     "median": -3.7,
+     "p25": -4.6,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -6.81,
+     "std": 7.11,
+     "worst": -34.5,
+     "median": -5.55,
+     "p25": -6.53,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": -4.24,
+     "std": 2.62,
+     "worst": -10.5,
+     "median": -4.1,
+     "p25": -5.62,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -5.02,
+     "std": 2.63,
+     "worst": -11.8,
+     "median": -5.0,
+     "p25": -5.88,
+     "n": 20
+    },
+    "null_net": {
+     "mean": -1.14,
+     "std": 2.12,
+     "worst": -5.6,
+     "median": -0.8,
+     "p25": -2.7,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.53,
+     "std": 2.3,
+     "worst": -4.7,
+     "median": 1.05,
+     "p25": -0.63,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": 3.69,
+     "std": 3.91,
+     "worst": -5.0,
+     "median": 4.05,
+     "p25": 0.67,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.5,
+    "ls_beats_null_margin": 0.58
+   },
+   "chop": {
+    "longshort_net": {
+     "mean": 3.19,
+     "std": 3.92,
+     "worst": -4.5,
+     "median": 4.25,
+     "p25": 0.33,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.29,
+     "std": 2.12,
+     "worst": -4.15,
+     "median": 1.9,
+     "p25": 0.26,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -2.71,
+     "std": 0.96,
+     "worst": -5.0,
+     "median": -2.5,
+     "p25": -3.35,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -2.2,
+     "std": 3.09,
+     "worst": -9.9,
+     "median": -1.25,
+     "p25": -3.67,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 10.34,
+     "std": 7.83,
+     "worst": -4.0,
+     "median": 11.15,
+     "p25": 5.53,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -4.32,
+     "std": 0.99,
+     "worst": -5.8,
+     "median": -4.4,
+     "p25": -5.1,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 1.61,
+     "std": 2.8,
+     "worst": -4.4,
+     "median": 1.8,
+     "p25": 0.35,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.61,
+     "std": 0.64,
+     "worst": 0.6,
+     "median": 1.65,
+     "p25": 1.07,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -7.15,
+     "std": 4.09,
+     "worst": -14.5,
+     "median": -6.9,
+     "p25": -10.7,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.8,
+    "ls_beats_null_margin": 1.58
+   },
+   "stitched": {
+    "longshort_net": {
+     "mean": 11.76,
+     "std": 9.99,
+     "worst": -2.2,
+     "median": 10.65,
+     "p25": 2.98,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.37,
+     "std": 0.98,
+     "worst": -0.29,
+     "median": 1.29,
+     "p25": 0.4,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -5.95,
+     "std": 2.19,
+     "worst": -9.5,
+     "median": -5.95,
+     "p25": -7.62,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -1.89,
+     "std": 7.12,
+     "worst": -10.8,
+     "median": -3.3,
+     "p25": -8.15,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 38.52,
+     "std": 24.82,
+     "worst": 11.1,
+     "median": 32.6,
+     "p25": 19.57,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -7.68,
+     "std": 1.94,
+     "worst": -11.6,
+     "median": -7.1,
+     "p25": -8.93,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 1.78,
+     "std": 7.69,
+     "worst": -11.5,
+     "median": 2.75,
+     "p25": -2.67,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.73,
+     "std": 1.54,
+     "worst": -1.7,
+     "median": 1.9,
+     "p25": 1.0,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -26.76,
+     "std": 15.95,
+     "worst": -72.9,
+     "median": -21.05,
+     "p25": -33.93,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.95,
+    "ls_beats_null_margin": 9.98
+   }
+  },
+  "4h": {
+   "borrow_sensitivity": {
+    "0.0": {
+     "bull": {
+      "mean": -0.11,
+      "std": 2.2,
+      "worst": -5.3,
+      "median": -0.1,
+      "p25": -1.25,
+      "n": 20
+     },
+     "bear": {
+      "mean": 0.91,
+      "std": 3.25,
+      "worst": -2.7,
+      "median": -0.25,
+      "p25": -0.83,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.23,
+      "std": 2.72,
+      "worst": -2.4,
+      "median": 0.55,
+      "p25": -0.03,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 5.9,
+      "std": 6.28,
+      "worst": -2.5,
+      "median": 5.0,
+      "p25": 1.73,
+      "n": 20
+     }
+    },
+    "10.0": {
+     "bull": {
+      "mean": -0.11,
+      "std": 2.2,
+      "worst": -5.3,
+      "median": -0.1,
+      "p25": -1.25,
+      "n": 20
+     },
+     "bear": {
+      "mean": 0.91,
+      "std": 3.25,
+      "worst": -2.7,
+      "median": -0.25,
+      "p25": -0.83,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.23,
+      "std": 2.72,
+      "worst": -2.4,
+      "median": 0.55,
+      "p25": -0.03,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 5.9,
+      "std": 6.28,
+      "worst": -2.5,
+      "median": 5.0,
+      "p25": 1.73,
+      "n": 20
+     }
+    },
+    "20.0": {
+     "bull": {
+      "mean": -0.11,
+      "std": 2.2,
+      "worst": -5.3,
+      "median": -0.1,
+      "p25": -1.25,
+      "n": 20
+     },
+     "bear": {
+      "mean": 0.91,
+      "std": 3.25,
+      "worst": -2.7,
+      "median": -0.25,
+      "p25": -0.83,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.23,
+      "std": 2.72,
+      "worst": -2.4,
+      "median": 0.55,
+      "p25": -0.03,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 5.89,
+      "std": 6.28,
+      "worst": -2.5,
+      "median": 4.95,
+      "p25": 1.73,
+      "n": 20
+     }
+    },
+    "30.0": {
+     "bull": {
+      "mean": -0.11,
+      "std": 2.2,
+      "worst": -5.3,
+      "median": -0.1,
+      "p25": -1.25,
+      "n": 20
+     },
+     "bear": {
+      "mean": 0.91,
+      "std": 3.25,
+      "worst": -2.7,
+      "median": -0.25,
+      "p25": -0.83,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.23,
+      "std": 2.72,
+      "worst": -2.4,
+      "median": 0.55,
+      "p25": -0.03,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 5.89,
+      "std": 6.28,
+      "worst": -2.5,
+      "median": 4.95,
+      "p25": 1.73,
+      "n": 20
+     }
+    }
+   },
+   "bull": {
+    "longshort_net": {
+     "mean": -0.11,
+     "std": 2.2,
+     "worst": -5.3,
+     "median": -0.1,
+     "p25": -1.25,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": -0.28,
+     "std": 2.06,
+     "worst": -4.33,
+     "median": -0.26,
+     "p25": -1.55,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.74,
+     "std": 1.36,
+     "worst": -5.8,
+     "median": -1.35,
+     "p25": -1.82,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -2.71,
+     "std": 2.29,
+     "worst": -9.0,
+     "median": -2.0,
+     "p25": -3.23,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 0.8,
+     "std": 3.66,
+     "worst": -5.8,
+     "median": 0.1,
+     "p25": -1.1,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -2.67,
+     "std": 1.91,
+     "worst": -7.4,
+     "median": -2.15,
+     "p25": -3.23,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.44,
+     "std": 0.9,
+     "worst": -1.1,
+     "median": 0.35,
+     "p25": -0.3,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.93,
+     "std": 1.01,
+     "worst": -1.3,
+     "median": 0.8,
+     "p25": 0.48,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -0.9,
+     "std": 1.74,
+     "worst": -6.4,
+     "median": -0.45,
+     "p25": -1.33,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.35,
+    "ls_beats_null_margin": -0.55
+   },
+   "bear": {
+    "longshort_net": {
+     "mean": 0.91,
+     "std": 3.25,
+     "worst": -2.7,
+     "median": -0.25,
+     "p25": -0.83,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": -0.46,
+     "std": 3.98,
+     "worst": -6.18,
+     "median": -0.83,
+     "p25": -3.56,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.49,
+     "std": 0.97,
+     "worst": -4.5,
+     "median": -1.2,
+     "p25": -1.9,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -1.98,
+     "std": 2.26,
+     "worst": -6.1,
+     "median": -1.6,
+     "p25": -3.58,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": -0.92,
+     "std": 1.2,
+     "worst": -3.7,
+     "median": -0.55,
+     "p25": -1.35,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -1.45,
+     "std": 1.87,
+     "worst": -8.4,
+     "median": -0.6,
+     "p25": -1.62,
+     "n": 20
+    },
+    "null_net": {
+     "mean": -0.57,
+     "std": 1.36,
+     "worst": -4.5,
+     "median": -0.15,
+     "p25": -0.83,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": -0.04,
+     "std": 1.12,
+     "worst": -1.6,
+     "median": -0.15,
+     "p25": -0.7,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": 1.83,
+     "std": 3.29,
+     "worst": -0.9,
+     "median": 0.3,
+     "p25": -0.1,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.4,
+    "ls_beats_null_margin": 1.48
+   },
+   "chop": {
+    "longshort_net": {
+     "mean": 1.23,
+     "std": 2.72,
+     "worst": -2.4,
+     "median": 0.55,
+     "p25": -0.03,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.37,
+     "std": 2.03,
+     "worst": -2.94,
+     "median": 1.84,
+     "p25": 0.01,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.0,
+     "std": 0.9,
+     "worst": -3.2,
+     "median": -0.7,
+     "p25": -1.23,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -0.85,
+     "std": 1.65,
+     "worst": -4.9,
+     "median": -0.3,
+     "p25": -1.4,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 3.0,
+     "std": 5.3,
+     "worst": -2.4,
+     "median": 1.5,
+     "p25": 0.5,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -1.71,
+     "std": 1.51,
+     "worst": -6.4,
+     "median": -1.35,
+     "p25": -2.08,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.29,
+     "std": 1.41,
+     "worst": -2.0,
+     "median": 0.2,
+     "p25": -0.35,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.72,
+     "std": 0.69,
+     "worst": 0.1,
+     "median": 0.55,
+     "p25": 0.3,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -1.77,
+     "std": 2.63,
+     "worst": -10.9,
+     "median": -0.95,
+     "p25": -1.65,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.7,
+    "ls_beats_null_margin": 0.94
+   },
+   "stitched": {
+    "longshort_net": {
+     "mean": 5.89,
+     "std": 6.28,
+     "worst": -2.5,
+     "median": 4.95,
+     "p25": 1.73,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.37,
+     "std": 1.11,
+     "worst": -0.57,
+     "median": 1.39,
+     "p25": 0.69,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -2.81,
+     "std": 1.34,
+     "worst": -6.2,
+     "median": -2.4,
+     "p25": -3.02,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -0.53,
+     "std": 4.78,
+     "worst": -9.2,
+     "median": -1.15,
+     "p25": -3.12,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 15.65,
+     "std": 12.73,
+     "worst": 2.8,
+     "median": 12.8,
+     "p25": 6.78,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -4.27,
+     "std": 1.59,
+     "worst": -8.0,
+     "median": -3.95,
+     "p25": -5.08,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 1.12,
+     "std": 4.29,
+     "worst": -8.2,
+     "median": 0.8,
+     "p25": -1.1,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.47,
+     "std": 0.77,
+     "worst": -0.4,
+     "median": 1.55,
+     "p25": 1.1,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -9.75,
+     "std": 6.75,
+     "worst": -31.1,
+     "median": -7.7,
+     "p25": -10.45,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.9,
+    "ls_beats_null_margin": 4.77
+   }
+  },
+  "2h": {
+   "borrow_sensitivity": {
+    "0.0": {
+     "bull": {
+      "mean": -0.14,
+      "std": 2.05,
+      "worst": -4.7,
+      "median": -0.15,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 1.22,
+      "std": 3.35,
+      "worst": -2.3,
+      "median": 0.1,
+      "p25": -0.45,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.29,
+      "std": 2.68,
+      "worst": -2.3,
+      "median": 0.6,
+      "p25": 0.1,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 6.15,
+      "std": 6.3,
+      "worst": -2.8,
+      "median": 5.25,
+      "p25": 2.53,
+      "n": 20
+     }
+    },
+    "10.0": {
+     "bull": {
+      "mean": -0.14,
+      "std": 2.05,
+      "worst": -4.7,
+      "median": -0.15,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 1.22,
+      "std": 3.35,
+      "worst": -2.3,
+      "median": 0.1,
+      "p25": -0.45,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.29,
+      "std": 2.68,
+      "worst": -2.3,
+      "median": 0.6,
+      "p25": 0.1,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 6.15,
+      "std": 6.3,
+      "worst": -2.8,
+      "median": 5.25,
+      "p25": 2.53,
+      "n": 20
+     }
+    },
+    "20.0": {
+     "bull": {
+      "mean": -0.14,
+      "std": 2.05,
+      "worst": -4.7,
+      "median": -0.15,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 1.22,
+      "std": 3.35,
+      "worst": -2.3,
+      "median": 0.1,
+      "p25": -0.45,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.29,
+      "std": 2.68,
+      "worst": -2.3,
+      "median": 0.6,
+      "p25": 0.1,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 6.15,
+      "std": 6.3,
+      "worst": -2.8,
+      "median": 5.25,
+      "p25": 2.53,
+      "n": 20
+     }
+    },
+    "30.0": {
+     "bull": {
+      "mean": -0.14,
+      "std": 2.05,
+      "worst": -4.7,
+      "median": -0.15,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 1.22,
+      "std": 3.35,
+      "worst": -2.3,
+      "median": 0.1,
+      "p25": -0.45,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.29,
+      "std": 2.68,
+      "worst": -2.3,
+      "median": 0.6,
+      "p25": 0.1,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 6.15,
+      "std": 6.3,
+      "worst": -2.8,
+      "median": 5.25,
+      "p25": 2.53,
+      "n": 20
+     }
+    }
+   },
+   "bull": {
+    "longshort_net": {
+     "mean": -0.14,
+     "std": 2.05,
+     "worst": -4.7,
+     "median": -0.15,
+     "p25": -1.05,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": -0.35,
+     "std": 2.06,
+     "worst": -4.12,
+     "median": -0.33,
+     "p25": -2.37,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.68,
+     "std": 1.32,
+     "worst": -5.2,
+     "median": -1.25,
+     "p25": -1.92,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -2.6,
+     "std": 2.13,
+     "worst": -7.9,
+     "median": -2.4,
+     "p25": -3.02,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 0.66,
+     "std": 3.5,
+     "worst": -5.3,
+     "median": 0.15,
+     "p25": -1.25,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -2.63,
+     "std": 1.96,
+     "worst": -7.5,
+     "median": -2.2,
+     "p25": -3.12,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.49,
+     "std": 0.94,
+     "worst": -1.1,
+     "median": 0.3,
+     "p25": -0.05,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.95,
+     "std": 0.97,
+     "worst": -0.5,
+     "median": 0.8,
+     "p25": 0.38,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -0.81,
+     "std": 1.68,
+     "worst": -5.9,
+     "median": -0.45,
+     "p25": -1.35,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.45,
+    "ls_beats_null_margin": -0.63
+   },
+   "bear": {
+    "longshort_net": {
+     "mean": 1.22,
+     "std": 3.35,
+     "worst": -2.3,
+     "median": 0.1,
+     "p25": -0.45,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 0.15,
+     "std": 4.16,
+     "worst": -6.09,
+     "median": 0.24,
+     "p25": -3.87,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.35,
+     "std": 0.9,
+     "worst": -4.1,
+     "median": -1.15,
+     "p25": -1.73,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -1.52,
+     "std": 2.39,
+     "worst": -5.6,
+     "median": -1.5,
+     "p25": -3.08,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": -0.82,
+     "std": 1.24,
+     "worst": -3.8,
+     "median": -0.45,
+     "p25": -1.15,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -1.34,
+     "std": 1.86,
+     "worst": -8.2,
+     "median": -0.55,
+     "p25": -1.38,
+     "n": 20
+    },
+    "null_net": {
+     "mean": -0.37,
+     "std": 1.14,
+     "worst": -3.5,
+     "median": 0.1,
+     "p25": -0.55,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": -0.01,
+     "std": 1.2,
+     "worst": -1.5,
+     "median": -0.15,
+     "p25": -0.82,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": 2.04,
+     "std": 3.35,
+     "worst": -0.5,
+     "median": 0.6,
+     "p25": 0.0,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.5,
+    "ls_beats_null_margin": 1.59
+   },
+   "chop": {
+    "longshort_net": {
+     "mean": 1.29,
+     "std": 2.68,
+     "worst": -2.3,
+     "median": 0.6,
+     "p25": 0.1,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.49,
+     "std": 2.02,
+     "worst": -2.77,
+     "median": 1.91,
+     "p25": 0.38,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -0.99,
+     "std": 0.93,
+     "worst": -3.2,
+     "median": -0.7,
+     "p25": -1.18,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -0.77,
+     "std": 1.65,
+     "worst": -4.9,
+     "median": -0.3,
+     "p25": -1.42,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 3.11,
+     "std": 5.27,
+     "worst": -2.4,
+     "median": 1.65,
+     "p25": 0.57,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -1.69,
+     "std": 1.51,
+     "worst": -6.4,
+     "median": -1.35,
+     "p25": -2.0,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.28,
+     "std": 1.42,
+     "worst": -2.0,
+     "median": 0.25,
+     "p25": -0.55,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.7,
+     "std": 0.69,
+     "worst": 0.1,
+     "median": 0.55,
+     "p25": 0.3,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -1.81,
+     "std": 2.62,
+     "worst": -10.8,
+     "median": -1.0,
+     "p25": -2.25,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.75,
+    "ls_beats_null_margin": 1.02
+   },
+   "stitched": {
+    "longshort_net": {
+     "mean": 6.15,
+     "std": 6.3,
+     "worst": -2.8,
+     "median": 5.25,
+     "p25": 2.53,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.46,
+     "std": 1.13,
+     "worst": -0.64,
+     "median": 1.46,
+     "p25": 0.78,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -2.6,
+     "std": 1.25,
+     "worst": -5.6,
+     "median": -2.3,
+     "p25": -2.98,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -0.06,
+     "std": 4.77,
+     "worst": -9.4,
+     "median": -0.75,
+     "p25": -2.3,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 15.98,
+     "std": 12.72,
+     "worst": 2.8,
+     "median": 12.75,
+     "p25": 6.83,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -4.0,
+     "std": 1.45,
+     "worst": -7.6,
+     "median": -3.75,
+     "p25": -5.0,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 1.0,
+     "std": 4.15,
+     "worst": -8.0,
+     "median": 0.9,
+     "p25": -1.05,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.39,
+     "std": 0.75,
+     "worst": -0.3,
+     "median": 1.45,
+     "p25": 0.98,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -9.83,
+     "std": 6.73,
+     "worst": -31.4,
+     "median": -7.6,
+     "p25": -11.77,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.85,
+    "ls_beats_null_margin": 5.15
+   }
+  },
+  "1h": {
+   "borrow_sensitivity": {
+    "0.0": {
+     "bull": {
+      "mean": -0.23,
+      "std": 2.18,
+      "worst": -5.0,
+      "median": 0.0,
+      "p25": -0.95,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.53,
+      "std": 4.13,
+      "worst": -3.0,
+      "median": 1.45,
+      "p25": -0.28,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.66,
+      "worst": -1.8,
+      "median": 0.8,
+      "p25": 0.05,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.32,
+      "std": 6.96,
+      "worst": -3.9,
+      "median": 6.9,
+      "p25": 3.58,
+      "n": 20
+     }
+    },
+    "10.0": {
+     "bull": {
+      "mean": -0.23,
+      "std": 2.18,
+      "worst": -5.0,
+      "median": 0.0,
+      "p25": -0.95,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.53,
+      "std": 4.13,
+      "worst": -3.0,
+      "median": 1.45,
+      "p25": -0.28,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.66,
+      "worst": -1.8,
+      "median": 0.8,
+      "p25": 0.05,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.32,
+      "std": 6.96,
+      "worst": -3.9,
+      "median": 6.9,
+      "p25": 3.58,
+      "n": 20
+     }
+    },
+    "20.0": {
+     "bull": {
+      "mean": -0.23,
+      "std": 2.18,
+      "worst": -5.0,
+      "median": 0.0,
+      "p25": -0.95,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.53,
+      "std": 4.13,
+      "worst": -3.0,
+      "median": 1.45,
+      "p25": -0.28,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.66,
+      "worst": -1.8,
+      "median": 0.8,
+      "p25": 0.05,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.32,
+      "std": 6.96,
+      "worst": -3.9,
+      "median": 6.9,
+      "p25": 3.58,
+      "n": 20
+     }
+    },
+    "30.0": {
+     "bull": {
+      "mean": -0.23,
+      "std": 2.18,
+      "worst": -5.0,
+      "median": 0.0,
+      "p25": -0.95,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.53,
+      "std": 4.13,
+      "worst": -3.0,
+      "median": 1.45,
+      "p25": -0.28,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.66,
+      "worst": -1.8,
+      "median": 0.8,
+      "p25": 0.05,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.32,
+      "std": 6.96,
+      "worst": -3.9,
+      "median": 6.9,
+      "p25": 3.58,
+      "n": 20
+     }
+    }
+   },
+   "bull": {
+    "longshort_net": {
+     "mean": -0.23,
+     "std": 2.18,
+     "worst": -5.0,
+     "median": 0.0,
+     "p25": -0.95,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": -0.05,
+     "std": 2.06,
+     "worst": -3.32,
+     "median": 0.05,
+     "p25": -1.51,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.96,
+     "std": 1.57,
+     "worst": -5.6,
+     "median": -1.3,
+     "p25": -3.1,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -2.99,
+     "std": 2.64,
+     "worst": -9.2,
+     "median": -2.2,
+     "p25": -5.03,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 0.93,
+     "std": 3.94,
+     "worst": -6.3,
+     "median": 0.55,
+     "p25": -0.53,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -3.07,
+     "std": 2.47,
+     "worst": -8.9,
+     "median": -2.45,
+     "p25": -3.95,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.53,
+     "std": 1.19,
+     "worst": -0.9,
+     "median": 0.05,
+     "p25": -0.25,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.1,
+     "std": 1.18,
+     "worst": 0.0,
+     "median": 0.55,
+     "p25": 0.3,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -1.16,
+     "std": 2.2,
+     "worst": -8.1,
+     "median": -0.75,
+     "p25": -1.62,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.5,
+    "ls_beats_null_margin": -0.75
+   },
+   "bear": {
+    "longshort_net": {
+     "mean": 2.53,
+     "std": 4.13,
+     "worst": -3.0,
+     "median": 1.45,
+     "p25": -0.28,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.44,
+     "std": 4.09,
+     "worst": -5.59,
+     "median": 1.54,
+     "p25": -1.41,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.83,
+     "std": 1.31,
+     "worst": -5.3,
+     "median": -1.25,
+     "p25": -2.25,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -1.25,
+     "std": 2.85,
+     "worst": -6.2,
+     "median": -1.25,
+     "p25": -3.25,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": -1.46,
+     "std": 1.96,
+     "worst": -7.6,
+     "median": -0.85,
+     "p25": -1.82,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -2.12,
+     "std": 2.43,
+     "worst": -8.8,
+     "median": -1.15,
+     "p25": -2.42,
+     "n": 20
+    },
+    "null_net": {
+     "mean": -0.66,
+     "std": 1.46,
+     "worst": -3.8,
+     "median": -0.05,
+     "p25": -1.3,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.29,
+     "std": 1.6,
+     "worst": -2.0,
+     "median": -0.3,
+     "p25": -0.73,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": 4.0,
+     "std": 4.58,
+     "worst": 0.1,
+     "median": 2.2,
+     "p25": 0.78,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.7,
+    "ls_beats_null_margin": 3.19
+   },
+   "chop": {
+    "longshort_net": {
+     "mean": 1.41,
+     "std": 2.66,
+     "worst": -1.8,
+     "median": 0.8,
+     "p25": 0.05,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.65,
+     "std": 1.92,
+     "worst": -1.99,
+     "median": 2.02,
+     "p25": 0.27,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.0,
+     "std": 0.91,
+     "worst": -3.2,
+     "median": -0.65,
+     "p25": -1.38,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -0.68,
+     "std": 1.58,
+     "worst": -4.5,
+     "median": -0.25,
+     "p25": -1.4,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 3.35,
+     "std": 5.43,
+     "worst": -2.6,
+     "median": 1.75,
+     "p25": 0.57,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -1.79,
+     "std": 1.56,
+     "worst": -6.3,
+     "median": -1.3,
+     "p25": -2.32,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.17,
+     "std": 1.5,
+     "worst": -2.1,
+     "median": -0.2,
+     "p25": -0.62,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.79,
+     "std": 0.69,
+     "worst": 0.1,
+     "median": 0.65,
+     "p25": 0.3,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -1.94,
+     "std": 2.8,
+     "worst": -11.3,
+     "median": -1.05,
+     "p25": -2.12,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.75,
+    "ls_beats_null_margin": 1.24
+   },
+   "stitched": {
+    "longshort_net": {
+     "mean": 7.32,
+     "std": 6.96,
+     "worst": -3.9,
+     "median": 6.9,
+     "p25": 3.58,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.53,
+     "std": 1.16,
+     "worst": -0.81,
+     "median": 1.51,
+     "p25": 1.03,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -2.83,
+     "std": 1.29,
+     "worst": -5.8,
+     "median": -2.65,
+     "p25": -3.12,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": 0.24,
+     "std": 5.21,
+     "worst": -11.7,
+     "median": -0.35,
+     "p25": -1.52,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 18.83,
+     "std": 14.09,
+     "worst": 2.7,
+     "median": 15.65,
+     "p25": 10.0,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -4.3,
+     "std": 1.86,
+     "worst": -9.8,
+     "median": -3.95,
+     "p25": -4.93,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 1.19,
+     "std": 3.79,
+     "worst": -6.7,
+     "median": 1.4,
+     "p25": -1.65,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.47,
+     "std": 0.98,
+     "worst": -0.1,
+     "median": 1.2,
+     "p25": 0.93,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -11.52,
+     "std": 7.63,
+     "worst": -37.1,
+     "median": -8.95,
+     "p25": -13.77,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.85,
+    "ls_beats_null_margin": 6.13
+   }
+  },
+  "30m": {
+   "borrow_sensitivity": {
+    "0.0": {
+     "bull": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     }
+    },
+    "10.0": {
+     "bull": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     }
+    },
+    "20.0": {
+     "bull": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     }
+    },
+    "30.0": {
+     "bull": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     }
+    }
+   },
+   "bull": {
+    "longshort_net": {
+     "mean": -0.32,
+     "std": 2.16,
+     "worst": -4.8,
+     "median": 0.0,
+     "p25": -1.05,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": -0.06,
+     "std": 2.11,
+     "worst": -3.61,
+     "median": -0.03,
+     "p25": -1.44,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -2.0,
+     "std": 1.64,
+     "worst": -5.5,
+     "median": -1.25,
+     "p25": -3.1,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -3.02,
+     "std": 2.69,
+     "worst": -8.9,
+     "median": -2.05,
+     "p25": -5.08,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 0.77,
+     "std": 3.71,
+     "worst": -6.2,
+     "median": 0.75,
+     "p25": -0.4,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -3.1,
+     "std": 2.54,
+     "worst": -8.9,
+     "median": -2.45,
+     "p25": -4.3,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.58,
+     "std": 1.32,
+     "worst": -0.9,
+     "median": 0.1,
+     "p25": -0.33,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.1,
+     "std": 1.23,
+     "worst": -0.3,
+     "median": 0.55,
+     "p25": 0.3,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -1.09,
+     "std": 2.05,
+     "worst": -7.2,
+     "median": -0.75,
+     "p25": -1.68,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.45,
+    "ls_beats_null_margin": -0.91
+   },
+   "bear": {
+    "longshort_net": {
+     "mean": 2.25,
+     "std": 3.87,
+     "worst": -3.2,
+     "median": 1.0,
+     "p25": -0.2,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.38,
+     "std": 4.04,
+     "worst": -5.7,
+     "median": 1.36,
+     "p25": -0.92,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.84,
+     "std": 1.48,
+     "worst": -6.3,
+     "median": -1.2,
+     "p25": -2.23,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -1.45,
+     "std": 2.96,
+     "worst": -6.5,
+     "median": -1.2,
+     "p25": -3.23,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": -1.62,
+     "std": 2.25,
+     "worst": -8.9,
+     "median": -1.0,
+     "p25": -1.98,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -2.27,
+     "std": 2.68,
+     "worst": -9.4,
+     "median": -1.15,
+     "p25": -2.48,
+     "n": 20
+    },
+    "null_net": {
+     "mean": -0.45,
+     "std": 1.26,
+     "worst": -3.2,
+     "median": 0.0,
+     "p25": -0.72,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.43,
+     "std": 1.66,
+     "worst": -1.8,
+     "median": -0.05,
+     "p25": -0.55,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": 3.86,
+     "std": 4.37,
+     "worst": 0.1,
+     "median": 2.2,
+     "p25": 0.8,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.7,
+    "ls_beats_null_margin": 2.69
+   },
+   "chop": {
+    "longshort_net": {
+     "mean": 1.41,
+     "std": 2.62,
+     "worst": -1.9,
+     "median": 0.8,
+     "p25": 0.22,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.69,
+     "std": 1.87,
+     "worst": -2.16,
+     "median": 1.92,
+     "p25": 0.62,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.01,
+     "std": 0.93,
+     "worst": -3.2,
+     "median": -0.65,
+     "p25": -1.25,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -0.67,
+     "std": 1.56,
+     "worst": -4.5,
+     "median": -0.3,
+     "p25": -1.42,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 3.35,
+     "std": 5.38,
+     "worst": -2.9,
+     "median": 1.8,
+     "p25": 0.62,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -1.79,
+     "std": 1.58,
+     "worst": -6.3,
+     "median": -1.35,
+     "p25": -2.32,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.15,
+     "std": 1.46,
+     "worst": -2.0,
+     "median": -0.2,
+     "p25": -0.53,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.78,
+     "std": 0.69,
+     "worst": 0.1,
+     "median": 0.65,
+     "p25": 0.3,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -1.93,
+     "std": 2.79,
+     "worst": -11.3,
+     "median": -1.1,
+     "p25": -2.32,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.75,
+    "ls_beats_null_margin": 1.26
+   },
+   "stitched": {
+    "longshort_net": {
+     "mean": 7.05,
+     "std": 6.74,
+     "worst": -4.1,
+     "median": 6.5,
+     "p25": 3.6,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.49,
+     "std": 1.14,
+     "worst": -0.85,
+     "median": 1.48,
+     "p25": 0.91,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -2.83,
+     "std": 1.22,
+     "worst": -5.7,
+     "median": -2.75,
+     "p25": -3.3,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": 0.14,
+     "std": 4.93,
+     "worst": -12.0,
+     "median": -0.2,
+     "p25": -1.95,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 18.7,
+     "std": 13.72,
+     "worst": 3.4,
+     "median": 15.45,
+     "p25": 9.88,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -4.12,
+     "std": 1.57,
+     "worst": -7.8,
+     "median": -3.8,
+     "p25": -4.83,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 1.19,
+     "std": 3.89,
+     "worst": -7.2,
+     "median": 1.1,
+     "p25": -1.75,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.29,
+     "std": 0.78,
+     "worst": 0.0,
+     "median": 1.1,
+     "p25": 0.93,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -11.65,
+     "std": 7.44,
+     "worst": -36.3,
+     "median": -8.8,
+     "p25": -14.27,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.9,
+    "ls_beats_null_margin": 5.86
+   }
+  },
+  "15m": {
+   "borrow_sensitivity": {
+    "0.0": {
+     "bull": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     }
+    },
+    "10.0": {
+     "bull": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     }
+    },
+    "20.0": {
+     "bull": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     }
+    },
+    "30.0": {
+     "bull": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "bear": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "chop": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "stitched": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     }
+    }
+   },
+   "bull": {
+    "longshort_net": {
+     "mean": -0.32,
+     "std": 2.16,
+     "worst": -4.8,
+     "median": 0.0,
+     "p25": -1.05,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": -0.06,
+     "std": 2.11,
+     "worst": -3.61,
+     "median": -0.03,
+     "p25": -1.44,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -2.0,
+     "std": 1.64,
+     "worst": -5.5,
+     "median": -1.25,
+     "p25": -3.1,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -3.02,
+     "std": 2.69,
+     "worst": -8.9,
+     "median": -2.05,
+     "p25": -5.08,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 0.77,
+     "std": 3.71,
+     "worst": -6.2,
+     "median": 0.75,
+     "p25": -0.4,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -3.1,
+     "std": 2.54,
+     "worst": -8.9,
+     "median": -2.45,
+     "p25": -4.3,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.58,
+     "std": 1.32,
+     "worst": -0.9,
+     "median": 0.1,
+     "p25": -0.33,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.1,
+     "std": 1.23,
+     "worst": -0.3,
+     "median": 0.55,
+     "p25": 0.3,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -1.09,
+     "std": 2.05,
+     "worst": -7.2,
+     "median": -0.75,
+     "p25": -1.68,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.45,
+    "ls_beats_null_margin": -0.91
+   },
+   "bear": {
+    "longshort_net": {
+     "mean": 2.25,
+     "std": 3.87,
+     "worst": -3.2,
+     "median": 1.0,
+     "p25": -0.2,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.38,
+     "std": 4.04,
+     "worst": -5.7,
+     "median": 1.36,
+     "p25": -0.92,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.84,
+     "std": 1.48,
+     "worst": -6.3,
+     "median": -1.2,
+     "p25": -2.23,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -1.45,
+     "std": 2.96,
+     "worst": -6.5,
+     "median": -1.2,
+     "p25": -3.23,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": -1.62,
+     "std": 2.25,
+     "worst": -8.9,
+     "median": -1.0,
+     "p25": -1.98,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -2.27,
+     "std": 2.68,
+     "worst": -9.4,
+     "median": -1.15,
+     "p25": -2.48,
+     "n": 20
+    },
+    "null_net": {
+     "mean": -0.45,
+     "std": 1.26,
+     "worst": -3.2,
+     "median": 0.0,
+     "p25": -0.72,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.43,
+     "std": 1.66,
+     "worst": -1.8,
+     "median": -0.05,
+     "p25": -0.55,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": 3.86,
+     "std": 4.37,
+     "worst": 0.1,
+     "median": 2.2,
+     "p25": 0.8,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.7,
+    "ls_beats_null_margin": 2.69
+   },
+   "chop": {
+    "longshort_net": {
+     "mean": 1.41,
+     "std": 2.62,
+     "worst": -1.9,
+     "median": 0.8,
+     "p25": 0.22,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.69,
+     "std": 1.87,
+     "worst": -2.16,
+     "median": 1.92,
+     "p25": 0.62,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -1.01,
+     "std": 0.93,
+     "worst": -3.2,
+     "median": -0.65,
+     "p25": -1.25,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": -0.67,
+     "std": 1.56,
+     "worst": -4.5,
+     "median": -0.3,
+     "p25": -1.42,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 3.35,
+     "std": 5.38,
+     "worst": -2.9,
+     "median": 1.8,
+     "p25": 0.62,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -1.79,
+     "std": 1.58,
+     "worst": -6.3,
+     "median": -1.35,
+     "p25": -2.32,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 0.15,
+     "std": 1.46,
+     "worst": -2.0,
+     "median": -0.2,
+     "p25": -0.53,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 0.78,
+     "std": 0.69,
+     "worst": 0.1,
+     "median": 0.65,
+     "p25": 0.3,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -1.93,
+     "std": 2.79,
+     "worst": -11.3,
+     "median": -1.1,
+     "p25": -2.32,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.75,
+    "ls_beats_null_margin": 1.26
+   },
+   "stitched": {
+    "longshort_net": {
+     "mean": 7.05,
+     "std": 6.74,
+     "worst": -4.1,
+     "median": 6.5,
+     "p25": 3.6,
+     "n": 20
+    },
+    "longshort_sharpe": {
+     "mean": 1.49,
+     "std": 1.14,
+     "worst": -0.85,
+     "median": 1.48,
+     "p25": 0.91,
+     "n": 20
+    },
+    "longshort_maxdd": {
+     "mean": -2.83,
+     "std": 1.22,
+     "worst": -5.7,
+     "median": -2.75,
+     "p25": -3.3,
+     "n": 20
+    },
+    "longshort_p05": {
+     "mean": 0.14,
+     "std": 4.93,
+     "worst": -12.0,
+     "median": -0.2,
+     "p25": -1.95,
+     "n": 20
+    },
+    "trend_net": {
+     "mean": 18.7,
+     "std": 13.72,
+     "worst": 3.4,
+     "median": 15.45,
+     "p25": 9.88,
+     "n": 20
+    },
+    "trend_maxdd": {
+     "mean": -4.12,
+     "std": 1.57,
+     "worst": -7.8,
+     "median": -3.8,
+     "p25": -4.83,
+     "n": 20
+    },
+    "null_net": {
+     "mean": 1.19,
+     "std": 3.89,
+     "worst": -7.2,
+     "median": 1.1,
+     "p25": -1.75,
+     "n": 20
+    },
+    "ls_minus_trend_dd": {
+     "mean": 1.29,
+     "std": 0.78,
+     "worst": 0.0,
+     "median": 1.1,
+     "p25": 0.93,
+     "n": 20
+    },
+    "ls_minus_trend_net": {
+     "mean": -11.65,
+     "std": 7.44,
+     "worst": -36.3,
+     "median": -8.8,
+     "p25": -14.27,
+     "n": 20
+    },
+    "frac_seeds_ls_positive": 0.9,
+    "ls_beats_null_margin": 5.86
+   }
+  }
+ },
+ "multisleeve_book": {
+  "1d": {
+   "weights": {
+    "TREND": 0.246,
+    "MR": 0.105,
+    "LONGSHORT": 0.378,
+    "VOLTGT_DEF": 0.271
+   },
+   "bull": {
+    "BOOK": {
+     "net": {
+      "mean": 1.25,
+      "std": 3.28,
+      "worst": -5.0,
+      "median": 2.0,
+      "p25": -1.15,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.37,
+      "std": 1.22,
+      "worst": -6.4,
+      "median": -3.15,
+      "p25": -3.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": -5.04,
+      "std": 2.72,
+      "worst": -12.2,
+      "median": -5.05,
+      "p25": -5.95,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 2.58,
+      "std": 4.06,
+      "worst": -4.7,
+      "median": 3.7,
+      "p25": -0.65,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.31,
+      "std": 1.62,
+      "worst": -7.8,
+      "median": -3.7,
+      "p25": -5.55,
+      "n": 20
+     },
+     "p05": {
+      "mean": -6.0,
+      "std": 3.78,
+      "worst": -14.5,
+      "median": -5.35,
+      "p25": -8.05,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 1.06,
+      "std": 4.69,
+      "worst": -6.0,
+      "median": 1.65,
+      "p25": -3.43,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.29,
+      "std": 1.64,
+      "worst": -8.4,
+      "median": -5.1,
+      "p25": -6.65,
+      "n": 20
+     },
+     "p05": {
+      "mean": -7.97,
+      "std": 3.81,
+      "worst": -15.8,
+      "median": -7.95,
+      "p25": -10.75,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.6,
+      "std": 8.34,
+      "worst": -5.7,
+      "median": 11.35,
+      "p25": 3.43,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -9.89,
+      "std": 6.73,
+      "worst": -26.1,
+      "median": -7.85,
+      "p25": -12.43,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.56,
+      "std": 12.63,
+      "worst": -37.7,
+      "median": -5.65,
+      "p25": -17.38,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": -0.95,
+      "std": 2.53,
+      "worst": -5.6,
+      "median": -1.05,
+      "p25": -2.2,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.12,
+      "std": 1.32,
+      "worst": -6.2,
+      "median": -4.4,
+      "p25": -5.22,
+      "n": 20
+     },
+     "p05": {
+      "mean": -6.05,
+      "std": 2.29,
+      "worst": -9.6,
+      "median": -5.85,
+      "p25": -7.53,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 0.86,
+      "std": 4.48,
+      "worst": -5.5,
+      "median": -0.4,
+      "p25": -2.78,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.87,
+      "std": 1.53,
+      "worst": -6.9,
+      "median": -3.35,
+      "p25": -4.95,
+      "n": 20
+     },
+     "p05": {
+      "mean": -6.05,
+      "std": 3.63,
+      "worst": -14.2,
+      "median": -5.2,
+      "p25": -8.82,
+      "n": 20
+     }
+    }
+   },
+   "bear": {
+    "BOOK": {
+     "net": {
+      "mean": -4.9,
+      "std": 2.19,
+      "worst": -8.9,
+      "median": -4.65,
+      "p25": -6.7,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.74,
+      "std": 2.19,
+      "worst": -9.5,
+      "median": -5.45,
+      "p25": -7.28,
+      "n": 20
+     },
+     "p05": {
+      "mean": -9.22,
+      "std": 3.8,
+      "worst": -19.9,
+      "median": -8.15,
+      "p25": -11.5,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": -7.46,
+      "std": 4.39,
+      "worst": -15.8,
+      "median": -8.35,
+      "p25": -9.75,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -9.2,
+      "std": 3.92,
+      "worst": -16.7,
+      "median": -9.25,
+      "p25": -11.9,
+      "n": 20
+     },
+     "p05": {
+      "mean": -14.1,
+      "std": 5.09,
+      "worst": -23.1,
+      "median": -13.7,
+      "p25": -18.85,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": -4.24,
+      "std": 2.62,
+      "worst": -10.5,
+      "median": -4.1,
+      "p25": -5.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.02,
+      "std": 2.63,
+      "worst": -11.8,
+      "median": -5.0,
+      "p25": -5.88,
+      "n": 20
+     },
+     "p05": {
+      "mean": -9.91,
+      "std": 5.57,
+      "worst": -28.2,
+      "median": -8.7,
+      "p25": -10.93,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": -22.48,
+      "std": 24.2,
+      "worst": -56.8,
+      "median": -25.8,
+      "p25": -36.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -30.93,
+      "std": 17.11,
+      "worst": -58.4,
+      "median": -31.9,
+      "p25": -40.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -42.48,
+      "std": 22.1,
+      "worst": -75.8,
+      "median": -44.25,
+      "p25": -59.35,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": -0.55,
+      "std": 5.37,
+      "worst": -15.5,
+      "median": 0.25,
+      "p25": -3.67,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.48,
+      "std": 3.01,
+      "worst": -16.5,
+      "median": -3.7,
+      "p25": -4.6,
+      "n": 20
+     },
+     "p05": {
+      "mean": -6.81,
+      "std": 7.11,
+      "worst": -34.5,
+      "median": -5.55,
+      "p25": -6.53,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": -3.53,
+      "std": 2.63,
+      "worst": -10.9,
+      "median": -3.35,
+      "p25": -5.03,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.32,
+      "std": 2.72,
+      "worst": -12.3,
+      "median": -4.1,
+      "p25": -5.22,
+      "n": 20
+     },
+     "p05": {
+      "mean": -9.24,
+      "std": 5.56,
+      "worst": -27.9,
+      "median": -8.15,
+      "p25": -10.85,
+      "n": 20
+     }
+    }
+   },
+   "chop": {
+    "BOOK": {
+     "net": {
+      "mean": 7.03,
+      "std": 5.08,
+      "worst": -2.1,
+      "median": 7.5,
+      "p25": 4.0,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.86,
+      "std": 0.7,
+      "worst": -4.1,
+      "median": -2.85,
+      "p25": -3.42,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.74,
+      "std": 3.73,
+      "worst": -7.7,
+      "median": -0.75,
+      "p25": -2.45,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 9.42,
+      "std": 5.88,
+      "worst": -1.0,
+      "median": 9.5,
+      "p25": 5.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.3,
+      "std": 0.84,
+      "worst": -4.7,
+      "median": -3.3,
+      "p25": -3.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.12,
+      "std": 4.53,
+      "worst": -8.7,
+      "median": 0.15,
+      "p25": -3.45,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 10.34,
+      "std": 7.83,
+      "worst": -4.0,
+      "median": 11.15,
+      "p25": 5.53,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.32,
+      "std": 0.99,
+      "worst": -5.8,
+      "median": -4.4,
+      "p25": -5.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.39,
+      "std": 5.31,
+      "worst": -10.4,
+      "median": -1.25,
+      "p25": -4.5,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.59,
+      "std": 3.42,
+      "worst": 4.1,
+      "median": 10.5,
+      "p25": 8.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.25,
+      "std": 2.12,
+      "worst": -9.6,
+      "median": -2.8,
+      "p25": -4.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.62,
+      "std": 4.17,
+      "worst": -9.5,
+      "median": 2.15,
+      "p25": 0.0,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 3.19,
+      "std": 3.92,
+      "worst": -4.5,
+      "median": 4.25,
+      "p25": 0.33,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.71,
+      "std": 0.96,
+      "worst": -5.0,
+      "median": -2.5,
+      "p25": -3.35,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.2,
+      "std": 3.09,
+      "worst": -9.9,
+      "median": -1.25,
+      "p25": -3.67,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 8.13,
+      "std": 6.73,
+      "worst": -4.1,
+      "median": 8.9,
+      "p25": 4.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.6,
+      "std": 0.96,
+      "worst": -5.3,
+      "median": -3.8,
+      "p25": -4.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.52,
+      "std": 4.85,
+      "worst": -9.7,
+      "median": -1.6,
+      "p25": -4.6,
+      "n": 20
+     }
+    }
+   },
+   "stitched": {
+    "BOOK": {
+     "net": {
+      "mean": 22.16,
+      "std": 12.18,
+      "worst": 7.3,
+      "median": 19.05,
+      "p25": 13.05,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.89,
+      "std": 1.4,
+      "worst": -9.4,
+      "median": -5.55,
+      "p25": -6.5,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.13,
+      "std": 7.64,
+      "worst": -5.6,
+      "median": 3.75,
+      "p25": -3.03,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 28.81,
+      "std": 14.85,
+      "worst": 9.0,
+      "median": 23.95,
+      "p25": 19.2,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -7.83,
+      "std": 2.71,
+      "worst": -14.6,
+      "median": -7.6,
+      "p25": -9.27,
+      "n": 20
+     },
+     "p05": {
+      "mean": 6.11,
+      "std": 10.21,
+      "worst": -5.6,
+      "median": 4.35,
+      "p25": -2.7,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 38.52,
+      "std": 24.82,
+      "worst": 11.1,
+      "median": 32.6,
+      "p25": 19.57,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -7.68,
+      "std": 1.94,
+      "worst": -11.6,
+      "median": -7.1,
+      "p25": -8.93,
+      "n": 20
+     },
+     "p05": {
+      "mean": 7.78,
+      "std": 13.87,
+      "worst": -9.7,
+      "median": 5.2,
+      "p25": -2.48,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 21.86,
+      "std": 30.12,
+      "worst": -42.0,
+      "median": 25.05,
+      "p25": -0.08,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -26.21,
+      "std": 12.37,
+      "worst": -54.4,
+      "median": -25.2,
+      "p25": -32.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -18.92,
+      "std": 25.57,
+      "worst": -71.1,
+      "median": -15.45,
+      "p25": -38.77,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 11.76,
+      "std": 9.99,
+      "worst": -2.2,
+      "median": 10.65,
+      "p25": 2.98,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.95,
+      "std": 2.19,
+      "worst": -9.5,
+      "median": -5.95,
+      "p25": -7.62,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.89,
+      "std": 7.12,
+      "worst": -10.8,
+      "median": -3.3,
+      "p25": -8.15,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 23.28,
+      "std": 13.6,
+      "worst": 0.3,
+      "median": 21.95,
+      "p25": 16.75,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.06,
+      "std": 1.54,
+      "worst": -8.3,
+      "median": -4.75,
+      "p25": -6.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.64,
+      "std": 9.08,
+      "worst": -11.9,
+      "median": 5.25,
+      "p25": -2.62,
+      "n": 20
+     }
+    }
+   },
+   "_robustness": {
+    "BOOK": {
+     "worst_regime_net": -4.9,
+     "full_mix_worst_maxdd": -9.5,
+     "worst_regime_p05": -9.22,
+     "mean_mix_net": 6.38
+    },
+    "LONGONLY_BOOK": {
+     "worst_regime_net": -7.46,
+     "full_mix_worst_maxdd": -16.7,
+     "worst_regime_p05": -14.1,
+     "mean_mix_net": 8.34
+    },
+    "TREND": {
+     "worst_regime_net": -4.24,
+     "full_mix_worst_maxdd": -11.8,
+     "worst_regime_p05": -9.91,
+     "mean_mix_net": 11.42
+    },
+    "MR": {
+     "worst_regime_net": -22.48,
+     "full_mix_worst_maxdd": -58.4,
+     "worst_regime_p05": -42.48,
+     "mean_mix_net": 5.14
+    },
+    "LONGSHORT": {
+     "worst_regime_net": -0.95,
+     "full_mix_worst_maxdd": -16.5,
+     "worst_regime_p05": -6.81,
+     "mean_mix_net": 3.36
+    },
+    "VOLTGT_DEF": {
+     "worst_regime_net": -3.53,
+     "full_mix_worst_maxdd": -12.3,
+     "worst_regime_p05": -9.24,
+     "mean_mix_net": 7.19
+    }
+   },
+   "_book_beats_singles": {
+    "on_worst_regime_net": false,
+    "on_full_mix_worst_maxdd": true,
+    "on_worst_regime_p05": false,
+    "worst_net_gain_vs_best_single": -3.95,
+    "worst_dd_gain_vs_best_single_pp": 2.3
+   },
+   "_deployable_vs_research": {
+    "full_book_worst_net": -4.9,
+    "longonly_book_worst_net": -7.46,
+    "full_book_worst_dd": -9.5,
+    "longonly_book_worst_dd": -16.7,
+    "longshort_worst_net_value_pp": 2.56,
+    "longshort_worst_dd_value_pp": 7.2
+   }
+  },
+  "4h": {
+   "weights": {
+    "TREND": 0.247,
+    "MR": 0.074,
+    "LONGSHORT": 0.415,
+    "VOLTGT_DEF": 0.264
+   },
+   "bull": {
+    "BOOK": {
+     "net": {
+      "mean": 1.1,
+      "std": 2.72,
+      "worst": -4.9,
+      "median": 1.05,
+      "p25": -0.35,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.88,
+      "std": 1.36,
+      "worst": -5.7,
+      "median": -1.5,
+      "p25": -2.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.45,
+      "std": 2.36,
+      "worst": -8.4,
+      "median": -2.0,
+      "p25": -3.75,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 0.99,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 1.95,
+      "std": 3.14,
+      "worst": -4.7,
+      "median": 2.05,
+      "p25": 0.28,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.42,
+      "std": 1.56,
+      "worst": -6.1,
+      "median": -2.15,
+      "p25": -3.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.89,
+      "std": 3.0,
+      "worst": -10.0,
+      "median": -2.5,
+      "p25": -4.4,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 0.99,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 0.8,
+      "std": 3.66,
+      "worst": -5.8,
+      "median": 0.1,
+      "p25": -1.1,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.67,
+      "std": 1.91,
+      "worst": -7.4,
+      "median": -2.15,
+      "p25": -3.23,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.8,
+      "std": 3.02,
+      "worst": -10.2,
+      "median": -2.7,
+      "p25": -5.08,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.6,
+      "std": 8.34,
+      "worst": -5.7,
+      "median": 11.35,
+      "p25": 3.43,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -9.89,
+      "std": 6.73,
+      "worst": -26.1,
+      "median": -7.85,
+      "p25": -12.43,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.56,
+      "std": 12.63,
+      "worst": -37.7,
+      "median": -5.65,
+      "p25": -17.38,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": -0.11,
+      "std": 2.2,
+      "worst": -5.3,
+      "median": -0.1,
+      "p25": -1.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.74,
+      "std": 1.36,
+      "worst": -5.8,
+      "median": -1.35,
+      "p25": -1.82,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.71,
+      "std": 2.29,
+      "worst": -9.0,
+      "median": -2.0,
+      "p25": -3.23,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 0.58,
+      "std": 2.96,
+      "worst": -5.1,
+      "median": -0.05,
+      "p25": -0.72,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.93,
+      "std": 1.58,
+      "worst": -5.9,
+      "median": -1.4,
+      "p25": -2.02,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.64,
+      "std": 2.24,
+      "worst": -8.9,
+      "median": -1.75,
+      "p25": -4.03,
+      "n": 20
+     }
+    }
+   },
+   "bear": {
+    "BOOK": {
+     "net": {
+      "mean": -1.98,
+      "std": 1.66,
+      "worst": -6.0,
+      "median": -1.65,
+      "p25": -2.95,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.86,
+      "std": 1.75,
+      "worst": -7.2,
+      "median": -2.9,
+      "p25": -3.42,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.46,
+      "std": 2.3,
+      "worst": -9.3,
+      "median": -4.1,
+      "p25": -5.53,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": -3.95,
+      "std": 3.74,
+      "worst": -11.2,
+      "median": -3.6,
+      "p25": -5.93,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.46,
+      "std": 3.2,
+      "worst": -12.4,
+      "median": -5.65,
+      "p25": -7.42,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.31,
+      "std": 4.44,
+      "worst": -17.0,
+      "median": -8.05,
+      "p25": -10.43,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": -0.92,
+      "std": 1.2,
+      "worst": -3.7,
+      "median": -0.55,
+      "p25": -1.35,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.45,
+      "std": 1.87,
+      "worst": -8.4,
+      "median": -0.6,
+      "p25": -1.62,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.01,
+      "std": 3.17,
+      "worst": -10.6,
+      "median": -1.35,
+      "p25": -4.1,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": -22.48,
+      "std": 24.2,
+      "worst": -56.8,
+      "median": -25.8,
+      "p25": -36.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -30.93,
+      "std": 17.11,
+      "worst": -58.4,
+      "median": -31.9,
+      "p25": -40.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -42.48,
+      "std": 22.1,
+      "worst": -75.8,
+      "median": -44.25,
+      "p25": -59.35,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 0.91,
+      "std": 3.25,
+      "worst": -2.7,
+      "median": -0.25,
+      "p25": -0.83,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.49,
+      "std": 0.97,
+      "worst": -4.5,
+      "median": -1.2,
+      "p25": -1.9,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.98,
+      "std": 2.26,
+      "worst": -6.1,
+      "median": -1.6,
+      "p25": -3.58,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": -0.74,
+      "std": 1.32,
+      "worst": -4.3,
+      "median": -0.4,
+      "p25": -0.85,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.27,
+      "std": 1.88,
+      "worst": -8.0,
+      "median": -0.4,
+      "p25": -1.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.74,
+      "std": 3.19,
+      "worst": -10.1,
+      "median": -1.1,
+      "p25": -3.88,
+      "n": 20
+     }
+    }
+   },
+   "chop": {
+    "BOOK": {
+     "net": {
+      "mean": 2.67,
+      "std": 3.71,
+      "worst": -1.2,
+      "median": 1.7,
+      "p25": 0.88,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.17,
+      "std": 0.99,
+      "worst": -4.0,
+      "median": -0.9,
+      "p25": -1.47,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.25,
+      "std": 1.89,
+      "worst": -4.6,
+      "median": 0.2,
+      "p25": -1.23,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 3.69,
+      "std": 4.44,
+      "worst": -0.5,
+      "median": 2.55,
+      "p25": 1.35,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.43,
+      "std": 1.15,
+      "worst": -4.6,
+      "median": -1.1,
+      "p25": -1.77,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.04,
+      "std": 2.33,
+      "worst": -5.7,
+      "median": 0.45,
+      "p25": -1.27,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 3.0,
+      "std": 5.3,
+      "worst": -2.4,
+      "median": 1.5,
+      "p25": 0.5,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.71,
+      "std": 1.51,
+      "worst": -6.4,
+      "median": -1.35,
+      "p25": -2.08,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.0,
+      "std": 2.41,
+      "worst": -6.3,
+      "median": -0.5,
+      "p25": -2.25,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.59,
+      "std": 3.42,
+      "worst": 4.1,
+      "median": 10.5,
+      "p25": 8.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.25,
+      "std": 2.12,
+      "worst": -9.6,
+      "median": -2.8,
+      "p25": -4.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.62,
+      "std": 4.17,
+      "worst": -9.5,
+      "median": 2.15,
+      "p25": 0.0,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 1.23,
+      "std": 2.72,
+      "worst": -2.4,
+      "median": 0.55,
+      "p25": -0.03,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.0,
+      "std": 0.9,
+      "worst": -3.2,
+      "median": -0.7,
+      "p25": -1.23,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.85,
+      "std": 1.65,
+      "worst": -4.9,
+      "median": -0.3,
+      "p25": -1.4,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 2.45,
+      "std": 4.76,
+      "worst": -2.5,
+      "median": 1.2,
+      "p25": 0.42,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.4,
+      "std": 1.16,
+      "worst": -4.6,
+      "median": -1.15,
+      "p25": -1.77,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.83,
+      "std": 2.45,
+      "worst": -6.0,
+      "median": -0.45,
+      "p25": -1.75,
+      "n": 20
+     }
+    }
+   },
+   "stitched": {
+    "BOOK": {
+     "net": {
+      "mean": 10.47,
+      "std": 6.32,
+      "worst": 3.2,
+      "median": 9.5,
+      "p25": 5.67,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.11,
+      "std": 1.1,
+      "worst": -6.0,
+      "median": -3.05,
+      "p25": -3.7,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.65,
+      "std": 4.56,
+      "worst": -6.5,
+      "median": 1.4,
+      "p25": -1.07,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 13.79,
+      "std": 6.71,
+      "worst": 5.9,
+      "median": 12.75,
+      "p25": 8.9,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.52,
+      "std": 1.9,
+      "worst": -8.8,
+      "median": -4.2,
+      "p25": -5.58,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.08,
+      "std": 4.84,
+      "worst": -5.6,
+      "median": 1.4,
+      "p25": -1.7,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 15.65,
+      "std": 12.73,
+      "worst": 2.8,
+      "median": 12.8,
+      "p25": 6.78,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.27,
+      "std": 1.59,
+      "worst": -8.0,
+      "median": -3.95,
+      "p25": -5.08,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.52,
+      "std": 8.47,
+      "worst": -10.3,
+      "median": 0.05,
+      "p25": -1.75,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 21.86,
+      "std": 30.12,
+      "worst": -42.0,
+      "median": 25.05,
+      "p25": -0.08,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -26.21,
+      "std": 12.37,
+      "worst": -54.4,
+      "median": -25.2,
+      "p25": -32.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -18.92,
+      "std": 25.57,
+      "worst": -71.1,
+      "median": -15.45,
+      "p25": -38.77,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 5.89,
+      "std": 6.28,
+      "worst": -2.5,
+      "median": 4.95,
+      "p25": 1.73,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.81,
+      "std": 1.34,
+      "worst": -6.2,
+      "median": -2.4,
+      "p25": -3.02,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.53,
+      "std": 4.78,
+      "worst": -9.2,
+      "median": -1.15,
+      "p25": -3.12,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 10.05,
+      "std": 7.32,
+      "worst": -0.4,
+      "median": 7.5,
+      "p25": 5.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.78,
+      "std": 1.11,
+      "worst": -5.3,
+      "median": -2.35,
+      "p25": -3.25,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.59,
+      "std": 5.17,
+      "worst": -6.2,
+      "median": 0.0,
+      "p25": -0.97,
+      "n": 20
+     }
+    }
+   },
+   "_robustness": {
+    "BOOK": {
+     "worst_regime_net": -1.98,
+     "full_mix_worst_maxdd": -7.2,
+     "worst_regime_p05": -4.46,
+     "mean_mix_net": 3.07
+    },
+    "LONGONLY_BOOK": {
+     "worst_regime_net": -3.95,
+     "full_mix_worst_maxdd": -12.4,
+     "worst_regime_p05": -8.31,
+     "mean_mix_net": 3.87
+    },
+    "TREND": {
+     "worst_regime_net": -0.92,
+     "full_mix_worst_maxdd": -8.4,
+     "worst_regime_p05": -3.8,
+     "mean_mix_net": 4.63
+    },
+    "MR": {
+     "worst_regime_net": -22.48,
+     "full_mix_worst_maxdd": -58.4,
+     "worst_regime_p05": -42.48,
+     "mean_mix_net": 5.14
+    },
+    "LONGSHORT": {
+     "worst_regime_net": -0.11,
+     "full_mix_worst_maxdd": -6.2,
+     "worst_regime_p05": -2.71,
+     "mean_mix_net": 1.98
+    },
+    "VOLTGT_DEF": {
+     "worst_regime_net": -0.74,
+     "full_mix_worst_maxdd": -8.0,
+     "worst_regime_p05": -2.74,
+     "mean_mix_net": 3.08
+    }
+   },
+   "_book_beats_singles": {
+    "on_worst_regime_net": false,
+    "on_full_mix_worst_maxdd": false,
+    "on_worst_regime_p05": false,
+    "worst_net_gain_vs_best_single": -1.87,
+    "worst_dd_gain_vs_best_single_pp": -1.0
+   },
+   "_deployable_vs_research": {
+    "full_book_worst_net": -1.98,
+    "longonly_book_worst_net": -3.95,
+    "full_book_worst_dd": -7.2,
+    "longonly_book_worst_dd": -12.4,
+    "longshort_worst_net_value_pp": 1.97,
+    "longshort_worst_dd_value_pp": 5.2
+   }
+  },
+  "2h": {
+   "weights": {
+    "TREND": 0.248,
+    "MR": 0.074,
+    "LONGSHORT": 0.416,
+    "VOLTGT_DEF": 0.263
+   },
+   "bull": {
+    "BOOK": {
+     "net": {
+      "mean": 1.04,
+      "std": 2.66,
+      "worst": -4.5,
+      "median": 1.3,
+      "p25": -0.28,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.86,
+      "std": 1.34,
+      "worst": -5.2,
+      "median": -1.45,
+      "p25": -2.17,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.41,
+      "std": 2.37,
+      "worst": -8.1,
+      "median": -2.1,
+      "p25": -3.95,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 1.87,
+      "std": 3.1,
+      "worst": -4.3,
+      "median": 2.1,
+      "p25": 0.12,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.36,
+      "std": 1.54,
+      "worst": -5.9,
+      "median": -2.1,
+      "p25": -3.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.85,
+      "std": 3.07,
+      "worst": -9.6,
+      "median": -2.55,
+      "p25": -4.6,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 0.66,
+      "std": 3.5,
+      "worst": -5.3,
+      "median": 0.15,
+      "p25": -1.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.63,
+      "std": 1.96,
+      "worst": -7.5,
+      "median": -2.2,
+      "p25": -3.12,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.74,
+      "std": 3.08,
+      "worst": -9.7,
+      "median": -2.7,
+      "p25": -5.47,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.6,
+      "std": 8.34,
+      "worst": -5.7,
+      "median": 11.35,
+      "p25": 3.43,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -9.89,
+      "std": 6.73,
+      "worst": -26.1,
+      "median": -7.85,
+      "p25": -12.43,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.56,
+      "std": 12.63,
+      "worst": -37.7,
+      "median": -5.65,
+      "p25": -17.38,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": -0.14,
+      "std": 2.05,
+      "worst": -4.7,
+      "median": -0.15,
+      "p25": -1.05,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.68,
+      "std": 1.32,
+      "worst": -5.2,
+      "median": -1.25,
+      "p25": -1.92,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.6,
+      "std": 2.13,
+      "worst": -7.9,
+      "median": -2.4,
+      "p25": -3.02,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 0.53,
+      "std": 2.88,
+      "worst": -4.7,
+      "median": 0.0,
+      "p25": -0.68,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.89,
+      "std": 1.56,
+      "worst": -5.8,
+      "median": -1.3,
+      "p25": -2.02,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.59,
+      "std": 2.29,
+      "worst": -8.9,
+      "median": -1.7,
+      "p25": -4.03,
+      "n": 20
+     }
+    }
+   },
+   "bear": {
+    "BOOK": {
+     "net": {
+      "mean": -1.82,
+      "std": 1.71,
+      "worst": -6.2,
+      "median": -1.6,
+      "p25": -2.82,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.73,
+      "std": 1.74,
+      "worst": -7.1,
+      "median": -2.6,
+      "p25": -3.25,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.31,
+      "std": 2.3,
+      "worst": -9.0,
+      "median": -4.0,
+      "p25": -5.22,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": -3.89,
+      "std": 3.77,
+      "worst": -11.2,
+      "median": -3.55,
+      "p25": -5.85,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.42,
+      "std": 3.19,
+      "worst": -12.4,
+      "median": -5.6,
+      "p25": -7.38,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.28,
+      "std": 4.46,
+      "worst": -17.0,
+      "median": -8.1,
+      "p25": -10.4,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": -0.82,
+      "std": 1.24,
+      "worst": -3.8,
+      "median": -0.45,
+      "p25": -1.15,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.34,
+      "std": 1.86,
+      "worst": -8.2,
+      "median": -0.55,
+      "p25": -1.38,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.9,
+      "std": 3.18,
+      "worst": -10.5,
+      "median": -1.25,
+      "p25": -4.2,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": -22.48,
+      "std": 24.2,
+      "worst": -56.8,
+      "median": -25.8,
+      "p25": -36.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -30.93,
+      "std": 17.11,
+      "worst": -58.4,
+      "median": -31.9,
+      "p25": -40.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -42.48,
+      "std": 22.1,
+      "worst": -75.8,
+      "median": -44.25,
+      "p25": -59.35,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 1.22,
+      "std": 3.35,
+      "worst": -2.3,
+      "median": 0.1,
+      "p25": -0.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.35,
+      "std": 0.9,
+      "worst": -4.1,
+      "median": -1.15,
+      "p25": -1.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.52,
+      "std": 2.39,
+      "worst": -5.6,
+      "median": -1.5,
+      "p25": -3.08,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": -0.7,
+      "std": 1.33,
+      "worst": -4.3,
+      "median": -0.35,
+      "p25": -0.85,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.23,
+      "std": 1.88,
+      "worst": -7.9,
+      "median": -0.35,
+      "p25": -1.23,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.7,
+      "std": 3.22,
+      "worst": -10.0,
+      "median": -1.05,
+      "p25": -4.03,
+      "n": 20
+     }
+    }
+   },
+   "chop": {
+    "BOOK": {
+     "net": {
+      "mean": 2.74,
+      "std": 3.66,
+      "worst": -1.1,
+      "median": 1.9,
+      "p25": 0.85,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.16,
+      "std": 0.99,
+      "worst": -4.0,
+      "median": -0.9,
+      "p25": -1.47,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.17,
+      "std": 1.84,
+      "worst": -4.4,
+      "median": 0.35,
+      "p25": -1.23,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 3.77,
+      "std": 4.4,
+      "worst": -0.5,
+      "median": 2.9,
+      "p25": 1.32,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.43,
+      "std": 1.15,
+      "worst": -4.6,
+      "median": -1.05,
+      "p25": -1.77,
+      "n": 20
+     },
+     "p05": {
+      "mean": 0.02,
+      "std": 2.34,
+      "worst": -5.7,
+      "median": 0.6,
+      "p25": -1.3,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 3.11,
+      "std": 5.27,
+      "worst": -2.4,
+      "median": 1.65,
+      "p25": 0.57,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.69,
+      "std": 1.51,
+      "worst": -6.4,
+      "median": -1.35,
+      "p25": -2.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.89,
+      "std": 2.4,
+      "worst": -6.3,
+      "median": -0.4,
+      "p25": -2.1,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.59,
+      "std": 3.42,
+      "worst": 4.1,
+      "median": 10.5,
+      "p25": 8.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.25,
+      "std": 2.12,
+      "worst": -9.6,
+      "median": -2.8,
+      "p25": -4.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.62,
+      "std": 4.17,
+      "worst": -9.5,
+      "median": 2.15,
+      "p25": 0.0,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 1.29,
+      "std": 2.68,
+      "worst": -2.3,
+      "median": 0.6,
+      "p25": 0.1,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -0.99,
+      "std": 0.93,
+      "worst": -3.2,
+      "median": -0.7,
+      "p25": -1.18,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.77,
+      "std": 1.65,
+      "worst": -4.9,
+      "median": -0.3,
+      "p25": -1.42,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 2.52,
+      "std": 4.73,
+      "worst": -2.5,
+      "median": 1.35,
+      "p25": 0.47,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.39,
+      "std": 1.16,
+      "worst": -4.6,
+      "median": -1.15,
+      "p25": -1.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.78,
+      "std": 2.42,
+      "worst": -5.9,
+      "median": -0.5,
+      "p25": -1.75,
+      "n": 20
+     }
+    }
+   },
+   "stitched": {
+    "BOOK": {
+     "net": {
+      "mean": 10.71,
+      "std": 6.39,
+      "worst": 2.9,
+      "median": 9.9,
+      "p25": 5.35,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.94,
+      "std": 1.01,
+      "worst": -5.2,
+      "median": -3.0,
+      "p25": -3.45,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.01,
+      "std": 4.51,
+      "worst": -6.2,
+      "median": 2.1,
+      "p25": -0.82,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 14.02,
+      "std": 6.81,
+      "worst": 5.2,
+      "median": 13.85,
+      "p25": 8.73,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.42,
+      "std": 1.85,
+      "worst": -8.8,
+      "median": -4.15,
+      "p25": -5.38,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.4,
+      "std": 4.75,
+      "worst": -5.1,
+      "median": 2.15,
+      "p25": -1.2,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 15.98,
+      "std": 12.72,
+      "worst": 2.8,
+      "median": 12.75,
+      "p25": 6.83,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.0,
+      "std": 1.45,
+      "worst": -7.6,
+      "median": -3.75,
+      "p25": -5.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": 3.11,
+      "std": 8.44,
+      "worst": -9.4,
+      "median": 1.5,
+      "p25": -1.9,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 21.86,
+      "std": 30.12,
+      "worst": -42.0,
+      "median": 25.05,
+      "p25": -0.08,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -26.21,
+      "std": 12.37,
+      "worst": -54.4,
+      "median": -25.2,
+      "p25": -32.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -18.92,
+      "std": 25.57,
+      "worst": -71.1,
+      "median": -15.45,
+      "p25": -38.77,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 6.15,
+      "std": 6.3,
+      "worst": -2.8,
+      "median": 5.25,
+      "p25": 2.53,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.6,
+      "std": 1.25,
+      "worst": -5.6,
+      "median": -2.3,
+      "p25": -2.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.06,
+      "std": 4.77,
+      "worst": -9.4,
+      "median": -0.75,
+      "p25": -2.3,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 10.27,
+      "std": 7.41,
+      "worst": -0.8,
+      "median": 8.2,
+      "p25": 5.02,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.65,
+      "std": 0.97,
+      "worst": -4.5,
+      "median": -2.25,
+      "p25": -3.05,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.96,
+      "std": 5.21,
+      "worst": -6.7,
+      "median": 1.3,
+      "p25": -1.2,
+      "n": 20
+     }
+    }
+   },
+   "_robustness": {
+    "BOOK": {
+     "worst_regime_net": -1.82,
+     "full_mix_worst_maxdd": -7.1,
+     "worst_regime_p05": -4.31,
+     "mean_mix_net": 3.17
+    },
+    "LONGONLY_BOOK": {
+     "worst_regime_net": -3.89,
+     "full_mix_worst_maxdd": -12.4,
+     "worst_regime_p05": -8.28,
+     "mean_mix_net": 3.94
+    },
+    "TREND": {
+     "worst_regime_net": -0.82,
+     "full_mix_worst_maxdd": -8.2,
+     "worst_regime_p05": -3.74,
+     "mean_mix_net": 4.73
+    },
+    "MR": {
+     "worst_regime_net": -22.48,
+     "full_mix_worst_maxdd": -58.4,
+     "worst_regime_p05": -42.48,
+     "mean_mix_net": 5.14
+    },
+    "LONGSHORT": {
+     "worst_regime_net": -0.14,
+     "full_mix_worst_maxdd": -5.6,
+     "worst_regime_p05": -2.6,
+     "mean_mix_net": 2.13
+    },
+    "VOLTGT_DEF": {
+     "worst_regime_net": -0.7,
+     "full_mix_worst_maxdd": -7.9,
+     "worst_regime_p05": -2.7,
+     "mean_mix_net": 3.15
+    }
+   },
+   "_book_beats_singles": {
+    "on_worst_regime_net": false,
+    "on_full_mix_worst_maxdd": false,
+    "on_worst_regime_p05": false,
+    "worst_net_gain_vs_best_single": -1.68,
+    "worst_dd_gain_vs_best_single_pp": -1.5
+   },
+   "_deployable_vs_research": {
+    "full_book_worst_net": -1.82,
+    "longonly_book_worst_net": -3.89,
+    "full_book_worst_dd": -7.1,
+    "longonly_book_worst_dd": -12.4,
+    "longshort_worst_net_value_pp": 2.07,
+    "longshort_worst_dd_value_pp": 5.3
+   }
+  },
+  "1h": {
+   "weights": {
+    "TREND": 0.235,
+    "MR": 0.083,
+    "LONGSHORT": 0.415,
+    "VOLTGT_DEF": 0.267
+   },
+   "bull": {
+    "BOOK": {
+     "net": {
+      "mean": 1.17,
+      "std": 2.89,
+      "worst": -4.9,
+      "median": 1.25,
+      "p25": -0.2,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.18,
+      "std": 1.63,
+      "worst": -6.5,
+      "median": -1.6,
+      "p25": -2.8,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.67,
+      "std": 2.92,
+      "worst": -9.7,
+      "median": -2.15,
+      "p25": -4.55,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 2.2,
+      "std": 3.44,
+      "worst": -4.8,
+      "median": 2.25,
+      "p25": 0.83,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.78,
+      "std": 1.86,
+      "worst": -7.8,
+      "median": -2.25,
+      "p25": -3.78,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.18,
+      "std": 3.82,
+      "worst": -12.0,
+      "median": -2.7,
+      "p25": -4.82,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 0.93,
+      "std": 3.94,
+      "worst": -6.3,
+      "median": 0.55,
+      "p25": -0.53,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.07,
+      "std": 2.47,
+      "worst": -8.9,
+      "median": -2.45,
+      "p25": -3.95,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.11,
+      "std": 3.84,
+      "worst": -12.0,
+      "median": -2.95,
+      "p25": -6.22,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.6,
+      "std": 8.34,
+      "worst": -5.7,
+      "median": 11.35,
+      "p25": 3.43,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -9.89,
+      "std": 6.73,
+      "worst": -26.1,
+      "median": -7.85,
+      "p25": -12.43,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.56,
+      "std": 12.63,
+      "worst": -37.7,
+      "median": -5.65,
+      "p25": -17.38,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": -0.23,
+      "std": 2.18,
+      "worst": -5.0,
+      "median": 0.0,
+      "p25": -0.95,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.96,
+      "std": 1.57,
+      "worst": -5.6,
+      "median": -1.3,
+      "p25": -3.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.99,
+      "std": 2.64,
+      "worst": -9.2,
+      "median": -2.2,
+      "p25": -5.03,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 0.66,
+      "std": 3.14,
+      "worst": -5.6,
+      "median": 0.15,
+      "p25": -0.35,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.17,
+      "std": 1.97,
+      "worst": -7.4,
+      "median": -1.75,
+      "p25": -2.23,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.84,
+      "std": 2.82,
+      "worst": -11.2,
+      "median": -1.9,
+      "p25": -4.2,
+      "n": 20
+     }
+    }
+   },
+   "bear": {
+    "BOOK": {
+     "net": {
+      "mean": -1.8,
+      "std": 1.86,
+      "worst": -7.4,
+      "median": -1.45,
+      "p25": -2.52,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.79,
+      "std": 1.84,
+      "worst": -8.2,
+      "median": -2.6,
+      "p25": -3.42,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.69,
+      "std": 2.92,
+      "worst": -13.9,
+      "median": -4.0,
+      "p25": -5.75,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": -4.71,
+      "std": 4.62,
+      "worst": -16.1,
+      "median": -4.15,
+      "p25": -6.85,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -6.36,
+      "std": 3.95,
+      "worst": -17.3,
+      "median": -6.7,
+      "p25": -8.45,
+      "n": 20
+     },
+     "p05": {
+      "mean": -9.82,
+      "std": 5.52,
+      "worst": -23.1,
+      "median": -9.55,
+      "p25": -12.0,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": -1.46,
+      "std": 1.96,
+      "worst": -7.6,
+      "median": -0.85,
+      "p25": -1.82,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.12,
+      "std": 2.43,
+      "worst": -8.8,
+      "median": -1.15,
+      "p25": -2.42,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.06,
+      "std": 4.03,
+      "worst": -15.3,
+      "median": -2.65,
+      "p25": -5.43,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": -22.48,
+      "std": 24.2,
+      "worst": -56.8,
+      "median": -25.8,
+      "p25": -36.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -30.93,
+      "std": 17.11,
+      "worst": -58.4,
+      "median": -31.9,
+      "p25": -40.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -42.48,
+      "std": 22.1,
+      "worst": -75.8,
+      "median": -44.25,
+      "p25": -59.35,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 2.53,
+      "std": 4.13,
+      "worst": -3.0,
+      "median": 1.45,
+      "p25": -0.28,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.83,
+      "std": 1.31,
+      "worst": -5.3,
+      "median": -1.25,
+      "p25": -2.25,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.25,
+      "std": 2.85,
+      "worst": -6.2,
+      "median": -1.25,
+      "p25": -3.25,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": -1.11,
+      "std": 2.03,
+      "worst": -7.6,
+      "median": -0.55,
+      "p25": -1.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.75,
+      "std": 2.49,
+      "worst": -8.8,
+      "median": -0.65,
+      "p25": -1.4,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.47,
+      "std": 4.09,
+      "worst": -15.3,
+      "median": -1.55,
+      "p25": -5.0,
+      "n": 20
+     }
+    }
+   },
+   "chop": {
+    "BOOK": {
+     "net": {
+      "mean": 2.94,
+      "std": 3.71,
+      "worst": -0.9,
+      "median": 2.0,
+      "p25": 1.08,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.23,
+      "std": 1.03,
+      "worst": -3.9,
+      "median": -0.9,
+      "p25": -1.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.04,
+      "std": 1.98,
+      "worst": -4.4,
+      "median": 0.35,
+      "p25": -0.85,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 4.05,
+      "std": 4.48,
+      "worst": -0.3,
+      "median": 3.15,
+      "p25": 1.88,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.54,
+      "std": 1.2,
+      "worst": -4.5,
+      "median": -1.05,
+      "p25": -2.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": 0.17,
+      "std": 2.59,
+      "worst": -5.6,
+      "median": 0.6,
+      "p25": -0.9,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 3.35,
+      "std": 5.43,
+      "worst": -2.6,
+      "median": 1.75,
+      "p25": 0.57,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.79,
+      "std": 1.56,
+      "worst": -6.3,
+      "median": -1.3,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.8,
+      "std": 2.67,
+      "worst": -7.0,
+      "median": -0.45,
+      "p25": -2.4,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.59,
+      "std": 3.42,
+      "worst": 4.1,
+      "median": 10.5,
+      "p25": 8.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.25,
+      "std": 2.12,
+      "worst": -9.6,
+      "median": -2.8,
+      "p25": -4.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.62,
+      "std": 4.17,
+      "worst": -9.5,
+      "median": 2.15,
+      "p25": 0.0,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 1.41,
+      "std": 2.66,
+      "worst": -1.8,
+      "median": 0.8,
+      "p25": 0.05,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.0,
+      "std": 0.91,
+      "worst": -3.2,
+      "median": -0.65,
+      "p25": -1.38,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.68,
+      "std": 1.58,
+      "worst": -4.5,
+      "median": -0.25,
+      "p25": -1.4,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 2.71,
+      "std": 4.87,
+      "worst": -2.8,
+      "median": 1.4,
+      "p25": 0.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.5,
+      "std": 1.26,
+      "worst": -4.6,
+      "median": -1.1,
+      "p25": -2.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.76,
+      "std": 2.71,
+      "worst": -7.1,
+      "median": -0.5,
+      "p25": -1.75,
+      "n": 20
+     }
+    }
+   },
+   "stitched": {
+    "BOOK": {
+     "net": {
+      "mean": 12.28,
+      "std": 6.79,
+      "worst": 3.6,
+      "median": 11.9,
+      "p25": 6.8,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.12,
+      "std": 1.09,
+      "worst": -6.2,
+      "median": -2.85,
+      "p25": -3.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.86,
+      "std": 4.94,
+      "worst": -6.8,
+      "median": 3.2,
+      "p25": -0.62,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 15.88,
+      "std": 7.19,
+      "worst": 7.3,
+      "median": 15.7,
+      "p25": 9.53,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.04,
+      "std": 2.22,
+      "worst": -10.0,
+      "median": -4.8,
+      "p25": -6.45,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.87,
+      "std": 5.31,
+      "worst": -5.3,
+      "median": 2.15,
+      "p25": -0.95,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 18.83,
+      "std": 14.09,
+      "worst": 2.7,
+      "median": 15.65,
+      "p25": 10.0,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.3,
+      "std": 1.86,
+      "worst": -9.8,
+      "median": -3.95,
+      "p25": -4.93,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.46,
+      "std": 9.49,
+      "worst": -11.1,
+      "median": 3.15,
+      "p25": -0.17,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 21.86,
+      "std": 30.12,
+      "worst": -42.0,
+      "median": 25.05,
+      "p25": -0.08,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -26.21,
+      "std": 12.37,
+      "worst": -54.4,
+      "median": -25.2,
+      "p25": -32.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -18.92,
+      "std": 25.57,
+      "worst": -71.1,
+      "median": -15.45,
+      "p25": -38.77,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 7.32,
+      "std": 6.96,
+      "worst": -3.9,
+      "median": 6.9,
+      "p25": 3.58,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.83,
+      "std": 1.29,
+      "worst": -5.8,
+      "median": -2.65,
+      "p25": -3.12,
+      "n": 20
+     },
+     "p05": {
+      "mean": 0.24,
+      "std": 5.21,
+      "worst": -11.7,
+      "median": -0.35,
+      "p25": -1.52,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 11.75,
+      "std": 7.97,
+      "worst": 1.1,
+      "median": 9.65,
+      "p25": 5.97,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.79,
+      "std": 1.05,
+      "worst": -5.3,
+      "median": -2.3,
+      "p25": -3.05,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.83,
+      "std": 5.64,
+      "worst": -5.2,
+      "median": 2.3,
+      "p25": -1.27,
+      "n": 20
+     }
+    }
+   },
+   "_robustness": {
+    "BOOK": {
+     "worst_regime_net": -1.8,
+     "full_mix_worst_maxdd": -8.2,
+     "worst_regime_p05": -4.69,
+     "mean_mix_net": 3.65
+    },
+    "LONGONLY_BOOK": {
+     "worst_regime_net": -4.71,
+     "full_mix_worst_maxdd": -17.3,
+     "worst_regime_p05": -9.82,
+     "mean_mix_net": 4.36
+    },
+    "TREND": {
+     "worst_regime_net": -1.46,
+     "full_mix_worst_maxdd": -9.8,
+     "worst_regime_p05": -4.11,
+     "mean_mix_net": 5.41
+    },
+    "MR": {
+     "worst_regime_net": -22.48,
+     "full_mix_worst_maxdd": -58.4,
+     "worst_regime_p05": -42.48,
+     "mean_mix_net": 5.14
+    },
+    "LONGSHORT": {
+     "worst_regime_net": -0.23,
+     "full_mix_worst_maxdd": -5.8,
+     "worst_regime_p05": -2.99,
+     "mean_mix_net": 2.76
+    },
+    "VOLTGT_DEF": {
+     "worst_regime_net": -1.11,
+     "full_mix_worst_maxdd": -8.8,
+     "worst_regime_p05": -3.47,
+     "mean_mix_net": 3.5
+    }
+   },
+   "_book_beats_singles": {
+    "on_worst_regime_net": false,
+    "on_full_mix_worst_maxdd": false,
+    "on_worst_regime_p05": false,
+    "worst_net_gain_vs_best_single": -1.57,
+    "worst_dd_gain_vs_best_single_pp": -2.4
+   },
+   "_deployable_vs_research": {
+    "full_book_worst_net": -1.8,
+    "longonly_book_worst_net": -4.71,
+    "full_book_worst_dd": -8.2,
+    "longonly_book_worst_dd": -17.3,
+    "longshort_worst_net_value_pp": 2.91,
+    "longshort_worst_dd_value_pp": 9.1
+   }
+  },
+  "30m": {
+   "weights": {
+    "TREND": 0.238,
+    "MR": 0.083,
+    "LONGSHORT": 0.408,
+    "VOLTGT_DEF": 0.27
+   },
+   "bull": {
+    "BOOK": {
+     "net": {
+      "mean": 1.1,
+      "std": 2.83,
+      "worst": -4.9,
+      "median": 1.4,
+      "p25": -0.3,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.25,
+      "std": 1.7,
+      "worst": -6.7,
+      "median": -1.6,
+      "p25": -3.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.76,
+      "std": 3.07,
+      "worst": -10.2,
+      "median": -2.05,
+      "p25": -4.97,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 2.07,
+      "std": 3.36,
+      "worst": -5.0,
+      "median": 2.45,
+      "p25": 0.57,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.81,
+      "std": 1.92,
+      "worst": -8.1,
+      "median": -2.25,
+      "p25": -3.85,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.25,
+      "std": 3.9,
+      "worst": -12.6,
+      "median": -2.7,
+      "p25": -5.2,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 0.77,
+      "std": 3.71,
+      "worst": -6.2,
+      "median": 0.75,
+      "p25": -0.4,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.1,
+      "std": 2.54,
+      "worst": -8.9,
+      "median": -2.45,
+      "p25": -4.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.2,
+      "std": 3.93,
+      "worst": -12.4,
+      "median": -3.2,
+      "p25": -6.4,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.6,
+      "std": 8.34,
+      "worst": -5.7,
+      "median": 11.35,
+      "p25": 3.43,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -9.89,
+      "std": 6.73,
+      "worst": -26.1,
+      "median": -7.85,
+      "p25": -12.43,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.56,
+      "std": 12.63,
+      "worst": -37.7,
+      "median": -5.65,
+      "p25": -17.38,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.0,
+      "std": 1.64,
+      "worst": -5.5,
+      "median": -1.25,
+      "p25": -3.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.02,
+      "std": 2.69,
+      "worst": -8.9,
+      "median": -2.05,
+      "p25": -5.08,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 0.55,
+      "std": 3.06,
+      "worst": -5.9,
+      "median": 0.3,
+      "p25": -0.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.22,
+      "std": 2.05,
+      "worst": -7.8,
+      "median": -1.6,
+      "p25": -2.42,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.89,
+      "std": 2.9,
+      "worst": -11.7,
+      "median": -1.95,
+      "p25": -3.9,
+      "n": 20
+     }
+    }
+   },
+   "bear": {
+    "BOOK": {
+     "net": {
+      "mean": -1.98,
+      "std": 2.08,
+      "worst": -8.6,
+      "median": -1.55,
+      "p25": -2.73,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.0,
+      "std": 2.04,
+      "worst": -9.4,
+      "median": -3.0,
+      "p25": -3.5,
+      "n": 20
+     },
+     "p05": {
+      "mean": -5.0,
+      "std": 3.31,
+      "worst": -16.0,
+      "median": -4.25,
+      "p25": -6.08,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": -4.78,
+      "std": 4.68,
+      "worst": -17.0,
+      "median": -4.25,
+      "p25": -7.0,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -6.41,
+      "std": 4.06,
+      "worst": -18.2,
+      "median": -6.6,
+      "p25": -8.4,
+      "n": 20
+     },
+     "p05": {
+      "mean": -9.92,
+      "std": 5.73,
+      "worst": -24.9,
+      "median": -9.65,
+      "p25": -11.92,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": -1.62,
+      "std": 2.25,
+      "worst": -8.9,
+      "median": -1.0,
+      "p25": -1.98,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.27,
+      "std": 2.68,
+      "worst": -9.4,
+      "median": -1.15,
+      "p25": -2.48,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.27,
+      "std": 4.49,
+      "worst": -17.7,
+      "median": -2.75,
+      "p25": -5.43,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": -22.48,
+      "std": 24.2,
+      "worst": -56.8,
+      "median": -25.8,
+      "p25": -36.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -30.93,
+      "std": 17.11,
+      "worst": -58.4,
+      "median": -31.9,
+      "p25": -40.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -42.48,
+      "std": 22.1,
+      "worst": -75.8,
+      "median": -44.25,
+      "p25": -59.35,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.84,
+      "std": 1.48,
+      "worst": -6.3,
+      "median": -1.2,
+      "p25": -2.23,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.45,
+      "std": 2.96,
+      "worst": -6.5,
+      "median": -1.2,
+      "p25": -3.23,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": -1.19,
+      "std": 2.28,
+      "worst": -9.0,
+      "median": -0.45,
+      "p25": -1.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.83,
+      "std": 2.69,
+      "worst": -9.4,
+      "median": -0.7,
+      "p25": -1.62,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.6,
+      "std": 4.5,
+      "worst": -17.8,
+      "median": -1.6,
+      "p25": -4.95,
+      "n": 20
+     }
+    }
+   },
+   "chop": {
+    "BOOK": {
+     "net": {
+      "mean": 2.95,
+      "std": 3.67,
+      "worst": -1.1,
+      "median": 2.1,
+      "p25": 1.15,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.23,
+      "std": 1.04,
+      "worst": -3.9,
+      "median": -0.9,
+      "p25": -1.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.03,
+      "std": 2.01,
+      "worst": -4.8,
+      "median": 0.4,
+      "p25": -0.85,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 4.02,
+      "std": 4.44,
+      "worst": -0.6,
+      "median": 3.25,
+      "p25": 1.95,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.54,
+      "std": 1.22,
+      "worst": -4.5,
+      "median": -1.0,
+      "p25": -2.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": 0.18,
+      "std": 2.59,
+      "worst": -5.6,
+      "median": 0.65,
+      "p25": -0.82,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 3.35,
+      "std": 5.38,
+      "worst": -2.9,
+      "median": 1.8,
+      "p25": 0.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.79,
+      "std": 1.58,
+      "worst": -6.3,
+      "median": -1.35,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.79,
+      "std": 2.67,
+      "worst": -7.4,
+      "median": -0.35,
+      "p25": -2.08,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.59,
+      "std": 3.42,
+      "worst": 4.1,
+      "median": 10.5,
+      "p25": 8.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.25,
+      "std": 2.12,
+      "worst": -9.6,
+      "median": -2.8,
+      "p25": -4.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.62,
+      "std": 4.17,
+      "worst": -9.5,
+      "median": 2.15,
+      "p25": 0.0,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.01,
+      "std": 0.93,
+      "worst": -3.2,
+      "median": -0.65,
+      "p25": -1.25,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.67,
+      "std": 1.56,
+      "worst": -4.5,
+      "median": -0.3,
+      "p25": -1.42,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 2.67,
+      "std": 4.81,
+      "worst": -3.1,
+      "median": 1.4,
+      "p25": 0.47,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.52,
+      "std": 1.3,
+      "worst": -4.6,
+      "median": -1.1,
+      "p25": -2.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.76,
+      "std": 2.68,
+      "worst": -7.5,
+      "median": -0.5,
+      "p25": -1.7,
+      "n": 20
+     }
+    }
+   },
+   "stitched": {
+    "BOOK": {
+     "net": {
+      "mean": 12.19,
+      "std": 6.64,
+      "worst": 3.4,
+      "median": 11.75,
+      "p25": 6.28,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.13,
+      "std": 0.97,
+      "worst": -4.9,
+      "median": -3.0,
+      "p25": -3.88,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.75,
+      "std": 4.7,
+      "worst": -6.8,
+      "median": 3.0,
+      "p25": -0.97,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 15.76,
+      "std": 7.06,
+      "worst": 7.3,
+      "median": 15.65,
+      "p25": 9.07,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.97,
+      "std": 2.11,
+      "worst": -10.0,
+      "median": -4.8,
+      "p25": -6.03,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.91,
+      "std": 5.2,
+      "worst": -5.4,
+      "median": 2.1,
+      "p25": -1.3,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 18.7,
+      "std": 13.72,
+      "worst": 3.4,
+      "median": 15.45,
+      "p25": 9.88,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.12,
+      "std": 1.57,
+      "worst": -7.8,
+      "median": -3.8,
+      "p25": -4.83,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.7,
+      "std": 8.97,
+      "worst": -10.8,
+      "median": 4.2,
+      "p25": -0.68,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 21.86,
+      "std": 30.12,
+      "worst": -42.0,
+      "median": 25.05,
+      "p25": -0.08,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -26.21,
+      "std": 12.37,
+      "worst": -54.4,
+      "median": -25.2,
+      "p25": -32.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -18.92,
+      "std": 25.57,
+      "worst": -71.1,
+      "median": -15.45,
+      "p25": -38.77,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.83,
+      "std": 1.22,
+      "worst": -5.7,
+      "median": -2.75,
+      "p25": -3.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": 0.14,
+      "std": 4.93,
+      "worst": -12.0,
+      "median": -0.2,
+      "p25": -1.95,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 11.63,
+      "std": 7.77,
+      "worst": 0.4,
+      "median": 9.85,
+      "p25": 6.32,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.74,
+      "std": 0.94,
+      "worst": -4.7,
+      "median": -2.35,
+      "p25": -3.08,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.8,
+      "std": 5.33,
+      "worst": -5.6,
+      "median": 2.45,
+      "p25": -1.3,
+      "n": 20
+     }
+    }
+   },
+   "_robustness": {
+    "BOOK": {
+     "worst_regime_net": -1.98,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -5.0,
+     "mean_mix_net": 3.56
+    },
+    "LONGONLY_BOOK": {
+     "worst_regime_net": -4.78,
+     "full_mix_worst_maxdd": -18.2,
+     "worst_regime_p05": -9.92,
+     "mean_mix_net": 4.27
+    },
+    "TREND": {
+     "worst_regime_net": -1.62,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -4.27,
+     "mean_mix_net": 5.3
+    },
+    "MR": {
+     "worst_regime_net": -22.48,
+     "full_mix_worst_maxdd": -58.4,
+     "worst_regime_p05": -42.48,
+     "mean_mix_net": 5.14
+    },
+    "LONGSHORT": {
+     "worst_regime_net": -0.32,
+     "full_mix_worst_maxdd": -6.3,
+     "worst_regime_p05": -3.02,
+     "mean_mix_net": 2.6
+    },
+    "VOLTGT_DEF": {
+     "worst_regime_net": -1.19,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -3.6,
+     "mean_mix_net": 3.42
+    }
+   },
+   "_book_beats_singles": {
+    "on_worst_regime_net": false,
+    "on_full_mix_worst_maxdd": false,
+    "on_worst_regime_p05": false,
+    "worst_net_gain_vs_best_single": -1.66,
+    "worst_dd_gain_vs_best_single_pp": -3.1
+   },
+   "_deployable_vs_research": {
+    "full_book_worst_net": -1.98,
+    "longonly_book_worst_net": -4.78,
+    "full_book_worst_dd": -9.4,
+    "longonly_book_worst_dd": -18.2,
+    "longshort_worst_net_value_pp": 2.8,
+    "longshort_worst_dd_value_pp": 8.8
+   }
+  },
+  "15m": {
+   "weights": {
+    "TREND": 0.238,
+    "MR": 0.083,
+    "LONGSHORT": 0.408,
+    "VOLTGT_DEF": 0.27
+   },
+   "bull": {
+    "BOOK": {
+     "net": {
+      "mean": 1.1,
+      "std": 2.83,
+      "worst": -4.9,
+      "median": 1.4,
+      "p25": -0.3,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.25,
+      "std": 1.7,
+      "worst": -6.7,
+      "median": -1.6,
+      "p25": -3.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.76,
+      "std": 3.07,
+      "worst": -10.2,
+      "median": -2.05,
+      "p25": -4.97,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 2.07,
+      "std": 3.36,
+      "worst": -5.0,
+      "median": 2.45,
+      "p25": 0.57,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.81,
+      "std": 1.92,
+      "worst": -8.1,
+      "median": -2.25,
+      "p25": -3.85,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.25,
+      "std": 3.9,
+      "worst": -12.6,
+      "median": -2.7,
+      "p25": -5.2,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 0.77,
+      "std": 3.71,
+      "worst": -6.2,
+      "median": 0.75,
+      "p25": -0.4,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.1,
+      "std": 2.54,
+      "worst": -8.9,
+      "median": -2.45,
+      "p25": -4.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.2,
+      "std": 3.93,
+      "worst": -12.4,
+      "median": -3.2,
+      "p25": -6.4,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.6,
+      "std": 8.34,
+      "worst": -5.7,
+      "median": 11.35,
+      "p25": 3.43,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -9.89,
+      "std": 6.73,
+      "worst": -26.1,
+      "median": -7.85,
+      "p25": -12.43,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.56,
+      "std": 12.63,
+      "worst": -37.7,
+      "median": -5.65,
+      "p25": -17.38,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": -0.32,
+      "std": 2.16,
+      "worst": -4.8,
+      "median": 0.0,
+      "p25": -1.05,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.0,
+      "std": 1.64,
+      "worst": -5.5,
+      "median": -1.25,
+      "p25": -3.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.02,
+      "std": 2.69,
+      "worst": -8.9,
+      "median": -2.05,
+      "p25": -5.08,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 0.55,
+      "std": 3.06,
+      "worst": -5.9,
+      "median": 0.3,
+      "p25": -0.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.22,
+      "std": 2.05,
+      "worst": -7.8,
+      "median": -1.6,
+      "p25": -2.42,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.89,
+      "std": 2.9,
+      "worst": -11.7,
+      "median": -1.95,
+      "p25": -3.9,
+      "n": 20
+     }
+    }
+   },
+   "bear": {
+    "BOOK": {
+     "net": {
+      "mean": -1.98,
+      "std": 2.08,
+      "worst": -8.6,
+      "median": -1.55,
+      "p25": -2.73,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.0,
+      "std": 2.04,
+      "worst": -9.4,
+      "median": -3.0,
+      "p25": -3.5,
+      "n": 20
+     },
+     "p05": {
+      "mean": -5.0,
+      "std": 3.31,
+      "worst": -16.0,
+      "median": -4.25,
+      "p25": -6.08,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": -4.78,
+      "std": 4.68,
+      "worst": -17.0,
+      "median": -4.25,
+      "p25": -7.0,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -6.41,
+      "std": 4.06,
+      "worst": -18.2,
+      "median": -6.6,
+      "p25": -8.4,
+      "n": 20
+     },
+     "p05": {
+      "mean": -9.92,
+      "std": 5.73,
+      "worst": -24.9,
+      "median": -9.65,
+      "p25": -11.92,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": -1.62,
+      "std": 2.25,
+      "worst": -8.9,
+      "median": -1.0,
+      "p25": -1.98,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.27,
+      "std": 2.68,
+      "worst": -9.4,
+      "median": -1.15,
+      "p25": -2.48,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.27,
+      "std": 4.49,
+      "worst": -17.7,
+      "median": -2.75,
+      "p25": -5.43,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": -22.48,
+      "std": 24.2,
+      "worst": -56.8,
+      "median": -25.8,
+      "p25": -36.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -30.93,
+      "std": 17.11,
+      "worst": -58.4,
+      "median": -31.9,
+      "p25": -40.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -42.48,
+      "std": 22.1,
+      "worst": -75.8,
+      "median": -44.25,
+      "p25": -59.35,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 2.25,
+      "std": 3.87,
+      "worst": -3.2,
+      "median": 1.0,
+      "p25": -0.2,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.84,
+      "std": 1.48,
+      "worst": -6.3,
+      "median": -1.2,
+      "p25": -2.23,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.45,
+      "std": 2.96,
+      "worst": -6.5,
+      "median": -1.2,
+      "p25": -3.23,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": -1.19,
+      "std": 2.28,
+      "worst": -9.0,
+      "median": -0.45,
+      "p25": -1.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.83,
+      "std": 2.69,
+      "worst": -9.4,
+      "median": -0.7,
+      "p25": -1.62,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.6,
+      "std": 4.5,
+      "worst": -17.8,
+      "median": -1.6,
+      "p25": -4.95,
+      "n": 20
+     }
+    }
+   },
+   "chop": {
+    "BOOK": {
+     "net": {
+      "mean": 2.95,
+      "std": 3.67,
+      "worst": -1.1,
+      "median": 2.1,
+      "p25": 1.15,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.23,
+      "std": 1.04,
+      "worst": -3.9,
+      "median": -0.9,
+      "p25": -1.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.03,
+      "std": 2.01,
+      "worst": -4.8,
+      "median": 0.4,
+      "p25": -0.85,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 4.02,
+      "std": 4.44,
+      "worst": -0.6,
+      "median": 3.25,
+      "p25": 1.95,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.54,
+      "std": 1.22,
+      "worst": -4.5,
+      "median": -1.0,
+      "p25": -2.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": 0.18,
+      "std": 2.59,
+      "worst": -5.6,
+      "median": 0.65,
+      "p25": -0.82,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 3.35,
+      "std": 5.38,
+      "worst": -2.9,
+      "median": 1.8,
+      "p25": 0.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.79,
+      "std": 1.58,
+      "worst": -6.3,
+      "median": -1.35,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.79,
+      "std": 2.67,
+      "worst": -7.4,
+      "median": -0.35,
+      "p25": -2.08,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 10.59,
+      "std": 3.42,
+      "worst": 4.1,
+      "median": 10.5,
+      "p25": 8.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.25,
+      "std": 2.12,
+      "worst": -9.6,
+      "median": -2.8,
+      "p25": -4.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.62,
+      "std": 4.17,
+      "worst": -9.5,
+      "median": 2.15,
+      "p25": 0.0,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 1.41,
+      "std": 2.62,
+      "worst": -1.9,
+      "median": 0.8,
+      "p25": 0.22,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.01,
+      "std": 0.93,
+      "worst": -3.2,
+      "median": -0.65,
+      "p25": -1.25,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.67,
+      "std": 1.56,
+      "worst": -4.5,
+      "median": -0.3,
+      "p25": -1.42,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 2.67,
+      "std": 4.81,
+      "worst": -3.1,
+      "median": 1.4,
+      "p25": 0.47,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.52,
+      "std": 1.3,
+      "worst": -4.6,
+      "median": -1.1,
+      "p25": -2.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.76,
+      "std": 2.68,
+      "worst": -7.5,
+      "median": -0.5,
+      "p25": -1.7,
+      "n": 20
+     }
+    }
+   },
+   "stitched": {
+    "BOOK": {
+     "net": {
+      "mean": 12.19,
+      "std": 6.64,
+      "worst": 3.4,
+      "median": 11.75,
+      "p25": 6.28,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.13,
+      "std": 0.97,
+      "worst": -4.9,
+      "median": -3.0,
+      "p25": -3.88,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.75,
+      "std": 4.7,
+      "worst": -6.8,
+      "median": 3.0,
+      "p25": -0.97,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "LONGONLY_BOOK": {
+     "net": {
+      "mean": 15.76,
+      "std": 7.06,
+      "worst": 7.3,
+      "median": 15.65,
+      "p25": 9.07,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.97,
+      "std": 2.11,
+      "worst": -10.0,
+      "median": -4.8,
+      "p25": -6.03,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.91,
+      "std": 5.2,
+      "worst": -5.4,
+      "median": 2.1,
+      "p25": -1.3,
+      "n": 20
+     },
+     "coverage": {
+      "mean": 1.0,
+      "std": 0.0,
+      "worst": 1.0,
+      "median": 1.0,
+      "p25": 1.0,
+      "n": 20
+     }
+    },
+    "TREND": {
+     "net": {
+      "mean": 18.7,
+      "std": 13.72,
+      "worst": 3.4,
+      "median": 15.45,
+      "p25": 9.88,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.12,
+      "std": 1.57,
+      "worst": -7.8,
+      "median": -3.8,
+      "p25": -4.83,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.7,
+      "std": 8.97,
+      "worst": -10.8,
+      "median": 4.2,
+      "p25": -0.68,
+      "n": 20
+     }
+    },
+    "MR": {
+     "net": {
+      "mean": 21.86,
+      "std": 30.12,
+      "worst": -42.0,
+      "median": 25.05,
+      "p25": -0.08,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -26.21,
+      "std": 12.37,
+      "worst": -54.4,
+      "median": -25.2,
+      "p25": -32.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -18.92,
+      "std": 25.57,
+      "worst": -71.1,
+      "median": -15.45,
+      "p25": -38.77,
+      "n": 20
+     }
+    },
+    "LONGSHORT": {
+     "net": {
+      "mean": 7.05,
+      "std": 6.74,
+      "worst": -4.1,
+      "median": 6.5,
+      "p25": 3.6,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.83,
+      "std": 1.22,
+      "worst": -5.7,
+      "median": -2.75,
+      "p25": -3.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": 0.14,
+      "std": 4.93,
+      "worst": -12.0,
+      "median": -0.2,
+      "p25": -1.95,
+      "n": 20
+     }
+    },
+    "VOLTGT_DEF": {
+     "net": {
+      "mean": 11.63,
+      "std": 7.77,
+      "worst": 0.4,
+      "median": 9.85,
+      "p25": 6.32,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.74,
+      "std": 0.94,
+      "worst": -4.7,
+      "median": -2.35,
+      "p25": -3.08,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.8,
+      "std": 5.33,
+      "worst": -5.6,
+      "median": 2.45,
+      "p25": -1.3,
+      "n": 20
+     }
+    }
+   },
+   "_robustness": {
+    "BOOK": {
+     "worst_regime_net": -1.98,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -5.0,
+     "mean_mix_net": 3.56
+    },
+    "LONGONLY_BOOK": {
+     "worst_regime_net": -4.78,
+     "full_mix_worst_maxdd": -18.2,
+     "worst_regime_p05": -9.92,
+     "mean_mix_net": 4.27
+    },
+    "TREND": {
+     "worst_regime_net": -1.62,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -4.27,
+     "mean_mix_net": 5.3
+    },
+    "MR": {
+     "worst_regime_net": -22.48,
+     "full_mix_worst_maxdd": -58.4,
+     "worst_regime_p05": -42.48,
+     "mean_mix_net": 5.14
+    },
+    "LONGSHORT": {
+     "worst_regime_net": -0.32,
+     "full_mix_worst_maxdd": -6.3,
+     "worst_regime_p05": -3.02,
+     "mean_mix_net": 2.6
+    },
+    "VOLTGT_DEF": {
+     "worst_regime_net": -1.19,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -3.6,
+     "mean_mix_net": 3.42
+    }
+   },
+   "_book_beats_singles": {
+    "on_worst_regime_net": false,
+    "on_full_mix_worst_maxdd": false,
+    "on_worst_regime_p05": false,
+    "worst_net_gain_vs_best_single": -1.66,
+    "worst_dd_gain_vs_best_single_pp": -3.1
+   },
+   "_deployable_vs_research": {
+    "full_book_worst_net": -1.98,
+    "longonly_book_worst_net": -4.78,
+    "full_book_worst_dd": -9.4,
+    "longonly_book_worst_dd": -18.2,
+    "longshort_worst_net_value_pp": 2.8,
+    "longshort_worst_dd_value_pp": 8.8
+   }
+  }
+ },
+ "real_2020_oos": {
+  "1d": {
+   "longshort_oos": {
+    "net": 5.4,
+    "sharpe": 1.66,
+    "maxdd": -5.9,
+    "p05": -5.0
+   },
+   "trend_oos": {
+    "net": 13.6,
+    "sharpe": 2.05,
+    "maxdd": -11.0,
+    "p05": -6.8
+   },
+   "n_oos_days": 92
+  },
+  "4h": {
+   "longshort_oos": {
+    "net": 4.8,
+    "sharpe": 1.55,
+    "maxdd": -3.9,
+    "p05": -4.5
+   },
+   "trend_oos": {
+    "net": 19.3,
+    "sharpe": 3.02,
+    "maxdd": -6.2,
+    "p05": -1.0
+   },
+   "n_oos_days": 92
+  },
+  "2h": {
+   "longshort_oos": {
+    "net": 7.4,
+    "sharpe": 1.45,
+    "maxdd": -8.3,
+    "p05": -7.2
+   },
+   "trend_oos": {
+    "net": 34.6,
+    "sharpe": 3.84,
+    "maxdd": -5.6,
+    "p05": 4.6
+   },
+   "n_oos_days": 92
+  },
+  "1h": {
+   "longshort_oos": {
+    "net": 17.4,
+    "sharpe": 3.46,
+    "maxdd": -4.1,
+    "p05": 1.2
+   },
+   "trend_oos": {
+    "net": 50.4,
+    "sharpe": 4.49,
+    "maxdd": -5.8,
+    "p05": 9.1
+   },
+   "n_oos_days": 92
+  },
+  "30m": {
+   "longshort_oos": {
+    "net": 12.8,
+    "sharpe": 2.3,
+    "maxdd": -4.6,
+    "p05": -3.5
+   },
+   "trend_oos": {
+    "net": 46.6,
+    "sharpe": 3.78,
+    "maxdd": -7.9,
+    "p05": 6.3
+   },
+   "n_oos_days": 92
+  },
+  "15m": {
+   "longshort_oos": {
+    "net": 13.8,
+    "sharpe": 2.08,
+    "maxdd": -6.9,
+    "p05": -5.5
+   },
+   "trend_oos": {
+    "net": 54.6,
+    "sharpe": 3.7,
+    "maxdd": -11.5,
+    "p05": 5.8
+   },
+   "n_oos_days": 92
+  }
+ },
+ "verdict": {
+  "headline": "THE MULTI-SLEEVE BOOK does NOT robustly beat the best single sleeve on cross-regime worst-case (0/6 cadences) -- the honest finding is that naive equal-risk blending of ['TREND', 'MR', 'LONGSHORT', 'VOLTGT_DEF'] does not add cross-regime robustness over the best component at most TFs. The LONGSHORT engine still provides the bear protection (best at 30m), but the book construction needs refinement (regime-routing, not a static mix). SHORT = RESEARCH.",
+  "best_tf_for_longshort": "30m",
+  "book_wins_cadences": [],
+  "heavy_drag_tfs": [],
+  "lines": [
+   "HEADLINE: THE MULTI-SLEEVE BOOK does NOT robustly beat the best single sleeve on cross-regime worst-case (0/6 cadences) -- the honest finding is that naive equal-risk blending of ['TREND', 'MR', 'LONGSHORT', 'VOLTGT_DEF'] does not add cross-regime robustness over the best component at most TFs. The LONGSHORT engine still provides the bear protection (best at 30m), but the book construction needs refinement (regime-routing, not a static mix). SHORT = RESEARCH.",
+   "",
+   "Q1: THE LONGSHORT-MA ENGINE -- bear protection WITHOUT a crippling bull drag, per TF?",
+   "    (LS = longshort engine at 20.0bps/yr borrow; bull-drag = LS bull net - trend bull net;",
+   "     bear-protect = how much LESS-negative LS's bear maxDD is vs trend-alone)",
+   "    1d   : bull-drag -2.01pp (TOLERABLE); bear-protect +0.53pp DD; bear net -0.55%; mix net 3.4%",
+   "    4h   : bull-drag -0.91pp (TOLERABLE); bear-protect +-0.04pp DD; bear net 0.91%; mix net 2.0%",
+   "    2h   : bull-drag -0.8pp (TOLERABLE); bear-protect +-0.01pp DD; bear net 1.22%; mix net 2.1%",
+   "    1h   : bull-drag -1.1600000000000001pp (TOLERABLE); bear-protect +0.29pp DD; bear net 2.53%; mix net 2.8%",
+   "    30m  : bull-drag -1.09pp (TOLERABLE); bear-protect +0.43pp DD; bear net 2.25%; mix net 2.6%",
+   "    15m  : bull-drag -1.09pp (TOLERABLE); bear-protect +0.43pp DD; bear net 2.25%; mix net 2.6%",
+   "    -> BEST TF FOR LONGSHORT (bear-protection + worst-regime net, drag-penalized): 30m",
+   "",
+   "Q2: SHORT-BORROW SENSITIVITY -- engine net at 0/10/20/30 bps/yr (does the edge survive cost?):",
+   "    1d   : 0bps: bull -0.95/bear -0.55/stitch 11.77  |  10bps: bull -0.95/bear -0.55/stitch 11.77  |  20bps: bull -0.95/bear -0.55/stitch 11.76  |  30bps: bull -0.95/bear -0.55/stitch 11.75",
+   "    4h   : 0bps: bull -0.11/bear 0.91/stitch 5.9  |  10bps: bull -0.11/bear 0.91/stitch 5.9  |  20bps: bull -0.11/bear 0.91/stitch 5.89  |  30bps: bull -0.11/bear 0.91/stitch 5.89",
+   "    2h   : 0bps: bull -0.14/bear 1.22/stitch 6.15  |  10bps: bull -0.14/bear 1.22/stitch 6.15  |  20bps: bull -0.14/bear 1.22/stitch 6.15  |  30bps: bull -0.14/bear 1.22/stitch 6.15",
+   "    1h   : 0bps: bull -0.23/bear 2.53/stitch 7.32  |  10bps: bull -0.23/bear 2.53/stitch 7.32  |  20bps: bull -0.23/bear 2.53/stitch 7.32  |  30bps: bull -0.23/bear 2.53/stitch 7.32",
+   "    30m  : 0bps: bull -0.32/bear 2.25/stitch 7.05  |  10bps: bull -0.32/bear 2.25/stitch 7.05  |  20bps: bull -0.32/bear 2.25/stitch 7.05  |  30bps: bull -0.32/bear 2.25/stitch 7.05",
+   "    15m  : 0bps: bull -0.32/bear 2.25/stitch 7.05  |  10bps: bull -0.32/bear 2.25/stitch 7.05  |  20bps: bull -0.32/bear 2.25/stitch 7.05  |  30bps: bull -0.32/bear 2.25/stitch 7.05",
+   "    -> borrow cost of 0->30bps/yr on the stitched cycle = 0.01pp net (small: the longshort engine is NOT borrow-fragile)",
+   "",
+   "Q3: IS THE LONGSHORT ENGINE NET-POSITIVE OR NET-NEUTRAL (full-cycle stitched, after borrow)?",
+   "    1d   : stitched LS net 11.76% (worst -2.2%) vs trend 38.52% -> NET-POSITIVE; beats cost-matched null by 9.98pp",
+   "    4h   : stitched LS net 5.89% (worst -2.5%) vs trend 15.65% -> NET-POSITIVE; beats cost-matched null by 4.77pp",
+   "    2h   : stitched LS net 6.15% (worst -2.8%) vs trend 15.98% -> NET-POSITIVE; beats cost-matched null by 5.15pp",
+   "    1h   : stitched LS net 7.32% (worst -3.9%) vs trend 18.83% -> NET-POSITIVE; beats cost-matched null by 6.13pp",
+   "    30m  : stitched LS net 7.05% (worst -4.1%) vs trend 18.7% -> NET-POSITIVE; beats cost-matched null by 5.86pp",
+   "    15m  : stitched LS net 7.05% (worst -4.1%) vs trend 18.7% -> NET-POSITIVE; beats cost-matched null by 5.86pp",
+   "",
+   "Q4 (DECISIVE): THE MULTI-SLEEVE BOOK vs EVERY SINGLE SLEEVE -- the cross-regime robustness gain:",
+   "    1d   : book worst-regime net -4.9% / full-mix-worst DD -9.5% / worst p05 -9.22%; beats EVERY single on [worst-net False, worst-DD True, p05 False]; gain vs best single: net -3.95pp, DD 2.3pp",
+   "    4h   : book worst-regime net -1.98% / full-mix-worst DD -7.2% / worst p05 -4.46%; beats EVERY single on [worst-net False, worst-DD False, p05 False]; gain vs best single: net -1.87pp, DD -1.0pp",
+   "    2h   : book worst-regime net -1.82% / full-mix-worst DD -7.1% / worst p05 -4.31%; beats EVERY single on [worst-net False, worst-DD False, p05 False]; gain vs best single: net -1.68pp, DD -1.5pp",
+   "    1h   : book worst-regime net -1.8% / full-mix-worst DD -8.2% / worst p05 -4.69%; beats EVERY single on [worst-net False, worst-DD False, p05 False]; gain vs best single: net -1.57pp, DD -2.4pp",
+   "    30m  : book worst-regime net -1.98% / full-mix-worst DD -9.4% / worst p05 -5.0%; beats EVERY single on [worst-net False, worst-DD False, p05 False]; gain vs best single: net -1.66pp, DD -3.1pp",
+   "    15m  : book worst-regime net -1.98% / full-mix-worst DD -9.4% / worst p05 -5.0%; beats EVERY single on [worst-net False, worst-DD False, p05 False]; gain vs best single: net -1.66pp, DD -3.1pp",
+   "",
+   "Q4b: DEPLOYABLE-TODAY (long-only: trend+MR+voltgt) vs RESEARCH-FULL (with longshort) book:",
+   "    1d   : long-only book worst-net -7.46% / worst-DD -16.7%  vs  full book worst-net -4.9% / worst-DD -9.5%  -> longshort adds worst-net 2.56pp, worst-DD 7.2pp [RESEARCH]",
+   "    4h   : long-only book worst-net -3.95% / worst-DD -12.4%  vs  full book worst-net -1.98% / worst-DD -7.2%  -> longshort adds worst-net 1.97pp, worst-DD 5.2pp [RESEARCH]",
+   "    2h   : long-only book worst-net -3.89% / worst-DD -12.4%  vs  full book worst-net -1.82% / worst-DD -7.1%  -> longshort adds worst-net 2.07pp, worst-DD 5.3pp [RESEARCH]",
+   "    1h   : long-only book worst-net -4.71% / worst-DD -17.3%  vs  full book worst-net -1.8% / worst-DD -8.2%  -> longshort adds worst-net 2.91pp, worst-DD 9.1pp [RESEARCH]",
+   "    30m  : long-only book worst-net -4.78% / worst-DD -18.2%  vs  full book worst-net -1.98% / worst-DD -9.4%  -> longshort adds worst-net 2.8pp, worst-DD 8.8pp [RESEARCH]",
+   "    15m  : long-only book worst-net -4.78% / worst-DD -18.2%  vs  full book worst-net -1.98% / worst-DD -9.4%  -> longshort adds worst-net 2.8pp, worst-DD 8.8pp [RESEARCH]",
+   "",
+   "Q5: 2020-REAL OOS (Oct-Dec BULL) anchor -- the longshort bull-drag on REAL data:",
+   "    1d   : LONGSHORT OOS net 5.4% (DD -5.9) vs TREND 13.6% (DD -11.0) -> real bull-drag -8.2pp",
+   "    4h   : LONGSHORT OOS net 4.8% (DD -3.9) vs TREND 19.3% (DD -6.2) -> real bull-drag -14.5pp",
+   "    2h   : LONGSHORT OOS net 7.4% (DD -8.3) vs TREND 34.6% (DD -5.6) -> real bull-drag -27.2pp",
+   "    1h   : LONGSHORT OOS net 17.4% (DD -4.1) vs TREND 50.4% (DD -5.8) -> real bull-drag -33.0pp",
+   "    30m  : LONGSHORT OOS net 12.8% (DD -4.6) vs TREND 46.6% (DD -7.9) -> real bull-drag -33.8pp",
+   "    15m  : LONGSHORT OOS net 13.8% (DD -6.9) vs TREND 54.6% (DD -11.5) -> real bull-drag -40.8pp",
+   "",
+   "CAVEATS (binding): (1) SYNTHETIC stress surface from PHASE 3/4b's VALIDATED generator (2020-calibrated stylized facts ONLY) + the 2020 real OOS -- NOT real future data. (2) The LONGSHORT engine VIOLATES long-only+spot -> RESEARCH; deploy needs the user's explicit LO-exception sign-off. (3) Short-borrow MODELLED at 0/10/20/30 bps/yr (prorated per-bar on the short leg); real borrow can spike in a squeeze (the 30bps case is the stress). (4) maker cost, no MtM double-count, lag-1 causal; the cost-matched random-direction NULL controls for the cost convention. (5) >=20 seeds; distributions (mean +- spread + WORST seed) reported. (6) PRE-REGISTERED equal-risk weights on a held-aside synthetic-BULL slice (NOT fit on the stress surface). (7) The synthetic bear is the 2020-COVID fast-V-crash exemplar; a slow grind-down bear may differ."
+  ]
+ }
+}

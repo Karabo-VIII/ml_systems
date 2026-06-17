@@ -1,0 +1,60 @@
+{
+ "rows": [
+  {
+   "scenario": "Jan 2022 (u10)",
+   "n_bars": 31,
+   "book_final%": -11.4,
+   "book_ann%": -76.1,
+   "book_DD%": -15.5,
+   "book_Sharpe": -4.02,
+   "turnover": 0.0152,
+   "BH_final%": -24.3,
+   "BH_DD%": -32.1,
+   "MtM_recon_maxdiff": "0.0e+00"
+  },
+  {
+   "scenario": "Jan 2022 (u50)",
+   "n_bars": 31,
+   "book_final%": -25.7,
+   "book_ann%": -97.0,
+   "book_DD%": -32.7,
+   "book_Sharpe": -4.21,
+   "turnover": 0.0632,
+   "BH_final%": -28.2,
+   "BH_DD%": -35.6,
+   "MtM_recon_maxdiff": "0.0e+00"
+  },
+  {
+   "scenario": "Full cycle 2020-25 (u10)",
+   "n_bars": 2335,
+   "book_final%": 2016.4,
+   "book_ann%": 61.1,
+   "book_DD%": -58.7,
+   "book_Sharpe": 1.19,
+   "turnover": 0.0174,
+   "BH_final%": 3421.4,
+   "BH_DD%": -79.4,
+   "MtM_recon_maxdiff": "0.0e+00"
+  },
+  {
+   "scenario": "UNSEEN bear 2026 (u10)",
+   "n_bars": 149,
+   "book_final%": 0.0,
+   "book_ann%": 0.0,
+   "book_DD%": 0.0,
+   "book_Sharpe": 0.0,
+   "turnover": 0.0,
+   "BH_final%": -27.9,
+   "BH_DD%": -41.2,
+   "MtM_recon_maxdiff": "0.0e+00"
+  }
+ ],
+ "validity": {
+  "mtm_self_consistency": true,
+  "cost_reconciliation": true,
+  "cost_expected_gap": 0.03663817199999999,
+  "cost_actual_gap": 0.03662765593284023,
+  "determinism": true
+ },
+ "figure": "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\plots\\portfolio_replay_validity_20260611_162830.png"
+}

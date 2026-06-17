@@ -1,0 +1,52 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\portfolio_replay.py --universe u10 --window UNSEEN --strategies ema_50_100,donch20,rsi_30_50",
+  "git_sha": "6be64f5"
+ },
+ "spec": {
+  "strategies": [
+   "ema_50_100",
+   "donch20",
+   "rsi_30_50"
+  ],
+  "universe": "u10",
+  "cadence": "1d",
+  "window": "UNSEEN",
+  "sizing": "inverse-vol",
+  "vol_target": 0.02,
+  "max_per_name": 0.15,
+  "cost_rt": 0.0024
+ },
+ "result": {
+  "window": "UNSEEN",
+  "n_bars": 149,
+  "n_assets": 10,
+  "final_equity": 0.7479140191948712,
+  "final_pct": -25.20859808051288,
+  "ann_pct": -50.9,
+  "maxdd_pct": -32.3,
+  "sharpe": -1.25,
+  "avg_gross": 0.82,
+  "avg_daily_turnover": 0.0991,
+  "win_bar_rate": 0.383,
+  "roll3d_pos_rate": 0.404,
+  "roll3d_median_pct": 0.0,
+  "per_strat_hold_bars": {
+   "ema_50_100": 0,
+   "donch20": 508,
+   "rsi_30_50": 323
+  },
+  "equity_curve_tail": [
+   0.7479,
+   0.7479,
+   0.7479,
+   0.7479,
+   0.7479,
+   0.7479,
+   0.7479,
+   0.7479,
+   0.7479,
+   0.7479
+  ]
+ }
+}

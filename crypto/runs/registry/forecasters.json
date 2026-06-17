@@ -1,0 +1,4 @@
+{
+  "champions": [],
+  "_note": "FORECASTER (Class F) Gate-A leaderboard. Keyed by held-out IC + ShIC (the TRUTH axis -- did it LEARN or MEMORIZE?), NEVER by compound. Physically separate from agents.json (which ranks A1/A2/A1H by held-out COMPOUND) so a compound number can never launder a memorized forecaster into 'eligible'. Written by src/strat/wm_value_probe.py (Gate A). A record: {forecaster_id, gate:'GATE_A', held_out_ic_h1, shic_h1, shic_over_contig_ic_h1, shic_per_horizon{1,4,16}, passed_gate_a, verdict, clauses_pass{1..5}, n_seeds_positive, per_regime_pass, cost_basis:'taker_0.0024', git_sha, ts}. Empty until a REAL forecaster (e.g. V1.1) clears Gate A on held-out data."
+}

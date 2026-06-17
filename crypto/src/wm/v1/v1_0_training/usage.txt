@@ -1,0 +1,67 @@
+V1 World Model -- Usage Guide
+==============================
+
+V1 uses 13 base features (no cross-asset XD features in encoder).
+XD features are used only as conditioning signals in V1.X adapter and V1.E gating.
+
+MODELS:
+  V1.0 (Base)      Transformer-RSSM, 13 features, ~4.5M params
+  V1.X (Adapter)   FiLM adapter on frozen V1.0, ~15K params, XD context (17 dims)
+  V1.E (Ensemble)  Snapshot ensemble (K=3 top seeds), optional XD gating
+  V1.D (NCL)       Multi-head NCL diversity (K=5 return heads on V1 backbone)
+
+TRAINING:
+
+  # V1.0 Base model (train first)
+  python train_world_model.py
+  python train_world_model.py --seed 42
+
+  # V1.X Adapter (requires trained V1.0 checkpoint)
+  python train_adapter.py
+
+  # V1.E Snapshot Ensemble (full training with cyclical cosine LR)
+  python train_snapshot.py
+
+  # V1.E Ensemble Gating (train XD-conditioned gating on frozen snapshots)
+  python train_ensemble_gating.py
+
+  # V1.D NCL Diversity (train from scratch or load V1.0 backbone)
+  python train_ncl.py
+  python train_ncl.py --load-backbone models/v1/v1_wm_best_ema.pt
+  python train_ncl.py --load-backbone models/v1/v1_wm_best_ema.pt --freeze-backbone
+
+VALIDATION:
+
+  # V1.0 Base
+  python validate_world.py                    # Best EMA model
+  python validate_world.py --latest           # Latest checkpoint
+  python validate_world.py --both             # Compare best vs latest
+  python validate_world.py --robust           # Robust validation (ShIC, walk-forward)
+
+CHECKPOINTS (saved to models/v1/):
+
+  v1_wm_best_ema.pt       V1.0 best EMA weights (selected by ShIC)
+  v1_wm_latest.pt         V1.0 latest full checkpoint (resumable)
+  v1_adapter_best.pt      V1.X best adapter weights
+  v1e_best_ema.pt         V1.E best snapshot EMA
+  v1e_snapshot_latest.pt  V1.E full snapshot state
+  snapshots/              V1.E per-cycle snapshot checkpoints
+  ensemble_gating.pt      V1.E XD gating weights
+  v1d_wm_best_ema.pt      V1.D best diversity model
+  v1d_wm_latest.pt        V1.D full checkpoint (resumable)
+
+---
+
+ANTI-MEMORIZATION VARIANTS:
+
+  V1.1 extends V1 with label smoothing + XD anti-memorization.
+  RevIN disabled by default (causes temporal memorization); opt-in via --revin.
+  See src/wm/v1/v1_1_training/usage.txt for full guide.
+
+  python src/wm/v1/v1_1_training/train_world_model.py --features 18
+  python src/wm/v1/v1_1_training/train_world_model.py --features 13
+
+  Feature-decoupled ablation variants (same architecture, different feature isolation):
+  - V1.2: src/wm/v1/v1_2_training/  (see RUN.md)
+  - V1.3: src/wm/v1/v1_3_training/  (see RUN.md)
+  - V1.4: src/wm/v1/v1_4_training/  (see RUN.md)

@@ -1,0 +1,79 @@
+{
+  "cadence": "4h",
+  "n_pooled_bars": 277943,
+  "discovered_features": [
+    "ret",
+    "rolling_vol20",
+    "trend_vs_sma50"
+  ],
+  "discovered_gmm": {
+    "k_by_bic": 5,
+    "bic": 1869914.9,
+    "profiles": [
+      {
+        "regime": 2,
+        "share": 0.074,
+        "ret_mean_bar": -0.0026419553978208553,
+        "vol_mean": 0.03856507808443736,
+        "trend_mean": -0.11672964345767584
+      },
+      {
+        "regime": 0,
+        "share": 0.394,
+        "ret_mean_bar": -0.0009207502147084332,
+        "vol_mean": 0.021513587293992657,
+        "trend_mean": -0.01929444162853269
+      },
+      {
+        "regime": 1,
+        "share": 0.382,
+        "ret_mean_bar": -0.000115441159518886,
+        "vol_mean": 0.012561004860256728,
+        "trend_mean": -0.01247375033551813
+      },
+      {
+        "regime": 4,
+        "share": 0.114,
+        "ret_mean_bar": 0.0006336889412192085,
+        "vol_mean": 0.03343454927579091,
+        "trend_mean": 0.10675791560684023
+      },
+      {
+        "regime": 3,
+        "share": 0.035,
+        "ret_mean_bar": 0.007425953335221619,
+        "vol_mean": 0.06699185203860279,
+        "trend_mean": 0.1259046954578796
+      }
+    ]
+  },
+  "regime_label_transition_matrix": [
+    [
+      0.608,
+      0.223,
+      0.17
+    ],
+    [
+      0.317,
+      0.382,
+      0.301
+    ],
+    [
+      0.21,
+      0.255,
+      0.535
+    ]
+  ],
+  "regime_label_persistence_diag": [
+    0.608,
+    0.382,
+    0.535
+  ],
+  "regime_label_fwd_ret_bar": {
+    "0": 9.7e-05,
+    "1": -0.000245,
+    "2": -0.000414
+  },
+  "note": "regime_label[t]->ret[t+1] is DESCRIPTIVE co-occurrence, not a validated predictor.",
+  "_elapsed_s": 35.2
+}

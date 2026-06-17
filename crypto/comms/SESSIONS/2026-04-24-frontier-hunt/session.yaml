@@ -1,0 +1,68 @@
+session_id: 2026-04-24-frontier-hunt
+started: 2026-04-24T16:30:00Z
+ended: 2026-04-25T13:00:00Z
+status: ended                                  # turn 028: Bravo final closeout + Family F new probe complete; session formally closed
+purpose: >
+  Find new crypto wealth frontiers — OLD and NEW — using the full v4 project
+  pipelines built to date. Targets (opportunity maximizers, not hard DQ):
+    - 1-5% daily ROI, OR
+    - 10X / 100X per year
+  Goals are target preferences, not hard constraints. SOTA ideas that require
+  leverage / off-venue / new infrastructure should be evaluated on merit,
+  noting the constraint but not disqualifying.
+
+  Work HETEROGENEOUSLY — Alpha carries project history, Bravo comes fresh.
+  Agents should NOT converge prematurely. First-principles required for
+  proposals of NEW frontier ideas.
+
+agents:
+  - name: Alpha
+    role: Historian-Researcher
+    specialization:
+      - Project context (2+ years of prior work, honest post-audit metrics)
+      - Asymmetric strategy frontier (breakout, vol_expansion, fund_filter)
+      - Paranoid validation defaults (shuffle controls, exit-order audits)
+      - xsec ranker family + meta-labeler gating
+    jsonl_path: "C:/Users/karab/.claude/projects/c--Users-karab-Documents-coding-v4-crypto-stystem/ad6bf44a-83df-464a-a6c8-f4f453ea23ed.jsonl"
+    joined: 2026-04-24T16:30:00Z
+    decision_weight: equal
+
+  - name: Bravo
+    role: Fresh-Eyes Explorer
+    specialization:
+      - First-principles ideation, mechanism-first framing
+      - Assumption-challenge on project defaults
+      - Heterogeneous angle vs Alpha's context-heavy defaults
+      - Cycle/macro regime + meta-layer sizing gates (Bravo-declared focus)
+    jsonl_path: "C:/Users/karab/.claude/projects/c--Users-karab-Documents-coding-v4-crypto-stystem/2a5c1f59-e323-48e9-9e9e-7d4170a43eaa.jsonl"
+    joined: 2026-04-24T17:00:00Z
+    status: joined
+    decision_weight: equal
+
+current_turn: 28
+next_up: null  # session ended
+
+constitution:
+  - paranoid_defaults_on_review: true
+  - max_debate_rounds_before_human: 3
+  - disagreement_protocol: REVIEW -> counter-REVIEW -> CONCEDE or BLOCK-to-human
+  - heterogeneity_mandate: true               # agents should NOT converge prematurely
+  - opportunity_over_constraint: true         # SPOT-only / no-leverage are preferences, not hard DQ
+  - first_principles_required: true           # NEW ideas must be reasoned first-principles
+  - anchor_avoidance: true                    # agents withhold their own brainstorms until peer has independently produced theirs
+  - human_summary_in_every_turn: true         # end-of-turn plain-English status for user (turn 005, user directive)
+  - read_peer_human_side_channel: true        # turn 005 user directive + PROTOCOL §1 v2.1: VERIFY must read human-to-peer msgs in peer's JSONL between peer's last reply and current, since turn marker summarizes but JSONL has full provenance
+  - infrastructure_preference: minimize_non_cex_infra  # turn 005 v2: CEX-Binance infra OK; limit DeFi/on-chain/non-Binance exchanges
+  - trading_constraints:                      # turn 005 v2 user clarification
+      spot_only: true                          # directional exposure in spot only
+      no_leverage: true                        # never use leverage
+      no_futures_directional: true             # no long/short perps, no options
+      futures_data_exploitable: true           # funding/OI/liq/basis OK as signals/sizing inputs
+  - airdrop_automation_gate: true             # turn 005 v2: airdrop open contingent on automation feasibility
+  - strat_test_min_universe: U50_balanced     # turn 010.5 (user): all strategy tests must cover full UNIVERSE_50_LIQUID balanced per-asset; partial universe is MVP-only and must be labeled as such
+  - user_decisions_Q6_to_Q11_defaults: true   # turn 014: user accepted all defaults
+                                              #   Q6=30d max hold, Q7=TrackA first, Q8=multi-CEX scrapers,
+                                              #   Q9=HODLer yes + Megadrop no, Q10=TRX as xsec feature,
+                                              #   Q11=p11 Announcement-Volatility as next build
+  - D6_subday_dimension: acknowledged         # turn 014: user added sub-day focus directive; 2 probes run,
+                                              # both fail paranoid OOS. Event-triggered path only in 2025-2026 regime.

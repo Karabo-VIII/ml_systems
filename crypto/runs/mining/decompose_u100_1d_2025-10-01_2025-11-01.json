@@ -1,0 +1,3245 @@
+{
+  "cadence": "1d",
+  "start": "2025-10-01",
+  "end": "2025-11-01",
+  "universe": "u100",
+  "n_assets": 97,
+  "top_performers": [
+    {
+      "sym": "ZECUSDT",
+      "move_pct": 241.72
+    },
+    {
+      "sym": "DASHUSDT",
+      "move_pct": 136.62
+    },
+    {
+      "sym": "ZENUSDT",
+      "move_pct": 115.44
+    },
+    {
+      "sym": "STOUSDT",
+      "move_pct": 102.77
+    },
+    {
+      "sym": "VIRTUALUSDT",
+      "move_pct": 68.72
+    },
+    {
+      "sym": "TAOUSDT",
+      "move_pct": 55.52
+    },
+    {
+      "sym": "PROMUSDT",
+      "move_pct": 9.69
+    },
+    {
+      "sym": "JSTUSDT",
+      "move_pct": 6.84
+    },
+    {
+      "sym": "BNBUSDT",
+      "move_pct": 6.72
+    },
+    {
+      "sym": "TRUMPUSDT",
+      "move_pct": 2.17
+    },
+    {
+      "sym": "XUSDUSDT",
+      "move_pct": 0.11
+    },
+    {
+      "sym": "BCHUSDT",
+      "move_pct": -6.44
+    },
+    {
+      "sym": "BTCUSDT",
+      "move_pct": -7.09
+    },
+    {
+      "sym": "ALICEUSDT",
+      "move_pct": -8.99
+    },
+    {
+      "sym": "ETHUSDT",
+      "move_pct": -10.78
+    },
+    {
+      "sym": "LTCUSDT",
+      "move_pct": -11.92
+    },
+    {
+      "sym": "HBARUSDT",
+      "move_pct": -12.33
+    },
+    {
+      "sym": "TRXUSDT",
+      "move_pct": -12.91
+    },
+    {
+      "sym": "API3USDT",
+      "move_pct": -14.23
+    },
+    {
+      "sym": "XRPUSDT",
+      "move_pct": -14.92
+    }
+  ],
+  "bottom_performers": [
+    {
+      "sym": "SAGAUSDT",
+      "move_pct": -53.65
+    },
+    {
+      "sym": "FETUSDT",
+      "move_pct": -56.25
+    },
+    {
+      "sym": "DOGSUSDT",
+      "move_pct": -57.03
+    },
+    {
+      "sym": "GIGGLEUSDT",
+      "move_pct": -59.89
+    },
+    {
+      "sym": "XPLUSDT",
+      "move_pct": -67.88
+    }
+  ],
+  "feature_cross_asset": [
+    {
+      "feature": "xd_btc_return",
+      "family": "cross_asset",
+      "title": "BTC return",
+      "cross_asset_median": -0.07585,
+      "cross_asset_std": 0.13029,
+      "n_assets": 97,
+      "highest": [
+        "QIUSDT(0.226)",
+        "BLURUSDT(0.193)",
+        "SPKUSDT(0.189)"
+      ],
+      "lowest": [
+        "ICPUSDT(-0.306)",
+        "DASHUSDT(-0.35)",
+        "MOVRUSDT(-0.468)"
+      ]
+    },
+    {
+      "feature": "xd_btc_volatility",
+      "family": "cross_asset",
+      "title": "BTC volatility",
+      "cross_asset_median": 0.03575,
+      "cross_asset_std": 0.11388,
+      "n_assets": 97,
+      "highest": [
+        "BOMEUSDT(0.347)",
+        "XUSDUSDT(0.287)",
+        "DOGSUSDT(0.24)"
+      ],
+      "lowest": [
+        "QIUSDT(-0.158)",
+        "LDOUSDT(-0.209)",
+        "PHBUSDT(-0.224)"
+      ]
+    },
+    {
+      "feature": "xd_funding_spread",
+      "family": "cross_asset",
+      "title": "Funding spread",
+      "cross_asset_median": -0.04196,
+      "cross_asset_std": 0.13764,
+      "n_assets": 97,
+      "highest": [
+        "RENDERUSDT(0.285)",
+        "ENAUSDT(0.281)",
+        "PLUMEUSDT(0.263)"
+      ],
+      "lowest": [
+        "ZBTUSDT(-0.335)",
+        "EIGENUSDT(-0.361)",
+        "WIFUSDT(-0.498)"
+      ]
+    },
+    {
+      "feature": "xd_cross_return_mean",
+      "family": "cross_asset",
+      "title": "Cross return mean",
+      "cross_asset_median": -0.0192,
+      "cross_asset_std": 0.09448,
+      "n_assets": 97,
+      "highest": [
+        "ASTERUSDT(0.163)",
+        "XPLUSDT(0.16)",
+        "STOUSDT(0.139)"
+      ],
+      "lowest": [
+        "DUSDT(-0.251)",
+        "PROMUSDT(-0.304)",
+        "GTCUSDT(-0.316)"
+      ]
+    },
+    {
+      "feature": "xd_cross_vol_mean",
+      "family": "cross_asset",
+      "title": "Cross volatility mean",
+      "cross_asset_median": -0.42428,
+      "cross_asset_std": 0.13169,
+      "n_assets": 97,
+      "highest": [
+        "ZBTUSDT(0.24)",
+        "XUSDUSDT(0.018)",
+        "SPKUSDT(-0.0892)"
+      ],
+      "lowest": [
+        "API3USDT(-0.606)",
+        "PHBUSDT(-0.635)",
+        "TRXUSDT(-0.66)"
+      ]
+    },
+    {
+      "feature": "stbl_total_zscore_30d",
+      "family": "cross_asset",
+      "title": "Stablecoin supply z-score (30d)",
+      "cross_asset_median": -0.39225,
+      "cross_asset_std": 0.06878,
+      "n_assets": 97,
+      "highest": [
+        "AAVEUSDT(-0.392)",
+        "ADAUSDT(-0.392)",
+        "ALGOUSDT(-0.392)"
+      ],
+      "lowest": [
+        "ASTERUSDT(-0.627)",
+        "ZBTUSDT(-0.76)",
+        "GIGGLEUSDT(-0.923)"
+      ]
+    },
+    {
+      "feature": "stbl_total_delta_7d_pct",
+      "family": "cross_asset",
+      "title": "Stablecoin supply 7d change %",
+      "cross_asset_median": 0.0094,
+      "cross_asset_std": 0.00091,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0.0094)",
+        "ALICEUSDT(0.0094)",
+        "API3USDT(0.0094)"
+      ],
+      "lowest": [
+        "ASTERUSDT(0.00806)",
+        "ZBTUSDT(0.00524)",
+        "GIGGLEUSDT(0.00145)"
+      ]
+    },
+    {
+      "feature": "stbl_total_delta_30d_pct",
+      "family": "cross_asset",
+      "title": "Stablecoin supply 30d change %",
+      "cross_asset_median": 0.0531,
+      "cross_asset_std": 0.00139,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0.0531)",
+        "ALICEUSDT(0.0531)",
+        "API3USDT(0.0531)"
+      ],
+      "lowest": [
+        "ASTERUSDT(0.0523)",
+        "ZBTUSDT(0.0475)",
+        "GIGGLEUSDT(0.0405)"
+      ]
+    },
+    {
+      "feature": "stbl_usdt_zscore_30d",
+      "family": "cross_asset",
+      "title": "USDT supply z-score (30d)",
+      "cross_asset_median": -0.0872,
+      "cross_asset_std": 0.05292,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(-0.0872)",
+        "AAVEUSDT(-0.0872)",
+        "ADAUSDT(-0.0872)"
+      ],
+      "lowest": [
+        "ASTERUSDT(-0.162)",
+        "ZBTUSDT(-0.39)",
+        "GIGGLEUSDT(-0.512)"
+      ]
+    },
+    {
+      "feature": "stbl_usdt_delta_7d_pct",
+      "family": "cross_asset",
+      "title": "USDT supply 7d change %",
+      "cross_asset_median": 0.01186,
+      "cross_asset_std": 0.00063,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0.0119)",
+        "AAVEUSDT(0.0119)",
+        "ADAUSDT(0.0119)"
+      ],
+      "lowest": [
+        "ASTERUSDT(0.0117)",
+        "ZBTUSDT(0.00954)",
+        "GIGGLEUSDT(0.00605)"
+      ]
+    },
+    {
+      "feature": "stbl_usdc_zscore_30d",
+      "family": "cross_asset",
+      "title": "USDC supply z-score (30d)",
+      "cross_asset_median": -0.00966,
+      "cross_asset_std": 0.05944,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(-0.00966)",
+        "AAVEUSDT(-0.00966)",
+        "ADAUSDT(-0.00966)"
+      ],
+      "lowest": [
+        "ASTERUSDT(-0.234)",
+        "ZBTUSDT(-0.314)",
+        "GIGGLEUSDT(-0.468)"
+      ]
+    },
+    {
+      "feature": "stbl_usde_zscore_30d",
+      "family": "cross_asset",
+      "title": "USDe supply z-score (30d)",
+      "cross_asset_median": -0.82172,
+      "cross_asset_std": 0.08798,
+      "n_assets": 97,
+      "highest": [
+        "GIGGLEUSDT(-0.169)",
+        "ZBTUSDT(-0.285)",
+        "1000SATSUSDT(-0.822)"
+      ],
+      "lowest": [
+        "ZENUSDT(-0.822)",
+        "ZROUSDT(-0.822)",
+        "ASTERUSDT(-1.04)"
+      ]
+    },
+    {
+      "feature": "stbl_dai_zscore_30d",
+      "family": "cross_asset",
+      "title": "DAI supply z-score (30d)",
+      "cross_asset_median": -0.10949,
+      "cross_asset_std": 0.04766,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(-0.109)",
+        "AAVEUSDT(-0.109)",
+        "ADAUSDT(-0.109)"
+      ],
+      "lowest": [
+        "ASTERUSDT(-0.118)",
+        "ZBTUSDT(-0.158)",
+        "GIGGLEUSDT(-0.579)"
+      ]
+    },
+    {
+      "feature": "stbl_stable_shock",
+      "family": "cross_asset",
+      "title": "Stablecoin supply shock",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.0,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0)",
+        "AAVEUSDT(0)",
+        "ADAUSDT(0)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "stbl_stable_crash",
+      "family": "cross_asset",
+      "title": "Stablecoin supply crash",
+      "cross_asset_median": 0.0625,
+      "cross_asset_std": 0.00643,
+      "n_assets": 97,
+      "highest": [
+        "ASTERUSDT(0.0741)",
+        "1000SATSUSDT(0.0625)",
+        "AAVEUSDT(0.0625)"
+      ],
+      "lowest": [
+        "ZENUSDT(0.0625)",
+        "ZROUSDT(0.0625)",
+        "GIGGLEUSDT(0)"
+      ]
+    },
+    {
+      "feature": "stbl_stable_shock_strong",
+      "family": "cross_asset",
+      "title": "Stablecoin strong supply shock",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.0,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0)",
+        "AAVEUSDT(0)",
+        "ADAUSDT(0)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "stbl_usdt_shock",
+      "family": "cross_asset",
+      "title": "USDT supply shock",
+      "cross_asset_median": 0.03125,
+      "cross_asset_std": 0.00449,
+      "n_assets": 97,
+      "highest": [
+        "ASTERUSDT(0.037)",
+        "1000SATSUSDT(0.0312)",
+        "AAVEUSDT(0.0312)"
+      ],
+      "lowest": [
+        "ZROUSDT(0.0312)",
+        "GIGGLEUSDT(0)",
+        "ZBTUSDT(0)"
+      ]
+    },
+    {
+      "feature": "stbl_compound_shock",
+      "family": "cross_asset",
+      "title": "Compound stablecoin shock",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.0,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0)",
+        "AAVEUSDT(0)",
+        "ADAUSDT(0)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "etf_btc_etf_total_usdm",
+      "family": "cross_asset",
+      "title": "BTC ETF AUM (USD millions)",
+      "cross_asset_median": 164.5,
+      "cross_asset_std": 37.63395,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(164)",
+        "AAVEUSDT(164)",
+        "ADAUSDT(164)"
+      ],
+      "lowest": [
+        "ASTERUSDT(57.8)",
+        "GIGGLEUSDT(-65.9)",
+        "ZBTUSDT(-113)"
+      ]
+    },
+    {
+      "feature": "etf_btc_etf_total_z30",
+      "family": "cross_asset",
+      "title": "BTC ETF AUM z-score (30-bar)",
+      "cross_asset_median": 0.00838,
+      "cross_asset_std": 0.09808,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0.00838)",
+        "AAVEUSDT(0.00838)",
+        "ADAUSDT(0.00838)"
+      ],
+      "lowest": [
+        "ASTERUSDT(-0.344)",
+        "GIGGLEUSDT(-0.538)",
+        "ZBTUSDT(-0.725)"
+      ]
+    },
+    {
+      "feature": "etf_btc_etf_total_7d_z",
+      "family": "cross_asset",
+      "title": "BTC ETF AUM z-score (7-day)",
+      "cross_asset_median": 0.14979,
+      "cross_asset_std": 0.16323,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0.15)",
+        "AAVEUSDT(0.15)",
+        "ADAUSDT(0.15)"
+      ],
+      "lowest": [
+        "ASTERUSDT(0.0212)",
+        "GIGGLEUSDT(-0.807)",
+        "ZBTUSDT(-1.16)"
+      ]
+    },
+    {
+      "feature": "etf_btc_etf_inflow_shock",
+      "family": "cross_asset",
+      "title": "BTC ETF inflow shock",
+      "cross_asset_median": 0.125,
+      "cross_asset_std": 0.01842,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0.125)",
+        "AAVEUSDT(0.125)",
+        "ADAUSDT(0.125)"
+      ],
+      "lowest": [
+        "ASTERUSDT(0.0741)",
+        "GIGGLEUSDT(0)",
+        "ZBTUSDT(0)"
+      ]
+    },
+    {
+      "feature": "etf_btc_etf_outflow_shock",
+      "family": "cross_asset",
+      "title": "BTC ETF outflow shock",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.0,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0)",
+        "AAVEUSDT(0)",
+        "ADAUSDT(0)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "etf_btc_etf_mega_inflow",
+      "family": "cross_asset",
+      "title": "BTC ETF mega inflow",
+      "cross_asset_median": 0.21875,
+      "cross_asset_std": 0.03278,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0.219)",
+        "AAVEUSDT(0.219)",
+        "ADAUSDT(0.219)"
+      ],
+      "lowest": [
+        "ASTERUSDT(0.111)",
+        "GIGGLEUSDT(0)",
+        "ZBTUSDT(0)"
+      ]
+    },
+    {
+      "feature": "etf_btc_etf_mega_outflow",
+      "family": "cross_asset",
+      "title": "BTC ETF mega outflow",
+      "cross_asset_median": 0.03125,
+      "cross_asset_std": 0.00453,
+      "n_assets": 97,
+      "highest": [
+        "ZBTUSDT(0.0625)",
+        "ASTERUSDT(0.037)",
+        "1000SATSUSDT(0.0312)"
+      ],
+      "lowest": [
+        "ZENUSDT(0.0312)",
+        "ZROUSDT(0.0312)",
+        "GIGGLEUSDT(0)"
+      ]
+    },
+    {
+      "feature": "etf_eth_etf_total_usdm",
+      "family": "cross_asset",
+      "title": "ETH ETF AUM (USD millions)",
+      "cross_asset_median": 5.09375,
+      "cross_asset_std": 9.40619,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(5.09)",
+        "AAVEUSDT(5.09)",
+        "ADAUSDT(5.09)"
+      ],
+      "lowest": [
+        "ASTERUSDT(-30.4)",
+        "GIGGLEUSDT(-33.1)",
+        "ZBTUSDT(-73)"
+      ]
+    },
+    {
+      "feature": "etf_eth_etf_total_z30",
+      "family": "cross_asset",
+      "title": "ETH ETF AUM z-score (30-bar)",
+      "cross_asset_median": -0.22008,
+      "cross_asset_std": 0.03415,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(-0.22)",
+        "AAVEUSDT(-0.22)",
+        "ADAUSDT(-0.22)"
+      ],
+      "lowest": [
+        "GIGGLEUSDT(-0.308)",
+        "ASTERUSDT(-0.362)",
+        "ZBTUSDT(-0.517)"
+      ]
+    },
+    {
+      "feature": "etf_eth_etf_inflow_shock",
+      "family": "cross_asset",
+      "title": "ETH ETF inflow shock",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.0,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0)",
+        "AAVEUSDT(0)",
+        "ADAUSDT(0)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "etf_eth_etf_outflow_shock",
+      "family": "cross_asset",
+      "title": "ETH ETF outflow shock",
+      "cross_asset_median": 0.03125,
+      "cross_asset_std": 0.00449,
+      "n_assets": 97,
+      "highest": [
+        "ASTERUSDT(0.037)",
+        "1000SATSUSDT(0.0312)",
+        "AAVEUSDT(0.0312)"
+      ],
+      "lowest": [
+        "ZROUSDT(0.0312)",
+        "GIGGLEUSDT(0)",
+        "ZBTUSDT(0)"
+      ]
+    },
+    {
+      "feature": "etf_any_inflow_shock",
+      "family": "cross_asset",
+      "title": "Any-ETF inflow shock",
+      "cross_asset_median": 0.125,
+      "cross_asset_std": 0.01842,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0.125)",
+        "AAVEUSDT(0.125)",
+        "ADAUSDT(0.125)"
+      ],
+      "lowest": [
+        "ASTERUSDT(0.0741)",
+        "GIGGLEUSDT(0)",
+        "ZBTUSDT(0)"
+      ]
+    },
+    {
+      "feature": "etf_both_inflow_shock",
+      "family": "cross_asset",
+      "title": "Both-ETF inflow shock",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.0,
+      "n_assets": 97,
+      "highest": [
+        "1000SATSUSDT(0)",
+        "AAVEUSDT(0)",
+        "ADAUSDT(0)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "te_in",
+      "family": "cross_asset",
+      "title": "Transfer entropy in",
+      "cross_asset_median": 0.12512,
+      "cross_asset_std": 0.01748,
+      "n_assets": 71,
+      "highest": [
+        "LTCUSDT(0.174)",
+        "BTCUSDT(0.168)",
+        "NEARUSDT(0.165)"
+      ],
+      "lowest": [
+        "FETUSDT(0.0965)",
+        "RENDERUSDT(0.0959)",
+        "ZROUSDT(0.0954)"
+      ]
+    },
+    {
+      "feature": "te_out",
+      "family": "cross_asset",
+      "title": "Transfer entropy out",
+      "cross_asset_median": 0.12535,
+      "cross_asset_std": 0.01696,
+      "n_assets": 71,
+      "highest": [
+        "LTCUSDT(0.173)",
+        "XRPUSDT(0.167)",
+        "SOLUSDT(0.167)"
+      ],
+      "lowest": [
+        "PENGUUSDT(0.102)",
+        "ALGOUSDT(0.1)",
+        "ENAUSDT(0.1)"
+      ]
+    },
+    {
+      "feature": "te_in_btc",
+      "family": "cross_asset",
+      "title": "Transfer entropy in (BTC)",
+      "cross_asset_median": 0.06987,
+      "cross_asset_std": 0.01785,
+      "n_assets": 71,
+      "highest": [
+        "XLMUSDT(0.108)",
+        "TONUSDT(0.105)",
+        "TIAUSDT(0.0949)"
+      ],
+      "lowest": [
+        "ZENUSDT(0.0422)",
+        "INJUSDT(0.0398)",
+        "BTCUSDT(0)"
+      ]
+    },
+    {
+      "feature": "te_out_btc",
+      "family": "cross_asset",
+      "title": "Transfer entropy out (BTC)",
+      "cross_asset_median": 0.08295,
+      "cross_asset_std": 0.02455,
+      "n_assets": 71,
+      "highest": [
+        "CHZUSDT(0.143)",
+        "DYDXUSDT(0.141)",
+        "LTCUSDT(0.134)"
+      ],
+      "lowest": [
+        "DASHUSDT(0.0443)",
+        "INJUSDT(0.0429)",
+        "BTCUSDT(0)"
+      ]
+    },
+    {
+      "feature": "te_imb",
+      "family": "cross_asset",
+      "title": "Transfer entropy imbalance",
+      "cross_asset_median": 0.00021,
+      "cross_asset_std": 0.01967,
+      "n_assets": 71,
+      "highest": [
+        "NEARUSDT(0.044)",
+        "ARKMUSDT(0.0404)",
+        "BTCUSDT(0.0366)"
+      ],
+      "lowest": [
+        "CHZUSDT(-0.0358)",
+        "AAVEUSDT(-0.0387)",
+        "UNIUSDT(-0.0524)"
+      ]
+    },
+    {
+      "feature": "te_btc_imb",
+      "family": "cross_asset",
+      "title": "Transfer entropy imbalance (BTC pair)",
+      "cross_asset_median": -0.01429,
+      "cross_asset_std": 0.0225,
+      "n_assets": 71,
+      "highest": [
+        "TONUSDT(0.053)",
+        "TRXUSDT(0.033)",
+        "POLUSDT(0.0259)"
+      ],
+      "lowest": [
+        "XUSDUSDT(-0.0552)",
+        "ATOMUSDT(-0.0584)",
+        "DYDXUSDT(-0.0652)"
+      ]
+    },
+    {
+      "feature": "xrel_rv_bpv_5m_xrank",
+      "family": "cross_asset",
+      "title": "BPV (5m) cross-rank",
+      "cross_asset_median": 0.54362,
+      "cross_asset_std": 0.25978,
+      "n_assets": 77,
+      "highest": [
+        "GIGGLEUSDT(0.994)",
+        "ZECUSDT(0.961)",
+        "ZENUSDT(0.935)"
+      ],
+      "lowest": [
+        "TRXUSDT(0.0446)",
+        "JSTUSDT(0.029)",
+        "XUSDUSDT(0.0133)"
+      ]
+    },
+    {
+      "feature": "xrel_rv_bpv_5m_xratio",
+      "family": "cross_asset",
+      "title": "BPV (5m) cross-ratio",
+      "cross_asset_median": 0.73022,
+      "cross_asset_std": 1.32858,
+      "n_assets": 77,
+      "highest": [
+        "GIGGLEUSDT(9.6)",
+        "ZECUSDT(5.41)",
+        "ZBTUSDT(4.04)"
+      ],
+      "lowest": [
+        "TRXUSDT(0.0659)",
+        "JSTUSDT(0.0388)",
+        "XUSDUSDT(0.000621)"
+      ]
+    },
+    {
+      "feature": "xrel_rv_rv_5m_xrank",
+      "family": "cross_asset",
+      "title": "RV (5m) cross-rank",
+      "cross_asset_median": 0.55305,
+      "cross_asset_std": 0.25995,
+      "n_assets": 77,
+      "highest": [
+        "GIGGLEUSDT(0.991)",
+        "ZECUSDT(0.956)",
+        "ZENUSDT(0.924)"
+      ],
+      "lowest": [
+        "TRXUSDT(0.0475)",
+        "JSTUSDT(0.0286)",
+        "XUSDUSDT(0.0133)"
+      ]
+    },
+    {
+      "feature": "xrel_rv_rv_5m_xratio",
+      "family": "cross_asset",
+      "title": "RV (5m) cross-ratio",
+      "cross_asset_median": 0.71041,
+      "cross_asset_std": 1.33166,
+      "n_assets": 77,
+      "highest": [
+        "GIGGLEUSDT(9.47)",
+        "ZECUSDT(5.48)",
+        "ZBTUSDT(4.19)"
+      ],
+      "lowest": [
+        "TRXUSDT(0.0682)",
+        "JSTUSDT(0.0433)",
+        "XUSDUSDT(0.000701)"
+      ]
+    },
+    {
+      "feature": "xrel_hbr_eta_total_xrank",
+      "family": "cross_asset",
+      "title": "HBR excitability cross-rank",
+      "cross_asset_median": 0.49754,
+      "cross_asset_std": 0.23975,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(0.985)",
+        "BTCUSDT(0.964)",
+        "BNBUSDT(0.927)"
+      ],
+      "lowest": [
+        "SHIBUSDT(0.112)",
+        "ENJUSDT(0.0916)",
+        "XUSDUSDT(0.0323)"
+      ]
+    },
+    {
+      "feature": "xrel_hbr_eta_total_xratio",
+      "family": "cross_asset",
+      "title": "HBR excitability cross-ratio",
+      "cross_asset_median": 1.00452,
+      "cross_asset_std": 0.08986,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(1.14)",
+        "BTCUSDT(1.13)",
+        "GIGGLEUSDT(1.13)"
+      ],
+      "lowest": [
+        "SHIBUSDT(0.863)",
+        "ENJUSDT(0.819)",
+        "XUSDUSDT(0.485)"
+      ]
+    },
+    {
+      "feature": "xrel_hbr_n_trades_xrank",
+      "family": "cross_asset",
+      "title": "HBR trade-count cross-rank",
+      "cross_asset_median": 0.50873,
+      "cross_asset_std": 0.27188,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(0.993)",
+        "BTCUSDT(0.978)",
+        "BNBUSDT(0.969)"
+      ],
+      "lowest": [
+        "DUSDT(0.072)",
+        "JSTUSDT(0.0495)",
+        "XUSDUSDT(0.0133)"
+      ]
+    },
+    {
+      "feature": "xrel_hbr_n_trades_xratio",
+      "family": "cross_asset",
+      "title": "HBR trade-count cross-ratio",
+      "cross_asset_median": 0.44137,
+      "cross_asset_std": 1.80174,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(10.3)",
+        "BTCUSDT(8.39)",
+        "BNBUSDT(6.73)"
+      ],
+      "lowest": [
+        "DUSDT(0.0608)",
+        "JSTUSDT(0.048)",
+        "XUSDUSDT(0.00473)"
+      ]
+    },
+    {
+      "feature": "xrel_liq_long_usd_xrank",
+      "family": "cross_asset",
+      "title": "Long-liquidation cross-rank",
+      "cross_asset_median": 0.40637,
+      "cross_asset_std": 0.22087,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(0.995)",
+        "ETHUSDT(0.991)",
+        "SOLUSDT(0.973)"
+      ],
+      "lowest": [
+        "RENDERUSDT(0.322)",
+        "SUPERUSDT(0.322)",
+        "TREEUSDT(0.322)"
+      ]
+    },
+    {
+      "feature": "xrel_liq_long_usd_xratio",
+      "family": "cross_asset",
+      "title": "Long-liquidation cross-ratio",
+      "cross_asset_median": 0.0027,
+      "cross_asset_std": 4.02121,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(25.5)",
+        "ETHUSDT(23.3)",
+        "SOLUSDT(8.52)"
+      ],
+      "lowest": [
+        "RENDERUSDT(0)",
+        "SUPERUSDT(0)",
+        "TREEUSDT(0)"
+      ]
+    },
+    {
+      "feature": "xrel_wh_whale_net_usd_xrank",
+      "family": "cross_asset",
+      "title": "Whale net cross-rank",
+      "cross_asset_median": 0.51253,
+      "cross_asset_std": 0.08908,
+      "n_assets": 77,
+      "highest": [
+        "ZECUSDT(0.726)",
+        "LTCUSDT(0.664)",
+        "ZENUSDT(0.631)"
+      ],
+      "lowest": [
+        "XUSDUSDT(0.311)",
+        "PEPEUSDT(0.285)",
+        "GIGGLEUSDT(0.115)"
+      ]
+    },
+    {
+      "feature": "xrel_wh_whale_net_usd_xratio",
+      "family": "cross_asset",
+      "title": "Whale net cross-ratio",
+      "cross_asset_median": 0.00342,
+      "cross_asset_std": 0.659,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(4.14)",
+        "BNBUSDT(1.48)",
+        "BCHUSDT(1.29)"
+      ],
+      "lowest": [
+        "ASTERUSDT(-1.44)",
+        "DOGEUSDT(-1.48)",
+        "SOLUSDT(-1.68)"
+      ]
+    },
+    {
+      "feature": "norm_funding",
+      "family": "derivatives",
+      "title": "Funding rate",
+      "cross_asset_median": 0.01239,
+      "cross_asset_std": 0.10822,
+      "n_assets": 97,
+      "highest": [
+        "BIOUSDT(0.362)",
+        "PLUMEUSDT(0.327)",
+        "API3USDT(0.31)"
+      ],
+      "lowest": [
+        "TONUSDT(-0.129)",
+        "DYDXUSDT(-0.173)",
+        "WIFUSDT(-0.2)"
+      ]
+    },
+    {
+      "feature": "norm_oi_change",
+      "family": "derivatives",
+      "title": "OI change",
+      "cross_asset_median": -0.01785,
+      "cross_asset_std": 0.11965,
+      "n_assets": 97,
+      "highest": [
+        "TIAUSDT(0.244)",
+        "WUSDT(0.231)",
+        "UNIUSDT(0.226)"
+      ],
+      "lowest": [
+        "DASHUSDT(-0.332)",
+        "SPKUSDT(-0.341)",
+        "SHIBUSDT(-0.356)"
+      ]
+    },
+    {
+      "feature": "norm_oi_price_divergence",
+      "family": "derivatives",
+      "title": "OI-price divergence",
+      "cross_asset_median": 0.33116,
+      "cross_asset_std": 0.23654,
+      "n_assets": 97,
+      "highest": [
+        "BCHUSDT(0.806)",
+        "WIFUSDT(0.797)",
+        "ALICEUSDT(0.74)"
+      ],
+      "lowest": [
+        "ETHUSDT(-0.273)",
+        "XPLUSDT(-0.358)",
+        "ZECUSDT(-0.379)"
+      ]
+    },
+    {
+      "feature": "bs_basis_pct",
+      "family": "derivatives",
+      "title": "Futures basis %",
+      "cross_asset_median": -0.00518,
+      "cross_asset_std": 0.02601,
+      "n_assets": 75,
+      "highest": [
+        "BIOUSDT(0.0337)",
+        "ARUSDT(0.0325)",
+        "BCHUSDT(0.0265)"
+      ],
+      "lowest": [
+        "TONUSDT(-0.0625)",
+        "APTUSDT(-0.0627)",
+        "DUSDT(-0.118)"
+      ]
+    },
+    {
+      "feature": "bs_basis_z30",
+      "family": "derivatives",
+      "title": "Basis z-score",
+      "cross_asset_median": -0.00528,
+      "cross_asset_std": 0.14128,
+      "n_assets": 75,
+      "highest": [
+        "TAOUSDT(0.464)",
+        "PENGUUSDT(0.384)",
+        "BCHUSDT(0.28)"
+      ],
+      "lowest": [
+        "LINKUSDT(-0.245)",
+        "ARBUSDT(-0.265)",
+        "CRVUSDT(-0.326)"
+      ]
+    },
+    {
+      "feature": "bs_basis_delta_1d",
+      "family": "derivatives",
+      "title": "Basis 1-day change",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.00587,
+      "n_assets": 75,
+      "highest": [
+        "DEXEUSDT(0.0255)",
+        "XLMUSDT(0.00951)",
+        "ICPUSDT(0.00785)"
+      ],
+      "lowest": [
+        "DUSDT(-0.0134)",
+        "PROMUSDT(-0.0137)",
+        "MOVRUSDT(-0.0143)"
+      ]
+    },
+    {
+      "feature": "bs_basis_delta_3d",
+      "family": "derivatives",
+      "title": "Basis 3-day change",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.01432,
+      "n_assets": 75,
+      "highest": [
+        "DEXEUSDT(0.0243)",
+        "TREEUSDT(0.0205)",
+        "TAOUSDT(0.0194)"
+      ],
+      "lowest": [
+        "DASHUSDT(-0.0343)",
+        "MOVRUSDT(-0.0425)",
+        "BLURUSDT(-0.0711)"
+      ]
+    },
+    {
+      "feature": "bs_basis_xsec_z",
+      "family": "derivatives",
+      "title": "Basis cross-section z",
+      "cross_asset_median": 0.0212,
+      "cross_asset_std": 0.13304,
+      "n_assets": 75,
+      "highest": [
+        "BIOUSDT(0.292)",
+        "ARUSDT(0.287)",
+        "PNUTUSDT(0.236)"
+      ],
+      "lowest": [
+        "ZROUSDT(-0.296)",
+        "APTUSDT(-0.309)",
+        "DUSDT(-0.313)"
+      ]
+    },
+    {
+      "feature": "bs_basis_bull_shock",
+      "family": "derivatives",
+      "title": "Basis bull shock",
+      "cross_asset_median": 0.03125,
+      "cross_asset_std": 0.03241,
+      "n_assets": 75,
+      "highest": [
+        "ENAUSDT(0.125)",
+        "PNUTUSDT(0.125)",
+        "ENJUSDT(0.0938)"
+      ],
+      "lowest": [
+        "XUSDUSDT(0)",
+        "ZECUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "bs_basis_bear_shock",
+      "family": "derivatives",
+      "title": "Basis bear shock",
+      "cross_asset_median": 0.03125,
+      "cross_asset_std": 0.03457,
+      "n_assets": 75,
+      "highest": [
+        "DUSDT(0.125)",
+        "XPLUSDT(0.125)",
+        "APTUSDT(0.0938)"
+      ],
+      "lowest": [
+        "SUPERUSDT(0)",
+        "TRUMPUSDT(0)",
+        "ZECUSDT(0)"
+      ]
+    },
+    {
+      "feature": "bs_basis_panic",
+      "family": "derivatives",
+      "title": "Basis panic",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.03136,
+      "n_assets": 75,
+      "highest": [
+        "BLURUSDT(0.156)",
+        "DUSDT(0.125)",
+        "ENJUSDT(0.125)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "bs_basis_frenzy",
+      "family": "derivatives",
+      "title": "Basis frenzy",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.00868,
+      "n_assets": 75,
+      "highest": [
+        "ENJUSDT(0.0625)",
+        "BLURUSDT(0.0312)",
+        "DUSDT(0.0312)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "fund_rate_mean",
+      "family": "derivatives",
+      "title": "Funding rate mean (cross-venue)",
+      "cross_asset_median": -1e-05,
+      "cross_asset_std": 0.00014,
+      "n_assets": 76,
+      "highest": [
+        "GIGGLEUSDT(0.000159)",
+        "FETUSDT(5.85e-05)",
+        "UNIUSDT(5.25e-05)"
+      ],
+      "lowest": [
+        "BIOUSDT(-0.000454)",
+        "APTUSDT(-0.000739)",
+        "ZBTUSDT(-0.000757)"
+      ]
+    },
+    {
+      "feature": "fund_rate_max",
+      "family": "derivatives",
+      "title": "Funding rate max (cross-venue)",
+      "cross_asset_median": 5e-05,
+      "cross_asset_std": 8e-05,
+      "n_assets": 76,
+      "highest": [
+        "GIGGLEUSDT(0.000293)",
+        "DYDXUSDT(9.72e-05)",
+        "SUIUSDT(9.32e-05)"
+      ],
+      "lowest": [
+        "BIOUSDT(-0.00013)",
+        "ATOMUSDT(-0.00015)",
+        "APTUSDT(-0.000515)"
+      ]
+    },
+    {
+      "feature": "fund_rate_min",
+      "family": "derivatives",
+      "title": "Funding rate min (cross-venue)",
+      "cross_asset_median": -8e-05,
+      "cross_asset_std": 0.00031,
+      "n_assets": 76,
+      "highest": [
+        "GIGGLEUSDT(5e-05)",
+        "MOVRUSDT(4.05e-05)",
+        "PROMUSDT(3.55e-05)"
+      ],
+      "lowest": [
+        "APTUSDT(-0.00096)",
+        "BIOUSDT(-0.00125)",
+        "ZBTUSDT(-0.00216)"
+      ]
+    },
+    {
+      "feature": "fund_rate_abs_mean",
+      "family": "derivatives",
+      "title": "Funding absolute mean",
+      "cross_asset_median": 9e-05,
+      "cross_asset_std": 0.00012,
+      "n_assets": 76,
+      "highest": [
+        "ZBTUSDT(0.000761)",
+        "APTUSDT(0.000751)",
+        "BIOUSDT(0.00046)"
+      ],
+      "lowest": [
+        "DEXEUSDT(4.65e-05)",
+        "ETHUSDT(4.3e-05)",
+        "ORDIUSDT(3.95e-05)"
+      ]
+    },
+    {
+      "feature": "fund_rate_z30",
+      "family": "derivatives",
+      "title": "Funding z-score",
+      "cross_asset_median": -0.28507,
+      "cross_asset_std": 0.26534,
+      "n_assets": 76,
+      "highest": [
+        "ZBTUSDT(0.537)",
+        "JSTUSDT(0.379)",
+        "BIOUSDT(0.227)"
+      ],
+      "lowest": [
+        "ZENUSDT(-0.786)",
+        "BNBUSDT(-0.806)",
+        "APTUSDT(-1.09)"
+      ]
+    },
+    {
+      "feature": "fund_extreme_long_count",
+      "family": "derivatives",
+      "title": "Extreme-long funding count",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.04293,
+      "n_assets": 76,
+      "highest": [
+        "GIGGLEUSDT(0.375)",
+        "LTCUSDT(0.0312)",
+        "SUIUSDT(0.0312)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "fund_extreme_short_count",
+      "family": "derivatives",
+      "title": "Extreme-short funding count",
+      "cross_asset_median": 0.03125,
+      "cross_asset_std": 0.95008,
+      "n_assets": 76,
+      "highest": [
+        "ZBTUSDT(6.2)",
+        "BIOUSDT(5.44)",
+        "APTUSDT(1.81)"
+      ],
+      "lowest": [
+        "XRPUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "fund_sign_flip",
+      "family": "derivatives",
+      "title": "Funding sign flip",
+      "cross_asset_median": 0.4375,
+      "cross_asset_std": 0.17026,
+      "n_assets": 76,
+      "highest": [
+        "SUPERUSDT(0.812)",
+        "BONKUSDT(0.688)",
+        "RENDERUSDT(0.688)"
+      ],
+      "lowest": [
+        "MOVRUSDT(0.0625)",
+        "BNBUSDT(0)",
+        "GIGGLEUSDT(0)"
+      ]
+    },
+    {
+      "feature": "fund_avg_apr",
+      "family": "derivatives",
+      "title": "Funding APR",
+      "cross_asset_median": -0.00595,
+      "cross_asset_std": 0.15607,
+      "n_assets": 76,
+      "highest": [
+        "GIGGLEUSDT(0.174)",
+        "FETUSDT(0.0641)",
+        "UNIUSDT(0.0575)"
+      ],
+      "lowest": [
+        "BIOUSDT(-0.497)",
+        "APTUSDT(-0.809)",
+        "ZBTUSDT(-0.829)"
+      ]
+    },
+    {
+      "feature": "fund_n_settlements",
+      "family": "derivatives",
+      "title": "Funding settlement count",
+      "cross_asset_median": 3.0,
+      "cross_asset_std": 3.53938,
+      "n_assets": 76,
+      "highest": [
+        "SUPERUSDT(24)",
+        "ZBTUSDT(23.2)",
+        "BIOUSDT(12.5)"
+      ],
+      "lowest": [
+        "XRPUSDT(3)",
+        "ZECUSDT(3)",
+        "ZENUSDT(3)"
+      ]
+    },
+    {
+      "feature": "premium_vol30",
+      "family": "derivatives",
+      "title": "Premium volatility (30-bar)",
+      "cross_asset_median": 0.12139,
+      "cross_asset_std": 0.09455,
+      "n_assets": 75,
+      "highest": [
+        "DUSDT(0.502)",
+        "BLURUSDT(0.436)",
+        "ENJUSDT(0.43)"
+      ],
+      "lowest": [
+        "BTCUSDT(0.0323)",
+        "SOLUSDT(0.0296)",
+        "XUSDUSDT(0.00874)"
+      ]
+    },
+    {
+      "feature": "premium_persistence30",
+      "family": "derivatives",
+      "title": "Premium persistence (30-bar)",
+      "cross_asset_median": -0.06644,
+      "cross_asset_std": 0.12395,
+      "n_assets": 75,
+      "highest": [
+        "ETCUSDT(0.266)",
+        "AVAXUSDT(0.213)",
+        "ICPUSDT(0.147)"
+      ],
+      "lowest": [
+        "ETHUSDT(-0.322)",
+        "DOGEUSDT(-0.343)",
+        "SEIUSDT(-0.347)"
+      ]
+    },
+    {
+      "feature": "premium_extreme_count30",
+      "family": "derivatives",
+      "title": "Premium extreme count (30-bar)",
+      "cross_asset_median": 9.78125,
+      "cross_asset_std": 6.38549,
+      "n_assets": 75,
+      "highest": [
+        "ENJUSDT(26.1)",
+        "DUSDT(24.8)",
+        "DASHUSDT(23.5)"
+      ],
+      "lowest": [
+        "BTCUSDT(0)",
+        "TRXUSDT(0)",
+        "XUSDUSDT(0)"
+      ]
+    },
+    {
+      "feature": "premium_z90",
+      "family": "derivatives",
+      "title": "Premium z-score (90-bar)",
+      "cross_asset_median": 0.04198,
+      "cross_asset_std": 0.17012,
+      "n_assets": 75,
+      "highest": [
+        "TRXUSDT(0.417)",
+        "TAOUSDT(0.373)",
+        "UNIUSDT(0.34)"
+      ],
+      "lowest": [
+        "TONUSDT(-0.299)",
+        "CRVUSDT(-0.381)",
+        "APTUSDT(-0.4)"
+      ]
+    },
+    {
+      "feature": "premium_apr",
+      "family": "derivatives",
+      "title": "Premium APR",
+      "cross_asset_median": -1.88999,
+      "cross_asset_std": 9.4927,
+      "n_assets": 75,
+      "highest": [
+        "BIOUSDT(12.3)",
+        "ARUSDT(11.9)",
+        "BCHUSDT(9.69)"
+      ],
+      "lowest": [
+        "TONUSDT(-22.8)",
+        "APTUSDT(-22.9)",
+        "DUSDT(-43.1)"
+      ]
+    },
+    {
+      "feature": "liq_long_usd",
+      "family": "liquidation",
+      "title": "Long liquidations $",
+      "cross_asset_median": 44802.49427,
+      "cross_asset_std": 60137215.09783,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(3.82e+08)",
+        "ETHUSDT(3.48e+08)",
+        "SOLUSDT(1.24e+08)"
+      ],
+      "lowest": [
+        "SUPERUSDT(0)",
+        "TREEUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "liq_short_usd",
+      "family": "liquidation",
+      "title": "Short liquidations $",
+      "cross_asset_median": 70498.0166,
+      "cross_asset_std": 57079919.13387,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(3.64e+08)",
+        "ETHUSDT(3.31e+08)",
+        "SOLUSDT(1.13e+08)"
+      ],
+      "lowest": [
+        "POLUSDT(0)",
+        "PROMUSDT(0)",
+        "SUPERUSDT(0)"
+      ]
+    },
+    {
+      "feature": "liq_delta_usd",
+      "family": "liquidation",
+      "title": "Liquidation delta (USD)",
+      "cross_asset_median": 4630.07438,
+      "cross_asset_std": 3214665.8177,
+      "n_assets": 77,
+      "highest": [
+        "BNBUSDT(1.51e+06)",
+        "BCHUSDT(1.46e+06)",
+        "TRXUSDT(7.88e+05)"
+      ],
+      "lowest": [
+        "SOLUSDT(-1.13e+07)",
+        "ETHUSDT(-1.67e+07)",
+        "BTCUSDT(-1.84e+07)"
+      ]
+    },
+    {
+      "feature": "liq_total_usd",
+      "family": "liquidation",
+      "title": "Total liquidation (USD)",
+      "cross_asset_median": 123822.61748,
+      "cross_asset_std": 117212923.9452,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(7.46e+08)",
+        "ETHUSDT(6.8e+08)",
+        "SOLUSDT(2.38e+08)"
+      ],
+      "lowest": [
+        "MOVRUSDT(0)",
+        "PROMUSDT(0)",
+        "SUPERUSDT(0)"
+      ]
+    },
+    {
+      "feature": "liq_long_z30",
+      "family": "liquidation",
+      "title": "Long liquidation z-score",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.34739,
+      "n_assets": 76,
+      "highest": [
+        "ZECUSDT(1.69)",
+        "TAOUSDT(0.809)",
+        "BNBUSDT(0.683)"
+      ],
+      "lowest": [
+        "WLDUSDT(-0.598)",
+        "AVAXUSDT(-0.641)",
+        "XPLUSDT(-0.785)"
+      ]
+    },
+    {
+      "feature": "liq_short_z30",
+      "family": "liquidation",
+      "title": "Short liquidation z-score",
+      "cross_asset_median": -0.03768,
+      "cross_asset_std": 0.33205,
+      "n_assets": 76,
+      "highest": [
+        "ZECUSDT(1.34)",
+        "XUSDUSDT(0.806)",
+        "DASHUSDT(0.775)"
+      ],
+      "lowest": [
+        "PEPEUSDT(-0.605)",
+        "XPLUSDT(-0.616)",
+        "AVAXUSDT(-0.67)"
+      ]
+    },
+    {
+      "feature": "liq_delta_z30",
+      "family": "liquidation",
+      "title": "Liquidation delta z",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.2012,
+      "n_assets": 76,
+      "highest": [
+        "XUSDUSDT(0.792)",
+        "DASHUSDT(0.74)",
+        "ZECUSDT(0.378)"
+      ],
+      "lowest": [
+        "DOTUSDT(-0.318)",
+        "ZBTUSDT(-0.337)",
+        "UNIUSDT(-0.514)"
+      ]
+    },
+    {
+      "feature": "liq_long_xsec_z",
+      "family": "liquidation",
+      "title": "Long liquidation cross-section z",
+      "cross_asset_median": -0.24153,
+      "cross_asset_std": 0.86172,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(4.99)",
+        "ETHUSDT(4.85)",
+        "SOLUSDT(1.84)"
+      ],
+      "lowest": [
+        "SUPERUSDT(-0.242)",
+        "TREEUSDT(-0.242)",
+        "ZROUSDT(-0.242)"
+      ]
+    },
+    {
+      "feature": "liq_short_xsec_z",
+      "family": "liquidation",
+      "title": "Short liquidation cross-section z",
+      "cross_asset_median": -0.23989,
+      "cross_asset_std": 0.85497,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(4.97)",
+        "ETHUSDT(4.82)",
+        "SOLUSDT(1.75)"
+      ],
+      "lowest": [
+        "POLUSDT(-0.241)",
+        "PROMUSDT(-0.241)",
+        "SUPERUSDT(-0.241)"
+      ]
+    },
+    {
+      "feature": "bd_depth_l1pct_mean",
+      "family": "liquidity",
+      "title": "Book depth L1 pct mean",
+      "cross_asset_median": 1869105.30353,
+      "cross_asset_std": 312990302.32113,
+      "n_assets": 80,
+      "highest": [
+        "NEIROUSDT(2.6e+09)",
+        "PEPEUSDT(1.03e+09)",
+        "SHIBUSDT(4.72e+08)"
+      ],
+      "lowest": [
+        "TAOUSDT(6.66e+03)",
+        "BTCUSDT(3.92e+03)",
+        "GIGGLEUSDT(3.31e+03)"
+      ]
+    },
+    {
+      "feature": "bd_depth_l1pct_p90",
+      "family": "liquidity",
+      "title": "Book depth L1 pct p90",
+      "cross_asset_median": 2132178.28125,
+      "cross_asset_std": 353955246.13865,
+      "n_assets": 80,
+      "highest": [
+        "NEIROUSDT(2.95e+09)",
+        "PEPEUSDT(1.16e+09)",
+        "SHIBUSDT(5.16e+08)"
+      ],
+      "lowest": [
+        "TAOUSDT(7.92e+03)",
+        "BTCUSDT(4.98e+03)",
+        "GIGGLEUSDT(4.7e+03)"
+      ]
+    },
+    {
+      "feature": "bd_notional_l1pct_mean",
+      "family": "liquidity",
+      "title": "Notional depth L1 pct mean",
+      "cross_asset_median": 2331208.31556,
+      "cross_asset_std": 54783440.82151,
+      "n_assets": 80,
+      "highest": [
+        "BTCUSDT(4.51e+08)",
+        "ETHUSDT(2.05e+08)",
+        "SOLUSDT(6.35e+07)"
+      ],
+      "lowest": [
+        "PROMUSDT(9.02e+04)",
+        "DEXEUSDT(8.63e+04)",
+        "DUSDT(7.59e+04)"
+      ]
+    },
+    {
+      "feature": "bd_imbalance_l1",
+      "family": "liquidity",
+      "title": "Book imbalance L1",
+      "cross_asset_median": 1.33,
+      "cross_asset_std": 0.35795,
+      "n_assets": 80,
+      "highest": [
+        "ZECUSDT(2.91)",
+        "ZENUSDT(2.86)",
+        "TAOUSDT(2.59)"
+      ],
+      "lowest": [
+        "SOLUSDT(0.948)",
+        "ETHUSDT(0.888)",
+        "ETCUSDT(0.535)"
+      ]
+    },
+    {
+      "feature": "bd_imbalance_l5",
+      "family": "liquidity",
+      "title": "Book imbalance L5",
+      "cross_asset_median": 1.48752,
+      "cross_asset_std": 0.39133,
+      "n_assets": 80,
+      "highest": [
+        "ZENUSDT(3.15)",
+        "ZECUSDT(3)",
+        "TAOUSDT(2.64)"
+      ],
+      "lowest": [
+        "BTCUSDT(1.03)",
+        "BCHUSDT(0.903)",
+        "ETCUSDT(0.543)"
+      ]
+    },
+    {
+      "feature": "bd_notional_skew",
+      "family": "liquidity",
+      "title": "Notional skew",
+      "cross_asset_median": 0.08833,
+      "cross_asset_std": 0.14177,
+      "n_assets": 80,
+      "highest": [
+        "ZENUSDT(0.379)",
+        "ENJUSDT(0.34)",
+        "ORDIUSDT(0.309)"
+      ],
+      "lowest": [
+        "BTCUSDT(-0.0481)",
+        "BCHUSDT(-0.119)",
+        "ETCUSDT(-0.647)"
+      ]
+    },
+    {
+      "feature": "bd_total_depth_l5_mean",
+      "family": "liquidity",
+      "title": "Total depth L5",
+      "cross_asset_median": 4328834.64974,
+      "cross_asset_std": 724671689.49499,
+      "n_assets": 80,
+      "highest": [
+        "NEIROUSDT(6.05e+09)",
+        "PEPEUSDT(2.29e+09)",
+        "SHIBUSDT(1.19e+09)"
+      ],
+      "lowest": [
+        "TAOUSDT(1.56e+04)",
+        "GIGGLEUSDT(1.38e+04)",
+        "BTCUSDT(1.04e+04)"
+      ]
+    },
+    {
+      "feature": "bd_total_depth_l5_p10",
+      "family": "liquidity",
+      "title": "Total depth L5 p10",
+      "cross_asset_median": 3875764.6,
+      "cross_asset_std": 642045225.40129,
+      "n_assets": 80,
+      "highest": [
+        "NEIROUSDT(5.35e+09)",
+        "PEPEUSDT(2.05e+09)",
+        "SHIBUSDT(1.08e+09)"
+      ],
+      "lowest": [
+        "TAOUSDT(1.37e+04)",
+        "GIGGLEUSDT(1.06e+04)",
+        "BTCUSDT(8.93e+03)"
+      ]
+    },
+    {
+      "feature": "bd_thin_book_frac",
+      "family": "liquidity",
+      "title": "Thin-book fraction",
+      "cross_asset_median": 0.01562,
+      "cross_asset_std": 0.06684,
+      "n_assets": 80,
+      "highest": [
+        "ETCUSDT(0.375)",
+        "ONDOUSDT(0.156)",
+        "AAVEUSDT(0.125)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "bd_depth_at_02pct",
+      "family": "liquidity",
+      "title": "Depth at 0.2% from mid",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.0,
+      "n_assets": 80,
+      "highest": [
+        "AAVEUSDT(0)",
+        "ADAUSDT(0)",
+        "ALGOUSDT(0)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "bd_n_snapshots",
+      "family": "liquidity",
+      "title": "Book snapshot count",
+      "cross_asset_median": 2810.28125,
+      "cross_asset_std": 12.99497,
+      "n_assets": 80,
+      "highest": [
+        "ASTERUSDT(2.81e+03)",
+        "AAVEUSDT(2.81e+03)",
+        "ADAUSDT(2.81e+03)"
+      ],
+      "lowest": [
+        "ZROUSDT(2.81e+03)",
+        "GIGGLEUSDT(2.77e+03)",
+        "ZBTUSDT(2.7e+03)"
+      ]
+    },
+    {
+      "feature": "bd_bgf_imbalance_l1",
+      "family": "liquidity",
+      "title": "BGF book imbalance L1",
+      "cross_asset_median": 1.24555,
+      "cross_asset_std": 0.39013,
+      "n_assets": 73,
+      "highest": [
+        "ZECUSDT(2.95)",
+        "ZENUSDT(2.9)",
+        "TAOUSDT(2.61)"
+      ],
+      "lowest": [
+        "BTCUSDT(0.834)",
+        "ETHUSDT(0.816)",
+        "ETCUSDT(0.484)"
+      ]
+    },
+    {
+      "feature": "xex_cb_bn_spread_bps",
+      "family": "liquidity",
+      "title": "Coinbase-Binance spread (bps)",
+      "cross_asset_median": 4.06035,
+      "cross_asset_std": 1.78436,
+      "n_assets": 5,
+      "highest": [
+        "DOGEUSDT(8.36)",
+        "SOLUSDT(4.5)",
+        "ETHUSDT(4.06)"
+      ],
+      "lowest": [
+        "ETHUSDT(4.06)",
+        "BTCUSDT(3.88)",
+        "XRPUSDT(3.48)"
+      ]
+    },
+    {
+      "feature": "xex_by_bn_spread_bps",
+      "family": "liquidity",
+      "title": "Bybit-Binance spread (bps)",
+      "cross_asset_median": -0.95975,
+      "cross_asset_std": 0.46835,
+      "n_assets": 5,
+      "highest": [
+        "BTCUSDT(-0.177)",
+        "ETHUSDT(-0.446)",
+        "DOGEUSDT(-0.96)"
+      ],
+      "lowest": [
+        "DOGEUSDT(-0.96)",
+        "SOLUSDT(-1.05)",
+        "XRPUSDT(-1.51)"
+      ]
+    },
+    {
+      "feature": "xex_ok_bn_spread_bps",
+      "family": "liquidity",
+      "title": "OKX-Binance spread (bps)",
+      "cross_asset_median": -0.54118,
+      "cross_asset_std": 0.44707,
+      "n_assets": 5,
+      "highest": [
+        "BTCUSDT(0.299)",
+        "ETHUSDT(-0.117)",
+        "DOGEUSDT(-0.541)"
+      ],
+      "lowest": [
+        "DOGEUSDT(-0.541)",
+        "SOLUSDT(-0.83)",
+        "XRPUSDT(-0.876)"
+      ]
+    },
+    {
+      "feature": "xex_cb_bn_spread_bps_right",
+      "family": "liquidity",
+      "title": "Coinbase-Binance spread (lagged)",
+      "cross_asset_median": 4.06035,
+      "cross_asset_std": 1.78436,
+      "n_assets": 5,
+      "highest": [
+        "DOGEUSDT(8.36)",
+        "SOLUSDT(4.5)",
+        "ETHUSDT(4.06)"
+      ],
+      "lowest": [
+        "ETHUSDT(4.06)",
+        "BTCUSDT(3.88)",
+        "XRPUSDT(3.48)"
+      ]
+    },
+    {
+      "feature": "xex_by_bn_spread_bps_right",
+      "family": "liquidity",
+      "title": "Bybit-Binance spread (lagged)",
+      "cross_asset_median": -0.95975,
+      "cross_asset_std": 0.46835,
+      "n_assets": 5,
+      "highest": [
+        "BTCUSDT(-0.177)",
+        "ETHUSDT(-0.446)",
+        "DOGEUSDT(-0.96)"
+      ],
+      "lowest": [
+        "DOGEUSDT(-0.96)",
+        "SOLUSDT(-1.05)",
+        "XRPUSDT(-1.51)"
+      ]
+    },
+    {
+      "feature": "xex_ok_bn_spread_bps_right",
+      "family": "liquidity",
+      "title": "OKX-Binance spread (lagged)",
+      "cross_asset_median": -0.54118,
+      "cross_asset_std": 0.44707,
+      "n_assets": 5,
+      "highest": [
+        "BTCUSDT(0.299)",
+        "ETHUSDT(-0.117)",
+        "DOGEUSDT(-0.541)"
+      ],
+      "lowest": [
+        "DOGEUSDT(-0.541)",
+        "SOLUSDT(-0.83)",
+        "XRPUSDT(-0.876)"
+      ]
+    },
+    {
+      "feature": "xex_spread_dispersion",
+      "family": "liquidity",
+      "title": "Cross-exchange spread dispersion",
+      "cross_asset_median": 3.10075,
+      "cross_asset_std": 1.07503,
+      "n_assets": 5,
+      "highest": [
+        "DOGEUSDT(5.56)",
+        "SOLUSDT(3.41)",
+        "XRPUSDT(3.1)"
+      ],
+      "lowest": [
+        "XRPUSDT(3.1)",
+        "ETHUSDT(2.88)",
+        "BTCUSDT(2.51)"
+      ]
+    },
+    {
+      "feature": "xex_max_abs_spread",
+      "family": "liquidity",
+      "title": "Max absolute cross-exchange spread",
+      "cross_asset_median": 4.98341,
+      "cross_asset_std": 1.59984,
+      "n_assets": 5,
+      "highest": [
+        "DOGEUSDT(8.81)",
+        "SOLUSDT(5.31)",
+        "XRPUSDT(4.98)"
+      ],
+      "lowest": [
+        "XRPUSDT(4.98)",
+        "ETHUSDT(4.72)",
+        "BTCUSDT(4.47)"
+      ]
+    },
+    {
+      "feature": "xex_cb_bn_z30",
+      "family": "liquidity",
+      "title": "Coinbase-Binance spread z-score",
+      "cross_asset_median": -0.04415,
+      "cross_asset_std": 0.05988,
+      "n_assets": 5,
+      "highest": [
+        "DOGEUSDT(0.081)",
+        "SOLUSDT(0.0139)",
+        "ETHUSDT(-0.0442)"
+      ],
+      "lowest": [
+        "ETHUSDT(-0.0442)",
+        "XRPUSDT(-0.0632)",
+        "BTCUSDT(-0.0842)"
+      ]
+    },
+    {
+      "feature": "xex_n_venues_active",
+      "family": "liquidity",
+      "title": "Venues active count",
+      "cross_asset_median": 3.0,
+      "cross_asset_std": 0.0,
+      "n_assets": 5,
+      "highest": [
+        "BTCUSDT(3)",
+        "DOGEUSDT(3)",
+        "ETHUSDT(3)"
+      ],
+      "lowest": [
+        "ETHUSDT(3)",
+        "SOLUSDT(3)",
+        "XRPUSDT(3)"
+      ]
+    },
+    {
+      "feature": "norm_return_1",
+      "family": "momentum",
+      "title": "Return (fast)",
+      "cross_asset_median": -0.01248,
+      "cross_asset_std": 0.13864,
+      "n_assets": 97,
+      "highest": [
+        "LDOUSDT(0.366)",
+        "ZBTUSDT(0.308)",
+        "TIAUSDT(0.275)"
+      ],
+      "lowest": [
+        "RENDERUSDT(-0.262)",
+        "WLFIUSDT(-0.29)",
+        "PENGUUSDT(-0.328)"
+      ]
+    },
+    {
+      "feature": "norm_return_4",
+      "family": "momentum",
+      "title": "Return (mid)",
+      "cross_asset_median": -0.03273,
+      "cross_asset_std": 0.1475,
+      "n_assets": 97,
+      "highest": [
+        "STOUSDT(0.25)",
+        "DOGSUSDT(0.233)",
+        "WLDUSDT(0.193)"
+      ],
+      "lowest": [
+        "RENDERUSDT(-0.36)",
+        "TONUSDT(-0.395)",
+        "GIGGLEUSDT(-0.485)"
+      ]
+    },
+    {
+      "feature": "norm_return_16",
+      "family": "momentum",
+      "title": "Return (slow)",
+      "cross_asset_median": -0.03048,
+      "cross_asset_std": 0.1328,
+      "n_assets": 97,
+      "highest": [
+        "STOUSDT(0.383)",
+        "ZBTUSDT(0.322)",
+        "ZENUSDT(0.281)"
+      ],
+      "lowest": [
+        "XUSDUSDT(-0.252)",
+        "PLUMEUSDT(-0.253)",
+        "BCHUSDT(-0.264)"
+      ]
+    },
+    {
+      "feature": "norm_return_kurtosis",
+      "family": "momentum",
+      "title": "Return kurtosis",
+      "cross_asset_median": -0.00897,
+      "cross_asset_std": 0.20958,
+      "n_assets": 97,
+      "highest": [
+        "TRUMPUSDT(0.381)",
+        "ETHUSDT(0.374)",
+        "STOUSDT(0.358)"
+      ],
+      "lowest": [
+        "ETCUSDT(-0.517)",
+        "PLUMEUSDT(-0.526)",
+        "RSRUSDT(-0.661)"
+      ]
+    },
+    {
+      "feature": "norm_funding_momentum",
+      "family": "momentum",
+      "title": "Funding momentum",
+      "cross_asset_median": -0.00442,
+      "cross_asset_std": 0.05523,
+      "n_assets": 97,
+      "highest": [
+        "GTCUSDT(0.148)",
+        "PROMUSDT(0.148)",
+        "RAREUSDT(0.126)"
+      ],
+      "lowest": [
+        "DEXEUSDT(-0.129)",
+        "TONUSDT(-0.129)",
+        "DUSDT(-0.197)"
+      ]
+    },
+    {
+      "feature": "norm_momentum_accel",
+      "family": "momentum",
+      "title": "Momentum acceleration",
+      "cross_asset_median": 0.00724,
+      "cross_asset_std": 0.15165,
+      "n_assets": 97,
+      "highest": [
+        "WLDUSDT(0.403)",
+        "1000SATSUSDT(0.276)",
+        "CRVUSDT(0.269)"
+      ],
+      "lowest": [
+        "TONUSDT(-0.278)",
+        "ENAUSDT(-0.314)",
+        "PNUTUSDT(-0.324)"
+      ]
+    },
+    {
+      "feature": "norm_flow_persistence",
+      "family": "momentum",
+      "title": "Flow persistence",
+      "cross_asset_median": -0.06212,
+      "cross_asset_std": 0.20404,
+      "n_assets": 97,
+      "highest": [
+        "RSRUSDT(0.46)",
+        "ADAUSDT(0.366)",
+        "POLUSDT(0.345)"
+      ],
+      "lowest": [
+        "GIGGLEUSDT(-0.47)",
+        "DOGEUSDT(-0.499)",
+        "HBARUSDT(-0.597)"
+      ]
+    },
+    {
+      "feature": "xd_momentum_rank",
+      "family": "momentum",
+      "title": "Cross momentum rank",
+      "cross_asset_median": 0.01669,
+      "cross_asset_std": 0.18735,
+      "n_assets": 97,
+      "highest": [
+        "LDOUSDT(0.482)",
+        "ZBTUSDT(0.411)",
+        "TIAUSDT(0.391)"
+      ],
+      "lowest": [
+        "PENGUUSDT(-0.392)",
+        "SUIUSDT(-0.5)",
+        "WLFIUSDT(-0.585)"
+      ]
+    },
+    {
+      "feature": "norm_vpin",
+      "family": "orderflow",
+      "title": "VPIN (flow toxicity)",
+      "cross_asset_median": -0.1897,
+      "cross_asset_std": 0.17609,
+      "n_assets": 97,
+      "highest": [
+        "ZBTUSDT(0.273)",
+        "NEIROUSDT(0.2)",
+        "ETHUSDT(0.164)"
+      ],
+      "lowest": [
+        "AAVEUSDT(-0.578)",
+        "TRXUSDT(-0.629)",
+        "XUSDUSDT(-0.734)"
+      ]
+    },
+    {
+      "feature": "norm_flow_imbalance",
+      "family": "orderflow",
+      "title": "Order-flow imbalance",
+      "cross_asset_median": -0.00343,
+      "cross_asset_std": 0.15432,
+      "n_assets": 97,
+      "highest": [
+        "HBARUSDT(0.412)",
+        "GIGGLEUSDT(0.368)",
+        "XRPUSDT(0.301)"
+      ],
+      "lowest": [
+        "PHBUSDT(-0.364)",
+        "APTUSDT(-0.378)",
+        "TRUMPUSDT(-0.426)"
+      ]
+    },
+    {
+      "feature": "norm_tick_count",
+      "family": "orderflow",
+      "title": "Tick count",
+      "cross_asset_median": 0.21964,
+      "cross_asset_std": 0.2723,
+      "n_assets": 97,
+      "highest": [
+        "XUSDUSDT(1.13)",
+        "AUDIOUSDT(0.935)",
+        "HIGHUSDT(0.874)"
+      ],
+      "lowest": [
+        "APTUSDT(-0.217)",
+        "ETHUSDT(-0.247)",
+        "SAGAUSDT(-0.326)"
+      ]
+    },
+    {
+      "feature": "norm_hl_spread",
+      "family": "orderflow",
+      "title": "High-low spread",
+      "cross_asset_median": -0.07663,
+      "cross_asset_std": 0.18505,
+      "n_assets": 97,
+      "highest": [
+        "TRXUSDT(0.527)",
+        "ASTERUSDT(0.323)",
+        "ALGOUSDT(0.276)"
+      ],
+      "lowest": [
+        "VIRTUALUSDT(-0.376)",
+        "ARKMUSDT(-0.432)",
+        "SUPERUSDT(-0.465)"
+      ]
+    },
+    {
+      "feature": "norm_spread_bps",
+      "family": "orderflow",
+      "title": "Quoted spread (bps)",
+      "cross_asset_median": -0.23176,
+      "cross_asset_std": 0.18925,
+      "n_assets": 97,
+      "highest": [
+        "ASTERUSDT(0.433)",
+        "TRXUSDT(0.385)",
+        "XUSDUSDT(0.249)"
+      ],
+      "lowest": [
+        "SUPERUSDT(-0.557)",
+        "FLOKIUSDT(-0.562)",
+        "NEARUSDT(-0.566)"
+      ]
+    },
+    {
+      "feature": "norm_hawkes_intensity",
+      "family": "orderflow",
+      "title": "Hawkes intensity",
+      "cross_asset_median": -0.24804,
+      "cross_asset_std": 0.10984,
+      "n_assets": 97,
+      "highest": [
+        "ZBTUSDT(0.141)",
+        "ADAUSDT(0.0235)",
+        "ARUSDT(-0.00954)"
+      ],
+      "lowest": [
+        "SHIBUSDT(-0.427)",
+        "BLURUSDT(-0.434)",
+        "PROMUSDT(-0.439)"
+      ]
+    },
+    {
+      "feature": "norm_hawkes_buy_intensity",
+      "family": "orderflow",
+      "title": "Hawkes buy intensity",
+      "cross_asset_median": -0.2284,
+      "cross_asset_std": 0.11157,
+      "n_assets": 97,
+      "highest": [
+        "ADAUSDT(0.157)",
+        "ZBTUSDT(0.0878)",
+        "CHZUSDT(0.0825)"
+      ],
+      "lowest": [
+        "PROMUSDT(-0.374)",
+        "SHIBUSDT(-0.375)",
+        "DUSDT(-0.379)"
+      ]
+    },
+    {
+      "feature": "norm_hawkes_sell_intensity",
+      "family": "orderflow",
+      "title": "Hawkes sell intensity",
+      "cross_asset_median": -0.2345,
+      "cross_asset_std": 0.09508,
+      "n_assets": 97,
+      "highest": [
+        "TRXUSDT(0.147)",
+        "DOTUSDT(0.00682)",
+        "TAOUSDT(-0.0353)"
+      ],
+      "lowest": [
+        "BLURUSDT(-0.369)",
+        "INJUSDT(-0.371)",
+        "PROMUSDT(-0.378)"
+      ]
+    },
+    {
+      "feature": "norm_hawkes_imbalance",
+      "family": "orderflow",
+      "title": "Hawkes imbalance",
+      "cross_asset_median": 0.00155,
+      "cross_asset_std": 0.10454,
+      "n_assets": 97,
+      "highest": [
+        "ADAUSDT(0.305)",
+        "CHZUSDT(0.297)",
+        "ZBTUSDT(0.286)"
+      ],
+      "lowest": [
+        "DUSDT(-0.161)",
+        "VIRTUALUSDT(-0.165)",
+        "TRXUSDT(-0.23)"
+      ]
+    },
+    {
+      "feature": "norm_cs_spread",
+      "family": "orderflow",
+      "title": "Cross-spread (composite)",
+      "cross_asset_median": 0.17765,
+      "cross_asset_std": 0.16315,
+      "n_assets": 97,
+      "highest": [
+        "ETHUSDT(0.575)",
+        "CRVUSDT(0.547)",
+        "ADAUSDT(0.519)"
+      ],
+      "lowest": [
+        "ZBTUSDT(-0.107)",
+        "PROMUSDT(-0.172)",
+        "GIGGLEUSDT(-0.249)"
+      ]
+    },
+    {
+      "feature": "norm_kyle_lambda",
+      "family": "orderflow",
+      "title": "Kyle's lambda (impact)",
+      "cross_asset_median": 0.06632,
+      "cross_asset_std": 0.21384,
+      "n_assets": 97,
+      "highest": [
+        "ARKMUSDT(0.498)",
+        "ZBTUSDT(0.491)",
+        "SAGAUSDT(0.472)"
+      ],
+      "lowest": [
+        "LDOUSDT(-0.325)",
+        "ETHUSDT(-0.436)",
+        "POLUSDT(-0.455)"
+      ]
+    },
+    {
+      "feature": "hbr_eta_total",
+      "family": "orderflow",
+      "title": "Hawkes branching ratio (total)",
+      "cross_asset_median": 0.85283,
+      "cross_asset_std": 0.0758,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(0.967)",
+        "BTCUSDT(0.96)",
+        "GIGGLEUSDT(0.953)"
+      ],
+      "lowest": [
+        "SHIBUSDT(0.732)",
+        "ENJUSDT(0.7)",
+        "XUSDUSDT(0.415)"
+      ]
+    },
+    {
+      "feature": "hbr_eta_buy",
+      "family": "orderflow",
+      "title": "Hawkes branching ratio (buys)",
+      "cross_asset_median": 0.8171,
+      "cross_asset_std": 0.08303,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(0.956)",
+        "BTCUSDT(0.951)",
+        "GIGGLEUSDT(0.936)"
+      ],
+      "lowest": [
+        "SHIBUSDT(0.661)",
+        "ENJUSDT(0.629)",
+        "XUSDUSDT(0.397)"
+      ]
+    },
+    {
+      "feature": "hbr_eta_sell",
+      "family": "orderflow",
+      "title": "Hawkes branching ratio (sells)",
+      "cross_asset_median": 0.81713,
+      "cross_asset_std": 0.08803,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(0.956)",
+        "BTCUSDT(0.95)",
+        "BNBUSDT(0.936)"
+      ],
+      "lowest": [
+        "DUSDT(0.674)",
+        "ENJUSDT(0.643)",
+        "XUSDUSDT(0.341)"
+      ]
+    },
+    {
+      "feature": "hbr_eta_imbalance",
+      "family": "orderflow",
+      "title": "Hawkes branching imbalance",
+      "cross_asset_median": 0.00047,
+      "cross_asset_std": 0.01313,
+      "n_assets": 77,
+      "highest": [
+        "XUSDUSDT(0.0564)",
+        "WLDUSDT(0.055)",
+        "EIGENUSDT(0.0323)"
+      ],
+      "lowest": [
+        "ALGOUSDT(-0.0142)",
+        "APTUSDT(-0.0162)",
+        "SHIBUSDT(-0.0235)"
+      ]
+    },
+    {
+      "feature": "hbr_n_trades",
+      "family": "orderflow",
+      "title": "Hawkes trade count",
+      "cross_asset_median": 67747.9375,
+      "cross_asset_std": 269685.90768,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(1.6e+06)",
+        "BTCUSDT(1.29e+06)",
+        "BNBUSDT(1.04e+06)"
+      ],
+      "lowest": [
+        "DUSDT(9.86e+03)",
+        "JSTUSDT(7.3e+03)",
+        "XUSDUSDT(662)"
+      ]
+    },
+    {
+      "feature": "s3_oi_usd",
+      "family": "positioning",
+      "title": "Open interest (USD)",
+      "cross_asset_median": 36486942.84595,
+      "cross_asset_std": 1386260739.90444,
+      "n_assets": 71,
+      "highest": [
+        "BTCUSDT(9.63e+09)",
+        "ETHUSDT(6.84e+09)",
+        "SOLUSDT(1.77e+09)"
+      ],
+      "lowest": [
+        "JSTUSDT(2.36e+06)",
+        "MOVRUSDT(2e+06)",
+        "DUSDT(1.11e+06)"
+      ]
+    },
+    {
+      "feature": "s3_top_acct_lsr",
+      "family": "positioning",
+      "title": "Top-account long/short ratio",
+      "cross_asset_median": 1.90633,
+      "cross_asset_std": 0.80678,
+      "n_assets": 71,
+      "highest": [
+        "DUSDT(5.53)",
+        "DOGEUSDT(3.61)",
+        "MOVRUSDT(3.37)"
+      ],
+      "lowest": [
+        "PROMUSDT(0.827)",
+        "GIGGLEUSDT(0.677)",
+        "ZECUSDT(0.67)"
+      ]
+    },
+    {
+      "feature": "s3_top_pos_lsr",
+      "family": "positioning",
+      "title": "Top-trader position LSR",
+      "cross_asset_median": 1.94346,
+      "cross_asset_std": 0.67904,
+      "n_assets": 71,
+      "highest": [
+        "UNIUSDT(5.28)",
+        "XPLUSDT(3.55)",
+        "LTCUSDT(3.46)"
+      ],
+      "lowest": [
+        "ZECUSDT(1.14)",
+        "ENJUSDT(1)",
+        "TRXUSDT(0.766)"
+      ]
+    },
+    {
+      "feature": "s3_global_lsr",
+      "family": "positioning",
+      "title": "Global long/short ratio",
+      "cross_asset_median": 1.7471,
+      "cross_asset_std": 0.67707,
+      "n_assets": 71,
+      "highest": [
+        "DUSDT(4.49)",
+        "SOLUSDT(2.94)",
+        "DOGEUSDT(2.9)"
+      ],
+      "lowest": [
+        "ZECUSDT(0.719)",
+        "PROMUSDT(0.695)",
+        "GIGGLEUSDT(0.59)"
+      ]
+    },
+    {
+      "feature": "s3_taker_lsr",
+      "family": "positioning",
+      "title": "Taker LSR",
+      "cross_asset_median": 1.12782,
+      "cross_asset_std": 1.59243,
+      "n_assets": 71,
+      "highest": [
+        "JSTUSDT(14.6)",
+        "DYDXUSDT(1.75)",
+        "MOVRUSDT(1.75)"
+      ],
+      "lowest": [
+        "SOLUSDT(1.04)",
+        "DOGEUSDT(1.04)",
+        "XRPUSDT(1.03)"
+      ]
+    },
+    {
+      "feature": "s3_top_pos_lsr_z",
+      "family": "positioning",
+      "title": "Top-trader position LSR z-score",
+      "cross_asset_median": -0.69095,
+      "cross_asset_std": 0.761,
+      "n_assets": 71,
+      "highest": [
+        "GIGGLEUSDT(2.12)",
+        "DEXEUSDT(1.57)",
+        "ASTERUSDT(1.44)"
+      ],
+      "lowest": [
+        "OPUSDT(-1.51)",
+        "PNUTUSDT(-1.53)",
+        "LTCUSDT(-1.54)"
+      ]
+    },
+    {
+      "feature": "s3_top_pos_lsr_xsec_z",
+      "family": "positioning",
+      "title": "Top-trader position LSR cross-section z",
+      "cross_asset_median": -0.01526,
+      "cross_asset_std": 0.85254,
+      "n_assets": 71,
+      "highest": [
+        "UNIUSDT(4.01)",
+        "XPLUSDT(2.08)",
+        "LTCUSDT(1.79)"
+      ],
+      "lowest": [
+        "XLMUSDT(-1.06)",
+        "ENJUSDT(-1.28)",
+        "TRXUSDT(-1.56)"
+      ]
+    },
+    {
+      "feature": "s3_global_lsr_z",
+      "family": "positioning",
+      "title": "Global LSR z",
+      "cross_asset_median": -0.88564,
+      "cross_asset_std": 0.66776,
+      "n_assets": 71,
+      "highest": [
+        "BNBUSDT(1)",
+        "TREEUSDT(0.984)",
+        "SOLUSDT(0.659)"
+      ],
+      "lowest": [
+        "ZBTUSDT(-1.62)",
+        "BLURUSDT(-1.71)",
+        "ZENUSDT(-1.72)"
+      ]
+    },
+    {
+      "feature": "s3_smart_vs_retail",
+      "family": "positioning",
+      "title": "Smart vs retail",
+      "cross_asset_median": 0.26676,
+      "cross_asset_std": 0.90683,
+      "n_assets": 71,
+      "highest": [
+        "UNIUSDT(3.58)",
+        "XPLUSDT(2.41)",
+        "PLUMEUSDT(1.79)"
+      ],
+      "lowest": [
+        "MOVRUSDT(-1.06)",
+        "BNBUSDT(-1.11)",
+        "DUSDT(-3.09)"
+      ]
+    },
+    {
+      "feature": "s3_smart_vs_retail_z",
+      "family": "positioning",
+      "title": "Smart vs retail z-score",
+      "cross_asset_median": -0.12896,
+      "cross_asset_std": 0.77681,
+      "n_assets": 71,
+      "highest": [
+        "GIGGLEUSDT(1.87)",
+        "ZBTUSDT(1.58)",
+        "SUPERUSDT(1.28)"
+      ],
+      "lowest": [
+        "LDOUSDT(-1.25)",
+        "ENJUSDT(-1.27)",
+        "LTCUSDT(-1.52)"
+      ]
+    },
+    {
+      "feature": "s3_smart_bullish",
+      "family": "positioning",
+      "title": "Smart bullish",
+      "cross_asset_median": 0.03125,
+      "cross_asset_std": 0.19797,
+      "n_assets": 71,
+      "highest": [
+        "UNIUSDT(0.969)",
+        "GIGGLEUSDT(0.75)",
+        "XPLUSDT(0.75)"
+      ],
+      "lowest": [
+        "VIRTUALUSDT(0)",
+        "ZECUSDT(0)",
+        "ZENUSDT(0)"
+      ]
+    },
+    {
+      "feature": "s3_smart_bearish",
+      "family": "positioning",
+      "title": "Smart bearish flag",
+      "cross_asset_median": 0.21875,
+      "cross_asset_std": 0.13514,
+      "n_assets": 71,
+      "highest": [
+        "TRXUSDT(0.656)",
+        "LTCUSDT(0.5)",
+        "PNUTUSDT(0.5)"
+      ],
+      "lowest": [
+        "GIGGLEUSDT(0)",
+        "XPLUSDT(0)",
+        "ZBTUSDT(0)"
+      ]
+    },
+    {
+      "feature": "s3_smart_extreme_long",
+      "family": "positioning",
+      "title": "Smart extreme long",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.19065,
+      "n_assets": 71,
+      "highest": [
+        "UNIUSDT(0.969)",
+        "XPLUSDT(0.75)",
+        "LTCUSDT(0.562)"
+      ],
+      "lowest": [
+        "ZBTUSDT(0)",
+        "ZECUSDT(0)",
+        "ZENUSDT(0)"
+      ]
+    },
+    {
+      "feature": "s3_smart_extreme_short",
+      "family": "positioning",
+      "title": "Smart extreme short",
+      "cross_asset_median": 0.0,
+      "cross_asset_std": 0.00368,
+      "n_assets": 71,
+      "highest": [
+        "TRXUSDT(0.0312)",
+        "AAVEUSDT(0)",
+        "ADAUSDT(0)"
+      ],
+      "lowest": [
+        "ZECUSDT(0)",
+        "ZENUSDT(0)",
+        "ZROUSDT(0)"
+      ]
+    },
+    {
+      "feature": "mv_days_since_listed_binance",
+      "family": "regime",
+      "title": "Days listed on Binance",
+      "cross_asset_median": 855.5,
+      "cross_asset_std": 737.34682,
+      "n_assets": 88,
+      "highest": [
+        "BTCUSDT(2.23e+03)",
+        "RSRUSDT(2.21e+03)",
+        "ETHUSDT(2.15e+03)"
+      ],
+      "lowest": [
+        "ASTERUSDT(29)",
+        "GIGGLEUSDT(18.5)",
+        "ZBTUSDT(7)"
+      ]
+    },
+    {
+      "feature": "mv_days_since_listed_bybit",
+      "family": "regime",
+      "title": "Days listed on Bybit",
+      "cross_asset_median": 1279.0,
+      "cross_asset_std": 653.80518,
+      "n_assets": 56,
+      "highest": [
+        "BCHUSDT(2.84e+03)",
+        "LINKUSDT(2.84e+03)",
+        "LTCUSDT(2.84e+03)"
+      ],
+      "lowest": [
+        "GUNUSDT(198)",
+        "ASTERUSDT(29)",
+        "GIGGLEUSDT(18.5)"
+      ]
+    },
+    {
+      "feature": "mv_days_since_listed_okx",
+      "family": "regime",
+      "title": "Days listed on OKX",
+      "cross_asset_median": 937.5,
+      "cross_asset_std": 786.94736,
+      "n_assets": 71,
+      "highest": [
+        "BTCUSDT(2.61e+03)",
+        "BCHUSDT(2.49e+03)",
+        "ETCUSDT(2.49e+03)"
+      ],
+      "lowest": [
+        "ASTERUSDT(26)",
+        "ZBTUSDT(7)",
+        "GIGGLEUSDT(3)"
+      ]
+    },
+    {
+      "feature": "soc_wiki_views",
+      "family": "social",
+      "title": "Wiki/search attention",
+      "cross_asset_median": 524.0625,
+      "cross_asset_std": 1468.18372,
+      "n_assets": 10,
+      "highest": [
+        "BTCUSDT(5.1e+03)",
+        "BNBUSDT(1.87e+03)",
+        "ETHUSDT(1.35e+03)"
+      ],
+      "lowest": [
+        "AVAXUSDT(114)",
+        "XRPUSDT(51.2)",
+        "LINKUSDT(15.4)"
+      ]
+    },
+    {
+      "feature": "norm_deviation",
+      "family": "structure",
+      "title": "Price deviation",
+      "cross_asset_median": -0.04049,
+      "cross_asset_std": 0.14001,
+      "n_assets": 97,
+      "highest": [
+        "GIGGLEUSDT(0.376)",
+        "STOUSDT(0.273)",
+        "ASTERUSDT(0.261)"
+      ],
+      "lowest": [
+        "TIAUSDT(-0.279)",
+        "EIGENUSDT(-0.283)",
+        "XUSDUSDT(-0.519)"
+      ]
+    },
+    {
+      "feature": "norm_fd_close",
+      "family": "structure",
+      "title": "Fractal dimension",
+      "cross_asset_median": -0.04836,
+      "cross_asset_std": 0.13176,
+      "n_assets": 97,
+      "highest": [
+        "ZBTUSDT(0.27)",
+        "STOUSDT(0.258)",
+        "TREEUSDT(0.233)"
+      ],
+      "lowest": [
+        "PLUMEUSDT(-0.294)",
+        "DASHUSDT(-0.302)",
+        "EIGENUSDT(-0.539)"
+      ]
+    },
+    {
+      "feature": "hurst_regime",
+      "family": "structure",
+      "title": "Hurst regime",
+      "cross_asset_median": -0.1183,
+      "cross_asset_std": 0.26324,
+      "n_assets": 97,
+      "highest": [
+        "SPKUSDT(0.493)",
+        "HIGHUSDT(0.408)",
+        "AAVEUSDT(0.355)"
+      ],
+      "lowest": [
+        "ETHUSDT(-0.725)",
+        "SAGAUSDT(-0.772)",
+        "ENJUSDT(-1.01)"
+      ]
+    },
+    {
+      "feature": "norm_ma_distance",
+      "family": "structure",
+      "title": "Distance to moving average",
+      "cross_asset_median": -0.05955,
+      "cross_asset_std": 0.18249,
+      "n_assets": 97,
+      "highest": [
+        "UTKUSDT(0.647)",
+        "TREEUSDT(0.391)",
+        "SAGAUSDT(0.374)"
+      ],
+      "lowest": [
+        "MEMEUSDT(-0.333)",
+        "EIGENUSDT(-0.433)",
+        "XUSDUSDT(-0.463)"
+      ]
+    },
+    {
+      "feature": "norm_efficiency",
+      "family": "structure",
+      "title": "Trend efficiency (fractal)",
+      "cross_asset_median": -0.15591,
+      "cross_asset_std": 0.16165,
+      "n_assets": 97,
+      "highest": [
+        "ARUSDT(0.282)",
+        "ICPUSDT(0.226)",
+        "SUPERUSDT(0.168)"
+      ],
+      "lowest": [
+        "DOGEUSDT(-0.439)",
+        "XRPUSDT(-0.476)",
+        "ASTERUSDT(-0.496)"
+      ]
+    },
+    {
+      "feature": "norm_perm_entropy",
+      "family": "structure",
+      "title": "Permutation entropy",
+      "cross_asset_median": -0.06158,
+      "cross_asset_std": 0.17639,
+      "n_assets": 97,
+      "highest": [
+        "ZBTUSDT(0.324)",
+        "XPLUSDT(0.253)",
+        "PLUMEUSDT(0.252)"
+      ],
+      "lowest": [
+        "ZROUSDT(-0.415)",
+        "BNBUSDT(-0.426)",
+        "AAVEUSDT(-0.451)"
+      ]
+    },
+    {
+      "feature": "xd_ma_distance",
+      "family": "structure",
+      "title": "Cross MA-distance",
+      "cross_asset_median": -0.0156,
+      "cross_asset_std": 0.20203,
+      "n_assets": 97,
+      "highest": [
+        "DUSDT(0.439)",
+        "UTKUSDT(0.402)",
+        "ASTERUSDT(0.395)"
+      ],
+      "lowest": [
+        "NEARUSDT(-0.43)",
+        "OPUSDT(-0.445)",
+        "ETHUSDT(-0.476)"
+      ]
+    },
+    {
+      "feature": "norm_vol_cluster",
+      "family": "volatility",
+      "title": "Volatility clustering",
+      "cross_asset_median": -0.06876,
+      "cross_asset_std": 0.25281,
+      "n_assets": 97,
+      "highest": [
+        "GIGGLEUSDT(1.05)",
+        "SPKUSDT(0.613)",
+        "ORDIUSDT(0.343)"
+      ],
+      "lowest": [
+        "XLMUSDT(-0.54)",
+        "FLOKIUSDT(-0.601)",
+        "DOGEUSDT(-0.662)"
+      ]
+    },
+    {
+      "feature": "norm_log_volume",
+      "family": "volatility",
+      "title": "Log volume",
+      "cross_asset_median": 0.06813,
+      "cross_asset_std": 0.19181,
+      "n_assets": 97,
+      "highest": [
+        "SAGAUSDT(0.968)",
+        "SPKUSDT(0.94)",
+        "ENJUSDT(0.431)"
+      ],
+      "lowest": [
+        "SOLUSDT(-0.205)",
+        "XUSDUSDT(-0.213)",
+        "XPLUSDT(-0.262)"
+      ]
+    },
+    {
+      "feature": "norm_bar_duration",
+      "family": "volatility",
+      "title": "Bar duration",
+      "cross_asset_median": 0.68858,
+      "cross_asset_std": 0.15055,
+      "n_assets": 97,
+      "highest": [
+        "XUSDUSDT(1.13)",
+        "ZROUSDT(1.01)",
+        "DUSDT(0.987)"
+      ],
+      "lowest": [
+        "WLFIUSDT(0.386)",
+        "LTCUSDT(0.365)",
+        "ADAUSDT(0.35)"
+      ]
+    },
+    {
+      "feature": "norm_vol_price_corr",
+      "family": "volatility",
+      "title": "Vol-price correlation",
+      "cross_asset_median": 0.00524,
+      "cross_asset_std": 0.17562,
+      "n_assets": 97,
+      "highest": [
+        "MEMEUSDT(0.606)",
+        "RAREUSDT(0.32)",
+        "BTCUSDT(0.283)"
+      ],
+      "lowest": [
+        "ALICEUSDT(-0.287)",
+        "TREEUSDT(-0.342)",
+        "ARBUSDT(-0.44)"
+      ]
+    },
+    {
+      "feature": "norm_vol_ratio",
+      "family": "volatility",
+      "title": "Vol ratio (fast/slow)",
+      "cross_asset_median": -0.08602,
+      "cross_asset_std": 0.2364,
+      "n_assets": 97,
+      "highest": [
+        "XUSDUSDT(0.38)",
+        "BNBUSDT(0.339)",
+        "ALGOUSDT(0.338)"
+      ],
+      "lowest": [
+        "NEARUSDT(-0.552)",
+        "OPUSDT(-0.564)",
+        "ARKMUSDT(-0.806)"
+      ]
+    },
+    {
+      "feature": "norm_yz_volatility",
+      "family": "volatility",
+      "title": "Yang-Zhang volatility",
+      "cross_asset_median": -0.14424,
+      "cross_asset_std": 0.23949,
+      "n_assets": 97,
+      "highest": [
+        "MEMEUSDT(0.502)",
+        "GTCUSDT(0.359)",
+        "SEIUSDT(0.315)"
+      ],
+      "lowest": [
+        "ENAUSDT(-0.625)",
+        "NEARUSDT(-0.637)",
+        "ARKMUSDT(-0.649)"
+      ]
+    },
+    {
+      "feature": "rv_rv_5m",
+      "family": "volatility",
+      "title": "Realized variance (5-min)",
+      "cross_asset_median": 0.02157,
+      "cross_asset_std": 0.02531,
+      "n_assets": 77,
+      "highest": [
+        "DEXEUSDT(0.136)",
+        "TRUMPUSDT(0.0971)",
+        "RENDERUSDT(0.0875)"
+      ],
+      "lowest": [
+        "TRXUSDT(0.000303)",
+        "JSTUSDT(0.000221)",
+        "XUSDUSDT(1.79e-06)"
+      ]
+    },
+    {
+      "feature": "rv_bpv_5m",
+      "family": "volatility",
+      "title": "Bipower variation (5-min)",
+      "cross_asset_median": 0.01524,
+      "cross_asset_std": 0.01723,
+      "n_assets": 77,
+      "highest": [
+        "TRUMPUSDT(0.0785)",
+        "TONUSDT(0.0745)",
+        "ENJUSDT(0.0549)"
+      ],
+      "lowest": [
+        "TRXUSDT(0.000275)",
+        "JSTUSDT(0.000201)",
+        "XUSDUSDT(1.42e-06)"
+      ]
+    },
+    {
+      "feature": "rv_jv_5m",
+      "family": "volatility",
+      "title": "Jump variation (5-min)",
+      "cross_asset_median": 0.00492,
+      "cross_asset_std": 0.01357,
+      "n_assets": 77,
+      "highest": [
+        "DEXEUSDT(0.0829)",
+        "RENDERUSDT(0.0545)",
+        "DYDXUSDT(0.043)"
+      ],
+      "lowest": [
+        "TRXUSDT(2.85e-05)",
+        "JSTUSDT(2.57e-05)",
+        "XUSDUSDT(3.95e-07)"
+      ]
+    },
+    {
+      "feature": "rv_jump_frac",
+      "family": "volatility",
+      "title": "Jump fraction",
+      "cross_asset_median": 0.06784,
+      "cross_asset_std": 0.03014,
+      "n_assets": 77,
+      "highest": [
+        "XUSDUSDT(0.273)",
+        "JSTUSDT(0.161)",
+        "ARUSDT(0.125)"
+      ],
+      "lowest": [
+        "ICPUSDT(0.0442)",
+        "NEARUSDT(0.0431)",
+        "TAOUSDT(0.0372)"
+      ]
+    },
+    {
+      "feature": "rv_jump_count",
+      "family": "volatility",
+      "title": "Jump count",
+      "cross_asset_median": 0.59375,
+      "cross_asset_std": 0.13323,
+      "n_assets": 77,
+      "highest": [
+        "BCHUSDT(1.12)",
+        "SUPERUSDT(0.906)",
+        "ZBTUSDT(0.867)"
+      ],
+      "lowest": [
+        "APTUSDT(0.406)",
+        "ATOMUSDT(0.406)",
+        "TAOUSDT(0.312)"
+      ]
+    },
+    {
+      "feature": "rv_jump_signed_var",
+      "family": "volatility",
+      "title": "Signed jump variation",
+      "cross_asset_median": -0.00951,
+      "cross_asset_std": 0.01463,
+      "n_assets": 77,
+      "highest": [
+        "AVAXUSDT(0.00452)",
+        "GIGGLEUSDT(0.00109)",
+        "SOLUSDT(0.000265)"
+      ],
+      "lowest": [
+        "RENDERUSDT(-0.0437)",
+        "ORDIUSDT(-0.0557)",
+        "DEXEUSDT(-0.0866)"
+      ]
+    },
+    {
+      "feature": "norm_whale",
+      "family": "whale",
+      "title": "Whale (normalized)",
+      "cross_asset_median": -0.17908,
+      "cross_asset_std": 0.12218,
+      "n_assets": 97,
+      "highest": [
+        "SAGAUSDT(0.417)",
+        "APTUSDT(0.191)",
+        "DOGSUSDT(0.127)"
+      ],
+      "lowest": [
+        "XPLUSDT(-0.371)",
+        "AUDIOUSDT(-0.376)",
+        "UTKUSDT(-0.414)"
+      ]
+    },
+    {
+      "feature": "wh_whale_trade_count",
+      "family": "whale",
+      "title": "Whale trade count",
+      "cross_asset_median": 0.75,
+      "cross_asset_std": 13.08189,
+      "n_assets": 77,
+      "highest": [
+        "TRXUSDT(65.3)",
+        "XRPUSDT(59.5)",
+        "ETHUSDT(44)"
+      ],
+      "lowest": [
+        "MOVRUSDT(0)",
+        "PROMUSDT(0)",
+        "SUPERUSDT(0)"
+      ]
+    },
+    {
+      "feature": "wh_whale_trade_count_500k",
+      "family": "whale",
+      "title": "Whale trade count (>$500k)",
+      "cross_asset_median": 4.59375,
+      "cross_asset_std": 81.79424,
+      "n_assets": 77,
+      "highest": [
+        "XRPUSDT(383)",
+        "ETHUSDT(355)",
+        "SOLUSDT(295)"
+      ],
+      "lowest": [
+        "ENJUSDT(0)",
+        "JSTUSDT(0)",
+        "MOVRUSDT(0)"
+      ]
+    },
+    {
+      "feature": "wh_whale_buy_usd",
+      "family": "whale",
+      "title": "Whale buy $",
+      "cross_asset_median": 216132.4398,
+      "cross_asset_std": 11016050.16054,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(7.03e+07)",
+        "BTCUSDT(6.19e+07)",
+        "SOLUSDT(2.27e+07)"
+      ],
+      "lowest": [
+        "ENJUSDT(0)",
+        "JSTUSDT(0)",
+        "MOVRUSDT(0)"
+      ]
+    },
+    {
+      "feature": "wh_whale_sell_usd",
+      "family": "whale",
+      "title": "Whale sell $",
+      "cross_asset_median": 161833.72427,
+      "cross_asset_std": 11093206.05256,
+      "n_assets": 77,
+      "highest": [
+        "ETHUSDT(7.24e+07)",
+        "BTCUSDT(5.98e+07)",
+        "SOLUSDT(2.5e+07)"
+      ],
+      "lowest": [
+        "MOVRUSDT(0)",
+        "PROMUSDT(0)",
+        "TREEUSDT(0)"
+      ]
+    },
+    {
+      "feature": "wh_whale_net_usd",
+      "family": "whale",
+      "title": "Whale net $",
+      "cross_asset_median": 3261.2597,
+      "cross_asset_std": 630650.93828,
+      "n_assets": 77,
+      "highest": [
+        "BTCUSDT(2.12e+06)",
+        "BNBUSDT(2.08e+06)",
+        "BCHUSDT(1.54e+06)"
+      ],
+      "lowest": [
+        "DOGEUSDT(-1.91e+06)",
+        "ETHUSDT(-2.09e+06)",
+        "SOLUSDT(-2.31e+06)"
+      ]
+    }
+  ]
+}

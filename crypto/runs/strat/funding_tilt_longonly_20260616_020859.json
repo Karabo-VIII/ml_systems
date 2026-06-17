@@ -1,0 +1,364 @@
+{
+ "repro": {
+  "command": "python -m strat.funding_tilt_longonly --universe u50",
+  "git_sha": "4e0c34e",
+  "universe": "u50",
+  "lag": 1,
+  "maker_rt": 0.0006,
+  "strengths": [
+   0.25,
+   0.5,
+   0.75,
+   0.9
+  ],
+  "lookbacks": [
+   7,
+   14,
+   30
+  ],
+  "n_variants_tried": 12
+ },
+ "prereg": {
+  "H0": "the long-only funding-tilt does NOT beat the EW-long-only baseline on held-out wealth (tilt-alpha = tilt minus EW; held-out tilt-alpha p05 <= 0 -- book is just net-long beta).",
+  "H1": "positive ROBUST tilt-alpha on the held-out path (OOS AND UNSEEN), block-bootstrap p05 > 0, surviving max-stat deflation across the swept tilt strengths.",
+  "one_sided": "we ship only if the tilt BEATS EW (overweighting low-funding adds wealth).",
+  "asymmetric_loss": "false-ship (real capital into a non-edge) >> false-skip.",
+  "decisive_statistic": "the TILT-ALPHA daily series (tilt net - EW net, identical PIT roster + cost) held-out compound + block-bootstrap p05; beta cancels in the difference.",
+  "deflation": "tilt strengths x signal forms swept -> best is max-stat / Bonferroni-adjusted; PBO reported on the grid."
+ },
+ "per_year_grade": [
+  {
+   "period": "2020",
+   "n_days": 362,
+   "tilt_net": 3.34,
+   "ew_net": 3.28,
+   "bh_net": 3.09,
+   "tilt_dd": -2.48,
+   "ew_dd": -2.28,
+   "tilt_sh": 0.78,
+   "ew_sh": 0.83,
+   "tilt_alpha_comp": 0.07
+  },
+  {
+   "period": "2021",
+   "n_days": 365,
+   "tilt_net": 1.02,
+   "ew_net": 1.3,
+   "bh_net": 1.32,
+   "tilt_dd": -2.49,
+   "ew_dd": -2.29,
+   "tilt_sh": 0.56,
+   "ew_sh": 0.74,
+   "tilt_alpha_comp": -0.27
+  },
+  {
+   "period": "2022",
+   "n_days": 365,
+   "tilt_net": -0.05,
+   "ew_net": 0.48,
+   "bh_net": 0.55,
+   "tilt_dd": -2.92,
+   "ew_dd": -2.99,
+   "tilt_sh": -0.02,
+   "ew_sh": 0.3,
+   "tilt_alpha_comp": -0.53
+  },
+  {
+   "period": "2023",
+   "n_days": 365,
+   "tilt_net": 7.54,
+   "ew_net": 7.62,
+   "bh_net": 7.58,
+   "tilt_dd": -0.54,
+   "ew_dd": -0.51,
+   "tilt_sh": 5.54,
+   "ew_sh": 5.48,
+   "tilt_alpha_comp": -0.08
+  },
+  {
+   "period": "2024",
+   "n_days": 366,
+   "tilt_net": 0.76,
+   "ew_net": 1.01,
+   "bh_net": 0.98,
+   "tilt_dd": -1.92,
+   "ew_dd": -1.79,
+   "tilt_sh": 0.68,
+   "ew_sh": 0.89,
+   "tilt_alpha_comp": -0.25
+  },
+  {
+   "period": "2025",
+   "n_days": 365,
+   "tilt_net": 1.41,
+   "ew_net": 1.85,
+   "bh_net": 1.84,
+   "tilt_dd": -1.1,
+   "ew_dd": -1.06,
+   "tilt_sh": 1.04,
+   "ew_sh": 1.34,
+   "tilt_alpha_comp": -0.43
+  },
+  {
+   "period": "UNSEEN",
+   "n_days": 149,
+   "tilt_net": -1.35,
+   "ew_net": -1.09,
+   "bh_net": -1.08,
+   "tilt_dd": -1.69,
+   "ew_dd": -1.51,
+   "tilt_sh": -1.78,
+   "ew_sh": -1.5,
+   "tilt_alpha_comp": -0.27
+  }
+ ],
+ "selected_variant": "st0.25_lb30",
+ "sel_alpha_scores": {
+  "st0.25_lb7": -1.971,
+  "st0.50_lb7": -3.918,
+  "st0.75_lb7": -5.837,
+  "st0.90_lb7": -6.973,
+  "st0.25_lb14": -1.201,
+  "st0.50_lb14": -2.399,
+  "st0.75_lb14": -3.593,
+  "st0.90_lb14": -4.305,
+  "st0.25_lb30": -1.105,
+  "st0.50_lb30": -2.206,
+  "st0.75_lb30": -3.304,
+  "st0.90_lb30": -3.96
+ },
+ "sweep": [
+  {
+   "variant": "st0.25_lb7",
+   "sel_alpha": -1.97,
+   "oos_alpha": -0.54,
+   "unseen_alpha": -0.22,
+   "heldout_alpha": -0.76,
+   "heldout_p05": -1.05,
+   "heldout_p95": -0.5
+  },
+  {
+   "variant": "st0.50_lb7",
+   "sel_alpha": -3.92,
+   "oos_alpha": -1.08,
+   "unseen_alpha": -0.44,
+   "heldout_alpha": -1.52,
+   "heldout_p05": -2.1,
+   "heldout_p95": -0.99
+  },
+  {
+   "variant": "st0.75_lb7",
+   "sel_alpha": -5.84,
+   "oos_alpha": -1.62,
+   "unseen_alpha": -0.67,
+   "heldout_alpha": -2.28,
+   "heldout_p05": -3.13,
+   "heldout_p95": -1.49
+  },
+  {
+   "variant": "st0.90_lb7",
+   "sel_alpha": -6.97,
+   "oos_alpha": -1.94,
+   "unseen_alpha": -0.8,
+   "heldout_alpha": -2.73,
+   "heldout_p05": -3.74,
+   "heldout_p95": -1.78
+  },
+  {
+   "variant": "st0.25_lb14",
+   "sel_alpha": -1.2,
+   "oos_alpha": -0.35,
+   "unseen_alpha": -0.22,
+   "heldout_alpha": -0.56,
+   "heldout_p05": -0.83,
+   "heldout_p95": -0.33
+  },
+  {
+   "variant": "st0.50_lb14",
+   "sel_alpha": -2.4,
+   "oos_alpha": -0.7,
+   "unseen_alpha": -0.43,
+   "heldout_alpha": -1.12,
+   "heldout_p05": -1.66,
+   "heldout_p95": -0.65
+  },
+  {
+   "variant": "st0.75_lb14",
+   "sel_alpha": -3.59,
+   "oos_alpha": -1.04,
+   "unseen_alpha": -0.65,
+   "heldout_alpha": -1.68,
+   "heldout_p05": -2.48,
+   "heldout_p95": -0.97
+  },
+  {
+   "variant": "st0.90_lb14",
+   "sel_alpha": -4.3,
+   "oos_alpha": -1.25,
+   "unseen_alpha": -0.78,
+   "heldout_alpha": -2.02,
+   "heldout_p05": -2.97,
+   "heldout_p95": -1.17
+  },
+  {
+   "variant": "st0.25_lb30",
+   "sel_alpha": -1.1,
+   "oos_alpha": -0.39,
+   "unseen_alpha": -0.27,
+   "heldout_alpha": -0.65,
+   "heldout_p05": -0.96,
+   "heldout_p95": -0.39
+  },
+  {
+   "variant": "st0.50_lb30",
+   "sel_alpha": -2.21,
+   "oos_alpha": -0.77,
+   "unseen_alpha": -0.53,
+   "heldout_alpha": -1.3,
+   "heldout_p05": -1.9,
+   "heldout_p95": -0.79
+  },
+  {
+   "variant": "st0.75_lb30",
+   "sel_alpha": -3.3,
+   "oos_alpha": -1.15,
+   "unseen_alpha": -0.8,
+   "heldout_alpha": -1.94,
+   "heldout_p05": -2.84,
+   "heldout_p95": -1.18
+  },
+  {
+   "variant": "st0.90_lb30",
+   "sel_alpha": -3.96,
+   "oos_alpha": -1.38,
+   "unseen_alpha": -0.96,
+   "heldout_alpha": -2.32,
+   "heldout_p05": -3.4,
+   "heldout_p95": -1.42
+  }
+ ],
+ "n_heldout_p05_pos": 0,
+ "scorecard_tilt_alpha": {
+  "name": "funding_tilt_alpha[st0.25_lb30]",
+  "kind": "BOOK",
+  "n_days": 2336,
+  "per_split": {
+   "SEL": {
+    "n": 1896,
+    "compound_pct": -1.1,
+    "ann_pct": -0.21,
+    "maxdd_pct": -1.36,
+    "sharpe": -0.82,
+    "softbench_roi": {
+     "1d": {
+      "median_pct": -0.001,
+      "frac_positive": 0.462,
+      "n": 1896
+     },
+     "3d": {
+      "median_pct": -0.002,
+      "frac_positive": 0.441,
+      "n": 632
+     },
+     "7d": {
+      "median_pct": -0.004,
+      "frac_positive": 0.433,
+      "n": 270
+     }
+    }
+   },
+   "OOS": {
+    "n": 291,
+    "compound_pct": -0.39,
+    "ann_pct": -0.48,
+    "maxdd_pct": -0.41,
+    "sharpe": -3.9,
+    "softbench_roi": {
+     "1d": {
+      "median_pct": -0.002,
+      "frac_positive": 0.436,
+      "n": 291
+     },
+     "3d": {
+      "median_pct": -0.002,
+      "frac_positive": 0.402,
+      "n": 97
+     },
+     "7d": {
+      "median_pct": -0.009,
+      "frac_positive": 0.268,
+      "n": 41
+     }
+    }
+   },
+   "UNSEEN": {
+    "n": 149,
+    "compound_pct": -0.27,
+    "ann_pct": -0.65,
+    "maxdd_pct": -0.3,
+    "sharpe": -3.32,
+    "softbench_roi": {
+     "1d": {
+      "median_pct": -0.002,
+      "frac_positive": 0.43,
+      "n": 149
+     },
+     "3d": {
+      "median_pct": -0.006,
+      "frac_positive": 0.388,
+      "n": 49
+     },
+     "7d": {
+      "median_pct": -0.01,
+      "frac_positive": 0.429,
+      "n": 21
+     }
+    }
+   }
+  },
+  "full_block_bootstrap": {
+   "p05": -2.6,
+   "p50": -1.73,
+   "p95": -0.93
+  },
+  "heldout_block_bootstrap": {
+   "p05": -0.96,
+   "p50": -0.65,
+   "p95": -0.39
+  },
+  "pbo": {
+   "pbo": 0.0003885003885003885,
+   "prob_oos_loss": 1.0,
+   "perf_degradation_slope": -0.9132540334087592,
+   "median_logit": 0.47000362924573574,
+   "n_combinations": 12870,
+   "S": 16,
+   "T_used": 2336,
+   "N": 12,
+   "verdict": "PASS"
+  },
+  "ship_read": {
+   "unseen_compound_pos": false,
+   "full_p05_pos": false,
+   "heldout_p05_pos": false,
+   "ship": false
+  }
+ },
+ "verdict": {
+  "selected_variant": "st0.25_lb30",
+  "selected_on": "SEL tilt-alpha (highest)",
+  "n_variants_tried": 12,
+  "tilt_alpha_SEL_pct": -1.105,
+  "tilt_alpha_OOS_pct": -0.385,
+  "tilt_alpha_UNSEEN_pct": -0.265,
+  "tilt_alpha_heldout_pct": -0.65,
+  "tilt_alpha_heldout_p05": -0.96,
+  "tilt_alpha_heldout_p95": -0.39,
+  "verdict": "ARTIFACT",
+  "interpretation": "REAL = robust positive held-out tilt-alpha (the funding signal adds long-only wealth beyond beta). AMBIGUOUS = held-out positive but not p05-robust or not on both OOS+UNSEEN. ARTIFACT = the tilt does NOT beat EW held-out -> the book is just net-long beta, the funding tilt adds no wealth (it collapses to beta like everything directional)."
+ },
+ "charts": [
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\funding_tilt_vs_ew.png",
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\tilt_alpha_by_regime.png"
+ ]
+}

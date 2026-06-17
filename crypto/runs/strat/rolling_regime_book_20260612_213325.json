@@ -1,0 +1,349 @@
+{
+ "repro": {
+  "command": "python -m strat.rolling_regime_book --cadences 4h",
+  "git_sha": "33f3403",
+  "cost_taker": 0.0024,
+  "cost_maker": 0.0006,
+  "spans": {
+   "TRAINref_2021": [
+    "2021-01-01",
+    "2022-01-01"
+   ],
+   "VAL": [
+    "2024-05-15",
+    "2025-03-15"
+   ],
+   "OOS": [
+    "2025-03-15",
+    "2025-12-31"
+   ]
+  },
+  "train_fit": [
+   "2019-01-01",
+   "2024-05-15"
+  ],
+  "fixed_family": [
+   "ema_2_73",
+   "ema_3_102",
+   "ema_4_86",
+   "ema_5_86",
+   "ema_6_77",
+   "ema_8_91",
+   "ema_10_128",
+   "ema_12_77",
+   "ema_15_65",
+   "ema_18_128",
+   "ema_22_65",
+   "ema_26_75",
+   "ema_31_124",
+   "ema_37_89",
+   "ema_44_75",
+   "ema_52_89",
+   "ema_62_105",
+   "ema_73_145",
+   "ema_86_122",
+   "ema_102_103"
+  ],
+  "trend_speeds": [
+   "ema_37_38",
+   "ema_12_22_118"
+  ]
+ },
+ "results": {
+  "4h": {
+   "cadence": "4h",
+   "thresholds": {
+    "breadth_hi": 0.1,
+    "breadth_lo": 0.0,
+    "signed_dn": -2.7624858371498178,
+    "whip_hi": 0.005555555555555555,
+    "trend_hi": 2.8497058534386497,
+    "fitted_n": 9444,
+    "fallback": false
+   },
+   "full_regime_share": {
+    "trend": 0.16,
+    "chop": 0.585,
+    "down": 0.255
+   },
+   "min_dwell": 6,
+   "lookback": 180,
+   "spans": {
+    "TRAINref_2021": {
+     "NAIVE": {
+      "roi": 737.4,
+      "maxdd": -31.2,
+      "sharpe": 4.03,
+      "pos_breadth": 95.0,
+      "p05": 203.82,
+      "p50": 752.46,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": 938.9,
+      "maxdd": -35.3,
+      "sharpe": 3.82,
+      "pos_breadth": 100.0,
+      "p05": 216.6,
+      "p50": 957.75,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": 91.6,
+      "maxdd": -11.7,
+      "sharpe": 3.14,
+      "pos_breadth": 94.0,
+      "p05": 28.08,
+      "p50": 88.73,
+      "regime_share_window": {
+       "trend": 0.275,
+       "chop": 0.482,
+       "down": 0.242
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": 95.6,
+      "maxdd": -11.4,
+      "sharpe": 3.24,
+      "pos_breadth": 95.0,
+      "p05": 30.8,
+      "p50": 92.66,
+      "regime_share_window": {
+       "trend": 0.275,
+       "chop": 0.482,
+       "down": 0.242
+      }
+     },
+     "BUYHOLD": {
+      "roi": 2006.4
+     },
+     "ORACLE": {
+      "roi": 2259.3
+     }
+    },
+    "VAL": {
+     "NAIVE": {
+      "roi": 32.1,
+      "maxdd": -27.1,
+      "sharpe": 1.15,
+      "pos_breadth": 61.0,
+      "p05": -19.17,
+      "p50": 32.2,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": 26.3,
+      "maxdd": -31.6,
+      "sharpe": 0.9,
+      "pos_breadth": 50.0,
+      "p05": -28.85,
+      "p50": 25.76,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": -6.1,
+      "maxdd": -15.2,
+      "sharpe": -0.4,
+      "pos_breadth": 35.0,
+      "p05": -27.28,
+      "p50": -5.68,
+      "regime_share_window": {
+       "trend": 0.176,
+       "chop": 0.601,
+       "down": 0.223
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": -4.3,
+      "maxdd": -14.7,
+      "sharpe": -0.26,
+      "pos_breadth": 36.0,
+      "p05": -25.91,
+      "p50": -3.99,
+      "regime_share_window": {
+       "trend": 0.176,
+       "chop": 0.601,
+       "down": 0.223
+      }
+     },
+     "BUYHOLD": {
+      "roi": 43.1
+     },
+     "ORACLE": {
+      "roi": 119.6
+     },
+     "SHUFFLE_ROLLGATE_roi": 0.19
+    },
+    "OOS": {
+     "NAIVE": {
+      "roi": -5.6,
+      "maxdd": -27.5,
+      "sharpe": -0.1,
+      "pos_breadth": 36.0,
+      "p05": -38.93,
+      "p50": -6.01,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": -0.0,
+      "maxdd": -26.9,
+      "sharpe": 0.17,
+      "pos_breadth": 40.0,
+      "p05": -38.42,
+      "p50": 0.18,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": 5.5,
+      "maxdd": -15.8,
+      "sharpe": 0.42,
+      "pos_breadth": 53.0,
+      "p05": -21.27,
+      "p50": 5.74,
+      "regime_share_window": {
+       "trend": 0.179,
+       "chop": 0.515,
+       "down": 0.306
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": 7.1,
+      "maxdd": -15.3,
+      "sharpe": 0.51,
+      "pos_breadth": 58.0,
+      "p05": -20.16,
+      "p50": 7.37,
+      "regime_share_window": {
+       "trend": 0.179,
+       "chop": 0.515,
+       "down": 0.306
+      }
+     },
+     "BUYHOLD": {
+      "roi": -6.8
+     },
+     "ORACLE": {
+      "roi": 36.3
+     },
+     "SHUFFLE_ROLLGATE_roi": 4.2
+    }
+   }
+  }
+ },
+ "scorecards": {
+  "4h": {
+   "name": "rollgate_4h",
+   "kind": "BOOK",
+   "n_days": 11476,
+   "per_split": {
+    "SEL": {
+     "n": 11357,
+     "compound_pct": 231.65,
+     "ann_pct": 3.93,
+     "maxdd_pct": -16.45,
+     "sharpe": 0.99,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.483,
+       "n": 11357
+      },
+      "3d": {
+       "median_pct": -0.0,
+       "frac_positive": 0.483,
+       "n": 3785
+      },
+      "7d": {
+       "median_pct": -0.006,
+       "frac_positive": 0.477,
+       "n": 1622
+      }
+     }
+    },
+    "OOS": {
+     "n": 119,
+     "compound_pct": -1.54,
+     "ann_pct": -4.64,
+     "maxdd_pct": -1.7,
+     "sharpe": -4.69,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.007,
+       "frac_positive": 0.42,
+       "n": 119
+      },
+      "3d": {
+       "median_pct": -0.024,
+       "frac_positive": 0.308,
+       "n": 39
+      },
+      "7d": {
+       "median_pct": -0.028,
+       "frac_positive": 0.235,
+       "n": 17
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 0
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": 118.94,
+    "p50": 228.18,
+    "p95": 396.23
+   },
+   "heldout_block_bootstrap": {
+    "p05": -2.39,
+    "p50": -1.59,
+    "p95": -0.76
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": true,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "pbo": {
+    "pbo": 0.07142857142857142,
+    "prob_oos_loss": 0.0,
+    "perf_degradation_slope": -0.8806664697667331,
+    "median_logit": 1.3862943611198908,
+    "n_combinations": 70,
+    "S": 8,
+    "T_used": 11472,
+    "N": 4,
+    "verdict": "PASS"
+   }
+  }
+ },
+ "diagnosis": {
+  "4h": {
+   "oos_fixed_roi": -0.0,
+   "oos_rollgate_roi": 5.5,
+   "oos_delta_roll_minus_fixed": 5.5,
+   "oos_regime_share": {
+    "trend": 0.179,
+    "chop": 0.515,
+    "down": 0.306
+   }
+  }
+ },
+ "verdict": {
+  "headline": "CONFIRMED-PARTIAL: rolling regime-gating BEAT the static FIXED book on COMPOUND OOS at 1/1 cadences (['4h']). Verify robustness (p05/PBO/shuffle above) before believing -- compound-beat alone is not ship.",
+  "beat_compound_cadences": [
+   "4h"
+  ],
+  "beat_risk_cadences": [],
+  "n_cadences": 1,
+  "lines": [
+   "BAR TO BEAT = the VALIDATED static FIXED slow-2MA book (oos_confirm.py), OOS span 2025-03..12. Question: does CONTINUOUS rolling regime-GATING beat it on compound, or match at materially lower maxDD?",
+   "HEADLINE: CONFIRMED-PARTIAL: rolling regime-gating BEAT the static FIXED book on COMPOUND OOS at 1/1 cadences (['4h']). Verify robustness (p05/PBO/shuffle above) before believing -- compound-beat alone is not ship.",
+   "",
+   "[4h] OOS ROLLGATE 5.5% (DD-15.8, p05=-21.27) vs FIXED -0.0% (DD-26.9) vs NAIVE -5.6% | shuffle 4.2% | PBO 0.07142857142857142 | regime-share {'trend': 0.179, 'chop': 0.515, 'down': 0.306}",
+   "",
+   "",
+   "CAVEATS: classifier thresholds fit on TRAIN only (terciles); regime->policy PRE-REGISTERED; long-only; equal-weight u10; causal MtM; taker (maker for ROLLGATE_FULL). Scorecard 1d/3d softbench treats each cadence bar as '1 period' (sub-daily -> nominal only). UNSEEN SEALED. A single failing cut is a diagnosis + the next variant, not a global verdict."
+  ]
+ }
+}

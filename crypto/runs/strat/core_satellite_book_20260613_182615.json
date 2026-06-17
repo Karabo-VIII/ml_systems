@@ -1,0 +1,205 @@
+{
+ "repro": {
+  "command": "python -m strat.core_satellite_book ",
+  "git_sha": "3048a06",
+  "window": [
+   "2020-01-01",
+   "2026-06-01"
+  ],
+  "sat_max_leverage": 3.0,
+  "sat_leverage": 3.0,
+  "reco_core_frac": 0.7,
+  "reco_sat_leverage": 3.0
+ },
+ "backtest": {
+  "core_span": [
+   "2020-01-06",
+   "2026-05-28"
+  ],
+  "sat_span": [
+   "2020-07-09",
+   "2026-05-28"
+  ],
+  "overlap_days": 2072,
+  "overlap_span": [
+   "2020-07-09",
+   "2026-05-28"
+  ],
+  "sat_max_leverage": 3.0,
+  "correlation": {
+   "pearson": 0.0149,
+   "spearman": 0.0026
+  },
+  "core_stats_overlap": {
+   "n_days": 2072,
+   "compound_pct": 1969.32,
+   "cagr_pct": 70.53,
+   "ann_vol_pct": 45.09,
+   "sharpe": 1.4,
+   "maxdd_pct": -48.16,
+   "daily_pos_rate_pct": 52.8,
+   "daily_mean_bps": 17.34
+  },
+  "sat_stats_overlap_1x": {
+   "n_days": 2072,
+   "compound_pct": 62.12,
+   "cagr_pct": 8.88,
+   "ann_vol_pct": 2.09,
+   "sharpe": 4.09,
+   "maxdd_pct": -1.85,
+   "daily_pos_rate_pct": 60.6,
+   "daily_mean_bps": 2.34
+  },
+  "blends": {
+   "CORE_ALONE": {
+    "n_days": 2072,
+    "compound_pct": 1969.32,
+    "cagr_pct": 70.53,
+    "ann_vol_pct": 45.09,
+    "sharpe": 1.4,
+    "maxdd_pct": -48.16,
+    "daily_pos_rate_pct": 52.8,
+    "daily_mean_bps": 17.34,
+    "core_frac": 1.0,
+    "sat_frac": 0.0,
+    "sat_leverage": 0.0,
+    "sat_realized_risk_share": 0.0,
+    "sizing": "core-only baseline"
+   },
+   "CAP_85_15": {
+    "n_days": 2072,
+    "compound_pct": 1651.52,
+    "cagr_pct": 65.59,
+    "ann_vol_pct": 38.35,
+    "sharpe": 1.5,
+    "maxdd_pct": -40.47,
+    "daily_pos_rate_pct": 53.8,
+    "daily_mean_bps": 15.79,
+    "core_frac": 0.85,
+    "sat_frac": 0.15,
+    "sat_leverage": 3.0,
+    "sat_realized_risk_share": 0.024,
+    "sizing": "capital 85/15 @ 3x sat"
+   },
+   "CAP_70_30": {
+    "n_days": 2072,
+    "compound_pct": 1345.98,
+    "cagr_pct": 60.09,
+    "ann_vol_pct": 31.65,
+    "sharpe": 1.64,
+    "maxdd_pct": -32.64,
+    "daily_pos_rate_pct": 54.5,
+    "daily_mean_bps": 14.24,
+    "core_frac": 0.7,
+    "sat_frac": 0.3,
+    "sat_leverage": 3.0,
+    "sat_realized_risk_share": 0.056,
+    "sizing": "capital 70/30 @ 3x sat"
+   },
+   "RISK_15pct": {
+    "n_days": 2072,
+    "compound_pct": 8614.18,
+    "cagr_pct": 119.68,
+    "ann_vol_pct": 45.61,
+    "sharpe": 1.95,
+    "maxdd_pct": -39.71,
+    "daily_pos_rate_pct": 54.7,
+    "daily_mean_bps": 24.36,
+    "core_frac": 1.0,
+    "sat_frac": "overlay",
+    "sat_leverage": 3.0,
+    "leverage_clamped_to_cap": true,
+    "target_risk_share": 0.15,
+    "sat_realized_risk_share": 0.122,
+    "sizing": "risk-budget 15% sat-vol (overlay, L=3.00x CAPPED)"
+   },
+   "RISK_30pct": {
+    "n_days": 2072,
+    "compound_pct": 8614.18,
+    "cagr_pct": 119.68,
+    "ann_vol_pct": 45.61,
+    "sharpe": 1.95,
+    "maxdd_pct": -39.71,
+    "daily_pos_rate_pct": 54.7,
+    "daily_mean_bps": 24.36,
+    "core_frac": 1.0,
+    "sat_frac": "overlay",
+    "sat_leverage": 3.0,
+    "leverage_clamped_to_cap": true,
+    "target_risk_share": 0.3,
+    "sat_realized_risk_share": 0.122,
+    "sizing": "risk-budget 30% sat-vol (overlay, L=3.00x CAPPED)"
+   }
+  },
+  "recommended": {
+   "allocation": "capital 70/30 core/satellite, satellite @ 3x (CAPPED)",
+   "core_frac": 0.7,
+   "sat_frac": 0.3,
+   "sat_leverage": 3.0,
+   "sat_realized_risk_share": 0.056,
+   "stats": {
+    "n_days": 2072,
+    "compound_pct": 1345.98,
+    "cagr_pct": 60.09,
+    "ann_vol_pct": 31.65,
+    "sharpe": 1.64,
+    "maxdd_pct": -32.64,
+    "daily_pos_rate_pct": 54.5,
+    "daily_mean_bps": 14.24
+   },
+   "diversification_vs_core_alone": {
+    "sharpe_core_alone": 1.4,
+    "sharpe_blend": 1.64,
+    "sharpe_delta": 0.24,
+    "maxdd_core_alone": -48.16,
+    "maxdd_blend": -32.64,
+    "maxdd_delta_pp": 15.52,
+    "compound_core_alone": 1969.32,
+    "compound_blend": 1345.98
+   }
+  }
+ },
+ "today_book": {
+  "date": "2026-05-28",
+  "allocation": "capital 70/30 core/satellite, satellite @ 3x (CAPPED at 3x)",
+  "core_regime": "chop",
+  "core_gross_exposure_scaled": 0.35,
+  "core_long_legs": {
+   "BTCUSDT": 0.035,
+   "ETHUSDT": 0.035,
+   "SOLUSDT": 0.035,
+   "BNBUSDT": 0.035,
+   "XRPUSDT": 0.035,
+   "DOGEUSDT": 0.035,
+   "ADAUSDT": 0.035,
+   "AVAXUSDT": 0.035,
+   "LINKUSDT": 0.035,
+   "LTCUSDT": 0.035
+  },
+  "satellite_asof": "2026-05-28",
+  "satellite_legs": {
+   "long_low_funding": {
+    "SUPERUSDT": 0.18,
+    "ENJUSDT": 0.18,
+    "TONUSDT": 0.18,
+    "BCHUSDT": 0.18,
+    "TRUMPUSDT": 0.18
+   },
+   "short_high_funding": {
+    "TAOUSDT": -0.18,
+    "TRXUSDT": -0.18,
+    "ORDIUSDT": -0.18,
+    "TREEUSDT": -0.18,
+    "RENDERUSDT": -0.18
+   }
+  },
+  "satellite_gross_scaled": 0.9,
+  "data_quality_flags": [
+   "WARN: latest panel bar 2026-05-28 is 16d stale (refresh the data before deploying today's book)."
+  ],
+  "notes": [
+   "Satellite legs are PERP positions (net-zero, gross 1 before scaling). Market-neutral execution: enter both sides; net dollar exposure ~0.",
+   "Satellite is a MODEST carry sleeve (decay-risk UNCONFIRMED) -- size conservatively."
+  ]
+ }
+}

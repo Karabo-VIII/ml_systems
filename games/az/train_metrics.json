@@ -1,0 +1,169 @@
+{
+  "config": {
+    "channels": 32,
+    "n_blocks": 4,
+    "iterations": 4,
+    "games_per_iter": 12,
+    "selfplay_sims": 24,
+    "temp_moves": 15,
+    "max_plies": 80,
+    "train_steps_per_iter": 60,
+    "batch_size": 64,
+    "lr": 0.001,
+    "l2": 0.0001,
+    "buffer_size": 20000,
+    "eval_games": 14,
+    "eval_sims": 16,
+    "ckpt_dir": "az_demo_checkpoints",
+    "metrics_path": "train_metrics.json",
+    "seed": 0
+  },
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "n_params": 9670723,
+  "n_input_planes": 19,
+  "n_policy": 4672,
+  "baseline_untrained": {
+    "win": 0,
+    "draw": 14,
+    "loss": 0,
+    "games": 14,
+    "win_rate": 0.0
+  },
+  "iters": [
+    {
+      "iter": 0,
+      "buffer_size": 452,
+      "new_examples": 452,
+      "total_examples": 452,
+      "train_steps": 60,
+      "first_step_loss": {
+        "total": 8.549975395202637,
+        "policy": 8.481582641601562,
+        "value": 0.06839261204004288
+      },
+      "iter_loss_mean_last10": {
+        "total": 3.429546332359314,
+        "policy": 3.421707510948181,
+        "value": 0.007838811795227229
+      },
+      "eval_vs_random": {
+        "win": 0,
+        "draw": 14,
+        "loss": 0,
+        "games": 14,
+        "win_rate": 0.0
+      },
+      "timing_s": {
+        "selfplay": 45.5,
+        "train": 0.8,
+        "eval": 23.0,
+        "iter_total": 69.4
+      },
+      "checkpoint": "az_demo_checkpoints\\net_iter0.pt"
+    },
+    {
+      "iter": 1,
+      "buffer_size": 1030,
+      "new_examples": 578,
+      "total_examples": 1030,
+      "train_steps": 60,
+      "first_step_loss": {
+        "total": 3.7752695083618164,
+        "policy": 3.7722389698028564,
+        "value": 0.0030304796528071165
+      },
+      "iter_loss_mean_last10": {
+        "total": 2.8115719079971315,
+        "policy": 2.807714319229126,
+        "value": 0.0038575613289140165
+      },
+      "eval_vs_random": {
+        "win": 0,
+        "draw": 13,
+        "loss": 1,
+        "games": 14,
+        "win_rate": 0.0
+      },
+      "timing_s": {
+        "selfplay": 67.0,
+        "train": 0.6,
+        "eval": 21.7,
+        "iter_total": 89.4
+      },
+      "checkpoint": "az_demo_checkpoints\\net_iter1.pt"
+    },
+    {
+      "iter": 2,
+      "buffer_size": 1519,
+      "new_examples": 489,
+      "total_examples": 1519,
+      "train_steps": 60,
+      "first_step_loss": {
+        "total": 2.6815857887268066,
+        "policy": 2.671778678894043,
+        "value": 0.009807036258280277
+      },
+      "iter_loss_mean_last10": {
+        "total": 2.625184154510498,
+        "policy": 2.620067071914673,
+        "value": 0.005117112962761894
+      },
+      "eval_vs_random": {
+        "win": 0,
+        "draw": 13,
+        "loss": 1,
+        "games": 14,
+        "win_rate": 0.0
+      },
+      "timing_s": {
+        "selfplay": 54.7,
+        "train": 0.7,
+        "eval": 24.6,
+        "iter_total": 80.1
+      },
+      "checkpoint": "az_demo_checkpoints\\net_iter2.pt"
+    },
+    {
+      "iter": 3,
+      "buffer_size": 1936,
+      "new_examples": 417,
+      "total_examples": 1936,
+      "train_steps": 60,
+      "first_step_loss": {
+        "total": 2.471177577972412,
+        "policy": 2.4701085090637207,
+        "value": 0.0010691476054489613
+      },
+      "iter_loss_mean_last10": {
+        "total": 2.4760750770568847,
+        "policy": 2.473418855667114,
+        "value": 0.0026562044396996496
+      },
+      "eval_vs_random": {
+        "win": 0,
+        "draw": 13,
+        "loss": 1,
+        "games": 14,
+        "win_rate": 0.0
+      },
+      "timing_s": {
+        "selfplay": 44.9,
+        "train": 0.7,
+        "eval": 21.9,
+        "iter_total": 67.5
+      },
+      "checkpoint": "az_demo_checkpoints\\net_iter3.pt"
+    }
+  ],
+  "summary": {
+    "total_wall_s": 306.4,
+    "total_wall_min": 5.11,
+    "total_examples": 1936,
+    "first_iter_loss": 8.549975395202637,
+    "last_iter_loss": 2.4760750770568847,
+    "loss_decreased": true,
+    "baseline_win_rate": 0.0,
+    "final_win_rate": 0.0
+  }
+}

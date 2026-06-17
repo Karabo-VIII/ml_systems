@@ -1,0 +1,462 @@
+{
+  "repro": {
+    "command": "python src/strat/oracle_anchor.py --decompose --assets BTC,ETH,SOL --cadences 1d,4h --window-days 14 --json",
+    "git_sha": "268d091",
+    "script": "src/strat/oracle_anchor.py",
+    "note": "deterministic (no RNG); re-run the command to regenerate bit-identically"
+  },
+  "params": {
+    "mode": "decompose",
+    "assets": "BTC,ETH,SOL",
+    "cadences": "1d,4h",
+    "window_days": 14,
+    "lo": 0.02,
+    "hi": 0.1
+  },
+  "results": [
+    {
+      "asset": "BTC",
+      "cad": "1d",
+      "n_win": 161,
+      "overall_capture": 0.6762272870513324,
+      "by_struct": {
+        "price>MA": 0.52,
+        "cross+flip": 0.4,
+        "cross+atr": 0.28,
+        "cross+time": 0.46,
+        "cross+tp": 0.35,
+        "price>f>s": 0.33
+      },
+      "by_matype": {
+        "sma": 0.42,
+        "ema": 0.37,
+        "wma": 0.44,
+        "hma": 0.67,
+        "dema": 0.49,
+        "kama": 0.38
+      },
+      "struct_wins": [
+        [
+          "price>MA",
+          67
+        ],
+        [
+          "cross+time",
+          40
+        ],
+        [
+          "cross+tp",
+          21
+        ],
+        [
+          "cross+flip",
+          19
+        ],
+        [
+          "cross+atr",
+          10
+        ],
+        [
+          "price>f>s",
+          4
+        ]
+      ],
+      "matype_wins": [
+        [
+          "hma",
+          68
+        ],
+        [
+          "sma",
+          53
+        ],
+        [
+          "wma",
+          14
+        ],
+        [
+          "kama",
+          10
+        ],
+        [
+          "ema",
+          9
+        ],
+        [
+          "dema",
+          7
+        ]
+      ]
+    },
+    {
+      "asset": "BTC",
+      "cad": "4h",
+      "n_win": 165,
+      "overall_capture": 0.4364181603763519,
+      "by_struct": {
+        "price>MA": 0.33,
+        "cross+flip": 0.28,
+        "cross+atr": 0.25,
+        "cross+time": 0.36,
+        "cross+tp": 0.15,
+        "price>f>s": 0.25
+      },
+      "by_matype": {
+        "sma": 0.32,
+        "ema": 0.29,
+        "wma": 0.3,
+        "hma": 0.39,
+        "dema": 0.33,
+        "kama": 0.27
+      },
+      "struct_wins": [
+        [
+          "cross+time",
+          58
+        ],
+        [
+          "price>MA",
+          35
+        ],
+        [
+          "cross+tp",
+          24
+        ],
+        [
+          "cross+atr",
+          19
+        ],
+        [
+          "cross+flip",
+          18
+        ],
+        [
+          "price>f>s",
+          11
+        ]
+      ],
+      "matype_wins": [
+        [
+          "hma",
+          77
+        ],
+        [
+          "sma",
+          34
+        ],
+        [
+          "dema",
+          19
+        ],
+        [
+          "kama",
+          14
+        ],
+        [
+          "wma",
+          11
+        ],
+        [
+          "ema",
+          10
+        ]
+      ]
+    },
+    {
+      "asset": "ETH",
+      "cad": "1d",
+      "n_win": 164,
+      "overall_capture": 0.5740491416302231,
+      "by_struct": {
+        "price>MA": 0.45,
+        "cross+flip": 0.38,
+        "cross+atr": 0.14,
+        "cross+time": 0.48,
+        "cross+tp": 0.31,
+        "price>f>s": 0.35
+      },
+      "by_matype": {
+        "sma": 0.38,
+        "ema": 0.28,
+        "wma": 0.35,
+        "hma": 0.53,
+        "dema": 0.43,
+        "kama": 0.31
+      },
+      "struct_wins": [
+        [
+          "price>MA",
+          62
+        ],
+        [
+          "cross+time",
+          42
+        ],
+        [
+          "cross+flip",
+          29
+        ],
+        [
+          "cross+tp",
+          20
+        ],
+        [
+          "price>f>s",
+          10
+        ],
+        [
+          "cross+atr",
+          1
+        ]
+      ],
+      "matype_wins": [
+        [
+          "hma",
+          84
+        ],
+        [
+          "sma",
+          50
+        ],
+        [
+          "wma",
+          9
+        ],
+        [
+          "dema",
+          9
+        ],
+        [
+          "kama",
+          8
+        ],
+        [
+          "ema",
+          4
+        ]
+      ]
+    },
+    {
+      "asset": "ETH",
+      "cad": "4h",
+      "n_win": 165,
+      "overall_capture": 0.38352669870509715,
+      "by_struct": {
+        "price>MA": 0.31,
+        "cross+flip": 0.26,
+        "cross+atr": 0.23,
+        "cross+time": 0.3,
+        "cross+tp": 0.09,
+        "price>f>s": 0.25
+      },
+      "by_matype": {
+        "sma": 0.26,
+        "ema": 0.24,
+        "wma": 0.26,
+        "hma": 0.34,
+        "dema": 0.33,
+        "kama": 0.25
+      },
+      "struct_wins": [
+        [
+          "cross+time",
+          51
+        ],
+        [
+          "price>MA",
+          47
+        ],
+        [
+          "cross+flip",
+          26
+        ],
+        [
+          "cross+tp",
+          15
+        ],
+        [
+          "cross+atr",
+          13
+        ],
+        [
+          "price>f>s",
+          13
+        ]
+      ],
+      "matype_wins": [
+        [
+          "hma",
+          74
+        ],
+        [
+          "dema",
+          30
+        ],
+        [
+          "sma",
+          29
+        ],
+        [
+          "kama",
+          12
+        ],
+        [
+          "wma",
+          12
+        ],
+        [
+          "ema",
+          8
+        ]
+      ]
+    },
+    {
+      "asset": "SOL",
+      "cad": "1d",
+      "n_win": 148,
+      "overall_capture": 0.6538647654728764,
+      "by_struct": {
+        "price>MA": 0.52,
+        "cross+flip": 0.37,
+        "cross+atr": 0.14,
+        "cross+time": 0.44,
+        "cross+tp": 0.26,
+        "price>f>s": 0.35
+      },
+      "by_matype": {
+        "sma": 0.37,
+        "ema": 0.28,
+        "wma": 0.35,
+        "hma": 0.57,
+        "dema": 0.43,
+        "kama": 0.31
+      },
+      "struct_wins": [
+        [
+          "price>MA",
+          65
+        ],
+        [
+          "cross+time",
+          30
+        ],
+        [
+          "cross+flip",
+          21
+        ],
+        [
+          "cross+tp",
+          20
+        ],
+        [
+          "cross+atr",
+          6
+        ],
+        [
+          "price>f>s",
+          6
+        ]
+      ],
+      "matype_wins": [
+        [
+          "hma",
+          63
+        ],
+        [
+          "sma",
+          46
+        ],
+        [
+          "dema",
+          15
+        ],
+        [
+          "kama",
+          10
+        ],
+        [
+          "wma",
+          8
+        ],
+        [
+          "ema",
+          6
+        ]
+      ]
+    },
+    {
+      "asset": "SOL",
+      "cad": "4h",
+      "n_win": 149,
+      "overall_capture": 0.32388131675776966,
+      "by_struct": {
+        "price>MA": 0.23,
+        "cross+flip": 0.2,
+        "cross+atr": 0.15,
+        "cross+time": 0.24,
+        "cross+tp": 0.06,
+        "price>f>s": 0.18
+      },
+      "by_matype": {
+        "sma": 0.18,
+        "ema": 0.16,
+        "wma": 0.2,
+        "hma": 0.29,
+        "dema": 0.23,
+        "kama": 0.19
+      },
+      "struct_wins": [
+        [
+          "price>MA",
+          41
+        ],
+        [
+          "cross+time",
+          41
+        ],
+        [
+          "cross+flip",
+          25
+        ],
+        [
+          "price>f>s",
+          18
+        ],
+        [
+          "cross+tp",
+          12
+        ],
+        [
+          "cross+atr",
+          12
+        ]
+      ],
+      "matype_wins": [
+        [
+          "hma",
+          61
+        ],
+        [
+          "dema",
+          36
+        ],
+        [
+          "sma",
+          21
+        ],
+        [
+          "kama",
+          16
+        ],
+        [
+          "wma",
+          9
+        ],
+        [
+          "ema",
+          6
+        ]
+      ]
+    }
+  ]
+}

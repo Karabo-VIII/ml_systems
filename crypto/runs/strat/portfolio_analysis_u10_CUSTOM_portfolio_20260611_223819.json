@@ -1,0 +1,60 @@
+{
+ "spec": {
+  "grid": true,
+  "strategies_file": null,
+  "strategies": null,
+  "family": "2MA",
+  "max_configs": 6,
+  "rel_tol": 0.15,
+  "universe": "u10",
+  "cadence": "1d",
+  "window": "CUSTOM",
+  "start": "2020-01-07",
+  "end": "2020-02-07",
+  "maker": false,
+  "spine": false,
+  "vol_target": 0.02,
+  "max_per_name": 0.15,
+  "trail_stop": 0.0,
+  "per_config": false
+ },
+ "out": {
+  "mode": "portfolio",
+  "n_strategies": 6,
+  "strategies": [
+   "ema_102_103",
+   "ema_18_128",
+   "ema_2_5",
+   "ema_44_45",
+   "ema_62_172",
+   "ema_8_91"
+  ],
+  "analysis": {
+   "CAGR_pct": -1.4,
+   "ann_vol_pct": 0.4,
+   "sharpe": -3.49,
+   "sortino": -739547348.69,
+   "calmar": -14.0,
+   "maxdd_pct": -0.1,
+   "maxdd_duration_days": 1.0,
+   "exposure_avg_gross": 0.835,
+   "avg_turnover": 0.0323,
+   "roll1d_median_pct": 0.0,
+   "roll1d_pos": 0.0,
+   "roll3d_median_pct": 0.0,
+   "roll3d_pos": 0.0,
+   "roll7d_median_pct": 0.0,
+   "roll7d_pos": 0.0,
+   "final_pct": -0.11999999999999789,
+   "n_bars": 31,
+   "per_strat_hold_bars": {
+    "ema_102_103": 0,
+    "ema_18_128": 0,
+    "ema_2_5": 116,
+    "ema_44_45": 0,
+    "ema_62_172": 0,
+    "ema_8_91": 0
+   }
+  }
+ }
+}

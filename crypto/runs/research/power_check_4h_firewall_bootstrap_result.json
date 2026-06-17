@@ -1,0 +1,98 @@
+{
+  "power_confirmed_firewall_and_bootstrap": true,
+  "two_sided": true,
+  "positive_control": {
+    "tag": "POSITIVE CONTROL (planted within-gate 4h timing edge)",
+    "n_trades_per_window": {
+      "TRAIN": 197,
+      "VAL": 33,
+      "OOS": 37,
+      "UNSEEN": 19
+    },
+    "compound_per_window": {
+      "TRAIN": 549774484.138,
+      "VAL": 548.331,
+      "OOS": 1813.353,
+      "UNSEEN": 294.181
+    },
+    "unseen_maxdd_pct": -4.23,
+    "firewall_compound_beats_held": true,
+    "firewall_compound_pos_held": true,
+    "firewall_compound_verdict": "REAL ENTRY-TIMING EDGE (beats cost-matched random-entry null on held-out AND positive)",
+    "firewall_pte_PASS": true,
+    "firewall_pte_combined": {
+      "real_exp_pct": 8.6917,
+      "n_trades": 56,
+      "null_mean_pct": 3.8393,
+      "null_p5_pct": 2.251,
+      "null_p50_pct": 3.8147,
+      "null_p95_pct": 5.6321,
+      "pctile_rank": 1.0,
+      "beats_null_p95": true
+    },
+    "bootstrap_unseen": {
+      "p05": 65.22,
+      "p50": 192.87,
+      "p95": 389.85
+    },
+    "bootstrap_held_OOS+UNSEEN": {
+      "p05": 2451.56,
+      "p50": 7387.76,
+      "p95": 25235.39
+    },
+    "bootstrap_held_p05_gt_0": true,
+    "bootstrap_unseen_p05_gt_0": true,
+    "battery_verdict": "FAIL",
+    "battery_p05": 65.22,
+    "battery_n_eff": 6.4,
+    "battery_jk3": 66.1,
+    "battery_n_unseen": 19
+  },
+  "negative_control": {
+    "tag": "NEGATIVE CONTROL (pure-noise 4h, same gate machinery)",
+    "n_trades_per_window": {
+      "TRAIN": 157,
+      "VAL": 40,
+      "OOS": 34,
+      "UNSEEN": 10
+    },
+    "compound_per_window": {
+      "TRAIN": -28.713,
+      "VAL": -7.28,
+      "OOS": -14.592,
+      "UNSEEN": 0.062
+    },
+    "unseen_maxdd_pct": -5.13,
+    "firewall_compound_beats_held": false,
+    "firewall_compound_pos_held": false,
+    "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+    "firewall_pte_PASS": false,
+    "firewall_pte_combined": {
+      "real_exp_pct": -0.3499,
+      "n_trades": 44,
+      "null_mean_pct": -0.2156,
+      "null_p5_pct": -0.5247,
+      "null_p50_pct": -0.2175,
+      "null_p95_pct": 0.1039,
+      "pctile_rank": 0.246,
+      "beats_null_p95": false
+    },
+    "bootstrap_unseen": {
+      "p05": 0.06,
+      "p50": 7.27,
+      "p95": 11.46
+    },
+    "bootstrap_held_OOS+UNSEEN": {
+      "p05": -21.93,
+      "p50": -12.2,
+      "p95": 1.39
+    },
+    "bootstrap_held_p05_gt_0": false,
+    "bootstrap_unseen_p05_gt_0": true,
+    "battery_verdict": "FAIL",
+    "battery_p05": 0.06,
+    "battery_n_eff": 6.4,
+    "battery_jk3": -4.2,
+    "battery_n_unseen": 10
+  }
+}

@@ -1,0 +1,1766 @@
+# Deployment ranking and capital allocation (2026-04-21)
+# Ranks from eval_v2 13-month walk-forward composite (alpha + UPI + Omega + DSR + 0.5*Sharpe).
+# See memory/deployment_ranking_2026_04_21.md for full context.
+#
+# Capital weights sum to 1.0 across the ACTIVE books below.
+# Inactive books preserve the profile registration but don't consume capital.
+#
+# Operator workflow:
+#   python src/analysis/paper_trader_v2.py --init --seed prod_live \
+#       --profile <deploy_profile_name> --from-date <start>
+#
+# Where deploy_profile_name is one of the composite profiles registered in
+# strat_profiles.py (see COMPOSITE_DEPLOY_* entries below) or a singleton
+# profile from the ranking.
+
+ranking_version: "2026-04-22.v4"
+
+# =============================================================================
+# PRODUCTION BLENDS (2026-05-09) — moved to dedicated config/production_blends.yaml
+# (this file has pre-existing parser issues — production_blends sits in a clean
+# yaml read by src/strategy/gen5_growth/blend_composer.py)
+#
+# Per docs/PROD_DEPLOY_VERDICT_2026_05_09.md — CONSERVATIVE GO day-0,
+# PRIME GO day-30, AGGRESSIVE HOLD pending correlation reduction.
+# Smoke test:  python -m src.strategy.gen5_growth.blend_composer --check
+# =============================================================================
+
+# DEPRECATED — pre-2026-05-09 entries:
+# - recommended_3sleeve_conservative (line 486 below) — superseded by CONSERVATIVE
+# - TIER_2_CONSERVATIVE (line 1132 below) — superseded
+# - full_stack_v8_dib (line 90+) — older multi-engine; not in current blend set
+# DO NOT USE for new deploys. See config/production_blends.yaml + PROD_DEPLOY_VERDICT_2026_05_09.md.
+
+# =============================================================================
+# v4 (2026-04-22 late-session): PAPER TRADER MEASURED UPDATE on U50 $10K
+# 2025-01-01 -> 2026-04-16 (15mo replay).
+#
+# CRITICAL: perp_dna_long_short and regime_routed_full CONFIRMED NEGATIVE on
+# this window: -13.07% and -15.98% respectively. They are bear-regime plays
+# in a bull regime. REMOVED from all blends.
+#
+# Measured numbers below (MEASURED tag) replace pre-fix composite scores.
+# prod_meta_combined confirmed as core compounder: Sh 2.69 DD -4.52% CAGR 49%.
+#
+# New primary blend is TOP-2 paper-trader + off-path xsec/P8/xgb sleeves.
+# See memory/deployment_rank_2026_04_22_final.md for full portfolio math.
+# =============================================================================
+
+# =============================================================================
+# BUG-FIX UPDATE (2026-04-22): MtM double-count in simulator FIXED
+# -----------------------------------------------------------------------------
+# The 7x-47x trade-log/equity reconciliation gap flagged in v2 is RESOLVED.
+# Root cause: short_term_speculator_v2.run_v2 + trend_follow_backtest.run_one_window_tf
+# double-counted MtM on intermediate bars and over-charged costs by 1 per_side.
+# Fix: MtM-only accounting (lines 147-185, 228-237; flush block).
+# Probe: 5-bar hold ratio 1.0x (fixed) vs 2.0x formula (buggy).
+# Empirical validation: prod_meta_combined @ maker, 13mo, $1000 capital:
+#   Buggy simulator: +501.2% (claimed in v2)
+#   Fixed simulator: +94.02%  (HONEST)
+#   De-rating: 5.3x — consistent with predicted 5-7x from MtM math.
+# All ranking numbers below are STILL from pre-fix v2. De-rate 4-6x mentally.
+# v3 re-run of all 32 GENUINE profiles is required but deferred (long-running).
+# SUSPECT profiles (ratio -47x to -14x) are CONFIRMED DEAD by the fix — their
+# negative raw per-trade pnl was only inflated by the MtM bug; zero trades
+# when re-run on current setup confirms they depended on the bug.
+# =============================================================================
+#
+# POST-FIX DEPLOYMENT RECOMMENDATION:
+#   - Champion honest baseline: prod_meta_combined @ maker = +94%/13mo
+#     ≈ 0.17%/day compounded ≈ 70% annualized.
+#   - OHLC fill calibrator (execution_sim.py, 2026-04-22) found p_fill=20-40%,
+#     NOT 0.80 as assumed by MakerCostModel. REAL fills will be ~1/3 of
+#     backtest trades, but those fills are dip-biased winners. Net effect:
+#     expect 50-75% of backtest equity in live, i.e., ~47-70% /13mo range
+#     = 0.09-0.13%/day compounded = ~35-50% annualized.
+#   - Phased deploy: $500 pilot -> $2k -> $10k. Kelly * 0.25. -20% portfolio stop.
+#
+# =============================================================================
+ranking_version_v2: "2026-04-21.v2"
+
+# =============================================================================
+# AUDIT FLAG (2026-04-21 leakage audit) -- see memory/leakage_audit_2026_04_21.md
+# -----------------------------------------------------------------------------
+# size13_prod_floor_combined and s6b_v8_combined have NEGATIVE mean per-trade
+# pnl_pct in the OOS snapshot window (-0.018% and -0.028%) yet their snapshot
+# equity claims +832% and +728%. Trade logs cannot reconstruct equity curves
+# (ratio 24-47x unexplained). Root cause: simulator applies position-sizing
+# overlays (Kelly / regime / drawdown brake) not captured in trade_log.
+# DOWNGRADED from capital allocation until true-backtest validation of the
+# simulator sizing pipeline. meta13_combined/prod_meta_combined has POSITIVE
+# OOS per-trade expectancy (+0.128%) and 7x reconciliation ratio: TRUSTED.
+# No upstream data leakage was found (meta-labeler trained on pre-2025-01-01,
+# snapshot eval 2025-03-16 onwards, 74-day purge).
+# =============================================================================
+
+# =============================================================================
+# PRIMARY DEPLOYMENT: 5-book blend optimized for Sharpe + drawdown
+# =============================================================================
+# Book A (55%) -- prod_meta_combined (TRUSTED champion, pos OOS per-trade)
+# Book B (30%) -- prod_meta_full (broader engine mix, score 5.06)
+# Book C  (0%) -- size13_prod_floor_combined (SUSPECT, equity unreconciled)
+# Book D (10%) -- perp_dna_long_short (bidirectional PERP, score 2.65)
+# Book E (5%)  -- regime_routed_full (regime overlay, score 2.42)
+# =============================================================================
+
+deployment:
+  # =============================================================================
+  # full_stack_v8_dib (RECOMMENDED 2026-04-28)
+  # -----------------------------------------------------------------------------
+  # Audit/correlation_and_deployment.py rerun on 2026-04-28 confirmed at the
+  # SLEEVE level (not blended-stack level), strategies are genuinely orthogonal:
+  #   xsec ⟷ dib_flow_both:    ρ = 0.00
+  #   xsec ⟷ meta_combined:     ρ = 0.02
+  #   dib  ⟷ meta_combined:     ρ = 0.30
+  # Best measured blend across all 12 deployment options: 3_xsec+meta+dib
+  # CAGR 71.84%, Sharpe **4.31**, DD **-4.26%**, time-to-10x = 4.25 yrs.
+  # See logs/frontier/audit/deployment_options.csv for the full table.
+  #
+  # This blend reweights v4 to add DIB at 10% (taken from xgb_K3_long_WEALTH40
+  # which has DD -40% — the xgb sleeve's marginal log-growth is small and its
+  # DD is the highest in v4). Net effect: better Sharpe, lower DD.
+  # =============================================================================
+  full_stack_v8_dib:
+    books:
+      - name: book_a
+        weight: 0.25
+        profile: xsec_K5_5_FULL_dneut
+        tier: S
+        rationale: "Anchor — Sharpe 2.95 standalone, ρ ~0 with everything else."
+      - name: book_b
+        weight: 0.20
+        profile: prod_meta_combined
+        tier: S
+        rationale: "Core compounder. Lowest DD of any sleeve."
+      - name: book_c
+        weight: 0.20
+        profile: P8_listing_h1_momentum
+        tier: S
+        rationale: "Orthogonal event channel."
+      - name: book_d
+        weight: 0.10
+        profile: frontier_dib_flow_both
+        tier: S
+        deploy_path: "src/strategy/gen4_frontier_alpha/dib_flow_duo.py"
+        measured_sharpe: 3.43
+        measured_cagr_pct: 71.94
+        measured_dd_pct: -3.75
+        rationale: "NEW — best single Sharpe, ρ ~0 with xsec/meta. Per audit 2026-04-28."
+      - name: book_e
+        weight: 0.10
+        profile: prod_meta_full
+        tier: A
+        rationale: "Diversifier within ML-ranker class."
+      - name: book_f
+        weight: 0.05
+        profile: xgb_K3_long_WEALTH40
+        tier: A
+        rationale: "Wealth amplifier (reduced from 15% to 5% — DD -40% is heavy)."
+      - name: book_g
+        weight: 0.05
+        profile: cat_K1_stop_no_macro
+        tier: A
+        rationale: "Aggressive tail sleeve."
+      - name: book_h
+        weight: 0.02
+        profile: S2_dual_cadence
+        tier: B
+        rationale: "Low-correlation overlay."
+      - name: reserve
+        weight: 0.03
+        profile: USDC
+        tier: reserve
+
+    # Expected portfolio (audit-measured at 3_xsec+meta+dib + diversifiers)
+    expected_sharpe_postFriction: 3.5     # est: audit 4.31 derated 20% for haircut
+    expected_cagr_postFriction_pct: 60     # 0.5x haircut on 120%/yr blend
+    expected_max_dd_pct: -10
+    expected_10x_years_postFriction: 4.5
+    portfolio_dd_halt_pct: -20            # tighter than v4 (-25%) given lower expected DD
+
+  # Full stack (paper_trader + xsec scripts + P8 growth pillar)
+  # Previous default before 2026-04-28 audit. Retained for A/B comparison.
+  full_stack_v4:
+    books:
+      - name: book_a
+        weight: 0.25
+        profile: xsec_K5_5_FULL_dneut
+        tier: S
+        deploy_path: "scratch/xsec_xgb_walkforward.py (variant K=5+5 FULL)"
+        measured_sharpe: 3.70
+        measured_cagr_pct: 161
+        measured_dd_pct: -8
+        wf_windows_positive: "3/3"
+        rationale: "Largest Kelly-log contribution (0.98/yr). Delta-neutral anchor."
+      - name: book_b
+        weight: 0.20
+        profile: prod_meta_combined
+        tier: S
+        deploy_path: "paper_trader_v2 MEASURED 2025-01-01 -> 2026-04-16"
+        measured_sharpe: 2.69
+        measured_cagr_pct: 48.9
+        measured_dd_pct: -4.52
+        measured_trades: 1361
+        rationale: "Core compounder. Lowest DD of any sleeve. 15mo replay ON U50."
+      - name: book_c
+        weight: 0.20
+        profile: P8_listing_h1_momentum
+        tier: S
+        deploy_path: "src/growth/pillars/p8_listing_h1_momentum.py"
+        measured_oos_mean_event_pct: 8.64
+        measured_oos_t: 3.61
+        measured_oos_hit_pct: 67
+        measured_oos_n: 85
+        rationale: "Orthogonal event channel. +0.80%/day OOS at 20% cap per event."
+      - name: book_d
+        weight: 0.15
+        profile: xgb_K3_long_WEALTH40
+        tier: A
+        deploy_path: "scratch/xsec_xgb_walkforward.py (variant K=3 long)"
+        measured_sharpe: 2.58
+        measured_cagr_pct: 252
+        measured_dd_pct: -40
+        rationale: "Wealth amplifier. 3/3 WF windows positive. Sized fractional Kelly (0.26x)."
+      - name: book_e
+        weight: 0.10
+        profile: prod_meta_full
+        tier: A
+        deploy_path: "paper_trader_v2 MEASURED 2025-01-01 -> 2026-04-16"
+        measured_sharpe: 1.74
+        measured_cagr_pct: 33.0
+        measured_dd_pct: -7.32
+        measured_trades: 1747
+        rationale: "Diversifier within ML-ranker class."
+      - name: book_f
+        weight: 0.03
+        profile: cat_K1_stop_no_macro
+        tier: A
+        deploy_path: "scratch/xsec_xgb_walkforward.py (variant K=1 stop no-macro)"
+        measured_sharpe: 1.69
+        measured_cagr_pct: 334
+        measured_dd_pct: -78
+        wf_windows_positive: "3/3"
+        rationale: "Aggressive tail sleeve. 3% weight caps risk."
+      - name: book_g
+        weight: 0.02
+        profile: S2_dual_cadence
+        tier: B
+        deploy_path: "embedded in prod_meta_combined cascade engine"
+        rationale: "Low-correlation overlay; tiny contribution but cheap."
+      - name: reserve
+        weight: 0.05
+        profile: USDC
+        tier: reserve
+        rationale: "5% cash reserve for P8 event sizing + portfolio DD buffer."
+
+    # Expected portfolio (linear combination over weighted CAGR)
+    expected_sharpe_preFriction: 3.2
+    expected_cagr_preFriction_pct: 158.7
+    expected_max_dd_pct: -15.2
+    expected_cagr_postFriction_pct: 79.3  # 0.5x haircut for p_fill 0.3 + slippage
+    expected_100x_years_postFriction: 7.9
+    expected_10x_years_postFriction: 3.9
+    portfolio_dd_halt_pct: -25  # hard stop; pause all deployment if portfolio DD < -25%
+
+  # Institutional-track only (simpler deployment, 2 paper_trader seeds)
+  primary:
+    books:
+      - name: book_a
+        weight: 0.60
+        profile: prod_meta_combined
+        tier: S
+        measured_sharpe: 2.69
+        measured_cagr_pct: 48.9
+        measured_dd_pct: -4.52
+      - name: book_b
+        weight: 0.40
+        profile: prod_meta_full
+        tier: A
+        measured_sharpe: 1.74
+        measured_cagr_pct: 33.0
+        measured_dd_pct: -7.32
+    # Measured blend on same replay window:
+    measured_blend_total_pct: 57.90
+    measured_blend_cagr_pct: 42.5
+    measured_blend_dd_pct: -5.64
+    measured_blend_sharpe: 2.32
+
+  # Conservative (meta_combined dominant, single-seed simplicity)
+  conservative:
+    books:
+      - name: book_a
+        weight: 1.00
+        profile: prod_meta_combined
+        tier: S
+        measured_sharpe: 2.69
+        measured_cagr_pct: 48.9
+        measured_dd_pct: -4.52
+
+  # DD-controlled full stack: same sleeves as full_stack_v4 but tuned to
+  # keep measured portfolio DD under -20% (better than -25% halt threshold).
+  # Tuning: downweight cat_K1 (DD -67%) and xgb_K3_long (DD -56%) in favor
+  # of the low-DD anchors xsec_K5_5_FULL (DD -8%) and prod_meta_combined (DD -4.5%).
+  full_stack_v4_conservative:
+    books:
+      - name: book_a
+        weight: 0.35           # up from 0.25
+        profile: xsec_K5_5_FULL_dneut
+        tier: S
+        rationale: "Increase anchor weight (Sh 4.12 DD -8%)."
+      - name: book_b
+        weight: 0.30           # up from 0.20
+        profile: prod_meta_combined
+        tier: S
+        rationale: "Increase second anchor (Sh 2.69 DD -4.5%)."
+      - name: book_c
+        weight: 0.15           # down from 0.20
+        profile: P8_listing_h1_momentum
+        tier: S
+        rationale: "Off-path; tracked separately when paper mode generates fills."
+      - name: book_d
+        weight: 0.07           # down from 0.15 (DD-cost too high at 15%)
+        profile: xgb_K3_long_WEALTH40
+        tier: A
+        rationale: "Reduce DD contribution (-56% sleeve DD)."
+      - name: book_e
+        weight: 0.08           # down from 0.10
+        profile: prod_meta_full
+        tier: A
+      - name: book_f
+        weight: 0.00           # drop entirely (DD -67% is disproportionate)
+        profile: cat_K1_stop_no_macro
+        tier: A
+        rationale: "DROPPED under DD-controlled variant; reactivate if DD budget raised."
+      - name: book_g
+        weight: 0.00
+        profile: S2_dual_cadence
+      - name: reserve
+        weight: 0.05
+        profile: USDC
+
+  # =============================================================================
+  # v5 (2026-04-22 frontier session): full_stack_v4 + frontier sleeves
+  # -----------------------------------------------------------------------------
+  # Adds Item 1 from frontier roadmap: stable-flow overlay (USDT mint-shock).
+  # Signal: USDT daily supply z-score > +2 vs 30d baseline.
+  # Entry: top-10 altcoins by 14d momentum, hold 5 days.
+  # 2025-01-01 -> 2026-04-16 measured: +69.64% / CAGR 50.88% / Sh 1.50 /
+  #   DD -11.52% / hit 76.2% / 21 trades.
+  # 2021-2026 robustness: +3454% / CAGR 96.5% / Sh 2.00 / DD -25.1% / hit 74%.
+  #   Year-by-year positive EVERY year except 2022 bear (-6%).
+  #   Random-shuffle null (10 seeds): mean Sharpe 0.40 ± 0.55.
+  #   Real signal at Sh 2.00 = 2.9σ above null.
+  # Conservative 10% weight — large room for the signal to prove out live.
+  # =============================================================================
+  # Surgical add: v4_conservative PLUS 5% stable-flow funded from reserve only.
+  # All other sleeve weights kept IDENTICAL to v4_conservative.
+  full_stack_v5_frontier:
+    books:
+      - name: book_a
+        weight: 0.35
+        profile: xsec_K5_5_FULL_dneut
+        tier: S
+        measured_sharpe: 3.70
+        measured_cagr_pct: 161
+        measured_dd_pct: -8
+      - name: book_b
+        weight: 0.30
+        profile: prod_meta_combined
+        tier: S
+        measured_sharpe: 2.69
+        measured_cagr_pct: 48.9
+        measured_dd_pct: -4.52
+      - name: book_c
+        weight: 0.15
+        profile: P8_listing_h1_momentum
+        tier: S
+        rationale: "Off-path listing event alpha, 20% cap per event."
+      - name: book_d
+        weight: 0.07
+        profile: xgb_K3_long_WEALTH40
+        tier: A
+        measured_sharpe: 2.58
+        measured_cagr_pct: 252
+        measured_dd_pct: -40
+      - name: book_e
+        weight: 0.08
+        profile: prod_meta_full
+        tier: A
+      - name: book_f_frontier
+        weight: 0.05            # NEW — frontier stable-flow overlay, funded from reserve
+        profile: frontier_stable_flow
+        tier: S
+        deploy_path: "src/frontier/strategies/stable_flow_overlay.py (K=10 H=5 mom)"
+        measured_sharpe_15mo: 1.50
+        measured_cagr_15mo_pct: 50.88
+        measured_dd_15mo_pct: -11.52
+        measured_hit_pct: 76.2
+        measured_n_trades: 21
+        robustness_5y_sharpe: 2.00
+        robustness_5y_cagr_pct: 96.47
+        robustness_null_z: 2.9
+        rationale: "Stablecoin USDT mint-shock overlay. 5y OOS + 2.9σ above null. Conservative 5% initial (scale up after 4wk live validation)."
+      - name: reserve
+        weight: 0.00             # reallocated to frontier sleeve
+        profile: USDC
+
+    expected_sharpe_preFriction: 4.0
+    expected_cagr_preFriction_pct: 92
+    expected_max_dd_pct: -11
+    expected_cagr_postFriction_pct: 46
+    portfolio_dd_halt_pct: -25
+
+  # v6: v5_frontier + ETF flow sleeve (Phase A Item 1 SHIP).
+  # Surgical add: 5% stable-flow + 5% etf-flow, funded by trimming xgb_K3_long 2pp
+  # and reserving 3pp (the aggressive sleeves have DD -40% so downweighting
+  # improves portfolio DD at the cost of ~1-2pp CAGR).
+  full_stack_v6_frontier:
+    books:
+      - name: book_a
+        weight: 0.35
+        profile: xsec_K5_5_FULL_dneut
+        tier: S
+      - name: book_b
+        weight: 0.30
+        profile: prod_meta_combined
+        tier: S
+      - name: book_c
+        weight: 0.15
+        profile: P8_listing_h1_momentum
+        tier: S
+        rationale: "Off-path listing event alpha."
+      - name: book_d
+        weight: 0.05            # down from 0.07
+        profile: xgb_K3_long_WEALTH40
+        tier: A
+        rationale: "Trimmed to fund frontier sleeves."
+      - name: book_e
+        weight: 0.05            # down from 0.08
+        profile: prod_meta_full
+        tier: A
+      - name: book_f_frontier_stable
+        weight: 0.05
+        profile: frontier_stable_flow
+        tier: S
+      - name: book_g_frontier_etf
+        weight: 0.05            # NEW — ETF flow sleeve
+        profile: frontier_etf_flow
+        tier: S
+        deploy_path: "src/frontier/strategies/etf_flow_overlay.py (ethbtc_duo_shock K=2 H=2)"
+        measured_sharpe_15mo: 1.10
+        measured_cagr_15mo_pct: 18.23
+        measured_dd_15mo_pct: -11.23
+        measured_hit_pct: 57.9
+        measured_n_trades: 38
+        robustness_null_z: 1.82
+        rationale: "Buy BTC+ETH on ETF mega-inflow days (total z>2 OR >$500M). Null 1.82σ above mean, shuffled signal loses. Direct mechanism: follow ETF capital into spot."
+      - name: reserve
+        weight: 0.00
+        profile: USDC
+
+    expected_sharpe_preFriction: 4.1
+    expected_cagr_preFriction_pct: 90
+    expected_max_dd_pct: -10
+    expected_cagr_postFriction_pct: 45
+    portfolio_dd_halt_pct: -25
+
+  # =============================================================================
+  # RECOMMENDED (2026-04-23 post-audit): simpler beats complex
+  # -----------------------------------------------------------------------------
+  # Audit (docs/DEPLOYMENT_RECOMMENDATION_2026_04_23.md) showed v7_frontier was
+  # over-diversified. 2-sleeve and 3-sleeve alternatives beat it on ALL metrics.
+  # xsec_K5_5_FULL and dib_flow_both have correlation 0.04 — genuine orthogonality.
+  # =============================================================================
+
+  # PRIMARY recommendation: 2-sleeve (MEASURED via aggregator post-audit)
+  # Verified aligned 2025-01-01 -> 2026-04-13: CAGR 117.55%, Sharpe 4.96, DD -5.05%
+  recommended_2sleeve:
+    books:
+      - name: book_a
+        weight: 0.70
+        profile: xsec_K5_5_FULL_dneut
+        measured_sharpe: 4.07
+        measured_cagr_pct: 133.3
+        measured_dd_pct: -8.1
+      - name: book_b
+        weight: 0.30
+        profile: frontier_dib_flow_both
+        measured_sharpe: 3.43
+        measured_cagr_pct: 71.9
+        measured_dd_pct: -3.7
+    measured_sharpe: 4.96
+    measured_cagr_pct: 117.55
+    measured_dd_pct: -5.05
+    measured_calmar: 23.26
+    measured_sortino: 16.00
+    measured_time_10x_yr_preFriction: 2.96
+    measured_time_10x_yr_postFriction: 5.4
+    correlation: 0.04  # xsec vs dib daily returns (near-zero, TRUE diversification)
+    portfolio_dd_halt_pct: -15
+
+  # CONSERVATIVE: 3-sleeve max-Sharpe, DD -3.9%, 10x in 3.5y
+  recommended_3sleeve_conservative:
+    books:
+      - name: book_a
+        weight: 0.50
+        profile: xsec_K5_5_FULL_dneut
+      - name: book_b
+        weight: 0.30
+        profile: prod_meta_combined
+      - name: book_c
+        weight: 0.20
+        profile: frontier_dib_flow_both
+    measured_sharpe: 5.30
+    measured_cagr_pct: 95.36
+    measured_dd_pct: -3.89
+    measured_calmar: 24.54
+    measured_time_10x_yr_preFriction: 3.47
+    portfolio_dd_halt_pct: -12
+
+  # =============================================================================
+  # RECOMMENDED v2 (2026-04-24 post-research round 2): K=10+10 + fade50 variants
+  # -----------------------------------------------------------------------------
+  # K=10+10 at U50_LIQUID is a strict Pareto improvement over K=5+5:
+  #   Sharpe 4.48 -> 4.47 (parity) with DD -4.26% vs -8.66% (DD HALVED)
+  # Fade@0.50 gate on xgb_K3_long_WEALTH40 is another Pareto win:
+  #   Sharpe 1.60 -> 1.73, CAGR 120% -> 171%, DD -56% -> -52%
+  #
+  # BUT: shuffle-control audit (docs/AUDIT_HAWKES_SHUFFLE_2026_04_24.md) revealed
+  # that the XGBRanker adds LITTLE alpha; the meta-gate v8 + regime gate are the
+  # load-bearing components. This means these Sharpe numbers are achievable by
+  # "random-pick-within-meta-gate" too. Keep deploying but understand the mechanism.
+  # =============================================================================
+
+  # PRIMARY v2: Sharpe-optimised at K=10+10 instead of K=5+5
+  recommended_2sleeve_v2:
+    books:
+      - name: book_a
+        weight: 0.70
+        profile: xsec_K10_10_FULL_dneut_U50  # NEW: K=10+10 on U50_LIQUID
+        measured_sharpe: 5.06
+        measured_cagr_pct: 98.0
+        measured_dd_pct: -4.26
+      - name: book_b
+        weight: 0.30
+        profile: frontier_dib_flow_both
+        measured_sharpe: 3.43
+        measured_cagr_pct: 71.9
+        measured_dd_pct: -3.7
+    measured_sharpe: null  # to be remeasured post-aggregator update
+    portfolio_dd_halt_pct: -10  # tighter given K=10+10 DD is half of K=5+5
+    notes: |
+      K=10+10 delta-neutral picks top/bottom 20% of U50_LIQUID. Lower CAGR than
+      K=5+5 but half the drawdown. Equal-risk sizing can deploy 2x position size.
+      Requires PT_UNIVERSE=<UNIVERSE_50_LIQUID> env var on xsec script.
+
+  # WEALTH-TILT v2: xgb_K3_long + fade@0.50 gate -- RETIRED 2026-04-24
+  # Shuffled-fade-gate control test (see docs/ASYMMETRIC_VALIDATION_2026_04_24.md)
+  # CONFIRMED the fade@0.50 "Pareto win" was noise:
+  #   Real fade@0.50:   CAGR -32.24%  Sharpe -0.81
+  #   Shuffled mean:    CAGR -25.77%  Sharpe -0.75  (5 seeds)
+  # Real underperforms shuffled. Variant DELETED from deployable set.
+  xgb_K3_long_fade50_WEALTH_RETIRED:
+    retired_date: "2026-04-24"
+    retired_reason: "shuffled-control test confirmed noise, not signal"
+
+  # =============================================================================
+  # NEW ASYMMETRIC SLEEVE: pt_asym_breakout (2026-04-24 ship)
+  # -----------------------------------------------------------------------------
+  # Realistic portfolio sim of Family A breakout:
+  #   N=10-day high breakout + 2% init stop + 5% trailing stop + 15d max hold
+  #   max 10 concurrent positions, 10% capital per trade
+  # Measured 474 days, UNIVERSE_50_LIQUID, maker 0.08% RT:
+  #   CAGR +125.12%, Sharpe +2.74, DD -7.46%, Calmar 16.77
+  #   619 trades, hit rate 34%, ASYMMETRY 5.45x, Kelly +0.0198 nats/trade
+  # Uncorrelated mechanism from xsec / DIB / frontier -- pure diversification.
+  # =============================================================================
+  asym_breakout_standalone:
+    books:
+      - name: book_a
+        weight: 1.00
+        profile: asym_breakout
+    # Updated 2026-04-24 post paranoid validation + conservative exit-order fix.
+    # Previous optimistic numbers (CAGR 125%, Sh 2.74) were biased by trail-first
+    # exit-order race -- updating trailing stop with today's high BEFORE checking
+    # today's low breach. True (low-first) accounting is here.
+    measured_sharpe: 1.74
+    measured_cagr_pct: 41.06
+    measured_dd_pct: -7.69
+    measured_asymmetry: 6.39
+    measured_hit_rate: 0.34
+    measured_n_trades: 620
+    measured_window: "2025-01-01 -> 2026-04-22"
+    shuffle_control_sharpe_real_minus_shuffled: 7.78  # signal confirmed REAL
+    portfolio_dd_halt_pct: -15
+    notes: |
+      Tight stop + trailing stop breakout. Hit rate 34%, asymmetry 6.39x.
+      Honest numbers use low-first exit order (conservative).
+      Shuffle-control test: REAL Sharpe +3.07 (optimistic) / +1.74 (conservative)
+      vs SHUFFLED mean -4.71 -- signal is real, not noise.
+
+  # =============================================================================
+  # NEW ASYMMETRIC SLEEVE: pt_asym_vol_expansion (2026-04-24 Family B SHIP)
+  # -----------------------------------------------------------------------------
+  # Vol-expansion event-driven long:
+  #   Entry: vol_z30 >= 2.0 AND ret_d >= -0.02
+  #   Stop: -2% init, trail 5% from peak, max hold 5 days
+  #   max 10 concurrent, 10% per trade
+  # Measured 474 days, UNIVERSE_50_LIQUID, maker 0.08% RT:
+  #   CAGR +121.22%, Sharpe +2.43, DD -1.66%, Calmar 72.98
+  #   131 trades, hit 47%, ASYMMETRY 11.19x, Kelly +0.0777 nats/trade
+  # DD of -1.66% is extraordinary; makes this a low-risk convex sleeve.
+  # =============================================================================
+  asym_vol_expansion_standalone:
+    books:
+      - name: book_a
+        weight: 1.00
+        profile: asym_vol_expansion
+    # Updated 2026-04-24 post paranoid validation + conservative exit-order fix.
+    # Previous optimistic numbers (CAGR 121%, Sh 2.43, DD -1.66%) were biased.
+    measured_sharpe: 1.41
+    measured_cagr_pct: 28.64
+    measured_dd_pct: -6.78
+    measured_asymmetry: 14.62
+    measured_hit_rate: 0.47
+    measured_n_trades: 131
+    measured_window: "2025-01-01 -> 2026-04-22"
+    shuffle_control_sharpe_real_minus_shuffled: 3.38  # signal confirmed REAL
+    portfolio_dd_halt_pct: -10
+    notes: |
+      Event-driven: 1-day vol z-score > 2.0 vs 30d baseline, ret_d >= -2%
+      (non-capitulation). Asymmetry 14.62x -- strongest in catalog.
+      Honest numbers use low-first exit order (conservative).
+
+  # NEW BLEND: xsec K=10+10 + frontier_dib_both + asym_breakout (3-sleeve)
+  recommended_3sleeve_diversified_v2:
+    books:
+      - name: book_a
+        weight: 0.55
+        profile: xsec_K10_10_FULL_dneut_U50
+      - name: book_b
+        weight: 0.25
+        profile: frontier_dib_flow_both
+      - name: book_c
+        weight: 0.20
+        profile: asym_breakout
+    portfolio_dd_halt_pct: -12
+    notes: |
+      Three ORTHOGONAL mechanisms:
+        A. xsec K=10+10 -- cross-sectional ranking + meta-gate filtering
+        B. frontier DIB -- BTC+ETH flow-imbalance duo
+        C. breakout -- asymmetric momentum with trailing stop
+      Asymmetric sleeve adds convex upside without raising DD materially.
+
+  # =============================================================================
+  # NEW VARIANT (2026-04-24 round 4): breakout + funding filter (Pareto win)
+  # -----------------------------------------------------------------------------
+  # Filters out breakout entries where norm_funding > 0.0 (extreme-positive funding
+  # signals crowded-long positioning; wait for less-crowded setups).
+  #   Baseline breakout (no filter):     Sharpe 1.74  CAGR 41.06%  DD -7.69%
+  #   + funding filter @0.0:             Sharpe 2.25  CAGR 58.38%  DD -5.87%
+  # Strict Pareto improvement (Sh +0.51, CAGR +17pp, DD -1.8pp).
+  # =============================================================================
+  asym_breakout_funding_filtered:
+    books:
+      - name: book_a
+        weight: 1.00
+        profile: asym_breakout_fund_filter_0
+    measured_sharpe: 2.25
+    measured_cagr_pct: 58.38
+    measured_dd_pct: -5.87
+    measured_asymmetry: 6.82
+    measured_n_trades: 531
+    portfolio_dd_halt_pct: -12
+    notes: |
+      Breakout entry rejects days where asset's norm_funding > 0.0 (above-baseline
+      positive funding suggests crowded longs). Removes ~14% of trades, filters
+      out the worst ones. Pareto improvement over plain breakout.
+      Pending: save pt_asym_breakout_fund_filter_0 seed + register in aggregator.
+
+  # NEW TOP-TIER BLEND: 4-sleeve diversified (adds vol_expansion 2026-04-24)
+  # Includes all 4 orthogonal mechanisms:
+  #   A. xsec K=10+10 -- cross-sectional rank + meta-gate
+  #   B. frontier DIB -- flow imbalance on BTC+ETH
+  #   C. asym breakout -- N=10 high + trail
+  #   D. asym vol expansion -- 2sigma vol spike + trail (NEW)
+  # Target: lowest blended DD in catalog.
+  recommended_4sleeve_alpha_stack:
+    books:
+      - name: book_a
+        weight: 0.40
+        profile: xsec_K10_10_FULL_dneut_U50
+      - name: book_b
+        weight: 0.25
+        profile: frontier_dib_flow_both
+      - name: book_c
+        weight: 0.20
+        profile: asym_breakout
+      - name: book_d
+        weight: 0.15
+        profile: asym_vol_expansion
+    portfolio_dd_halt_pct: -10
+    notes: |
+      Adds the vol-expansion sleeve (DD -1.66%) to the proven 3-sleeve stack.
+      Vol-expansion is expected to further flatten blended DD given its
+      very low stand-alone drawdown.
+
+  # WEALTH-MAX: 3-sleeve aggressive, DD -17%, 10x in 2.6y, CAGR 142%
+  recommended_3sleeve_wealth_max:
+    books:
+      - name: book_a
+        weight: 0.50
+        profile: xsec_K5_5_FULL_dneut
+      - name: book_b
+        weight: 0.20
+        profile: cat_K1_stop_no_macro
+      - name: book_c
+        weight: 0.30
+        profile: frontier_dib_flow_both
+    measured_sharpe: 2.75
+    measured_cagr_pct: 139.79
+    measured_dd_pct: -33.17   # WARNING: exceeds -25% halt on 2026-02-09
+    measured_calmar: 4.21
+    measured_time_10x_yr_preFriction: 2.59
+    measured_time_10x_yr_postFriction: 4.7
+    portfolio_dd_halt_pct: -40  # must raise halt to deploy; -25% triggers
+    notes: |
+      WARNING: measured DD -33.17% triggers default -25% portfolio halt on 2026-02-09.
+      cat_K1_stop has 0.63 correlation with xsec (both ranker-derived), so their
+      drawdowns stack rather than diversify. Only deploy if you accept -40% DD
+      halt. Original projection of -17% DD underestimated the correlation.
+
+  # v7: v6 + DIB flow sleeve (Phase B Item 1 SHIP).
+  # DIB = Dollar Imbalance Bars (Lopez de Prado). BTC+ETH daily flow_imbalance
+  # derived from DIB has IC +0.21 vs ret_1d (t=+4.11 BTC / +4.63 ETH), vs ZERO
+  # IC for dollar-bar-derived flow_imbalance. DIB samples more during imbalanced
+  # flow periods, retaining information dollar bars wash out.
+  # Strategy: trigger_both variant (BTC AND ETH DIB flow > 0 at close → duo long
+  # next day). Aligned 2025-2026: Sh 3.62 DD -3.7% CAGR 81.5% n=81.
+  full_stack_v7_frontier:
+    books:
+      - name: book_a
+        weight: 0.30           # down 5pp from v6 to fund dib_flow
+        profile: xsec_K5_5_FULL_dneut
+        tier: S
+      - name: book_b
+        weight: 0.28
+        profile: prod_meta_combined
+        tier: S
+      - name: book_c
+        weight: 0.15
+        profile: P8_listing_h1_momentum
+        tier: S
+      - name: book_d
+        weight: 0.05
+        profile: xgb_K3_long_WEALTH40
+        tier: A
+      - name: book_e
+        weight: 0.05
+        profile: prod_meta_full
+        tier: A
+      - name: book_f_frontier_stable
+        weight: 0.05
+        profile: frontier_stable_flow
+        tier: S
+      - name: book_g_frontier_etf
+        weight: 0.05
+        profile: frontier_etf_flow
+        tier: S
+      - name: book_h_frontier_dib
+        weight: 0.07           # NEW: DIB flow duo-both (safest Sharpe 3.62 DD -3.7%)
+        profile: frontier_dib_flow_both
+        tier: S
+        measured_sharpe_15mo: 3.62
+        measured_cagr_15mo_pct: 81.5
+        measured_dd_15mo_pct: -3.7
+        measured_n_trades: 81
+        rationale: "DIB-derived flow_imbalance: IC +0.21 vs ret_1d (t=4.11-4.63). trigger_both = BTC AND ETH flow>0 → duo long 1d. Cleanest risk-adjusted variant."
+      - name: reserve
+        weight: 0.00
+        profile: USDC
+
+    expected_sharpe_preFriction: 4.5
+    expected_cagr_preFriction_pct: 92
+    expected_max_dd_pct: -9
+    expected_cagr_postFriction_pct: 46
+    portfolio_dd_halt_pct: -25
+
+  # Aggressive scale-up variant: 15% stable-flow, for after 4-8wk live validation.
+  # Funded by reducing xgb_K3_long (high DD) and cat_K1 (dropped in v4_cons).
+  full_stack_v5_frontier_aggressive:
+    books:
+      - name: book_a
+        weight: 0.30
+        profile: xsec_K5_5_FULL_dneut
+        tier: S
+      - name: book_b
+        weight: 0.30
+        profile: prod_meta_combined
+        tier: S
+      - name: book_c
+        weight: 0.15
+        profile: P8_listing_h1_momentum
+        tier: S
+      - name: book_d
+        weight: 0.05            # down from 7% (reduce DD contribution)
+        profile: xgb_K3_long_WEALTH40
+        tier: A
+      - name: book_e
+        weight: 0.05            # down from 8%
+        profile: prod_meta_full
+        tier: A
+      - name: book_f_frontier
+        weight: 0.15            # up from 5% (post-validation)
+        profile: frontier_stable_flow
+        tier: S
+      - name: reserve
+        weight: 0.00
+        profile: USDC
+    expected_cagr_preFriction_pct: 95
+    expected_max_dd_pct: -13
+    portfolio_dd_halt_pct: -25
+    notes: "Requires 4-8 weeks of live paper-trading on frontier_stable_flow before activation."
+
+# =============================================================================
+# DEPRECATED BY FIX (2026-04-23 alignment run)
+# -----------------------------------------------------------------------------
+# Every profile in this section was re-seeded from 2025-01-01 via
+# paper_trader_v2 --init under the POST-MtM-FIX simulator (see 2026-04-22 bug
+# fix block at top). Their honest aligned metrics are LOSING (Sharpe<0) or
+# BROKEN (zero trades). The original ranks in `profiles.tier_*` below are
+# OBSOLETE and should be treated as pre-fix artefacts.
+#
+# DO NOT DEPLOY any of these. Use the aligned replacement where applicable.
+# Full details in docs/DEAD_STRATEGIES_2026_04_23.md.
+# =============================================================================
+
+deprecated_by_fix_2026_04_23:
+  reason: "Post-MtM-fix honest aligned Sharpe <=0 or zero-trade. Original tier ranks obsolete."
+  methodology: "scripts/align_all_prod_candidates.py, cold boot from 2025-01-01 on fresh chimera panel"
+
+  # Category A: confirmed dead under honest simulator
+  dead:
+    - name: prod_combined
+      aligned_sharpe: -1.39
+      aligned_cagr_pct: -38.53
+      aligned_dd_pct: -49.79
+      replacement: prod_meta_combined
+      reason: "Base combined without meta-labeler gate. Meta gate is load-bearing."
+    - name: prod_medium
+      aligned_sharpe: -1.55
+      aligned_cagr_pct: -44.63
+      aligned_dd_pct: -58.05
+      replacement: prod_meta_medium
+      reason: "Base medium (trend) without meta-gate."
+    - name: prod_swing
+      aligned_sharpe: -0.95
+      aligned_cagr_pct: -25.45
+      aligned_dd_pct: -38.84
+      replacement: prod_meta_combined  # meta_combined includes swing with gate
+      reason: "Base swing without meta-gate."
+    - name: prod_short
+      aligned_sharpe: -1.02
+      aligned_cagr_pct: -16.33
+      aligned_dd_pct: -23.67
+      replacement: prod_meta_short
+      reason: "Base short without meta-gate."
+    - name: prod_trend
+      aligned_sharpe: -0.57
+      aligned_cagr_pct: -18.18
+      aligned_dd_pct: -29.29
+      replacement: prod_meta_medium
+      reason: "Base trend without meta-gate."
+    - name: prod_floor_combined
+      aligned_sharpe: -0.96
+      aligned_cagr_pct: -28.60
+      aligned_dd_pct: -39.21
+      replacement: prod_meta_combined
+      reason: "Floor-sizing compounds losses on bad trades."
+    - name: prod_floor_medium
+      aligned_sharpe: -0.88
+      aligned_cagr_pct: -28.13
+      aligned_dd_pct: -42.64
+      replacement: prod_meta_medium
+      reason: "Same as prod_floor_combined."
+    - name: prod_size_xsec
+      aligned_sharpe: -0.32
+      aligned_cagr_pct: -9.34
+      aligned_dd_pct: -23.04
+      replacement: xsec_K5_5_FULL_dneut
+      reason: "Size13 xsec variant without meta-gate. Use the aligned xsec_K5_5_FULL_dneut."
+    - name: multi_stream
+      aligned_sharpe: -0.64
+      aligned_cagr_pct: -20.62
+      aligned_dd_pct: -33.79
+      replacement: prod_meta_full
+      reason: "Multi-stream without meta-gate."
+    - name: capture_v1_conservative
+      aligned_sharpe: -1.25
+      aligned_cagr_pct: -28.73
+      aligned_dd_pct: -37.21
+      replacement: xsec_K5_5_FULL_dneut
+      reason: "Rule-based drift capture superseded by ML xsec ranker."
+    - name: prod_v7sd_combined
+      aligned_sharpe: -0.96
+      aligned_cagr_pct: -27.88
+      aligned_dd_pct: -38.05
+      replacement: none
+      reason: "Signal-direction heuristic fails out of sample. Abandon."
+    - name: prod_te_leadlag
+      aligned_sharpe: -2.39
+      aligned_cagr_pct: -57.63
+      aligned_dd_pct: -69.56
+      replacement: none
+      reason: "Worst in catalog. Lead-lag assumption doesn't hold at daily cadence."
+    - name: subday_combined
+      aligned_sharpe: -1.73
+      aligned_cagr_pct: -54.63
+      aligned_dd_pct: -68.32
+      replacement: none
+      reason: "Sub-day infrastructure missing (P5 harness). Revive only after rebuild."
+    - name: kelly_vol_break
+      aligned_sharpe: -0.50
+      aligned_cagr_pct: -13.54
+      aligned_dd_pct: -21.62
+      replacement: none
+      reason: "No intrinsic vol-break alpha post-fix."
+    # Already in dropped_from_deployment (pre-existing); repeated here for completeness
+    - name: perp_dna_long_short
+      aligned_sharpe: -0.43
+      aligned_cagr_pct: -11.37
+      aligned_dd_pct: -22.11
+      replacement: none
+      reason: "Bear-regime play; bull-killed. Revive only in regime shift."
+    - name: regime_routed_full
+      aligned_sharpe: -0.41
+      aligned_cagr_pct: -13.68
+      aligned_dd_pct: -24.59
+      replacement: none
+      reason: "Regime overlay mis-times sustained bull. Revive in regime shift."
+
+  # Category B: fires zero trades under current simulator (config / threshold)
+  broken:
+    - name: multi_prod_combined
+      issue: "Fires zero trades under fresh simulator; likely profile-config bug"
+      action: "Diagnose and re-run; was yaml Rank 8"
+    - name: xsec_K5_5_FULL_dneut_v9meta  # strict @0.45
+      issue: "v9 meta-labeler strict threshold never triggers"
+      action: "Use xsec_K5_5_FULL_dneut_v9meta_loose @0.35 instead"
+
+  # Category C: pre-fix simulator artefacts (never deployable honestly)
+  legacy_artefacts:
+    note: "These seeds show Sharpe 4-7 but equity inflated 2-5x by pre-2026-04-22 MtM bug"
+    entries:
+      - cost_val_maker
+      - cost_val_taker
+      - frozen_prod_meta_combined
+      - frozen_prod_meta_full
+      - frozen_prod_meta_medium
+      - meta13_combined
+      - meta13_full
+      - meta13_medium
+      - size13_prod_floor_combined     # yaml Rank 6 (DEPLOYED status is obsolete)
+      - size13_prod_combined            # yaml Rank 7
+      - size13_prod_floor_medium        # yaml Rank 9
+      - size13_prod_size_medium         # yaml Rank 10
+      - size13_v4_prod_full             # yaml Rank 11
+      - multi_v4_prod_full              # yaml Rank 12
+      - prod_jan2026_primary
+      - fixed_maker
+      - fixed_taker
+
+# =============================================================================
+# DROPPED as of v4 (2026-04-22 paper trader evidence)
+# =============================================================================
+
+dropped_from_deployment:
+  - name: perp_dna_long_short
+    reason: "Paper trader 2025-01-01 -> 2026-04-16: -13.07% total, Sharpe -0.37, DD -22.1%. Bear-regime play; 2025 was bull."
+    prior_weight: 0.10
+  - name: regime_routed_full
+    reason: "Paper trader: -15.98%, Sharpe -0.37, DD -24.6%. Regime overlay failed in bull."
+    prior_weight: 0.05
+  - name: size13_prod_floor_combined
+    reason: "MtM double-count bug (pre-2026-04-22). -0.018% per-trade honest. Already zeroed-out in v3."
+    prior_weight: 0.00
+
+# =============================================================================
+# RANKED PROFILE REGISTRY -- all 15 tested profiles by tier
+# =============================================================================
+
+profiles:
+  tier_s:
+    - {rank: 1, name: prod_meta_combined, score: 10.19, status: DEPLOYED}
+    - {rank: 2, name: prod_meta_combined_k15, score: 10.13, status: ALTERNATE_SIZING}
+  tier_a:
+    - {rank: 3, name: prod_meta_full, score: 5.06, status: DEPLOYED}
+    - {rank: 4, name: prod_meta_full_k15, score: 4.85, status: ALTERNATE_SIZING}
+    - {rank: 5, name: prod_meta_medium, score: 3.68, status: SINGLETON}
+  tier_b:
+    - {rank: 6, name: size13_prod_floor_combined, score: 6.29, status: DEPLOYED}
+    - {rank: 7, name: size13_prod_combined, score: 4.04, status: SINGLETON}
+    - {rank: 8, name: multi_prod_combined, score: 4.04, status: SINGLETON}
+    - {rank: 9, name: size13_prod_floor_medium, score: 3.12, status: SINGLETON}
+    - {rank: 10, name: size13_prod_size_medium, score: 3.02, status: SINGLETON}
+  tier_a_plus:
+    - {rank: 11, name: size13_v4_prod_full, score: 2.55, status: SINGLETON}
+    - {rank: 12, name: multi_v4_prod_full, score: 2.55, status: SINGLETON}
+    - {rank: 13, name: regime_routed_full, score: 2.42, status: DEPLOYED}
+    - {rank: 14, name: kelly_vol_break, score: 2.39, status: SINGLETON}
+    - {rank: 15, name: perp_dna_long_short, score: 2.65, status: DEPLOYED}
+
+# =============================================================================
+# PENDING -- Tier C initiatives (infrastructure blocked)
+# =============================================================================
+
+pending:
+  - id: P1
+    name: U100 universe expansion
+    expected_lift: "+0.3-0.7%/day"
+    blocker: "Pipeline fetch running (user confirmed)"
+    owner: "data pipeline"
+  - id: P2
+    name: Binance listing announcement arb
+    expected_lift: "+30-80%/yr"
+    blocker: "No streaming API; needs scraper + classifier"
+    owner: "to build: src/data/binance_listings_scraper.py"
+  - id: P3
+    name: TabPFN v2 meta-labeler
+    expected_lift: "+0.02-0.05 AUC"
+    blocker: "HF auth fails on Windows (WinError 10038); needs WSL or HF Cloud creds"
+  - id: P4
+    name: On-chain netflow features (CryptoQuant)
+    expected_lift: "+0.005-0.010 IC"
+    blocker: "API subscription needed ($49-299/mo)"
+  - id: P5
+    name: Sub-day execution infrastructure
+    expected_lift: "+0.05-0.12%/day from OI cascade + sub-day MR"
+    blocker: "paper_trader is daily-resolution; need sub-day harness"
+  - id: P6
+    name: CatBoost v8 meta-labeler wire-up
+    expected_lift: "+0.007 test AUC confirmed; marginal but real OOS"
+    blocker: "none -- just needs profile integration"
+    status: "READY TO SHIP"
+  - id: P7
+    name: Re-run all 32 GENUINE profiles under fixed simulator
+    expected_lift: "honest numbers for ranking"
+    blocker: "long-running (~1-3 hours all profiles serial)"
+    status: "queued via scripts/long_running_jobs.yaml"
+    owner: "next session"
+
+# =============================================================================
+# 3-BOOK BLEND (honest, post-fix) — deploy-ready configuration
+# =============================================================================
+#
+# Weights reflect confidence AFTER MtM fix + OHLC p_fill calibration:
+#   - prod_meta_combined (S-tier) 50%: validated +94% honest, stress-robust
+#   - prod_meta_full (A-tier) 35%: +476% pre-fix -> de-rate to ~+90% estimated
+#   - perp_dna_long_short (A+-tier) 15%: bidirectional, bear coverage
+#
+blend_3book_honest:
+  books:
+    - name: A_meta_combined
+      weight: 0.50
+      profile: prod_meta_combined
+      expected_13mo_net_return_pct: 94
+      expected_daily_compounded_pct: 0.17
+    - name: B_meta_full
+      weight: 0.35
+      profile: prod_meta_full
+      expected_13mo_net_return_pct: 90  # estimated; de-rated from +476% by 5.3x
+      expected_daily_compounded_pct: 0.16
+    - name: D_perp_dna
+      weight: 0.15
+      profile: perp_dna_long_short
+      expected_13mo_net_return_pct: 62  # estimated; de-rated from +329% by 5.3x
+      expected_daily_compounded_pct: 0.12
+  expected_blend_13mo_pct: 86
+  expected_blend_daily_pct: 0.155
+  expected_blend_sharpe: 4.8  # de-rated for honest path realism
+  expected_blend_max_dd_pct: -8
+  deploy_command: |
+    python src/analysis/paper_trader_v2.py --init \
+        --seed prod_3book_honest --profile prod_meta_combined \
+        --cost-mode maker --capital 10000 --from-date TODAY
+  notes: |
+    For live multi-book deployment, each profile must be run as a separate
+    seed (paper_trader_v2 supports one profile per seed). Aggregate equity
+    by summing per-seed daily_snapshot columns with the weights above.
+
+    Live-validate OHLC p_fill in first 2 weeks. If empirical p_fill <0.40,
+    reduce blend size 2x; if <0.25, halt and rebuild expectations.
+
+# =============================================================================
+# PHASE 1 NO-LEVERAGE DEPLOYMENT CONTENDERS (2026-05-03)
+# =============================================================================
+# Built after red-team contamination audit revealed prior cluster head's
+# +720%/yr was IN-SAMPLE. Phase 1 = no-leverage, regime-gated BH-in-bull
+# variants. Per user mandate (2026-05-03):
+#   - NO leverage (compounding only)
+#   - DD management via position sizing + downside clamping
+#   - Trial deploy ongoing (experimentation phase)
+#
+# All numbers from no_leverage_phase1.py audit on u10 chimera_v51:
+#   - Walking 365d quantile regime classifier (no lookahead)
+#   - BULL=70th pct trailing | BEAR=30th pct or <-15% | CHOP=else
+#   - Bucketed MakerCostModel (BLUE 18bps RT, STEADY 12, VOLATILE 13)
+#   - Total long position <= 100% NAV (no leverage anywhere)
+#
+# Validation windows (genuinely OOS for rule-based config-tuned strats):
+#   ALL_HISTORY (2020-2026), TRAIN_2024 (bull),
+#   OOS_2025_H2 (bear-chop), OOS_2026_Q1 (crypto winter -- USER PAPER WINDOW)
+phase1_no_leverage_contenders:
+  ranking_version: "2026-05-03.v1-redteam"
+
+  # PRIMARY RECOMMENDATION
+  - profile_id: A20_cross_asset
+    description: "BH expanded to 9 assets (BTC/ETH/SOL/BNB/XRP/AVAX/LINK/DOGE/ADA), in-BULL only"
+    weights: {BTC: 0.30, ETH: 0.20, SOL: 0.15, BNB: 0.10, XRP: 0.05,
+              AVAX: 0.05, LINK: 0.05, DOGE: 0.05, ADA: 0.05}
+    leverage: 1.0
+    regime_gate: walking_365d_quantile
+    deploy_when_regime: BULL
+    cash_when_regime: [BEAR, CHOP]
+    metrics:
+      ALL_HISTORY:    {sharpe: 4.33, ret_pct: 37748, dd_pct: -6.5, ann_pct_yr: 91}
+      TRAIN_2024:     {sharpe: 2.45, ret_pct: 154,   dd_pct: -14.4, ann_pct_yr: 90}
+      OOS_2025_H2:    {sharpe: 2.09, ret_pct: 16.8,  dd_pct: -5.4,  ann_pct_yr: 24}
+      OOS_2026_Q1:    {sharpe: 0.82, ret_pct: 4.8,   dd_pct: -7.8,  ann_pct_yr: 14}
+      OOS_9mo_crisis: {sharpe: 1.46, ret_pct: 22.4,  dd_pct: -7.8,  ann_pct_yr: 20}
+    rationale: "Best Sharpe across windows; lowest DD; broader universe"
+    deploy_status: TIER_1_RECOMMENDED
+
+  # CONSERVATIVE FALLBACK
+  - profile_id: A12_baseline
+    description: "BH 50/30/20 BTC/ETH/SOL in-BULL only, cash else"
+    weights: {BTC: 0.50, ETH: 0.30, SOL: 0.20}
+    leverage: 1.0
+    regime_gate: walking_365d_quantile
+    deploy_when_regime: BULL
+    cash_when_regime: [BEAR, CHOP]
+    metrics:
+      ALL_HISTORY:    {sharpe: 3.24, ret_pct: 29135, dd_pct: -9.7, ann_pct_yr: 87}
+      TRAIN_2024:     {sharpe: 2.13, ret_pct: 118,   dd_pct: -13.4, ann_pct_yr: 71}
+      OOS_2025_H2:    {sharpe: 2.30, ret_pct: 14.0,  dd_pct: -3.4,  ann_pct_yr: 20}
+      OOS_2026_Q1:    {sharpe: 1.03, ret_pct: 5.9,   dd_pct: -6.8,  ann_pct_yr: 18}
+      OOS_9mo_crisis: {sharpe: 1.54, ret_pct: 20.8,  dd_pct: -6.8,  ann_pct_yr: 19}
+    rationale: "Concentrated BTC/ETH/SOL; safer concentration; less complexity"
+    deploy_status: TIER_2_CONSERVATIVE
+
+  # LOWER-VOL VARIANT
+  - profile_id: A17_vol_target
+    description: "A12 + 30% annual vol target via inverse-vol position scaling"
+    weights: {BTC: 0.50, ETH: 0.30, SOL: 0.20}
+    leverage: 1.0
+    vol_target_annual: 0.30
+    regime_gate: walking_365d_quantile
+    deploy_when_regime: BULL
+    cash_when_regime: [BEAR, CHOP]
+    metrics:
+      ALL_HISTORY:    {sharpe: 3.34, ret_pct: 2259, dd_pct: -5.3, ann_pct_yr: 41}
+      TRAIN_2024:     {sharpe: 2.34, ret_pct: 70.0, dd_pct: -7.6, ann_pct_yr: 44}
+      OOS_2025_H2:    {sharpe: 2.30, ret_pct: 9.3,  dd_pct: -2.2, ann_pct_yr: 13}
+      OOS_2026_Q1:    {sharpe: 1.13, ret_pct: 4.8,  dd_pct: -5.5, ann_pct_yr: 14}
+      OOS_9mo_crisis: {sharpe: 1.48, ret_pct: 14.1, dd_pct: -5.8, ann_pct_yr: 13}
+    rationale: "Lower DD, lower return -- defensive Phase 1 candidate"
+    deploy_status: TIER_3_DEFENSIVE
+
+# Discarded variants (audit transparency):
+phase1_discarded:
+  - profile_id: A19_ML_BULL
+    reason: "Phase E LightGBM BULL-detector hurt OOS_2025_H2 (-4.7% / Sh -0.34) and OOS_2026_Q1 (-1.1%). False positives in chop/bear."
+  - profile_id: A21_combo
+    reason: "Combination of vol-target + DD-clamp + ML-detector underperforms simpler A20. Too many parameters."
+  - profile_id: A13_th_lev2_hedge
+    reason: "Used 2x leverage -- DISALLOWED per user mandate (no leverage)."
+  - profile_id: A14_th_lev3_hedge
+    reason: "Used 3x leverage -- DISALLOWED per user mandate (no leverage)."
+
+# Trial deploy plan
+phase1_trial_deploy:
+  status: EXPERIMENTATION
+  protocol: |
+    1. Pick A20_cross_asset as primary (Tier 1 RECOMMENDED).
+    2. Run paper_trader_v2 with seed phase1_a20_cross_asset.
+    3. Initial capital $1k for 30 days; scale to $10k after 90 days if
+       live performance tracks within 50% haircut of A20 backtest:
+         Expected 30d in BULL regime: 1-3% ann ~ 0.08% per day
+         Expected 30d in CHOP regime: 0% (cash)
+         Expected 30d in BEAR regime: 0% (cash) or small loss from regime-flip cost
+    4. Compare to B&H 50/30/20 benchmark daily (must beat or match in BEAR;
+       lag in BULL is acceptable since regime gate adds latency).
+  pre_deploy_checks:
+    - Forward-validate regime classifier on a 90-day window not used in
+      any audit (rolling forward from 2026-05-03).
+    - Verify bucketed MakerCostModel calibration vs live Binance fills.
+    - Set hard daily DD circuit breaker at -3% (halt trading for the day).
+
+# =============================================================================
+# PHASE 1.5 u50 EXPANDED CONTENDERS (2026-05-03)
+# =============================================================================
+# Per user: u10 not enough, expand to u50.
+# Test: A22-A31 with various gates + DD circuit breakers.
+# All NO LEVERAGE per mandate.
+phase1_5_u50_contenders:
+  ranking_version: "2026-05-03.v2-u50"
+
+  # PRIMARY u50 RECOMMENDATION (DD-capped; meets 2X in OOS_2025_H2 + 9mo crisis)
+  - profile_id: A31_u50_excl_BTC_BEAR_DD15
+    description: "u50 top-decile + per-asset BULL + exclude when BTC=BEAR + portfolio DD15 circuit"
+    universe: u50
+    gates:
+      - per_asset_walking_365d_BULL_quantile (>70th pct)
+      - top_decile_60d_momentum
+      - exclude_when_BTC_regime_is_BEAR
+    portfolio_dd_circuit_breaker_pct: -15
+    hibernation_days_after_dd_hit: 30
+    per_asset_cap_pct: 30
+    leverage: 1.0
+    metrics:
+      ALL_HISTORY:    {sharpe: 0.86, ret_pct: 392,  dd_pct: -34.6, ann_pct_yr: 19}
+      TRAIN_2024:     {sharpe: -0.46, ret_pct: -16, dd_pct: -23.2, ann_pct_yr: -11}
+      OOS_2025_H2:    {sharpe: 2.21, ret_pct: 72,   dd_pct: -15.5, ann_pct_yr: 110}  # 2X MET
+      OOS_2026_Q1:    {sharpe: -1.60, ret_pct: -11, dd_pct: -17.1, ann_pct_yr: -27}
+      OOS_9mo_crisis: {sharpe: 1.47, ret_pct: 58,   dd_pct: -17.1, ann_pct_yr: 52}   # solid
+    rationale: |
+      Best balance of upside + DD survivability in u50.
+      Q1 2026 (paper): -11% vs B&H -26% (still lost less than half of B&H).
+      Recovers in OOS_2025_H2 with +110%/yr ann.
+      DD-15% circuit breaker prevents catastrophic loss.
+    deploy_status: TIER_1_RECOMMENDED_u50
+    caveat: "TRAIN_2024 negative due to DD circuit firing during 2024 corrections. Track live via paper-trade."
+
+  # AGGRESSIVE (no DD cap, 2X+ multi-window)
+  - profile_id: A30_u50_excl_BTC_BEAR
+    description: "u50 top-decile + per-asset BULL + exclude BTC-bear (NO DD CAP)"
+    universe: u50
+    gates:
+      - per_asset_walking_365d_BULL_quantile
+      - top_decile_60d_momentum
+      - exclude_when_BTC_regime_is_BEAR
+    portfolio_dd_circuit_breaker_pct: null
+    leverage: 1.0
+    metrics:
+      ALL_HISTORY:    {sharpe: 1.66, ret_pct: 158215, dd_pct: -68.3, ann_pct_yr: 123}  # 2X MET
+      TRAIN_2024:     {sharpe: 1.58, ret_pct: 232,    dd_pct: -33.1, ann_pct_yr: 128}  # 2X MET
+      OOS_2025_H2:    {sharpe: 2.34, ret_pct: 111,    dd_pct: -19.2, ann_pct_yr: 178}  # 2X MET
+      OOS_2026_Q1:    {sharpe: -2.59, ret_pct: -31,   dd_pct: -40.7, ann_pct_yr: -64}
+      OOS_9mo_crisis: {sharpe: 1.04, ret_pct: 50,     dd_pct: -40.7, ann_pct_yr: 45}
+    rationale: "2X target MEETS in 3/5 windows but DD -68% historical unsurvivable for retail. Use only with proper risk management."
+    deploy_status: TIER_2_AGGRESSIVE_USE_WITH_CARE
+
+# Trial deploy plan v2 (u50)
+phase1_5_trial_deploy:
+  status: EXPERIMENTATION
+  primary: A31_u50_excl_BTC_BEAR_DD15
+  protocol: |
+    1. Paper-trader-v2 seed: u50_a31_dd15
+    2. Initial capital $1k for 30 days
+    3. Daily DD circuit breaker at -3% (intra-day halt)
+    4. Portfolio DD circuit breaker at -15% (halt + 30d cool-off)
+    5. Compare daily vs B&H 50/30/20 BTC/ETH/SOL benchmark
+    6. Forward-validate per-asset BULL classifier on rolling 90d
+    7. Scale to $10k after 90 days IF live tracks within 50% haircut
+
+# =============================================================================
+# 2026 MONTHLY BACKTEST FINDINGS + REVISED CHAMPION (2026-05-03)
+# =============================================================================
+# Per user: "backtest deployable strats monthly 2026 months, report performance"
+#
+# CRITICAL FINDING: 3-sleeve dual-axis blend designed in dual_axis_ranking
+# 2026-04-22 was BUILT IN BULL REGIME. In 2026 bear-chop (Jan-Apr 2026),
+# the LONG-ONLY sleeves (S3 XGB K=3 LONG, S4 CatBoost K=1) blew up
+# (-51% / -63% DD). The d-neutral variants survived and thrived.
+#
+# 2026 YTD measured (Jan 1 -> Apr 30, 117 days):
+#
+#   pt_xsec_K7_7_FULL_dneut_sweep: +9.60%, Sharpe 2.30, DD -3.45%  *** CHAMPION
+#   pt_xsec_K5_5_FULL_dneut_sweep: +7.46%, Sharpe 1.60, DD -4.88%
+#   prod_meta_combined_apr1:       +3.69%, Sharpe 2.35 (only 20 bars, April only)
+#   pt_xgb_K3_long_WEALTH40:      -10.79%, Sharpe -0.21, DD -50.97%  KILL
+#   pt_cat_K1_stop_no_macro:      -40.17%, Sharpe -1.61, DD -63.20%  KILL
+#   BH 50/30/20:                  -20.40%, Sharpe -0.68, DD -40.73%
+#   3-sleeve dual-axis blend:      -6.51%, Sharpe -0.48, DD -30.15%  BROKEN
+
+revised_champion_2026_05_03:
+  ranking_version: "2026-05-03.v3-2026Q1Q2-bear-validated"
+
+  # PRIMARY (best 2026 bear-chop survivor)
+  - profile_id: pt_xsec_K7_7_FULL_dneut_sweep
+    description: "Cross-sectional ML ranker, K=7 long + K=7 short, d-neutral, FULL feature set"
+    seed_path: logs/paper_trader_v2/seeds/pt_xsec_K7_7_FULL_dneut_sweep
+    leverage: 1.0
+    metrics_2026:
+      Jan: {ret_pct: +2.34, sharpe: +1.81, dd_pct: -2.88}
+      Feb: {ret_pct: -0.08, sharpe: -0.25, dd_pct: 0.00}
+      Mar: {ret_pct: +7.56, sharpe: +5.13, dd_pct: -1.88}
+      Apr: {ret_pct: -0.35, sharpe: -0.46, dd_pct: -3.17}
+      Q1:  {ret_pct: +9.99, sharpe: +2.87, dd_pct: -3.45}
+      YTD: {ret_pct: +9.60, sharpe: +2.30, dd_pct: -3.45, ann_proj_pct: 30}
+    rationale: "d-neutral structurally hedges bear regime; survived 2026 Q1 -26% B&H crash with +10% return"
+    deploy_status: TIER_1_RECOMMENDED_2026
+
+  # SECONDARY (close runner-up; lower DD threshold for risk-averse)
+  - profile_id: pt_xsec_K5_5_FULL_dneut_sweep
+    description: "Cross-sectional ML ranker, K=5 long + K=5 short, d-neutral, FULL feature set"
+    seed_path: logs/paper_trader_v2/seeds/pt_xsec_K5_5_FULL_dneut_sweep
+    leverage: 1.0
+    metrics_2026:
+      YTD: {ret_pct: +7.46, sharpe: +1.60, dd_pct: -4.88, ann_proj_pct: 23}
+    rationale: "Slightly lower concentration than K=7+7; comparable Sharpe with marginally higher DD"
+    deploy_status: TIER_2_BACKUP
+
+# Revised deployment blend (replaces 3-sleeve dual_axis from 2026-04-22)
+revised_blend_2026:
+  description: |
+    Replaces phase1_5_u50_contenders A31 + 3-sleeve dual-axis with the
+    2026-bear-validated champion + diversifiers. NO LONG-ONLY sleeves
+    (S3, S4 caused -51% / -63% DD in Q1 2026 bear).
+
+  weights:
+    - sleeve: pt_xsec_K7_7_FULL_dneut_sweep   # CHAMPION
+      weight: 0.60
+    - sleeve: prod_meta_combined_apr1          # long-only diversifier (small, only fires bull)
+      weight: 0.20
+    - sleeve: asymmetric_mover_capture_HV       # Phase 2.2 (this session)
+      weight: 0.10
+    - sleeve: USDC_cash                         # buffer
+      weight: 0.10
+
+  expected_live_metrics:
+    annualized_pct_yr: 35-50  # from YTD-rate + diversifier contribution
+    expected_sharpe: 2.0-2.5
+    expected_max_dd_pct: -8 to -10
+    pa_multiple: 1.35-1.50X
+
+  drop_from_blend:
+    - pt_xgb_K3_long_WEALTH40    # YTD -10.79%, DD -51% (bull-only blew up in bear)
+    - pt_cat_K1_stop_no_macro    # YTD -40.17%, DD -63% (catastrophic in bear)
+    - A31_u50_excl_BTC_BEAR_DD15  # tiny -0.77% YTD; regime gate too strict
+
+  trial_deploy_seed: phase1_5_revised_blend
+  deploy_command: |
+    python src/analysis/paper_trader_v2.py --init \
+        --seed phase1_5_revised_blend \
+        --strategy revised_blend_2026 \
+        --cost-mode maker \
+        --capital 1000 --from-date 2026-05-03
+
+# Post-WF audit: 5 deployable u87 candidates (2026-05-03)
+# All cleared 3+/4 walk-forward windows + agg Sharpe + worst-window DD limit.
+# Fixed-backtest. Real live = ~50-75% of these per p_fill 0.21-0.40 derate.
+deployable_u87_post_wf_2026_05_03:
+  source: logs/strat_audit/xsec_u87_wf_audit.md
+  test_window: "2025-01-01 -> 2026-04-30"
+  train_end: "2024-10-01"
+  universe: 87 chimera assets (legacy_dollar)
+  cost_model: maker 0.08% RT (flat) — DERATE for real p_fill 0.21-0.40
+
+  candidates:
+    V3_K7_7_fade:
+      sharpe: 4.11
+      cagr_pct_yr: 366.9
+      max_dd_pct: -14.92
+      calmar: 24.60
+      wf_windows_pass: 4
+      wf_windows_total: 4
+      worst_window_dd: -11.80
+      seed_path: logs/paper_trader_v2/seeds/pt_xsec_K7_7_FULL_dneut_u87_V3_fade_dual_side/
+      role: "Wealth + stability sleeve (only variant 4/4 WF; W1-2025-Q1 robust)"
+
+    K15_15:
+      sharpe: 4.75
+      cagr_pct_yr: 166.9
+      max_dd_pct: -9.01
+      calmar: 18.52
+      wf_windows_pass: 3
+      wf_windows_total: 4
+      worst_window_dd: -7.53
+      seed_path: logs/paper_trader_v2/seeds/pt_xsec_K15_15_FULL_dneut_u87/
+      role: "Sharpe-axis sleeve (top Sh, lowest worst-window DD)"
+
+    K10_10:
+      sharpe: 4.43
+      cagr_pct_yr: 194.6
+      max_dd_pct: -10.50
+      calmar: 18.53
+      wf_windows_pass: 3
+      wf_windows_total: 4
+      worst_window_dd: -10.50
+      seed_path: logs/paper_trader_v2/seeds/pt_xsec_K10_10_FULL_dneut_u87/
+      role: "Diversified Sharpe sleeve"
+
+    V0_K7_7:
+      sharpe: 4.26
+      cagr_pct_yr: 256.6
+      max_dd_pct: -8.68
+      calmar: 29.56
+      wf_windows_pass: 3
+      wf_windows_total: 4
+      worst_window_dd: -8.68
+      seed_path: logs/paper_trader_v2/seeds/pt_xsec_K7_7_FULL_dneut_u87_V0_baseline_no_gate/
+      role: "Reference workhorse"
+
+    K5_5:
+      sharpe: 3.54
+      cagr_pct_yr: 318.8
+      max_dd_pct: -10.06
+      calmar: 31.70  # top Calmar
+      wf_windows_pass: 3
+      wf_windows_total: 4
+      worst_window_dd: -10.06
+      seed_path: logs/paper_trader_v2/seeds/pt_xsec_K5_5_FULL_dneut_u87/
+      role: "Calmar / wealth-per-DD sleeve"
+
+  recommended_blend_post_wf:
+    weights:
+      V3_K7_7_fade: 0.40    # wealth + stability
+      K15_15:       0.30    # Sharpe sleeve (DEPRECATED 2026-05-03 post-derate)
+      K5_5:         0.20    # Calmar sleeve
+      cash:         0.10    # DD circuit + dry powder
+    expected_cagr_pct_yr: 261  # linear blend approximation, fixed-backtest
+    expected_sharpe: 4.0-4.3
+    expected_worst_window_dd_pct: -10
+    live_derate_factor: 0.50-0.75  # per p_fill 0.21-0.40
+    expected_live_cagr_pct_yr: 130-200
+    deprecated_2026_05_03_post_derate: true
+    deprecated_reason: |
+      Bucketed-cost rerun (logs/strat_audit/u87_live_derate_bounds.md)
+      shows K10_10 and K15_15 fixed CAGR is too low to survive any cost
+      derate model. They cleared WF on Sharpe but NOT on compounding CAGR.
+
+  recommended_blend_post_derate:
+    # Replaces recommended_blend_post_wf after 2026-05-03 cost derate analysis.
+    # Drops K15_15 (CAGR too low to survive derate), reduces K10_10 to zero.
+    # Weights more toward V3 + K5_5 (top fixed CAGR within DD bound).
+    weights:
+      V3_K7_7_fade: 0.40
+      K5_5:         0.40
+      V0_K7_7:      0.10
+      cash:         0.10
+    expected_cagr_pct_yr_fixed: 282  # linear blend, fixed-backtest
+    derate_bounds_pct_yr:
+      M1_pure_maker_p_fill_avg: 58.5    # FAIL 2X
+      M2_taker_fallback:        108.9   # PASS 2X
+      M3_heuristic_50_75:       140.6   # PASS 2X
+    operational_requirement: |
+      Execution layer MUST fall back to taker after maker timeout for the
+      2X target to be reachable. Pure-maker (skip-on-no-fill) puts the
+      blend at +58%/yr, below 2X. Taker fallback or live-calibrated
+      p_fill > 0.32 brings it to +109%/yr, clearing 2X.
+    pre_deploy_must_have:
+      - "Limit price within X bps of mid (target p_fill > 0.40 live)"
+      - "Taker fallback after N seconds of unfilled limit"
+      - "Per-bucket sizing — over-weight STEADY/VOLATILE (higher p_fill)"
+
+  cost_derate_report: logs/strat_audit/u87_live_derate_bounds.md
+
+# ===========================================================================
+# Wealth-axis deploy classification (post-April-2026 paper-trade replay)
+# ===========================================================================
+# User mandate 2026-05-03: optimize for WEALTH not Sharpe. Some Tier A/B
+# candidates with riskier profiles can come into deployment as wealth
+# sleeves with explicit guard rails. This classification was built from the
+# 2026-04-01 -> 2026-04-30 paper-trade slice across 34 candidate seeds.
+# Source: logs/strat_audit/paper_trade_april_2026.md
+
+wealth_axis_classification_2026_05_03:
+  source: logs/strat_audit/paper_trade_april_2026.md
+  paradigm: "Maximize compound wealth (CAGR), not Sharpe. DD is a survivability constraint, not the objective."
+  april_window_days: 27  # u87 seeds; varies 16-22 for older seeds
+
+  prod_ready_now:
+    description: "WF-validated + DSR-passed + snapshot exists + no catastrophic-bear failure. Deploy this week, no caveats."
+    candidates:
+      - K10_10_u87:                {april_total_pct: 27.35, april_sharpe: 9.95, april_dd_pct: -2.10, role: "Top wealth-per-DD"}
+      - K5_5_u87:                  {april_total_pct: 25.36, april_sharpe: 7.66, april_dd_pct: -3.92, role: "Top fixed-CAGR (319%)"}
+      - V0_K7_7_u87:               {april_total_pct: 26.17, april_sharpe: 8.12, april_dd_pct: -3.37, role: "Reference workhorse"}
+      - K15_15_u87:                {april_total_pct: 18.02, april_sharpe: 8.98, april_dd_pct: -2.02, role: "Lowest DD"}
+      - revised_blend_u87:         {april_total_pct: 16.78, april_sharpe: 5.89, april_dd_pct: -3.88, role: "Diversified composed seed"}
+      - frontier_dib_flow_any:     {april_total_pct: 13.29, april_sharpe: 7.14, april_dd_pct: -2.82, role: "Orthogonal mechanism (DIB)"}
+      - frontier_dib_flow_avg:     {april_total_pct: 9.33,  april_sharpe: 5.59, april_dd_pct: -2.15, role: "DIB lower-vol variant"}
+      - prod_meta_combined:        {april_total_pct: 3.69,  april_sharpe: 2.90, april_dd_pct: -2.47, role: "Validated meta-labeler ensemble"}
+      - prod_meta_full:            {april_total_pct: 4.07,  april_sharpe: 3.19, april_dd_pct: -3.32, role: "Full meta stack"}
+      - subday_vol_break:          {april_total_pct: 2.65,  april_sharpe: 1.68, april_dd_pct: -4.03, role: "Daily-reso vol break"}
+
+  prod_ready_risky_with_guards:
+    description: "High wealth potential but require regime gate or DD circuit. Deploy as wealth sleeve at small weight."
+    candidates:
+      - xgb_K3_long_WEALTH40:
+          april_total_pct: 41.52
+          april_sharpe: 6.78
+          april_dd_pct: -4.01
+          historical_concern: "YTD 2026 -10.79% / DD -51% in bear-stretch (per drop_from_blend)"
+          required_guard: "BTC 30d > -10% regime gate; max 15% sleeve weight"
+      - xsec_K3_long_u14:
+          april_total_pct: 12.19
+          april_sharpe: 5.14
+          april_dd_pct: -9.56
+          historical_concern: "Long-only, bear-fragile"
+          required_guard: "BTC 30d gate; max 10%"
+      - xsec_K5_long_u14:
+          april_total_pct: 6.45
+          april_sharpe: 4.11
+          april_dd_pct: -7.41
+          historical_concern: "Long-only"
+          required_guard: "BTC 30d gate; max 10%"
+      - cat_K1_stop_no_macro:
+          april_total_pct: 9.91
+          april_sharpe: 2.42
+          april_dd_pct: -10.81
+          historical_concern: "YTD 2026 -40.17% / DD -78% historically"
+          required_guard: "Hard DD-15% circuit breaker; max 5%"
+
+  research_instance_validate:
+    description: "Promising April numbers but need cross-validation, capacity check, or regime-coverage audit before live capital."
+    candidates:
+      - frontier_dib_flow_both
+      - xsec_K3_3_u14_sweep
+      - xsec_K1_1_u14_sweep
+      - unseen_xgb_k55
+      - subday_vpin_flow
+      - subday_funding
+      - subday_oversold
+      - subday_combined
+      - capture_v1_aggressive
+      - capture_v1_conservative
+      - V3_fade_u87           # underperformed in April despite 4/4 WF
+      - V3_E3_enhanced_u87    # same regime concern
+    handoff: "Research instance to bring in capacity / regime-coverage / cross-validation data."
+
+  deprecated_do_not_deploy:
+    description: "Falsified, bug-affected, or replaced by stronger versions."
+    candidates:
+      - "Setup classifier wiring on xsec K=7+7 (falsified 2026-05-03)"
+      - "brain1_full / brain1_dna_split (-3.11% April)"
+      - "All MtM-double-counted (size13_*, multi_*, b13_*) (pre-2026-04-22 sim bug)"
+      - "xsec_K5_5/K7_7/K10_10 u14_sweep (replaced by u87 versions)"
+
+  recommended_deploy_blend_post_april_data:
+    description: "Updated wealth-axis blend after April paper-trade replay."
+    weights:
+      K10_10_u87:                 0.25   # top April Sharpe + low DD
+      K5_5_u87:                   0.20   # top fixed-CAGR
+      V0_K7_7_u87:                0.20   # reference
+      K15_15_u87:                 0.10   # smoothest
+      frontier_dib_flow_any:      0.15   # orthogonal mechanism
+      xgb_K3_long_WEALTH40:       0.05   # wealth-axis with BULL gate
+      cat_K1_stop_no_macro:       0.05   # wealth-axis with DD-15 circuit
+      cash_USDC:                  0.00   # zero in this aggressive blend
+    notes: |
+      90% deployed across 5 prod-ready-now sleeves (K10/K5/V0/K15/DIB)
+      + 10% across 2 risky-with-gate wealth sleeves (xgb_K3_long, cat_K1_stop).
+      Risky sleeves activate ONLY when their guard rails permit
+      (BTC-regime / DD-circuit). When guards block, weight reverts to USDC.
+    pending_research_instance: |
+      Re-add convexity sleeve (Universa OTM put) + funding-carry sleeve
+      after research instance validates. Both noted as TIER B+ items in
+      path_to_2x_2026.next_lifts.
+
+# ===========================================================================
+# Track 2 — gen5_growth dormant-pillar activation (2026-05-03)
+# ===========================================================================
+# Research instance discovery + verified today: 7 alpha pillars are coded
+# with default 100% allocation in src/strategy/gen5_growth/config.py BUT
+# the risk_ledger.sqlite has 0 positions -- never run live.
+gen5_growth_dormant_pillars_2026_05_03:
+  source_doc: docs/STRAT_WEALTH_PATH_TRIAGE_2026_05_03.md
+  config_file: src/strategy/gen5_growth/config.py
+  ledger_state: "0 positions ever (SQLite verified 2026-05-03)"
+
+  default_allocated_dormant:  # P1-P5, P7, P8 — sum to 100%
+    p1_listing_frontrun:
+      pct: 15.0
+      patch_risk: low
+      file: src/strategy/gen5_growth/pillars/p1_listing_frontrun.py
+    p2_launchpool:
+      pct: 25.0
+      patch_risk: never  # Binance subsidizes BNB demand
+      file: src/strategy/gen5_growth/pillars/p2_launchpool.py
+    p3_funding_carry:
+      pct: 15.0
+      patch_risk: rarely  # formula structural to perps
+      live_yield_validated: "7-15%/yr (web-search 2026-05-03)"
+      file: src/strategy/gen5_growth/pillars/p3_funding_carry.py
+      executor: src/strategy/gen5_growth/executors/two_leg_carry.py
+    p4_copy_trading:
+      pct: 10.0
+      patch_risk: low
+      file: src/strategy/gen5_growth/pillars/p4_copy_trading.py
+    p5_post_listing_breakout:
+      pct: 10.0
+      patch_risk: low
+      file: src/strategy/gen5_growth/pillars/p5_post_listing_breakout.py
+    p7_stablecoin_yield:
+      pct: 5.0
+      patch_risk: never
+      file: src/strategy/gen5_growth/pillars/p7_stablecoin_yield.py
+    p8_listing_h1_momentum:
+      pct: 20.0
+      patch_risk: low
+      validation: "OOS 2025Q4-2026: n=85, mean +8.64%, t=3.61, hit 67%"
+      expected_lift: "+0.80%/event = +0.30x portfolio multiplier"
+      file: src/strategy/gen5_growth/pillars/p8_listing_h1_momentum.py
+      executor: src/strategy/gen5_growth/executors/maker_spot.py
+      monitor: src/strategy/gen5_growth/monitors/futures_listings_poller.py
+      ship_priority: "WIRE FIRST (already validated)"
+
+  default_zero_allocation:  # P6, P9, P10 — coded but allocation_pct = 0
+    p6_hodler_airdrop:
+      file: src/strategy/gen5_growth/pillars/p6_hodler_airdrop.py
+      status: "D1-exception ALREADY APPROVED per code comment"
+      patch_risk: never  # legitimate single-account
+      decision: "ACTIVATE at 5% post-audit"
+    p9_megadrop:
+      file: src/strategy/gen5_growth/pillars/p9_megadrop.py
+      status: coded, no live-trade history
+    p10_ieo:
+      file: src/strategy/gen5_growth/pillars/p10_ieo.py
+      status: coded, no live-trade history
+
+  bucket_d_do_not_systematize:
+    binance_alpha_point_farming:
+      patch_risk: VERY_HIGH
+      patches_2025: 2  # validated via WebSearch 2026-05-03
+      user_count_change_nov_2025_to_jan_2026: -60%
+      enforcement: "anti-bot eligibility cancellations active 2026"
+      decision: "Do NOT build systematic infra. Manual one-off participation only."
+
+  combined_track_lift_estimate:
+    track_1_alone: "130-200%/yr live (u87 blend)"
+    track_2_alone_revised_2026_05_03: |
+      P8 historical replay shows +5% CAGR / Sh 1.42 / DD -2.49% (NOT the
+      research-instance-claimed +0.80%/day = +290%/yr). Look-ahead or
+      regime shift suspected. P3 stays disabled (1 qualifying day in 477).
+      P6 active only when airdrop campaigns publish (event-driven).
+      Realistic Track 2 add-on: +5-15%/yr at 10% sleeve weight.
+    track_1_plus_2_revised: "140-215%/yr live realistic (modest Track-2 lift)"
+    track_3_added: "400-700%/yr (Deribit options + cross-venue funding) -- still aspirational"
+
+  empirical_corrections_2026_05_03_evening:
+    p8_replay_n: 275
+    p8_replay_mean_pnl_pct: 1.50
+    p8_replay_t_stat: 1.70
+    p8_replay_hit_rate: 0.462
+    p8_oos_n: 85
+    p8_oos_mean_pnl_pct: 2.29
+    p8_oos_t_stat: 1.28
+    p8_oos_hit_rate: 0.459
+    p8_research_claimed_mean: 8.64
+    p8_research_claimed_t: 3.61
+    p8_research_claimed_hit: 0.67
+    p3_qualifying_days_in_477: 1
+    p3_median_daily_max_apr_pct: 3.7
+    integrated_blend_90_10:
+      cagr_pct: 240.2
+      sharpe: 4.56
+      max_dd_pct: -7.22
+      calmar: 33.26
+    verdict: |
+      For wealth-axis optimization, u87-alone (CAGR 285.9%, Sh 4.55) dominates
+      the 90/10 integrated blend (CAGR 240.2%, Sh 4.56). Track 2 P8 inclusion
+      is only justified if DD reduction (-0.81pp) outweighs CAGR loss (-45.7pp).
+      Recommendation: ship u87-alone as primary; add P8 only if 30d live
+      paper-trade calibration shows favorable regime for listing momentum.
+
+
+  pre_deploy_gates_pending:
+    - "Bagged-CPCV PBO (target < 0.30)"
+    - "DSR with annualized Sharpe + raw kurtosis"
+    - "Bucketed MakerCostModel rerun (replaces 0.08% flat)"
+    - "DROP-tier asset filter audit (subset of 87 assets <$1M/day)"
+    - "30-day live paper trade calibration"
+
+# Path to 2X+ from this baseline
+path_to_2x_2026:
+  current_baseline_pct_yr: 35-50  # revised blend (14-asset seed)
+  next_lifts:
+    - lift_pct_yr: 0
+      action: "Wire bounce_ml/fade_ml/swing_ml setup classifiers into xsec K=7+7"
+      effort_days: 1
+      blocker: "FALSIFIED 2026-05-03 (logs/strat_audit/setup_classifier_gate_xsec.md)"
+      finding: |
+        Best gate Sharpe = 4.26 (V0 baseline = no gate). bounce/swing
+        classifiers DROP Sharpe by 0.55-1.46. Setup classifiers were
+        trained on different problem (single-asset binary entries) and
+        target setups orthogonal to xsec ranker's forward-3d momentum
+        picks. Fade-dual-side IS a wealth-axis lever (+110pp CAGR) but
+        loses Sharpe and worsens DD. Sizers are no-ops because confidence
+        is uniform across xsec top-K.
+    - lift_pct_yr: 100-200
+      action: "Run xsec K=7+7 FULL d-neut on 87-asset universe (NEW BASELINE)"
+      effort_days: 0  # already validated
+      status_2026_05_03: "WF-VALIDATED (3/4 windows, agg Sh 4.26, worst DD -8.68%)"
+      finding: |
+        WF-validated: 4-window walk-forward audit 2025-Q1/Q2/Q3 + 2026-Q1.
+        Sharpe per window: 0.81 / 5.39 / 4.67 / 5.37. Aggregate Sh 4.26 /
+        CAGR 256.6% / DD -8.68% / Calmar 29.56. W1-2025-Q1 weak (Sh 0.81)
+        but cleared min gate. Source of edge is cross-sectional dispersion
+        across 87 assets vs the 14-asset seed in revised_blend_2026.
+        Live derate ~50-75% of fixed-backtest expected = ~125-190%/yr live.
+      seed_path: logs/paper_trader_v2/seeds/pt_xsec_K7_7_FULL_dneut_u87_V0_baseline_no_gate/
+      report_path: logs/strat_audit/xsec_u87_wf_audit.md
+    - lift_pct_yr: 100-200
+      action: "V3 fade_dual_side variant (87-asset) — most regime-robust"
+      effort_days: 0  # already validated
+      status_2026_05_03: "WF-VALIDATED (4/4 windows, agg Sh 4.11, worst DD -11.80%)"
+      finding: |
+        ONLY variant with 4/4 walk-forward Sharpe > 1.5 (3.90 / 3.94 /
+        4.44 / 4.17). Aggregate Sh 4.11 / CAGR 366.9% / DD -14.92% /
+        Calmar 24.60. Fade gate aligned with W1-2025-Q1 BTC consolidation
+        regime — only variant to clear that window cleanly. Best wealth
+        + stability sleeve.
+      seed_path: logs/paper_trader_v2/seeds/pt_xsec_K7_7_FULL_dneut_u87_V3_fade_dual_side/
+      report_path: logs/strat_audit/xsec_u87_wf_audit.md
+    - lift_pct_yr: 50-100
+      action: "K=15+15 d-neut (87-asset) — top Sharpe sleeve"
+      effort_days: 0
+      status_2026_05_03: "WF-VALIDATED (3/4 windows, agg Sh 4.75, worst DD -7.53%)"
+      finding: |
+        Top WF-validated Sharpe across all variants. Sh 4.75 / CAGR 166.9%
+        / DD -9.01% / Calmar 18.52. Most diversified positions per day
+        (15 longs + 15 shorts) so lower per-position concentration risk.
+        Trades 100pp CAGR for +0.5 Sharpe + 1pp lower DD.
+    - lift_pct_yr: 50-100
+      action: "K=5+5 d-neut (87-asset) — top Calmar sleeve"
+      effort_days: 0
+      status_2026_05_03: "WF-VALIDATED (3/4 windows, agg Sh 3.54, worst DD -10.06%)"
+      finding: |
+        Top Calmar across all variants (31.70). Sh 3.54 / CAGR 318.8% /
+        DD -10.06%. Most concentrated positions = highest CAGR within DD
+        bound. Best wealth-per-DD sleeve.
+    - lift_pct_yr: 20-40
+      action: "Add Universa OTM put hedge sleeve (5% allocation)"
+      effort_days: 2
+      blocker: "Deribit options ingest"
+    - lift_pct_yr: 10-20
+      action: "Magnitude-decile sizing on xsec ranker output"
+      effort_days: 1
+      blocker: "G-FRONTIER-008 scoped, not built"
+    - lift_pct_yr: 15-30
+      action: "Conformal gating + quantile regression heads on V1.1 trunk"
+      effort_days: 2
+      blocker: "G-ML-001 / G-ML-002 scoped"
+  combined_target_pct_yr: 250-400  # was 100-150 prior to 87-asset rediscovery
+  total_pa_multiple_when_complete: 2.5-4X
+  notes_2026_05_03: |
+    [updated post-WF-audit]
+    Setup classifier gating hypothesis FALSIFIED. The dominant lever for
+    pushing beyond 2X is universe expansion (10/14 -> 87 -> 100) on
+    the SAME ranker, not new ML layers on top. Live derate after
+    p_fill calibration is the binding constraint.
+
+    All 5 d-neut variants (K=5+5/7+7/10+10/15+15 + V3 fade) cleared the
+    walk-forward gate (3+ of 4 windows Sharpe > 1.5, agg Sh > 2.0,
+    worst-window DD within limit). Long-only variants (K_short=0) ALL
+    failed DD (-50%+).
+
+    Recommended deploy blend (post-WF, see deployable_u87_post_wf_2026_05_03):
+      40% V3_K7_7_fade  (4/4 WF, wealth + stability)
+      30% K15_15        (top Sharpe 4.75)
+      20% K5_5          (top Calmar 31.7)
+      10% cash reserve
+    Expected fixed-backtest CAGR ~261%/yr; live derated 130-200%/yr.
+
+    Pre-deploy gates STILL pending: bagged-CPCV PBO, DSR, bucketed
+    MakerCostModel, DROP-tier asset filter audit, 30-day live paper.

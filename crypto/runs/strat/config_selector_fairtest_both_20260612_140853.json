@@ -1,0 +1,3423 @@
+{
+ "repro": {
+  "command": "python src/strat/config_selector.py --pair both --cadences 4h,1h,30m,15m --K-synth 30",
+  "git_sha": "8eb9aba",
+  "cost_rt": 0.0024,
+  "universe": "u10",
+  "cadences": [
+   "4h",
+   "1h",
+   "30m",
+   "15m"
+  ]
+ },
+ "combined_verdict": "REFUTED across all tested persistent-regime pairs -- period-level config-selection does NOT transfer even when the regime persists. The prior null was a REAL LIMIT, not just the crash confound. High-value honest result.",
+ "per_pair_verdict": {
+  "bull2024": "REFUTED",
+  "range2023": "REFUTED"
+ },
+ "pairs": [
+  {
+   "pair": "bull2024",
+   "label": "SUSTAINED BULL 2024-02->03",
+   "probe": "u10 M1 +29.2%/100%-up, M2 +22.5%/80%-up; worst-asset-DD M2 -29% (normal vol, no market-wide shock -- book stayed +22.5%); regime persist 6/10",
+   "train_win": [
+    "2024-02-01",
+    "2024-03-01"
+   ],
+   "test_win": [
+    "2024-03-01",
+    "2024-04-01"
+   ],
+   "regime_persistence": {
+    "cadence_for_regime": "1d",
+    "n_assets": 10,
+    "n_persistent": 6,
+    "persistence_frac": 0.6,
+    "train_regime_mix": {
+     "up": 10
+    },
+    "test_regime_mix": {
+     "up": 6,
+     "flat": 4
+    },
+    "per_asset": [
+     {
+      "asset": "BTC",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.4191,
+      "test_ret": 0.143
+     },
+     {
+      "asset": "ETH",
+      "train_regime": "up",
+      "test_regime": "flat",
+      "same": false,
+      "train_ret": 0.4493,
+      "test_ret": 0.0622
+     },
+     {
+      "asset": "SOL",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.2837,
+      "test_ret": 0.5646
+     },
+     {
+      "asset": "BNB",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.3294,
+      "test_ret": 0.4888
+     },
+     {
+      "asset": "XRP",
+      "train_regime": "up",
+      "test_regime": "flat",
+      "same": false,
+      "train_ret": 0.1593,
+      "test_ret": 0.0459
+     },
+     {
+      "asset": "DOGE",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.4767,
+      "test_ret": 0.5794
+     },
+     {
+      "asset": "ADA",
+      "train_regime": "up",
+      "test_regime": "flat",
+      "same": false,
+      "train_ret": 0.2886,
+      "test_ret": -0.0956
+     },
+     {
+      "asset": "AVAX",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.2089,
+      "test_ret": 0.2682
+     },
+     {
+      "asset": "LINK",
+      "train_regime": "up",
+      "test_regime": "flat",
+      "same": false,
+      "train_ret": 0.12,
+      "test_ret": -0.0445
+     },
+     {
+      "asset": "LTC",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.1821,
+      "test_ret": 0.2382
+     }
+    ],
+    "is_persistent": true
+   },
+   "results": {
+    "4h": {
+     "cadence": "4h",
+     "n_assets": 10,
+     "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "BNB",
+      "XRP",
+      "DOGE",
+      "ADA",
+      "AVAX",
+      "LINK",
+      "LTC"
+     ],
+     "config_space": {
+      "n_entry_specs": 8,
+      "entry_specs": [
+       "ema_2_3",
+       "ema_6_65",
+       "ema_22_33",
+       "ema_102_237",
+       "ema_2_3_4",
+       "ema_4_48_84",
+       "ema_10_43_75",
+       "ema_186_208_233"
+      ],
+      "exit_menu": [
+       "signalflip",
+       "trail5",
+       "trail10",
+       "atr3",
+       "time24",
+       "tp8"
+      ],
+      "n_configs": 48
+     },
+     "data_expansion": {
+      "1_cross_sectional": {
+       "n_assets": 10,
+       "note": "each asset = 1 (asset,month-1) regime sample"
+      },
+      "2_sub_period": {
+       "n_subwindows": 5,
+       "n_subperiod_asset_config_samples": 1086,
+       "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+      },
+      "3_block_bootstrap": {
+       "n_boot": 400,
+       "block": 3,
+       "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+      },
+      "4_synthetic": {
+       "K_paths": 30,
+       "generator": "drift+vol+AR(1) regime-conditioned",
+       "note": "score each config across synthetic Feb-like paths -> prefer robust",
+       "n_assets_simulated": 10
+      },
+      "5_shrinkage": {
+       "shrinkage_B": 0.721,
+       "prior_compound_pct": 86.446,
+       "noise_var_est": 7251.147,
+       "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+      },
+      "6_regime_to_config": {
+       "buckets": [
+        "up_hi",
+        "up_lo",
+        "up_mid"
+       ],
+       "distinct_configs_picked": 1,
+       "map_differentiates_by_regime": false,
+       "honest_note": "map COLLAPSES to ONE config for all buckets -> the edge (if any) is a SINGLE-AXIS dominance (e.g. slow-MA-trades-rarely-survives-cost), NOT learned regime navigation. Report as such."
+      }
+     },
+     "regimes_month1": {
+      "BTC": {
+       "bucket": "up_lo",
+       "trend_strength": 3.717,
+       "vol": 0.00926,
+       "price_vs_ma50": 0.1232,
+       "window_ret": 0.4541,
+       "n": 174
+      },
+      "ETH": {
+       "bucket": "up_lo",
+       "trend_strength": 3.835,
+       "vol": 0.00947,
+       "price_vs_ma50": 0.0695,
+       "window_ret": 0.4791,
+       "n": 174
+      },
+      "SOL": {
+       "bucket": "up_hi",
+       "trend_strength": 1.641,
+       "vol": 0.01578,
+       "price_vs_ma50": 0.1633,
+       "window_ret": 0.3416,
+       "n": 174
+      },
+      "BNB": {
+       "bucket": "up_lo",
+       "trend_strength": 3.05,
+       "vol": 0.00838,
+       "price_vs_ma50": 0.0233,
+       "window_ret": 0.337,
+       "n": 174
+      },
+      "XRP": {
+       "bucket": "up_mid",
+       "trend_strength": 1.23,
+       "vol": 0.01098,
+       "price_vs_ma50": 0.0546,
+       "window_ret": 0.1782,
+       "n": 174
+      },
+      "DOGE": {
+       "bucket": "up_hi",
+       "trend_strength": 2.163,
+       "vol": 0.01698,
+       "price_vs_ma50": 0.2515,
+       "window_ret": 0.4846,
+       "n": 174
+      },
+      "ADA": {
+       "bucket": "up_mid",
+       "trend_strength": 1.744,
+       "vol": 0.01438,
+       "price_vs_ma50": 0.0749,
+       "window_ret": 0.3308,
+       "n": 174
+      },
+      "AVAX": {
+       "bucket": "up_mid",
+       "trend_strength": 1.258,
+       "vol": 0.01467,
+       "price_vs_ma50": 0.0721,
+       "window_ret": 0.2435,
+       "n": 174
+      },
+      "LINK": {
+       "bucket": "up_hi",
+       "trend_strength": 1.291,
+       "vol": 0.01569,
+       "price_vs_ma50": 0.0268,
+       "window_ret": 0.2673,
+       "n": 174
+      },
+      "LTC": {
+       "bucket": "up_lo",
+       "trend_strength": 1.389,
+       "vol": 0.01086,
+       "price_vs_ma50": 0.1066,
+       "window_ret": 0.199,
+       "n": 174
+      }
+     },
+     "regime_config_map": {
+      "up_lo": {
+       "best_config": "ema_22_33|signalflip",
+       "score": 219.03,
+       "n_assets": 4
+      },
+      "up_hi": {
+       "best_config": "ema_22_33|signalflip",
+       "score": 258.504,
+       "n_assets": 3
+      },
+      "up_mid": {
+       "best_config": "ema_22_33|signalflip",
+       "score": 235.736,
+       "n_assets": 3
+      }
+     },
+     "predicted_book_pick_mode": "ema_22_33|signalflip",
+     "predicted_book_pick_global": "ema_22_33|signalflip",
+     "config_rank_persistence": {
+      "book_spearman_rho": 0.403,
+      "mean_per_asset_spearman_rho": 0.014,
+      "per_asset_rho": {
+       "BTC": -0.134,
+       "ETH": -0.035,
+       "SOL": 0.241,
+       "BNB": 0.492,
+       "XRP": -0.515,
+       "DOGE": 0.206,
+       "ADA": 0.231,
+       "AVAX": -0.688,
+       "LINK": -0.019,
+       "LTC": 0.36
+      },
+      "n_configs": 48,
+      "interpretation": "rho~+1: config ranking PERSISTS month1->month2 (regime->config transfers); rho~0: last month's config ranking is uninformative for next month (thesis FAILS even in the fair case); rho<0: anti-persistent (winner becomes loser)"
+     },
+     "eval_per_asset": [
+      {
+       "asset": "BTC",
+       "pred_regime": "up_lo",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": 0.28,
+       "feb_oracle_config": "ema_2_3|tp8",
+       "feb_oracle_pct": 7.81,
+       "gap_to_oracle_pct": 7.53,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": 0.79,
+       "random_p50_pct": 0.0,
+       "beats_random": false,
+       "buy_hold_pct": 16.43,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ETH",
+       "pred_regime": "up_lo",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": 0.4,
+       "feb_oracle_config": "ema_2_3|tp8",
+       "feb_oracle_pct": 1.33,
+       "gap_to_oracle_pct": 0.93,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": -1.36,
+       "random_p50_pct": 0.0,
+       "beats_random": true,
+       "buy_hold_pct": 8.0,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "SOL",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": 4.93,
+       "feb_oracle_config": "ema_2_3|tp8",
+       "feb_oracle_pct": 37.48,
+       "gap_to_oracle_pct": 32.55,
+       "naive_lastmonth_best_pct": 7.43,
+       "random_mean_pct": 5.04,
+       "random_p50_pct": 0.0,
+       "beats_random": false,
+       "buy_hold_pct": 51.06,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "BNB",
+       "pred_regime": "up_lo",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": 5.12,
+       "feb_oracle_config": "ema_4_48_84|trail10",
+       "feb_oracle_pct": 47.63,
+       "gap_to_oracle_pct": 42.51,
+       "naive_lastmonth_best_pct": 5.12,
+       "random_mean_pct": 15.38,
+       "random_p50_pct": 6.58,
+       "beats_random": false,
+       "buy_hold_pct": 49.38,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "XRP",
+       "pred_regime": "up_mid",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": -14.27,
+       "feb_oracle_config": "ema_186_208_233|tp8",
+       "feb_oracle_pct": 14.59,
+       "gap_to_oracle_pct": 28.86,
+       "naive_lastmonth_best_pct": -7.63,
+       "random_mean_pct": -6.91,
+       "random_p50_pct": -6.43,
+       "beats_random": false,
+       "buy_hold_pct": 6.03,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "DOGE",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": 38.39,
+       "feb_oracle_config": "ema_2_3|signalflip",
+       "feb_oracle_pct": 40.22,
+       "gap_to_oracle_pct": 1.84,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": 20.62,
+       "random_p50_pct": 24.24,
+       "beats_random": true,
+       "buy_hold_pct": 83.76,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ADA",
+       "pred_regime": "up_mid",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": -3.47,
+       "feb_oracle_config": "ema_10_43_75|atr3",
+       "feb_oracle_pct": 0.9,
+       "gap_to_oracle_pct": 4.37,
+       "naive_lastmonth_best_pct": -3.3,
+       "random_mean_pct": -3.07,
+       "random_p50_pct": -3.47,
+       "beats_random": false,
+       "buy_hold_pct": -3.67,
+       "beats_buyhold": true
+      },
+      {
+       "asset": "AVAX",
+       "pred_regime": "up_mid",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": 20.41,
+       "feb_oracle_config": "ema_22_33|signalflip",
+       "feb_oracle_pct": 20.41,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": -0.02,
+       "random_p50_pct": 0.0,
+       "beats_random": true,
+       "buy_hold_pct": 26.7,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LINK",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": -9.51,
+       "feb_oracle_config": "ema_6_65|tp8",
+       "feb_oracle_pct": 3.93,
+       "gap_to_oracle_pct": 13.44,
+       "naive_lastmonth_best_pct": -6.91,
+       "random_mean_pct": -6.24,
+       "random_p50_pct": -4.55,
+       "beats_random": false,
+       "buy_hold_pct": -2.17,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LTC",
+       "pred_regime": "up_lo",
+       "pred_config": "ema_22_33|signalflip",
+       "pred_feb_pct": 17.4,
+       "feb_oracle_config": "ema_4_48_84|tp8",
+       "feb_oracle_pct": 37.79,
+       "gap_to_oracle_pct": 20.39,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": 10.01,
+       "random_p50_pct": 9.48,
+       "beats_random": true,
+       "buy_hold_pct": 25.88,
+       "beats_buyhold": false
+      }
+     ],
+     "eval_book": {
+      "book_pred_perasset_pct": 5.97,
+      "book_single_mode_config": "ema_22_33|signalflip",
+      "book_single_mode_pct": 5.97,
+      "book_single_global_config": "ema_22_33|signalflip",
+      "book_single_global_pct": 5.97,
+      "book_oracle_pct": 21.21,
+      "book_naive_lastmonth_pct": -0.53,
+      "book_buyhold_pct": 26.14,
+      "book_random_mean_pct": 3.6,
+      "book_random_p05_pct": -1.44,
+      "book_random_p95_pct": 9.54,
+      "book_pred_beats_random": true,
+      "book_pred_pctile_vs_random": 76.5,
+      "book_gap_to_oracle_pct": 15.24
+     },
+     "scoreboard": {
+      "n_assets": 10,
+      "n_beats_random": 4,
+      "n_beats_naive_lastmonth": 5,
+      "n_beats_buyhold": 1,
+      "mean_gap_to_oracle_pct": 15.24,
+      "book_pred_pct": 5.97,
+      "book_random_mean_pct": 3.6,
+      "book_oracle_pct": 21.21,
+      "book_beats_random": true,
+      "book_pctile_vs_random": 76.5,
+      "map_differentiates_by_regime": false,
+      "n_distinct_configs_picked": 1,
+      "config_rank_persistence_book_rho": 0.403,
+      "config_rank_persistence_mean_asset_rho": 0.014
+     }
+    },
+    "1h": {
+     "cadence": "1h",
+     "n_assets": 10,
+     "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "BNB",
+      "XRP",
+      "DOGE",
+      "ADA",
+      "AVAX",
+      "LINK",
+      "LTC"
+     ],
+     "config_space": {
+      "n_entry_specs": 8,
+      "entry_specs": [
+       "ema_2_3",
+       "ema_6_65",
+       "ema_22_33",
+       "ema_102_237",
+       "ema_2_3_4",
+       "ema_4_48_84",
+       "ema_10_43_75",
+       "ema_186_208_233"
+      ],
+      "exit_menu": [
+       "signalflip",
+       "trail5",
+       "trail10",
+       "atr3",
+       "time24",
+       "tp8"
+      ],
+      "n_configs": 48
+     },
+     "data_expansion": {
+      "1_cross_sectional": {
+       "n_assets": 10,
+       "note": "each asset = 1 (asset,month-1) regime sample"
+      },
+      "2_sub_period": {
+       "n_subwindows": 5,
+       "n_subperiod_asset_config_samples": 1674,
+       "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+      },
+      "3_block_bootstrap": {
+       "n_boot": 400,
+       "block": 3,
+       "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+      },
+      "4_synthetic": {
+       "K_paths": 30,
+       "generator": "drift+vol+AR(1) regime-conditioned",
+       "note": "score each config across synthetic Feb-like paths -> prefer robust",
+       "n_assets_simulated": 10
+      },
+      "5_shrinkage": {
+       "shrinkage_B": 0.954,
+       "prior_compound_pct": 27.653,
+       "noise_var_est": 999.922,
+       "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+      },
+      "6_regime_to_config": {
+       "buckets": [
+        "flat_lo",
+        "flat_mid",
+        "up_hi",
+        "up_lo",
+        "up_mid"
+       ],
+       "distinct_configs_picked": 1,
+       "map_differentiates_by_regime": false,
+       "honest_note": "map COLLAPSES to ONE config for all buckets -> the edge (if any) is a SINGLE-AXIS dominance (e.g. slow-MA-trades-rarely-survives-cost), NOT learned regime navigation. Report as such."
+      }
+     },
+     "regimes_month1": {
+      "BTC": {
+       "bucket": "up_lo",
+       "trend_strength": 3.369,
+       "vol": 0.00494,
+       "price_vs_ma50": 0.0087,
+       "window_ret": 0.4395,
+       "n": 696
+      },
+      "ETH": {
+       "bucket": "flat_lo",
+       "trend_strength": 3.187,
+       "vol": 0.00549,
+       "price_vs_ma50": -0.0081,
+       "window_ret": 0.4614,
+       "n": 696
+      },
+      "SOL": {
+       "bucket": "up_hi",
+       "trend_strength": 1.281,
+       "vol": 0.00861,
+       "price_vs_ma50": 0.0545,
+       "window_ret": 0.2909,
+       "n": 696
+      },
+      "BNB": {
+       "bucket": "flat_lo",
+       "trend_strength": 2.426,
+       "vol": 0.00513,
+       "price_vs_ma50": -0.0203,
+       "window_ret": 0.3281,
+       "n": 696
+      },
+      "XRP": {
+       "bucket": "flat_lo",
+       "trend_strength": 1.131,
+       "vol": 0.00572,
+       "price_vs_ma50": -0.0025,
+       "window_ret": 0.1707,
+       "n": 696
+      },
+      "DOGE": {
+       "bucket": "up_hi",
+       "trend_strength": 1.649,
+       "vol": 0.01107,
+       "price_vs_ma50": 0.0324,
+       "window_ret": 0.4808,
+       "n": 694
+      },
+      "ADA": {
+       "bucket": "up_mid",
+       "trend_strength": 1.481,
+       "vol": 0.00796,
+       "price_vs_ma50": 0.0071,
+       "window_ret": 0.3111,
+       "n": 696
+      },
+      "AVAX": {
+       "bucket": "up_hi",
+       "trend_strength": 1.059,
+       "vol": 0.00844,
+       "price_vs_ma50": 0.0021,
+       "window_ret": 0.2356,
+       "n": 696
+      },
+      "LINK": {
+       "bucket": "flat_mid",
+       "trend_strength": 1.14,
+       "vol": 0.00802,
+       "price_vs_ma50": -0.0126,
+       "window_ret": 0.2413,
+       "n": 696
+      },
+      "LTC": {
+       "bucket": "up_mid",
+       "trend_strength": 1.202,
+       "vol": 0.0062,
+       "price_vs_ma50": 0.0257,
+       "window_ret": 0.1966,
+       "n": 696
+      }
+     },
+     "regime_config_map": {
+      "up_lo": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 483.333,
+       "n_assets": 1
+      },
+      "flat_lo": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 322.339,
+       "n_assets": 3
+      },
+      "up_hi": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 332.058,
+       "n_assets": 3
+      },
+      "up_mid": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 373.944,
+       "n_assets": 2
+      },
+      "flat_mid": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 482.335,
+       "n_assets": 1
+      }
+     },
+     "predicted_book_pick_mode": "ema_102_237|signalflip",
+     "predicted_book_pick_global": "ema_102_237|signalflip",
+     "config_rank_persistence": {
+      "book_spearman_rho": 0.672,
+      "mean_per_asset_spearman_rho": 0.468,
+      "per_asset_rho": {
+       "BTC": 0.587,
+       "ETH": 0.481,
+       "SOL": 0.458,
+       "BNB": 0.647,
+       "XRP": 0.602,
+       "DOGE": 0.245,
+       "ADA": 0.363,
+       "AVAX": 0.451,
+       "LINK": 0.417,
+       "LTC": 0.429
+      },
+      "n_configs": 48,
+      "interpretation": "rho~+1: config ranking PERSISTS month1->month2 (regime->config transfers); rho~0: last month's config ranking is uninformative for next month (thesis FAILS even in the fair case); rho<0: anti-persistent (winner becomes loser)"
+     },
+     "eval_per_asset": [
+      {
+       "asset": "BTC",
+       "pred_regime": "up_lo",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 1.8,
+       "feb_oracle_config": "ema_4_48_84|tp8",
+       "feb_oracle_pct": 12.17,
+       "gap_to_oracle_pct": 10.37,
+       "naive_lastmonth_best_pct": -0.13,
+       "random_mean_pct": -4.07,
+       "random_p50_pct": -0.13,
+       "beats_random": true,
+       "buy_hold_pct": 15.66,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ETH",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 1.46,
+       "feb_oracle_config": "ema_4_48_84|atr3",
+       "feb_oracle_pct": 7.62,
+       "gap_to_oracle_pct": 6.16,
+       "naive_lastmonth_best_pct": 0.14,
+       "random_mean_pct": -6.72,
+       "random_p50_pct": -2.49,
+       "beats_random": true,
+       "buy_hold_pct": 7.64,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "SOL",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 0.0,
+       "feb_oracle_config": "ema_6_65|signalflip",
+       "feb_oracle_pct": 31.56,
+       "gap_to_oracle_pct": 31.56,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": 5.09,
+       "random_p50_pct": 3.39,
+       "beats_random": false,
+       "buy_hold_pct": 52.04,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "BNB",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 0.0,
+       "feb_oracle_config": "ema_6_65|trail5",
+       "feb_oracle_pct": 43.11,
+       "gap_to_oracle_pct": 43.11,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": 9.35,
+       "random_p50_pct": 0.0,
+       "beats_random": false,
+       "buy_hold_pct": 49.93,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "XRP",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": -2.69,
+       "feb_oracle_config": "ema_22_33|time24",
+       "feb_oracle_pct": 9.17,
+       "gap_to_oracle_pct": 11.86,
+       "naive_lastmonth_best_pct": -5.73,
+       "random_mean_pct": -11.79,
+       "random_p50_pct": -5.73,
+       "beats_random": true,
+       "buy_hold_pct": 5.41,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "DOGE",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 27.31,
+       "feb_oracle_config": "ema_4_48_84|trail10",
+       "feb_oracle_pct": 41.8,
+       "gap_to_oracle_pct": 14.49,
+       "naive_lastmonth_best_pct": 27.31,
+       "random_mean_pct": 5.31,
+       "random_p50_pct": 0.51,
+       "beats_random": true,
+       "buy_hold_pct": 83.74,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ADA",
+       "pred_regime": "up_mid",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 0.0,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 0.0,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": -16.7,
+       "random_p50_pct": -11.31,
+       "beats_random": true,
+       "buy_hold_pct": -3.61,
+       "beats_buyhold": true
+      },
+      {
+       "asset": "AVAX",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 0.0,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 0.0,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": -13.51,
+       "random_p50_pct": -13.09,
+       "beats_random": true,
+       "buy_hold_pct": 28.91,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LINK",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": -4.41,
+       "feb_oracle_config": "ema_102_237|atr3",
+       "feb_oracle_pct": -0.92,
+       "gap_to_oracle_pct": 3.49,
+       "naive_lastmonth_best_pct": -6.38,
+       "random_mean_pct": -18.56,
+       "random_p50_pct": -20.24,
+       "beats_random": true,
+       "buy_hold_pct": -1.98,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LTC",
+       "pred_regime": "up_mid",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 16.87,
+       "feb_oracle_config": "ema_22_33|tp8",
+       "feb_oracle_pct": 28.23,
+       "gap_to_oracle_pct": 11.36,
+       "naive_lastmonth_best_pct": -5.05,
+       "random_mean_pct": 3.99,
+       "random_p50_pct": 4.96,
+       "beats_random": true,
+       "buy_hold_pct": 27.43,
+       "beats_buyhold": false
+      }
+     ],
+     "eval_book": {
+      "book_pred_perasset_pct": 4.03,
+      "book_single_mode_config": "ema_102_237|signalflip",
+      "book_single_mode_pct": 4.03,
+      "book_single_global_config": "ema_102_237|signalflip",
+      "book_single_global_pct": 4.03,
+      "book_oracle_pct": 17.27,
+      "book_naive_lastmonth_pct": 1.02,
+      "book_buyhold_pct": 26.51,
+      "book_random_mean_pct": -5.05,
+      "book_random_p05_pct": -11.4,
+      "book_random_p95_pct": 2.44,
+      "book_pred_beats_random": true,
+      "book_pred_pctile_vs_random": 99.0,
+      "book_gap_to_oracle_pct": 13.24
+     },
+     "scoreboard": {
+      "n_assets": 10,
+      "n_beats_random": 8,
+      "n_beats_naive_lastmonth": 5,
+      "n_beats_buyhold": 1,
+      "mean_gap_to_oracle_pct": 13.24,
+      "book_pred_pct": 4.03,
+      "book_random_mean_pct": -5.05,
+      "book_oracle_pct": 17.27,
+      "book_beats_random": true,
+      "book_pctile_vs_random": 99.0,
+      "map_differentiates_by_regime": false,
+      "n_distinct_configs_picked": 1,
+      "config_rank_persistence_book_rho": 0.672,
+      "config_rank_persistence_mean_asset_rho": 0.468
+     }
+    },
+    "30m": {
+     "cadence": "30m",
+     "n_assets": 10,
+     "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "BNB",
+      "XRP",
+      "DOGE",
+      "ADA",
+      "AVAX",
+      "LINK",
+      "LTC"
+     ],
+     "config_space": {
+      "n_entry_specs": 8,
+      "entry_specs": [
+       "ema_2_3",
+       "ema_6_65",
+       "ema_22_33",
+       "ema_102_237",
+       "ema_2_3_4",
+       "ema_4_48_84",
+       "ema_10_43_75",
+       "ema_186_208_233"
+      ],
+      "exit_menu": [
+       "signalflip",
+       "trail5",
+       "trail10",
+       "atr3",
+       "time24",
+       "tp8"
+      ],
+      "n_configs": 48
+     },
+     "data_expansion": {
+      "1_cross_sectional": {
+       "n_assets": 10,
+       "note": "each asset = 1 (asset,month-1) regime sample"
+      },
+      "2_sub_period": {
+       "n_subwindows": 5,
+       "n_subperiod_asset_config_samples": 1884,
+       "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+      },
+      "3_block_bootstrap": {
+       "n_boot": 400,
+       "block": 3,
+       "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+      },
+      "4_synthetic": {
+       "K_paths": 30,
+       "generator": "drift+vol+AR(1) regime-conditioned",
+       "note": "score each config across synthetic Feb-like paths -> prefer robust",
+       "n_assets_simulated": 10
+      },
+      "5_shrinkage": {
+       "shrinkage_B": 0.916,
+       "prior_compound_pct": 27.358,
+       "noise_var_est": 1093.665,
+       "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+      },
+      "6_regime_to_config": {
+       "buckets": [
+        "down_hi",
+        "flat_hi",
+        "flat_lo",
+        "flat_mid"
+       ],
+       "distinct_configs_picked": 1,
+       "map_differentiates_by_regime": false,
+       "honest_note": "map COLLAPSES to ONE config for all buckets -> the edge (if any) is a SINGLE-AXIS dominance (e.g. slow-MA-trades-rarely-survives-cost), NOT learned regime navigation. Report as such."
+      }
+     },
+     "regimes_month1": {
+      "BTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 3.352,
+       "vol": 0.00351,
+       "price_vs_ma50": -0.015,
+       "window_ret": 0.439,
+       "n": 1392
+      },
+      "ETH": {
+       "bucket": "flat_lo",
+       "trend_strength": 3.241,
+       "vol": 0.00382,
+       "price_vs_ma50": -0.0256,
+       "window_ret": 0.4625,
+       "n": 1392
+      },
+      "SOL": {
+       "bucket": "flat_hi",
+       "trend_strength": 1.271,
+       "vol": 0.00623,
+       "price_vs_ma50": -0.0089,
+       "window_ret": 0.2953,
+       "n": 1392
+      },
+      "BNB": {
+       "bucket": "flat_lo",
+       "trend_strength": 2.359,
+       "vol": 0.00371,
+       "price_vs_ma50": -0.0252,
+       "window_ret": 0.3268,
+       "n": 1392
+      },
+      "XRP": {
+       "bucket": "flat_mid",
+       "trend_strength": 1.06,
+       "vol": 0.00428,
+       "price_vs_ma50": -0.0127,
+       "window_ret": 0.169,
+       "n": 1392
+      },
+      "DOGE": {
+       "bucket": "down_hi",
+       "trend_strength": 1.719,
+       "vol": 0.00774,
+       "price_vs_ma50": -0.0596,
+       "window_ret": 0.484,
+       "n": 1325
+      },
+      "ADA": {
+       "bucket": "flat_mid",
+       "trend_strength": 1.448,
+       "vol": 0.00581,
+       "price_vs_ma50": -0.0239,
+       "window_ret": 0.314,
+       "n": 1392
+      },
+      "AVAX": {
+       "bucket": "flat_hi",
+       "trend_strength": 1.033,
+       "vol": 0.00601,
+       "price_vs_ma50": -0.0265,
+       "window_ret": 0.2315,
+       "n": 1392
+      },
+      "LINK": {
+       "bucket": "flat_mid",
+       "trend_strength": 1.107,
+       "vol": 0.0059,
+       "price_vs_ma50": -0.0263,
+       "window_ret": 0.2435,
+       "n": 1392
+      },
+      "LTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 1.266,
+       "vol": 0.00409,
+       "price_vs_ma50": -0.0129,
+       "window_ret": 0.1929,
+       "n": 1392
+      }
+     },
+     "regime_config_map": {
+      "flat_lo": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 222.745,
+       "n_assets": 4
+      },
+      "flat_hi": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 305.058,
+       "n_assets": 2
+      },
+      "flat_mid": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 236.976,
+       "n_assets": 3
+      },
+      "down_hi": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 413.904,
+       "n_assets": 1
+      }
+     },
+     "predicted_book_pick_mode": "ema_186_208_233|signalflip",
+     "predicted_book_pick_global": "ema_186_208_233|signalflip",
+     "config_rank_persistence": {
+      "book_spearman_rho": 0.819,
+      "mean_per_asset_spearman_rho": 0.602,
+      "per_asset_rho": {
+       "BTC": 0.588,
+       "ETH": 0.63,
+       "SOL": 0.686,
+       "BNB": 0.774,
+       "XRP": 0.552,
+       "DOGE": 0.689,
+       "ADA": 0.543,
+       "AVAX": 0.47,
+       "LINK": 0.479,
+       "LTC": 0.609
+      },
+      "n_configs": 48,
+      "interpretation": "rho~+1: config ranking PERSISTS month1->month2 (regime->config transfers); rho~0: last month's config ranking is uninformative for next month (thesis FAILS even in the fair case); rho<0: anti-persistent (winner becomes loser)"
+     },
+     "eval_per_asset": [
+      {
+       "asset": "BTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 2.35,
+       "feb_oracle_config": "ema_6_65|tp8",
+       "feb_oracle_pct": 11.39,
+       "gap_to_oracle_pct": 9.04,
+       "naive_lastmonth_best_pct": 2.35,
+       "random_mean_pct": -7.03,
+       "random_p50_pct": -0.22,
+       "beats_random": true,
+       "buy_hold_pct": 15.25,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ETH",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 0.61,
+       "feb_oracle_config": "ema_6_65|tp8",
+       "feb_oracle_pct": 11.66,
+       "gap_to_oracle_pct": 11.05,
+       "naive_lastmonth_best_pct": -2.12,
+       "random_mean_pct": -11.95,
+       "random_p50_pct": -4.69,
+       "beats_random": true,
+       "buy_hold_pct": 7.98,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "SOL",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 7.02,
+       "feb_oracle_config": "ema_22_33|signalflip",
+       "feb_oracle_pct": 18.76,
+       "gap_to_oracle_pct": 11.75,
+       "naive_lastmonth_best_pct": 1.49,
+       "random_mean_pct": -7.96,
+       "random_p50_pct": -4.11,
+       "beats_random": true,
+       "buy_hold_pct": 57.04,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "BNB",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 3.55,
+       "feb_oracle_config": "ema_22_33|signalflip",
+       "feb_oracle_pct": 47.23,
+       "gap_to_oracle_pct": 43.68,
+       "naive_lastmonth_best_pct": 3.55,
+       "random_mean_pct": 9.97,
+       "random_p50_pct": 8.64,
+       "beats_random": false,
+       "buy_hold_pct": 50.91,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "XRP",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": -18.3,
+       "feb_oracle_config": "ema_10_43_75|tp8",
+       "feb_oracle_pct": 0.6,
+       "gap_to_oracle_pct": 18.89,
+       "naive_lastmonth_best_pct": -18.3,
+       "random_mean_pct": -18.26,
+       "random_p50_pct": -14.59,
+       "beats_random": false,
+       "buy_hold_pct": 6.16,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "DOGE",
+       "pred_regime": "down_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 37.43,
+       "feb_oracle_config": "ema_6_65|trail10",
+       "feb_oracle_pct": 53.42,
+       "gap_to_oracle_pct": 15.99,
+       "naive_lastmonth_best_pct": 43.09,
+       "random_mean_pct": 15.37,
+       "random_p50_pct": 22.89,
+       "beats_random": true,
+       "buy_hold_pct": 85.73,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ADA",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": -11.03,
+       "feb_oracle_config": "ema_102_237|time24",
+       "feb_oracle_pct": 3.03,
+       "gap_to_oracle_pct": 14.06,
+       "naive_lastmonth_best_pct": -11.03,
+       "random_mean_pct": -20.47,
+       "random_p50_pct": -13.99,
+       "beats_random": true,
+       "buy_hold_pct": -1.84,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "AVAX",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 17.16,
+       "feb_oracle_config": "ema_186_208_233|trail10",
+       "feb_oracle_pct": 17.38,
+       "gap_to_oracle_pct": 0.22,
+       "naive_lastmonth_best_pct": -0.48,
+       "random_mean_pct": -12.18,
+       "random_p50_pct": -7.4,
+       "beats_random": true,
+       "buy_hold_pct": 30.91,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LINK",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": -12.03,
+       "feb_oracle_config": "ema_186_208_233|atr3",
+       "feb_oracle_pct": 3.26,
+       "gap_to_oracle_pct": 15.3,
+       "naive_lastmonth_best_pct": -7.51,
+       "random_mean_pct": -22.74,
+       "random_p50_pct": -25.7,
+       "beats_random": true,
+       "buy_hold_pct": -1.26,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 19.81,
+       "feb_oracle_config": "ema_102_237|trail10",
+       "feb_oracle_pct": 31.28,
+       "gap_to_oracle_pct": 11.47,
+       "naive_lastmonth_best_pct": 19.81,
+       "random_mean_pct": 1.59,
+       "random_p50_pct": 5.63,
+       "beats_random": true,
+       "buy_hold_pct": 28.08,
+       "beats_buyhold": false
+      }
+     ],
+     "eval_book": {
+      "book_pred_perasset_pct": 4.66,
+      "book_single_mode_config": "ema_186_208_233|signalflip",
+      "book_single_mode_pct": 4.66,
+      "book_single_global_config": "ema_186_208_233|signalflip",
+      "book_single_global_pct": 4.66,
+      "book_oracle_pct": 19.8,
+      "book_naive_lastmonth_pct": 3.09,
+      "book_buyhold_pct": 27.9,
+      "book_random_mean_pct": -7.59,
+      "book_random_p05_pct": -16.99,
+      "book_random_p95_pct": 3.13,
+      "book_pred_beats_random": true,
+      "book_pred_pctile_vs_random": 98.0,
+      "book_gap_to_oracle_pct": 15.15
+     },
+     "scoreboard": {
+      "n_assets": 10,
+      "n_beats_random": 8,
+      "n_beats_naive_lastmonth": 3,
+      "n_beats_buyhold": 0,
+      "mean_gap_to_oracle_pct": 15.15,
+      "book_pred_pct": 4.66,
+      "book_random_mean_pct": -7.59,
+      "book_oracle_pct": 19.8,
+      "book_beats_random": true,
+      "book_pctile_vs_random": 98.0,
+      "map_differentiates_by_regime": false,
+      "n_distinct_configs_picked": 1,
+      "config_rank_persistence_book_rho": 0.819,
+      "config_rank_persistence_mean_asset_rho": 0.602
+     }
+    },
+    "15m": {
+     "cadence": "15m",
+     "n_assets": 10,
+     "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "BNB",
+      "XRP",
+      "DOGE",
+      "ADA",
+      "AVAX",
+      "LINK",
+      "LTC"
+     ],
+     "config_space": {
+      "n_entry_specs": 8,
+      "entry_specs": [
+       "ema_2_3",
+       "ema_6_65",
+       "ema_22_33",
+       "ema_102_237",
+       "ema_2_3_4",
+       "ema_4_48_84",
+       "ema_10_43_75",
+       "ema_186_208_233"
+      ],
+      "exit_menu": [
+       "signalflip",
+       "trail5",
+       "trail10",
+       "atr3",
+       "time24",
+       "tp8"
+      ],
+      "n_configs": 48
+     },
+     "data_expansion": {
+      "1_cross_sectional": {
+       "n_assets": 10,
+       "note": "each asset = 1 (asset,month-1) regime sample"
+      },
+      "2_sub_period": {
+       "n_subwindows": 5,
+       "n_subperiod_asset_config_samples": 2046,
+       "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+      },
+      "3_block_bootstrap": {
+       "n_boot": 400,
+       "block": 3,
+       "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+      },
+      "4_synthetic": {
+       "K_paths": 30,
+       "generator": "drift+vol+AR(1) regime-conditioned",
+       "note": "score each config across synthetic Feb-like paths -> prefer robust",
+       "n_assets_simulated": 10
+      },
+      "5_shrinkage": {
+       "shrinkage_B": 0.955,
+       "prior_compound_pct": -2.127,
+       "noise_var_est": 254.423,
+       "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+      },
+      "6_regime_to_config": {
+       "buckets": [
+        "down_hi",
+        "flat_hi",
+        "flat_lo",
+        "flat_mid"
+       ],
+       "distinct_configs_picked": 1,
+       "map_differentiates_by_regime": false,
+       "honest_note": "map COLLAPSES to ONE config for all buckets -> the edge (if any) is a SINGLE-AXIS dominance (e.g. slow-MA-trades-rarely-survives-cost), NOT learned regime navigation. Report as such."
+      }
+     },
+     "regimes_month1": {
+      "BTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 3.294,
+       "vol": 0.00251,
+       "price_vs_ma50": -0.0127,
+       "window_ret": 0.4361,
+       "n": 2783
+      },
+      "ETH": {
+       "bucket": "flat_lo",
+       "trend_strength": 3.209,
+       "vol": 0.00271,
+       "price_vs_ma50": -0.0217,
+       "window_ret": 0.4593,
+       "n": 2784
+      },
+      "SOL": {
+       "bucket": "flat_hi",
+       "trend_strength": 1.279,
+       "vol": 0.00427,
+       "price_vs_ma50": -0.0269,
+       "window_ret": 0.2885,
+       "n": 2784
+      },
+      "BNB": {
+       "bucket": "flat_lo",
+       "trend_strength": 2.335,
+       "vol": 0.00265,
+       "price_vs_ma50": -0.0149,
+       "window_ret": 0.3264,
+       "n": 2772
+      },
+      "XRP": {
+       "bucket": "flat_mid",
+       "trend_strength": 1.026,
+       "vol": 0.00307,
+       "price_vs_ma50": -0.0223,
+       "window_ret": 0.166,
+       "n": 2782
+      },
+      "DOGE": {
+       "bucket": "down_hi",
+       "trend_strength": 1.866,
+       "vol": 0.00552,
+       "price_vs_ma50": -0.0696,
+       "window_ret": 0.484,
+       "n": 2211
+      },
+      "ADA": {
+       "bucket": "flat_mid",
+       "trend_strength": 1.442,
+       "vol": 0.00408,
+       "price_vs_ma50": -0.0339,
+       "window_ret": 0.31,
+       "n": 2782
+      },
+      "AVAX": {
+       "bucket": "flat_hi",
+       "trend_strength": 1.035,
+       "vol": 0.0042,
+       "price_vs_ma50": -0.031,
+       "window_ret": 0.2293,
+       "n": 2784
+      },
+      "LINK": {
+       "bucket": "flat_mid",
+       "trend_strength": 1.106,
+       "vol": 0.00414,
+       "price_vs_ma50": -0.0244,
+       "window_ret": 0.2417,
+       "n": 2784
+      },
+      "LTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 1.284,
+       "vol": 0.00285,
+       "price_vs_ma50": -0.0267,
+       "window_ret": 0.1927,
+       "n": 2782
+      }
+     },
+     "regime_config_map": {
+      "flat_lo": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 132.015,
+       "n_assets": 4
+      },
+      "flat_hi": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 168.751,
+       "n_assets": 2
+      },
+      "flat_mid": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 136.277,
+       "n_assets": 3
+      },
+      "down_hi": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 242.409,
+       "n_assets": 1
+      }
+     },
+     "predicted_book_pick_mode": "ema_186_208_233|signalflip",
+     "predicted_book_pick_global": "ema_186_208_233|signalflip",
+     "config_rank_persistence": {
+      "book_spearman_rho": 0.869,
+      "mean_per_asset_spearman_rho": 0.726,
+      "per_asset_rho": {
+       "BTC": 0.763,
+       "ETH": 0.549,
+       "SOL": 0.732,
+       "BNB": 0.928,
+       "XRP": 0.84,
+       "DOGE": 0.68,
+       "ADA": 0.849,
+       "AVAX": 0.506,
+       "LINK": 0.779,
+       "LTC": 0.63
+      },
+      "n_configs": 48,
+      "interpretation": "rho~+1: config ranking PERSISTS month1->month2 (regime->config transfers); rho~0: last month's config ranking is uninformative for next month (thesis FAILS even in the fair case); rho<0: anti-persistent (winner becomes loser)"
+     },
+     "eval_per_asset": [
+      {
+       "asset": "BTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 2.98,
+       "feb_oracle_config": "ema_102_237|tp8",
+       "feb_oracle_pct": 10.87,
+       "gap_to_oracle_pct": 7.89,
+       "naive_lastmonth_best_pct": 2.98,
+       "random_mean_pct": -18.33,
+       "random_p50_pct": -7.67,
+       "beats_random": true,
+       "buy_hold_pct": 16.16,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ETH",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": -4.92,
+       "feb_oracle_config": "ema_102_237|time24",
+       "feb_oracle_pct": -0.27,
+       "gap_to_oracle_pct": 4.65,
+       "naive_lastmonth_best_pct": -9.18,
+       "random_mean_pct": -20.19,
+       "random_p50_pct": -9.47,
+       "beats_random": true,
+       "buy_hold_pct": 8.5,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "SOL",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 28.31,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 28.31,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 28.31,
+       "random_mean_pct": -11.3,
+       "random_p50_pct": -4.28,
+       "beats_random": true,
+       "buy_hold_pct": 58.55,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "BNB",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 40.94,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 47.44,
+       "gap_to_oracle_pct": 6.5,
+       "naive_lastmonth_best_pct": 46.52,
+       "random_mean_pct": 2.42,
+       "random_p50_pct": 6.26,
+       "beats_random": true,
+       "buy_hold_pct": 51.78,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "XRP",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": -14.77,
+       "feb_oracle_config": "ema_102_237|time24",
+       "feb_oracle_pct": 7.99,
+       "gap_to_oracle_pct": 22.76,
+       "naive_lastmonth_best_pct": -14.77,
+       "random_mean_pct": -23.38,
+       "random_p50_pct": -18.09,
+       "beats_random": true,
+       "buy_hold_pct": 6.25,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "DOGE",
+       "pred_regime": "down_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 17.81,
+       "feb_oracle_config": "ema_22_33|trail5",
+       "feb_oracle_pct": 39.15,
+       "gap_to_oracle_pct": 21.34,
+       "naive_lastmonth_best_pct": 17.81,
+       "random_mean_pct": -1.24,
+       "random_p50_pct": 6.32,
+       "beats_random": true,
+       "buy_hold_pct": 86.06,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ADA",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": -12.99,
+       "feb_oracle_config": "ema_102_237|time24",
+       "feb_oracle_pct": 1.17,
+       "gap_to_oracle_pct": 14.16,
+       "naive_lastmonth_best_pct": -11.56,
+       "random_mean_pct": -33.59,
+       "random_p50_pct": -27.09,
+       "beats_random": true,
+       "buy_hold_pct": -1.52,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "AVAX",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": -4.85,
+       "feb_oracle_config": "ema_102_237|tp8",
+       "feb_oracle_pct": 19.83,
+       "gap_to_oracle_pct": 24.68,
+       "naive_lastmonth_best_pct": -4.85,
+       "random_mean_pct": -10.23,
+       "random_p50_pct": -0.81,
+       "beats_random": true,
+       "buy_hold_pct": 31.23,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LINK",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": -19.87,
+       "feb_oracle_config": "ema_186_208_233|atr3",
+       "feb_oracle_pct": -5.87,
+       "gap_to_oracle_pct": 14.0,
+       "naive_lastmonth_best_pct": -17.56,
+       "random_mean_pct": -33.37,
+       "random_p50_pct": -26.0,
+       "beats_random": true,
+       "buy_hold_pct": -1.14,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 15.16,
+       "feb_oracle_config": "ema_186_208_233|trail5",
+       "feb_oracle_pct": 23.21,
+       "gap_to_oracle_pct": 8.05,
+       "naive_lastmonth_best_pct": 15.16,
+       "random_mean_pct": -12.05,
+       "random_p50_pct": -1.24,
+       "beats_random": true,
+       "buy_hold_pct": 29.96,
+       "beats_buyhold": false
+      }
+     ],
+     "eval_book": {
+      "book_pred_perasset_pct": 4.78,
+      "book_single_mode_config": "ema_186_208_233|signalflip",
+      "book_single_mode_pct": 4.78,
+      "book_single_global_config": "ema_186_208_233|signalflip",
+      "book_single_global_pct": 4.78,
+      "book_oracle_pct": 17.18,
+      "book_naive_lastmonth_pct": 5.28,
+      "book_buyhold_pct": 28.58,
+      "book_random_mean_pct": -17.08,
+      "book_random_p05_pct": -30.67,
+      "book_random_p95_pct": -4.58,
+      "book_pred_beats_random": true,
+      "book_pred_pctile_vs_random": 100.0,
+      "book_gap_to_oracle_pct": 12.4
+     },
+     "scoreboard": {
+      "n_assets": 10,
+      "n_beats_random": 10,
+      "n_beats_naive_lastmonth": 1,
+      "n_beats_buyhold": 0,
+      "mean_gap_to_oracle_pct": 12.4,
+      "book_pred_pct": 4.78,
+      "book_random_mean_pct": -17.08,
+      "book_oracle_pct": 17.18,
+      "book_beats_random": true,
+      "book_pctile_vs_random": 100.0,
+      "map_differentiates_by_regime": false,
+      "n_distinct_configs_picked": 1,
+      "config_rank_persistence_book_rho": 0.869,
+      "config_rank_persistence_mean_asset_rho": 0.726
+     }
+    }
+   },
+   "verdict": {
+    "headline": "REFUTED (FAIR CASE): even with the regime PERSISTING month1->month2, the map COLLAPSES to one config on a majority (0/4 differentiate) -- the cost-avoidance signature, NOT learned regime navigation; it stays FAR from the oracle (>50% capture on only 0/4) -- beating random is not the same as approaching the hindsight best. So the prior NULL was NOT merely the crash confound -- period-level config-selection does NOT transfer even in the fair case. The honest result: 'config-selection doesn't transfer even when the regime persists.' Reported as a refutation, not spun.",
+    "verdict": "REFUTED",
+    "confirmed": false,
+    "n_cadences": 4,
+    "n_map_differentiates": 0,
+    "n_approaches_oracle": 0,
+    "n_config_rank_persists": 4,
+    "mean_book_rho": 0.691,
+    "rho_book_by_cadence": {
+     "4h": 0.403,
+     "1h": 0.672,
+     "30m": 0.819,
+     "15m": 0.869
+    },
+    "pred_oracle_ratio_by_cadence": {
+     "4h": 0.281,
+     "1h": 0.233,
+     "30m": 0.235,
+     "15m": 0.278
+    },
+    "lines": [
+     "PERSISTENT-REGIME FAIR TEST -- SUSTAINED BULL 2024-02->03.",
+     "Regime persistence MEASURED: 6/10 assets keep the same regime month1->month2 (0.6); train mix {'up': 10} -> test mix {'up': 6, 'flat': 4}.",
+     "HEADLINE: REFUTED (FAIR CASE): even with the regime PERSISTING month1->month2, the map COLLAPSES to one config on a majority (0/4 differentiate) -- the cost-avoidance signature, NOT learned regime navigation; it stays FAR from the oracle (>50% capture on only 0/4) -- beating random is not the same as approaching the hindsight best. So the prior NULL was NOT merely the crash confound -- period-level config-selection does NOT transfer even in the fair case. The honest result: 'config-selection doesn't transfer even when the regime persists.' Reported as a refutation, not spun.",
+     "",
+     "[4h] config-rank rho(book)=0.403 | map-differentiates=False (1 cfgs) | pred 5.97% / oracle 21.21% (ratio 0.28) | book BEATS random",
+     "[1h] config-rank rho(book)=0.672 | map-differentiates=False (1 cfgs) | pred 4.03% / oracle 17.27% (ratio 0.23) | book BEATS random",
+     "[30m] config-rank rho(book)=0.819 | map-differentiates=False (1 cfgs) | pred 4.66% / oracle 19.8% (ratio 0.24) | book BEATS random",
+     "[15m] config-rank rho(book)=0.869 | map-differentiates=False (1 cfgs) | pred 4.78% / oracle 17.18% (ratio 0.28) | book BEATS random",
+     "",
+     "Q1 map differentiates on 0/4 cadences (majority=False).",
+     "Q2 approaches oracle (>50% capture) on 0/4 (majority=False).",
+     "Q4 config-rank persists (book rho>+0.30) on 4/4 (majority=True); mean book rho=0.691.",
+     ""
+    ]
+   }
+  },
+  {
+   "pair": "range2023",
+   "label": "CALM RANGE->mild-up 2023-09->10",
+   "probe": "u10 M1 +5.4%/70%-up (low vol), M2 +18.4%/100%-up; worst-asset-DD ~-16%; regime persist 6/10 -- a CALMER, different regime for robustness",
+   "train_win": [
+    "2023-09-01",
+    "2023-10-01"
+   ],
+   "test_win": [
+    "2023-10-01",
+    "2023-11-01"
+   ],
+   "regime_persistence": {
+    "cadence_for_regime": "1d",
+    "n_assets": 10,
+    "n_persistent": 6,
+    "persistence_frac": 0.6,
+    "train_regime_mix": {
+     "up": 3,
+     "flat": 6,
+     "down": 1
+    },
+    "test_regime_mix": {
+     "up": 7,
+     "flat": 3
+    },
+    "per_asset": [
+     {
+      "asset": "BTC",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.0443,
+      "test_ret": 0.2389
+     },
+     {
+      "asset": "ETH",
+      "train_regime": "flat",
+      "test_regime": "flat",
+      "same": true,
+      "train_ret": 0.0263,
+      "test_ret": 0.0468
+     },
+     {
+      "asset": "SOL",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.1044,
+      "test_ret": 0.6069
+     },
+     {
+      "asset": "BNB",
+      "train_regime": "flat",
+      "test_regime": "flat",
+      "same": true,
+      "train_ret": 0.0047,
+      "test_ret": 0.0376
+     },
+     {
+      "asset": "XRP",
+      "train_regime": "flat",
+      "test_regime": "up",
+      "same": false,
+      "train_ret": 0.0335,
+      "test_ret": 0.1444
+     },
+     {
+      "asset": "DOGE",
+      "train_regime": "flat",
+      "test_regime": "up",
+      "same": false,
+      "train_ret": -0.026,
+      "test_ret": 0.0799
+     },
+     {
+      "asset": "ADA",
+      "train_regime": "flat",
+      "test_regime": "up",
+      "same": false,
+      "train_ret": -0.0051,
+      "test_ret": 0.1011
+     },
+     {
+      "asset": "AVAX",
+      "train_regime": "down",
+      "test_regime": "up",
+      "same": false,
+      "train_ret": -0.0685,
+      "test_ret": 0.161
+     },
+     {
+      "asset": "LINK",
+      "train_regime": "up",
+      "test_regime": "up",
+      "same": true,
+      "train_ret": 0.3791,
+      "test_ret": 0.4138
+     },
+     {
+      "asset": "LTC",
+      "train_regime": "flat",
+      "test_regime": "flat",
+      "same": true,
+      "train_ret": 0.0473,
+      "test_ret": 0.011
+     }
+    ],
+    "is_persistent": true
+   },
+   "results": {
+    "4h": {
+     "cadence": "4h",
+     "n_assets": 10,
+     "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "BNB",
+      "XRP",
+      "DOGE",
+      "ADA",
+      "AVAX",
+      "LINK",
+      "LTC"
+     ],
+     "config_space": {
+      "n_entry_specs": 8,
+      "entry_specs": [
+       "ema_2_3",
+       "ema_6_65",
+       "ema_22_33",
+       "ema_102_237",
+       "ema_2_3_4",
+       "ema_4_48_84",
+       "ema_10_43_75",
+       "ema_186_208_233"
+      ],
+      "exit_menu": [
+       "signalflip",
+       "trail5",
+       "trail10",
+       "atr3",
+       "time24",
+       "tp8"
+      ],
+      "n_configs": 48
+     },
+     "data_expansion": {
+      "1_cross_sectional": {
+       "n_assets": 10,
+       "note": "each asset = 1 (asset,month-1) regime sample"
+      },
+      "2_sub_period": {
+       "n_subwindows": 5,
+       "n_subperiod_asset_config_samples": 1008,
+       "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+      },
+      "3_block_bootstrap": {
+       "n_boot": 400,
+       "block": 3,
+       "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+      },
+      "4_synthetic": {
+       "K_paths": 30,
+       "generator": "drift+vol+AR(1) regime-conditioned",
+       "note": "score each config across synthetic Feb-like paths -> prefer robust",
+       "n_assets_simulated": 10
+      },
+      "5_shrinkage": {
+       "shrinkage_B": 0.355,
+       "prior_compound_pct": 1.577,
+       "noise_var_est": 101.308,
+       "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+      },
+      "6_regime_to_config": {
+       "buckets": [
+        "down_mid",
+        "flat_hi",
+        "flat_lo",
+        "flat_mid",
+        "up_hi"
+       ],
+       "distinct_configs_picked": 2,
+       "map_differentiates_by_regime": true,
+       "honest_note": "map differentiates: distinct config per regime bucket (genuine regime->config skill)"
+      }
+     },
+     "regimes_month1": {
+      "BTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.44,
+       "vol": 0.00566,
+       "price_vs_ma50": 0.0146,
+       "window_ret": 0.0334,
+       "n": 180
+      },
+      "ETH": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.143,
+       "vol": 0.00582,
+       "price_vs_ma50": 0.0344,
+       "window_ret": 0.0112,
+       "n": 180
+      },
+      "SOL": {
+       "bucket": "flat_hi",
+       "trend_strength": 0.489,
+       "vol": 0.01133,
+       "price_vs_ma50": 0.0871,
+       "window_ret": 0.0744,
+       "n": 180
+      },
+      "BNB": {
+       "bucket": "flat_lo",
+       "trend_strength": -0.171,
+       "vol": 0.00483,
+       "price_vs_ma50": 0.011,
+       "window_ret": -0.0111,
+       "n": 180
+      },
+      "XRP": {
+       "bucket": "flat_hi",
+       "trend_strength": 0.078,
+       "vol": 0.00828,
+       "price_vs_ma50": 0.0132,
+       "window_ret": 0.0086,
+       "n": 180
+      },
+      "DOGE": {
+       "bucket": "flat_lo",
+       "trend_strength": -0.384,
+       "vol": 0.00558,
+       "price_vs_ma50": 0.0144,
+       "window_ret": -0.0288,
+       "n": 180
+      },
+      "ADA": {
+       "bucket": "flat_mid",
+       "trend_strength": -0.092,
+       "vol": 0.00694,
+       "price_vs_ma50": 0.0291,
+       "window_ret": -0.0086,
+       "n": 180
+      },
+      "AVAX": {
+       "bucket": "down_mid",
+       "trend_strength": -0.772,
+       "vol": 0.00752,
+       "price_vs_ma50": 0.024,
+       "window_ret": -0.0778,
+       "n": 180
+      },
+      "LINK": {
+       "bucket": "up_hi",
+       "trend_strength": 2.437,
+       "vol": 0.01141,
+       "price_vs_ma50": 0.091,
+       "window_ret": 0.3731,
+       "n": 180
+      },
+      "LTC": {
+       "bucket": "flat_mid",
+       "trend_strength": 0.26,
+       "vol": 0.00826,
+       "price_vs_ma50": 0.0191,
+       "window_ret": 0.0289,
+       "n": 180
+      }
+     },
+     "regime_config_map": {
+      "flat_lo": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 5.26,
+       "n_assets": 4
+      },
+      "flat_hi": {
+       "best_config": "ema_6_65|time24",
+       "score": 8.554,
+       "n_assets": 2
+      },
+      "flat_mid": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 7.89,
+       "n_assets": 2
+      },
+      "down_mid": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 10.519,
+       "n_assets": 1
+      },
+      "up_hi": {
+       "best_config": "ema_102_237|signalflip",
+       "score": 31.316,
+       "n_assets": 1
+      }
+     },
+     "predicted_book_pick_mode": "ema_102_237|signalflip",
+     "predicted_book_pick_global": "ema_102_237|signalflip",
+     "config_rank_persistence": {
+      "book_spearman_rho": 0.506,
+      "mean_per_asset_spearman_rho": 0.131,
+      "per_asset_rho": {
+       "BTC": 0.119,
+       "ETH": 0.234,
+       "SOL": 0.142,
+       "BNB": 0.303,
+       "XRP": 0.128,
+       "DOGE": -0.263,
+       "ADA": 0.608,
+       "AVAX": -0.445,
+       "LINK": 0.32,
+       "LTC": 0.163
+      },
+      "n_configs": 48,
+      "interpretation": "rho~+1: config ranking PERSISTS month1->month2 (regime->config transfers); rho~0: last month's config ranking is uninformative for next month (thesis FAILS even in the fair case); rho<0: anti-persistent (winner becomes loser)"
+     },
+     "eval_per_asset": [
+      {
+       "asset": "BTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 26.44,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 26.44,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 3.31,
+       "random_mean_pct": 13.67,
+       "random_p50_pct": 12.99,
+       "beats_random": true,
+       "buy_hold_pct": 27.91,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ETH",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 1.3,
+       "feb_oracle_config": "ema_4_48_84|signalflip",
+       "feb_oracle_pct": 11.62,
+       "gap_to_oracle_pct": 10.32,
+       "naive_lastmonth_best_pct": 8.7,
+       "random_mean_pct": 4.88,
+       "random_p50_pct": 4.79,
+       "beats_random": false,
+       "buy_hold_pct": 8.24,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "SOL",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_6_65|time24",
+       "pred_feb_pct": 16.06,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 68.24,
+       "gap_to_oracle_pct": 52.18,
+       "naive_lastmonth_best_pct": 15.57,
+       "random_mean_pct": 32.13,
+       "random_p50_pct": 28.93,
+       "beats_random": false,
+       "buy_hold_pct": 80.76,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "BNB",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 0.38,
+       "feb_oracle_config": "ema_6_65|tp8",
+       "feb_oracle_pct": 8.16,
+       "gap_to_oracle_pct": 7.77,
+       "naive_lastmonth_best_pct": 0.7,
+       "random_mean_pct": 0.61,
+       "random_p50_pct": 0.38,
+       "beats_random": false,
+       "buy_hold_pct": 4.87,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "XRP",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_6_65|time24",
+       "pred_feb_pct": 1.15,
+       "feb_oracle_config": "ema_10_43_75|signalflip",
+       "feb_oracle_pct": 15.94,
+       "gap_to_oracle_pct": 14.79,
+       "naive_lastmonth_best_pct": 1.15,
+       "random_mean_pct": 4.67,
+       "random_p50_pct": 5.97,
+       "beats_random": false,
+       "buy_hold_pct": 15.89,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "DOGE",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": -4.82,
+       "feb_oracle_config": "ema_10_43_75|time24",
+       "feb_oracle_pct": 16.05,
+       "gap_to_oracle_pct": 20.87,
+       "naive_lastmonth_best_pct": -4.82,
+       "random_mean_pct": 4.97,
+       "random_p50_pct": 7.43,
+       "beats_random": false,
+       "buy_hold_pct": 9.63,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ADA",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 4.64,
+       "feb_oracle_config": "ema_22_33|signalflip",
+       "feb_oracle_pct": 15.5,
+       "gap_to_oracle_pct": 10.86,
+       "naive_lastmonth_best_pct": 8.5,
+       "random_mean_pct": 6.69,
+       "random_p50_pct": 6.87,
+       "beats_random": false,
+       "buy_hold_pct": 14.75,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "AVAX",
+       "pred_regime": "down_mid",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 3.24,
+       "feb_oracle_config": "ema_10_43_75|tp8",
+       "feb_oracle_pct": 24.84,
+       "gap_to_oracle_pct": 21.6,
+       "naive_lastmonth_best_pct": 6.04,
+       "random_mean_pct": 10.72,
+       "random_p50_pct": 10.99,
+       "beats_random": false,
+       "buy_hold_pct": 20.96,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LINK",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": 0.0,
+       "feb_oracle_config": "ema_22_33|signalflip",
+       "feb_oracle_pct": 45.67,
+       "gap_to_oracle_pct": 45.67,
+       "naive_lastmonth_best_pct": 0.0,
+       "random_mean_pct": 18.87,
+       "random_p50_pct": 21.51,
+       "beats_random": false,
+       "buy_hold_pct": 38.9,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LTC",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_102_237|signalflip",
+       "pred_feb_pct": -0.12,
+       "feb_oracle_config": "ema_22_33|tp8",
+       "feb_oracle_pct": 7.57,
+       "gap_to_oracle_pct": 7.7,
+       "naive_lastmonth_best_pct": 2.69,
+       "random_mean_pct": 1.19,
+       "random_p50_pct": 0.0,
+       "beats_random": false,
+       "buy_hold_pct": 4.26,
+       "beats_buyhold": false
+      }
+     ],
+     "eval_book": {
+      "book_pred_perasset_pct": 4.83,
+      "book_single_mode_config": "ema_102_237|signalflip",
+      "book_single_mode_pct": 10.53,
+      "book_single_global_config": "ema_102_237|signalflip",
+      "book_single_global_pct": 10.53,
+      "book_oracle_pct": 24.0,
+      "book_naive_lastmonth_pct": 4.18,
+      "book_buyhold_pct": 22.62,
+      "book_random_mean_pct": 9.56,
+      "book_random_p05_pct": 4.75,
+      "book_random_p95_pct": 15.31,
+      "book_pred_beats_random": false,
+      "book_pred_pctile_vs_random": 6.5,
+      "book_gap_to_oracle_pct": 19.18
+     },
+     "scoreboard": {
+      "n_assets": 10,
+      "n_beats_random": 1,
+      "n_beats_naive_lastmonth": 2,
+      "n_beats_buyhold": 0,
+      "mean_gap_to_oracle_pct": 19.18,
+      "book_pred_pct": 4.83,
+      "book_random_mean_pct": 9.56,
+      "book_oracle_pct": 24.0,
+      "book_beats_random": false,
+      "book_pctile_vs_random": 6.5,
+      "map_differentiates_by_regime": true,
+      "n_distinct_configs_picked": 2,
+      "config_rank_persistence_book_rho": 0.506,
+      "config_rank_persistence_mean_asset_rho": 0.131
+     }
+    },
+    "1h": {
+     "cadence": "1h",
+     "n_assets": 10,
+     "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "BNB",
+      "XRP",
+      "DOGE",
+      "ADA",
+      "AVAX",
+      "LINK",
+      "LTC"
+     ],
+     "config_space": {
+      "n_entry_specs": 8,
+      "entry_specs": [
+       "ema_2_3",
+       "ema_6_65",
+       "ema_22_33",
+       "ema_102_237",
+       "ema_2_3_4",
+       "ema_4_48_84",
+       "ema_10_43_75",
+       "ema_186_208_233"
+      ],
+      "exit_menu": [
+       "signalflip",
+       "trail5",
+       "trail10",
+       "atr3",
+       "time24",
+       "tp8"
+      ],
+      "n_configs": 48
+     },
+     "data_expansion": {
+      "1_cross_sectional": {
+       "n_assets": 10,
+       "note": "each asset = 1 (asset,month-1) regime sample"
+      },
+      "2_sub_period": {
+       "n_subwindows": 5,
+       "n_subperiod_asset_config_samples": 1758,
+       "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+      },
+      "3_block_bootstrap": {
+       "n_boot": 400,
+       "block": 3,
+       "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+      },
+      "4_synthetic": {
+       "K_paths": 30,
+       "generator": "drift+vol+AR(1) regime-conditioned",
+       "note": "score each config across synthetic Feb-like paths -> prefer robust",
+       "n_assets_simulated": 10
+      },
+      "5_shrinkage": {
+       "shrinkage_B": 0.744,
+       "prior_compound_pct": -5.631,
+       "noise_var_est": 67.393,
+       "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+      },
+      "6_regime_to_config": {
+       "buckets": [
+        "down_hi",
+        "flat_hi",
+        "flat_lo",
+        "flat_mid",
+        "up_hi"
+       ],
+       "distinct_configs_picked": 2,
+       "map_differentiates_by_regime": true,
+       "honest_note": "map differentiates: distinct config per regime bucket (genuine regime->config skill)"
+      }
+     },
+     "regimes_month1": {
+      "BTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.415,
+       "vol": 0.0031,
+       "price_vs_ma50": -0.0003,
+       "window_ret": 0.0345,
+       "n": 720
+      },
+      "ETH": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.13,
+       "vol": 0.00314,
+       "price_vs_ma50": 0.0011,
+       "window_ret": 0.0109,
+       "n": 720
+      },
+      "SOL": {
+       "bucket": "flat_hi",
+       "trend_strength": 0.439,
+       "vol": 0.00622,
+       "price_vs_ma50": 0.0444,
+       "window_ret": 0.0733,
+       "n": 720
+      },
+      "BNB": {
+       "bucket": "flat_lo",
+       "trend_strength": -0.178,
+       "vol": 0.00288,
+       "price_vs_ma50": -0.0028,
+       "window_ret": -0.0138,
+       "n": 720
+      },
+      "XRP": {
+       "bucket": "flat_mid",
+       "trend_strength": 0.072,
+       "vol": 0.00445,
+       "price_vs_ma50": -0.006,
+       "window_ret": 0.0086,
+       "n": 720
+      },
+      "DOGE": {
+       "bucket": "flat_lo",
+       "trend_strength": -0.301,
+       "vol": 0.00346,
+       "price_vs_ma50": 0.0042,
+       "window_ret": -0.0272,
+       "n": 685
+      },
+      "ADA": {
+       "bucket": "flat_mid",
+       "trend_strength": -0.129,
+       "vol": 0.0037,
+       "price_vs_ma50": 0.0111,
+       "window_ret": -0.0128,
+       "n": 718
+      },
+      "AVAX": {
+       "bucket": "down_hi",
+       "trend_strength": -0.64,
+       "vol": 0.00448,
+       "price_vs_ma50": 0.0026,
+       "window_ret": -0.0769,
+       "n": 719
+      },
+      "LINK": {
+       "bucket": "up_hi",
+       "trend_strength": 2.33,
+       "vol": 0.00612,
+       "price_vs_ma50": 0.0285,
+       "window_ret": 0.3823,
+       "n": 720
+      },
+      "LTC": {
+       "bucket": "flat_mid",
+       "trend_strength": 0.25,
+       "vol": 0.00432,
+       "price_vs_ma50": 0.0027,
+       "window_ret": 0.029,
+       "n": 720
+      }
+     },
+     "regime_config_map": {
+      "flat_lo": {
+       "best_config": "ema_10_43_75|time24",
+       "score": -0.222,
+       "n_assets": 4
+      },
+      "flat_hi": {
+       "best_config": "ema_102_237|trail5",
+       "score": 3.468,
+       "n_assets": 1
+      },
+      "flat_mid": {
+       "best_config": "ema_10_43_75|time24",
+       "score": 0.527,
+       "n_assets": 3
+      },
+      "down_hi": {
+       "best_config": "ema_10_43_75|time24",
+       "score": 2.541,
+       "n_assets": 1
+      },
+      "up_hi": {
+       "best_config": "ema_10_43_75|time24",
+       "score": 7.75,
+       "n_assets": 1
+      }
+     },
+     "predicted_book_pick_mode": "ema_10_43_75|time24",
+     "predicted_book_pick_global": "ema_10_43_75|time24",
+     "config_rank_persistence": {
+      "book_spearman_rho": 0.634,
+      "mean_per_asset_spearman_rho": 0.515,
+      "per_asset_rho": {
+       "BTC": 0.625,
+       "ETH": 0.607,
+       "SOL": 0.655,
+       "BNB": 0.383,
+       "XRP": 0.421,
+       "DOGE": 0.581,
+       "ADA": 0.496,
+       "AVAX": 0.336,
+       "LINK": 0.7,
+       "LTC": 0.344
+      },
+      "n_configs": 48,
+      "interpretation": "rho~+1: config ranking PERSISTS month1->month2 (regime->config transfers); rho~0: last month's config ranking is uninformative for next month (thesis FAILS even in the fair case); rho<0: anti-persistent (winner becomes loser)"
+     },
+     "eval_per_asset": [
+      {
+       "asset": "BTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": 5.2,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 21.76,
+       "gap_to_oracle_pct": 16.56,
+       "naive_lastmonth_best_pct": 21.19,
+       "random_mean_pct": 4.16,
+       "random_p50_pct": 2.25,
+       "beats_random": true,
+       "buy_hold_pct": 28.21,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ETH",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": 0.9,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 12.89,
+       "gap_to_oracle_pct": 11.99,
+       "naive_lastmonth_best_pct": 11.96,
+       "random_mean_pct": 0.37,
+       "random_p50_pct": 3.37,
+       "beats_random": true,
+       "buy_hold_pct": 8.18,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "SOL",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_102_237|trail5",
+       "pred_feb_pct": 20.48,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 63.29,
+       "gap_to_oracle_pct": 42.81,
+       "naive_lastmonth_best_pct": 24.79,
+       "random_mean_pct": 25.42,
+       "random_p50_pct": 24.79,
+       "beats_random": false,
+       "buy_hold_pct": 79.74,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "BNB",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": -6.72,
+       "feb_oracle_config": "ema_186_208_233|tp8",
+       "feb_oracle_pct": 7.93,
+       "gap_to_oracle_pct": 14.65,
+       "naive_lastmonth_best_pct": -1.73,
+       "random_mean_pct": -5.09,
+       "random_p50_pct": -2.29,
+       "beats_random": false,
+       "buy_hold_pct": 5.11,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "XRP",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": 1.57,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 16.6,
+       "gap_to_oracle_pct": 15.03,
+       "naive_lastmonth_best_pct": 1.22,
+       "random_mean_pct": 0.65,
+       "random_p50_pct": 3.89,
+       "beats_random": true,
+       "buy_hold_pct": 16.0,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "DOGE",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": -3.23,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 11.61,
+       "gap_to_oracle_pct": 14.84,
+       "naive_lastmonth_best_pct": 8.36,
+       "random_mean_pct": -0.31,
+       "random_p50_pct": 4.69,
+       "beats_random": false,
+       "buy_hold_pct": 9.68,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ADA",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": 1.52,
+       "feb_oracle_config": "ema_22_33|signalflip",
+       "feb_oracle_pct": 16.04,
+       "gap_to_oracle_pct": 14.52,
+       "naive_lastmonth_best_pct": 2.04,
+       "random_mean_pct": -0.42,
+       "random_p50_pct": 2.28,
+       "beats_random": true,
+       "buy_hold_pct": 14.75,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "AVAX",
+       "pred_regime": "down_hi",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": 4.84,
+       "feb_oracle_config": "ema_6_65|trail5",
+       "feb_oracle_pct": 29.73,
+       "gap_to_oracle_pct": 24.89,
+       "naive_lastmonth_best_pct": 17.35,
+       "random_mean_pct": 10.49,
+       "random_p50_pct": 8.08,
+       "beats_random": false,
+       "buy_hold_pct": 21.74,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LINK",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": 14.67,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 49.38,
+       "gap_to_oracle_pct": 34.71,
+       "naive_lastmonth_best_pct": 17.27,
+       "random_mean_pct": 11.91,
+       "random_p50_pct": 10.99,
+       "beats_random": true,
+       "buy_hold_pct": 37.65,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LTC",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_10_43_75|time24",
+       "pred_feb_pct": -3.7,
+       "feb_oracle_config": "ema_22_33|trail5",
+       "feb_oracle_pct": 9.2,
+       "gap_to_oracle_pct": 12.9,
+       "naive_lastmonth_best_pct": -1.58,
+       "random_mean_pct": -2.17,
+       "random_p50_pct": 1.29,
+       "beats_random": false,
+       "buy_hold_pct": 4.01,
+       "beats_buyhold": false
+      }
+     ],
+     "eval_book": {
+      "book_pred_perasset_pct": 3.55,
+      "book_single_mode_config": "ema_10_43_75|time24",
+      "book_single_mode_pct": 3.12,
+      "book_single_global_config": "ema_10_43_75|time24",
+      "book_single_global_pct": 3.12,
+      "book_oracle_pct": 23.84,
+      "book_naive_lastmonth_pct": 10.09,
+      "book_buyhold_pct": 22.51,
+      "book_random_mean_pct": 4.67,
+      "book_random_p05_pct": -2.13,
+      "book_random_p95_pct": 11.71,
+      "book_pred_beats_random": false,
+      "book_pred_pctile_vs_random": 42.0,
+      "book_gap_to_oracle_pct": 20.29
+     },
+     "scoreboard": {
+      "n_assets": 10,
+      "n_beats_random": 5,
+      "n_beats_naive_lastmonth": 1,
+      "n_beats_buyhold": 0,
+      "mean_gap_to_oracle_pct": 20.29,
+      "book_pred_pct": 3.55,
+      "book_random_mean_pct": 4.67,
+      "book_oracle_pct": 23.84,
+      "book_beats_random": false,
+      "book_pctile_vs_random": 42.0,
+      "map_differentiates_by_regime": true,
+      "n_distinct_configs_picked": 2,
+      "config_rank_persistence_book_rho": 0.634,
+      "config_rank_persistence_mean_asset_rho": 0.515
+     }
+    },
+    "30m": {
+     "cadence": "30m",
+     "n_assets": 10,
+     "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "BNB",
+      "XRP",
+      "DOGE",
+      "ADA",
+      "AVAX",
+      "LINK",
+      "LTC"
+     ],
+     "config_space": {
+      "n_entry_specs": 8,
+      "entry_specs": [
+       "ema_2_3",
+       "ema_6_65",
+       "ema_22_33",
+       "ema_102_237",
+       "ema_2_3_4",
+       "ema_4_48_84",
+       "ema_10_43_75",
+       "ema_186_208_233"
+      ],
+      "exit_menu": [
+       "signalflip",
+       "trail5",
+       "trail10",
+       "atr3",
+       "time24",
+       "tp8"
+      ],
+      "n_configs": 48
+     },
+     "data_expansion": {
+      "1_cross_sectional": {
+       "n_assets": 10,
+       "note": "each asset = 1 (asset,month-1) regime sample"
+      },
+      "2_sub_period": {
+       "n_subwindows": 5,
+       "n_subperiod_asset_config_samples": 1956,
+       "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+      },
+      "3_block_bootstrap": {
+       "n_boot": 400,
+       "block": 3,
+       "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+      },
+      "4_synthetic": {
+       "K_paths": 30,
+       "generator": "drift+vol+AR(1) regime-conditioned",
+       "note": "score each config across synthetic Feb-like paths -> prefer robust",
+       "n_assets_simulated": 10
+      },
+      "5_shrinkage": {
+       "shrinkage_B": 0.793,
+       "prior_compound_pct": -11.546,
+       "noise_var_est": 59.199,
+       "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+      },
+      "6_regime_to_config": {
+       "buckets": [
+        "down_mid",
+        "flat_hi",
+        "flat_lo",
+        "flat_mid",
+        "up_hi"
+       ],
+       "distinct_configs_picked": 4,
+       "map_differentiates_by_regime": true,
+       "honest_note": "map differentiates: distinct config per regime bucket (genuine regime->config skill)"
+      }
+     },
+     "regimes_month1": {
+      "BTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.42,
+       "vol": 0.00228,
+       "price_vs_ma50": -0.0002,
+       "window_ret": 0.0363,
+       "n": 1440
+      },
+      "ETH": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.146,
+       "vol": 0.00228,
+       "price_vs_ma50": -0.002,
+       "window_ret": 0.0126,
+       "n": 1440
+      },
+      "SOL": {
+       "bucket": "flat_hi",
+       "trend_strength": 0.444,
+       "vol": 0.00464,
+       "price_vs_ma50": 0.0301,
+       "window_ret": 0.0777,
+       "n": 1419
+      },
+      "BNB": {
+       "bucket": "flat_lo",
+       "trend_strength": -0.172,
+       "vol": 0.00219,
+       "price_vs_ma50": -0.002,
+       "window_ret": -0.0142,
+       "n": 1428
+      },
+      "XRP": {
+       "bucket": "flat_hi",
+       "trend_strength": 0.066,
+       "vol": 0.00352,
+       "price_vs_ma50": -0.0042,
+       "window_ret": 0.0088,
+       "n": 1439
+      },
+      "DOGE": {
+       "bucket": "flat_mid",
+       "trend_strength": -0.287,
+       "vol": 0.00324,
+       "price_vs_ma50": 0.0017,
+       "window_ret": -0.0304,
+       "n": 1072
+      },
+      "ADA": {
+       "bucket": "flat_lo",
+       "trend_strength": -0.085,
+       "vol": 0.00299,
+       "price_vs_ma50": 0.0103,
+       "window_ret": -0.0094,
+       "n": 1354
+      },
+      "AVAX": {
+       "bucket": "down_mid",
+       "trend_strength": -0.587,
+       "vol": 0.00351,
+       "price_vs_ma50": 0.0047,
+       "window_ret": -0.076,
+       "n": 1357
+      },
+      "LINK": {
+       "bucket": "up_hi",
+       "trend_strength": 2.315,
+       "vol": 0.00442,
+       "price_vs_ma50": 0.0098,
+       "window_ret": 0.3873,
+       "n": 1431
+      },
+      "LTC": {
+       "bucket": "flat_mid",
+       "trend_strength": 0.231,
+       "vol": 0.00321,
+       "price_vs_ma50": 0.0014,
+       "window_ret": 0.0281,
+       "n": 1440
+      }
+     },
+     "regime_config_map": {
+      "flat_lo": {
+       "best_config": "ema_102_237|tp8",
+       "score": 2.864,
+       "n_assets": 4
+      },
+      "flat_hi": {
+       "best_config": "ema_186_208_233|tp8",
+       "score": 6.011,
+       "n_assets": 2
+      },
+      "flat_mid": {
+       "best_config": "ema_186_208_233|tp8",
+       "score": 3.18,
+       "n_assets": 2
+      },
+      "down_mid": {
+       "best_config": "ema_186_208_233|trail10",
+       "score": 9.692,
+       "n_assets": 1
+      },
+      "up_hi": {
+       "best_config": "ema_102_237|trail10",
+       "score": 12.482,
+       "n_assets": 1
+      }
+     },
+     "predicted_book_pick_mode": "ema_102_237|tp8",
+     "predicted_book_pick_global": "ema_186_208_233|trail10",
+     "config_rank_persistence": {
+      "book_spearman_rho": 0.842,
+      "mean_per_asset_spearman_rho": 0.698,
+      "per_asset_rho": {
+       "BTC": 0.812,
+       "ETH": 0.774,
+       "SOL": 0.757,
+       "BNB": 0.857,
+       "XRP": 0.456,
+       "DOGE": 0.627,
+       "ADA": 0.749,
+       "AVAX": 0.536,
+       "LINK": 0.629,
+       "LTC": 0.787
+      },
+      "n_configs": 48,
+      "interpretation": "rho~+1: config ranking PERSISTS month1->month2 (regime->config transfers); rho~0: last month's config ranking is uninformative for next month (thesis FAILS even in the fair case); rho<0: anti-persistent (winner becomes loser)"
+     },
+     "eval_per_asset": [
+      {
+       "asset": "BTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|tp8",
+       "pred_feb_pct": 7.71,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 24.05,
+       "gap_to_oracle_pct": 16.34,
+       "naive_lastmonth_best_pct": 23.78,
+       "random_mean_pct": -1.1,
+       "random_p50_pct": 2.14,
+       "beats_random": true,
+       "buy_hold_pct": 28.27,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ETH",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|tp8",
+       "pred_feb_pct": 8.26,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 10.04,
+       "gap_to_oracle_pct": 1.78,
+       "naive_lastmonth_best_pct": 8.26,
+       "random_mean_pct": -8.54,
+       "random_p50_pct": -3.13,
+       "beats_random": true,
+       "buy_hold_pct": 8.21,
+       "beats_buyhold": true
+      },
+      {
+       "asset": "SOL",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 12.57,
+       "feb_oracle_config": "ema_102_237|signalflip",
+       "feb_oracle_pct": 69.8,
+       "gap_to_oracle_pct": 57.23,
+       "naive_lastmonth_best_pct": -0.33,
+       "random_mean_pct": 22.34,
+       "random_p50_pct": 19.4,
+       "beats_random": false,
+       "buy_hold_pct": 80.08,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "BNB",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|tp8",
+       "pred_feb_pct": 8.19,
+       "feb_oracle_config": "ema_102_237|tp8",
+       "feb_oracle_pct": 8.19,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 0.47,
+       "random_mean_pct": -10.82,
+       "random_p50_pct": -7.15,
+       "beats_random": true,
+       "buy_hold_pct": 5.21,
+       "beats_buyhold": true
+      },
+      {
+       "asset": "XRP",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 10.67,
+       "feb_oracle_config": "ema_22_33|tp8",
+       "feb_oracle_pct": 20.52,
+       "gap_to_oracle_pct": 9.85,
+       "naive_lastmonth_best_pct": -1.21,
+       "random_mean_pct": -4.63,
+       "random_p50_pct": 4.19,
+       "beats_random": true,
+       "buy_hold_pct": 16.14,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "DOGE",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 8.02,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 12.16,
+       "gap_to_oracle_pct": 4.15,
+       "naive_lastmonth_best_pct": 1.61,
+       "random_mean_pct": -5.63,
+       "random_p50_pct": 0.3,
+       "beats_random": true,
+       "buy_hold_pct": 9.68,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ADA",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_102_237|tp8",
+       "pred_feb_pct": 5.37,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 16.43,
+       "gap_to_oracle_pct": 11.07,
+       "naive_lastmonth_best_pct": 5.37,
+       "random_mean_pct": -7.66,
+       "random_p50_pct": 1.48,
+       "beats_random": true,
+       "buy_hold_pct": 14.84,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "AVAX",
+       "pred_regime": "down_mid",
+       "pred_config": "ema_186_208_233|trail10",
+       "pred_feb_pct": 16.74,
+       "feb_oracle_config": "ema_22_33|tp8",
+       "feb_oracle_pct": 30.12,
+       "gap_to_oracle_pct": 13.39,
+       "naive_lastmonth_best_pct": 16.74,
+       "random_mean_pct": 0.3,
+       "random_p50_pct": 6.36,
+       "beats_random": true,
+       "buy_hold_pct": 22.27,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LINK",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_102_237|trail10",
+       "pred_feb_pct": 23.24,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 44.69,
+       "gap_to_oracle_pct": 21.45,
+       "naive_lastmonth_best_pct": 41.6,
+       "random_mean_pct": -2.63,
+       "random_p50_pct": -1.41,
+       "beats_random": true,
+       "buy_hold_pct": 37.79,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LTC",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 5.87,
+       "feb_oracle_config": "ema_186_208_233|tp8",
+       "feb_oracle_pct": 5.87,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": -2.51,
+       "random_mean_pct": -11.24,
+       "random_p50_pct": -4.42,
+       "beats_random": true,
+       "buy_hold_pct": 4.09,
+       "beats_buyhold": true
+      }
+     ],
+     "eval_book": {
+      "book_pred_perasset_pct": 10.66,
+      "book_single_mode_config": "ema_102_237|tp8",
+      "book_single_mode_pct": 5.75,
+      "book_single_global_config": "ema_186_208_233|trail10",
+      "book_single_global_pct": 19.61,
+      "book_oracle_pct": 24.19,
+      "book_naive_lastmonth_pct": 9.38,
+      "book_buyhold_pct": 22.66,
+      "book_random_mean_pct": -2.95,
+      "book_random_p05_pct": -13.23,
+      "book_random_p95_pct": 7.23,
+      "book_pred_beats_random": true,
+      "book_pred_pctile_vs_random": 99.0,
+      "book_gap_to_oracle_pct": 13.52
+     },
+     "scoreboard": {
+      "n_assets": 10,
+      "n_beats_random": 9,
+      "n_beats_naive_lastmonth": 5,
+      "n_beats_buyhold": 3,
+      "mean_gap_to_oracle_pct": 13.53,
+      "book_pred_pct": 10.66,
+      "book_random_mean_pct": -2.95,
+      "book_oracle_pct": 24.19,
+      "book_beats_random": true,
+      "book_pctile_vs_random": 99.0,
+      "map_differentiates_by_regime": true,
+      "n_distinct_configs_picked": 4,
+      "config_rank_persistence_book_rho": 0.842,
+      "config_rank_persistence_mean_asset_rho": 0.698
+     }
+    },
+    "15m": {
+     "cadence": "15m",
+     "n_assets": 10,
+     "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "BNB",
+      "XRP",
+      "DOGE",
+      "ADA",
+      "AVAX",
+      "LINK",
+      "LTC"
+     ],
+     "config_space": {
+      "n_entry_specs": 8,
+      "entry_specs": [
+       "ema_2_3",
+       "ema_6_65",
+       "ema_22_33",
+       "ema_102_237",
+       "ema_2_3_4",
+       "ema_4_48_84",
+       "ema_10_43_75",
+       "ema_186_208_233"
+      ],
+      "exit_menu": [
+       "signalflip",
+       "trail5",
+       "trail10",
+       "atr3",
+       "time24",
+       "tp8"
+      ],
+      "n_configs": 48
+     },
+     "data_expansion": {
+      "1_cross_sectional": {
+       "n_assets": 10,
+       "note": "each asset = 1 (asset,month-1) regime sample"
+      },
+      "2_sub_period": {
+       "n_subwindows": 5,
+       "n_subperiod_asset_config_samples": 2166,
+       "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+      },
+      "3_block_bootstrap": {
+       "n_boot": 400,
+       "block": 3,
+       "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+      },
+      "4_synthetic": {
+       "K_paths": 30,
+       "generator": "drift+vol+AR(1) regime-conditioned",
+       "note": "score each config across synthetic Feb-like paths -> prefer robust",
+       "n_assets_simulated": 10
+      },
+      "5_shrinkage": {
+       "shrinkage_B": 0.927,
+       "prior_compound_pct": -22.204,
+       "noise_var_est": 21.016,
+       "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+      },
+      "6_regime_to_config": {
+       "buckets": [
+        "down_mid",
+        "flat_hi",
+        "flat_lo",
+        "flat_mid",
+        "up_hi"
+       ],
+       "distinct_configs_picked": 2,
+       "map_differentiates_by_regime": true,
+       "honest_note": "map differentiates: distinct config per regime bucket (genuine regime->config skill)"
+      }
+     },
+     "regimes_month1": {
+      "BTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.449,
+       "vol": 0.00158,
+       "price_vs_ma50": -0.0014,
+       "window_ret": 0.0377,
+       "n": 2830
+      },
+      "ETH": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.163,
+       "vol": 0.00161,
+       "price_vs_ma50": -0.0039,
+       "window_ret": 0.014,
+       "n": 2849
+      },
+      "SOL": {
+       "bucket": "flat_hi",
+       "trend_strength": 0.456,
+       "vol": 0.00347,
+       "price_vs_ma50": 0.0076,
+       "window_ret": 0.0798,
+       "n": 2538
+      },
+      "BNB": {
+       "bucket": "flat_lo",
+       "trend_strength": -0.124,
+       "vol": 0.0016,
+       "price_vs_ma50": -0.0031,
+       "window_ret": -0.0101,
+       "n": 2598
+      },
+      "XRP": {
+       "bucket": "flat_mid",
+       "trend_strength": 0.061,
+       "vol": 0.00236,
+       "price_vs_ma50": -0.0046,
+       "window_ret": 0.0076,
+       "n": 2810
+      },
+      "DOGE": {
+       "bucket": "flat_hi",
+       "trend_strength": -0.289,
+       "vol": 0.00285,
+       "price_vs_ma50": 0.0013,
+       "window_ret": -0.0304,
+       "n": 1360
+      },
+      "ADA": {
+       "bucket": "flat_mid",
+       "trend_strength": -0.054,
+       "vol": 0.00237,
+       "price_vs_ma50": 0.0064,
+       "window_ret": -0.0059,
+       "n": 2070
+      },
+      "AVAX": {
+       "bucket": "down_mid",
+       "trend_strength": -0.592,
+       "vol": 0.00281,
+       "price_vs_ma50": 0.0018,
+       "window_ret": -0.076,
+       "n": 2087
+      },
+      "LINK": {
+       "bucket": "up_hi",
+       "trend_strength": 2.363,
+       "vol": 0.00319,
+       "price_vs_ma50": 0.0021,
+       "window_ret": 0.3913,
+       "n": 2701
+      },
+      "LTC": {
+       "bucket": "flat_lo",
+       "trend_strength": 0.239,
+       "vol": 0.00232,
+       "price_vs_ma50": -0.0028,
+       "window_ret": 0.0298,
+       "n": 2873
+      }
+     },
+     "regime_config_map": {
+      "flat_lo": {
+       "best_config": "ema_186_208_233|tp8",
+       "score": 5.7,
+       "n_assets": 4
+      },
+      "flat_hi": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 8.264,
+       "n_assets": 2
+      },
+      "flat_mid": {
+       "best_config": "ema_186_208_233|tp8",
+       "score": 6.562,
+       "n_assets": 2
+      },
+      "down_mid": {
+       "best_config": "ema_186_208_233|tp8",
+       "score": 8.073,
+       "n_assets": 1
+      },
+      "up_hi": {
+       "best_config": "ema_186_208_233|signalflip",
+       "score": 17.891,
+       "n_assets": 1
+      }
+     },
+     "predicted_book_pick_mode": "ema_186_208_233|tp8",
+     "predicted_book_pick_global": "ema_186_208_233|signalflip",
+     "config_rank_persistence": {
+      "book_spearman_rho": 0.912,
+      "mean_per_asset_spearman_rho": 0.836,
+      "per_asset_rho": {
+       "BTC": 0.754,
+       "ETH": 0.951,
+       "SOL": 0.674,
+       "BNB": 0.98,
+       "XRP": 0.887,
+       "DOGE": 0.786,
+       "ADA": 0.923,
+       "AVAX": 0.743,
+       "LINK": 0.83,
+       "LTC": 0.836
+      },
+      "n_configs": 48,
+      "interpretation": "rho~+1: config ranking PERSISTS month1->month2 (regime->config transfers); rho~0: last month's config ranking is uninformative for next month (thesis FAILS even in the fair case); rho<0: anti-persistent (winner becomes loser)"
+     },
+     "eval_per_asset": [
+      {
+       "asset": "BTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 9.82,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 27.72,
+       "gap_to_oracle_pct": 17.9,
+       "naive_lastmonth_best_pct": 27.72,
+       "random_mean_pct": -13.87,
+       "random_p50_pct": 0.38,
+       "beats_random": true,
+       "buy_hold_pct": 28.24,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ETH",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 8.05,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 12.59,
+       "gap_to_oracle_pct": 4.54,
+       "naive_lastmonth_best_pct": 6.34,
+       "random_mean_pct": -16.97,
+       "random_p50_pct": -7.88,
+       "beats_random": true,
+       "buy_hold_pct": 8.29,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "SOL",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 67.87,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 67.87,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 24.06,
+       "random_mean_pct": 5.94,
+       "random_p50_pct": 13.06,
+       "beats_random": true,
+       "buy_hold_pct": 79.24,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "BNB",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 9.33,
+       "feb_oracle_config": "ema_186_208_233|tp8",
+       "feb_oracle_pct": 9.33,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 4.66,
+       "random_mean_pct": -18.98,
+       "random_p50_pct": -12.55,
+       "beats_random": true,
+       "buy_hold_pct": 5.21,
+       "beats_buyhold": true
+      },
+      {
+       "asset": "XRP",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 13.37,
+       "feb_oracle_config": "ema_102_237|tp8",
+       "feb_oracle_pct": 13.46,
+       "gap_to_oracle_pct": 0.1,
+       "naive_lastmonth_best_pct": 7.54,
+       "random_mean_pct": -17.62,
+       "random_p50_pct": -7.96,
+       "beats_random": true,
+       "buy_hold_pct": 16.29,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "DOGE",
+       "pred_regime": "flat_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 7.7,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 7.7,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": -2.82,
+       "random_mean_pct": -11.03,
+       "random_p50_pct": -3.79,
+       "beats_random": true,
+       "buy_hold_pct": 9.68,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "ADA",
+       "pred_regime": "flat_mid",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 4.18,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 12.05,
+       "gap_to_oracle_pct": 7.87,
+       "naive_lastmonth_best_pct": 4.18,
+       "random_mean_pct": -13.88,
+       "random_p50_pct": -2.43,
+       "beats_random": true,
+       "buy_hold_pct": 15.06,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "AVAX",
+       "pred_regime": "down_mid",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 13.22,
+       "feb_oracle_config": "ema_186_208_233|trail10",
+       "feb_oracle_pct": 24.46,
+       "gap_to_oracle_pct": 11.24,
+       "naive_lastmonth_best_pct": 13.22,
+       "random_mean_pct": -9.69,
+       "random_p50_pct": -1.38,
+       "beats_random": true,
+       "buy_hold_pct": 22.67,
+       "beats_buyhold": false
+      },
+      {
+       "asset": "LINK",
+       "pred_regime": "up_hi",
+       "pred_config": "ema_186_208_233|signalflip",
+       "pred_feb_pct": 41.32,
+       "feb_oracle_config": "ema_186_208_233|signalflip",
+       "feb_oracle_pct": 41.32,
+       "gap_to_oracle_pct": 0.0,
+       "naive_lastmonth_best_pct": 41.32,
+       "random_mean_pct": -18.69,
+       "random_p50_pct": -12.26,
+       "beats_random": true,
+       "buy_hold_pct": 38.46,
+       "beats_buyhold": true
+      },
+      {
+       "asset": "LTC",
+       "pred_regime": "flat_lo",
+       "pred_config": "ema_186_208_233|tp8",
+       "pred_feb_pct": 3.2,
+       "feb_oracle_config": "ema_102_237|trail5",
+       "feb_oracle_pct": 8.52,
+       "gap_to_oracle_pct": 5.32,
+       "naive_lastmonth_best_pct": 3.2,
+       "random_mean_pct": -20.48,
+       "random_p50_pct": -14.49,
+       "beats_random": true,
+       "buy_hold_pct": 4.0,
+       "beats_buyhold": false
+      }
+     ],
+     "eval_book": {
+      "book_pred_perasset_pct": 17.81,
+      "book_single_mode_config": "ema_186_208_233|tp8",
+      "book_single_mode_pct": 8.29,
+      "book_single_global_config": "ema_186_208_233|signalflip",
+      "book_single_global_pct": 20.38,
+      "book_oracle_pct": 22.5,
+      "book_naive_lastmonth_pct": 12.94,
+      "book_buyhold_pct": 22.71,
+      "book_random_mean_pct": -13.61,
+      "book_random_p05_pct": -27.86,
+      "book_random_p95_pct": -0.18,
+      "book_pred_beats_random": true,
+      "book_pred_pctile_vs_random": 100.0,
+      "book_gap_to_oracle_pct": 4.7
+     },
+     "scoreboard": {
+      "n_assets": 10,
+      "n_beats_random": 10,
+      "n_beats_naive_lastmonth": 5,
+      "n_beats_buyhold": 2,
+      "mean_gap_to_oracle_pct": 4.7,
+      "book_pred_pct": 17.81,
+      "book_random_mean_pct": -13.61,
+      "book_oracle_pct": 22.5,
+      "book_beats_random": true,
+      "book_pctile_vs_random": 100.0,
+      "map_differentiates_by_regime": true,
+      "n_distinct_configs_picked": 2,
+      "config_rank_persistence_book_rho": 0.912,
+      "config_rank_persistence_mean_asset_rho": 0.836
+     }
+    }
+   },
+   "verdict": {
+    "headline": "REFUTED (FAIR CASE): even with the regime PERSISTING month1->month2, it stays FAR from the oracle (>50% capture on only 1/4) -- beating random is not the same as approaching the hindsight best. So the prior NULL was NOT merely the crash confound -- period-level config-selection does NOT transfer even in the fair case. The honest result: 'config-selection doesn't transfer even when the regime persists.' Reported as a refutation, not spun.",
+    "verdict": "REFUTED",
+    "confirmed": false,
+    "n_cadences": 4,
+    "n_map_differentiates": 4,
+    "n_approaches_oracle": 1,
+    "n_config_rank_persists": 4,
+    "mean_book_rho": 0.724,
+    "rho_book_by_cadence": {
+     "4h": 0.506,
+     "1h": 0.634,
+     "30m": 0.842,
+     "15m": 0.912
+    },
+    "pred_oracle_ratio_by_cadence": {
+     "4h": 0.201,
+     "1h": 0.149,
+     "30m": 0.441,
+     "15m": 0.792
+    },
+    "lines": [
+     "PERSISTENT-REGIME FAIR TEST -- CALM RANGE->mild-up 2023-09->10.",
+     "Regime persistence MEASURED: 6/10 assets keep the same regime month1->month2 (0.6); train mix {'up': 3, 'flat': 6, 'down': 1} -> test mix {'up': 7, 'flat': 3}.",
+     "HEADLINE: REFUTED (FAIR CASE): even with the regime PERSISTING month1->month2, it stays FAR from the oracle (>50% capture on only 1/4) -- beating random is not the same as approaching the hindsight best. So the prior NULL was NOT merely the crash confound -- period-level config-selection does NOT transfer even in the fair case. The honest result: 'config-selection doesn't transfer even when the regime persists.' Reported as a refutation, not spun.",
+     "",
+     "[4h] config-rank rho(book)=0.506 | map-differentiates=True (2 cfgs) | pred 4.83% / oracle 24.0% (ratio 0.2) | book LOSES random",
+     "[1h] config-rank rho(book)=0.634 | map-differentiates=True (2 cfgs) | pred 3.55% / oracle 23.84% (ratio 0.15) | book LOSES random",
+     "[30m] config-rank rho(book)=0.842 | map-differentiates=True (4 cfgs) | pred 10.66% / oracle 24.19% (ratio 0.44) | book BEATS random",
+     "[15m] config-rank rho(book)=0.912 | map-differentiates=True (2 cfgs) | pred 17.81% / oracle 22.5% (ratio 0.79) | book BEATS random",
+     "",
+     "Q1 map differentiates on 4/4 cadences (majority=True).",
+     "Q2 approaches oracle (>50% capture) on 1/4 (majority=False).",
+     "Q4 config-rank persists (book rho>+0.30) on 4/4 (majority=True); mean book rho=0.724.",
+     ""
+    ]
+   }
+  }
+ ]
+}

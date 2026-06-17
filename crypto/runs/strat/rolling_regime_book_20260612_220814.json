@@ -1,0 +1,826 @@
+{
+ "repro": {
+  "command": "python -m strat.rolling_regime_book --cadences 15m,30m,1h",
+  "git_sha": "40f8985",
+  "cost_taker": 0.0024,
+  "cost_maker": 0.0006,
+  "spans": {
+   "TRAINref_2021": [
+    "2021-01-01",
+    "2022-01-01"
+   ],
+   "VAL": [
+    "2024-05-15",
+    "2025-03-15"
+   ],
+   "OOS": [
+    "2025-03-15",
+    "2025-12-31"
+   ]
+  },
+  "train_fit": [
+   "2019-01-01",
+   "2024-05-15"
+  ],
+  "fixed_family": [
+   "ema_2_73",
+   "ema_3_102",
+   "ema_4_86",
+   "ema_5_86",
+   "ema_6_77",
+   "ema_8_91",
+   "ema_10_128",
+   "ema_12_77",
+   "ema_15_65",
+   "ema_18_128",
+   "ema_22_65",
+   "ema_26_75",
+   "ema_31_124",
+   "ema_37_89",
+   "ema_44_75",
+   "ema_52_89",
+   "ema_62_105",
+   "ema_73_145",
+   "ema_86_122",
+   "ema_102_103"
+  ],
+  "trend_speeds": [
+   "ema_37_38",
+   "ema_12_22_118"
+  ]
+ },
+ "results": {
+  "15m": {
+   "cadence": "15m",
+   "thresholds": {
+    "breadth_hi": 0.6,
+    "breadth_lo": 0.4,
+    "signed_dn": -0.05,
+    "whip_hi": 0.05,
+    "trend_hi": 0.05,
+    "fitted_n": 0,
+    "fallback": true
+   },
+   "full_regime_share": {
+    "trend": 0.0,
+    "chop": 1.0,
+    "down": 0.0
+   },
+   "min_dwell": 96,
+   "lookback": 2880,
+   "spans": {
+    "TRAINref_2021": {
+     "NAIVE": {
+      "roi": -17.3,
+      "maxdd": -65.1,
+      "sharpe": -0.31,
+      "pos_breadth": 45.0,
+      "p05": -56.09,
+      "p50": -17.66,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": 276.4,
+      "maxdd": -28.7,
+      "sharpe": 3.3,
+      "pos_breadth": 67.0,
+      "p05": 77.62,
+      "p50": 274.15,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": 37.2,
+      "maxdd": -12.5,
+      "sharpe": 1.95,
+      "pos_breadth": 60.0,
+      "p05": 1.53,
+      "p50": 37.28,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": 70.8,
+      "maxdd": -8.3,
+      "sharpe": 3.24,
+      "pos_breadth": 78.0,
+      "p05": 25.97,
+      "p50": 70.89,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "BUYHOLD": {
+      "roi": 2019.5
+     },
+     "ORACLE": {
+      "roi": 1506.6
+     }
+    },
+    "VAL": {
+     "NAIVE": {
+      "roi": -64.1,
+      "maxdd": -68.4,
+      "sharpe": -7.35,
+      "pos_breadth": 18.0,
+      "p05": -71.85,
+      "p50": -64.07,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": -8.3,
+      "maxdd": -32.1,
+      "sharpe": -0.45,
+      "pos_breadth": 28.0,
+      "p05": -30.13,
+      "p50": -7.94,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": -2.3,
+      "maxdd": -15.6,
+      "sharpe": -0.3,
+      "pos_breadth": 31.0,
+      "p05": -13.61,
+      "p50": -2.25,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": 16.7,
+      "maxdd": -10.9,
+      "sharpe": 2.26,
+      "pos_breadth": 64.0,
+      "p05": 3.25,
+      "p50": 16.82,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "BUYHOLD": {
+      "roi": 43.6
+     },
+     "ORACLE": {
+      "roi": 98.5
+     },
+     "SHUFFLE_ROLLGATE_roi": -2.35
+    },
+    "OOS": {
+     "NAIVE": {
+      "roi": -74.3,
+      "maxdd": -74.6,
+      "sharpe": -11.29,
+      "pos_breadth": 3.0,
+      "p05": -79.89,
+      "p50": -74.37,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": -40.3,
+      "maxdd": -44.0,
+      "sharpe": -3.65,
+      "pos_breadth": 6.0,
+      "p05": -55.05,
+      "p50": -40.45,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": -17.7,
+      "maxdd": -22.5,
+      "sharpe": -3.05,
+      "pos_breadth": 6.0,
+      "p05": -27.84,
+      "p50": -17.95,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": -1.8,
+      "maxdd": -15.9,
+      "sharpe": -0.25,
+      "pos_breadth": 35.0,
+      "p05": -13.8,
+      "p50": -2.07,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "BUYHOLD": {
+      "roi": -5.9
+     },
+     "ORACLE": {
+      "roi": -5.7
+     },
+     "SHUFFLE_ROLLGATE_roi": -17.72
+    }
+   }
+  },
+  "30m": {
+   "cadence": "30m",
+   "thresholds": {
+    "breadth_hi": 0.675,
+    "breadth_lo": 0.48333333333333334,
+    "signed_dn": -1.9932954608678908,
+    "whip_hi": 0.05555555555555555,
+    "trend_hi": 2.1528503319679237,
+    "fitted_n": 6263,
+    "fallback": false
+   },
+   "full_regime_share": {
+    "trend": 0.006,
+    "chop": 0.988,
+    "down": 0.006
+   },
+   "min_dwell": 48,
+   "lookback": 1440,
+   "spans": {
+    "TRAINref_2021": {
+     "NAIVE": {
+      "roi": 171.3,
+      "maxdd": -31.5,
+      "sharpe": 2.68,
+      "pos_breadth": 67.0,
+      "p05": 39.88,
+      "p50": 173.45,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": 567.1,
+      "maxdd": -25.4,
+      "sharpe": 4.3,
+      "pos_breadth": 86.0,
+      "p05": 204.83,
+      "p50": 565.68,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": 48.3,
+      "maxdd": -12.6,
+      "sharpe": 2.44,
+      "pos_breadth": 75.0,
+      "p05": 12.22,
+      "p50": 48.9,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": 65.2,
+      "maxdd": -10.8,
+      "sharpe": 3.08,
+      "pos_breadth": 85.0,
+      "p05": 25.01,
+      "p50": 65.83,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "BUYHOLD": {
+      "roi": 2024.3
+     },
+     "ORACLE": {
+      "roi": 1735.4
+     }
+    },
+    "VAL": {
+     "NAIVE": {
+      "roi": -25.7,
+      "maxdd": -35.7,
+      "sharpe": -1.41,
+      "pos_breadth": 35.0,
+      "p05": -47.57,
+      "p50": -25.07,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": 23.3,
+      "maxdd": -31.4,
+      "sharpe": 1.07,
+      "pos_breadth": 57.0,
+      "p05": -18.86,
+      "p50": 24.13,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": 7.9,
+      "maxdd": -13.8,
+      "sharpe": 0.84,
+      "pos_breadth": 53.0,
+      "p05": -10.06,
+      "p50": 8.52,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": 18.3,
+      "maxdd": -12.5,
+      "sharpe": 1.77,
+      "pos_breadth": 74.0,
+      "p05": -1.51,
+      "p50": 18.98,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "BUYHOLD": {
+      "roi": 43.4
+     },
+     "ORACLE": {
+      "roi": 103.0
+     },
+     "SHUFFLE_ROLLGATE_roi": 7.51
+    },
+    "OOS": {
+     "NAIVE": {
+      "roi": -50.2,
+      "maxdd": -51.0,
+      "sharpe": -3.4,
+      "pos_breadth": 5.0,
+      "p05": -67.29,
+      "p50": -50.21,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": -31.8,
+      "maxdd": -41.9,
+      "sharpe": -1.53,
+      "pos_breadth": 9.0,
+      "p05": -57.68,
+      "p50": -32.01,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": -14.3,
+      "maxdd": -22.1,
+      "sharpe": -1.41,
+      "pos_breadth": 12.0,
+      "p05": -31.15,
+      "p50": -14.57,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": -6.1,
+      "maxdd": -18.5,
+      "sharpe": -0.53,
+      "pos_breadth": 30.0,
+      "p05": -24.47,
+      "p50": -6.41,
+      "regime_share_window": {
+       "trend": 0.0,
+       "chop": 1.0,
+       "down": 0.0
+      }
+     },
+     "BUYHOLD": {
+      "roi": -5.9
+     },
+     "ORACLE": {
+      "roi": 5.1
+     },
+     "SHUFFLE_ROLLGATE_roi": -16.34
+    }
+   }
+  },
+  "1h": {
+   "cadence": "1h",
+   "thresholds": {
+    "breadth_hi": 0.6666666666666666,
+    "breadth_lo": 0.38333333333333336,
+    "signed_dn": -2.402954361824046,
+    "whip_hi": 0.05694444444444444,
+    "trend_hi": 2.545461401424635,
+    "fitted_n": 37861,
+    "fallback": false
+   },
+   "full_regime_share": {
+    "trend": 0.157,
+    "chop": 0.658,
+    "down": 0.185
+   },
+   "min_dwell": 24,
+   "lookback": 720,
+   "spans": {
+    "TRAINref_2021": {
+     "NAIVE": {
+      "roi": 409.9,
+      "maxdd": -29.0,
+      "sharpe": 4.23,
+      "pos_breadth": 83.0,
+      "p05": 151.36,
+      "p50": 402.17,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": 769.7,
+      "maxdd": -32.1,
+      "sharpe": 4.85,
+      "pos_breadth": 96.0,
+      "p05": 286.25,
+      "p50": 748.07,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": 71.8,
+      "maxdd": -13.9,
+      "sharpe": 2.6,
+      "pos_breadth": 89.0,
+      "p05": 17.06,
+      "p50": 71.41,
+      "regime_share_window": {
+       "trend": 0.195,
+       "chop": 0.623,
+       "down": 0.183
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": 84.4,
+      "maxdd": -13.0,
+      "sharpe": 2.92,
+      "pos_breadth": 90.0,
+      "p05": 25.81,
+      "p50": 84.05,
+      "regime_share_window": {
+       "trend": 0.195,
+       "chop": 0.623,
+       "down": 0.183
+      }
+     },
+     "BUYHOLD": {
+      "roi": 2001.5
+     },
+     "ORACLE": {
+      "roi": 1892.9
+     }
+    },
+    "VAL": {
+     "NAIVE": {
+      "roi": 8.5,
+      "maxdd": -31.2,
+      "sharpe": 0.47,
+      "pos_breadth": 50.0,
+      "p05": -33.75,
+      "p50": 7.69,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": 35.7,
+      "maxdd": -31.2,
+      "sharpe": 1.17,
+      "pos_breadth": 63.0,
+      "p05": -23.45,
+      "p50": 36.78,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": -1.4,
+      "maxdd": -20.2,
+      "sharpe": 0.02,
+      "pos_breadth": 42.0,
+      "p05": -29.02,
+      "p50": -0.9,
+      "regime_share_window": {
+       "trend": 0.206,
+       "chop": 0.601,
+       "down": 0.193
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": 5.3,
+      "maxdd": -19.0,
+      "sharpe": 0.4,
+      "pos_breadth": 53.0,
+      "p05": -24.17,
+      "p50": 5.65,
+      "regime_share_window": {
+       "trend": 0.206,
+       "chop": 0.601,
+       "down": 0.193
+      }
+     },
+     "BUYHOLD": {
+      "roi": 44.3
+     },
+     "ORACLE": {
+      "roi": 117.2
+     },
+     "SHUFFLE_ROLLGATE_roi": -0.37
+    },
+    "OOS": {
+     "NAIVE": {
+      "roi": -33.3,
+      "maxdd": -40.9,
+      "sharpe": -1.54,
+      "pos_breadth": 9.0,
+      "p05": -56.66,
+      "p50": -33.64,
+      "regime_share_window": null
+     },
+     "FIXED": {
+      "roi": -24.4,
+      "maxdd": -39.9,
+      "sharpe": -0.83,
+      "pos_breadth": 10.0,
+      "p05": -53.78,
+      "p50": -24.38,
+      "regime_share_window": null
+     },
+     "ROLLGATE": {
+      "roi": -12.0,
+      "maxdd": -28.0,
+      "sharpe": -0.63,
+      "pos_breadth": 21.0,
+      "p05": -35.39,
+      "p50": -11.81,
+      "regime_share_window": {
+       "trend": 0.13,
+       "chop": 0.705,
+       "down": 0.166
+      }
+     },
+     "ROLLGATE_FULL": {
+      "roi": -6.6,
+      "maxdd": -25.8,
+      "sharpe": -0.28,
+      "pos_breadth": 30.0,
+      "p05": -31.47,
+      "p50": -6.51,
+      "regime_share_window": {
+       "trend": 0.13,
+       "chop": 0.705,
+       "down": 0.166
+      }
+     },
+     "BUYHOLD": {
+      "roi": -6.3
+     },
+     "ORACLE": {
+      "roi": 13.6
+     },
+     "SHUFFLE_ROLLGATE_roi": -3.99
+    }
+   }
+  }
+ },
+ "scorecards": {
+  "15m": {
+   "name": "rollgate_15m",
+   "kind": "BOOK",
+   "n_days": 158840,
+   "per_split": {
+    "SEL": {
+     "n": 158840,
+     "compound_pct": -31.24,
+     "ann_pct": -0.09,
+     "maxdd_pct": -57.42,
+     "sharpe": -0.08,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.001,
+       "frac_positive": 0.491,
+       "n": 158840
+      },
+      "3d": {
+       "median_pct": -0.003,
+       "frac_positive": 0.482,
+       "n": 52946
+      },
+      "7d": {
+       "median_pct": -0.008,
+       "frac_positive": 0.466,
+       "n": 22691
+      }
+     }
+    },
+    "OOS": {
+     "n": 0
+    },
+    "UNSEEN": {
+     "n": 0
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": -50.88,
+    "p50": -31.23,
+    "p95": -4.66
+   },
+   "heldout_block_bootstrap": {},
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": false,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "pbo": {
+    "pbo": 0.0,
+    "prob_oos_loss": 0.08571428571428572,
+    "perf_degradation_slope": -0.9827098686729833,
+    "median_logit": 1.3862943611198908,
+    "n_combinations": 70,
+    "S": 8,
+    "T_used": 158840,
+    "N": 4,
+    "verdict": "PASS"
+   }
+  },
+  "30m": {
+   "name": "rollgate_30m",
+   "kind": "BOOK",
+   "n_days": 86028,
+   "per_split": {
+    "SEL": {
+     "n": 86028,
+     "compound_pct": 79.0,
+     "ann_pct": 0.25,
+     "maxdd_pct": -30.37,
+     "sharpe": 0.19,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.0,
+       "frac_positive": 0.496,
+       "n": 86028
+      },
+      "3d": {
+       "median_pct": -0.002,
+       "frac_positive": 0.489,
+       "n": 28676
+      },
+      "7d": {
+       "median_pct": -0.005,
+       "frac_positive": 0.486,
+       "n": 12289
+      }
+     }
+    },
+    "OOS": {
+     "n": 0
+    },
+    "UNSEEN": {
+     "n": 0
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": 31.66,
+    "p50": 79.97,
+    "p95": 144.24
+   },
+   "heldout_block_bootstrap": {},
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": true,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "pbo": {
+    "pbo": 0.0,
+    "prob_oos_loss": 0.05714285714285714,
+    "perf_degradation_slope": -1.0992244504489104,
+    "median_logit": 1.3862943611198908,
+    "n_combinations": 70,
+    "S": 8,
+    "T_used": 86024,
+    "N": 4,
+    "verdict": "PASS"
+   }
+  },
+  "1h": {
+   "name": "rollgate_1h",
+   "kind": "BOOK",
+   "n_days": 44383,
+   "per_split": {
+    "SEL": {
+     "n": 44383,
+     "compound_pct": 168.05,
+     "ann_pct": 0.81,
+     "maxdd_pct": -24.25,
+     "sharpe": 0.36,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.0,
+       "frac_positive": 0.497,
+       "n": 44383
+      },
+      "3d": {
+       "median_pct": -0.001,
+       "frac_positive": 0.494,
+       "n": 14794
+      },
+      "7d": {
+       "median_pct": -0.007,
+       "frac_positive": 0.485,
+       "n": 6340
+      }
+     }
+    },
+    "OOS": {
+     "n": 0
+    },
+    "UNSEEN": {
+     "n": 0
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": 77.55,
+    "p50": 169.09,
+    "p95": 304.56
+   },
+   "heldout_block_bootstrap": {},
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": true,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "pbo": {
+    "pbo": 0.05714285714285714,
+    "prob_oos_loss": 0.0,
+    "perf_degradation_slope": -0.8060059678964374,
+    "median_logit": 1.3862943611198908,
+    "n_combinations": 70,
+    "S": 8,
+    "T_used": 44376,
+    "N": 4,
+    "verdict": "PASS"
+   }
+  }
+ },
+ "diagnosis": {
+  "15m": {
+   "oos_fixed_roi": -40.3,
+   "oos_rollgate_roi": -17.7,
+   "oos_delta_roll_minus_fixed": 22.5,
+   "oos_regime_share": {
+    "trend": 0.0,
+    "chop": 1.0,
+    "down": 0.0
+   }
+  },
+  "30m": {
+   "oos_fixed_roi": -31.8,
+   "oos_rollgate_roi": -14.3,
+   "oos_delta_roll_minus_fixed": 17.5,
+   "oos_regime_share": {
+    "trend": 0.0,
+    "chop": 1.0,
+    "down": 0.0
+   }
+  },
+  "1h": {
+   "oos_fixed_roi": -24.4,
+   "oos_rollgate_roi": -12.0,
+   "oos_delta_roll_minus_fixed": 12.4,
+   "oos_regime_share": {
+    "trend": 0.13,
+    "chop": 0.705,
+    "down": 0.166
+   }
+  }
+ },
+ "verdict": {
+  "headline": "CONFIRMED-PARTIAL: rolling regime-gating BEAT the static FIXED book on COMPOUND OOS at 3/3 cadences (['15m', '30m', '1h']). Verify robustness (p05/PBO/shuffle above) before believing -- compound-beat alone is not ship.",
+  "beat_compound_cadences": [
+   "15m",
+   "30m",
+   "1h"
+  ],
+  "beat_risk_cadences": [],
+  "n_cadences": 3,
+  "lines": [
+   "BAR TO BEAT = the VALIDATED static FIXED slow-2MA book (oos_confirm.py), OOS span 2025-03..12. Question: does CONTINUOUS rolling regime-GATING beat it on compound, or match at materially lower maxDD?",
+   "HEADLINE: CONFIRMED-PARTIAL: rolling regime-gating BEAT the static FIXED book on COMPOUND OOS at 3/3 cadences (['15m', '30m', '1h']). Verify robustness (p05/PBO/shuffle above) before believing -- compound-beat alone is not ship.",
+   "",
+   "[15m] OOS ROLLGATE -17.7% (DD-22.5, p05=-27.84) vs FIXED -40.3% (DD-44.0) vs NAIVE -74.3% | shuffle -17.72% | PBO 0.0 | regime-share {'trend': 0.0, 'chop': 1.0, 'down': 0.0}",
+   "[30m] OOS ROLLGATE -14.3% (DD-22.1, p05=-31.15) vs FIXED -31.8% (DD-41.9) vs NAIVE -50.2% | shuffle -16.34% | PBO 0.0 | regime-share {'trend': 0.0, 'chop': 1.0, 'down': 0.0}",
+   "[1h] OOS ROLLGATE -12.0% (DD-28.0, p05=-35.39) vs FIXED -24.4% (DD-39.9) vs NAIVE -33.3% | shuffle -3.99% | PBO 0.05714285714285714 | regime-share {'trend': 0.13, 'chop': 0.705, 'down': 0.166}",
+   "",
+   "",
+   "CAVEATS: classifier thresholds fit on TRAIN only (terciles); regime->policy PRE-REGISTERED; long-only; equal-weight u10; causal MtM; taker (maker for ROLLGATE_FULL). Scorecard 1d/3d softbench treats each cadence bar as '1 period' (sub-daily -> nominal only). UNSEEN SEALED. A single failing cut is a diagnosis + the next variant, not a global verdict."
+  ]
+ }
+}

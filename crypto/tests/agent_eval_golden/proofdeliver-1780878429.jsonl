@@ -1,0 +1,18 @@
+{"t": 1780878610.1, "event": "dispatch", "ran": ["fib1"], "parallel": 1, "experts": {}, "parked_for_approval": []}
+{"t": 1780878610.15, "event": "judge", "node": "fib1", "verdict": "pass", "mechanical": true, "exit": 0}
+{"t": 1780878627.2, "event": "reflect", "cycle": 1, "adjacent": 3, "open_left": 3, "refuted_left": 0, "status": "running", "done": 1, "stall_cycles": 0}
+{"t": 1780878915.55, "event": "dispatch", "ran": ["dualnull-eval-impl"], "parallel": 1, "experts": {}, "parked_for_approval": []}
+{"t": 1780878928.03, "event": "judge", "node": "dualnull-eval-impl", "verdict": "inconclusive", "votes": ["inconclusive"]}
+{"t": 1780878944.25, "event": "reflect", "cycle": 2, "adjacent": 2, "open_left": 4, "refuted_left": 1, "status": "running", "done": 1, "stall_cycles": 1}
+{"t": 1780878944.25, "event": "route", "to": "replan", "reason": "repeated-failure: node(s) ['dualnull-eval-impl'] terminally refuted (verify_retries exhausted) and no other open node progressed to done this cycle", "replan_count": 0}
+{"t": 1780878969.68, "event": "replan", "reason": "repeated-failure: node(s) ['dualnull-eval-impl'] terminally refuted (verify_retries exhausted) and no other open node progressed to done this cycle", "pruned": ["build-dualnull-eval", "dualnull-eval-impl", "dualnull-positive-control"], "kept": ["build-soundness-posctrl", "dualnull-real-trigger-run"], "added": ["dualnull-generalize-multi-trigger", "dualnull-min-selection-synth"]}
+{"t": 1780878969.68, "event": "replan_done", "replan_count": 1, "frontier_after": 5, "open_after": 4}
+{"t": 1780879579.77, "event": "dispatch", "ran": ["dualnull-min-selection-synth"], "parallel": 1, "experts": {}, "parked_for_approval": []}
+{"t": 1780879589.01, "event": "judge", "node": "dualnull-min-selection-synth", "verdict": "inconclusive", "votes": ["inconclusive"]}
+{"t": 1780879609.23, "event": "reflect", "cycle": 3, "adjacent": 2, "open_left": 5, "refuted_left": 1, "status": "running", "done": 1, "stall_cycles": 1}
+{"t": 1780879609.23, "event": "route", "to": "replan", "reason": "repeated-failure: node(s) ['dualnull-min-selection-synth'] terminally refuted (verify_retries exhausted) and no other open node progressed to done this cycle", "replan_count": 1}
+{"t": 1780879637.33, "event": "replan", "reason": "repeated-failure: node(s) ['dualnull-min-selection-synth'] terminally refuted (verify_retries exhausted) and no other open node progressed to done this cycle", "pruned": ["c3a1", "c3a2", "dualnull-min-selection-synth"], "kept": ["build-soundness-posctrl", "dualnull-generalize-multi-trigger", "dualnull-real-trigger-run"], "added": ["dualnull-leak-audit", "selnull-deterministic-fixture"]}
+{"t": 1780879637.33, "event": "replan_done", "replan_count": 2, "frontier_after": 6, "open_after": 5}
+{"t": 1780880219.03, "event": "dispatch", "ran": ["selnull-deterministic-fixture"], "parallel": 1, "experts": {}, "parked_for_approval": []}
+{"t": 1780880226.65, "event": "judge", "node": "selnull-deterministic-fixture", "verdict": "inconclusive", "votes": ["inconclusive"]}
+{"t": 1780880235.18, "event": "reflect", "cycle": 4, "adjacent": 0, "open_left": 4, "refuted_left": 1, "status": "running", "done": 1, "stall_cycles": 1}

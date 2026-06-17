@@ -1,0 +1,114 @@
+{
+ "rows": {
+  "NAIVE|Jun2022_bear": {
+   "roi": -5.9,
+   "maxdd": -5.6
+  },
+  "NAIVE|VAL": {
+   "roi": 36.1,
+   "maxdd": -17.6
+  },
+  "NAIVE|OOS": {
+   "roi": 5.0,
+   "maxdd": -17.7
+  },
+  "FIXED|Jun2022_bear": {
+   "roi": -5.2,
+   "maxdd": -5.7
+  },
+  "FIXED|VAL": {
+   "roi": 32.8,
+   "maxdd": -18.0
+  },
+  "FIXED|OOS": {
+   "roi": 8.0,
+   "maxdd": -16.3
+  },
+  "FULL|Jun2022_bear": {
+   "roi": -3.1,
+   "maxdd": -2.9
+  },
+  "FULL|VAL": {
+   "roi": 19.1,
+   "maxdd": -10.7
+  },
+  "FULL|OOS": {
+   "roi": 11.0,
+   "maxdd": -15.4
+  }
+ },
+ "scorecard": {
+  "name": "FULL_breakout_4h",
+  "kind": "BOOK",
+  "n_days": 2186,
+  "per_split": {
+   "SEL": {
+    "n": 1895,
+    "compound_pct": 870.46,
+    "ann_pct": 54.92,
+    "maxdd_pct": -24.73,
+    "sharpe": 1.85,
+    "softbench_roi": {
+     "1d": {
+      "median_pct": 0.0,
+      "frac_positive": 0.394,
+      "n": 1895
+     },
+     "3d": {
+      "median_pct": 0.0,
+      "frac_positive": 0.39,
+      "n": 631
+     },
+     "7d": {
+      "median_pct": -0.109,
+      "frac_positive": 0.378,
+      "n": 270
+     }
+    }
+   },
+   "OOS": {
+    "n": 291,
+    "compound_pct": 10.96,
+    "ann_pct": 13.94,
+    "maxdd_pct": -14.4,
+    "sharpe": 0.72,
+    "softbench_roi": {
+     "1d": {
+      "median_pct": 0.0,
+      "frac_positive": 0.34,
+      "n": 291
+     },
+     "3d": {
+      "median_pct": -0.022,
+      "frac_positive": 0.299,
+      "n": 97
+     },
+     "7d": {
+      "median_pct": -0.183,
+      "frac_positive": 0.22,
+      "n": 41
+     }
+    }
+   },
+   "UNSEEN": {
+    "n": 0
+   }
+  },
+  "full_block_bootstrap": {
+   "p05": 273.36,
+   "p50": 967.74,
+   "p95": 3168.78
+  },
+  "heldout_block_bootstrap": {
+   "p05": -21.21,
+   "p50": 10.36,
+   "p95": 62.05
+  },
+  "ship_read": {
+   "unseen_compound_pos": false,
+   "full_p05_pos": true,
+   "heldout_p05_pos": false,
+   "ship": false
+  }
+ }
+}

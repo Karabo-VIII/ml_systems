@@ -1,0 +1,54 @@
+{
+  "threshold_z": 2.0,
+  "note": "contemp ratio is SAME-DAY |move| on event vs quiet days (coincidence, NOT forward prediction)",
+  "events": {
+    "funding_extreme": {
+      "feature": "norm_funding",
+      "available_on_assets": 96,
+      "median_event_freq": 0.0079,
+      "univ_avg_event_freq": 0.0109,
+      "contemp_move_ratio_event_vs_quiet": 0.69,
+      "n_assets_for_ratio": 64
+    },
+    "liq_short_spike": {
+      "feature": "liq_short_z30",
+      "available_on_assets": 77,
+      "median_event_freq": 0.0602,
+      "univ_avg_event_freq": 0.0536,
+      "contemp_move_ratio_event_vs_quiet": 1.24,
+      "n_assets_for_ratio": 71
+    },
+    "liq_long_spike": {
+      "feature": "liq_long_z30",
+      "available_on_assets": 75,
+      "median_event_freq": 0.0559,
+      "univ_avg_event_freq": 0.0515,
+      "contemp_move_ratio_event_vs_quiet": 1.25,
+      "n_assets_for_ratio": 68
+    },
+    "basis_dislocation": {
+      "feature": "bs_basis_z30",
+      "available_on_assets": 77,
+      "median_event_freq": 0.0729,
+      "univ_avg_event_freq": 0.0742,
+      "contemp_move_ratio_event_vs_quiet": 1.06,
+      "n_assets_for_ratio": 77
+    },
+    "whale_flow_extreme": {
+      "feature": "norm_whale",
+      "available_on_assets": 100,
+      "median_event_freq": 0.0141,
+      "univ_avg_event_freq": 0.0148,
+      "contemp_move_ratio_event_vs_quiet": 0.94,
+      "n_assets_for_ratio": 90
+    },
+    "tape_imbalance_extreme": {
+      "feature": "norm_flow_imbalance",
+      "available_on_assets": 100,
+      "median_event_freq": 0.0184,
+      "univ_avg_event_freq": 0.0174,
+      "contemp_move_ratio_event_vs_quiet": 0.95,
+      "n_assets_for_ratio": 87
+    }
+  }
+}

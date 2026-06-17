@@ -1,0 +1,272 @@
+{
+  "repro": {
+    "command": "python src/strat/edge_search.py --universe u100 --cadence 1d --json",
+    "git_sha": "0af020d"
+  },
+  "results": [
+    {
+      "setup": "pullback_up",
+      "h": "7d",
+      "n_unseen": 168,
+      "TRAIN%": 2.24,
+      "OOS%": -1.74,
+      "UNSEEN%": 2.06,
+      "UNSEEN_hit": 0.41,
+      "NULL%": -2.24,
+      "beats_null": true
+    },
+    {
+      "setup": "donchian_55",
+      "h": "3d",
+      "n_unseen": 211,
+      "TRAIN%": 2.85,
+      "OOS%": -3.02,
+      "UNSEEN%": 1.56,
+      "UNSEEN_hit": 0.43,
+      "NULL%": 1.1,
+      "beats_null": true
+    },
+    {
+      "setup": "breakout_50",
+      "h": "3d",
+      "n_unseen": 249,
+      "TRAIN%": 2.96,
+      "OOS%": -3.77,
+      "UNSEEN%": 1.29,
+      "UNSEEN_hit": 0.42,
+      "NULL%": -0.44,
+      "beats_null": true
+    },
+    {
+      "setup": "breakout_50",
+      "h": "7d",
+      "n_unseen": 230,
+      "TRAIN%": 5.85,
+      "OOS%": -8.48,
+      "UNSEEN%": 1.0,
+      "UNSEEN_hit": 0.44,
+      "NULL%": 2.34,
+      "beats_null": false
+    },
+    {
+      "setup": "volexp_break",
+      "h": "3d",
+      "n_unseen": 224,
+      "TRAIN%": 0.87,
+      "OOS%": -1.24,
+      "UNSEEN%": 0.94,
+      "UNSEEN_hit": 0.46,
+      "NULL%": 0.34,
+      "beats_null": true
+    },
+    {
+      "setup": "donchian_55",
+      "h": "7d",
+      "n_unseen": 195,
+      "TRAIN%": 5.86,
+      "OOS%": -8.39,
+      "UNSEEN%": 0.92,
+      "UNSEEN_hit": 0.47,
+      "NULL%": -0.51,
+      "beats_null": true
+    },
+    {
+      "setup": "donchian_55",
+      "h": "1d",
+      "n_unseen": 224,
+      "TRAIN%": 0.74,
+      "OOS%": -1.33,
+      "UNSEEN%": 0.41,
+      "UNSEEN_hit": 0.43,
+      "NULL%": -0.52,
+      "beats_null": true
+    },
+    {
+      "setup": "breakout_20",
+      "h": "3d",
+      "n_unseen": 620,
+      "TRAIN%": 1.15,
+      "OOS%": -1.13,
+      "UNSEEN%": 0.26,
+      "UNSEEN_hit": 0.38,
+      "NULL%": -0.1,
+      "beats_null": true
+    },
+    {
+      "setup": "breakout_50",
+      "h": "1d",
+      "n_unseen": 264,
+      "TRAIN%": 0.82,
+      "OOS%": -1.58,
+      "UNSEEN%": 0.19,
+      "UNSEEN_hit": 0.42,
+      "NULL%": -0.11,
+      "beats_null": true
+    },
+    {
+      "setup": "volexp_break",
+      "h": "1d",
+      "n_unseen": 233,
+      "TRAIN%": 0.46,
+      "OOS%": -0.04,
+      "UNSEEN%": 0.14,
+      "UNSEEN_hit": 0.39,
+      "NULL%": -0.26,
+      "beats_null": true
+    },
+    {
+      "setup": "mom_up_5",
+      "h": "1d",
+      "n_unseen": 586,
+      "TRAIN%": 0.33,
+      "OOS%": -0.38,
+      "UNSEEN%": 0.09,
+      "UNSEEN_hit": 0.4,
+      "NULL%": -0.05,
+      "beats_null": true
+    },
+    {
+      "setup": "accel",
+      "h": "1d",
+      "n_unseen": 432,
+      "TRAIN%": 0.06,
+      "OOS%": -0.45,
+      "UNSEEN%": -0.01,
+      "UNSEEN_hit": 0.41,
+      "NULL%": -0.26,
+      "beats_null": true
+    },
+    {
+      "setup": "breakout_20",
+      "h": "1d",
+      "n_unseen": 639,
+      "TRAIN%": 0.2,
+      "OOS%": -0.72,
+      "UNSEEN%": -0.02,
+      "UNSEEN_hit": 0.41,
+      "NULL%": -0.46,
+      "beats_null": true
+    },
+    {
+      "setup": "pullback_up",
+      "h": "3d",
+      "n_unseen": 174,
+      "TRAIN%": -0.06,
+      "OOS%": -0.57,
+      "UNSEEN%": -0.04,
+      "UNSEEN_hit": 0.39,
+      "NULL%": -0.76,
+      "beats_null": true
+    },
+    {
+      "setup": "pullback_up",
+      "h": "1d",
+      "n_unseen": 178,
+      "TRAIN%": -0.05,
+      "OOS%": 0.25,
+      "UNSEEN%": -0.31,
+      "UNSEEN_hit": 0.38,
+      "NULL%": 0.01,
+      "beats_null": false
+    },
+    {
+      "setup": "breakout_20",
+      "h": "7d",
+      "n_unseen": 590,
+      "TRAIN%": 3.21,
+      "OOS%": -3.55,
+      "UNSEEN%": -0.34,
+      "UNSEEN_hit": 0.37,
+      "NULL%": -0.32,
+      "beats_null": false
+    },
+    {
+      "setup": "mom_up_5",
+      "h": "3d",
+      "n_unseen": 572,
+      "TRAIN%": 0.82,
+      "OOS%": -1.68,
+      "UNSEEN%": -0.59,
+      "UNSEEN_hit": 0.37,
+      "NULL%": 0.01,
+      "beats_null": false
+    },
+    {
+      "setup": "volexp_break",
+      "h": "7d",
+      "n_unseen": 215,
+      "TRAIN%": 3.16,
+      "OOS%": -3.22,
+      "UNSEEN%": -0.7,
+      "UNSEEN_hit": 0.41,
+      "NULL%": -2.14,
+      "beats_null": true
+    },
+    {
+      "setup": "accel",
+      "h": "3d",
+      "n_unseen": 416,
+      "TRAIN%": 0.29,
+      "OOS%": -1.3,
+      "UNSEEN%": -0.74,
+      "UNSEEN_hit": 0.38,
+      "NULL%": 0.33,
+      "beats_null": false
+    },
+    {
+      "setup": "vol_surge_up",
+      "h": "3d",
+      "n_unseen": 19,
+      "TRAIN%": -0.84,
+      "OOS%": 0.9,
+      "UNSEEN%": -0.83,
+      "UNSEEN_hit": 0.26,
+      "NULL%": 0.8,
+      "beats_null": false
+    },
+    {
+      "setup": "vol_surge_up",
+      "h": "1d",
+      "n_unseen": 19,
+      "TRAIN%": -0.67,
+      "OOS%": -0.94,
+      "UNSEEN%": -2.13,
+      "UNSEEN_hit": 0.26,
+      "NULL%": -1.82,
+      "beats_null": false
+    },
+    {
+      "setup": "accel",
+      "h": "7d",
+      "n_unseen": 397,
+      "TRAIN%": 2.14,
+      "OOS%": -3.19,
+      "UNSEEN%": -2.3,
+      "UNSEEN_hit": 0.36,
+      "NULL%": -0.62,
+      "beats_null": false
+    },
+    {
+      "setup": "vol_surge_up",
+      "h": "7d",
+      "n_unseen": 16,
+      "TRAIN%": 0.89,
+      "OOS%": 0.93,
+      "UNSEEN%": -2.37,
+      "UNSEEN_hit": 0.31,
+      "NULL%": -0.58,
+      "beats_null": false
+    },
+    {
+      "setup": "mom_up_5",
+      "h": "7d",
+      "n_unseen": 552,
+      "TRAIN%": 2.8,
+      "OOS%": -4.2,
+      "UNSEEN%": -2.53,
+      "UNSEEN_hit": 0.34,
+      "NULL%": -0.01,
+      "beats_null": false
+    }
+  ]
+}

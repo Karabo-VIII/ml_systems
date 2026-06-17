@@ -1,0 +1,257 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Bash(*)",
+      "PowerShell",
+      "PowerShell(*)",
+      "Edit",
+      "Edit(*)",
+      "Write",
+      "Write(*)",
+      "Read",
+      "Read(*)",
+      "Glob",
+      "Glob(*)",
+      "Grep",
+      "Grep(*)",
+      "NotebookEdit",
+      "NotebookEdit(*)",
+      "WebFetch",
+      "WebFetch(*)",
+      "WebSearch",
+      "WebSearch(*)",
+      "Agent",
+      "Agent(*)",
+      "TodoWrite",
+      "Skill",
+      "Skill(*)",
+      "Monitor",
+      "Monitor(*)",
+      "TaskOutput",
+      "TaskOutput(*)",
+      "TaskStop",
+      "TaskStop(*)",
+      "PushNotification",
+      "PushNotification(*)",
+      "ToolSearch",
+      "ToolSearch(*)",
+      "Edit(/.claude/skills/normal/**)",
+      "PowerShell(cd C:\\\\Users\\\\karab\\\\Documents\\\\coding\\\\v4_crypto_stystem && git log --since=\"60 days ago\" --oneline -- src/wm/v10/ | measure -Line)",
+      "PowerShell(Get-Process python -ErrorAction SilentlyContinue | Select-Object Id,@{n='CPU_m';e={[math]::round\\($_.CPU/60,1\\)}},@{n='WS_GB';e={[math]::round\\($_.WorkingSet64/1GB,2\\)}},StartTime | Sort-Object -Descending CPU_m | Select-Object -First 5 | Format-Table -AutoSize)",
+      "PowerShell($f1='C:\\\\Users\\\\karab\\\\.claude\\\\projects\\\\c--Users-karab-Documents-coding-v4-crypto-stystem\\\\9df209e9-7d6d-4fa5-931c-b02bbbc73ff6.jsonl'; $f2='C:\\\\Users\\\\karab\\\\.claude\\\\projects\\\\c--Users-karab-Documents-coding-v4-crypto-stystem\\\\c1a0ae88-eca8-45db-bdd9-8428765c2d16.jsonl'; \\(Get-Item $f1\\).LastWriteTime; \\(Get-Item $f2\\).LastWriteTime)",
+      "Edit(/.claude/skills/meta/**)",
+      "Edit(/.claude/skills/auditor/**)",
+      "Edit(/.claude/skills/architect/**)",
+      "Edit(/.claude/skills/oracle/**)",
+      "Edit(/.claude/skills/pipeline/**)",
+      "Edit(/.claude/skills/researcher/**)",
+      "Edit(/.claude/skills/trader/**)",
+      "Edit(/.claude/skills/trainer/**)",
+      "Edit(/.claude/skills/validator/**)",
+      "Edit(/.claude/skills/apex/**)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python src/pipeline/pre_train_gate.py --asset BTC 2>&1 | Select-String \"FAIL|CRIT|WARN|HARD|OK|Summary\" | Select-Object -First 25)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python src/pipeline/add_xrel_features.py --assets BTC ETH SOL --force 2>&1 | Select-String \"OK|Cadence|COMPLETE\" | Select-Object -Last 5)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python src/pipeline/add_xrel_features.py --assets BTC ETH SOL --force 2>&1 | Select-Object -Last 8)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python scripts/audit/_find_corrupt_parquet.py 2>&1)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python src/pipeline/add_xrel_features.py --assets BTC ETH SOL --force 2>&1 | Select-Object -Last 15)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python src/pipeline/pre_train_gate.py --asset BTC 2>&1 | Select-String \"FAIL|CRIT|HARD|WARN|OK|Summary\" | Select-Object -First 20)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python -c \"import ast; ast.parse\\(open\\('scripts/audit/rigorous_pipeline_validation.py'\\).read\\(\\)\\); print\\('syntax OK'\\)\"; python scripts/audit/rigorous_pipeline_validation.py 2>&1 | Tee-Object -FilePath runs/audit/PIPELINE_RIGOROUS_VALIDATION_2026_05_21/_run.log | Select-Object -Last 50)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python src/pipeline/pre_train_gate.py --asset AAVE 2>&1 | Select-String \"FAIL|CRIT|HARD|WARN|OK\\\\s+|rc=\" | Select-Object -First 25)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python scripts/audit/_t5a_deep_check.py 2>&1)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python scripts/audit/rigorous_pipeline_validation.py 2>&1 | Tee-Object -FilePath runs/audit/PIPELINE_RIGOROUS_VALIDATION_2026_05_21/_run_v2.log | Select-String \"rc=|Summary|FINAL VERDICT|T1\\\\]|T2\\\\]|T3\\\\]|T4\\\\]|T5\\\\]\" | Select-Object -First 30)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python scripts/audit/_check_kyle_distribution.py 2>&1)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python scripts/audit/rigorous_pipeline_validation.py 2>&1 | Select-String \"rc=|FINAL VERDICT|T1\\\\]|T2\\\\]|T3\\\\]\" | Select-Object -First 25)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python src/pipeline/pre_train_gate.py --asset BTC 2>&1 | Select-String \"FAIL|recent\" | Select-Object -First 5)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python src/pipeline/add_xrel_features.py --force 2>&1 | Tee-Object -FilePath logs/refresh/_xrel_universe_v3.log | Select-Object -Last 5)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python scripts/audit/rigorous_pipeline_validation.py 2>&1 | Tee-Object -FilePath runs/audit/PIPELINE_RIGOROUS_VALIDATION_2026_05_21/_run_v3.log | Select-String \"rc=|FINAL|T1\\\\]|T2\\\\]|T3\\\\]|T4\\\\]|T5\\\\]\" | Select-Object -First 25)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python scripts/audit/rigorous_pipeline_validation.py 2>&1 | Tee-Object -FilePath runs/audit/PIPELINE_RIGOROUS_VALIDATION_2026_05_21/_run_final.log | Select-String \"rc=|FINAL|T1\\\\]|T2\\\\]|T3\\\\]|T4\\\\]|T5\\\\]\" | Select-Object -First 25)",
+      "Bash(cp .claude/skills/oracle/SKILL.md .claude/skills/oracle/SKILL.md.v4crypto_backup_2026_05_21)",
+      "Bash(cp .claude/skills/validator/SKILL.md .claude/skills/validator/SKILL.md.v4crypto_backup_2026_05_21)",
+      "Edit(/.claude/skills/_benchmark/**)",
+      "Bash(cd c:/Users/karab/Documents/coding/v4_crypto_stystem && mkdir -p .claude/skills/dialectic && ls .claude/skills/dialectic/)",
+      "Edit(/.claude/skills/dialectic/**)",
+      "Edit(/.claude/skills/_common/**)",
+      "Edit(/.claude/skills/deep/**)",
+      "Edit(/.claude/skills/research/**)",
+      "Edit(/.claude/skills/maxx/**)",
+      "Bash(cat >> *)",
+      "PowerShell(\\(Get-Content \"c:\\\\Users\\\\karab\\\\.claude\\\\projects\\\\c--Users-karab-Documents-coding-v4-crypto-stystem\\\\deb5248b-e9ab-4077-983b-076d2901f13e.jsonl\" | Measure-Object -Line\\).Lines)",
+      "PowerShell($lines = Get-Content \"c:\\\\Users\\\\karab\\\\.claude\\\\projects\\\\c--Users-karab-Documents-coding-v4-crypto-stystem\\\\deb5248b-e9ab-4077-983b-076d2901f13e.jsonl\"; function Get-LT\\($n,$m=800\\){$j=$lines[$n-1]|ConvertFrom-Json;$r=$j.message.role;$c=$j.message.content;if\\($c -is [string]\\){$t=$c.Substring\\(0,[Math]::Min\\($m,$c.Length\\)\\)}elseif\\($c -is [array]\\){$x=$c|Where-Object{$_.type -eq 'text'}|Select-Object -First 1;if\\($x\\){$t=$x.text.Substring\\(0,[Math]::Min\\($m,$x.text.Length\\)\\)}else{$t=\"[non-text]\"}}else{$t=\"[unk]\"}; return \"[$n] $r :: $t\"}; @\\(354,356,357,358,361\\) | ForEach-Object { Write-Output \\(Get-LT $_\\); Write-Output \"\" })",
+      "Bash(git -C c:/Users/karab/Documents/coding/v4_crypto_stystem check-ignore .claude/settings.json .claude/settings.local.json)",
+      "WebSearch",
+      "Bash(git reset *)",
+      "Bash(PYTHONPATH=src python scripts/oracle/train_ml_bigmove_v2_prod.py)",
+      "Bash(PYTHONPATH=src python scripts/strat_audit/paper_trade_replay_v3.py --blend ML_BIGMOVE_V2_VBTC_2026_05_22 --universe u100 --days 118 --end-date 2026-05-19 --no-regime-gate --reset-state > runs/audit/UNSEEN_EXP_2026_05_22/v2_clean.log 2>&1)",
+      "Bash(PYTHONPATH=src python scripts/strat_audit/paper_trade_replay_v3.py --blend ML_BIGMOVE_V2_PROTECTED_2026_05_22 --universe u100 --days 118 --end-date 2026-05-19 --reset-state > runs/audit/UNSEEN_EXP_2026_05_22/v2_protected.log 2>&1)",
+      "Bash(PYTHONPATH=src python scripts/strat_audit/paper_trade_replay_v3.py --blend CYCLE8_WIN_CAPTURE_4H_LO --universe u100 --days 118 --end-date 2026-05-19 --reset-state > runs/audit/UNSEEN_EXP_2026_05_22/cycle8_4h.log 2>&1)",
+      "Bash(PYTHONPATH=src python scripts/strat_audit/paper_trade_replay_v3.py --blend ML_BIGMOVE_V2_RAW_NO_BREAKER_2026_05_22 --universe u100 --days 118 --end-date 2026-05-19 --no-regime-gate --reset-state > runs/audit/UNSEEN_EXP_2026_05_22/v2_raw_no_breaker.log 2>&1)",
+      "Bash(PYTHONPATH=src python scripts/strat_audit/paper_trade_replay_v3.py --blend ML_BIGMOVE_V3_REGIME_2026_05_22 --universe u100 --days 118 --end-date 2026-05-19 --reset-state > runs/audit/UNSEEN_EXP_2026_05_22/v3_regime.log 2>&1)",
+      "Bash(PYTHONPATH=src python scripts/strat_audit/paper_trade_replay_v3.py --blend ML_BIGMOVE_V2OI_2026_05_22 --universe u100 --days 118 --end-date 2026-05-19 --reset-state > runs/audit/UNSEEN_EXP_2026_05_22/v2oi.log 2>&1)",
+      "Bash(PYTHONPATH=src python scripts/strat_audit/paper_trade_replay_v3.py --blend ML_BIGMOVE_3D_V1_2026_05_22 --universe u100 --days 118 --end-date 2026-05-19 --reset-state > runs/audit/UNSEEN_EXP_2026_05_22/3d_v1.log 2>&1)",
+      "Bash(PYTHONPATH=src python scripts/strat_audit/paper_trade_replay_v3.py --blend ML_BIGMOVE_V1_TRAIN_ONLY_2026_05_22 --universe u100 --days 118 --end-date 2026-05-19 --reset-state > runs/audit/UNSEEN_EXP_2026_05_22/v1_train_only.log 2>&1)",
+      "Edit(/.claude/skills/un/**)",
+      "Read(//tmp/**)",
+      "Edit(/.claude/skills/discover/**)",
+      "Edit(/.claude/skills/orchestrator/**)",
+      "Edit(/.claude/skills/orc/**)",
+      "Edit(/.claude/skills/decide/**)",
+      "Edit(/.claude/skills/audit/**)",
+      "Bash(printf '%s\\\\n' '- [Audit gate + solve globally]\\(feedback-audit-gate-and-solve-globally.md\\) — every solution passes an INDEPENDENT adversarial audit \\(expert-auditor\\) before \"solved\"; solve ALL paths/states/dependencies, not one symptom; do not rush. Trigger: the loop-stuck bug \"shipped fixed\" 5x, recurred each time via a new unclosed path \\(self-certified single-path whack-a-mole\\).')",
+      "Bash(C:/Users/karab/Documents/coding/v4_crypto_stystem/.venv/Scripts/python.exe C:/Users/karab/Documents/coding/v4_crypto_stystem/scripts/autonomy/rolling_ledger.py note CORRECTION 'METHODOLOGY \\(binding\\): every solution -> INDEPENDENT expert-auditor audit gate BEFORE declaring solved \\(no self-certification\\); solve GLOBALLY \\(enumerate all states/transitions/dependencies, close them all in one pass, not the one symptom\\); DON'\\\\''T RUSH. Trigger: loop-stuck '\\\\''fixed'\\\\'' 5x + recurred \\(each fix closed 1 path + opened another\\). Known-OPEN right now: the stall gate releases but the re-engagement dependency is unclosed \\(silent-death-mid-window risk\\) -- the auditor is mapping the full loop-control failure surface.')",
+      "Bash(R=\"c:/Users/karab/Documents/coding/v4_crypto_stystem\" *)",
+      "Bash(PYTHONPATH=/c/Users/karab/Documents/coding/v4_crypto_stystem /c/Users/karab/Documents/coding/v4_crypto_stystem/.venv/Scripts/python.exe projects/chess_zero/run_invariants_check.py)",
+      "Bash(tail -2 /tmp_inv)",
+      "Bash(rm -f /tmp_inv)",
+      "Bash(git -C \"c:\\\\Users\\\\karab\\\\Documents\\\\coding\\\\v4_crypto_stystem\" commit --amend -F .git/COMMIT_MSG_orch.txt --no-verify)",
+      "Bash(git -C \"c:\\\\Users\\\\karab\\\\Documents\\\\coding\\\\v4_crypto_stystem\" log -1 --stat --format=\"%h %s\")",
+      "Bash(rm -f \"c:\\\\Users\\\\karab\\\\Documents\\\\coding\\\\v4_crypto_stystem\\\\.git\\\\COMMIT_MSG_orch.txt\")"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf ~/*)",
+      "Bash(rm -rf .)",
+      "Bash(rm -rf ./)",
+      "Bash(rm -rf .git*)",
+      "Bash(rm -rf data*)",
+      "Bash(rm -rf src*)",
+      "Bash(rm -rf scripts*)",
+      "Bash(rm -rf config*)",
+      "Bash(rm -rf .claude*)",
+      "Bash(rm -rf runs*)",
+      "Bash(rm -rf logs*)",
+      "Bash(rm -rf models*)",
+      "Bash(rm -rf memory*)",
+      "Bash(rm -rf docs*)",
+      "Bash(rm -rf plots*)",
+      "Bash(rm -rf backups*)",
+      "Bash(rm -f .git/*)",
+      "Bash(rm .git*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push --force-with-lease*)",
+      "Bash(git push --no-verify*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -fd*)",
+      "Bash(git clean -fdx*)",
+      "Bash(git clean -ffd*)",
+      "Bash(git checkout -- *)",
+      "Bash(git restore .*)",
+      "Bash(git restore --staged .*)",
+      "Bash(git branch -D*)",
+      "Bash(git branch --delete --force*)",
+      "Bash(git filter-branch*)",
+      "Bash(git update-ref -d*)",
+      "Bash(git reflog expire*)",
+      "Bash(git gc --prune=now*)",
+      "Bash(git rebase -i*)",
+      "Bash(git commit --no-verify*)",
+      "Bash(git tag -d*)",
+      "Bash(git push * --delete*)",
+      "Bash(git remote remove*)",
+      "PowerShell(Remove-Item -Recurse -Force /*)",
+      "PowerShell(Remove-Item -Recurse -Force ~/*)",
+      "PowerShell(Remove-Item -Recurse -Force .git*)",
+      "PowerShell(Remove-Item -Recurse -Force data*)",
+      "PowerShell(Remove-Item -Recurse -Force src*)",
+      "PowerShell(Remove-Item -Recurse -Force scripts*)",
+      "PowerShell(Remove-Item -Recurse -Force config*)",
+      "PowerShell(Remove-Item -Recurse -Force .claude*)",
+      "PowerShell(Remove-Item -Recurse -Force runs*)",
+      "PowerShell(Remove-Item -Recurse -Force logs*)",
+      "PowerShell(Remove-Item -Recurse -Force models*)",
+      "PowerShell(Remove-Item -Recurse -Force memory*)",
+      "PowerShell(Remove-Item -Recurse -Force docs*)",
+      "PowerShell(Remove-Item -Recurse -Force backups*)",
+      "PowerShell(Clear-Content *)",
+      "PowerShell(Stop-Computer*)",
+      "PowerShell(Restart-Computer*)",
+      "Bash(sudo *)",
+      "Bash(chmod 777 *)",
+      "Bash(chown *)",
+      "Bash(curl * | sh*)",
+      "Bash(curl * | bash*)",
+      "Bash(wget * | sh*)",
+      "Bash(npm publish*)",
+      "Bash(pip install --user*)",
+      "Bash(dd if=*)",
+      "Bash(mkfs*)",
+      "Bash(format c:*)",
+      "Edit(.claude/settings.json)",
+      "Write(.claude/settings.json)",
+      "Edit(.claude/settings.local.json)",
+      "Write(.claude/settings.local.json)"
+    ],
+    "defaultMode": "bypassPermissions",
+    "additionalDirectories": [
+      "C:\\Users\\karab\\.claude\\projects\\c--Users-karab-Documents-coding-v4-crypto-stystem\\memory",
+      "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\.claude\\skills",
+      "c:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\.claude\\skills",
+      "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\.claude\\skills\\dialectic",
+      "c:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\.claude\\skills\\dialectic",
+      "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\coordination",
+      "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\audit\\UNSEEN_EXP_2026_05_22",
+      "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\.git",
+      "c:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\.claude\\hooks"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:/Users/karab/Documents/coding/v4_crypto_stystem/.claude/hooks/permission_gate.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:/Users/karab/Documents/coding/v4_crypto_stystem/scripts/hooks/user_prompt_router.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:/Users/karab/Documents/coding/v4_crypto_stystem/scripts/autonomous_mode_check.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:/Users/karab/Documents/coding/v4_crypto_stystem/.claude/hooks/autonomy_loop.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit|Update",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:/Users/karab/Documents/coding/v4_crypto_stystem/.claude/hooks/meta_change_guard.py\"",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  },
+  "fileCheckpointingEnabled": true
+}

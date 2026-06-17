@@ -1,0 +1,194 @@
+{
+ "tool": "oracle_slice7d",
+ "asset": "BTCUSDT",
+ "seed": 11,
+ "taker_rt": 0.0024,
+ "slices": [
+  {
+   "cadence": "1d",
+   "bars": 7,
+   "win_start_idx": 501,
+   "window_utc": [
+    "2021-05-22 23:59",
+    "2021-05-28 23:59"
+   ],
+   "price_oracle_roi": 0.13517141094638893,
+   "price_oracle_in_2_10_band": false,
+   "price_low_utc": "2021-05-23 23:59",
+   "price_high_utc": "2021-05-26 23:59",
+   "ti_oracle_roi": 0.04417743975635986,
+   "ti_winning_config": "SMA_10_200",
+   "ti_top3": [
+    {
+     "cfg": "SMA_10_200",
+     "roi": 0.04417743975635986
+    },
+    {
+     "cfg": "EMA_10_200",
+     "roi": 0.029193807925293982
+    },
+    {
+     "cfg": "SMA_50_100",
+     "roi": 0.022194811441202014
+    }
+   ],
+   "ti_worst": {
+    "cfg": "EMA_50_200",
+    "roi": -0.05180147920539484
+   },
+   "n_configs_traded": 8,
+   "n_configs": 26,
+   "capture_ratio": 0.32682532088002925,
+   "buy_and_hold_window": -0.04867412361789769
+  },
+  {
+   "cadence": "4h",
+   "bars": 42,
+   "win_start_idx": 1985,
+   "window_utc": [
+    "2020-12-03 23:59",
+    "2020-12-10 19:59"
+   ],
+   "price_oracle_roi": 0.03731422481590044,
+   "price_oracle_in_2_10_band": true,
+   "price_low_utc": "2020-12-09 07:59",
+   "price_high_utc": "2020-12-09 23:54",
+   "ti_oracle_roi": -0.026522355498292224,
+   "ti_winning_config": "SMA_50_100",
+   "ti_top3": [
+    {
+     "cfg": "SMA_50_100",
+     "roi": -0.026522355498292224
+    },
+    {
+     "cfg": "SMA_10_50",
+     "roi": -0.03456791994777324
+    },
+    {
+     "cfg": "SMA_20_50",
+     "roi": -0.03456791994777324
+    }
+   ],
+   "ti_worst": {
+    "cfg": "EMA_20_50",
+    "roi": -0.06353237210436506
+   },
+   "n_configs_traded": 26,
+   "n_configs": 26,
+   "capture_ratio": -0.7107840409159578,
+   "buy_and_hold_window": -0.05350053579760805
+  },
+  {
+   "cadence": "1h",
+   "bars": 168,
+   "win_start_idx": 44512,
+   "window_utc": [
+    "2025-02-06 00:57",
+    "2025-02-12 23:59"
+   ],
+   "price_oracle_roi": 0.030844758321995097,
+   "price_oracle_in_2_10_band": true,
+   "price_low_utc": "2025-02-12 13:59",
+   "price_high_utc": "2025-02-12 22:59",
+   "ti_oracle_roi": 0.0,
+   "ti_winning_config": "SMA_50_200",
+   "ti_top3": [
+    {
+     "cfg": "SMA_50_200",
+     "roi": 0.0
+    },
+    {
+     "cfg": "EMA_20_200",
+     "roi": 0.0
+    },
+    {
+     "cfg": "EMA_50_200",
+     "roi": 0.0
+    }
+   ],
+   "ti_worst": {
+    "cfg": "EMA_10_50",
+    "roi": -0.08850776885847166
+   },
+   "n_configs_traded": 23,
+   "n_configs": 26,
+   "capture_ratio": 0.0,
+   "buy_and_hold_window": 0.01154955296487259
+  },
+  {
+   "cadence": "30m",
+   "bars": 336,
+   "win_start_idx": 55811,
+   "window_utc": [
+    "2023-03-17 05:29",
+    "2023-03-24 04:59"
+   ],
+   "price_oracle_roi": 0.11515513219284607,
+   "price_oracle_in_2_10_band": false,
+   "price_low_utc": "2023-03-17 05:29",
+   "price_high_utc": "2023-03-22 15:29",
+   "ti_oracle_roi": 0.09081891889475054,
+   "ti_winning_config": "EMA_50_200",
+   "ti_top3": [
+    {
+     "cfg": "EMA_50_200",
+     "roi": 0.09081891889475054
+    },
+    {
+     "cfg": "SMA_50_200",
+     "roi": 0.06409184428252171
+    },
+    {
+     "cfg": "EMA_50_100",
+     "roi": 0.06350857698672022
+    }
+   ],
+   "ti_worst": {
+    "cfg": "EMA_5_50",
+    "roi": -0.07903621395595115
+   },
+   "n_configs_traded": 26,
+   "n_configs": 26,
+   "capture_ratio": 0.7886658385547196,
+   "buy_and_hold_window": 0.09369441453966942
+  },
+  {
+   "cadence": "15m",
+   "bars": 672,
+   "win_start_idx": 131328,
+   "window_utc": [
+    "2023-10-14 14:42",
+    "2023-10-21 17:44"
+   ],
+   "price_oracle_roi": 0.12187465004292812,
+   "price_oracle_in_2_10_band": false,
+   "price_low_utc": "2023-10-14 21:32",
+   "price_high_utc": "2023-10-21 17:44",
+   "ti_oracle_roi": 0.11078371351078911,
+   "ti_winning_config": "EMA_50_200",
+   "ti_top3": [
+    {
+     "cfg": "EMA_50_200",
+     "roi": 0.11078371351078911
+    },
+    {
+     "cfg": "SMA_20_200",
+     "roi": 0.09990214421868125
+    },
+    {
+     "cfg": "EMA_50_100",
+     "roi": 0.09772473110300738
+    }
+   ],
+   "ti_worst": {
+    "cfg": "SMA_5_20",
+    "roi": 0.0024579656213505603
+   },
+   "n_configs_traded": 26,
+   "n_configs": 26,
+   "capture_ratio": 0.9089971825294889,
+   "buy_and_hold_window": 0.11765935291930085
+  }
+ ],
+ "note": "descriptive anchor; windows drawn independently per cadence"
+}

@@ -1,0 +1,1343 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\train_ma_walkforward.py --universe u50 --folds 6 --family both",
+  "git_sha": "7457bc3"
+ },
+ "result": {
+  "2MA": {
+   "universe": "u50",
+   "family": "2MA",
+   "folds": 6,
+   "n_assets": 35,
+   "clusters": {
+    "BLUE": [
+     "BTCUSDT",
+     "ETHUSDT"
+    ],
+    "DEGEN": [
+     "ZECUSDT",
+     "FETUSDT",
+     "DASHUSDT",
+     "FILUSDT",
+     "JSTUSDT",
+     "SUPERUSDT"
+    ],
+    "STEADY": [
+     "SOLUSDT",
+     "XRPUSDT",
+     "BNBUSDT",
+     "TRXUSDT",
+     "ADAUSDT",
+     "LTCUSDT",
+     "BCHUSDT",
+     "ALGOUSDT",
+     "ETCUSDT"
+    ],
+    "VOLATILE": [
+     "DOGEUSDT",
+     "PEPEUSDT",
+     "LINKUSDT",
+     "SUIUSDT",
+     "AVAXUSDT",
+     "ENJUSDT",
+     "NEARUSDT",
+     "AAVEUSDT",
+     "UNIUSDT",
+     "DOTUSDT",
+     "APTUSDT",
+     "HBARUSDT",
+     "ARBUSDT",
+     "SHIBUSDT",
+     "ICPUSDT",
+     "CRVUSDT",
+     "LDOUSDT",
+     "OPUSDT"
+    ]
+   },
+   "summary": {
+    "POOLED": {
+     "n": 183,
+     "mean": 0.3127152548906495,
+     "se": 0.10479214993062073,
+     "win": 0.366120218579235,
+     "jk5pct": 0.032623673236459705,
+     "n_eff": 17.191368116738904
+    },
+    "CLUSTER": {
+     "n": 228,
+     "mean": 0.25895236028159585,
+     "se": 0.08163365272455697,
+     "win": 0.3991228070175439,
+     "jk5pct": 0.0361532303813152,
+     "n_eff": 19.30656448643635
+    },
+    "REGIME": {
+     "n": 178,
+     "mean": 0.40316083755989934,
+     "se": 0.11020297117235371,
+     "win": 0.4606741573033708,
+     "jk5pct": 0.11031684961512084,
+     "n_eff": 18.91824173711181
+    },
+    "CLUSTER_REGIME": {
+     "n": 321,
+     "mean": 0.26528072406565295,
+     "se": 0.07352004567211357,
+     "win": 0.3956386292834891,
+     "jk5pct": 0.02732831125956282,
+     "n_eff": 22.572131057751236
+    }
+   },
+   "verdict_paired": {
+    "CLUSTER": {
+     "paired_n": 126,
+     "paired_mean_diff": -0.04052977089589235,
+     "paired_se": 0.03761667337625901,
+     "t": -1.0774416570390948,
+     "frac_pos": 0.2222222222222222,
+     "MDE_80pct": 0.09353385835006803,
+     "POWERED_for_5pp": false,
+     "VALID": false,
+     "verdict": "INCONCLUSIVE-underpowered"
+    },
+    "REGIME": {
+     "paired_n": 104,
+     "paired_mean_diff": -0.027889363262976433,
+     "paired_se": 0.06687940925692942,
+     "t": -0.4170097130406364,
+     "frac_pos": 0.5576923076923077,
+     "MDE_80pct": 0.166295651117355,
+     "POWERED_for_5pp": false,
+     "VALID": false,
+     "verdict": "INCONCLUSIVE-underpowered"
+    },
+    "CLUSTER_REGIME": {
+     "paired_n": 113,
+     "paired_mean_diff": -0.18119859541880987,
+     "paired_se": 0.07934420372482827,
+     "t": -2.2837029916506144,
+     "frac_pos": 0.46017699115044247,
+     "MDE_80pct": 0.19728936256178548,
+     "POWERED_for_5pp": false,
+     "VALID": false,
+     "verdict": "INCONCLUSIVE-underpowered"
+    }
+   },
+   "picks": {
+    "POOLED": {
+     "1": [
+      "2MA",
+      "EMA",
+      50,
+      100,
+      null
+     ],
+     "2": [
+      "2MA",
+      "SMA",
+      50,
+      100,
+      null
+     ],
+     "3": [
+      "2MA",
+      "SMA",
+      50,
+      100,
+      null
+     ],
+     "4": [
+      "2MA",
+      "EMA",
+      50,
+      100,
+      null
+     ],
+     "5": [
+      "2MA",
+      "EMA",
+      50,
+      100,
+      null
+     ]
+    },
+    "CLUSTER": {
+     "1": {
+      "BLUE": [
+       "2MA",
+       "SMA",
+       5,
+       20,
+       null
+      ],
+      "DEGEN": [
+       "2MA",
+       "SMA",
+       10,
+       50,
+       null
+      ],
+      "STEADY": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ],
+      "VOLATILE": [
+       "2MA",
+       "EMA",
+       20,
+       100,
+       null
+      ]
+     },
+     "2": {
+      "BLUE": [
+       "2MA",
+       "EMA",
+       10,
+       50,
+       null
+      ],
+      "DEGEN": [
+       "2MA",
+       "SMA",
+       10,
+       100,
+       null
+      ],
+      "STEADY": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ],
+      "VOLATILE": [
+       "2MA",
+       "SMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "3": {
+      "BLUE": [
+       "2MA",
+       "EMA",
+       10,
+       50,
+       null
+      ],
+      "DEGEN": [
+       "2MA",
+       "SMA",
+       10,
+       100,
+       null
+      ],
+      "STEADY": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ],
+      "VOLATILE": [
+       "2MA",
+       "SMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "4": {
+      "BLUE": [
+       "2MA",
+       "EMA",
+       10,
+       50,
+       null
+      ],
+      "DEGEN": [
+       "2MA",
+       "SMA",
+       10,
+       100,
+       null
+      ],
+      "STEADY": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ],
+      "VOLATILE": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "5": {
+      "BLUE": [
+       "2MA",
+       "EMA",
+       10,
+       50,
+       null
+      ],
+      "DEGEN": [
+       "2MA",
+       "SMA",
+       10,
+       100,
+       null
+      ],
+      "STEADY": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ],
+      "VOLATILE": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     }
+    },
+    "REGIME": {
+     "1": {
+      "UP": [
+       "2MA",
+       "EMA",
+       10,
+       100,
+       null
+      ],
+      "DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "2": {
+      "UP": [
+       "2MA",
+       "SMA",
+       20,
+       100,
+       null
+      ],
+      "DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "3": {
+      "UP": [
+       "2MA",
+       "SMA",
+       20,
+       100,
+       null
+      ],
+      "DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "4": {
+      "UP": [
+       "2MA",
+       "SMA",
+       20,
+       100,
+       null
+      ],
+      "DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "5": {
+      "UP": [
+       "2MA",
+       "SMA",
+       20,
+       100,
+       null
+      ],
+      "DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     }
+    },
+    "CLUSTER_REGIME": {
+     "1": {
+      "BLUE/UP": [
+       "2MA",
+       "SMA",
+       5,
+       20,
+       null
+      ],
+      "BLUE/DOWN": [
+       "2MA",
+       "EMA",
+       5,
+       20,
+       null
+      ],
+      "DEGEN/UP": [
+       "2MA",
+       "SMA",
+       5,
+       20,
+       null
+      ],
+      "DEGEN/DOWN": [
+       "2MA",
+       "SMA",
+       10,
+       50,
+       null
+      ],
+      "STEADY/UP": [
+       "2MA",
+       "EMA",
+       5,
+       20,
+       null
+      ],
+      "STEADY/DOWN": [
+       "2MA",
+       "SMA",
+       50,
+       100,
+       null
+      ],
+      "VOLATILE/UP": [
+       "2MA",
+       "EMA",
+       5,
+       20,
+       null
+      ],
+      "VOLATILE/DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "2": {
+      "BLUE/UP": [
+       "2MA",
+       "SMA",
+       5,
+       50,
+       null
+      ],
+      "BLUE/DOWN": [
+       "2MA",
+       "EMA",
+       5,
+       20,
+       null
+      ],
+      "DEGEN/UP": [
+       "2MA",
+       "EMA",
+       20,
+       100,
+       null
+      ],
+      "DEGEN/DOWN": [
+       "2MA",
+       "SMA",
+       10,
+       100,
+       null
+      ],
+      "STEADY/UP": [
+       "2MA",
+       "SMA",
+       20,
+       100,
+       null
+      ],
+      "STEADY/DOWN": [
+       "2MA",
+       "EMA",
+       10,
+       100,
+       null
+      ],
+      "VOLATILE/UP": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ],
+      "VOLATILE/DOWN": [
+       "2MA",
+       "SMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "3": {
+      "BLUE/UP": [
+       "2MA",
+       "EMA",
+       10,
+       50,
+       null
+      ],
+      "BLUE/DOWN": [
+       "2MA",
+       "EMA",
+       5,
+       50,
+       null
+      ],
+      "DEGEN/UP": [
+       "2MA",
+       "EMA",
+       20,
+       100,
+       null
+      ],
+      "DEGEN/DOWN": [
+       "2MA",
+       "SMA",
+       50,
+       100,
+       null
+      ],
+      "STEADY/UP": [
+       "2MA",
+       "SMA",
+       20,
+       100,
+       null
+      ],
+      "STEADY/DOWN": [
+       "2MA",
+       "EMA",
+       20,
+       100,
+       null
+      ],
+      "VOLATILE/UP": [
+       "2MA",
+       "EMA",
+       50,
+       200,
+       null
+      ],
+      "VOLATILE/DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "4": {
+      "BLUE/UP": [
+       "2MA",
+       "EMA",
+       10,
+       50,
+       null
+      ],
+      "BLUE/DOWN": [
+       "2MA",
+       "EMA",
+       5,
+       50,
+       null
+      ],
+      "DEGEN/UP": [
+       "2MA",
+       "EMA",
+       20,
+       100,
+       null
+      ],
+      "DEGEN/DOWN": [
+       "2MA",
+       "EMA",
+       10,
+       100,
+       null
+      ],
+      "STEADY/UP": [
+       "2MA",
+       "SMA",
+       20,
+       100,
+       null
+      ],
+      "STEADY/DOWN": [
+       "2MA",
+       "EMA",
+       20,
+       100,
+       null
+      ],
+      "VOLATILE/UP": [
+       "2MA",
+       "EMA",
+       50,
+       200,
+       null
+      ],
+      "VOLATILE/DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     },
+     "5": {
+      "BLUE/UP": [
+       "2MA",
+       "EMA",
+       10,
+       50,
+       null
+      ],
+      "BLUE/DOWN": [
+       "2MA",
+       "SMA",
+       5,
+       50,
+       null
+      ],
+      "DEGEN/UP": [
+       "2MA",
+       "EMA",
+       20,
+       100,
+       null
+      ],
+      "DEGEN/DOWN": [
+       "2MA",
+       "EMA",
+       10,
+       100,
+       null
+      ],
+      "STEADY/UP": [
+       "2MA",
+       "SMA",
+       20,
+       100,
+       null
+      ],
+      "STEADY/DOWN": [
+       "2MA",
+       "EMA",
+       20,
+       100,
+       null
+      ],
+      "VOLATILE/UP": [
+       "2MA",
+       "EMA",
+       50,
+       200,
+       null
+      ],
+      "VOLATILE/DOWN": [
+       "2MA",
+       "EMA",
+       50,
+       100,
+       null
+      ]
+     }
+    }
+   }
+  },
+  "3MA": {
+   "universe": "u50",
+   "family": "3MA",
+   "folds": 6,
+   "n_assets": 35,
+   "clusters": {
+    "BLUE": [
+     "BTCUSDT",
+     "ETHUSDT"
+    ],
+    "DEGEN": [
+     "ZECUSDT",
+     "FETUSDT",
+     "DASHUSDT",
+     "FILUSDT",
+     "JSTUSDT",
+     "SUPERUSDT"
+    ],
+    "STEADY": [
+     "SOLUSDT",
+     "XRPUSDT",
+     "BNBUSDT",
+     "TRXUSDT",
+     "ADAUSDT",
+     "LTCUSDT",
+     "BCHUSDT",
+     "ALGOUSDT",
+     "ETCUSDT"
+    ],
+    "VOLATILE": [
+     "DOGEUSDT",
+     "PEPEUSDT",
+     "LINKUSDT",
+     "SUIUSDT",
+     "AVAXUSDT",
+     "ENJUSDT",
+     "NEARUSDT",
+     "AAVEUSDT",
+     "UNIUSDT",
+     "DOTUSDT",
+     "APTUSDT",
+     "HBARUSDT",
+     "ARBUSDT",
+     "SHIBUSDT",
+     "ICPUSDT",
+     "CRVUSDT",
+     "LDOUSDT",
+     "OPUSDT"
+    ]
+   },
+   "summary": {
+    "POOLED": {
+     "n": 282,
+     "mean": 0.3257280117822835,
+     "se": 0.08969999370582464,
+     "win": 0.36524822695035464,
+     "jk5pct": 0.033418775436233866,
+     "n_eff": 20.13181647833778
+    },
+    "CLUSTER": {
+     "n": 310,
+     "mean": 0.2735612882888652,
+     "se": 0.07901388050722964,
+     "win": 0.3774193548387097,
+     "jk5pct": 0.01938119896966403,
+     "n_eff": 19.408529318898843
+    },
+    "REGIME": {
+     "n": 296,
+     "mean": 0.2948346810624727,
+     "se": 0.07912092239138266,
+     "win": 0.40540540540540543,
+     "jk5pct": 0.049545702029933955,
+     "n_eff": 20.66202228098059
+    },
+    "CLUSTER_REGIME": {
+     "n": 280,
+     "mean": 0.27986154261566465,
+     "se": 0.07696109420250541,
+     "win": 0.37857142857142856,
+     "jk5pct": 0.043408340980049885,
+     "n_eff": 20.65856173439081
+    }
+   },
+   "verdict_paired": {
+    "CLUSTER": {
+     "paired_n": 134,
+     "paired_mean_diff": -0.09481630905226417,
+     "paired_se": 0.06214022752694701,
+     "t": -1.5258442529780145,
+     "frac_pos": 0.2462686567164179,
+     "MDE_80pct": 0.15451167574575375,
+     "POWERED_for_5pp": false,
+     "VALID": false,
+     "verdict": "INCONCLUSIVE-underpowered"
+    },
+    "REGIME": {
+     "paired_n": 107,
+     "paired_mean_diff": -0.2528784288704397,
+     "paired_se": 0.09273608046734581,
+     "t": -2.726861299219523,
+     "frac_pos": 0.411214953271028,
+     "MDE_80pct": 0.23058826408205535,
+     "POWERED_for_5pp": false,
+     "VALID": false,
+     "verdict": "INCONCLUSIVE-underpowered"
+    },
+    "CLUSTER_REGIME": {
+     "paired_n": 116,
+     "paired_mean_diff": -0.11843595657804332,
+     "paired_se": 0.0901138189765177,
+     "t": -1.3142929455424772,
+     "frac_pos": 0.3448275862068966,
+     "MDE_80pct": 0.22406801088511125,
+     "POWERED_for_5pp": false,
+     "VALID": false,
+     "verdict": "INCONCLUSIVE-underpowered"
+    }
+   },
+   "picks": {
+    "POOLED": {
+     "1": [
+      "3MA",
+      "EMA",
+      10,
+      50,
+      100
+     ],
+     "2": [
+      "3MA",
+      "EMA",
+      10,
+      50,
+      100
+     ],
+     "3": [
+      "3MA",
+      "EMA",
+      10,
+      50,
+      100
+     ],
+     "4": [
+      "3MA",
+      "EMA",
+      10,
+      50,
+      100
+     ],
+     "5": [
+      "3MA",
+      "EMA",
+      10,
+      50,
+      100
+     ]
+    },
+    "CLUSTER": {
+     "1": {
+      "BLUE": [
+       "3MA",
+       "SMA",
+       5,
+       20,
+       100
+      ],
+      "DEGEN": [
+       "3MA",
+       "EMA",
+       5,
+       20,
+       100
+      ],
+      "STEADY": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "2": {
+      "BLUE": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "DEGEN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "STEADY": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "3": {
+      "BLUE": [
+       "3MA",
+       "SMA",
+       20,
+       50,
+       200
+      ],
+      "DEGEN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "STEADY": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "4": {
+      "BLUE": [
+       "3MA",
+       "SMA",
+       20,
+       50,
+       200
+      ],
+      "DEGEN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "STEADY": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "5": {
+      "BLUE": [
+       "3MA",
+       "EMA",
+       20,
+       50,
+       200
+      ],
+      "DEGEN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "STEADY": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ]
+     }
+    },
+    "REGIME": {
+     "1": {
+      "UP": [
+       "3MA",
+       "EMA",
+       5,
+       20,
+       100
+      ],
+      "DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "2": {
+      "UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       200
+      ],
+      "DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "3": {
+      "UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       200
+      ],
+      "DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "4": {
+      "UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       200
+      ],
+      "DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "5": {
+      "UP": [
+       "3MA",
+       "EMA",
+       20,
+       50,
+       200
+      ],
+      "DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     }
+    },
+    "CLUSTER_REGIME": {
+     "1": {
+      "BLUE/UP": [
+       "3MA",
+       "SMA",
+       5,
+       20,
+       100
+      ],
+      "DEGEN/UP": [
+       "3MA",
+       "SMA",
+       5,
+       20,
+       100
+      ],
+      "DEGEN/DOWN": [
+       "3MA",
+       "SMA",
+       5,
+       20,
+       100
+      ],
+      "STEADY/UP": [
+       "3MA",
+       "EMA",
+       5,
+       50,
+       200
+      ],
+      "STEADY/DOWN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE/DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "2": {
+      "BLUE/UP": [
+       "3MA",
+       "EMA",
+       5,
+       20,
+       200
+      ],
+      "DEGEN/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "DEGEN/DOWN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "STEADY/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       200
+      ],
+      "STEADY/DOWN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE/UP": [
+       "3MA",
+       "EMA",
+       20,
+       50,
+       200
+      ],
+      "VOLATILE/DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "3": {
+      "BLUE/UP": [
+       "3MA",
+       "SMA",
+       20,
+       50,
+       200
+      ],
+      "DEGEN/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "DEGEN/DOWN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "STEADY/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       200
+      ],
+      "STEADY/DOWN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE/UP": [
+       "3MA",
+       "EMA",
+       20,
+       50,
+       200
+      ],
+      "VOLATILE/DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "4": {
+      "BLUE/UP": [
+       "3MA",
+       "SMA",
+       20,
+       50,
+       200
+      ],
+      "DEGEN/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "DEGEN/DOWN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "STEADY/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       200
+      ],
+      "STEADY/DOWN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE/UP": [
+       "3MA",
+       "EMA",
+       20,
+       50,
+       200
+      ],
+      "VOLATILE/DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     },
+     "5": {
+      "BLUE/UP": [
+       "3MA",
+       "EMA",
+       20,
+       50,
+       200
+      ],
+      "DEGEN/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ],
+      "DEGEN/DOWN": [
+       "3MA",
+       "EMA",
+       5,
+       50,
+       200
+      ],
+      "STEADY/UP": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       200
+      ],
+      "STEADY/DOWN": [
+       "3MA",
+       "SMA",
+       10,
+       50,
+       100
+      ],
+      "VOLATILE/UP": [
+       "3MA",
+       "EMA",
+       20,
+       50,
+       200
+      ],
+      "VOLATILE/DOWN": [
+       "3MA",
+       "EMA",
+       10,
+       50,
+       100
+      ]
+     }
+    }
+   }
+  }
+ }
+}

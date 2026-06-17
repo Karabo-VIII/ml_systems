@@ -1,0 +1,44 @@
+# Strat B unaugmented -- MAXX rounds 1+2 2026-05-25 (Phase-1 candidate)
+# NOT canonical deploy. Canonical = pepe_ema_bot_static_1strat.yaml (+51.86% UNSEEN, LGBM-gated).
+# This is a Phase-1 candidate worth keeping because OOS +50.5% beats canonical's OOS -5.92%.
+# Phase 2 Round 2 (2026-05-25): all 3 candidates REFUTED per pre-registered ship gate; see
+# runs/audit/AUTONOMOUS_MAXX_PEPE_FINAL_2026_05_25/PHASE2_PREREGISTRATION.md.
+# Deferred for re-validation when n >= 25 UNSEEN trades OR synth-augmented Phase 3 R5 lands.
+
+asset: PEPE
+cadence: 4h
+indicator_family: WMA_cross
+
+windows:
+  use_canonical: legacy
+  train_start: '2023-05-06'
+  unseen_end: '2026-05-22'
+
+strategies:
+- ma_type: WMA_cross
+  fast: 10
+  slow: 30
+  filter_kind: whale_net>0
+  exit_kind: opposite_cross_or_whale_flip
+  augmentations: []
+
+risk:
+  starting_capital_usd: 5000.0
+  max_position_pct: 1.0
+  kelly_fraction: 1.0
+  max_drawdown_pct: 25.0
+  max_consecutive_losses: 10
+  cost_per_side_pct: 0.22
+  whale_freshness_max_hours: 28.0
+
+# Validation provenance (RWYB -- 2026-05-25)
+# S1 Kelly sweep (UNSEEN, 18 trades): wealth-optimal Kelly=1.0 -> +40.31% / DD 14.2%
+# S2-S4 (REFUTED): vola-expansion, trailing-ATR exit, whale-decline exit, maker cost
+# Phase 2 R2 honest validation: ALL 3 mining-surfaced candidates REFUTED
+#   - C2 (fund_rate filter) was closest: UNSEEN +25.6pp but bootstrap p05=-1.8% < +40.3% baseline
+#   - C2 deferred to Phase 3 R5 (synthetic-data augmented re-validation)
+# Status: Phase-1-candidate (not deploy); see docs/PEPE_MA_EMA_INST_F96BE75A.md Round log.
+# Earlier "ceiling +1.70%/wk" claim RETRACTED via CORRECTION_NOTE.md (advocacy bias).
+# Reproducibility: deterministic static; reproduce via `python scripts/oracle/pepe_final_validation.py`
+
+output_dir: runs/audit/AUTONOMOUS_MAXX_PEPE_FINAL_2026_05_25/deploy/strat_B_unaug

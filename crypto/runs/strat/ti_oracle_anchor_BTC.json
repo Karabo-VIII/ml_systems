@@ -1,0 +1,196 @@
+{
+  "tool": "ti_oracle_anchor",
+  "anchor_not_gate": true,
+  "asset": "BTCUSDT",
+  "cadences": [
+    "1d",
+    "4h",
+    "1h"
+  ],
+  "spec": {
+    "price_roi_band": [
+      0.02,
+      0.1
+    ],
+    "window_bars": {
+      "1d": [
+        7,
+        14
+      ],
+      "4h": [
+        42,
+        84
+      ],
+      "1h": [
+        168,
+        336
+      ]
+    },
+    "ma_types": [
+      "SMA",
+      "EMA"
+    ],
+    "fast_grid": [
+      5,
+      10,
+      20,
+      50
+    ],
+    "slow_grid": [
+      20,
+      50,
+      100,
+      200
+    ],
+    "taker_rt": 0.0024,
+    "fills": "next_bar_open",
+    "events": "non_overlapping",
+    "hindsight": "config_choice_only (signals causal)"
+  },
+  "per_cadence": [
+    {
+      "cadence": "1d",
+      "n_events": 250,
+      "price_oracle_mean": 0.04904099223251315,
+      "price_oracle_median": 0.04516134979563648,
+      "ti_oracle_mean": 0.015097039801954133,
+      "ti_oracle_median": 0.004985495496870954,
+      "capture_ratio_of_means": 0.30784531704366924,
+      "capture_ratio_median_of_per_event": 0.12017223817391266,
+      "winning_config_distribution": {
+        "SMA_5_20": 132,
+        "SMA_5_50": 33,
+        "SMA_5_100": 22,
+        "SMA_10_20": 16,
+        "SMA_20_50": 10,
+        "SMA_5_200": 8,
+        "EMA_50_200": 5,
+        "SMA_50_100": 5,
+        "SMA_20_200": 3,
+        "EMA_5_20": 2,
+        "SMA_10_200": 2,
+        "SMA_50_200": 2,
+        "SMA_10_50": 2,
+        "EMA_10_200": 1,
+        "SMA_20_100": 1,
+        "EMA_20_100": 1,
+        "EMA_20_50": 1,
+        "EMA_5_200": 1,
+        "EMA_20_200": 1,
+        "EMA_5_100": 1,
+        "EMA_10_100": 1
+      }
+    },
+    {
+      "cadence": "4h",
+      "n_events": 267,
+      "price_oracle_mean": 0.053611600084903704,
+      "price_oracle_median": 0.05001872426635581,
+      "ti_oracle_mean": 0.021872359979070465,
+      "ti_oracle_median": 0.012911430417484174,
+      "capture_ratio_of_means": 0.4079781231008142,
+      "capture_ratio_median_of_per_event": 0.28523614717551576,
+      "winning_config_distribution": {
+        "SMA_5_50": 41,
+        "SMA_5_100": 36,
+        "SMA_5_20": 31,
+        "SMA_10_20": 31,
+        "SMA_5_200": 20,
+        "SMA_50_100": 19,
+        "SMA_20_50": 17,
+        "EMA_5_20": 12,
+        "EMA_10_20": 10,
+        "SMA_10_50": 10,
+        "SMA_20_100": 9,
+        "SMA_50_200": 9,
+        "SMA_20_200": 4,
+        "EMA_10_50": 3,
+        "EMA_50_200": 3,
+        "SMA_10_200": 3,
+        "EMA_50_100": 2,
+        "EMA_5_100": 2,
+        "SMA_10_100": 1,
+        "EMA_20_200": 1,
+        "EMA_10_100": 1,
+        "EMA_10_200": 1,
+        "EMA_20_100": 1
+      }
+    },
+    {
+      "cadence": "1h",
+      "n_events": 257,
+      "price_oracle_mean": 0.055759946914581894,
+      "price_oracle_median": 0.05145939779090467,
+      "ti_oracle_mean": 0.028641365450774846,
+      "ti_oracle_median": 0.021746440857301333,
+      "capture_ratio_of_means": 0.513654819195762,
+      "capture_ratio_median_of_per_event": 0.3647371194371545,
+      "winning_config_distribution": {
+        "SMA_5_200": 30,
+        "SMA_50_100": 30,
+        "SMA_20_50": 22,
+        "SMA_10_20": 19,
+        "SMA_5_20": 17,
+        "SMA_50_200": 17,
+        "SMA_5_100": 13,
+        "SMA_20_100": 13,
+        "SMA_5_50": 12,
+        "EMA_5_50": 10,
+        "SMA_10_50": 9,
+        "EMA_5_20": 8,
+        "SMA_20_200": 8,
+        "EMA_20_100": 7,
+        "EMA_50_200": 7,
+        "EMA_10_20": 7,
+        "EMA_20_200": 5,
+        "EMA_10_100": 5,
+        "SMA_10_200": 4,
+        "EMA_20_50": 4,
+        "SMA_10_100": 2,
+        "EMA_10_200": 2,
+        "EMA_5_100": 2,
+        "EMA_50_100": 2,
+        "EMA_10_50": 1,
+        "EMA_5_200": 1
+      }
+    }
+  ],
+  "aggregate": {
+    "cadence": "AGGREGATE",
+    "n_events": 774,
+    "price_oracle_mean": 0.052848645526931685,
+    "price_oracle_median": 0.04683203306965545,
+    "ti_oracle_mean": 0.021931538741278404,
+    "ti_oracle_median": 0.013534725663863337,
+    "capture_ratio_of_means": 0.4149877167637548,
+    "capture_ratio_median_of_per_event": 0.29623848908413275,
+    "winning_config_distribution": {
+      "SMA_5_20": 180,
+      "SMA_5_50": 86,
+      "SMA_5_100": 71,
+      "SMA_10_20": 66,
+      "SMA_5_200": 58,
+      "SMA_50_100": 54,
+      "SMA_20_50": 49,
+      "SMA_50_200": 28,
+      "SMA_20_100": 23,
+      "EMA_5_20": 22,
+      "SMA_10_50": 21,
+      "EMA_10_20": 17,
+      "SMA_20_200": 15,
+      "EMA_50_200": 15,
+      "EMA_5_50": 10,
+      "SMA_10_200": 9,
+      "EMA_20_100": 9,
+      "EMA_20_200": 7,
+      "EMA_10_100": 7,
+      "EMA_20_50": 5,
+      "EMA_5_100": 5,
+      "EMA_10_200": 4,
+      "EMA_10_50": 4,
+      "EMA_50_100": 4,
+      "SMA_10_100": 3,
+      "EMA_5_200": 2
+    }
+  }
+}

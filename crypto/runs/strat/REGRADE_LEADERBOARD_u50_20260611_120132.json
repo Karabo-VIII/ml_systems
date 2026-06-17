@@ -1,0 +1,1047 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\regrade_leaderboard.py --universe u50",
+  "git_sha": "fe6cccd"
+ },
+ "universe": "u50",
+ "cost_per_side": 0.0012,
+ "books": [
+  {
+   "name": "TSMOM_breadth",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 838.24,
+     "ann_pct": 53.81,
+     "maxdd_pct": -49.33,
+     "sharpe": 1.24,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.067,
+       "frac_positive": 0.542,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.079,
+       "frac_positive": 0.533,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.195,
+       "frac_positive": 0.539,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -2.01,
+     "ann_pct": -2.51,
+     "maxdd_pct": -17.38,
+     "sharpe": 0.02,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.069,
+       "frac_positive": 0.553,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": -0.033,
+       "frac_positive": 0.485,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.196,
+       "frac_positive": 0.439,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -2.14,
+     "ann_pct": -5.15,
+     "maxdd_pct": -6.43,
+     "sharpe": -0.45,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.01,
+       "frac_positive": 0.49,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": 0.013,
+       "frac_positive": 0.531,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": -0.11,
+       "frac_positive": 0.476,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": 58.65,
+    "p50": 746.44,
+    "p95": 4601.72
+   },
+   "heldout_block_bootstrap": {
+    "p05": -31.7,
+    "p50": -3.28,
+    "p95": 42.48
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": true,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "source": "tsmom_ensemble.run(u50,1d) RWYB",
+   "claim_tag": "VERIFIED"
+  },
+  {
+   "name": "regime_beta",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 1646.96,
+     "ann_pct": 73.34,
+     "maxdd_pct": -54.9,
+     "sharpe": 1.37,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.479,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.472,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.476,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -11.81,
+     "ann_pct": -14.58,
+     "maxdd_pct": -23.11,
+     "sharpe": -0.31,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.481,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.454,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.152,
+       "frac_positive": 0.366,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -3.49,
+     "ann_pct": -8.34,
+     "maxdd_pct": -10.67,
+     "sharpe": -0.6,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.003,
+       "frac_positive": 0.483,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": 0.037,
+       "frac_positive": 0.571,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": -0.013,
+       "frac_positive": 0.476,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": 105.97,
+    "p50": 1319.43,
+    "p95": 11256.62
+   },
+   "heldout_block_bootstrap": {
+    "p05": -45.57,
+    "p50": -12.27,
+    "p95": 42.39
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": true,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "source": "tsmom_ensemble.run(u50,1d) RWYB",
+   "claim_tag": "VERIFIED"
+  },
+  {
+   "name": "buy_hold",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 1483.78,
+     "ann_pct": 70.1,
+     "maxdd_pct": -82.36,
+     "sharpe": 1.06,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.359,
+       "frac_positive": 0.549,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.869,
+       "frac_positive": 0.57,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 1.5,
+       "frac_positive": 0.554,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -19.12,
+     "ann_pct": -23.37,
+     "maxdd_pct": -51.63,
+     "sharpe": 0.05,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.297,
+       "frac_positive": 0.522,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": 0.373,
+       "frac_positive": 0.536,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": 0.266,
+       "frac_positive": 0.512,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -18.3,
+     "ann_pct": -39.05,
+     "maxdd_pct": -42.7,
+     "sharpe": -0.44,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.192,
+       "frac_positive": 0.477,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": -0.009,
+       "frac_positive": 0.49,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": 0.061,
+       "frac_positive": 0.524,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": -68.75,
+    "p50": 812.45,
+    "p95": 30477.37
+   },
+   "heldout_block_bootstrap": {
+    "p05": -79.7,
+    "p50": -30.61,
+    "p95": 145.34
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": false,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "source": "tsmom_ensemble.run(u50,1d) RWYB",
+   "claim_tag": "VERIFIED"
+  },
+  {
+   "name": "low_vol_tilt",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 760.21,
+     "ann_pct": 51.26,
+     "maxdd_pct": -79.08,
+     "sharpe": 0.94,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.315,
+       "frac_positive": 0.535,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.493,
+       "frac_positive": 0.543,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 1.198,
+       "frac_positive": 0.568,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -19.16,
+     "ann_pct": -23.41,
+     "maxdd_pct": -44.69,
+     "sharpe": -0.14,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.313,
+       "frac_positive": 0.529,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": -0.179,
+       "frac_positive": 0.495,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.284,
+       "frac_positive": 0.488,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -20.07,
+     "ann_pct": -42.23,
+     "maxdd_pct": -38.68,
+     "sharpe": -0.75,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.31,
+       "frac_positive": 0.456,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": -0.226,
+       "frac_positive": 0.469,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": -0.813,
+       "frac_positive": 0.429,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": -73.92,
+    "p50": 426.9,
+    "p95": 10740.93
+   },
+   "heldout_block_bootstrap": {
+    "p05": -75.56,
+    "p50": -33.49,
+    "p95": 71.71
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": false,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "source": "tsmom_ensemble.run(u50,1d) RWYB",
+   "claim_tag": "VERIFIED"
+  },
+  {
+   "name": "BLEND_25r",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 1013.02,
+     "ann_pct": 58.95,
+     "maxdd_pct": -48.68,
+     "sharpe": 1.29,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.058,
+       "frac_positive": 0.537,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.084,
+       "frac_positive": 0.532,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.169,
+       "frac_positive": 0.528,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -4.41,
+     "ann_pct": -5.5,
+     "maxdd_pct": -18.75,
+     "sharpe": -0.08,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.063,
+       "frac_positive": 0.56,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": 0.028,
+       "frac_positive": 0.505,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.153,
+       "frac_positive": 0.415,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -2.43,
+     "ann_pct": -5.86,
+     "maxdd_pct": -6.6,
+     "sharpe": -0.52,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.008,
+       "frac_positive": 0.49,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": 0.013,
+       "frac_positive": 0.531,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": -0.145,
+       "frac_positive": 0.429,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": 73.13,
+    "p50": 877.19,
+    "p95": 5699.97
+   },
+   "heldout_block_bootstrap": {
+    "p05": -34.91,
+    "p50": -5.16,
+    "p95": 40.84
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": true,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "source": "tsmom_ensemble.run(u50,1d) RWYB",
+   "claim_tag": "VERIFIED"
+  },
+  {
+   "name": "BLEND_50r",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 1205.45,
+     "ann_pct": 63.9,
+     "maxdd_pct": -49.21,
+     "sharpe": 1.33,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.043,
+       "frac_positive": 0.531,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.086,
+       "frac_positive": 0.532,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.116,
+       "frac_positive": 0.513,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -6.86,
+     "ann_pct": -8.53,
+     "maxdd_pct": -20.17,
+     "sharpe": -0.17,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.05,
+       "frac_positive": 0.557,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": -0.008,
+       "frac_positive": 0.495,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.18,
+       "frac_positive": 0.415,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -2.77,
+     "ann_pct": -6.64,
+     "maxdd_pct": -7.97,
+     "sharpe": -0.57,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.001,
+       "frac_positive": 0.503,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": 0.012,
+       "frac_positive": 0.51,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": -0.071,
+       "frac_positive": 0.429,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": 87.82,
+    "p50": 1029.59,
+    "p95": 7218.14
+   },
+   "heldout_block_bootstrap": {
+    "p05": -38.04,
+    "p50": -7.58,
+    "p95": 41.17
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": true,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "source": "tsmom_ensemble.run(u50,1d) RWYB",
+   "claim_tag": "VERIFIED"
+  },
+  {
+   "name": "BLEND_75r",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 1417.09,
+     "ann_pct": 68.7,
+     "maxdd_pct": -52.03,
+     "sharpe": 1.36,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.033,
+       "frac_positive": 0.528,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.069,
+       "frac_positive": 0.521,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.014,
+       "frac_positive": 0.502,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -9.33,
+     "ann_pct": -11.56,
+     "maxdd_pct": -21.62,
+     "sharpe": -0.24,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.029,
+       "frac_positive": 0.543,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": -0.007,
+       "frac_positive": 0.495,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.175,
+       "frac_positive": 0.366,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -3.12,
+     "ann_pct": -7.47,
+     "maxdd_pct": -9.32,
+     "sharpe": -0.59,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.012,
+       "frac_positive": 0.483,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": 0.01,
+       "frac_positive": 0.531,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": -0.024,
+       "frac_positive": 0.429,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": 100.76,
+    "p50": 1166.89,
+    "p95": 9045.88
+   },
+   "heldout_block_bootstrap": {
+    "p05": -41.67,
+    "p50": -9.95,
+    "p95": 41.01
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": true,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "source": "tsmom_ensemble.run(u50,1d) RWYB",
+   "claim_tag": "VERIFIED"
+  },
+  {
+   "name": "RANDOM_null",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 322.27,
+     "ann_pct": 31.92,
+     "maxdd_pct": -60.15,
+     "sharpe": 0.87,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.05,
+       "frac_positive": 0.526,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.01,
+       "frac_positive": 0.503,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.045,
+       "frac_positive": 0.513,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -14.94,
+     "ann_pct": -18.37,
+     "maxdd_pct": -26.62,
+     "sharpe": -0.6,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.051,
+       "frac_positive": 0.512,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": -0.076,
+       "frac_positive": 0.464,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.29,
+       "frac_positive": 0.293,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -6.37,
+     "ann_pct": -14.9,
+     "maxdd_pct": -9.15,
+     "sharpe": -1.26,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.025,
+       "frac_positive": 0.47,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": -0.112,
+       "frac_positive": 0.469,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": -0.159,
+       "frac_positive": 0.381,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": -43.44,
+    "p50": 210.06,
+    "p95": 1852.39
+   },
+   "heldout_block_bootstrap": {
+    "p05": -45.87,
+    "p50": -19.71,
+    "p95": 22.9
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": false,
+    "heldout_p05_pos": false,
+    "ship": false
+   },
+   "source": "tsmom_ensemble.run(u50,1d) RWYB",
+   "claim_tag": "VERIFIED"
+  }
+ ],
+ "trades_labs": [
+  {
+   "name": "SYS_C_pooled[u10]",
+   "kind": "TRADES",
+   "source": "regime_dna_u10_1d_trend_20260611_110336.json",
+   "claim_tag": "VERIFIED",
+   "per_split": {
+    "OOS": {
+     "n": 33,
+     "mean_pct": 5.888,
+     "se_pct": 7.43,
+     "jk_drop_top5pct_mean_pct": -3.065,
+     "n_eff": 4.2,
+     "breadth_pos": 5,
+     "breadth_tot": 9
+    },
+    "UNSEEN": {
+     "n": 10,
+     "mean_pct": -6.381,
+     "se_pct": 3.305,
+     "jk_drop_top5pct_mean_pct": -8.929,
+     "n_eff": 1.0,
+     "breadth_pos": 0,
+     "breadth_tot": 0
+    }
+   },
+   "note": "regime_dna r2 (fair jk, per-trade SE, regime-filtered null)"
+  },
+  {
+   "name": "SYS_B_per_asset[u10]",
+   "kind": "TRADES",
+   "source": "regime_dna_u10_1d_trend_20260611_110336.json",
+   "claim_tag": "VERIFIED",
+   "per_split": {
+    "OOS": {
+     "n": 46,
+     "mean_pct": 6.215,
+     "se_pct": 5.76,
+     "jk_drop_top5pct_mean_pct": -0.434,
+     "n_eff": 5.4,
+     "breadth_pos": 6,
+     "breadth_tot": 9
+    },
+    "UNSEEN": {
+     "n": 24,
+     "mean_pct": -3.325,
+     "se_pct": 1.761,
+     "jk_drop_top5pct_mean_pct": -4.478,
+     "n_eff": 3.4,
+     "breadth_pos": 0,
+     "breadth_tot": 2
+    }
+   },
+   "note": "regime_dna r2 (fair jk, per-trade SE, regime-filtered null)"
+  },
+  {
+   "name": "SYS_A_regime_sw[u10]",
+   "kind": "TRADES",
+   "source": "regime_dna_u10_1d_trend_20260611_110336.json",
+   "claim_tag": "VERIFIED",
+   "per_split": {
+    "OOS": {
+     "n": 100,
+     "mean_pct": 5.999,
+     "se_pct": 3.666,
+     "jk_drop_top5pct_mean_pct": -1.045,
+     "n_eff": 10.0,
+     "breadth_pos": 8,
+     "breadth_tot": 10
+    },
+    "UNSEEN": {
+     "n": 67,
+     "mean_pct": -2.085,
+     "se_pct": 1.143,
+     "jk_drop_top5pct_mean_pct": -3.33,
+     "n_eff": 11.2,
+     "breadth_pos": 2,
+     "breadth_tot": 10
+    }
+   },
+   "note": "regime_dna r2 (fair jk, per-trade SE, regime-filtered null)"
+  },
+  {
+   "name": "SYS_A_UPonly[u10]",
+   "kind": "TRADES_DERIVED",
+   "source": "regime_dna_u10_1d_trend_20260611_110336.json",
+   "claim_tag": "VERIFIED",
+   "per_split": {
+    "OOS": {
+     "n": 57,
+     "mean": 0.1201253443435726,
+     "median": -0.037247029770887716,
+     "se": 0.06172849114911544,
+     "win": 0.3508771929824561,
+     "pf": 3.291854675175966,
+     "sum": 6.847144627583638,
+     "jk_drop_top5pct_mean": 0.023534299603373738,
+     "n_eff_pos": 7.53419879735397
+    },
+    "UNSEEN": {
+     "n": 24,
+     "mean": -0.00907055861366199,
+     "median": -0.024418130003641667,
+     "se": 0.025192488788329668,
+     "win": 0.375,
+     "pf": 0.8198521834323492,
+     "sum": -0.21769340672788778,
+     "jk_drop_top5pct_mean": -0.024713979212347578,
+     "n_eff_pos": 4.696291042371259
+    }
+   },
+   "note": "UP-regime-only cells (the beta/trend component that survives)"
+  },
+  {
+   "name": "SYS_C_pooled[u50]",
+   "kind": "TRADES",
+   "source": "regime_dna_u50_1d_trend_20260611_110541.json",
+   "claim_tag": "VERIFIED",
+   "per_split": {
+    "OOS": {
+     "n": 132,
+     "mean_pct": 8.313,
+     "se_pct": 6.477,
+     "jk_drop_top5pct_mean_pct": -4.426,
+     "n_eff": 8.3,
+     "breadth_pos": 11,
+     "breadth_tot": 27
+    },
+    "UNSEEN": {
+     "n": 75,
+     "mean_pct": -2.764,
+     "se_pct": 8.687,
+     "jk_drop_top5pct_mean_pct": -15.163,
+     "n_eff": 2.1,
+     "breadth_pos": 3,
+     "breadth_tot": 9
+    }
+   },
+   "note": "regime_dna r2 (fair jk, per-trade SE, regime-filtered null)"
+  },
+  {
+   "name": "SYS_B_per_asset[u50]",
+   "kind": "TRADES",
+   "source": "regime_dna_u50_1d_trend_20260611_110541.json",
+   "claim_tag": "VERIFIED",
+   "per_split": {
+    "OOS": {
+     "n": 303,
+     "mean_pct": 4.824,
+     "se_pct": 2.918,
+     "jk_drop_top5pct_mean_pct": -3.364,
+     "n_eff": 20.5,
+     "breadth_pos": 20,
+     "breadth_tot": 36
+    },
+    "UNSEEN": {
+     "n": 194,
+     "mean_pct": -4.887,
+     "se_pct": 1.036,
+     "jk_drop_top5pct_mean_pct": -7.137,
+     "n_eff": 14.6,
+     "breadth_pos": 5,
+     "breadth_tot": 22
+    }
+   },
+   "note": "regime_dna r2 (fair jk, per-trade SE, regime-filtered null)"
+  },
+  {
+   "name": "SYS_A_regime_sw[u50]",
+   "kind": "TRADES",
+   "source": "regime_dna_u50_1d_trend_20260611_110541.json",
+   "claim_tag": "VERIFIED",
+   "per_split": {
+    "OOS": {
+     "n": 488,
+     "mean_pct": 1.875,
+     "se_pct": 1.357,
+     "jk_drop_top5pct_mean_pct": -3.169,
+     "n_eff": 33.4,
+     "breadth_pos": 19,
+     "breadth_tot": 34
+    },
+    "UNSEEN": {
+     "n": 282,
+     "mean_pct": -1.248,
+     "se_pct": 0.824,
+     "jk_drop_top5pct_mean_pct": -3.404,
+     "n_eff": 26.0,
+     "breadth_pos": 11,
+     "breadth_tot": 34
+    }
+   },
+   "note": "regime_dna r2 (fair jk, per-trade SE, regime-filtered null)"
+  },
+  {
+   "name": "SYS_A_UPonly[u50]",
+   "kind": "TRADES_DERIVED",
+   "source": "regime_dna_u50_1d_trend_20260611_110541.json",
+   "claim_tag": "VERIFIED",
+   "per_split": {
+    "OOS": {
+     "n": 225,
+     "mean": 0.06407505046811435,
+     "median": -0.029445964125560484,
+     "se": 0.02630183402419686,
+     "win": 0.37333333333333335,
+     "pf": 2.223799782522732,
+     "sum": 14.41688635532573,
+     "jk_drop_top5pct_mean": -0.009079660370431553,
+     "n_eff_pos": 20.0139725138539
+    },
+    "UNSEEN": {
+     "n": 105,
+     "mean": 0.011847347977201722,
+     "median": -0.019113652839307257,
+     "se": 0.0178724009629683,
+     "win": 0.3904761904761905,
+     "pf": 1.2933665454789294,
+     "sum": 1.2439715376061808,
+     "jk_drop_top5pct_mean": -0.02151213420224543,
+     "n_eff_pos": 9.76724136427029
+    }
+   },
+   "note": "UP-regime-only cells (the beta/trend component that survives)"
+  },
+  {
+   "name": "Family2_mover_rotation",
+   "kind": "LAB_INGEST",
+   "source": "momentum_rotation_lab_2026-06-10.json",
+   "claim_tag": "REPORTED",
+   "gate_failed": "UNSEEN +172% compound but n_eff 4.1, firewall+PBO NOT RUN (concentration-fragile)"
+  },
+  {
+   "name": "trend_book_lab",
+   "kind": "LAB_INGEST",
+   "source": "trend_book_lab_2026-06-10.json",
+   "claim_tag": "REPORTED",
+   "gate_failed": "UNSEEN 0 trades (flat in bear); OOS -7.5%/yr; bear-abstention mechanism"
+  },
+  {
+   "name": "symmetric_trend_LS_perp",
+   "kind": "LAB_INGEST",
+   "source": "symmetric_trend_book_2026-06-10.json",
+   "claim_tag": "REPORTED",
+   "gate_failed": "UNSEEN +13.8%/yr on 4 short trades (n too small); oos_beats_baseline=false"
+  },
+  {
+   "name": "setup_chaser_book",
+   "kind": "LAB_INGEST",
+   "source": "setup_chaser_book_2026-06-10.json",
+   "claim_tag": "REPORTED",
+   "gate_failed": "UNSEEN -33%/yr; battery FAIL jk3 -14.6 p05 -16.9 PBO 0.79 (clean NULL)"
+  },
+  {
+   "name": "alt_bar_trend(Renko/Range/HA)",
+   "kind": "LAB_INGEST",
+   "source": "alt_bar_trend_lab_2026-06-10.json",
+   "claim_tag": "REPORTED",
+   "gate_failed": "UNSEEN -20 to -53%/yr; firewall_beats_null=false 0/10 seeds (NULL)"
+  }
+ ]
+}

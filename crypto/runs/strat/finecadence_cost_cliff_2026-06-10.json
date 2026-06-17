@@ -1,0 +1,290 @@
+{
+  "run_date": "2026-06-10",
+  "test": "finecadence_cost_cliff",
+  "cadences": [
+    "1h",
+    "30m",
+    "15m"
+  ],
+  "assets": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "BNBUSDT",
+    "XRPUSDT",
+    "DOGEUSDT"
+  ],
+  "cost_taker_rt": 0.0024,
+  "cost_maker_rt": 0.0006,
+  "maker_caveat": "maker 0.06% RT assumes ~100% fill; realistic p_fill 0.21-0.40 (MakerCostModel). Live equity ~50-75% of fixed-maker number. Maker = SENSITIVITY/upper-bound, not a deploy number.",
+  "cost_cliff_table": {
+    "1h": {
+      "F1": {
+        "best_key": "rm40d_atr4.0_em10d",
+        "taker": {
+          "cagr": -52.96,
+          "compound": -26.33,
+          "maxdd": -50.49,
+          "n_trades": 287
+        },
+        "maker": {
+          "cagr": -41.75,
+          "compound": -19.667,
+          "maxdd": -44.58,
+          "n_trades": 287
+        },
+        "windows_taker": {
+          "TRAIN": {
+            "compound": -95.604,
+            "cagr": -51.21
+          },
+          "VAL": {
+            "compound": -47.338,
+            "cagr": -53.72
+          },
+          "OOS": {
+            "compound": -40.841,
+            "cagr": -48.26
+          },
+          "UNSEEN": {
+            "compound": -26.33,
+            "cagr": -52.96
+          }
+        }
+      },
+      "F2": {
+        "best_key": "lb20d_K3_rb2d_ma50d_atr8",
+        "taker": {
+          "cagr": 1.6,
+          "compound": 0.646,
+          "maxdd": -1.05,
+          "n_trades": 1
+        },
+        "maker": {
+          "cagr": 1.83,
+          "compound": 0.736,
+          "maxdd": -1.05,
+          "n_trades": 1
+        },
+        "windows_taker": {
+          "TRAIN": {
+            "compound": 48.986,
+            "cagr": 9.59
+          },
+          "VAL": {
+            "compound": -1.525,
+            "cagr": -1.83
+          },
+          "OOS": {
+            "compound": 5.937,
+            "cagr": 7.51
+          },
+          "UNSEEN": {
+            "compound": 0.646,
+            "cagr": 1.6
+          }
+        }
+      }
+    },
+    "30m": {
+      "F1": {
+        "best_key": "rm40d_atr4.0_em10d",
+        "taker": {
+          "cagr": -69.24,
+          "compound": -37.983,
+          "maxdd": -70.38,
+          "n_trades": 547
+        },
+        "maker": {
+          "cagr": -53.8,
+          "compound": -26.87,
+          "maxdd": -63.1,
+          "n_trades": 547
+        },
+        "windows_taker": {
+          "TRAIN": {
+            "compound": -99.683,
+            "cagr": -73.33
+          },
+          "VAL": {
+            "compound": -67.581,
+            "cagr": -74.16
+          },
+          "OOS": {
+            "compound": -57.824,
+            "cagr": -66.16
+          },
+          "UNSEEN": {
+            "compound": -37.983,
+            "cagr": -69.24
+          }
+        }
+      },
+      "F2": {
+        "best_key": "lb10d_K3_rb2d_ma50d_atr8",
+        "taker": {
+          "cagr": 8.15,
+          "compound": 3.224,
+          "maxdd": -0.48,
+          "n_trades": 1
+        },
+        "maker": {
+          "cagr": 8.39,
+          "compound": 3.317,
+          "maxdd": -0.48,
+          "n_trades": 1
+        },
+        "windows_taker": {
+          "TRAIN": {
+            "compound": 50.77,
+            "cagr": 9.89
+          },
+          "VAL": {
+            "compound": -0.347,
+            "cagr": -0.42
+          },
+          "OOS": {
+            "compound": 0.0,
+            "cagr": 0.0
+          },
+          "UNSEEN": {
+            "compound": 3.224,
+            "cagr": 8.15
+          }
+        }
+      }
+    },
+    "15m": {
+      "F1": {
+        "best_key": "rm40d_atr4.0_em10d",
+        "taker": {
+          "cagr": -85.55,
+          "compound": -54.335,
+          "maxdd": -81.68,
+          "n_trades": 991
+        },
+        "maker": {
+          "cagr": -69.82,
+          "compound": -38.453,
+          "maxdd": -73.84,
+          "n_trades": 991
+        },
+        "windows_taker": {
+          "TRAIN": {
+            "compound": -99.993,
+            "cagr": -88.89
+          },
+          "VAL": {
+            "compound": -86.298,
+            "cagr": -90.82
+          },
+          "OOS": {
+            "compound": -81.746,
+            "cagr": -88.17
+          },
+          "UNSEEN": {
+            "compound": -54.335,
+            "cagr": -85.55
+          }
+        }
+      },
+      "F2": {
+        "best_key": "lb10d_K3_rb5d_ma50d_atr8",
+        "taker": {
+          "cagr": 0.0,
+          "compound": 0.0,
+          "maxdd": 0.0,
+          "n_trades": 0
+        },
+        "maker": {
+          "cagr": 0.0,
+          "compound": 0.0,
+          "maxdd": 0.0,
+          "n_trades": 0
+        },
+        "windows_taker": {
+          "TRAIN": {
+            "compound": 30.503,
+            "cagr": 6.31
+          },
+          "VAL": {
+            "compound": 0.0,
+            "cagr": 0.0
+          },
+          "OOS": {
+            "compound": 0.0,
+            "cagr": 0.0
+          },
+          "UNSEEN": {
+            "compound": 0.0,
+            "cagr": 0.0
+          }
+        }
+      }
+    }
+  },
+  "buy_and_hold_cagr_by_cadence": {
+    "1h": {
+      "TRAIN": 108.24,
+      "VAL": 79.23,
+      "OOS": 9.38,
+      "UNSEEN": -52.86
+    },
+    "30m": {
+      "TRAIN": 108.21,
+      "VAL": 77.5,
+      "OOS": 8.1,
+      "UNSEEN": -52.39
+    },
+    "15m": {
+      "TRAIN": 108.13,
+      "VAL": 78.25,
+      "OOS": 8.29,
+      "UNSEEN": -52.33
+    }
+  },
+  "best_fine_config": {
+    "cadence": "30m",
+    "family": "F2",
+    "cost": "maker",
+    "unseen_cagr_pct_yr": 8.39
+  },
+  "best_fine_gate_verdict": {
+    "battery_verdict": "FAIL",
+    "lens_A": false,
+    "lens_B": false,
+    "n_months": 6,
+    "n_eff": 1.3,
+    "jk2": 0.0,
+    "jk3": 0.0,
+    "p05": 0.0,
+    "all_4_positive": false,
+    "pbo": {
+      "error": "T=6 too small for S=6 blocks (need >=2 rows/block)",
+      "pbo": null
+    },
+    "firewall_beats_null": false
+  },
+  "best_fine_maker": {
+    "cadence": "30m",
+    "family": "F2",
+    "unseen_cagr_pct_yr": 8.39
+  },
+  "best_fine_taker": {
+    "cadence": "30m",
+    "family": "F2",
+    "unseen_cagr_pct_yr": 8.15
+  },
+  "maker_rescues_a_band": false,
+  "one_line_verdict": "COST-WALL CONFIRMED at 15m/30m: best fine TAKER=+8%/yr (30m F2), best fine MAKER=+8%/yr (30m F2); maker lifts but does NOT rescue a band-clearing robust LO winner. Finer-than-1h does not overcome the fixed cost vs shrinking move.",
+  "pre_delivery_self_audit": {
+    "look_ahead": "PASS -- entry fill=opens[i+1]; ATR/rolling-high use [..j-1]; MA past-only rolling; F1 rvol shift(1); F2 trailing ret uses closes[t-N]; Pattern S breach via lows[j].",
+    "unseen_once": "PASS -- best config selected on TRAIN+VAL tune only; UNSEEN reported after.",
+    "real_chimera": "PASS -- ChimeraLoader 15m/30m/1h OHLC (real data, full 2020-2026 span).",
+    "cost_both": "PASS -- taker 0.0024 primary + maker 0.0006 sensitivity per trade.",
+    "maker_pfill_caveat": "STATED -- maker number is an upper bound (p_fill 0.21-0.40); not a deploy figure.",
+    "no_leverage": "PASS -- vol-target capped at 1.0; F2 exposure renormalized to <= 1.0.",
+    "no_manufactured_edge": "PASS -- honest UNSEEN reported; rescue flagged ONLY if gate passes AND band clears.",
+    "no_emoji": "PASS."
+  }
+}

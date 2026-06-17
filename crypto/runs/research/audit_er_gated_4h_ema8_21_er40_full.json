@@ -1,0 +1,3126 @@
+{
+  "config": {
+    "cadence": "4h",
+    "taker": 0.0024,
+    "ma": [
+      8,
+      21,
+      "ema"
+    ],
+    "er_thr": 0.4,
+    "exit": "signal_flip_or_filter",
+    "null": "regime_matched_gate_on",
+    "n_books": 200,
+    "windows": {
+      "train_end": "2024-05-15",
+      "val_end": "2025-03-15",
+      "oos_end": "2025-12-31",
+      "unseen_end": "2026-05-22",
+      "train_start": null
+    }
+  },
+  "pooled": {
+    "n_assets_loaded": 77,
+    "n_assets_evaluated": 77,
+    "n_assets_beat_regime_null_held": 0,
+    "n_assets_ship_real_edge_held": 0,
+    "pooled_unseen_n": 582,
+    "pooled_unseen_exp_pct": -0.8429,
+    "pooled_unseen_median_pct": -0.9021,
+    "pooled_unseen_winrate": 0.3849,
+    "in_2_5_band": false,
+    "pooled_oos_n": 1283,
+    "pooled_oos_exp_pct": -0.4835,
+    "battery_pooled_unseen": {
+      "p05": -99.99,
+      "p50": -99.82,
+      "p95": -97.25,
+      "jk2": -99.79,
+      "jk3": -99.84,
+      "n_eff": 226.0,
+      "p05_gt_0": false
+    }
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -79.82,
+          "null_p95": 13.85,
+          "beats_null": false,
+          "n": 164
+        },
+        "VAL": {
+          "real": -8.41,
+          "null_p95": 24.85,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -15.7,
+          "null_p95": 11.32,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": -6.33,
+          "null_p95": 7.86,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "comp": {
+        "TRAIN": -79.82,
+        "VAL": -8.41,
+        "OOS": -15.7,
+        "UNSEEN": -6.33
+      },
+      "n_unseen": 8,
+      "unseen_exp_pct": -0.8049
+    },
+    "ETHUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -55.18,
+          "null_p95": 26.26,
+          "beats_null": false,
+          "n": 139
+        },
+        "VAL": {
+          "real": -6.66,
+          "null_p95": 19.05,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -3.0,
+          "null_p95": 55.11,
+          "beats_null": false,
+          "n": 31
+        },
+        "UNSEEN": {
+          "real": -8.64,
+          "null_p95": 4.82,
+          "beats_null": false,
+          "n": 13
+        }
+      },
+      "comp": {
+        "TRAIN": -55.18,
+        "VAL": -6.66,
+        "OOS": -3.0,
+        "UNSEEN": -8.64
+      },
+      "n_unseen": 13,
+      "unseen_exp_pct": -0.6617
+    },
+    "SOLUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -44.91,
+          "null_p95": 187.7,
+          "beats_null": false,
+          "n": 103
+        },
+        "VAL": {
+          "real": -20.52,
+          "null_p95": 68.67,
+          "beats_null": false,
+          "n": 26
+        },
+        "OOS": {
+          "real": -27.6,
+          "null_p95": 15.39,
+          "beats_null": false,
+          "n": 27
+        },
+        "UNSEEN": {
+          "real": 11.5,
+          "null_p95": 25.99,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "comp": {
+        "TRAIN": -44.91,
+        "VAL": -20.52,
+        "OOS": -27.6,
+        "UNSEEN": 11.5
+      },
+      "n_unseen": 8,
+      "unseen_exp_pct": 1.4069
+    },
+    "XRPUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -65.45,
+          "null_p95": 177.47,
+          "beats_null": false,
+          "n": 100
+        },
+        "VAL": {
+          "real": -38.93,
+          "null_p95": 85.41,
+          "beats_null": false,
+          "n": 27
+        },
+        "OOS": {
+          "real": -9.58,
+          "null_p95": 21.28,
+          "beats_null": false,
+          "n": 14
+        },
+        "UNSEEN": {
+          "real": -8.56,
+          "null_p95": 21.71,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": -65.45,
+        "VAL": -38.93,
+        "OOS": -9.58,
+        "UNSEEN": -8.56
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": -1.225
+    },
+    "BNBUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -59.71,
+          "null_p95": 91.08,
+          "beats_null": false,
+          "n": 131
+        },
+        "VAL": {
+          "real": 11.69,
+          "null_p95": 23.66,
+          "beats_null": false,
+          "n": 26
+        },
+        "OOS": {
+          "real": -15.83,
+          "null_p95": 9.1,
+          "beats_null": false,
+          "n": 22
+        },
+        "UNSEEN": {
+          "real": -6.24,
+          "null_p95": 4.49,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": -59.71,
+        "VAL": 11.69,
+        "OOS": -15.83,
+        "UNSEEN": -6.24
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -0.71
+    },
+    "DOGEUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -74.72,
+          "null_p95": 405.94,
+          "beats_null": false,
+          "n": 86
+        },
+        "VAL": {
+          "real": -9.75,
+          "null_p95": 56.0,
+          "beats_null": false,
+          "n": 26
+        },
+        "OOS": {
+          "real": -1.29,
+          "null_p95": 50.07,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": -3.37,
+          "null_p95": 17.66,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": -74.72,
+        "VAL": -9.75,
+        "OOS": -1.29,
+        "UNSEEN": -3.37
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -0.2523
+    },
+    "ZECUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": true,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -71.18,
+          "null_p95": 125.33,
+          "beats_null": false,
+          "n": 92
+        },
+        "VAL": {
+          "real": -45.75,
+          "null_p95": 33.04,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": 13.44,
+          "null_p95": 129.55,
+          "beats_null": false,
+          "n": 32
+        },
+        "UNSEEN": {
+          "real": 18.16,
+          "null_p95": 60.56,
+          "beats_null": false,
+          "n": 12
+        }
+      },
+      "comp": {
+        "TRAIN": -71.18,
+        "VAL": -45.75,
+        "OOS": 13.44,
+        "UNSEEN": 18.16
+      },
+      "n_unseen": 12,
+      "unseen_exp_pct": 1.8369
+    },
+    "TRXUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -68.32,
+          "null_p95": 53.05,
+          "beats_null": false,
+          "n": 127
+        },
+        "VAL": {
+          "real": -33.61,
+          "null_p95": 57.14,
+          "beats_null": false,
+          "n": 32
+        },
+        "OOS": {
+          "real": -12.48,
+          "null_p95": 9.61,
+          "beats_null": false,
+          "n": 22
+        },
+        "UNSEEN": {
+          "real": -6.45,
+          "null_p95": 3.59,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "comp": {
+        "TRAIN": -68.32,
+        "VAL": -33.61,
+        "OOS": -12.48,
+        "UNSEEN": -6.45
+      },
+      "n_unseen": 10,
+      "unseen_exp_pct": -0.6555
+    },
+    "PEPEUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -48.22,
+          "null_p95": 138.95,
+          "beats_null": false,
+          "n": 23
+        },
+        "VAL": {
+          "real": -50.86,
+          "null_p95": 129.2,
+          "beats_null": false,
+          "n": 15
+        },
+        "OOS": {
+          "real": -3.57,
+          "null_p95": 46.27,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": -13.9,
+          "null_p95": 19.64,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -48.22,
+        "VAL": -50.86,
+        "OOS": -3.57,
+        "UNSEEN": -13.9
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -2.3589
+    },
+    "ADAUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -49.49,
+          "null_p95": 129.38,
+          "beats_null": false,
+          "n": 127
+        },
+        "VAL": {
+          "real": -20.89,
+          "null_p95": 125.86,
+          "beats_null": false,
+          "n": 26
+        },
+        "OOS": {
+          "real": -12.11,
+          "null_p95": 20.12,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -5.64,
+          "null_p95": 8.84,
+          "beats_null": false,
+          "n": 4
+        }
+      },
+      "comp": {
+        "TRAIN": -49.49,
+        "VAL": -20.89,
+        "OOS": -12.11,
+        "UNSEEN": -5.64
+      },
+      "n_unseen": 4,
+      "unseen_exp_pct": -1.3861
+    },
+    "LINKUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -65.24,
+          "null_p95": 203.48,
+          "beats_null": false,
+          "n": 126
+        },
+        "VAL": {
+          "real": -1.54,
+          "null_p95": 46.82,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": -21.12,
+          "null_p95": 17.41,
+          "beats_null": false,
+          "n": 13
+        },
+        "UNSEEN": {
+          "real": -17.33,
+          "null_p95": 2.25,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "comp": {
+        "TRAIN": -65.24,
+        "VAL": -1.54,
+        "OOS": -21.12,
+        "UNSEEN": -17.33
+      },
+      "n_unseen": 10,
+      "unseen_exp_pct": -1.844
+    },
+    "SUIUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 15.93,
+          "null_p95": 41.99,
+          "beats_null": false,
+          "n": 15
+        },
+        "VAL": {
+          "real": -34.71,
+          "null_p95": 51.51,
+          "beats_null": false,
+          "n": 28
+        },
+        "OOS": {
+          "real": 14.13,
+          "null_p95": 55.73,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": -3.01,
+          "null_p95": 16.64,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": 15.93,
+        "VAL": -34.71,
+        "OOS": 14.13,
+        "UNSEEN": -3.01
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -0.4793
+    },
+    "AVAXUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -38.49,
+          "null_p95": 334.94,
+          "beats_null": false,
+          "n": 87
+        },
+        "VAL": {
+          "real": -2.89,
+          "null_p95": 29.14,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": 5.1,
+          "null_p95": 23.79,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": -1.13,
+          "null_p95": 21.5,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -38.49,
+        "VAL": -2.89,
+        "OOS": 5.1,
+        "UNSEEN": -1.13
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -0.1816
+    },
+    "TAOUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 26.42,
+          "null_p95": 68.27,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -1.6,
+          "null_p95": 22.16,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -22.64,
+          "null_p95": 24.57,
+          "beats_null": false,
+          "n": 13
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 26.42,
+        "OOS": -1.6,
+        "UNSEEN": -22.64
+      },
+      "n_unseen": 13,
+      "unseen_exp_pct": -1.8938
+    },
+    "FETUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -64.1,
+          "null_p95": 122.81,
+          "beats_null": false,
+          "n": 87
+        },
+        "VAL": {
+          "real": -3.18,
+          "null_p95": 45.18,
+          "beats_null": false,
+          "n": 19
+        },
+        "OOS": {
+          "real": -30.22,
+          "null_p95": 101.46,
+          "beats_null": false,
+          "n": 14
+        },
+        "UNSEEN": {
+          "real": -18.93,
+          "null_p95": 35.47,
+          "beats_null": false,
+          "n": 14
+        }
+      },
+      "comp": {
+        "TRAIN": -64.1,
+        "VAL": -3.18,
+        "OOS": -30.22,
+        "UNSEEN": -18.93
+      },
+      "n_unseen": 14,
+      "unseen_exp_pct": -1.3997
+    },
+    "ENJUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -55.74,
+          "null_p95": 130.13,
+          "beats_null": false,
+          "n": 91
+        },
+        "VAL": {
+          "real": -26.46,
+          "null_p95": 27.02,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -6.88,
+          "null_p95": 28.14,
+          "beats_null": false,
+          "n": 11
+        },
+        "UNSEEN": {
+          "real": 92.38,
+          "null_p95": 96.6,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": -55.74,
+        "VAL": -26.46,
+        "OOS": -6.88,
+        "UNSEEN": 92.38
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": 11.8529
+    },
+    "ORDIUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -58.43,
+          "null_p95": 72.45,
+          "beats_null": false,
+          "n": 11
+        },
+        "VAL": {
+          "real": -30.69,
+          "null_p95": 23.81,
+          "beats_null": false,
+          "n": 13
+        },
+        "OOS": {
+          "real": -17.39,
+          "null_p95": 25.1,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": 2.3,
+          "null_p95": 76.15,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "comp": {
+        "TRAIN": -58.43,
+        "VAL": -30.69,
+        "OOS": -17.39,
+        "UNSEEN": 2.3
+      },
+      "n_unseen": 8,
+      "unseen_exp_pct": 1.2528
+    },
+    "NEARUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -26.84,
+          "null_p95": 163.47,
+          "beats_null": false,
+          "n": 84
+        },
+        "VAL": {
+          "real": 8.33,
+          "null_p95": 57.27,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -27.6,
+          "null_p95": 22.17,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -20.22,
+          "null_p95": 42.71,
+          "beats_null": false,
+          "n": 12
+        }
+      },
+      "comp": {
+        "TRAIN": -26.84,
+        "VAL": 8.33,
+        "OOS": -27.6,
+        "UNSEEN": -20.22
+      },
+      "n_unseen": 12,
+      "unseen_exp_pct": -1.646
+    },
+    "WLDUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": true,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -37.83,
+          "null_p95": 60.58,
+          "beats_null": false,
+          "n": 17
+        },
+        "VAL": {
+          "real": 7.92,
+          "null_p95": 44.86,
+          "beats_null": false,
+          "n": 11
+        },
+        "OOS": {
+          "real": 85.63,
+          "null_p95": 188.68,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": 12.0,
+          "null_p95": 10.71,
+          "beats_null": true,
+          "n": 13
+        }
+      },
+      "comp": {
+        "TRAIN": -37.83,
+        "VAL": 7.92,
+        "OOS": 85.63,
+        "UNSEEN": 12.0
+      },
+      "n_unseen": 13,
+      "unseen_exp_pct": 1.0031
+    },
+    "ENAUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -29.34,
+          "null_p95": 29.35,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": -33.65,
+          "null_p95": 54.4,
+          "beats_null": false,
+          "n": 25
+        },
+        "UNSEEN": {
+          "real": -20.63,
+          "null_p95": 10.91,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": -29.34,
+        "OOS": -33.65,
+        "UNSEEN": -20.63
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -2.4567
+    },
+    "LTCUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -68.59,
+          "null_p95": 68.41,
+          "beats_null": false,
+          "n": 115
+        },
+        "VAL": {
+          "real": -7.9,
+          "null_p95": 46.82,
+          "beats_null": false,
+          "n": 29
+        },
+        "OOS": {
+          "real": -6.93,
+          "null_p95": 24.36,
+          "beats_null": false,
+          "n": 13
+        },
+        "UNSEEN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        }
+      },
+      "comp": {
+        "TRAIN": -68.59,
+        "VAL": -7.9,
+        "OOS": -6.93,
+        "UNSEEN": 0.0
+      },
+      "n_unseen": 0,
+      "unseen_exp_pct": null
+    },
+    "AAVEUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -16.37,
+          "null_p95": 55.82,
+          "beats_null": false,
+          "n": 83
+        },
+        "VAL": {
+          "real": 28.3,
+          "null_p95": 90.75,
+          "beats_null": false,
+          "n": 24
+        },
+        "OOS": {
+          "real": -13.24,
+          "null_p95": 17.42,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -5.18,
+          "null_p95": 13.54,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": -16.37,
+        "VAL": 28.3,
+        "OOS": -13.24,
+        "UNSEEN": -5.18
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -0.5324
+    },
+    "DASHUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 21.3,
+          "null_p95": 197.41,
+          "beats_null": false,
+          "n": 95
+        },
+        "VAL": {
+          "real": 10.55,
+          "null_p95": 34.43,
+          "beats_null": false,
+          "n": 23
+        },
+        "OOS": {
+          "real": -51.61,
+          "null_p95": 133.51,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": 10.99,
+          "null_p95": 72.53,
+          "beats_null": false,
+          "n": 15
+        }
+      },
+      "comp": {
+        "TRAIN": 21.3,
+        "VAL": 10.55,
+        "OOS": -51.61,
+        "UNSEEN": 10.99
+      },
+      "n_unseen": 15,
+      "unseen_exp_pct": 1.1094
+    },
+    "UNIUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -79.09,
+          "null_p95": 126.05,
+          "beats_null": false,
+          "n": 93
+        },
+        "VAL": {
+          "real": -37.16,
+          "null_p95": 29.77,
+          "beats_null": false,
+          "n": 25
+        },
+        "OOS": {
+          "real": -26.42,
+          "null_p95": 61.57,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -13.2,
+          "null_p95": 11.05,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -79.09,
+        "VAL": -37.16,
+        "OOS": -26.42,
+        "UNSEEN": -13.2
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -2.2892
+    },
+    "BCHUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -65.47,
+          "null_p95": 130.24,
+          "beats_null": false,
+          "n": 115
+        },
+        "VAL": {
+          "real": -22.59,
+          "null_p95": 34.22,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -15.49,
+          "null_p95": 13.08,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -7.72,
+          "null_p95": 10.5,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": -65.47,
+        "VAL": -22.59,
+        "OOS": -15.49,
+        "UNSEEN": -7.72
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -1.588
+    },
+    "PENGUUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 7.6,
+          "null_p95": 18.7,
+          "beats_null": false,
+          "n": 3
+        },
+        "OOS": {
+          "real": 16.8,
+          "null_p95": 125.76,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": -11.66,
+          "null_p95": 18.77,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 7.6,
+        "OOS": 16.8,
+        "UNSEEN": -11.66
+      },
+      "n_unseen": 10,
+      "unseen_exp_pct": -1.0829
+    },
+    "DOTUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -52.21,
+          "null_p95": 71.87,
+          "beats_null": false,
+          "n": 93
+        },
+        "VAL": {
+          "real": -16.53,
+          "null_p95": 49.73,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -13.58,
+          "null_p95": 34.86,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": -25.81,
+          "null_p95": 6.67,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": -52.21,
+        "VAL": -16.53,
+        "OOS": -13.58,
+        "UNSEEN": -25.81
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": -4.0211
+    },
+    "TONUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 2.95,
+          "null_p95": 17.86,
+          "beats_null": false,
+          "n": 7
+        },
+        "OOS": {
+          "real": -14.61,
+          "null_p95": 14.38,
+          "beats_null": false,
+          "n": 10
+        },
+        "UNSEEN": {
+          "real": -11.75,
+          "null_p95": 88.75,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 2.95,
+        "OOS": -14.61,
+        "UNSEEN": -11.75
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -0.9242
+    },
+    "APTUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -41.66,
+          "null_p95": 51.3,
+          "beats_null": false,
+          "n": 36
+        },
+        "VAL": {
+          "real": -12.99,
+          "null_p95": 75.73,
+          "beats_null": false,
+          "n": 19
+        },
+        "OOS": {
+          "real": -1.82,
+          "null_p95": 59.67,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -6.9,
+          "null_p95": 14.65,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": -41.66,
+        "VAL": -12.99,
+        "OOS": -1.82,
+        "UNSEEN": -6.9
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -1.3359
+    },
+    "FILUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -74.56,
+          "null_p95": 53.61,
+          "beats_null": false,
+          "n": 91
+        },
+        "VAL": {
+          "real": -20.77,
+          "null_p95": 71.95,
+          "beats_null": false,
+          "n": 29
+        },
+        "OOS": {
+          "real": 2.11,
+          "null_p95": 35.16,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": -20.81,
+          "null_p95": 10.23,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -74.56,
+        "VAL": -20.77,
+        "OOS": 2.11,
+        "UNSEEN": -20.81
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -3.5669
+    },
+    "RENDERUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": true,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -15.6,
+          "null_p95": 46.07,
+          "beats_null": false,
+          "n": 12
+        },
+        "OOS": {
+          "real": 7.62,
+          "null_p95": 67.24,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": 31.78,
+          "null_p95": 134.82,
+          "beats_null": false,
+          "n": 15
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": -15.6,
+        "OOS": 7.62,
+        "UNSEEN": 31.78
+      },
+      "n_unseen": 15,
+      "unseen_exp_pct": 2.073
+    },
+    "HBARUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -68.45,
+          "null_p95": 30.83,
+          "beats_null": false,
+          "n": 89
+        },
+        "VAL": {
+          "real": 2.2,
+          "null_p95": 86.39,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -8.73,
+          "null_p95": 30.22,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -7.46,
+          "null_p95": 3.83,
+          "beats_null": false,
+          "n": 2
+        }
+      },
+      "comp": {
+        "TRAIN": -68.45,
+        "VAL": 2.2,
+        "OOS": -8.73,
+        "UNSEEN": -7.46
+      },
+      "n_unseen": 2,
+      "unseen_exp_pct": -3.7504
+    },
+    "ARBUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -1.08,
+          "null_p95": 39.9,
+          "beats_null": false,
+          "n": 25
+        },
+        "VAL": {
+          "real": -28.62,
+          "null_p95": 17.07,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -18.06,
+          "null_p95": 48.61,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": -9.37,
+          "null_p95": 7.54,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -1.08,
+        "VAL": -28.62,
+        "OOS": -18.06,
+        "UNSEEN": -9.37
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -1.5115
+    },
+    "TRUMPUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -21.8,
+          "null_p95": 16.22,
+          "beats_null": false,
+          "n": 1
+        },
+        "OOS": {
+          "real": -13.32,
+          "null_p95": 30.19,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": 0.04,
+          "null_p95": 15.53,
+          "beats_null": false,
+          "n": 4
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": -21.8,
+        "OOS": -13.32,
+        "UNSEEN": 0.04
+      },
+      "n_unseen": 4,
+      "unseen_exp_pct": 0.0232
+    },
+    "TREEUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": 25.12,
+          "null_p95": 30.2,
+          "beats_null": false,
+          "n": 4
+        },
+        "UNSEEN": {
+          "real": -5.35,
+          "null_p95": 14.22,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": 25.12,
+        "UNSEEN": -5.35
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -0.977
+    },
+    "SHIBUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -83.52,
+          "null_p95": 239.08,
+          "beats_null": false,
+          "n": 69
+        },
+        "VAL": {
+          "real": -25.74,
+          "null_p95": 49.09,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": -8.61,
+          "null_p95": 33.96,
+          "beats_null": false,
+          "n": 26
+        },
+        "UNSEEN": {
+          "real": -11.16,
+          "null_p95": 7.76,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": -83.52,
+        "VAL": -25.74,
+        "OOS": -8.61,
+        "UNSEEN": -11.16
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -2.2068
+    },
+    "ALGOUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": true,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -78.37,
+          "null_p95": 42.38,
+          "beats_null": false,
+          "n": 86
+        },
+        "VAL": {
+          "real": -10.38,
+          "null_p95": 59.81,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": 9.19,
+          "null_p95": 62.75,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": 12.65,
+          "null_p95": 31.82,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": -78.37,
+        "VAL": -10.38,
+        "OOS": 9.19,
+        "UNSEEN": 12.65
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": 1.5163
+    },
+    "BONKUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -26.03,
+          "null_p95": 82.11,
+          "beats_null": false,
+          "n": 6
+        },
+        "VAL": {
+          "real": 3.08,
+          "null_p95": 38.83,
+          "beats_null": false,
+          "n": 11
+        },
+        "OOS": {
+          "real": 2.42,
+          "null_p95": 89.83,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -11.28,
+          "null_p95": 28.31,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -26.03,
+        "VAL": 3.08,
+        "OOS": 2.42,
+        "UNSEEN": -11.28
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -1.8832
+    },
+    "WIFUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -5.95,
+          "null_p95": 4.34,
+          "beats_null": false,
+          "n": 1
+        },
+        "VAL": {
+          "real": -13.63,
+          "null_p95": 51.99,
+          "beats_null": false,
+          "n": 14
+        },
+        "OOS": {
+          "real": -19.15,
+          "null_p95": 50.04,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": -16.71,
+          "null_p95": 3.35,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -5.95,
+        "VAL": -13.63,
+        "OOS": -19.15,
+        "UNSEEN": -16.71
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -2.9904
+    },
+    "ICPUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -45.74,
+          "null_p95": 84.31,
+          "beats_null": false,
+          "n": 58
+        },
+        "VAL": {
+          "real": -3.52,
+          "null_p95": 44.47,
+          "beats_null": false,
+          "n": 15
+        },
+        "OOS": {
+          "real": -18.81,
+          "null_p95": 67.67,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": 22.78,
+          "null_p95": 30.51,
+          "beats_null": false,
+          "n": 4
+        }
+      },
+      "comp": {
+        "TRAIN": -45.74,
+        "VAL": -3.52,
+        "OOS": -18.81,
+        "UNSEEN": 22.78
+      },
+      "n_unseen": 4,
+      "unseen_exp_pct": 5.4125
+    },
+    "SEIUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -25.27,
+          "null_p95": 39.35,
+          "beats_null": false,
+          "n": 18
+        },
+        "VAL": {
+          "real": -14.72,
+          "null_p95": 31.74,
+          "beats_null": false,
+          "n": 16
+        },
+        "OOS": {
+          "real": -27.7,
+          "null_p95": 35.9,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -13.74,
+          "null_p95": 13.24,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": -25.27,
+        "VAL": -14.72,
+        "OOS": -27.7,
+        "UNSEEN": -13.74
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": -2.0721
+    },
+    "JSTUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -69.04,
+          "null_p95": 49.25,
+          "beats_null": false,
+          "n": 109
+        },
+        "VAL": {
+          "real": -40.73,
+          "null_p95": 19.43,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -26.58,
+          "null_p95": 7.92,
+          "beats_null": false,
+          "n": 33
+        },
+        "UNSEEN": {
+          "real": -6.82,
+          "null_p95": 9.84,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "comp": {
+        "TRAIN": -69.04,
+        "VAL": -40.73,
+        "OOS": -26.58,
+        "UNSEEN": -6.82
+      },
+      "n_unseen": 10,
+      "unseen_exp_pct": -0.6429
+    },
+    "CRVUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -8.86,
+          "null_p95": 153.07,
+          "beats_null": false,
+          "n": 74
+        },
+        "VAL": {
+          "real": 5.82,
+          "null_p95": 109.11,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": 2.64,
+          "null_p95": 58.87,
+          "beats_null": false,
+          "n": 15
+        },
+        "UNSEEN": {
+          "real": -10.22,
+          "null_p95": 8.56,
+          "beats_null": false,
+          "n": 3
+        }
+      },
+      "comp": {
+        "TRAIN": -8.86,
+        "VAL": 5.82,
+        "OOS": 2.64,
+        "UNSEEN": -10.22
+      },
+      "n_unseen": 3,
+      "unseen_exp_pct": -3.5273
+    },
+    "BLURUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -3.93,
+          "null_p95": 7.03,
+          "beats_null": false,
+          "n": 3
+        },
+        "VAL": {
+          "real": -40.61,
+          "null_p95": 53.71,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": 12.64,
+          "null_p95": 26.42,
+          "beats_null": false,
+          "n": 10
+        },
+        "UNSEEN": {
+          "real": -7.18,
+          "null_p95": 16.69,
+          "beats_null": false,
+          "n": 4
+        }
+      },
+      "comp": {
+        "TRAIN": -3.93,
+        "VAL": -40.61,
+        "OOS": 12.64,
+        "UNSEEN": -7.18
+      },
+      "n_unseen": 4,
+      "unseen_exp_pct": -1.2675
+    },
+    "LDOUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 10.8,
+          "null_p95": 103.9,
+          "beats_null": false,
+          "n": 40
+        },
+        "VAL": {
+          "real": -9.8,
+          "null_p95": 24.01,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": 21.98,
+          "null_p95": 65.86,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -6.85,
+          "null_p95": 19.02,
+          "beats_null": false,
+          "n": 3
+        }
+      },
+      "comp": {
+        "TRAIN": 10.8,
+        "VAL": -9.8,
+        "OOS": 21.98,
+        "UNSEEN": -6.85
+      },
+      "n_unseen": 3,
+      "unseen_exp_pct": -2.1995
+    },
+    "OPUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 5.75,
+          "null_p95": 47.61,
+          "beats_null": false,
+          "n": 44
+        },
+        "VAL": {
+          "real": -1.46,
+          "null_p95": 38.34,
+          "beats_null": false,
+          "n": 19
+        },
+        "OOS": {
+          "real": -19.64,
+          "null_p95": 36.26,
+          "beats_null": false,
+          "n": 26
+        },
+        "UNSEEN": {
+          "real": 10.56,
+          "null_p95": 20.17,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "comp": {
+        "TRAIN": 5.75,
+        "VAL": -1.46,
+        "OOS": -19.64,
+        "UNSEEN": 10.56
+      },
+      "n_unseen": 8,
+      "unseen_exp_pct": 1.4086
+    },
+    "ETCUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -32.39,
+          "null_p95": 458.59,
+          "beats_null": false,
+          "n": 101
+        },
+        "VAL": {
+          "real": -17.52,
+          "null_p95": 20.71,
+          "beats_null": false,
+          "n": 26
+        },
+        "OOS": {
+          "real": -11.41,
+          "null_p95": 20.16,
+          "beats_null": false,
+          "n": 15
+        },
+        "UNSEEN": {
+          "real": 0.26,
+          "null_p95": 9.77,
+          "beats_null": false,
+          "n": 3
+        }
+      },
+      "comp": {
+        "TRAIN": -32.39,
+        "VAL": -17.52,
+        "OOS": -11.41,
+        "UNSEEN": 0.26
+      },
+      "n_unseen": 3,
+      "unseen_exp_pct": 0.0895
+    },
+    "SUPERUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -79.79,
+          "null_p95": 46.21,
+          "beats_null": false,
+          "n": 55
+        },
+        "VAL": {
+          "real": -33.9,
+          "null_p95": 38.15,
+          "beats_null": false,
+          "n": 13
+        },
+        "OOS": {
+          "real": -15.3,
+          "null_p95": 16.1,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": 9.89,
+          "null_p95": 15.24,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -79.79,
+        "VAL": -33.9,
+        "OOS": -15.3,
+        "UNSEEN": 9.89
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": 1.6332
+    },
+    "POLUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 16.4,
+          "null_p95": 27.82,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": 9.92,
+          "null_p95": 32.88,
+          "beats_null": false,
+          "n": 15
+        },
+        "UNSEEN": {
+          "real": -16.29,
+          "null_p95": 14.42,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 16.4,
+        "OOS": 9.92,
+        "UNSEEN": -16.29
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": -2.4643
+    },
+    "TIAUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -10.13,
+          "null_p95": 41.56,
+          "beats_null": false,
+          "n": 7
+        },
+        "VAL": {
+          "real": -2.07,
+          "null_p95": 45.99,
+          "beats_null": false,
+          "n": 15
+        },
+        "OOS": {
+          "real": -9.54,
+          "null_p95": 18.26,
+          "beats_null": false,
+          "n": 11
+        },
+        "UNSEEN": {
+          "real": -3.79,
+          "null_p95": 16.83,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -10.13,
+        "VAL": -2.07,
+        "OOS": -9.54,
+        "UNSEEN": -3.79
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -0.5322
+    },
+    "XLMUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -41.24,
+          "null_p95": 276.37,
+          "beats_null": false,
+          "n": 110
+        },
+        "VAL": {
+          "real": -2.85,
+          "null_p95": 106.85,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": -30.52,
+          "null_p95": 38.61,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": 17.9,
+          "null_p95": 21.44,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "comp": {
+        "TRAIN": -41.24,
+        "VAL": -2.85,
+        "OOS": -30.52,
+        "UNSEEN": 17.9
+      },
+      "n_unseen": 8,
+      "unseen_exp_pct": 2.273
+    },
+    "EIGENUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 14.96,
+          "null_p95": 22.79,
+          "beats_null": false,
+          "n": 4
+        },
+        "OOS": {
+          "real": 4.32,
+          "null_p95": 43.01,
+          "beats_null": false,
+          "n": 15
+        },
+        "UNSEEN": {
+          "real": -15.67,
+          "null_p95": 13.72,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 14.96,
+        "OOS": 4.32,
+        "UNSEEN": -15.67
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -1.8027
+    },
+    "ONDOUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -11.61,
+          "null_p95": 35.95,
+          "beats_null": false,
+          "n": 12
+        },
+        "UNSEEN": {
+          "real": -4.93,
+          "null_p95": 28.94,
+          "beats_null": false,
+          "n": 11
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -11.61,
+        "UNSEEN": -4.93
+      },
+      "n_unseen": 11,
+      "unseen_exp_pct": -0.4031
+    },
+    "DYDXUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -6.23,
+          "null_p95": 139.68,
+          "beats_null": false,
+          "n": 54
+        },
+        "VAL": {
+          "real": -14.83,
+          "null_p95": 41.59,
+          "beats_null": false,
+          "n": 11
+        },
+        "OOS": {
+          "real": -14.88,
+          "null_p95": 47.56,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -32.37,
+          "null_p95": 22.46,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": -6.23,
+        "VAL": -14.83,
+        "OOS": -14.88,
+        "UNSEEN": -32.37
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -3.8098
+    },
+    "FLOKIUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -56.24,
+          "null_p95": 77.14,
+          "beats_null": false,
+          "n": 20
+        },
+        "VAL": {
+          "real": -10.95,
+          "null_p95": 76.58,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -1.9,
+          "null_p95": 53.2,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": -5.69,
+          "null_p95": 11.14,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -56.24,
+        "VAL": -10.95,
+        "OOS": -1.9,
+        "UNSEEN": -5.69
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -0.956
+    },
+    "CHZUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -87.57,
+          "null_p95": 54.82,
+          "beats_null": false,
+          "n": 91
+        },
+        "VAL": {
+          "real": 29.55,
+          "null_p95": 63.6,
+          "beats_null": false,
+          "n": 25
+        },
+        "OOS": {
+          "real": 11.6,
+          "null_p95": 31.03,
+          "beats_null": false,
+          "n": 13
+        },
+        "UNSEEN": {
+          "real": -17.66,
+          "null_p95": 11.74,
+          "beats_null": false,
+          "n": 11
+        }
+      },
+      "comp": {
+        "TRAIN": -87.57,
+        "VAL": 29.55,
+        "OOS": 11.6,
+        "UNSEEN": -17.66
+      },
+      "n_unseen": 11,
+      "unseen_exp_pct": -1.677
+    },
+    "ARUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -57.6,
+          "null_p95": 34.54,
+          "beats_null": false,
+          "n": 61
+        },
+        "VAL": {
+          "real": -31.95,
+          "null_p95": 30.82,
+          "beats_null": false,
+          "n": 11
+        },
+        "OOS": {
+          "real": 7.36,
+          "null_p95": 43.14,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -6.85,
+          "null_p95": 22.75,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": -57.6,
+        "VAL": -31.95,
+        "OOS": 7.36,
+        "UNSEEN": -6.85
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": -0.9217
+    },
+    "ZROUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -29.49,
+          "null_p95": 46.66,
+          "beats_null": false,
+          "n": 15
+        },
+        "OOS": {
+          "real": -3.19,
+          "null_p95": 30.9,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -9.57,
+          "null_p95": 31.96,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": -29.49,
+        "OOS": -3.19,
+        "UNSEEN": -9.57
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -0.9653
+    },
+    "ARKMUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -48.88,
+          "null_p95": 106.36,
+          "beats_null": false,
+          "n": 20
+        },
+        "VAL": {
+          "real": -24.28,
+          "null_p95": 45.84,
+          "beats_null": false,
+          "n": 15
+        },
+        "OOS": {
+          "real": -17.2,
+          "null_p95": 34.11,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": -7.31,
+          "null_p95": 6.49,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": -48.88,
+        "VAL": -24.28,
+        "OOS": -17.2,
+        "UNSEEN": -7.31
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": -1.0596
+    },
+    "DEXEUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -69.6,
+          "null_p95": 216.39,
+          "beats_null": false,
+          "n": 54
+        },
+        "VAL": {
+          "real": -45.0,
+          "null_p95": 17.87,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -20.16,
+          "null_p95": 48.08,
+          "beats_null": false,
+          "n": 14
+        },
+        "UNSEEN": {
+          "real": 6.08,
+          "null_p95": 71.09,
+          "beats_null": false,
+          "n": 16
+        }
+      },
+      "comp": {
+        "TRAIN": -69.6,
+        "VAL": -45.0,
+        "OOS": -20.16,
+        "UNSEEN": 6.08
+      },
+      "n_unseen": 16,
+      "unseen_exp_pct": 0.6367
+    },
+    "ATOMUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -37.76,
+          "null_p95": 87.04,
+          "beats_null": false,
+          "n": 100
+        },
+        "VAL": {
+          "real": 8.75,
+          "null_p95": 39.01,
+          "beats_null": false,
+          "n": 15
+        },
+        "OOS": {
+          "real": -9.81,
+          "null_p95": 22.86,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -1.06,
+          "null_p95": 12.1,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -37.76,
+        "VAL": 8.75,
+        "OOS": -9.81,
+        "UNSEEN": -1.06
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -0.1365
+    },
+    "INJUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -54.8,
+          "null_p95": 109.86,
+          "beats_null": false,
+          "n": 69
+        },
+        "VAL": {
+          "real": -3.8,
+          "null_p95": 38.46,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": -17.18,
+          "null_p95": 62.83,
+          "beats_null": false,
+          "n": 22
+        },
+        "UNSEEN": {
+          "real": 22.64,
+          "null_p95": 33.83,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": -54.8,
+        "VAL": -3.8,
+        "OOS": -17.18,
+        "UNSEEN": 22.64
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": 2.4742
+    },
+    "ZENUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": true,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -80.41,
+          "null_p95": 125.6,
+          "beats_null": false,
+          "n": 85
+        },
+        "VAL": {
+          "real": -26.79,
+          "null_p95": 95.31,
+          "beats_null": false,
+          "n": 25
+        },
+        "OOS": {
+          "real": 66.28,
+          "null_p95": 75.31,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": 6.3,
+          "null_p95": 28.8,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": -80.41,
+        "VAL": -26.79,
+        "OOS": 66.28,
+        "UNSEEN": 6.3
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": 0.9276
+    },
+    "MOVRUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -13.22,
+          "null_p95": 140.92,
+          "beats_null": false,
+          "n": 40
+        },
+        "VAL": {
+          "real": 0.5,
+          "null_p95": 25.19,
+          "beats_null": false,
+          "n": 16
+        },
+        "OOS": {
+          "real": 2.74,
+          "null_p95": 26.92,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -43.99,
+          "null_p95": 5.6,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": -13.22,
+        "VAL": 0.5,
+        "OOS": 2.74,
+        "UNSEEN": -43.99
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -8.6386
+    },
+    "PROMUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": -50.15,
+          "null_p95": 68.41,
+          "beats_null": false,
+          "n": 15
+        },
+        "VAL": {
+          "real": -17.62,
+          "null_p95": 43.37,
+          "beats_null": false,
+          "n": 15
+        },
+        "OOS": {
+          "real": -26.1,
+          "null_p95": 48.58,
+          "beats_null": false,
+          "n": 14
+        },
+        "UNSEEN": {
+          "real": -32.78,
+          "null_p95": 21.72,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": -50.15,
+        "VAL": -17.62,
+        "OOS": -26.1,
+        "UNSEEN": -32.78
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": -5.3808
+    },
+    "VIRTUALUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": 59.0,
+          "null_p95": 136.78,
+          "beats_null": false,
+          "n": 15
+        },
+        "UNSEEN": {
+          "real": -14.56,
+          "null_p95": 22.51,
+          "beats_null": false,
+          "n": 13
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": 59.0,
+        "UNSEEN": -14.56
+      },
+      "n_unseen": 13,
+      "unseen_exp_pct": -1.1496
+    },
+    "NEIROUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 62.3,
+          "null_p95": 94.78,
+          "beats_null": false,
+          "n": 9
+        },
+        "OOS": {
+          "real": -17.98,
+          "null_p95": 41.36,
+          "beats_null": false,
+          "n": 15
+        },
+        "UNSEEN": {
+          "real": -19.26,
+          "null_p95": 17.41,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 62.3,
+        "OOS": -17.98,
+        "UNSEEN": -19.26
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -3.8783
+    },
+    "PNUTUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -19.39,
+          "null_p95": 14.35,
+          "beats_null": false,
+          "n": 2
+        },
+        "OOS": {
+          "real": -44.34,
+          "null_p95": 51.09,
+          "beats_null": false,
+          "n": 8
+        },
+        "UNSEEN": {
+          "real": -1.12,
+          "null_p95": 12.46,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": -19.39,
+        "OOS": -44.34,
+        "UNSEEN": -1.12
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -0.1105
+    },
+    "BIOUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -47.55,
+          "null_p95": 77.32,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": -38.9,
+          "null_p95": 112.74,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -47.55,
+        "UNSEEN": -38.9
+      },
+      "n_unseen": 7,
+      "unseen_exp_pct": -6.3791
+    },
+    "DUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 1.94,
+          "null_p95": 6.01,
+          "beats_null": false,
+          "n": 1
+        },
+        "OOS": {
+          "real": -25.54,
+          "null_p95": 31.14,
+          "beats_null": false,
+          "n": 9
+        },
+        "UNSEEN": {
+          "real": -52.55,
+          "null_p95": 14.47,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 1.94,
+        "OOS": -25.54,
+        "UNSEEN": -52.55
+      },
+      "n_unseen": 6,
+      "unseen_exp_pct": -10.5344
+    },
+    "XPLUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -2.02,
+          "null_p95": 11.76,
+          "beats_null": false,
+          "n": 1
+        },
+        "UNSEEN": {
+          "real": -9.01,
+          "null_p95": 8.99,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -2.02,
+        "UNSEEN": -9.01
+      },
+      "n_unseen": 8,
+      "unseen_exp_pct": -1.0743
+    },
+    "XUSDUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -1.23,
+          "null_p95": -1.14,
+          "beats_null": false,
+          "n": 5
+        },
+        "UNSEEN": {
+          "real": -0.43,
+          "null_p95": -0.4,
+          "beats_null": false,
+          "n": 2
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -1.23,
+        "UNSEEN": -0.43
+      },
+      "n_unseen": 2,
+      "unseen_exp_pct": -0.215
+    },
+    "WLFIUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -11.85,
+          "null_p95": 25.81,
+          "beats_null": false,
+          "n": 5
+        },
+        "UNSEEN": {
+          "real": -17.18,
+          "null_p95": 17.26,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -11.85,
+        "UNSEEN": -17.18
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -3.4807
+    },
+    "ASTERUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "UNSEEN": {
+          "real": -10.57,
+          "null_p95": 8.58,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": 0.0,
+        "UNSEEN": -10.57
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -2.1936
+    },
+    "GIGGLEUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -62.44,
+          "null_p95": 23.12,
+          "beats_null": false,
+          "n": 2
+        },
+        "UNSEEN": {
+          "real": -24.98,
+          "null_p95": 25.55,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -62.44,
+        "UNSEEN": -24.98
+      },
+      "n_unseen": 9,
+      "unseen_exp_pct": -2.9027
+    },
+    "PLUMEUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -13.92,
+          "null_p95": 30.31,
+          "beats_null": false,
+          "n": 5
+        },
+        "UNSEEN": {
+          "real": 1.42,
+          "null_p95": 29.1,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -13.92,
+        "UNSEEN": 1.42
+      },
+      "n_unseen": 8,
+      "unseen_exp_pct": 0.3644
+    },
+    "ZBTUSDT": {
+      "regime_mode": "regime_matched_gate_on",
+      "beats_held": false,
+      "pos_held": false,
+      "ships_real_edge": false,
+      "per_window": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -10.93,
+          "null_p95": 11.19,
+          "beats_null": false,
+          "n": 1
+        },
+        "UNSEEN": {
+          "real": -7.6,
+          "null_p95": 48.2,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "comp": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -10.93,
+        "UNSEEN": -7.6
+      },
+      "n_unseen": 5,
+      "unseen_exp_pct": -0.8566
+    }
+  }
+}

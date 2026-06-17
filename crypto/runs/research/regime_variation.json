@@ -1,0 +1,46 @@
+{
+  "threshold": 0.05,
+  "metric": "assets moving >=5% per day (raw)",
+  "by_year": {
+    "2020": {
+      "avg_movers": 6.5,
+      "n_days": 351
+    },
+    "2021": {
+      "avg_movers": 16.2,
+      "n_days": 365
+    },
+    "2022": {
+      "avg_movers": 13.2,
+      "n_days": 365
+    },
+    "2023": {
+      "avg_movers": 9.8,
+      "n_days": 365
+    },
+    "2024": {
+      "avg_movers": 20.8,
+      "n_days": 366
+    },
+    "2025": {
+      "avg_movers": 24.5,
+      "n_days": 365
+    },
+    "2026": {
+      "avg_movers": 20.2,
+      "n_days": 148
+    }
+  },
+  "by_btc_regime": {
+    "bull": {
+      "avg_movers": 15.0,
+      "n_days": 1271,
+      "pct_days_>=1_mover": 0.981
+    },
+    "bear": {
+      "avg_movers": 16.4,
+      "n_days": 1033,
+      "pct_days_>=1_mover": 0.982
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+ "bull2024": {
+  "4h": {
+   "cadence": "4h",
+   "n_assets": 10,
+   "book_raw_rho": 0.403,
+   "speed_vs_m1_rho": -0.299,
+   "speed_vs_m2_rho": -0.434,
+   "turnover_vs_m1_rho": 0.259,
+   "partial_rho_given_turnover": 0.319,
+   "partial_rho_given_maspeed": 0.317,
+   "mean_per_asset_raw_rho": 0.014,
+   "mean_per_asset_partial_given_turnover": 0.057,
+   "top5_m1_slowMA_frac": 0.2,
+   "top5_m2_slowMA_frac": 0.0,
+   "top3_m1_cfgs": [
+    "ema_22_33|signalflip",
+    "ema_102_237|signalflip",
+    "ema_10_43_75|signalflip"
+   ],
+   "top3_m2_cfgs": [
+    "ema_6_65|signalflip",
+    "ema_6_65|trail10",
+    "ema_4_48_84|trail5"
+   ]
+  },
+  "1h": {
+   "cadence": "1h",
+   "n_assets": 10,
+   "book_raw_rho": 0.672,
+   "speed_vs_m1_rho": 0.562,
+   "speed_vs_m2_rho": 0.719,
+   "turnover_vs_m1_rho": -0.503,
+   "partial_rho_given_turnover": 0.517,
+   "partial_rho_given_maspeed": 0.467,
+   "mean_per_asset_raw_rho": 0.468,
+   "mean_per_asset_partial_given_turnover": 0.222,
+   "top5_m1_slowMA_frac": 0.4,
+   "top5_m2_slowMA_frac": 0.8,
+   "top3_m1_cfgs": [
+    "ema_102_237|signalflip",
+    "ema_186_208_233|signalflip",
+    "ema_10_43_75|signalflip"
+   ],
+   "top3_m2_cfgs": [
+    "ema_102_237|signalflip",
+    "ema_186_208_233|signalflip",
+    "ema_186_208_233|trail5"
+   ]
+  },
+  "30m": {
+   "cadence": "30m",
+   "n_assets": 10,
+   "book_raw_rho": 0.819,
+   "speed_vs_m1_rho": 0.559,
+   "speed_vs_m2_rho": 0.611,
+   "turnover_vs_m1_rho": -0.723,
+   "partial_rho_given_turnover": 0.587,
+   "partial_rho_given_maspeed": 0.728,
+   "mean_per_asset_raw_rho": 0.602,
+   "mean_per_asset_partial_given_turnover": 0.289,
+   "top5_m1_slowMA_frac": 1.0,
+   "top5_m2_slowMA_frac": 0.4,
+   "top3_m1_cfgs": [
+    "ema_186_208_233|signalflip",
+    "ema_102_237|signalflip",
+    "ema_186_208_233|trail10"
+   ],
+   "top3_m2_cfgs": [
+    "ema_22_33|tp8",
+    "ema_102_237|signalflip",
+    "ema_22_33|trail10"
+   ]
+  },
+  "15m": {
+   "cadence": "15m",
+   "n_assets": 10,
+   "book_raw_rho": 0.869,
+   "speed_vs_m1_rho": 0.693,
+   "speed_vs_m2_rho": 0.84,
+   "turnover_vs_m1_rho": -0.856,
+   "partial_rho_given_turnover": 0.343,
+   "partial_rho_given_maspeed": 0.733,
+   "mean_per_asset_raw_rho": 0.726,
+   "mean_per_asset_partial_given_turnover": 0.231,
+   "top5_m1_slowMA_frac": 1.0,
+   "top5_m2_slowMA_frac": 1.0,
+   "top3_m1_cfgs": [
+    "ema_186_208_233|signalflip",
+    "ema_102_237|signalflip",
+    "ema_186_208_233|trail10"
+   ],
+   "top3_m2_cfgs": [
+    "ema_186_208_233|signalflip",
+    "ema_186_208_233|trail5",
+    "ema_102_237|signalflip"
+   ]
+  }
+ },
+ "range2023": {
+  "4h": {
+   "cadence": "4h",
+   "n_assets": 10,
+   "book_raw_rho": 0.506,
+   "speed_vs_m1_rho": 0.362,
+   "speed_vs_m2_rho": -0.156,
+   "turnover_vs_m1_rho": -0.326,
+   "partial_rho_given_turnover": 0.586,
+   "partial_rho_given_maspeed": 0.611,
+   "mean_per_asset_raw_rho": 0.131,
+   "mean_per_asset_partial_given_turnover": 0.034,
+   "top5_m1_slowMA_frac": 0.4,
+   "top5_m2_slowMA_frac": 0.0,
+   "top3_m1_cfgs": [
+    "ema_102_237|signalflip",
+    "ema_186_208_233|signalflip",
+    "ema_6_65|time24"
+   ],
+   "top3_m2_cfgs": [
+    "ema_22_33|trail10",
+    "ema_22_33|signalflip",
+    "ema_10_43_75|signalflip"
+   ]
+  },
+  "1h": {
+   "cadence": "1h",
+   "n_assets": 10,
+   "book_raw_rho": 0.634,
+   "speed_vs_m1_rho": 0.604,
+   "speed_vs_m2_rho": 0.552,
+   "turnover_vs_m1_rho": -0.641,
+   "partial_rho_given_turnover": 0.414,
+   "partial_rho_given_maspeed": 0.452,
+   "mean_per_asset_raw_rho": 0.515,
+   "mean_per_asset_partial_given_turnover": 0.179,
+   "top5_m1_slowMA_frac": 0.0,
+   "top5_m2_slowMA_frac": 0.8,
+   "top3_m1_cfgs": [
+    "ema_10_43_75|time24",
+    "ema_10_43_75|trail5",
+    "ema_10_43_75|signalflip"
+   ],
+   "top3_m2_cfgs": [
+    "ema_186_208_233|trail10",
+    "ema_102_237|signalflip",
+    "ema_102_237|trail10"
+   ]
+  },
+  "30m": {
+   "cadence": "30m",
+   "n_assets": 10,
+   "book_raw_rho": 0.842,
+   "speed_vs_m1_rho": 0.902,
+   "speed_vs_m2_rho": 0.678,
+   "turnover_vs_m1_rho": -0.921,
+   "partial_rho_given_turnover": 0.601,
+   "partial_rho_given_maspeed": 0.725,
+   "mean_per_asset_raw_rho": 0.698,
+   "mean_per_asset_partial_given_turnover": 0.267,
+   "top5_m1_slowMA_frac": 1.0,
+   "top5_m2_slowMA_frac": 1.0,
+   "top3_m1_cfgs": [
+    "ema_102_237|trail10",
+    "ema_186_208_233|trail10",
+    "ema_102_237|signalflip"
+   ],
+   "top3_m2_cfgs": [
+    "ema_186_208_233|signalflip",
+    "ema_102_237|signalflip",
+    "ema_186_208_233|trail10"
+   ]
+  },
+  "15m": {
+   "cadence": "15m",
+   "n_assets": 10,
+   "book_raw_rho": 0.912,
+   "speed_vs_m1_rho": 0.788,
+   "speed_vs_m2_rho": 0.875,
+   "turnover_vs_m1_rho": -0.953,
+   "partial_rho_given_turnover": -0.055,
+   "partial_rho_given_maspeed": 0.747,
+   "mean_per_asset_raw_rho": 0.836,
+   "mean_per_asset_partial_given_turnover": 0.244,
+   "top5_m1_slowMA_frac": 1.0,
+   "top5_m2_slowMA_frac": 1.0,
+   "top3_m1_cfgs": [
+    "ema_186_208_233|signalflip",
+    "ema_186_208_233|trail10",
+    "ema_186_208_233|tp8"
+   ],
+   "top3_m2_cfgs": [
+    "ema_186_208_233|signalflip",
+    "ema_102_237|signalflip",
+    "ema_186_208_233|trail10"
+   ]
+  }
+ }
+}

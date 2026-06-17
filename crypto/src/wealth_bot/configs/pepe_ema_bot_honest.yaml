@@ -1,0 +1,138 @@
+# PEPE x EMA wealth bot HONEST RE-MINE config -- AUTONOMOUS_MAXX_PEPE_HONEST_REMINE_2026_05_24
+# Source: scripts/wealth_bot/honest_remine_pepe_4h.py (re-mined post silver lag-1 fix)
+# Chimera: data/processed/chimera/4h/pepeusdt_v51_chimera_4h_20260522.parquet (HONEST)
+# Total strategies: 19 (TOP-N by VAL+OOS+TRAIN aggregate; UNSEEN never used for ranking)
+# Family cap: 6 per ma_type family
+# long_liq_z<0 refuted on honest data: True
+
+asset: PEPE
+cadence: 4h
+indicator_family: EMA_SMA_mix
+n_seeds: 10
+fwd_bars: 7
+chimera_lag_bars: 6
+windows:
+  use_canonical: legacy
+  train_start: '2023-05-06'
+  unseen_end: '2026-05-22'
+chimera_features:
+- wh_whale_net_usd
+- rv_rv_5m
+- hbr_eta_imbalance
+- hbr_n_trades
+- bs_basis_z30
+- liq_short_z30
+- liq_long_z30
+- te_btc_imb
+strategies:
+- ma_type: WMA_cross
+  fast: 25
+  slow: 100
+  filter_kind: whale_net>30d_median
+- ma_type: SMA_cross
+  fast: 9
+  slow: 200
+  filter_kind: whale_net>0
+- ma_type: SMA_cross
+  fast: 7
+  slow: 200
+  filter_kind: whale_net>0
+- ma_type: SMA_cross
+  fast: 10
+  slow: 200
+  filter_kind: whale_net>0
+- ma_type: SMA_cross
+  fast: 20
+  slow: 50
+  filter_kind: whale_net>30d_median
+- ma_type: SMA_cross
+  fast: 20
+  slow: 50
+  filter_kind: whale_net>60bar_median
+- ma_type: WMA_cross
+  fast: 25
+  slow: 100
+  filter_kind: whale_net>60d_median
+- ma_type: EMA_cross
+  fast: 25
+  slow: 50
+  filter_kind: whale_net>30d_median
+- ma_type: SMA_cross
+  fast: 20
+  slow: 50
+  filter_kind: whale_net>0
+- ma_type: WMA_cross
+  fast: 25
+  slow: 100
+  filter_kind: whale_net>0
+- ma_type: EMA_cross
+  fast: 25
+  slow: 50
+  filter_kind: whale_net>60d_median
+- ma_type: EMA_cross
+  fast: 25
+  slow: 50
+  filter_kind: whale_net>0
+- ma_type: EMA_cross
+  fast: 20
+  slow: 50
+  filter_kind: whale_net>0
+- ma_type: WMA_cross
+  fast: 20
+  slow: 200
+  filter_kind: whale_net>0
+- ma_type: EMA_cross
+  fast: 25
+  slow: 40
+  filter_kind: whale_net>0
+- ma_type: WMA_cross
+  fast: 12
+  slow: 100
+  filter_kind: whale_net>0
+- ma_type: WMA_cross
+  fast: 15
+  slow: 100
+  filter_kind: whale_net>0
+- ma_type: EMA_cross
+  fast: 15
+  slow: 50
+  filter_kind: whale_net>0
+- ma_type: DEMA_cross
+  fast: 20
+  slow: 50
+  filter_kind: whale_net>30d_median
+model:
+  n_estimators: 100
+  max_depth: 3
+  num_leaves: 7
+  min_child_samples: 10
+  learning_rate: 0.05
+  reg_alpha: 0.3
+  reg_lambda: 0.3
+  bagging_fraction: 0.8
+  feature_fraction: 0.8
+  wf_train_window: 1500
+  wf_step: 200
+  min_signal_count_per_refit: 30
+upgrades:
+  u1_seed_ensemble: true
+  u2_threshold_calibration: true
+  u3_regime_conditional: false
+  u4_synthetic_augmentation: false
+  u1_n_seeds: 10
+  u2_threshold_grid:
+  - -0.005
+  - 0.0
+  - 0.005
+  - 0.01
+  - 0.015
+  - 0.02
+risk:
+  starting_capital_usd: 5000.0
+  max_position_pct: 1.0
+  kelly_fraction: 0.25
+  max_drawdown_pct: 25.0
+  max_consecutive_losses: 10
+  cost_per_side_pct: 0.22
+  whale_freshness_max_hours: 28.0
+output_dir: runs/audit/AUTONOMOUS_MAXX_PEPE_HONEST_REMINE_2026_05_24

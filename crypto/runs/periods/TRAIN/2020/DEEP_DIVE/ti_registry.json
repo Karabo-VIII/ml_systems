@@ -1,0 +1,7107 @@
+{
+ "trend": {
+  "MACD": {
+   "family": "trend",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "MACD(19,52,14)",
+     "net": 47.7,
+     "sharpe": 3.41,
+     "maxdd": -16.3
+    },
+    "4h": {
+     "cfg": "MACD(12,75,14)",
+     "net": 46.1,
+     "sharpe": 3.14,
+     "maxdd": -10.7
+    },
+    "2h": {
+     "cfg": "MACD(26,100,21)",
+     "net": 56.5,
+     "sharpe": 3.96,
+     "maxdd": -6.6
+    },
+    "1h": {
+     "cfg": "MACD(19,35,14)",
+     "net": 53.7,
+     "sharpe": 3.9,
+     "maxdd": -8.5
+    },
+    "30m": {
+     "cfg": "MACD(26,100,21)",
+     "net": 27.2,
+     "sharpe": 2.37,
+     "maxdd": -9.7
+    },
+    "15m": {
+     "cfg": "MACD(26,52,21)",
+     "net": -1.2,
+     "sharpe": 0.13,
+     "maxdd": -15.7
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "MACD(26,52,9)",
+     "net": 36.0,
+     "xBH": 0.76,
+     "sharpe": 3.65,
+     "maxdd": -10.3,
+     "drift": 7.7,
+     "robust": true,
+     "robust_frac": 0.5
+    },
+    "4h": {
+     "cfg": "MACD(19,35,21)",
+     "net": 31.1,
+     "xBH": 0.65,
+     "sharpe": 3.49,
+     "maxdd": -6.6,
+     "drift": 8.0,
+     "robust": true,
+     "robust_frac": 0.92
+    },
+    "2h": {
+     "cfg": "MACD(8,35,9)",
+     "net": 29.8,
+     "xBH": 0.59,
+     "sharpe": 3.37,
+     "maxdd": -5.2,
+     "drift": 6.2,
+     "robust": true,
+     "robust_frac": 0.62
+    },
+    "1h": {
+     "cfg": "MACD(19,35,21)",
+     "net": 31.2,
+     "xBH": 0.6,
+     "sharpe": 3.85,
+     "maxdd": -4.6,
+     "drift": 9.5,
+     "robust": true,
+     "robust_frac": 0.61
+    },
+    "30m": {
+     "cfg": "MACD(26,100,21)",
+     "net": 21.5,
+     "xBH": 0.4,
+     "sharpe": 3.17,
+     "maxdd": -4.2,
+     "drift": 7.3,
+     "robust": true,
+     "robust_frac": 0.91
+    },
+    "15m": {
+     "cfg": "MACD(26,100,21)",
+     "net": 3.6,
+     "xBH": 0.07,
+     "sharpe": 0.7,
+     "maxdd": -7.4,
+     "drift": -0.8,
+     "robust": true,
+     "robust_frac": 0.89
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "MACD(26,75,21)",
+     "net": 20.0,
+     "sharpe": 3.77,
+     "maxdd": -3.7,
+     "drift": 12.1,
+     "xBH": 0.36,
+     "n_robust": 57,
+     "n_total": 66
+    },
+    "30m": {
+     "cfg": "MACD(26,100,21)",
+     "net": 21.5,
+     "sharpe": 3.39,
+     "maxdd": -4.5,
+     "drift": 7.8,
+     "xBH": 0.4,
+     "n_robust": 49,
+     "n_total": 66
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "MACD(12,75,14)",
+      "net": 38.1,
+      "sharpe": 3.82,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(8,26,14)",
+      "net": 36.7,
+      "sharpe": 3.35,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(8,100,21)",
+      "net": 36.7,
+      "sharpe": 3.69,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(5,26,21)",
+      "net": 36.6,
+      "sharpe": 3.24,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(8,26,21)",
+      "net": 36.4,
+      "sharpe": 3.45,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(5,100,9)",
+      "net": 36.0,
+      "sharpe": 3.4,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(8,52,9)",
+      "net": 36.0,
+      "sharpe": 3.37,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(26,52,9)",
+      "net": 36.0,
+      "sharpe": 3.65,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(5,35,9)",
+      "net": 35.8,
+      "sharpe": 3.12,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(12,100,21)",
+      "net": 35.8,
+      "sharpe": 3.69,
+      "robust": false
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "MACD(12,26,21)",
+      "net": 34.8,
+      "sharpe": 3.78,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(5,100,21)",
+      "net": 33.8,
+      "sharpe": 3.67,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(8,52,21)",
+      "net": 33.2,
+      "sharpe": 3.49,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(19,35,21)",
+      "net": 31.1,
+      "sharpe": 3.49,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(12,26,14)",
+      "net": 30.7,
+      "sharpe": 3.53,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(12,75,14)",
+      "net": 30.7,
+      "sharpe": 3.43,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(12,52,21)",
+      "net": 30.3,
+      "sharpe": 3.34,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(19,52,14)",
+      "net": 30.3,
+      "sharpe": 3.43,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(19,100,14)",
+      "net": 30.2,
+      "sharpe": 3.33,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(5,52,21)",
+      "net": 30.1,
+      "sharpe": 3.3,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "MACD(8,35,21)",
+      "net": 32.3,
+      "sharpe": 3.64,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(26,52,14)",
+      "net": 31.9,
+      "sharpe": 3.95,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(26,52,21)",
+      "net": 31.8,
+      "sharpe": 3.83,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(19,52,21)",
+      "net": 31.0,
+      "sharpe": 3.77,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(19,52,14)",
+      "net": 30.8,
+      "sharpe": 3.69,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(26,100,21)",
+      "net": 30.4,
+      "sharpe": 3.61,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(19,35,21)",
+      "net": 30.3,
+      "sharpe": 3.65,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(8,35,9)",
+      "net": 29.8,
+      "sharpe": 3.37,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(5,26,14)",
+      "net": 29.6,
+      "sharpe": 3.18,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(8,35,14)",
+      "net": 29.4,
+      "sharpe": 3.29,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "MACD(12,52,21)",
+      "net": 37.2,
+      "sharpe": 4.43,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(19,52,14)",
+      "net": 36.1,
+      "sharpe": 4.44,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(12,35,21)",
+      "net": 35.8,
+      "sharpe": 4.26,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(19,35,14)",
+      "net": 35.1,
+      "sharpe": 4.33,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(26,52,9)",
+      "net": 33.8,
+      "sharpe": 4.17,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(19,52,9)",
+      "net": 33.6,
+      "sharpe": 4.22,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(12,52,14)",
+      "net": 33.2,
+      "sharpe": 4.11,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(8,52,21)",
+      "net": 32.9,
+      "sharpe": 3.9,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(12,26,21)",
+      "net": 31.6,
+      "sharpe": 3.74,
+      "robust": false
+     },
+     {
+      "cfg": "MACD(26,52,14)",
+      "net": 31.4,
+      "sharpe": 3.95,
+      "robust": false
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "MACD(26,100,21)",
+      "net": 21.5,
+      "sharpe": 3.17,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,75,21)",
+      "net": 20.1,
+      "sharpe": 3.04,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(19,100,21)",
+      "net": 17.3,
+      "sharpe": 2.69,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,52,21)",
+      "net": 16.0,
+      "sharpe": 2.52,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(12,100,21)",
+      "net": 15.4,
+      "sharpe": 2.39,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(19,100,14)",
+      "net": 15.0,
+      "sharpe": 2.41,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,75,14)",
+      "net": 14.9,
+      "sharpe": 2.36,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(19,75,21)",
+      "net": 14.7,
+      "sharpe": 2.31,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,100,9)",
+      "net": 14.7,
+      "sharpe": 2.36,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,100,14)",
+      "net": 14.3,
+      "sharpe": 2.23,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "MACD(26,100,21)",
+      "net": 3.6,
+      "sharpe": 0.7,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,75,21)",
+      "net": 2.8,
+      "sharpe": 0.59,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,52,21)",
+      "net": 1.3,
+      "sharpe": 0.33,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,75,14)",
+      "net": 1.2,
+      "sharpe": 0.31,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(19,100,21)",
+      "net": 0.4,
+      "sharpe": 0.19,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,100,14)",
+      "net": -0.1,
+      "sharpe": 0.1,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(19,75,21)",
+      "net": -0.7,
+      "sharpe": -0.01,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(26,100,9)",
+      "net": -1.5,
+      "sharpe": -0.16,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(12,100,21)",
+      "net": -2.0,
+      "sharpe": -0.21,
+      "robust": true
+     },
+     {
+      "cfg": "MACD(19,35,14)",
+      "net": -2.1,
+      "sharpe": -0.25,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "1d (ironed)",
+    "best_deployable": {
+     "cfg": "MACD(26,52,9)",
+     "net": 36.0,
+     "xBH": 0.76,
+     "sharpe": 3.65,
+     "maxdd": -10.3,
+     "drift": 7.7,
+     "robust": true,
+     "robust_frac": 0.5
+    },
+    "ceiling_xBH": 0.76,
+    "deployable_band": [
+     "1d/ironed",
+     "4h/ironed",
+     "2h/ironed",
+     "1h/ironed"
+    ],
+    "best_ironed_tf": "1d",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "SUPERTREND": {
+   "family": "trend",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "ST(7,3.0)",
+     "net": 32.8,
+     "sharpe": 2.36,
+     "maxdd": -19.2
+    },
+    "4h": {
+     "cfg": "ST(7,4.0)",
+     "net": 40.5,
+     "sharpe": 3.09,
+     "maxdd": -10.5
+    },
+    "2h": {
+     "cfg": "ST(7,4.0)",
+     "net": 41.5,
+     "sharpe": 3.23,
+     "maxdd": -10.6
+    },
+    "1h": {
+     "cfg": "ST(14,4.0)",
+     "net": 35.5,
+     "sharpe": 2.78,
+     "maxdd": -11.2
+    },
+    "30m": {
+     "cfg": "ST(14,4.0)",
+     "net": 8.4,
+     "sharpe": 0.92,
+     "maxdd": -10.6
+    },
+    "15m": {
+     "cfg": "ST(21,1.5)",
+     "net": -6.6,
+     "sharpe": -0.27,
+     "maxdd": -21.1
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "ST(14,2.0)",
+     "net": 28.6,
+     "xBH": 0.6,
+     "sharpe": 2.56,
+     "maxdd": -13.0,
+     "drift": 9.9,
+     "robust": true,
+     "robust_frac": 0.19
+    },
+    "4h": {
+     "cfg": "ST(14,4.0)",
+     "net": 27.4,
+     "xBH": 0.57,
+     "sharpe": 2.94,
+     "maxdd": -6.2,
+     "drift": 4.9,
+     "robust": true,
+     "robust_frac": 0.88
+    },
+    "2h": {
+     "cfg": "ST(14,3.0)",
+     "net": 28.8,
+     "xBH": 0.57,
+     "sharpe": 3.12,
+     "maxdd": -5.0,
+     "drift": 8.2,
+     "robust": true,
+     "robust_frac": 0.75
+    },
+    "1h": {
+     "cfg": "ST(10,4.0)",
+     "net": 26.1,
+     "xBH": 0.51,
+     "sharpe": 2.82,
+     "maxdd": -6.0,
+     "drift": 7.2,
+     "robust": true,
+     "robust_frac": 0.5
+    },
+    "30m": {
+     "cfg": "ST(14,4.0)",
+     "net": 12.2,
+     "xBH": 0.23,
+     "sharpe": 1.64,
+     "maxdd": -7.4,
+     "drift": 7.8,
+     "robust": true,
+     "robust_frac": 0.94
+    },
+    "15m": {
+     "cfg": "ST(7,4.0)",
+     "net": 2.2,
+     "xBH": 0.04,
+     "sharpe": 0.43,
+     "maxdd": -10.0,
+     "drift": 4.1,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "ST(7,4.0)",
+     "net": 16.3,
+     "sharpe": 2.64,
+     "maxdd": -6.7,
+     "drift": 15.9,
+     "xBH": 0.3,
+     "n_robust": 13,
+     "n_total": 16
+    },
+    "30m": {
+     "cfg": "ST(10,4.0)",
+     "net": 22.9,
+     "sharpe": 3.28,
+     "maxdd": -4.9,
+     "drift": 21.6,
+     "xBH": 0.43,
+     "n_robust": 11,
+     "n_total": 16
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "ST(14,1.5)",
+      "net": 34.2,
+      "sharpe": 2.99,
+      "robust": false
+     },
+     {
+      "cfg": "ST(7,4.0)",
+      "net": 32.9,
+      "sharpe": 3.19,
+      "robust": false
+     },
+     {
+      "cfg": "ST(7,3.0)",
+      "net": 32.7,
+      "sharpe": 2.95,
+      "robust": false
+     },
+     {
+      "cfg": "ST(21,1.5)",
+      "net": 32.5,
+      "sharpe": 2.87,
+      "robust": false
+     },
+     {
+      "cfg": "ST(7,2.0)",
+      "net": 32.3,
+      "sharpe": 2.84,
+      "robust": false
+     },
+     {
+      "cfg": "ST(10,4.0)",
+      "net": 31.7,
+      "sharpe": 3.18,
+      "robust": false
+     },
+     {
+      "cfg": "ST(10,1.5)",
+      "net": 30.4,
+      "sharpe": 2.7,
+      "robust": false
+     },
+     {
+      "cfg": "ST(21,2.0)",
+      "net": 30.4,
+      "sharpe": 2.74,
+      "robust": false
+     },
+     {
+      "cfg": "ST(14,4.0)",
+      "net": 30.2,
+      "sharpe": 3.02,
+      "robust": false
+     },
+     {
+      "cfg": "ST(21,4.0)",
+      "net": 30.1,
+      "sharpe": 3.12,
+      "robust": false
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "ST(7,4.0)",
+      "net": 33.2,
+      "sharpe": 3.45,
+      "robust": false
+     },
+     {
+      "cfg": "ST(10,4.0)",
+      "net": 31.8,
+      "sharpe": 3.35,
+      "robust": false
+     },
+     {
+      "cfg": "ST(14,4.0)",
+      "net": 27.4,
+      "sharpe": 2.94,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,1.5)",
+      "net": 27.2,
+      "sharpe": 2.62,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,4.0)",
+      "net": 27.0,
+      "sharpe": 2.91,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,2.0)",
+      "net": 26.9,
+      "sharpe": 2.65,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,3.0)",
+      "net": 25.7,
+      "sharpe": 2.72,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,2.0)",
+      "net": 25.1,
+      "sharpe": 2.54,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,2.0)",
+      "net": 24.4,
+      "sharpe": 2.45,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,3.0)",
+      "net": 23.5,
+      "sharpe": 2.49,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "ST(14,3.0)",
+      "net": 28.8,
+      "sharpe": 3.12,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,4.0)",
+      "net": 28.5,
+      "sharpe": 3.0,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,3.0)",
+      "net": 27.4,
+      "sharpe": 2.96,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,4.0)",
+      "net": 26.7,
+      "sharpe": 2.81,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,4.0)",
+      "net": 26.3,
+      "sharpe": 2.79,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,3.0)",
+      "net": 24.6,
+      "sharpe": 2.69,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,3.0)",
+      "net": 24.6,
+      "sharpe": 2.75,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,4.0)",
+      "net": 23.8,
+      "sharpe": 2.57,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,1.5)",
+      "net": 23.5,
+      "sharpe": 2.64,
+      "robust": false
+     },
+     {
+      "cfg": "ST(21,1.5)",
+      "net": 23.0,
+      "sharpe": 2.53,
+      "robust": false
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "ST(14,4.0)",
+      "net": 27.2,
+      "sharpe": 2.92,
+      "robust": false
+     },
+     {
+      "cfg": "ST(10,4.0)",
+      "net": 26.1,
+      "sharpe": 2.82,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,4.0)",
+      "net": 24.5,
+      "sharpe": 2.64,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,2.0)",
+      "net": 24.2,
+      "sharpe": 2.87,
+      "robust": false
+     },
+     {
+      "cfg": "ST(7,4.0)",
+      "net": 21.3,
+      "sharpe": 2.39,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,2.0)",
+      "net": 21.0,
+      "sharpe": 2.52,
+      "robust": false
+     },
+     {
+      "cfg": "ST(14,1.5)",
+      "net": 20.8,
+      "sharpe": 2.55,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,2.0)",
+      "net": 20.8,
+      "sharpe": 2.58,
+      "robust": false
+     },
+     {
+      "cfg": "ST(21,1.5)",
+      "net": 20.3,
+      "sharpe": 2.44,
+      "robust": false
+     },
+     {
+      "cfg": "ST(10,1.5)",
+      "net": 20.1,
+      "sharpe": 2.49,
+      "robust": false
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "ST(14,4.0)",
+      "net": 12.2,
+      "sharpe": 1.64,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,4.0)",
+      "net": 10.1,
+      "sharpe": 1.39,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,2.0)",
+      "net": 9.6,
+      "sharpe": 1.45,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,4.0)",
+      "net": 9.4,
+      "sharpe": 1.31,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,3.0)",
+      "net": 7.4,
+      "sharpe": 1.14,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,4.0)",
+      "net": 6.9,
+      "sharpe": 1.01,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,1.5)",
+      "net": 6.5,
+      "sharpe": 1.02,
+      "robust": false
+     },
+     {
+      "cfg": "ST(10,2.0)",
+      "net": 5.4,
+      "sharpe": 0.89,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,3.0)",
+      "net": 5.3,
+      "sharpe": 0.85,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,3.0)",
+      "net": 5.1,
+      "sharpe": 0.84,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "ST(7,4.0)",
+      "net": 2.2,
+      "sharpe": 0.43,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,4.0)",
+      "net": 1.6,
+      "sharpe": 0.35,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,4.0)",
+      "net": 0.9,
+      "sharpe": 0.27,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,3.0)",
+      "net": -0.4,
+      "sharpe": 0.08,
+      "robust": true
+     },
+     {
+      "cfg": "ST(10,3.0)",
+      "net": -1.2,
+      "sharpe": -0.03,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,4.0)",
+      "net": -1.3,
+      "sharpe": -0.04,
+      "robust": true
+     },
+     {
+      "cfg": "ST(14,1.5)",
+      "net": -2.7,
+      "sharpe": -0.25,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,1.5)",
+      "net": -4.1,
+      "sharpe": -0.41,
+      "robust": true
+     },
+     {
+      "cfg": "ST(7,3.0)",
+      "net": -4.3,
+      "sharpe": -0.47,
+      "robust": true
+     },
+     {
+      "cfg": "ST(21,1.5)",
+      "net": -4.4,
+      "sharpe": -0.5,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "2h (ironed)",
+    "best_deployable": {
+     "cfg": "ST(14,3.0)",
+     "net": 28.8,
+     "xBH": 0.57,
+     "sharpe": 3.12,
+     "maxdd": -5.0,
+     "drift": 8.2,
+     "robust": true,
+     "robust_frac": 0.75
+    },
+    "ceiling_xBH": 0.6,
+    "deployable_band": [
+     "1d/ironed",
+     "4h/ironed",
+     "2h/ironed",
+     "1h/ironed"
+    ],
+    "best_ironed_tf": "2h",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "PSAR": {
+   "family": "trend",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "PSAR(0.01,0.1)",
+     "net": 41.8,
+     "sharpe": 3.12,
+     "maxdd": -16.4
+    },
+    "4h": {
+     "cfg": "PSAR(0.01,0.2)",
+     "net": 41.1,
+     "sharpe": 3.1,
+     "maxdd": -8.8
+    },
+    "2h": {
+     "cfg": "PSAR(0.02,0.1)",
+     "net": 41.9,
+     "sharpe": 3.03,
+     "maxdd": -12.1
+    },
+    "1h": {
+     "cfg": "PSAR(0.01,0.1)",
+     "net": 35.8,
+     "sharpe": 2.69,
+     "maxdd": -14.0
+    },
+    "30m": {
+     "cfg": "PSAR(0.01,0.1)",
+     "net": 7.8,
+     "sharpe": 0.86,
+     "maxdd": -12.7
+    },
+    "15m": {
+     "cfg": "PSAR(0.01,0.2)",
+     "net": -10.5,
+     "sharpe": -0.56,
+     "maxdd": -26.2
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "PSAR(0.01,0.2)",
+     "net": 32.2,
+     "xBH": 0.68,
+     "sharpe": 3.21,
+     "maxdd": -12.1,
+     "drift": 8.7,
+     "robust": true,
+     "robust_frac": 0.33
+    },
+    "4h": {
+     "cfg": "PSAR(0.04,0.3)",
+     "net": 28.5,
+     "xBH": 0.6,
+     "sharpe": 2.96,
+     "maxdd": -5.4,
+     "drift": 7.2,
+     "robust": true,
+     "robust_frac": 0.56
+    },
+    "2h": {
+     "cfg": "PSAR(0.02,0.3)",
+     "net": 26.3,
+     "xBH": 0.52,
+     "sharpe": 3.05,
+     "maxdd": -5.1,
+     "drift": 5.8,
+     "robust": true,
+     "robust_frac": 0.78
+    },
+    "1h": {
+     "cfg": "PSAR(0.02,0.1)",
+     "net": 21.8,
+     "xBH": 0.42,
+     "sharpe": 2.47,
+     "maxdd": -6.8,
+     "drift": 9.3,
+     "robust": true,
+     "robust_frac": 0.56
+    },
+    "30m": {
+     "cfg": "PSAR(0.01,0.3)",
+     "net": 13.4,
+     "xBH": 0.25,
+     "sharpe": 1.99,
+     "maxdd": -7.4,
+     "drift": 9.5,
+     "robust": true,
+     "robust_frac": 0.89
+    },
+    "15m": {
+     "cfg": "PSAR(0.01,0.1)",
+     "net": 3.1,
+     "xBH": 0.06,
+     "sharpe": 0.57,
+     "maxdd": -10.7,
+     "drift": 4.2,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "PSAR(0.01,0.2)",
+     "net": 15.2,
+     "sharpe": 2.81,
+     "maxdd": -5.0,
+     "drift": 9.0,
+     "xBH": 0.28,
+     "n_robust": 6,
+     "n_total": 9
+    },
+    "30m": {
+     "cfg": "PSAR(0.04,0.1)",
+     "net": 8.3,
+     "sharpe": 1.64,
+     "maxdd": -5.6,
+     "drift": 4.9,
+     "xBH": 0.16,
+     "n_robust": 3,
+     "n_total": 9
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "PSAR(0.01,0.1)",
+      "net": 34.6,
+      "sharpe": 3.36,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.02,0.1)",
+      "net": 32.8,
+      "sharpe": 3.05,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.01,0.2)",
+      "net": 32.2,
+      "sharpe": 3.21,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.01,0.3)",
+      "net": 32.2,
+      "sharpe": 3.21,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.2)",
+      "net": 29.4,
+      "sharpe": 2.77,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.02,0.3)",
+      "net": 29.3,
+      "sharpe": 2.76,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.04,0.2)",
+      "net": 29.3,
+      "sharpe": 2.68,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.04,0.3)",
+      "net": 28.5,
+      "sharpe": 2.61,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.04,0.1)",
+      "net": 25.7,
+      "sharpe": 2.36,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "PSAR(0.01,0.2)",
+      "net": 33.2,
+      "sharpe": 3.57,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.01,0.3)",
+      "net": 33.2,
+      "sharpe": 3.57,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.01,0.1)",
+      "net": 32.4,
+      "sharpe": 3.49,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.04,0.3)",
+      "net": 28.5,
+      "sharpe": 2.96,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.1)",
+      "net": 26.9,
+      "sharpe": 2.76,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.04,0.2)",
+      "net": 25.2,
+      "sharpe": 2.64,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.3)",
+      "net": 24.9,
+      "sharpe": 2.74,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.1)",
+      "net": 23.7,
+      "sharpe": 2.6,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.2)",
+      "net": 23.3,
+      "sharpe": 2.57,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "PSAR(0.02,0.3)",
+      "net": 26.3,
+      "sharpe": 3.05,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.01,0.2)",
+      "net": 25.3,
+      "sharpe": 2.81,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.01,0.3)",
+      "net": 25.3,
+      "sharpe": 2.81,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.02,0.2)",
+      "net": 25.0,
+      "sharpe": 2.9,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.1)",
+      "net": 24.3,
+      "sharpe": 2.83,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.01,0.1)",
+      "net": 23.4,
+      "sharpe": 2.67,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.1)",
+      "net": 19.7,
+      "sharpe": 2.18,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.3)",
+      "net": 14.7,
+      "sharpe": 1.7,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.2)",
+      "net": 14.4,
+      "sharpe": 1.64,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "PSAR(0.01,0.1)",
+      "net": 27.1,
+      "sharpe": 3.07,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.01,0.2)",
+      "net": 26.0,
+      "sharpe": 3.0,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.01,0.3)",
+      "net": 26.0,
+      "sharpe": 3.0,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.04,0.2)",
+      "net": 24.4,
+      "sharpe": 2.86,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.02,0.1)",
+      "net": 21.8,
+      "sharpe": 2.47,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.3)",
+      "net": 19.9,
+      "sharpe": 2.41,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.1)",
+      "net": 19.6,
+      "sharpe": 2.22,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.2)",
+      "net": 16.0,
+      "sharpe": 1.96,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.3)",
+      "net": 15.2,
+      "sharpe": 1.91,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "PSAR(0.01,0.1)",
+      "net": 14.6,
+      "sharpe": 2.15,
+      "robust": false
+     },
+     {
+      "cfg": "PSAR(0.01,0.3)",
+      "net": 13.4,
+      "sharpe": 1.99,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.01,0.2)",
+      "net": 13.0,
+      "sharpe": 1.96,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.1)",
+      "net": 8.7,
+      "sharpe": 1.32,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.1)",
+      "net": 6.4,
+      "sharpe": 1.02,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.2)",
+      "net": 4.7,
+      "sharpe": 0.78,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.3)",
+      "net": 3.8,
+      "sharpe": 0.67,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.2)",
+      "net": 1.8,
+      "sharpe": 0.39,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.3)",
+      "net": 1.8,
+      "sharpe": 0.39,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "PSAR(0.01,0.1)",
+      "net": 3.1,
+      "sharpe": 0.57,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.01,0.2)",
+      "net": 2.1,
+      "sharpe": 0.43,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.01,0.3)",
+      "net": 2.1,
+      "sharpe": 0.43,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.1)",
+      "net": -6.7,
+      "sharpe": -0.81,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.2)",
+      "net": -7.7,
+      "sharpe": -0.95,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.1)",
+      "net": -8.1,
+      "sharpe": -1.05,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.04,0.3)",
+      "net": -8.1,
+      "sharpe": -1.02,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.3)",
+      "net": -8.8,
+      "sharpe": -1.18,
+      "robust": true
+     },
+     {
+      "cfg": "PSAR(0.02,0.2)",
+      "net": -9.0,
+      "sharpe": -1.22,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "1d (ironed)",
+    "best_deployable": {
+     "cfg": "PSAR(0.01,0.2)",
+     "net": 32.2,
+     "xBH": 0.68,
+     "sharpe": 3.21,
+     "maxdd": -12.1,
+     "drift": 8.7,
+     "robust": true,
+     "robust_frac": 0.33
+    },
+    "ceiling_xBH": 0.68,
+    "deployable_band": [
+     "1d/ironed",
+     "4h/ironed",
+     "2h/ironed"
+    ],
+    "best_ironed_tf": "1d",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "VORTEX": {
+   "family": "trend",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "VORTEX(14)",
+     "net": 45.3,
+     "sharpe": 3.1,
+     "maxdd": -19.2
+    },
+    "4h": {
+     "cfg": "VORTEX(7)",
+     "net": 36.9,
+     "sharpe": 2.38,
+     "maxdd": -16.8
+    },
+    "2h": {
+     "cfg": "VORTEX(21)",
+     "net": 35.5,
+     "sharpe": 2.42,
+     "maxdd": -13.3
+    },
+    "1h": {
+     "cfg": "VORTEX(21)",
+     "net": 39.3,
+     "sharpe": 2.66,
+     "maxdd": -10.0
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "VORTEX(14)",
+     "net": 40.3,
+     "xBH": 0.85,
+     "sharpe": 3.72,
+     "maxdd": -11.2,
+     "drift": 28.8,
+     "robust": false,
+     "robust_frac": 0.0
+    },
+    "4h": {
+     "cfg": "VORTEX(21)",
+     "net": 29.6,
+     "xBH": 0.62,
+     "sharpe": 2.9,
+     "maxdd": -11.4,
+     "drift": 8.1,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "2h": {
+     "cfg": "VORTEX(21)",
+     "net": 30.2,
+     "xBH": 0.6,
+     "sharpe": 3.02,
+     "maxdd": -6.6,
+     "drift": 6.7,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "1h": {
+     "cfg": "VORTEX(21)",
+     "net": 27.3,
+     "xBH": 0.53,
+     "sharpe": 2.81,
+     "maxdd": -8.1,
+     "drift": 5.0,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "VORTEX(14)",
+     "net": 5.9,
+     "sharpe": 1.27,
+     "maxdd": -5.7,
+     "drift": 1.8,
+     "xBH": 0.11,
+     "n_robust": 4,
+     "n_total": 4
+    },
+    "30m": {
+     "cfg": "VORTEX(28)",
+     "net": 22.8,
+     "sharpe": 3.57,
+     "maxdd": -5.2,
+     "drift": 15.4,
+     "xBH": 0.43,
+     "n_robust": 4,
+     "n_total": 4
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "VORTEX(14)",
+      "net": 40.3,
+      "sharpe": 3.72,
+      "robust": false
+     },
+     {
+      "cfg": "VORTEX(21)",
+      "net": 34.5,
+      "sharpe": 2.97,
+      "robust": false
+     },
+     {
+      "cfg": "VORTEX(28)",
+      "net": 30.2,
+      "sharpe": 3.16,
+      "robust": false
+     },
+     {
+      "cfg": "VORTEX(7)",
+      "net": 24.4,
+      "sharpe": 2.33,
+      "robust": false
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "VORTEX(21)",
+      "net": 29.6,
+      "sharpe": 2.9,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(7)",
+      "net": 28.6,
+      "sharpe": 2.77,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(14)",
+      "net": 24.5,
+      "sharpe": 2.55,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(28)",
+      "net": 24.0,
+      "sharpe": 2.47,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "VORTEX(21)",
+      "net": 30.2,
+      "sharpe": 3.02,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(14)",
+      "net": 27.0,
+      "sharpe": 2.83,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(7)",
+      "net": 24.7,
+      "sharpe": 2.44,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(28)",
+      "net": 22.4,
+      "sharpe": 2.34,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "VORTEX(21)",
+      "net": 27.3,
+      "sharpe": 2.81,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(14)",
+      "net": 26.9,
+      "sharpe": 2.91,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(7)",
+      "net": 25.9,
+      "sharpe": 2.84,
+      "robust": true
+     },
+     {
+      "cfg": "VORTEX(28)",
+      "net": 24.7,
+      "sharpe": 2.75,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "2h (ironed)",
+    "best_deployable": {
+     "cfg": "VORTEX(21)",
+     "net": 30.2,
+     "xBH": 0.6,
+     "sharpe": 3.02,
+     "maxdd": -6.6,
+     "drift": 6.7,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "ceiling_xBH": 0.62,
+    "deployable_band": [
+     "4h/ironed",
+     "2h/ironed",
+     "1h/ironed"
+    ],
+    "best_ironed_tf": "1d",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "ADX": {
+   "family": "trend",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "ADX(14,20)",
+     "net": 37.9,
+     "sharpe": 2.59,
+     "maxdd": -20.9
+    },
+    "4h": {
+     "cfg": "ADX(14,20)",
+     "net": 44.9,
+     "sharpe": 2.92,
+     "maxdd": -11.4
+    },
+    "2h": {
+     "cfg": "ADX(21,20)",
+     "net": 34.0,
+     "sharpe": 2.35,
+     "maxdd": -15.2
+    },
+    "1h": {
+     "cfg": "ADX(21,20)",
+     "net": 35.4,
+     "sharpe": 2.52,
+     "maxdd": -12.4
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "ADX(14,20)",
+     "net": 27.8,
+     "xBH": 0.59,
+     "sharpe": 2.76,
+     "maxdd": -14.7,
+     "drift": 0.4,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "4h": {
+     "cfg": "ADX(14,20)",
+     "net": 36.7,
+     "xBH": 0.77,
+     "sharpe": 3.49,
+     "maxdd": -6.9,
+     "drift": 3.5,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "2h": {
+     "cfg": "ADX(21,20)",
+     "net": 29.9,
+     "xBH": 0.6,
+     "sharpe": 3.22,
+     "maxdd": -5.9,
+     "drift": 16.6,
+     "robust": false,
+     "robust_frac": 0.0
+    },
+    "1h": {
+     "cfg": "ADX(14,20)",
+     "net": 23.7,
+     "xBH": 0.46,
+     "sharpe": 2.74,
+     "maxdd": -7.6,
+     "drift": 1.7,
+     "robust": true,
+     "robust_frac": 0.67
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "ADX(21,25)",
+     "net": 14.4,
+     "sharpe": 2.83,
+     "maxdd": -4.3,
+     "drift": 10.0,
+     "xBH": 0.26,
+     "n_robust": 6,
+     "n_total": 6
+    },
+    "30m": {
+     "cfg": "ADX(21,30)",
+     "net": 18.2,
+     "sharpe": 3.48,
+     "maxdd": -4.6,
+     "drift": 4.2,
+     "xBH": 0.34,
+     "n_robust": 2,
+     "n_total": 6
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "ADX(14,20)",
+      "net": 27.8,
+      "sharpe": 2.76,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(14,25)",
+      "net": 18.8,
+      "sharpe": 2.51,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(14,30)",
+      "net": 15.0,
+      "sharpe": 2.41,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,20)",
+      "net": 14.8,
+      "sharpe": 2.04,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,25)",
+      "net": 5.0,
+      "sharpe": 1.39,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,30)",
+      "net": 3.7,
+      "sharpe": 1.35,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "ADX(14,20)",
+      "net": 36.7,
+      "sharpe": 3.49,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(14,25)",
+      "net": 30.4,
+      "sharpe": 3.38,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(14,30)",
+      "net": 25.4,
+      "sharpe": 3.32,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,20)",
+      "net": 23.6,
+      "sharpe": 2.84,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,25)",
+      "net": 19.6,
+      "sharpe": 2.69,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,30)",
+      "net": 13.6,
+      "sharpe": 2.55,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "ADX(21,20)",
+      "net": 29.9,
+      "sharpe": 3.22,
+      "robust": false
+     },
+     {
+      "cfg": "ADX(14,30)",
+      "net": 27.3,
+      "sharpe": 3.42,
+      "robust": false
+     },
+     {
+      "cfg": "ADX(14,20)",
+      "net": 26.8,
+      "sharpe": 2.74,
+      "robust": false
+     },
+     {
+      "cfg": "ADX(21,25)",
+      "net": 26.1,
+      "sharpe": 3.32,
+      "robust": false
+     },
+     {
+      "cfg": "ADX(14,25)",
+      "net": 24.6,
+      "sharpe": 2.72,
+      "robust": false
+     },
+     {
+      "cfg": "ADX(21,30)",
+      "net": 20.1,
+      "sharpe": 3.43,
+      "robust": false
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "ADX(14,25)",
+      "net": 33.7,
+      "sharpe": 4.26,
+      "robust": false
+     },
+     {
+      "cfg": "ADX(14,20)",
+      "net": 23.7,
+      "sharpe": 2.74,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(14,30)",
+      "net": 21.3,
+      "sharpe": 3.39,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,20)",
+      "net": 19.4,
+      "sharpe": 2.49,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,25)",
+      "net": 19.3,
+      "sharpe": 3.17,
+      "robust": true
+     },
+     {
+      "cfg": "ADX(21,30)",
+      "net": 18.6,
+      "sharpe": 3.94,
+      "robust": false
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "4h (ironed)",
+    "best_deployable": {
+     "cfg": "ADX(14,20)",
+     "net": 36.7,
+     "xBH": 0.77,
+     "sharpe": 3.49,
+     "maxdd": -6.9,
+     "drift": 3.5,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "ceiling_xBH": 0.77,
+    "deployable_band": [
+     "1d/ironed",
+     "4h/ironed"
+    ],
+    "best_ironed_tf": "4h",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  }
+ },
+ "momentum": {
+  "ROC": {
+   "family": "momentum",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "ROC(20,thr0.0)",
+     "net": 34.9,
+     "sharpe": 2.31,
+     "maxdd": -22.6
+    },
+    "4h": {
+     "cfg": "ROC(10,thr0.0)",
+     "net": 52.5,
+     "sharpe": 3.08,
+     "maxdd": -14.7
+    },
+    "2h": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 44.2,
+     "sharpe": 3.17,
+     "maxdd": -11.3
+    },
+    "1h": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 42.9,
+     "sharpe": 2.96,
+     "maxdd": -9.7
+    },
+    "30m": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 23.1,
+     "sharpe": 1.8,
+     "maxdd": -14.3
+    },
+    "15m": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 18.7,
+     "sharpe": 1.57,
+     "maxdd": -14.9
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "ROC(100,thr0.0)",
+     "net": 27.3,
+     "xBH": 0.58,
+     "sharpe": 4.23,
+     "maxdd": -5.7,
+     "drift": 8.0,
+     "robust": true,
+     "robust_frac": 0.44
+    },
+    "4h": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 24.8,
+     "xBH": 0.52,
+     "sharpe": 2.46,
+     "maxdd": -10.4,
+     "drift": -2.5,
+     "robust": true,
+     "robust_frac": 0.56
+    },
+    "2h": {
+     "cfg": "ROC(50,thr2.0)",
+     "net": 32.9,
+     "xBH": 0.66,
+     "sharpe": 3.33,
+     "maxdd": -6.7,
+     "drift": 9.5,
+     "robust": true,
+     "robust_frac": 0.81
+    },
+    "1h": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 34.4,
+     "xBH": 0.67,
+     "sharpe": 3.28,
+     "maxdd": -7.2,
+     "drift": 9.3,
+     "robust": true,
+     "robust_frac": 0.69
+    },
+    "30m": {
+     "cfg": "ROC(100,thr0.0)",
+     "net": 18.6,
+     "xBH": 0.35,
+     "sharpe": 2.12,
+     "maxdd": -6.9,
+     "drift": -3.7,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "15m": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 14.7,
+     "xBH": 0.27,
+     "sharpe": 1.69,
+     "maxdd": -7.0,
+     "drift": -2.5,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 28.8,
+     "sharpe": 4.13,
+     "maxdd": -3.8,
+     "drift": 10.3,
+     "xBH": 0.53,
+     "n_robust": 14,
+     "n_total": 16
+    },
+    "30m": {
+     "cfg": "ROC(50,thr5.0)",
+     "net": 23.8,
+     "sharpe": 4.71,
+     "maxdd": -2.4,
+     "drift": 8.1,
+     "xBH": 0.45,
+     "n_robust": 14,
+     "n_total": 16
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "ROC(20,thr2.0)",
+      "net": 37.9,
+      "sharpe": 3.43,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(20,thr0.0)",
+      "net": 37.6,
+      "sharpe": 3.27,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(20,thr10.0)",
+      "net": 34.6,
+      "sharpe": 3.34,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(20,thr5.0)",
+      "net": 32.8,
+      "sharpe": 2.98,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(10,thr0.0)",
+      "net": 31.9,
+      "sharpe": 2.75,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(10,thr2.0)",
+      "net": 31.8,
+      "sharpe": 2.78,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(10,thr5.0)",
+      "net": 29.0,
+      "sharpe": 2.79,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(100,thr0.0)",
+      "net": 27.3,
+      "sharpe": 4.23,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr2.0)",
+      "net": 25.5,
+      "sharpe": 3.66,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr10.0)",
+      "net": 25.3,
+      "sharpe": 4.17,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "ROC(100,thr0.0)",
+      "net": 40.4,
+      "sharpe": 3.73,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(100,thr2.0)",
+      "net": 38.8,
+      "sharpe": 3.61,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(10,thr0.0)",
+      "net": 37.4,
+      "sharpe": 3.59,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(100,thr5.0)",
+      "net": 35.8,
+      "sharpe": 3.46,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(20,thr0.0)",
+      "net": 32.0,
+      "sharpe": 3.06,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(100,thr10.0)",
+      "net": 31.5,
+      "sharpe": 3.53,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(10,thr2.0)",
+      "net": 25.5,
+      "sharpe": 2.76,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(50,thr0.0)",
+      "net": 24.8,
+      "sharpe": 2.46,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(10,thr5.0)",
+      "net": 22.6,
+      "sharpe": 3.23,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr5.0)",
+      "net": 20.7,
+      "sharpe": 2.53,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "ROC(50,thr0.0)",
+      "net": 36.8,
+      "sharpe": 3.49,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(50,thr2.0)",
+      "net": 32.9,
+      "sharpe": 3.33,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr0.0)",
+      "net": 32.8,
+      "sharpe": 3.16,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(100,thr0.0)",
+      "net": 29.3,
+      "sharpe": 2.98,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr2.0)",
+      "net": 28.2,
+      "sharpe": 3.09,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(50,thr5.0)",
+      "net": 25.7,
+      "sharpe": 3.03,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr2.0)",
+      "net": 22.9,
+      "sharpe": 2.53,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(10,thr2.0)",
+      "net": 22.4,
+      "sharpe": 2.65,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(10,thr5.0)",
+      "net": 19.6,
+      "sharpe": 3.08,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(10,thr0.0)",
+      "net": 17.5,
+      "sharpe": 1.85,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "ROC(50,thr0.0)",
+      "net": 34.4,
+      "sharpe": 3.28,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(50,thr5.0)",
+      "net": 31.2,
+      "sharpe": 3.99,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(50,thr2.0)",
+      "net": 30.5,
+      "sharpe": 3.14,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr0.0)",
+      "net": 28.9,
+      "sharpe": 2.83,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr2.0)",
+      "net": 28.6,
+      "sharpe": 3.37,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(20,thr0.0)",
+      "net": 25.6,
+      "sharpe": 2.56,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr2.0)",
+      "net": 25.2,
+      "sharpe": 2.66,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(10,thr0.0)",
+      "net": 23.5,
+      "sharpe": 2.53,
+      "robust": false
+     },
+     {
+      "cfg": "ROC(100,thr5.0)",
+      "net": 22.0,
+      "sharpe": 2.64,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr5.0)",
+      "net": 20.6,
+      "sharpe": 3.8,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "ROC(100,thr0.0)",
+      "net": 18.6,
+      "sharpe": 2.12,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(50,thr0.0)",
+      "net": 17.9,
+      "sharpe": 1.99,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr2.0)",
+      "net": 17.8,
+      "sharpe": 2.23,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(50,thr2.0)",
+      "net": 17.1,
+      "sharpe": 2.22,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr0.0)",
+      "net": 12.7,
+      "sharpe": 1.63,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(50,thr5.0)",
+      "net": 11.9,
+      "sharpe": 2.38,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(10,thr0.0)",
+      "net": 11.1,
+      "sharpe": 1.54,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr5.0)",
+      "net": 8.1,
+      "sharpe": 1.31,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr5.0)",
+      "net": 6.3,
+      "sharpe": 1.58,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr2.0)",
+      "net": 5.5,
+      "sharpe": 0.97,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "ROC(50,thr0.0)",
+      "net": 14.7,
+      "sharpe": 1.69,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr0.0)",
+      "net": 13.7,
+      "sharpe": 1.63,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr2.0)",
+      "net": 13.6,
+      "sharpe": 1.81,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(50,thr2.0)",
+      "net": 11.8,
+      "sharpe": 1.75,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr5.0)",
+      "net": 9.8,
+      "sharpe": 2.0,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr0.0)",
+      "net": 6.8,
+      "sharpe": 0.96,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr2.0)",
+      "net": 3.3,
+      "sharpe": 0.77,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(50,thr5.0)",
+      "net": 3.0,
+      "sharpe": 0.74,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(20,thr5.0)",
+      "net": 1.9,
+      "sharpe": 0.9,
+      "robust": true
+     },
+     {
+      "cfg": "ROC(100,thr10.0)",
+      "net": 1.8,
+      "sharpe": 0.59,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "1h (ironed)",
+    "best_deployable": {
+     "cfg": "ROC(50,thr0.0)",
+     "net": 34.4,
+     "xBH": 0.67,
+     "sharpe": 3.28,
+     "maxdd": -7.2,
+     "drift": 9.3,
+     "robust": true,
+     "robust_frac": 0.69
+    },
+    "ceiling_xBH": 0.67,
+    "deployable_band": [
+     "1d/ironed",
+     "4h/ironed",
+     "2h/ironed",
+     "1h/ironed",
+     "15m/recovered"
+    ],
+    "best_ironed_tf": "1h",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "TSI": {
+   "family": "momentum",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "TSI(13,7)",
+     "net": 30.4,
+     "sharpe": 2.18,
+     "maxdd": -20.2
+    },
+    "4h": {
+     "cfg": "TSI(13,7)",
+     "net": 45.3,
+     "sharpe": 3.04,
+     "maxdd": -12.8
+    },
+    "2h": {
+     "cfg": "TSI(40,20)",
+     "net": 43.4,
+     "sharpe": 3.16,
+     "maxdd": -12.3
+    },
+    "1h": {
+     "cfg": "TSI(40,20)",
+     "net": 45.2,
+     "sharpe": 3.43,
+     "maxdd": -8.2
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "TSI(13,7)",
+     "net": 32.6,
+     "xBH": 0.69,
+     "sharpe": 2.89,
+     "maxdd": -12.1,
+     "drift": 13.2,
+     "robust": false,
+     "robust_frac": 0.0
+    },
+    "4h": {
+     "cfg": "TSI(25,13)",
+     "net": 33.7,
+     "xBH": 0.71,
+     "sharpe": 3.19,
+     "maxdd": -10.4,
+     "drift": 7.0,
+     "robust": true,
+     "robust_frac": 0.75
+    },
+    "2h": {
+     "cfg": "TSI(40,20)",
+     "net": 34.6,
+     "xBH": 0.69,
+     "sharpe": 3.27,
+     "maxdd": -9.5,
+     "drift": 8.9,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "1h": {
+     "cfg": "TSI(13,7)",
+     "net": 24.5,
+     "xBH": 0.47,
+     "sharpe": 2.55,
+     "maxdd": -6.8,
+     "drift": 3.8,
+     "robust": true,
+     "robust_frac": 0.25
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "TSI(40,20)",
+     "net": 18.5,
+     "sharpe": 2.53,
+     "maxdd": -6.5,
+     "drift": -0.9,
+     "xBH": 0.34,
+     "n_robust": 4,
+     "n_total": 4
+    },
+    "30m": {
+     "cfg": "TSI(25,13)",
+     "net": 20.7,
+     "sharpe": 2.83,
+     "maxdd": -5.9,
+     "drift": 8.2,
+     "xBH": 0.39,
+     "n_robust": 4,
+     "n_total": 4
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "TSI(13,7)",
+      "net": 32.6,
+      "sharpe": 2.89,
+      "robust": false
+     },
+     {
+      "cfg": "TSI(40,20)",
+      "net": 29.2,
+      "sharpe": 3.35,
+      "robust": false
+     },
+     {
+      "cfg": "TSI(20,10)",
+      "net": 26.5,
+      "sharpe": 2.75,
+      "robust": false
+     },
+     {
+      "cfg": "TSI(25,13)",
+      "net": 24.6,
+      "sharpe": 2.76,
+      "robust": false
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "TSI(13,7)",
+      "net": 36.1,
+      "sharpe": 3.44,
+      "robust": false
+     },
+     {
+      "cfg": "TSI(25,13)",
+      "net": 33.7,
+      "sharpe": 3.19,
+      "robust": true
+     },
+     {
+      "cfg": "TSI(20,10)",
+      "net": 30.5,
+      "sharpe": 2.94,
+      "robust": true
+     },
+     {
+      "cfg": "TSI(40,20)",
+      "net": 24.8,
+      "sharpe": 2.69,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "TSI(40,20)",
+      "net": 34.6,
+      "sharpe": 3.27,
+      "robust": true
+     },
+     {
+      "cfg": "TSI(25,13)",
+      "net": 32.2,
+      "sharpe": 3.17,
+      "robust": true
+     },
+     {
+      "cfg": "TSI(20,10)",
+      "net": 30.9,
+      "sharpe": 3.11,
+      "robust": true
+     },
+     {
+      "cfg": "TSI(13,7)",
+      "net": 29.5,
+      "sharpe": 3.03,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "TSI(40,20)",
+      "net": 34.9,
+      "sharpe": 3.41,
+      "robust": false
+     },
+     {
+      "cfg": "TSI(20,10)",
+      "net": 34.1,
+      "sharpe": 3.45,
+      "robust": false
+     },
+     {
+      "cfg": "TSI(25,13)",
+      "net": 32.7,
+      "sharpe": 3.29,
+      "robust": false
+     },
+     {
+      "cfg": "TSI(13,7)",
+      "net": 24.5,
+      "sharpe": 2.55,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "2h (ironed)",
+    "best_deployable": {
+     "cfg": "TSI(40,20)",
+     "net": 34.6,
+     "xBH": 0.69,
+     "sharpe": 3.27,
+     "maxdd": -9.5,
+     "drift": 8.9,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "ceiling_xBH": 0.71,
+    "deployable_band": [
+     "4h/ironed",
+     "2h/ironed"
+    ],
+    "best_ironed_tf": "2h",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  }
+ },
+ "breakout": {
+  "DONCHIAN": {
+   "family": "breakout",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "DONCH(20,10)",
+     "net": 42.7,
+     "sharpe": 3.39,
+     "maxdd": -15.2
+    },
+    "4h": {
+     "cfg": "DONCH(30,20)",
+     "net": 33.0,
+     "sharpe": 2.81,
+     "maxdd": -14.7
+    },
+    "2h": {
+     "cfg": "DONCH(30,20)",
+     "net": 32.2,
+     "sharpe": 2.73,
+     "maxdd": -8.7
+    },
+    "1h": {
+     "cfg": "DONCH(55,20)",
+     "net": 29.7,
+     "sharpe": 2.81,
+     "maxdd": -8.4
+    },
+    "30m": {
+     "cfg": "DONCH(55,10)",
+     "net": 9.1,
+     "sharpe": 1.34,
+     "maxdd": -8.0
+    },
+    "15m": {
+     "cfg": "DONCH(20,10)",
+     "net": -6.4,
+     "sharpe": -0.55,
+     "maxdd": -11.4
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "DONCH(30,10)",
+     "net": 28.3,
+     "xBH": 0.6,
+     "sharpe": 3.43,
+     "maxdd": -10.3,
+     "drift": 8.3,
+     "robust": true,
+     "robust_frac": 0.67
+    },
+    "4h": {
+     "cfg": "DONCH(30,20)",
+     "net": 31.2,
+     "xBH": 0.65,
+     "sharpe": 3.41,
+     "maxdd": -9.8,
+     "drift": 5.7,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "2h": {
+     "cfg": "DONCH(30,20)",
+     "net": 28.4,
+     "xBH": 0.57,
+     "sharpe": 3.42,
+     "maxdd": -5.3,
+     "drift": 8.6,
+     "robust": true,
+     "robust_frac": 0.67
+    },
+    "1h": {
+     "cfg": "DONCH(20,10)",
+     "net": 18.4,
+     "xBH": 0.36,
+     "sharpe": 2.54,
+     "maxdd": -6.3,
+     "drift": 5.8,
+     "robust": true,
+     "robust_frac": 0.33
+    },
+    "30m": {
+     "cfg": "DONCH(55,20)",
+     "net": 13.8,
+     "xBH": 0.26,
+     "sharpe": 2.2,
+     "maxdd": -5.6,
+     "drift": 5.8,
+     "robust": true,
+     "robust_frac": 0.78
+    },
+    "15m": {
+     "cfg": "DONCH(55,20)",
+     "net": 2.7,
+     "xBH": 0.05,
+     "sharpe": 0.55,
+     "maxdd": -10.3,
+     "drift": 2.4,
+     "robust": true,
+     "robust_frac": 0.89
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "DONCH(55,20)",
+     "net": 18.5,
+     "sharpe": 3.16,
+     "maxdd": -4.9,
+     "drift": 9.8,
+     "xBH": 0.34,
+     "n_robust": 6,
+     "n_total": 9
+    },
+    "30m": {
+     "cfg": "DONCH(55,10)",
+     "net": 17.2,
+     "sharpe": 2.93,
+     "maxdd": -5.2,
+     "drift": 11.3,
+     "xBH": 0.32,
+     "n_robust": 8,
+     "n_total": 9
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "DONCH(20,5)",
+      "net": 38.0,
+      "sharpe": 3.95,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(20,10)",
+      "net": 37.5,
+      "sharpe": 3.87,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(10,5)",
+      "net": 36.1,
+      "sharpe": 3.35,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(30,10)",
+      "net": 28.3,
+      "sharpe": 3.43,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,5)",
+      "net": 27.0,
+      "sharpe": 3.34,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,5)",
+      "net": 26.1,
+      "sharpe": 3.3,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,10)",
+      "net": 25.9,
+      "sharpe": 3.24,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,20)",
+      "net": 21.1,
+      "sharpe": 3.04,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,20)",
+      "net": 18.1,
+      "sharpe": 2.47,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "DONCH(30,20)",
+      "net": 31.2,
+      "sharpe": 3.41,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(20,10)",
+      "net": 25.4,
+      "sharpe": 3.05,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,20)",
+      "net": 23.8,
+      "sharpe": 3.05,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(10,5)",
+      "net": 22.2,
+      "sharpe": 2.53,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,10)",
+      "net": 21.9,
+      "sharpe": 2.92,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,10)",
+      "net": 18.7,
+      "sharpe": 2.77,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(20,5)",
+      "net": 13.7,
+      "sharpe": 1.92,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,5)",
+      "net": 12.6,
+      "sharpe": 1.91,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,5)",
+      "net": 9.5,
+      "sharpe": 1.63,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "DONCH(30,20)",
+      "net": 28.4,
+      "sharpe": 3.42,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(20,10)",
+      "net": 27.7,
+      "sharpe": 3.21,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(20,5)",
+      "net": 27.2,
+      "sharpe": 3.75,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(55,20)",
+      "net": 23.5,
+      "sharpe": 3.19,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,5)",
+      "net": 23.0,
+      "sharpe": 3.56,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(10,5)",
+      "net": 19.4,
+      "sharpe": 2.44,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,5)",
+      "net": 17.3,
+      "sharpe": 3.04,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,10)",
+      "net": 16.8,
+      "sharpe": 2.45,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,10)",
+      "net": 13.0,
+      "sharpe": 2.14,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "DONCH(55,20)",
+      "net": 27.7,
+      "sharpe": 3.5,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(30,20)",
+      "net": 25.8,
+      "sharpe": 2.86,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(55,5)",
+      "net": 24.4,
+      "sharpe": 4.62,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(55,10)",
+      "net": 22.3,
+      "sharpe": 3.55,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(30,5)",
+      "net": 20.0,
+      "sharpe": 3.33,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(20,10)",
+      "net": 18.4,
+      "sharpe": 2.54,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(20,5)",
+      "net": 17.8,
+      "sharpe": 2.93,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(30,10)",
+      "net": 17.6,
+      "sharpe": 2.55,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(10,5)",
+      "net": 14.9,
+      "sharpe": 2.09,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "DONCH(55,20)",
+      "net": 13.8,
+      "sharpe": 2.2,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,10)",
+      "net": 13.3,
+      "sharpe": 2.46,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(30,10)",
+      "net": 8.1,
+      "sharpe": 1.49,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,20)",
+      "net": 7.8,
+      "sharpe": 1.22,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,5)",
+      "net": 3.1,
+      "sharpe": 0.89,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(20,10)",
+      "net": 0.8,
+      "sharpe": 0.25,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,5)",
+      "net": -2.0,
+      "sharpe": -0.42,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(10,5)",
+      "net": -5.5,
+      "sharpe": -0.8,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(20,5)",
+      "net": -9.4,
+      "sharpe": -1.9,
+      "robust": false
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "DONCH(55,20)",
+      "net": 2.7,
+      "sharpe": 0.55,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,20)",
+      "net": 0.4,
+      "sharpe": 0.2,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,10)",
+      "net": -5.0,
+      "sharpe": -1.1,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(20,10)",
+      "net": -8.2,
+      "sharpe": -1.35,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(55,5)",
+      "net": -10.1,
+      "sharpe": -2.61,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,10)",
+      "net": -11.1,
+      "sharpe": -2.19,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(20,5)",
+      "net": -13.0,
+      "sharpe": -2.62,
+      "robust": true
+     },
+     {
+      "cfg": "DONCH(30,5)",
+      "net": -13.2,
+      "sharpe": -2.92,
+      "robust": false
+     },
+     {
+      "cfg": "DONCH(10,5)",
+      "net": -17.8,
+      "sharpe": -2.93,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "4h (ironed)",
+    "best_deployable": {
+     "cfg": "DONCH(30,20)",
+     "net": 31.2,
+     "xBH": 0.65,
+     "sharpe": 3.41,
+     "maxdd": -9.8,
+     "drift": 5.7,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "ceiling_xBH": 0.65,
+    "deployable_band": [
+     "1d/ironed",
+     "4h/ironed",
+     "2h/ironed"
+    ],
+    "best_ironed_tf": "4h",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "KELTNER": {
+   "family": "breakout",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "KELT(20,1.5)",
+     "net": 42.3,
+     "sharpe": 3.02,
+     "maxdd": -17.3
+    },
+    "4h": {
+     "cfg": "KELT(30,1.5)",
+     "net": 31.9,
+     "sharpe": 2.69,
+     "maxdd": -11.8
+    },
+    "2h": {
+     "cfg": "KELT(30,2.0)",
+     "net": 34.1,
+     "sharpe": 3.16,
+     "maxdd": -5.6
+    },
+    "1h": {
+     "cfg": "KELT(20,2.5)",
+     "net": 20.5,
+     "sharpe": 2.5,
+     "maxdd": -10.6
+    },
+    "30m": {
+     "cfg": "KELT(30,2.5)",
+     "net": 7.9,
+     "sharpe": 1.09,
+     "maxdd": -8.9
+    },
+    "15m": {
+     "cfg": "KELT(20,2.5)",
+     "net": -7.7,
+     "sharpe": -1.06,
+     "maxdd": -12.1
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "KELT(20,2.0)",
+     "net": 33.3,
+     "xBH": 0.7,
+     "sharpe": 3.32,
+     "maxdd": -12.1,
+     "drift": 6.5,
+     "robust": true,
+     "robust_frac": 0.33
+    },
+    "4h": {
+     "cfg": "KELT(30,1.5)",
+     "net": 30.2,
+     "xBH": 0.63,
+     "sharpe": 3.21,
+     "maxdd": -8.0,
+     "drift": 7.0,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "2h": {
+     "cfg": "KELT(30,2.0)",
+     "net": 25.9,
+     "xBH": 0.52,
+     "sharpe": 3.08,
+     "maxdd": -5.1,
+     "drift": 8.9,
+     "robust": true,
+     "robust_frac": 0.83
+    },
+    "1h": {
+     "cfg": "KELT(30,2.0)",
+     "net": 20.9,
+     "xBH": 0.41,
+     "sharpe": 2.55,
+     "maxdd": -6.5,
+     "drift": 6.1,
+     "robust": true,
+     "robust_frac": 0.67
+    },
+    "30m": {
+     "cfg": "KELT(30,1.5)",
+     "net": 12.7,
+     "xBH": 0.24,
+     "sharpe": 1.79,
+     "maxdd": -7.2,
+     "drift": 5.3,
+     "robust": true,
+     "robust_frac": 0.83
+    },
+    "15m": {
+     "cfg": "KELT(30,2.5)",
+     "net": -4.0,
+     "xBH": -0.07,
+     "sharpe": -0.6,
+     "maxdd": -8.7,
+     "drift": -2.6,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "KELT(30,2.5)",
+     "net": 16.7,
+     "sharpe": 3.16,
+     "maxdd": -5.6,
+     "drift": 13.5,
+     "xBH": 0.3,
+     "n_robust": 3,
+     "n_total": 6
+    },
+    "30m": {
+     "cfg": "KELT(30,2.0)",
+     "net": 18.1,
+     "sharpe": 3.02,
+     "maxdd": -4.0,
+     "drift": 12.4,
+     "xBH": 0.34,
+     "n_robust": 5,
+     "n_total": 6
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "KELT(20,1.5)",
+      "net": 38.0,
+      "sharpe": 3.63,
+      "robust": false
+     },
+     {
+      "cfg": "KELT(20,2.0)",
+      "net": 33.3,
+      "sharpe": 3.32,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.5)",
+      "net": 32.8,
+      "sharpe": 3.63,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(30,1.5)",
+      "net": 32.4,
+      "sharpe": 3.26,
+      "robust": false
+     },
+     {
+      "cfg": "KELT(30,2.5)",
+      "net": 30.9,
+      "sharpe": 3.5,
+      "robust": false
+     },
+     {
+      "cfg": "KELT(30,2.0)",
+      "net": 28.9,
+      "sharpe": 3.04,
+      "robust": false
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "KELT(30,1.5)",
+      "net": 30.2,
+      "sharpe": 3.21,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(30,2.0)",
+      "net": 29.5,
+      "sharpe": 3.26,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(30,2.5)",
+      "net": 27.1,
+      "sharpe": 3.22,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.0)",
+      "net": 26.6,
+      "sharpe": 3.14,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,1.5)",
+      "net": 23.0,
+      "sharpe": 2.6,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.5)",
+      "net": 21.7,
+      "sharpe": 2.81,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "KELT(30,2.0)",
+      "net": 25.9,
+      "sharpe": 3.08,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.5)",
+      "net": 25.7,
+      "sharpe": 3.71,
+      "robust": false
+     },
+     {
+      "cfg": "KELT(30,2.5)",
+      "net": 24.1,
+      "sharpe": 3.28,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(30,1.5)",
+      "net": 22.3,
+      "sharpe": 2.56,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.0)",
+      "net": 21.3,
+      "sharpe": 2.9,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,1.5)",
+      "net": 20.4,
+      "sharpe": 2.56,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "KELT(20,2.5)",
+      "net": 24.5,
+      "sharpe": 3.48,
+      "robust": false
+     },
+     {
+      "cfg": "KELT(30,2.5)",
+      "net": 22.6,
+      "sharpe": 2.92,
+      "robust": false
+     },
+     {
+      "cfg": "KELT(30,2.0)",
+      "net": 20.9,
+      "sharpe": 2.55,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,1.5)",
+      "net": 20.6,
+      "sharpe": 2.56,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(30,1.5)",
+      "net": 20.0,
+      "sharpe": 2.3,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.0)",
+      "net": 18.5,
+      "sharpe": 2.56,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "KELT(30,1.5)",
+      "net": 12.7,
+      "sharpe": 1.79,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(30,2.5)",
+      "net": 12.4,
+      "sharpe": 1.98,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.5)",
+      "net": 10.7,
+      "sharpe": 1.96,
+      "robust": false
+     },
+     {
+      "cfg": "KELT(30,2.0)",
+      "net": 9.4,
+      "sharpe": 1.46,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,1.5)",
+      "net": 5.4,
+      "sharpe": 0.91,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.0)",
+      "net": 4.2,
+      "sharpe": 0.8,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "KELT(30,2.5)",
+      "net": -4.0,
+      "sharpe": -0.6,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,1.5)",
+      "net": -4.2,
+      "sharpe": -0.5,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.5)",
+      "net": -4.3,
+      "sharpe": -0.79,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(30,1.5)",
+      "net": -5.8,
+      "sharpe": -0.69,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(30,2.0)",
+      "net": -6.2,
+      "sharpe": -0.85,
+      "robust": true
+     },
+     {
+      "cfg": "KELT(20,2.0)",
+      "net": -7.0,
+      "sharpe": -1.15,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "1d (ironed)",
+    "best_deployable": {
+     "cfg": "KELT(20,2.0)",
+     "net": 33.3,
+     "xBH": 0.7,
+     "sharpe": 3.32,
+     "maxdd": -12.1,
+     "drift": 6.5,
+     "robust": true,
+     "robust_frac": 0.33
+    },
+    "ceiling_xBH": 0.7,
+    "deployable_band": [
+     "1d/ironed",
+     "4h/ironed",
+     "2h/ironed"
+    ],
+    "best_ironed_tf": "1d",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  }
+ },
+ "mean-reversion": {
+  "RSI": {
+   "family": "mean-reversion",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "RSI(7,lo35,hi65)",
+     "net": 30.1,
+     "sharpe": 3.29,
+     "maxdd": -9.4
+    },
+    "4h": {
+     "cfg": "RSI(7,lo25,hi65)",
+     "net": 17.2,
+     "sharpe": 2.48,
+     "maxdd": -5.9
+    },
+    "2h": {
+     "cfg": "RSI(14,lo25,hi60)",
+     "net": 14.6,
+     "sharpe": 2.87,
+     "maxdd": -3.5
+    },
+    "1h": {
+     "cfg": "RSI(7,lo30,hi55)",
+     "net": 44.2,
+     "sharpe": 4.14,
+     "maxdd": -9.3
+    },
+    "30m": {
+     "cfg": "RSI(14,lo35,hi60)",
+     "net": 47.9,
+     "sharpe": 4.19,
+     "maxdd": -9.1
+    },
+    "15m": {
+     "cfg": "RSI(14,lo30,hi65)",
+     "net": 42.6,
+     "sharpe": 4.16,
+     "maxdd": -8.9
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "RSI(7,lo35,hi60)",
+     "net": 18.5,
+     "xBH": 0.39,
+     "sharpe": 4.59,
+     "maxdd": -4.2,
+     "drift": 8.4,
+     "robust": true,
+     "robust_frac": 0.93
+    },
+    "4h": {
+     "cfg": "RSI(7,lo30,hi60)",
+     "net": 10.8,
+     "xBH": 0.23,
+     "sharpe": 2.61,
+     "maxdd": -5.5,
+     "drift": 7.7,
+     "robust": true,
+     "robust_frac": 0.67
+    },
+    "2h": {
+     "cfg": "RSI(14,lo30,hi65)",
+     "net": 6.2,
+     "xBH": 0.12,
+     "sharpe": 2.52,
+     "maxdd": -2.9,
+     "drift": 4.6,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "1h": {
+     "cfg": "RSI(7,lo25,hi60)",
+     "net": 15.9,
+     "xBH": 0.31,
+     "sharpe": 4.05,
+     "maxdd": -4.8,
+     "drift": 9.9,
+     "robust": true,
+     "robust_frac": 0.74
+    },
+    "30m": {
+     "cfg": "RSI(7,lo35,hi65)",
+     "net": 10.2,
+     "xBH": 0.19,
+     "sharpe": 2.21,
+     "maxdd": -4.5,
+     "drift": 5.4,
+     "robust": true,
+     "robust_frac": 0.85
+    },
+    "15m": {
+     "cfg": "RSI(7,lo35,hi55)",
+     "net": 13.7,
+     "xBH": 0.25,
+     "sharpe": 2.9,
+     "maxdd": -4.1,
+     "drift": 9.2,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "RSI(7,lo25,hi65)",
+     "net": 21.0,
+     "sharpe": 4.74,
+     "maxdd": -3.3,
+     "drift": 11.4,
+     "xBH": 0.38,
+     "n_robust": 22,
+     "n_total": 27
+    },
+    "30m": {
+     "cfg": "RSI(7,lo35,hi60)",
+     "net": 19.5,
+     "sharpe": 3.83,
+     "maxdd": -4.3,
+     "drift": 16.3,
+     "xBH": 0.37,
+     "n_robust": 16,
+     "n_total": 27
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "RSI(7,lo35,hi65)",
+      "net": 24.9,
+      "sharpe": 5.24,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo35,hi55)",
+      "net": 19.0,
+      "sharpe": 4.91,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo35,hi60)",
+      "net": 18.5,
+      "sharpe": 4.59,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi65)",
+      "net": 16.2,
+      "sharpe": 4.67,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo25,hi65)",
+      "net": 12.3,
+      "sharpe": 4.49,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi55)",
+      "net": 10.2,
+      "sharpe": 3.79,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi60)",
+      "net": 9.1,
+      "sharpe": 3.31,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(21,lo35,hi65)",
+      "net": 8.1,
+      "sharpe": 3.38,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo25,hi55)",
+      "net": 6.7,
+      "sharpe": 3.39,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(21,lo35,hi60)",
+      "net": 6.6,
+      "sharpe": 3.54,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "RSI(7,lo25,hi65)",
+      "net": 15.9,
+      "sharpe": 4.31,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(21,lo35,hi65)",
+      "net": 15.1,
+      "sharpe": 4.39,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo30,hi65)",
+      "net": 14.7,
+      "sharpe": 3.29,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo25,hi60)",
+      "net": 12.8,
+      "sharpe": 3.73,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo35,hi65)",
+      "net": 12.6,
+      "sharpe": 2.32,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo30,hi60)",
+      "net": 10.8,
+      "sharpe": 2.61,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo25,hi55)",
+      "net": 9.9,
+      "sharpe": 3.08,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo35,hi60)",
+      "net": 8.5,
+      "sharpe": 1.67,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi55)",
+      "net": 8.0,
+      "sharpe": 2.03,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(21,lo30,hi65)",
+      "net": 7.1,
+      "sharpe": 3.17,
+      "robust": false
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "RSI(14,lo30,hi65)",
+      "net": 6.2,
+      "sharpe": 2.52,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo35,hi65)",
+      "net": 6.2,
+      "sharpe": 1.95,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo30,hi60)",
+      "net": 5.5,
+      "sharpe": 2.7,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo35,hi60)",
+      "net": 5.3,
+      "sharpe": 1.98,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo30,hi55)",
+      "net": 4.6,
+      "sharpe": 2.39,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(21,lo35,hi65)",
+      "net": 4.2,
+      "sharpe": 1.76,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(21,lo35,hi55)",
+      "net": 3.6,
+      "sharpe": 2.55,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo25,hi65)",
+      "net": 3.5,
+      "sharpe": 2.7,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo25,hi60)",
+      "net": 3.2,
+      "sharpe": 3.79,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo35,hi55)",
+      "net": 3.2,
+      "sharpe": 1.31,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "RSI(7,lo35,hi65)",
+      "net": 26.5,
+      "sharpe": 4.99,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo30,hi65)",
+      "net": 25.6,
+      "sharpe": 5.41,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo30,hi60)",
+      "net": 24.4,
+      "sharpe": 5.37,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo30,hi55)",
+      "net": 23.6,
+      "sharpe": 5.47,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo35,hi60)",
+      "net": 23.3,
+      "sharpe": 4.65,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo35,hi55)",
+      "net": 21.6,
+      "sharpe": 4.56,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo25,hi65)",
+      "net": 18.4,
+      "sharpe": 4.46,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo25,hi60)",
+      "net": 15.9,
+      "sharpe": 4.05,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo25,hi55)",
+      "net": 15.1,
+      "sharpe": 3.98,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo35,hi65)",
+      "net": 7.1,
+      "sharpe": 2.11,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "RSI(14,lo35,hi60)",
+      "net": 16.7,
+      "sharpe": 5.33,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(14,lo35,hi55)",
+      "net": 15.2,
+      "sharpe": 5.58,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(14,lo35,hi65)",
+      "net": 13.6,
+      "sharpe": 3.76,
+      "robust": false
+     },
+     {
+      "cfg": "RSI(7,lo35,hi65)",
+      "net": 10.2,
+      "sharpe": 2.21,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo35,hi55)",
+      "net": 10.1,
+      "sharpe": 2.43,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo35,hi60)",
+      "net": 9.0,
+      "sharpe": 2.04,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo30,hi60)",
+      "net": 8.6,
+      "sharpe": 3.77,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi55)",
+      "net": 8.3,
+      "sharpe": 2.54,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo30,hi55)",
+      "net": 7.8,
+      "sharpe": 4.22,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi65)",
+      "net": 7.4,
+      "sharpe": 2.1,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "RSI(7,lo35,hi55)",
+      "net": 13.7,
+      "sharpe": 2.9,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi55)",
+      "net": 11.5,
+      "sharpe": 3.0,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo35,hi60)",
+      "net": 11.1,
+      "sharpe": 2.34,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo25,hi60)",
+      "net": 11.0,
+      "sharpe": 3.07,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo25,hi55)",
+      "net": 10.9,
+      "sharpe": 3.23,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi60)",
+      "net": 9.7,
+      "sharpe": 2.54,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo25,hi65)",
+      "net": 8.6,
+      "sharpe": 2.46,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo30,hi65)",
+      "net": 8.2,
+      "sharpe": 2.11,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(7,lo35,hi65)",
+      "net": 7.8,
+      "sharpe": 1.68,
+      "robust": true
+     },
+     {
+      "cfg": "RSI(14,lo35,hi55)",
+      "net": 5.6,
+      "sharpe": 2.2,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "15m (recovered)",
+    "best_deployable": {
+     "cfg": "RSI(7,lo25,hi65)",
+     "net": 21.0,
+     "sharpe": 4.74,
+     "maxdd": -3.3,
+     "drift": 11.4,
+     "xBH": 0.38,
+     "n_robust": 22,
+     "n_total": 27
+    },
+    "ceiling_xBH": 0.39,
+    "deployable_band": [],
+    "best_ironed_tf": "1d",
+    "verdict": "weak-but-robust diversifier (<=0.5x BH, lowest DD, most robust)"
+   }
+  },
+  "STOCH": {
+   "family": "mean-reversion",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "STOCH(14,lo20,hi80)",
+     "net": 20.6,
+     "sharpe": 3.58,
+     "maxdd": -5.2
+    },
+    "4h": {
+     "cfg": "STOCH(14,lo25,hi80)",
+     "net": 7.3,
+     "sharpe": 1.02,
+     "maxdd": -12.4
+    },
+    "2h": {
+     "cfg": "STOCH(14,lo20,hi55)",
+     "net": 5.4,
+     "sharpe": 0.75,
+     "maxdd": -16.8
+    },
+    "1h": {
+     "cfg": "STOCH(14,lo25,hi55)",
+     "net": 48.8,
+     "sharpe": 3.86,
+     "maxdd": -11.2
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "STOCH(14,lo20,hi80)",
+     "net": 16.2,
+     "xBH": 0.34,
+     "sharpe": 3.99,
+     "maxdd": -2.8,
+     "drift": 2.2,
+     "robust": true,
+     "robust_frac": 0.83
+    },
+    "4h": {
+     "cfg": "STOCH(14,lo25,hi80)",
+     "net": 8.3,
+     "xBH": 0.17,
+     "sharpe": 1.71,
+     "maxdd": -8.7,
+     "drift": 3.4,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "2h": {
+     "cfg": "STOCH(21,lo25,hi80)",
+     "net": 7.1,
+     "xBH": 0.14,
+     "sharpe": 1.74,
+     "maxdd": -6.2,
+     "drift": -1.6,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "1h": {
+     "cfg": "STOCH(21,lo25,hi55)",
+     "net": 12.9,
+     "xBH": 0.25,
+     "sharpe": 3.52,
+     "maxdd": -4.2,
+     "drift": 8.0,
+     "robust": true,
+     "robust_frac": 0.5
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "STOCH(14,lo25,hi80)",
+     "net": 30.9,
+     "sharpe": 5.39,
+     "maxdd": -3.8,
+     "drift": 16.3,
+     "xBH": 0.56,
+     "n_robust": 18,
+     "n_total": 18
+    },
+    "30m": {
+     "cfg": "STOCH(21,lo20,hi70)",
+     "net": 16.3,
+     "sharpe": 3.74,
+     "maxdd": -3.7,
+     "drift": 14.4,
+     "xBH": 0.31,
+     "n_robust": 17,
+     "n_total": 18
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "STOCH(14,lo20,hi80)",
+      "net": 16.2,
+      "sharpe": 3.99,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo25,hi80)",
+      "net": 16.2,
+      "sharpe": 3.99,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi55)",
+      "net": 13.8,
+      "sharpe": 3.62,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo25,hi55)",
+      "net": 13.8,
+      "sharpe": 3.62,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo15,hi80)",
+      "net": 12.6,
+      "sharpe": 3.45,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi70)",
+      "net": 11.6,
+      "sharpe": 3.1,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo25,hi70)",
+      "net": 11.6,
+      "sharpe": 3.1,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(21,lo20,hi70)",
+      "net": 10.1,
+      "sharpe": 3.1,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(21,lo25,hi70)",
+      "net": 9.9,
+      "sharpe": 3.02,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo15,hi55)",
+      "net": 9.6,
+      "sharpe": 2.87,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "STOCH(14,lo25,hi80)",
+      "net": 8.3,
+      "sharpe": 1.71,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo25,hi70)",
+      "net": 6.6,
+      "sharpe": 1.41,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi80)",
+      "net": 6.3,
+      "sharpe": 1.38,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo15,hi80)",
+      "net": 5.5,
+      "sharpe": 1.32,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo25,hi55)",
+      "net": 5.5,
+      "sharpe": 1.27,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(21,lo20,hi80)",
+      "net": 4.8,
+      "sharpe": 1.29,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi70)",
+      "net": 4.7,
+      "sharpe": 1.09,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(21,lo25,hi80)",
+      "net": 4.2,
+      "sharpe": 1.12,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo15,hi70)",
+      "net": 4.0,
+      "sharpe": 1.02,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi55)",
+      "net": 3.3,
+      "sharpe": 0.83,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "STOCH(21,lo25,hi80)",
+      "net": 7.1,
+      "sharpe": 1.74,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(21,lo25,hi70)",
+      "net": 6.1,
+      "sharpe": 1.64,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi70)",
+      "net": 5.3,
+      "sharpe": 1.31,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo15,hi70)",
+      "net": 4.7,
+      "sharpe": 1.3,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi80)",
+      "net": 4.7,
+      "sharpe": 1.13,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi55)",
+      "net": 4.5,
+      "sharpe": 1.14,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(21,lo20,hi80)",
+      "net": 4.5,
+      "sharpe": 1.24,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(21,lo20,hi70)",
+      "net": 4.4,
+      "sharpe": 1.29,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(21,lo15,hi70)",
+      "net": 4.2,
+      "sharpe": 1.22,
+      "robust": true
+     },
+     {
+      "cfg": "STOCH(14,lo25,hi70)",
+      "net": 4.1,
+      "sharpe": 0.99,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "STOCH(14,lo25,hi55)",
+      "net": 24.3,
+      "sharpe": 5.1,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi80)",
+      "net": 24.0,
+      "sharpe": 4.94,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi55)",
+      "net": 23.7,
+      "sharpe": 5.48,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo20,hi70)",
+      "net": 23.4,
+      "sharpe": 5.02,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo25,hi80)",
+      "net": 23.3,
+      "sharpe": 4.35,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo25,hi70)",
+      "net": 22.9,
+      "sharpe": 4.5,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo15,hi80)",
+      "net": 22.5,
+      "sharpe": 4.87,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo15,hi55)",
+      "net": 22.0,
+      "sharpe": 5.37,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(14,lo15,hi70)",
+      "net": 21.6,
+      "sharpe": 4.91,
+      "robust": false
+     },
+     {
+      "cfg": "STOCH(21,lo25,hi55)",
+      "net": 12.9,
+      "sharpe": 3.52,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "15m (recovered)",
+    "best_deployable": {
+     "cfg": "STOCH(14,lo25,hi80)",
+     "net": 30.9,
+     "sharpe": 5.39,
+     "maxdd": -3.8,
+     "drift": 16.3,
+     "xBH": 0.56,
+     "n_robust": 18,
+     "n_total": 18
+    },
+    "ceiling_xBH": 0.56,
+    "deployable_band": [
+     "15m/recovered"
+    ],
+    "best_ironed_tf": "1d",
+    "verdict": "weak-but-robust diversifier (<=0.5x BH, lowest DD, most robust)"
+   }
+  },
+  "BBPCT": {
+   "family": "mean-reversion",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "BBPCT(14,lo0.2,hi0.7)",
+     "net": 21.5,
+     "sharpe": 3.87,
+     "maxdd": -3.2
+    },
+    "4h": {
+     "cfg": "BBPCT(20,lo0.1,hi0.9)",
+     "net": 11.9,
+     "sharpe": 1.86,
+     "maxdd": -11.6
+    },
+    "2h": {
+     "cfg": "BBPCT(14,lo0.2,hi0.9)",
+     "net": 12.7,
+     "sharpe": 1.41,
+     "maxdd": -18.3
+    },
+    "1h": {
+     "cfg": "BBPCT(14,lo0.2,hi0.5)",
+     "net": 31.0,
+     "sharpe": 2.93,
+     "maxdd": -11.1
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "BBPCT(14,lo0.2,hi0.9)",
+     "net": 13.8,
+     "xBH": 0.29,
+     "sharpe": 3.1,
+     "maxdd": -1.9,
+     "drift": -1.4,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "4h": {
+     "cfg": "BBPCT(20,lo0.2,hi0.9)",
+     "net": 4.1,
+     "xBH": 0.09,
+     "sharpe": 1.02,
+     "maxdd": -6.2,
+     "drift": 7.1,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "2h": {
+     "cfg": "BBPCT(14,lo0.2,hi0.9)",
+     "net": 10.3,
+     "xBH": 0.21,
+     "sharpe": 2.16,
+     "maxdd": -8.5,
+     "drift": 1.1,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "1h": {
+     "cfg": "BBPCT(20,lo0.1,hi0.9)",
+     "net": 12.7,
+     "xBH": 0.25,
+     "sharpe": 3.4,
+     "maxdd": -4.2,
+     "drift": 8.1,
+     "robust": true,
+     "robust_frac": 0.83
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "BBPCT(14,lo0.2,hi0.9)",
+     "net": 24.5,
+     "sharpe": 4.04,
+     "maxdd": -4.0,
+     "drift": 6.8,
+     "xBH": 0.45,
+     "n_robust": 18,
+     "n_total": 18
+    },
+    "30m": {
+     "cfg": "BBPCT(14,lo0.1,hi0.9)",
+     "net": 22.3,
+     "sharpe": 4.97,
+     "maxdd": -2.9,
+     "drift": 18.6,
+     "xBH": 0.42,
+     "n_robust": 18,
+     "n_total": 18
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.9)",
+      "net": 13.8,
+      "sharpe": 3.1,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.7)",
+      "net": 12.8,
+      "sharpe": 3.46,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.5)",
+      "net": 11.2,
+      "sharpe": 2.94,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.2,hi0.7)",
+      "net": 8.5,
+      "sharpe": 2.54,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.2,hi0.9)",
+      "net": 7.7,
+      "sharpe": 2.09,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.2,hi0.5)",
+      "net": 7.6,
+      "sharpe": 2.41,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.1,hi0.9)",
+      "net": 5.1,
+      "sharpe": 2.03,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.1,hi0.7)",
+      "net": 4.7,
+      "sharpe": 2.33,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.1,hi0.9)",
+      "net": 4.7,
+      "sharpe": 2.16,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.0,hi0.9)",
+      "net": 3.3,
+      "sharpe": 2.01,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "BBPCT(20,lo0.2,hi0.9)",
+      "net": 4.1,
+      "sharpe": 1.02,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.1,hi0.9)",
+      "net": 4.0,
+      "sharpe": 1.04,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.1,hi0.9)",
+      "net": 3.6,
+      "sharpe": 1.13,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.1,hi0.7)",
+      "net": 3.5,
+      "sharpe": 1.01,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.0,hi0.7)",
+      "net": 3.4,
+      "sharpe": 1.16,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.0,hi0.5)",
+      "net": 3.2,
+      "sharpe": 1.24,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.0,hi0.9)",
+      "net": 3.1,
+      "sharpe": 1.14,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.0,hi0.9)",
+      "net": 2.9,
+      "sharpe": 0.9,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.9)",
+      "net": 2.9,
+      "sharpe": 0.65,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.7)",
+      "net": 2.7,
+      "sharpe": 0.65,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.9)",
+      "net": 10.3,
+      "sharpe": 2.16,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.1,hi0.9)",
+      "net": 7.6,
+      "sharpe": 1.84,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.7)",
+      "net": 6.2,
+      "sharpe": 1.45,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.0,hi0.9)",
+      "net": 4.4,
+      "sharpe": 1.25,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.1,hi0.7)",
+      "net": 4.3,
+      "sharpe": 1.13,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.2,hi0.7)",
+      "net": 2.8,
+      "sharpe": 0.81,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.2,hi0.9)",
+      "net": 2.5,
+      "sharpe": 0.69,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.1,hi0.7)",
+      "net": 2.1,
+      "sharpe": 0.59,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.1,hi0.9)",
+      "net": 1.9,
+      "sharpe": 0.52,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.2,hi0.5)",
+      "net": 1.4,
+      "sharpe": 0.46,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.7)",
+      "net": 20.9,
+      "sharpe": 4.81,
+      "robust": false
+     },
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.5)",
+      "net": 20.3,
+      "sharpe": 5.13,
+      "robust": false
+     },
+     {
+      "cfg": "BBPCT(14,lo0.2,hi0.9)",
+      "net": 18.0,
+      "sharpe": 3.71,
+      "robust": false
+     },
+     {
+      "cfg": "BBPCT(20,lo0.1,hi0.9)",
+      "net": 12.7,
+      "sharpe": 3.4,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.1,hi0.7)",
+      "net": 12.1,
+      "sharpe": 3.55,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.1,hi0.5)",
+      "net": 11.9,
+      "sharpe": 3.83,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.0,hi0.7)",
+      "net": 11.3,
+      "sharpe": 4.18,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.1,hi0.7)",
+      "net": 10.7,
+      "sharpe": 3.26,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(20,lo0.2,hi0.9)",
+      "net": 10.6,
+      "sharpe": 2.68,
+      "robust": true
+     },
+     {
+      "cfg": "BBPCT(14,lo0.0,hi0.5)",
+      "net": 10.5,
+      "sharpe": 4.21,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "15m (recovered)",
+    "best_deployable": {
+     "cfg": "BBPCT(14,lo0.2,hi0.9)",
+     "net": 24.5,
+     "sharpe": 4.04,
+     "maxdd": -4.0,
+     "drift": 6.8,
+     "xBH": 0.45,
+     "n_robust": 18,
+     "n_total": 18
+    },
+    "ceiling_xBH": 0.45,
+    "deployable_band": [],
+    "best_ironed_tf": "1d",
+    "verdict": "weak-but-robust diversifier (<=0.5x BH, lowest DD, most robust)"
+   }
+  },
+  "CCI": {
+   "family": "mean-reversion",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "CCI(14,lo-100,hi0)",
+     "net": 17.2,
+     "sharpe": 2.75,
+     "maxdd": -4.2
+    },
+    "4h": {
+     "cfg": "CCI(20,lo-100,hi100)",
+     "net": 6.1,
+     "sharpe": 1.11,
+     "maxdd": -11.1
+    },
+    "2h": {
+     "cfg": "CCI(20,lo-100,hi80)",
+     "net": -1.4,
+     "sharpe": -0.03,
+     "maxdd": -15.5
+    },
+    "1h": {
+     "cfg": "CCI(14,lo-80,hi0)",
+     "net": 10.7,
+     "sharpe": 1.3,
+     "maxdd": -11.7
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "CCI(14,lo-80,hi100)",
+     "net": 10.1,
+     "xBH": 0.21,
+     "sharpe": 2.59,
+     "maxdd": -2.6,
+     "drift": 3.7,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "4h": {
+     "cfg": "CCI(20,lo-100,hi100)",
+     "net": 5.4,
+     "xBH": 0.11,
+     "sharpe": 1.76,
+     "maxdd": -3.7,
+     "drift": 8.8,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "2h": {
+     "cfg": "CCI(14,lo-80,hi80)",
+     "net": 2.3,
+     "xBH": 0.05,
+     "sharpe": 0.62,
+     "maxdd": -8.8,
+     "drift": -3.5,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "1h": {
+     "cfg": "CCI(14,lo-80,hi0)",
+     "net": 12.4,
+     "xBH": 0.24,
+     "sharpe": 3.79,
+     "maxdd": -4.3,
+     "drift": 8.6,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "CCI(14,lo-80,hi0)",
+     "net": 18.6,
+     "sharpe": 3.83,
+     "maxdd": -3.3,
+     "drift": 3.2,
+     "xBH": 0.34,
+     "n_robust": 18,
+     "n_total": 18
+    },
+    "30m": {
+     "cfg": "CCI(14,lo-80,hi100)",
+     "net": 17.9,
+     "sharpe": 4.17,
+     "maxdd": -3.8,
+     "drift": 16.6,
+     "xBH": 0.34,
+     "n_robust": 17,
+     "n_total": 18
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "CCI(14,lo-80,hi100)",
+      "net": 10.1,
+      "sharpe": 2.59,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-80,hi0)",
+      "net": 9.5,
+      "sharpe": 2.6,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-80,hi80)",
+      "net": 9.3,
+      "sharpe": 2.41,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-100,hi100)",
+      "net": 7.4,
+      "sharpe": 2.42,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-100,hi80)",
+      "net": 7.1,
+      "sharpe": 2.38,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-100,hi0)",
+      "net": 6.8,
+      "sharpe": 2.42,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-100,hi100)",
+      "net": 2.8,
+      "sharpe": 0.99,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi100)",
+      "net": 2.4,
+      "sharpe": 0.86,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-100,hi0)",
+      "net": 2.2,
+      "sharpe": 1.31,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi0)",
+      "net": 1.8,
+      "sharpe": 1.08,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "CCI(20,lo-100,hi100)",
+      "net": 5.4,
+      "sharpe": 1.76,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-150,hi100)",
+      "net": 4.9,
+      "sharpe": 2.24,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi100)",
+      "net": 4.1,
+      "sharpe": 1.21,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-100,hi80)",
+      "net": 3.5,
+      "sharpe": 1.28,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-150,hi80)",
+      "net": 2.9,
+      "sharpe": 1.45,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi80)",
+      "net": 2.1,
+      "sharpe": 0.68,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-150,hi100)",
+      "net": 1.6,
+      "sharpe": 0.63,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-80,hi100)",
+      "net": 1.2,
+      "sharpe": 0.36,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-100,hi0)",
+      "net": 1.0,
+      "sharpe": 0.51,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-80,hi80)",
+      "net": 0.9,
+      "sharpe": 0.3,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "CCI(14,lo-80,hi80)",
+      "net": 2.3,
+      "sharpe": 0.62,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-100,hi80)",
+      "net": 1.7,
+      "sharpe": 0.55,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi80)",
+      "net": 1.5,
+      "sharpe": 0.45,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-150,hi80)",
+      "net": 0.8,
+      "sharpe": 0.4,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi0)",
+      "net": 0.6,
+      "sharpe": 0.24,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-150,hi80)",
+      "net": 0.5,
+      "sharpe": 0.2,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-80,hi100)",
+      "net": 0.5,
+      "sharpe": 0.2,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-150,hi100)",
+      "net": 0.0,
+      "sharpe": 0.06,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-100,hi0)",
+      "net": 0.0,
+      "sharpe": 0.07,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-100,hi80)",
+      "net": -0.1,
+      "sharpe": 0.07,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "CCI(14,lo-80,hi0)",
+      "net": 12.4,
+      "sharpe": 3.79,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-80,hi80)",
+      "net": 12.0,
+      "sharpe": 3.06,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-100,hi80)",
+      "net": 11.7,
+      "sharpe": 3.28,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-100,hi0)",
+      "net": 11.2,
+      "sharpe": 4.07,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-80,hi100)",
+      "net": 10.3,
+      "sharpe": 2.63,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-100,hi100)",
+      "net": 10.1,
+      "sharpe": 2.87,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi0)",
+      "net": 8.6,
+      "sharpe": 2.78,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi100)",
+      "net": 7.4,
+      "sharpe": 1.95,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(20,lo-80,hi80)",
+      "net": 6.9,
+      "sharpe": 1.87,
+      "robust": true
+     },
+     {
+      "cfg": "CCI(14,lo-150,hi80)",
+      "net": 6.2,
+      "sharpe": 2.31,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "15m (recovered)",
+    "best_deployable": {
+     "cfg": "CCI(14,lo-80,hi0)",
+     "net": 18.6,
+     "sharpe": 3.83,
+     "maxdd": -3.3,
+     "drift": 3.2,
+     "xBH": 0.34,
+     "n_robust": 18,
+     "n_total": 18
+    },
+    "ceiling_xBH": 0.34,
+    "deployable_band": [],
+    "best_ironed_tf": "1h",
+    "verdict": "weak-but-robust diversifier (<=0.5x BH, lowest DD, most robust)"
+   }
+  },
+  "WILLR": {
+   "family": "mean-reversion",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "WILLR(14,lo-80,hi-20)",
+     "net": 20.6,
+     "sharpe": 3.58,
+     "maxdd": -5.2
+    },
+    "4h": {
+     "cfg": "WILLR(21,lo-80,hi-50)",
+     "net": 6.4,
+     "sharpe": 1.1,
+     "maxdd": -7.0
+    },
+    "2h": {
+     "cfg": "WILLR(14,lo-80,hi-50)",
+     "net": 5.8,
+     "sharpe": 0.8,
+     "maxdd": -16.2
+    },
+    "1h": {
+     "cfg": "WILLR(14,lo-80,hi-30)",
+     "net": 32.8,
+     "sharpe": 2.79,
+     "maxdd": -10.7
+    },
+    "30m": {
+     "cfg": "WILLR(14,lo-90,hi-30)",
+     "net": 40.2,
+     "sharpe": 3.77,
+     "maxdd": -8.8
+    },
+    "15m": {
+     "cfg": "WILLR(14,lo-90,hi-50)",
+     "net": 46.5,
+     "sharpe": 4.24,
+     "maxdd": -10.5
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "WILLR(14,lo-80,hi-20)",
+     "net": 16.2,
+     "xBH": 0.34,
+     "sharpe": 3.99,
+     "maxdd": -2.8,
+     "drift": 2.2,
+     "robust": true,
+     "robust_frac": 0.92
+    },
+    "4h": {
+     "cfg": "WILLR(14,lo-80,hi-20)",
+     "net": 6.3,
+     "xBH": 0.13,
+     "sharpe": 1.38,
+     "maxdd": -7.9,
+     "drift": 2.7,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "2h": {
+     "cfg": "WILLR(14,lo-80,hi-30)",
+     "net": 5.4,
+     "xBH": 0.11,
+     "sharpe": 1.32,
+     "maxdd": -7.4,
+     "drift": -2.5,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "1h": {
+     "cfg": "WILLR(21,lo-90,hi-50)",
+     "net": 11.4,
+     "xBH": 0.22,
+     "sharpe": 4.01,
+     "maxdd": -3.0,
+     "drift": 9.3,
+     "robust": true,
+     "robust_frac": 0.5
+    },
+    "30m": {
+     "cfg": "WILLR(14,lo-90,hi-30)",
+     "net": 12.4,
+     "xBH": 0.23,
+     "sharpe": 4.12,
+     "maxdd": -2.7,
+     "drift": 3.7,
+     "robust": true,
+     "robust_frac": 0.75
+    },
+    "15m": {
+     "cfg": "WILLR(14,lo-90,hi-30)",
+     "net": 20.2,
+     "xBH": 0.37,
+     "sharpe": 5.56,
+     "maxdd": -2.7,
+     "drift": 8.3,
+     "robust": true,
+     "robust_frac": 0.83
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "WILLR(14,lo-80,hi-20)",
+     "net": 26.4,
+     "sharpe": 4.8,
+     "maxdd": -4.2,
+     "drift": 8.6,
+     "xBH": 0.48,
+     "n_robust": 12,
+     "n_total": 12
+    },
+    "30m": {
+     "cfg": "WILLR(21,lo-80,hi-30)",
+     "net": 16.4,
+     "sharpe": 3.76,
+     "maxdd": -3.7,
+     "drift": 14.5,
+     "xBH": 0.31,
+     "n_robust": 12,
+     "n_total": 12
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "WILLR(14,lo-80,hi-20)",
+      "net": 16.2,
+      "sharpe": 3.99,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-50)",
+      "net": 13.8,
+      "sharpe": 3.62,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-20)",
+      "net": 11.9,
+      "sharpe": 3.3,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-30)",
+      "net": 11.6,
+      "sharpe": 3.1,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-30)",
+      "net": 10.1,
+      "sharpe": 3.1,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-50)",
+      "net": 8.8,
+      "sharpe": 2.68,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-20)",
+      "net": 8.5,
+      "sharpe": 2.53,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-50)",
+      "net": 7.5,
+      "sharpe": 2.35,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-30)",
+      "net": 7.4,
+      "sharpe": 2.23,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-30)",
+      "net": 6.4,
+      "sharpe": 2.92,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "WILLR(14,lo-80,hi-20)",
+      "net": 6.3,
+      "sharpe": 1.38,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-20)",
+      "net": 4.8,
+      "sharpe": 1.23,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-50)",
+      "net": 4.8,
+      "sharpe": 1.19,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-20)",
+      "net": 4.8,
+      "sharpe": 1.29,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-30)",
+      "net": 4.7,
+      "sharpe": 1.09,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-30)",
+      "net": 3.8,
+      "sharpe": 1.02,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-50)",
+      "net": 3.3,
+      "sharpe": 1.02,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-20)",
+      "net": 3.3,
+      "sharpe": 0.95,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-50)",
+      "net": 2.4,
+      "sharpe": 0.79,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-30)",
+      "net": 2.0,
+      "sharpe": 0.61,
+      "robust": true
+     }
+    ],
+    "2h": [
+     {
+      "cfg": "WILLR(14,lo-80,hi-30)",
+      "net": 5.4,
+      "sharpe": 1.32,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-30)",
+      "net": 4.8,
+      "sharpe": 1.39,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-20)",
+      "net": 4.7,
+      "sharpe": 1.14,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-20)",
+      "net": 4.5,
+      "sharpe": 1.24,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-30)",
+      "net": 4.4,
+      "sharpe": 1.29,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-20)",
+      "net": 4.3,
+      "sharpe": 1.16,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-50)",
+      "net": 4.1,
+      "sharpe": 1.09,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-50)",
+      "net": 3.3,
+      "sharpe": 1.02,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-30)",
+      "net": 2.9,
+      "sharpe": 0.94,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-50)",
+      "net": 2.4,
+      "sharpe": 0.79,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "WILLR(14,lo-80,hi-20)",
+      "net": 24.0,
+      "sharpe": 4.95,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-50)",
+      "net": 23.8,
+      "sharpe": 5.66,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-30)",
+      "net": 23.5,
+      "sharpe": 5.03,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-50)",
+      "net": 23.0,
+      "sharpe": 6.62,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-30)",
+      "net": 23.0,
+      "sharpe": 6.02,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-20)",
+      "net": 22.3,
+      "sharpe": 5.63,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-50)",
+      "net": 11.4,
+      "sharpe": 4.01,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-50)",
+      "net": 11.3,
+      "sharpe": 3.3,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-30)",
+      "net": 8.2,
+      "sharpe": 2.26,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-20)",
+      "net": 7.9,
+      "sharpe": 2.09,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "WILLR(21,lo-90,hi-20)",
+      "net": 12.5,
+      "sharpe": 4.08,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-30)",
+      "net": 12.4,
+      "sharpe": 4.12,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-30)",
+      "net": 12.2,
+      "sharpe": 4.27,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-20)",
+      "net": 12.0,
+      "sharpe": 3.91,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-50)",
+      "net": 10.0,
+      "sharpe": 4.35,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-50)",
+      "net": 8.6,
+      "sharpe": 3.34,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-20)",
+      "net": 8.5,
+      "sharpe": 2.42,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-30)",
+      "net": 8.3,
+      "sharpe": 2.48,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-50)",
+      "net": 7.8,
+      "sharpe": 2.82,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-20)",
+      "net": 7.7,
+      "sharpe": 2.11,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "WILLR(14,lo-90,hi-50)",
+      "net": 22.0,
+      "sharpe": 6.59,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-30)",
+      "net": 20.2,
+      "sharpe": 5.56,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-50)",
+      "net": 20.1,
+      "sharpe": 5.01,
+      "robust": false
+     },
+     {
+      "cfg": "WILLR(14,lo-90,hi-20)",
+      "net": 16.8,
+      "sharpe": 4.55,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-30)",
+      "net": 16.3,
+      "sharpe": 3.77,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(14,lo-80,hi-20)",
+      "net": 13.1,
+      "sharpe": 2.98,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-50)",
+      "net": 12.1,
+      "sharpe": 3.68,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-50)",
+      "net": 11.3,
+      "sharpe": 4.48,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-80,hi-30)",
+      "net": 7.4,
+      "sharpe": 2.07,
+      "robust": true
+     },
+     {
+      "cfg": "WILLR(21,lo-90,hi-30)",
+      "net": 6.5,
+      "sharpe": 2.27,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "15m (recovered)",
+    "best_deployable": {
+     "cfg": "WILLR(14,lo-80,hi-20)",
+     "net": 26.4,
+     "sharpe": 4.8,
+     "maxdd": -4.2,
+     "drift": 8.6,
+     "xBH": 0.48,
+     "n_robust": 12,
+     "n_total": 12
+    },
+    "ceiling_xBH": 0.48,
+    "deployable_band": [],
+    "best_ironed_tf": "15m",
+    "verdict": "weak-but-robust diversifier (<=0.5x BH, lowest DD, most robust)"
+   }
+  }
+ },
+ "volume": {
+  "OBV": {
+   "family": "volume",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "OBV(10)",
+     "net": 43.7,
+     "sharpe": 2.58,
+     "maxdd": -19.3
+    },
+    "4h": {
+     "cfg": "OBV(10)",
+     "net": 40.4,
+     "sharpe": 2.4,
+     "maxdd": -16.6
+    },
+    "1h": {
+     "cfg": "OBV(100)",
+     "net": 28.9,
+     "sharpe": 2.28,
+     "maxdd": -9.4
+    },
+    "30m": {
+     "cfg": "OBV(50)",
+     "net": 13.8,
+     "sharpe": 1.24,
+     "maxdd": -13.3
+    },
+    "15m": {
+     "cfg": "OBV(100)",
+     "net": 4.9,
+     "sharpe": 0.63,
+     "maxdd": -14.8
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "OBV(20)",
+     "net": 46.0,
+     "xBH": 0.8,
+     "sharpe": 3.75,
+     "maxdd": -10.9,
+     "drift": 27.5,
+     "robust": false,
+     "robust_frac": 0.0
+    },
+    "4h": {
+     "cfg": "OBV(10)",
+     "net": 31.2,
+     "xBH": 0.55,
+     "sharpe": 2.8,
+     "maxdd": -10.9,
+     "drift": 8.3,
+     "robust": true,
+     "robust_frac": 0.25
+    },
+    "1h": {
+     "cfg": "OBV(20)",
+     "net": 23.0,
+     "xBH": 0.38,
+     "sharpe": 2.47,
+     "maxdd": -9.7,
+     "drift": 9.8,
+     "robust": true,
+     "robust_frac": 0.25
+    },
+    "30m": {
+     "cfg": "OBV(20)",
+     "net": 15.3,
+     "xBH": 0.25,
+     "sharpe": 1.91,
+     "maxdd": -8.7,
+     "drift": 3.9,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "15m": {
+     "cfg": "OBV(100)",
+     "net": 10.8,
+     "xBH": 0.17,
+     "sharpe": 1.45,
+     "maxdd": -6.4,
+     "drift": 5.7,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "OBV(100)",
+     "net": 16.6,
+     "sharpe": 3.06,
+     "maxdd": -5.5,
+     "drift": 5.7,
+     "xBH": 0.3,
+     "n_robust": 3,
+     "n_total": 4
+    },
+    "30m": {
+     "cfg": "OBV(50)",
+     "net": 21.7,
+     "sharpe": 3.26,
+     "maxdd": -5.7,
+     "drift": 15.0,
+     "xBH": 0.41,
+     "n_robust": 4,
+     "n_total": 4
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "OBV(20)",
+      "net": 46.0,
+      "sharpe": 3.75,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(50)",
+      "net": 43.8,
+      "sharpe": 4.48,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(10)",
+      "net": 41.1,
+      "sharpe": 3.33,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(100)",
+      "net": 31.5,
+      "sharpe": 3.71,
+      "robust": false
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "OBV(20)",
+      "net": 36.4,
+      "sharpe": 3.25,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(50)",
+      "net": 33.8,
+      "sharpe": 3.17,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(100)",
+      "net": 33.3,
+      "sharpe": 3.25,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(10)",
+      "net": 31.2,
+      "sharpe": 2.8,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "OBV(100)",
+      "net": 31.6,
+      "sharpe": 3.28,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(50)",
+      "net": 29.8,
+      "sharpe": 3.12,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(10)",
+      "net": 25.2,
+      "sharpe": 2.67,
+      "robust": false
+     },
+     {
+      "cfg": "OBV(20)",
+      "net": 23.0,
+      "sharpe": 2.47,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "OBV(20)",
+      "net": 15.3,
+      "sharpe": 1.91,
+      "robust": true
+     },
+     {
+      "cfg": "OBV(50)",
+      "net": 14.6,
+      "sharpe": 1.79,
+      "robust": true
+     },
+     {
+      "cfg": "OBV(100)",
+      "net": 13.9,
+      "sharpe": 1.79,
+      "robust": true
+     },
+     {
+      "cfg": "OBV(10)",
+      "net": 11.8,
+      "sharpe": 1.54,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "OBV(100)",
+      "net": 10.8,
+      "sharpe": 1.45,
+      "robust": true
+     },
+     {
+      "cfg": "OBV(50)",
+      "net": 7.7,
+      "sharpe": 1.11,
+      "robust": true
+     },
+     {
+      "cfg": "OBV(10)",
+      "net": 2.4,
+      "sharpe": 0.46,
+      "robust": true
+     },
+     {
+      "cfg": "OBV(20)",
+      "net": 0.0,
+      "sharpe": 0.15,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "4h (ironed)",
+    "best_deployable": {
+     "cfg": "OBV(10)",
+     "net": 31.2,
+     "xBH": 0.55,
+     "sharpe": 2.8,
+     "maxdd": -10.9,
+     "drift": 8.3,
+     "robust": true,
+     "robust_frac": 0.25
+    },
+    "ceiling_xBH": 0.55,
+    "deployable_band": [
+     "4h/ironed"
+    ],
+    "best_ironed_tf": "1d",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "MFI": {
+   "family": "volume",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "MFI(14,lo30,hi70)",
+     "net": 7.2,
+     "sharpe": 2.15,
+     "maxdd": -4.1
+    },
+    "4h": {
+     "cfg": "MFI(14,lo30,hi70)",
+     "net": 15.8,
+     "sharpe": 3.48,
+     "maxdd": -3.7
+    },
+    "1h": {
+     "cfg": "MFI(14,lo30,hi80)",
+     "net": 21.7,
+     "sharpe": 3.23,
+     "maxdd": -5.7
+    },
+    "30m": {
+     "cfg": "MFI(14,lo30,hi80)",
+     "net": 32.2,
+     "sharpe": 5.15,
+     "maxdd": -5.7
+    },
+    "15m": {
+     "cfg": "MFI(14,lo30,hi80)",
+     "net": 20.4,
+     "sharpe": 3.09,
+     "maxdd": -6.8
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "MFI(21,lo30,hi80)",
+     "net": 12.2,
+     "xBH": 0.21,
+     "sharpe": 2.3,
+     "maxdd": -7.7,
+     "drift": 8.5,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "4h": {
+     "cfg": "MFI(14,lo30,hi80)",
+     "net": 24.9,
+     "xBH": 0.44,
+     "sharpe": 2.89,
+     "maxdd": -6.4,
+     "drift": 5.1,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "1h": {
+     "cfg": "MFI(14,lo20,hi80)",
+     "net": 13.6,
+     "xBH": 0.22,
+     "sharpe": 3.38,
+     "maxdd": -3.4,
+     "drift": -2.5,
+     "robust": true,
+     "robust_frac": 0.83
+    },
+    "30m": {
+     "cfg": "MFI(14,lo30,hi80)",
+     "net": 18.9,
+     "xBH": 0.3,
+     "sharpe": 2.37,
+     "maxdd": -7.7,
+     "drift": 8.6,
+     "robust": true,
+     "robust_frac": 0.83
+    },
+    "15m": {
+     "cfg": "MFI(21,lo30,hi80)",
+     "net": 10.7,
+     "xBH": 0.17,
+     "sharpe": 1.37,
+     "maxdd": -7.8,
+     "drift": 2.7,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "MFI(21,lo30,hi80)",
+     "net": 21.2,
+     "sharpe": 3.08,
+     "maxdd": -5.0,
+     "drift": 2.9,
+     "xBH": 0.39,
+     "n_robust": 9,
+     "n_total": 12
+    },
+    "30m": {
+     "cfg": "MFI(21,lo30,hi80)",
+     "net": 18.3,
+     "sharpe": 2.51,
+     "maxdd": -5.0,
+     "drift": 12.6,
+     "xBH": 0.34,
+     "n_robust": 5,
+     "n_total": 12
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "MFI(21,lo30,hi80)",
+      "net": 12.2,
+      "sharpe": 2.3,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi80)",
+      "net": 8.7,
+      "sharpe": 1.84,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi70)",
+      "net": 2.7,
+      "sharpe": 0.79,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi80)",
+      "net": 2.1,
+      "sharpe": 0.67,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi70)",
+      "net": 0.5,
+      "sharpe": 0.3,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi55)",
+      "net": -0.0,
+      "sharpe": -2.0,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi55)",
+      "net": -0.0,
+      "sharpe": -2.0,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi55)",
+      "net": -0.9,
+      "sharpe": -1.4,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi55)",
+      "net": -0.9,
+      "sharpe": -1.4,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi80)",
+      "net": -1.6,
+      "sharpe": -1.23,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "MFI(14,lo30,hi80)",
+      "net": 24.9,
+      "sharpe": 2.89,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi80)",
+      "net": 15.6,
+      "sharpe": 2.27,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi70)",
+      "net": 9.8,
+      "sharpe": 3.7,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi55)",
+      "net": 6.3,
+      "sharpe": 4.42,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi80)",
+      "net": 5.7,
+      "sharpe": 1.24,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi55)",
+      "net": 2.8,
+      "sharpe": 2.51,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi80)",
+      "net": 2.1,
+      "sharpe": 0.96,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi70)",
+      "net": 1.8,
+      "sharpe": 2.1,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi70)",
+      "net": 1.5,
+      "sharpe": 0.48,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi55)",
+      "net": 0.0,
+      "sharpe": 0.0,
+      "robust": true
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "MFI(14,lo30,hi80)",
+      "net": 39.7,
+      "sharpe": 3.88,
+      "robust": false
+     },
+     {
+      "cfg": "MFI(21,lo30,hi80)",
+      "net": 38.7,
+      "sharpe": 3.88,
+      "robust": false
+     },
+     {
+      "cfg": "MFI(14,lo20,hi80)",
+      "net": 13.6,
+      "sharpe": 3.38,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi70)",
+      "net": 13.2,
+      "sharpe": 3.71,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi80)",
+      "net": 10.3,
+      "sharpe": 2.76,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi70)",
+      "net": 7.2,
+      "sharpe": 2.65,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi55)",
+      "net": 5.0,
+      "sharpe": 3.13,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi70)",
+      "net": 1.8,
+      "sharpe": 1.91,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi55)",
+      "net": 1.1,
+      "sharpe": 2.36,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi70)",
+      "net": 0.2,
+      "sharpe": 0.37,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "MFI(14,lo30,hi80)",
+      "net": 18.9,
+      "sharpe": 2.37,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi80)",
+      "net": 16.3,
+      "sharpe": 2.73,
+      "robust": false
+     },
+     {
+      "cfg": "MFI(21,lo30,hi80)",
+      "net": 15.6,
+      "sharpe": 1.98,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi80)",
+      "net": 8.9,
+      "sharpe": 2.08,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi70)",
+      "net": 7.9,
+      "sharpe": 2.63,
+      "robust": false
+     },
+     {
+      "cfg": "MFI(14,lo30,hi70)",
+      "net": 5.3,
+      "sharpe": 1.6,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi70)",
+      "net": 2.5,
+      "sharpe": 4.02,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi70)",
+      "net": 2.5,
+      "sharpe": 2.83,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi55)",
+      "net": 1.7,
+      "sharpe": 2.84,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi55)",
+      "net": 1.6,
+      "sharpe": 0.95,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "MFI(21,lo30,hi80)",
+      "net": 10.7,
+      "sharpe": 1.37,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi80)",
+      "net": 7.7,
+      "sharpe": 1.13,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi70)",
+      "net": 4.6,
+      "sharpe": 1.38,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo30,hi55)",
+      "net": 4.2,
+      "sharpe": 2.25,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi80)",
+      "net": 1.8,
+      "sharpe": 0.65,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi55)",
+      "net": -0.0,
+      "sharpe": -0.18,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo30,hi55)",
+      "net": 0.0,
+      "sharpe": 0.03,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi55)",
+      "net": -0.2,
+      "sharpe": -0.92,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(14,lo20,hi70)",
+      "net": -0.5,
+      "sharpe": -0.86,
+      "robust": true
+     },
+     {
+      "cfg": "MFI(21,lo20,hi70)",
+      "net": -0.5,
+      "sharpe": -0.67,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "4h (ironed)",
+    "best_deployable": {
+     "cfg": "MFI(14,lo30,hi80)",
+     "net": 24.9,
+     "xBH": 0.44,
+     "sharpe": 2.89,
+     "maxdd": -6.4,
+     "drift": 5.1,
+     "robust": true,
+     "robust_frac": 1.0
+    },
+    "ceiling_xBH": 0.44,
+    "deployable_band": [],
+    "best_ironed_tf": "4h",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "VOLIMB": {
+   "family": "volume",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "VOLIMB(3,thr0.52)",
+     "net": 54.8,
+     "sharpe": 3.35,
+     "maxdd": -12.5
+    },
+    "4h": {
+     "cfg": "VOLIMB(28,thr0.5)",
+     "net": 48.8,
+     "sharpe": 4.73,
+     "maxdd": -7.5
+    },
+    "1h": {
+     "cfg": "VOLIMB(28,thr0.5)",
+     "net": 37.4,
+     "sharpe": 3.41,
+     "maxdd": -12.1
+    },
+    "30m": {
+     "cfg": "VOLIMB(28,thr0.5)",
+     "net": 34.8,
+     "sharpe": 2.87,
+     "maxdd": -11.1
+    },
+    "15m": {
+     "cfg": "VOLIMB(28,thr0.5)",
+     "net": 29.9,
+     "sharpe": 2.48,
+     "maxdd": -10.9
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "VOLIMB(7,thr0.5)",
+     "net": 30.6,
+     "xBH": 0.53,
+     "sharpe": 3.55,
+     "maxdd": -6.0,
+     "drift": 2.9,
+     "robust": true,
+     "robust_frac": 0.5
+    },
+    "4h": {
+     "cfg": "VOLIMB(3,thr0.55)",
+     "net": 25.6,
+     "xBH": 0.45,
+     "sharpe": 3.26,
+     "maxdd": -6.8,
+     "drift": 7.5,
+     "robust": true,
+     "robust_frac": 0.42
+    },
+    "1h": {
+     "cfg": "VOLIMB(3,thr0.52)",
+     "net": 33.8,
+     "xBH": 0.56,
+     "sharpe": 4.07,
+     "maxdd": -7.1,
+     "drift": 7.8,
+     "robust": true,
+     "robust_frac": 0.58
+    },
+    "30m": {
+     "cfg": "VOLIMB(7,thr0.52)",
+     "net": 16.3,
+     "xBH": 0.26,
+     "sharpe": 2.54,
+     "maxdd": -5.6,
+     "drift": 9.7,
+     "robust": true,
+     "robust_frac": 0.5
+    },
+    "15m": {
+     "cfg": "VOLIMB(14,thr0.52)",
+     "net": 7.1,
+     "xBH": 0.11,
+     "sharpe": 1.46,
+     "maxdd": -3.9,
+     "drift": 1.9,
+     "robust": true,
+     "robust_frac": 0.83
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "VOLIMB(28,thr0.52)",
+     "net": 14.3,
+     "sharpe": 3.72,
+     "maxdd": -3.2,
+     "drift": 10.1,
+     "xBH": 0.26,
+     "n_robust": 12,
+     "n_total": 12
+    },
+    "30m": {
+     "cfg": "VOLIMB(7,thr0.52)",
+     "net": 13.5,
+     "sharpe": 2.88,
+     "maxdd": -4.8,
+     "drift": 10.3,
+     "xBH": 0.25,
+     "n_robust": 8,
+     "n_total": 12
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "VOLIMB(3,thr0.52)",
+      "net": 55.9,
+      "sharpe": 4.81,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.5)",
+      "net": 49.5,
+      "sharpe": 4.65,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.55)",
+      "net": 35.0,
+      "sharpe": 3.98,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.5)",
+      "net": 30.6,
+      "sharpe": 3.55,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.52)",
+      "net": 28.7,
+      "sharpe": 3.71,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.5)",
+      "net": 24.2,
+      "sharpe": 3.25,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.5)",
+      "net": 22.2,
+      "sharpe": 3.23,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.52)",
+      "net": 15.3,
+      "sharpe": 2.91,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.52)",
+      "net": 2.4,
+      "sharpe": 0.89,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.55)",
+      "net": 1.1,
+      "sharpe": 0.77,
+      "robust": true
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "VOLIMB(28,thr0.5)",
+      "net": 35.3,
+      "sharpe": 4.55,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.5)",
+      "net": 33.9,
+      "sharpe": 3.66,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.5)",
+      "net": 31.5,
+      "sharpe": 3.8,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.52)",
+      "net": 27.1,
+      "sharpe": 3.32,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.55)",
+      "net": 25.6,
+      "sharpe": 3.26,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.52)",
+      "net": 22.5,
+      "sharpe": 3.02,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.52)",
+      "net": 21.3,
+      "sharpe": 3.33,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.5)",
+      "net": 20.5,
+      "sharpe": 2.49,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.55)",
+      "net": 14.9,
+      "sharpe": 2.97,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.52)",
+      "net": 12.0,
+      "sharpe": 2.72,
+      "robust": false
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "VOLIMB(3,thr0.52)",
+      "net": 33.8,
+      "sharpe": 4.07,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.55)",
+      "net": 28.7,
+      "sharpe": 4.04,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.5)",
+      "net": 26.5,
+      "sharpe": 3.57,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.5)",
+      "net": 23.2,
+      "sharpe": 2.86,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.52)",
+      "net": 22.2,
+      "sharpe": 3.16,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.5)",
+      "net": 19.2,
+      "sharpe": 2.46,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.52)",
+      "net": 17.9,
+      "sharpe": 3.69,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.5)",
+      "net": 16.2,
+      "sharpe": 2.32,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.55)",
+      "net": 10.6,
+      "sharpe": 1.97,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.52)",
+      "net": 8.8,
+      "sharpe": 1.69,
+      "robust": true
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "VOLIMB(7,thr0.5)",
+      "net": 20.1,
+      "sharpe": 2.8,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.5)",
+      "net": 16.7,
+      "sharpe": 2.46,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.52)",
+      "net": 16.5,
+      "sharpe": 2.23,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.52)",
+      "net": 16.3,
+      "sharpe": 2.54,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.5)",
+      "net": 16.0,
+      "sharpe": 2.11,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.5)",
+      "net": 14.3,
+      "sharpe": 2.13,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.55)",
+      "net": 11.1,
+      "sharpe": 1.72,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.55)",
+      "net": 10.5,
+      "sharpe": 2.23,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.52)",
+      "net": 7.8,
+      "sharpe": 1.92,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.52)",
+      "net": 7.0,
+      "sharpe": 1.49,
+      "robust": true
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "VOLIMB(28,thr0.5)",
+      "net": 14.1,
+      "sharpe": 2.15,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.52)",
+      "net": 12.9,
+      "sharpe": 1.86,
+      "robust": false
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.52)",
+      "net": 7.1,
+      "sharpe": 1.46,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.5)",
+      "net": 6.7,
+      "sharpe": 1.01,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(3,thr0.55)",
+      "net": 6.6,
+      "sharpe": 1.09,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.52)",
+      "net": 5.9,
+      "sharpe": 1.48,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.55)",
+      "net": 4.7,
+      "sharpe": 1.05,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(14,thr0.5)",
+      "net": 3.9,
+      "sharpe": 0.68,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(28,thr0.55)",
+      "net": 2.2,
+      "sharpe": 1.74,
+      "robust": true
+     },
+     {
+      "cfg": "VOLIMB(7,thr0.5)",
+      "net": 1.3,
+      "sharpe": 0.33,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "1h (ironed)",
+    "best_deployable": {
+     "cfg": "VOLIMB(3,thr0.52)",
+     "net": 33.8,
+     "xBH": 0.56,
+     "sharpe": 4.07,
+     "maxdd": -7.1,
+     "drift": 7.8,
+     "robust": true,
+     "robust_frac": 0.58
+    },
+    "ceiling_xBH": 0.56,
+    "deployable_band": [
+     "1d/ironed",
+     "1h/ironed"
+    ],
+    "best_ironed_tf": "1h",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  },
+  "CMF": {
+   "family": "volume",
+   "raw_best_by_tf": {
+    "1d": {
+     "cfg": "CMF(14)",
+     "net": 44.0,
+     "sharpe": 3.11,
+     "maxdd": -12.7
+    },
+    "4h": {
+     "cfg": "CMF(20)",
+     "net": 37.3,
+     "sharpe": 2.7,
+     "maxdd": -10.0
+    },
+    "1h": {
+     "cfg": "CMF(50)",
+     "net": 33.8,
+     "sharpe": 2.63,
+     "maxdd": -10.4
+    },
+    "30m": {
+     "cfg": "CMF(50)",
+     "net": 36.1,
+     "sharpe": 2.77,
+     "maxdd": -11.6
+    },
+    "15m": {
+     "cfg": "CMF(50)",
+     "net": 14.1,
+     "sharpe": 1.22,
+     "maxdd": -20.8
+    }
+   },
+   "ironed_best_by_tf": {
+    "1d": {
+     "cfg": "CMF(14)",
+     "net": 33.7,
+     "xBH": 0.59,
+     "sharpe": 3.74,
+     "maxdd": -9.6,
+     "drift": 27.9,
+     "robust": false,
+     "robust_frac": 0.0
+    },
+    "4h": {
+     "cfg": "CMF(20)",
+     "net": 27.8,
+     "xBH": 0.49,
+     "sharpe": 3.31,
+     "maxdd": -6.1,
+     "drift": 12.6,
+     "robust": false,
+     "robust_frac": 0.0
+    },
+    "1h": {
+     "cfg": "CMF(20)",
+     "net": 28.7,
+     "xBH": 0.47,
+     "sharpe": 3.41,
+     "maxdd": -7.1,
+     "drift": 15.2,
+     "robust": false,
+     "robust_frac": 0.0
+    },
+    "30m": {
+     "cfg": "CMF(14)",
+     "net": 21.5,
+     "xBH": 0.35,
+     "sharpe": 2.94,
+     "maxdd": -6.3,
+     "drift": 15.6,
+     "robust": false,
+     "robust_frac": 0.0
+    },
+    "15m": {
+     "cfg": "CMF(50)",
+     "net": 9.7,
+     "xBH": 0.15,
+     "sharpe": 1.4,
+     "maxdd": -6.9,
+     "drift": 8.6,
+     "robust": true,
+     "robust_frac": 1.0
+    }
+   },
+   "recovered_best_by_tf": {
+    "15m": {
+     "cfg": "CMF(50)",
+     "net": 17.0,
+     "sharpe": 3.2,
+     "maxdd": -6.2,
+     "drift": 0.9,
+     "xBH": 0.31,
+     "n_robust": 3,
+     "n_total": 3
+    },
+    "30m": {
+     "cfg": "CMF(20)",
+     "net": 18.0,
+     "sharpe": 3.2,
+     "maxdd": -3.8,
+     "drift": 13.4,
+     "xBH": 0.34,
+     "n_robust": 3,
+     "n_total": 3
+    }
+   },
+   "top10_ironed_by_tf": {
+    "1d": [
+     {
+      "cfg": "CMF(14)",
+      "net": 33.7,
+      "sharpe": 3.74,
+      "robust": false
+     },
+     {
+      "cfg": "CMF(20)",
+      "net": 29.4,
+      "sharpe": 3.52,
+      "robust": false
+     },
+     {
+      "cfg": "CMF(50)",
+      "net": 26.1,
+      "sharpe": 3.06,
+      "robust": false
+     }
+    ],
+    "4h": [
+     {
+      "cfg": "CMF(20)",
+      "net": 27.8,
+      "sharpe": 3.31,
+      "robust": false
+     },
+     {
+      "cfg": "CMF(50)",
+      "net": 25.1,
+      "sharpe": 3.16,
+      "robust": false
+     },
+     {
+      "cfg": "CMF(14)",
+      "net": 23.4,
+      "sharpe": 2.9,
+      "robust": false
+     }
+    ],
+    "1h": [
+     {
+      "cfg": "CMF(20)",
+      "net": 28.7,
+      "sharpe": 3.41,
+      "robust": false
+     },
+     {
+      "cfg": "CMF(14)",
+      "net": 27.5,
+      "sharpe": 3.27,
+      "robust": false
+     },
+     {
+      "cfg": "CMF(50)",
+      "net": 25.7,
+      "sharpe": 2.98,
+      "robust": false
+     }
+    ],
+    "30m": [
+     {
+      "cfg": "CMF(14)",
+      "net": 21.5,
+      "sharpe": 2.94,
+      "robust": false
+     },
+     {
+      "cfg": "CMF(50)",
+      "net": 18.3,
+      "sharpe": 2.54,
+      "robust": false
+     },
+     {
+      "cfg": "CMF(20)",
+      "net": 16.4,
+      "sharpe": 2.23,
+      "robust": false
+     }
+    ],
+    "15m": [
+     {
+      "cfg": "CMF(50)",
+      "net": 9.7,
+      "sharpe": 1.4,
+      "robust": true
+     },
+     {
+      "cfg": "CMF(20)",
+      "net": 5.4,
+      "sharpe": 0.87,
+      "robust": true
+     },
+     {
+      "cfg": "CMF(14)",
+      "net": 2.6,
+      "sharpe": 0.5,
+      "robust": true
+     }
+    ]
+   },
+   "profile": {
+    "best_deployable_loc": "30m (recovered)",
+    "best_deployable": {
+     "cfg": "CMF(20)",
+     "net": 18.0,
+     "sharpe": 3.2,
+     "maxdd": -3.8,
+     "drift": 13.4,
+     "xBH": 0.34,
+     "n_robust": 3,
+     "n_total": 3
+    },
+    "ceiling_xBH": 0.34,
+    "deployable_band": [],
+    "best_ironed_tf": "1d",
+    "verdict": "de-risked beta (<=buy-hold; iron cuts DD+robustifies)"
+   }
+  }
+ }
+}

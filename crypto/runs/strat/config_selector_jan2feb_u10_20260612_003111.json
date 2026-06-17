@@ -1,0 +1,1187 @@
+{
+ "repro": {
+  "command": "python src/strat/config_selector_jan2feb.py --cadences 4h,1h,30m,15m --K-synth 40 --n-boot 400",
+  "git_sha": "7cc59ae",
+  "train_window": [
+   "2020-01-07",
+   "2020-02-07"
+  ],
+  "eval_window": [
+   "2020-02-07",
+   "2020-03-07"
+  ],
+  "cost_rt": 0.0024,
+  "universe": "u10"
+ },
+ "results": {
+  "4h": {
+   "cadence": "4h",
+   "n_assets": 7,
+   "assets": [
+    "BTC",
+    "ETH",
+    "BNB",
+    "XRP",
+    "ADA",
+    "LINK",
+    "LTC"
+   ],
+   "config_space": {
+    "n_entry_specs": 8,
+    "entry_specs": [
+     "ema_2_3",
+     "ema_6_65",
+     "ema_22_33",
+     "ema_102_237",
+     "ema_2_3_4",
+     "ema_4_48_84",
+     "ema_10_43_75",
+     "ema_186_208_233"
+    ],
+    "exit_menu": [
+     "signalflip",
+     "trail5",
+     "trail10",
+     "atr3",
+     "time24",
+     "tp8"
+    ],
+    "n_configs": 48
+   },
+   "data_expansion": {
+    "1_cross_sectional": {
+     "n_assets": 7,
+     "note": "each asset = 1 (asset,month-1) regime sample"
+    },
+    "2_sub_period": {
+     "n_subwindows": 5,
+     "n_subperiod_asset_config_samples": 600,
+     "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+    },
+    "3_block_bootstrap": {
+     "n_boot": 400,
+     "block": 3,
+     "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+    },
+    "4_synthetic": {
+     "K_paths": 40,
+     "generator": "drift+vol+AR(1) regime-conditioned",
+     "note": "score each config across synthetic Feb-like paths -> prefer robust",
+     "n_assets_simulated": 7
+    },
+    "5_shrinkage": {
+     "shrinkage_B": 0.222,
+     "prior_compound_pct": 50.563,
+     "noise_var_est": 1922.291,
+     "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+    },
+    "6_regime_to_config": {
+     "buckets": [
+      "up_hi",
+      "up_lo",
+      "up_mid"
+     ],
+     "distinct_configs_picked": 2,
+     "map_differentiates_by_regime": true,
+     "honest_note": "map differentiates: distinct config per regime bucket (genuine regime->config skill)"
+    }
+   },
+   "regimes_month1": {
+    "BTC": {
+     "bucket": "up_lo",
+     "trend_strength": 1.431,
+     "vol": 0.01022,
+     "price_vs_ma50": 0.0388,
+     "window_ret": 0.1967,
+     "n": 181
+    },
+    "ETH": {
+     "bucket": "up_lo",
+     "trend_strength": 2.066,
+     "vol": 0.013,
+     "price_vs_ma50": 0.1278,
+     "window_ret": 0.3121,
+     "n": 135
+    },
+    "BNB": {
+     "bucket": "up_lo",
+     "trend_strength": 1.728,
+     "vol": 0.01254,
+     "price_vs_ma50": 0.1098,
+     "window_ret": 0.2491,
+     "n": 132
+    },
+    "XRP": {
+     "bucket": "up_mid",
+     "trend_strength": 1.524,
+     "vol": 0.01404,
+     "price_vs_ma50": 0.1193,
+     "window_ret": 0.2419,
+     "n": 128
+    },
+    "ADA": {
+     "bucket": "up_mid",
+     "trend_strength": 2.37,
+     "vol": 0.0169,
+     "price_vs_ma50": 0.0629,
+     "window_ret": 0.4202,
+     "n": 110
+    },
+    "LINK": {
+     "bucket": "up_hi",
+     "trend_strength": 1.256,
+     "vol": 0.01729,
+     "price_vs_ma50": 0.0255,
+     "window_ret": 0.2747,
+     "n": 160
+    },
+    "LTC": {
+     "bucket": "up_hi",
+     "trend_strength": 2.264,
+     "vol": 0.02032,
+     "price_vs_ma50": 0.0627,
+     "window_ret": 0.6274,
+     "n": 186
+    }
+   },
+   "regime_config_map": {
+    "up_lo": {
+     "best_config": "ema_22_33|signalflip",
+     "score": 49.954,
+     "n_assets": 3
+    },
+    "up_mid": {
+     "best_config": "ema_22_33|trail10",
+     "score": 51.32,
+     "n_assets": 2
+    },
+    "up_hi": {
+     "best_config": "ema_22_33|trail10",
+     "score": 62.416,
+     "n_assets": 2
+    }
+   },
+   "predicted_book_pick_mode": "ema_22_33|trail10",
+   "predicted_book_pick_global": "ema_22_33|trail10",
+   "eval_per_asset": [
+    {
+     "asset": "BTC",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_22_33|signalflip",
+     "pred_feb_pct": 0.7,
+     "feb_oracle_config": "ema_22_33|signalflip",
+     "feb_oracle_pct": 0.7,
+     "gap_to_oracle_pct": 0.0,
+     "naive_lastmonth_best_pct": 0.7,
+     "random_mean_pct": -5.11,
+     "random_p50_pct": -4.63,
+     "beats_random": true,
+     "buy_hold_pct": -6.97,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "ETH",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_22_33|signalflip",
+     "pred_feb_pct": -4.31,
+     "feb_oracle_config": "ema_4_48_84|tp8",
+     "feb_oracle_pct": 6.55,
+     "gap_to_oracle_pct": 10.85,
+     "naive_lastmonth_best_pct": 4.07,
+     "random_mean_pct": -1.37,
+     "random_p50_pct": -1.52,
+     "beats_random": false,
+     "buy_hold_pct": 12.42,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "BNB",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_22_33|signalflip",
+     "pred_feb_pct": 0.11,
+     "feb_oracle_config": "ema_22_33|signalflip",
+     "feb_oracle_pct": 0.11,
+     "gap_to_oracle_pct": 0.0,
+     "naive_lastmonth_best_pct": -7.4,
+     "random_mean_pct": -6.83,
+     "random_p50_pct": -7.28,
+     "beats_random": true,
+     "buy_hold_pct": 2.0,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "XRP",
+     "pred_regime": "up_mid",
+     "pred_config": "ema_22_33|trail10",
+     "pred_feb_pct": -0.24,
+     "feb_oracle_config": "ema_4_48_84|time24",
+     "feb_oracle_pct": 16.4,
+     "gap_to_oracle_pct": 16.64,
+     "naive_lastmonth_best_pct": -5.98,
+     "random_mean_pct": -2.76,
+     "random_p50_pct": -0.65,
+     "beats_random": true,
+     "buy_hold_pct": -14.14,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "ADA",
+     "pred_regime": "up_mid",
+     "pred_config": "ema_22_33|trail10",
+     "pred_feb_pct": -0.43,
+     "feb_oracle_config": "ema_2_3|signalflip",
+     "feb_oracle_pct": 2.34,
+     "gap_to_oracle_pct": 2.78,
+     "naive_lastmonth_best_pct": 2.34,
+     "random_mean_pct": -0.93,
+     "random_p50_pct": -0.27,
+     "beats_random": true,
+     "buy_hold_pct": -16.58,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "LINK",
+     "pred_regime": "up_hi",
+     "pred_config": "ema_22_33|trail10",
+     "pred_feb_pct": -9.6,
+     "feb_oracle_config": "ema_2_3_4|tp8",
+     "feb_oracle_pct": 43.47,
+     "gap_to_oracle_pct": 53.07,
+     "naive_lastmonth_best_pct": 4.78,
+     "random_mean_pct": 8.22,
+     "random_p50_pct": 4.98,
+     "beats_random": false,
+     "buy_hold_pct": 55.12,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "LTC",
+     "pred_regime": "up_hi",
+     "pred_config": "ema_22_33|trail10",
+     "pred_feb_pct": -9.92,
+     "feb_oracle_config": "ema_2_3_4|tp8",
+     "feb_oracle_pct": 2.61,
+     "gap_to_oracle_pct": 12.54,
+     "naive_lastmonth_best_pct": -1.93,
+     "random_mean_pct": -7.77,
+     "random_p50_pct": -7.59,
+     "beats_random": false,
+     "buy_hold_pct": -14.63,
+     "beats_buyhold": true
+    }
+   ],
+   "eval_book": {
+    "book_pred_perasset_pct": -3.38,
+    "book_single_mode_config": "ema_22_33|trail10",
+    "book_single_mode_pct": -3.38,
+    "book_single_global_config": "ema_22_33|trail10",
+    "book_single_global_pct": -3.38,
+    "book_oracle_pct": 10.31,
+    "book_naive_lastmonth_pct": -0.49,
+    "book_buyhold_pct": 2.46,
+    "book_random_mean_pct": -2.4,
+    "book_random_p05_pct": -6.77,
+    "book_random_p95_pct": 2.56,
+    "book_pred_beats_random": false,
+    "book_pred_pctile_vs_random": 37.0,
+    "book_gap_to_oracle_pct": 13.7
+   },
+   "scoreboard": {
+    "n_assets": 7,
+    "n_beats_random": 4,
+    "n_beats_naive_lastmonth": 2,
+    "n_beats_buyhold": 4,
+    "mean_gap_to_oracle_pct": 13.7,
+    "book_pred_pct": -3.38,
+    "book_random_mean_pct": -2.4,
+    "book_oracle_pct": 10.31,
+    "book_beats_random": false,
+    "book_pctile_vs_random": 37.0,
+    "map_differentiates_by_regime": true,
+    "n_distinct_configs_picked": 2
+   }
+  },
+  "1h": {
+   "cadence": "1h",
+   "n_assets": 7,
+   "assets": [
+    "BTC",
+    "ETH",
+    "BNB",
+    "XRP",
+    "ADA",
+    "LINK",
+    "LTC"
+   ],
+   "config_space": {
+    "n_entry_specs": 8,
+    "entry_specs": [
+     "ema_2_3",
+     "ema_6_65",
+     "ema_22_33",
+     "ema_102_237",
+     "ema_2_3_4",
+     "ema_4_48_84",
+     "ema_10_43_75",
+     "ema_186_208_233"
+    ],
+    "exit_menu": [
+     "signalflip",
+     "trail5",
+     "trail10",
+     "atr3",
+     "time24",
+     "tp8"
+    ],
+    "n_configs": 48
+   },
+   "data_expansion": {
+    "1_cross_sectional": {
+     "n_assets": 7,
+     "note": "each asset = 1 (asset,month-1) regime sample"
+    },
+    "2_sub_period": {
+     "n_subwindows": 5,
+     "n_subperiod_asset_config_samples": 1068,
+     "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+    },
+    "3_block_bootstrap": {
+     "n_boot": 400,
+     "block": 3,
+     "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+    },
+    "4_synthetic": {
+     "K_paths": 40,
+     "generator": "drift+vol+AR(1) regime-conditioned",
+     "note": "score each config across synthetic Feb-like paths -> prefer robust",
+     "n_assets_simulated": 7
+    },
+    "5_shrinkage": {
+     "shrinkage_B": 0.591,
+     "prior_compound_pct": 41.145,
+     "noise_var_est": 1202.178,
+     "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+    },
+    "6_regime_to_config": {
+     "buckets": [
+      "up_hi",
+      "up_lo",
+      "up_mid"
+     ],
+     "distinct_configs_picked": 1,
+     "map_differentiates_by_regime": false,
+     "honest_note": "map COLLAPSES to ONE config for all buckets -> the edge (if any) is a SINGLE-AXIS dominance (e.g. slow-MA-trades-rarely-survives-cost), NOT learned regime navigation. Report as such."
+    }
+   },
+   "regimes_month1": {
+    "BTC": {
+     "bucket": "up_lo",
+     "trend_strength": 1.515,
+     "vol": 0.00538,
+     "price_vs_ma50": 0.023,
+     "window_ret": 0.2191,
+     "n": 723
+    },
+    "ETH": {
+     "bucket": "up_lo",
+     "trend_strength": 1.673,
+     "vol": 0.00737,
+     "price_vs_ma50": 0.0519,
+     "window_ret": 0.2857,
+     "n": 537
+    },
+    "BNB": {
+     "bucket": "up_lo",
+     "trend_strength": 1.217,
+     "vol": 0.00727,
+     "price_vs_ma50": 0.0627,
+     "window_ret": 0.2034,
+     "n": 528
+    },
+    "XRP": {
+     "bucket": "up_mid",
+     "trend_strength": 1.333,
+     "vol": 0.00791,
+     "price_vs_ma50": 0.0213,
+     "window_ret": 0.2377,
+     "n": 508
+    },
+    "ADA": {
+     "bucket": "up_hi",
+     "trend_strength": 1.996,
+     "vol": 0.01008,
+     "price_vs_ma50": 0.0185,
+     "window_ret": 0.4202,
+     "n": 436
+    },
+    "LINK": {
+     "bucket": "up_mid",
+     "trend_strength": 1.078,
+     "vol": 0.00974,
+     "price_vs_ma50": 0.0183,
+     "window_ret": 0.2653,
+     "n": 638
+    },
+    "LTC": {
+     "bucket": "up_hi",
+     "trend_strength": 2.17,
+     "vol": 0.0105,
+     "price_vs_ma50": 0.0237,
+     "window_ret": 0.6213,
+     "n": 744
+    }
+   },
+   "regime_config_map": {
+    "up_lo": {
+     "best_config": "ema_6_65|trail10",
+     "score": 61.988,
+     "n_assets": 3
+    },
+    "up_mid": {
+     "best_config": "ema_6_65|trail10",
+     "score": 81.007,
+     "n_assets": 2
+    },
+    "up_hi": {
+     "best_config": "ema_6_65|trail10",
+     "score": 78.784,
+     "n_assets": 2
+    }
+   },
+   "predicted_book_pick_mode": "ema_6_65|trail10",
+   "predicted_book_pick_global": "ema_6_65|trail10",
+   "eval_per_asset": [
+    {
+     "asset": "BTC",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_6_65|trail10",
+     "pred_feb_pct": -5.32,
+     "feb_oracle_config": "ema_186_208_233|signalflip",
+     "feb_oracle_pct": 0.0,
+     "gap_to_oracle_pct": 5.32,
+     "naive_lastmonth_best_pct": -5.32,
+     "random_mean_pct": -8.24,
+     "random_p50_pct": -5.99,
+     "beats_random": true,
+     "buy_hold_pct": -6.84,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "ETH",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_6_65|trail10",
+     "pred_feb_pct": 14.99,
+     "feb_oracle_config": "ema_6_65|atr3",
+     "feb_oracle_pct": 17.52,
+     "gap_to_oracle_pct": 2.53,
+     "naive_lastmonth_best_pct": 0.0,
+     "random_mean_pct": 1.74,
+     "random_p50_pct": 1.05,
+     "beats_random": true,
+     "buy_hold_pct": 12.55,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "BNB",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_6_65|trail10",
+     "pred_feb_pct": -14.16,
+     "feb_oracle_config": "ema_102_237|signalflip",
+     "feb_oracle_pct": 0.06,
+     "gap_to_oracle_pct": 14.22,
+     "naive_lastmonth_best_pct": 0.06,
+     "random_mean_pct": -12.42,
+     "random_p50_pct": -10.26,
+     "beats_random": false,
+     "buy_hold_pct": 3.43,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "XRP",
+     "pred_regime": "up_mid",
+     "pred_config": "ema_6_65|trail10",
+     "pred_feb_pct": -0.48,
+     "feb_oracle_config": "ema_4_48_84|time24",
+     "feb_oracle_pct": 13.51,
+     "gap_to_oracle_pct": 13.99,
+     "naive_lastmonth_best_pct": 0.0,
+     "random_mean_pct": -3.5,
+     "random_p50_pct": 0.0,
+     "beats_random": true,
+     "buy_hold_pct": -14.6,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "ADA",
+     "pred_regime": "up_hi",
+     "pred_config": "ema_6_65|trail10",
+     "pred_feb_pct": -8.07,
+     "feb_oracle_config": "ema_4_48_84|time24",
+     "feb_oracle_pct": 11.14,
+     "gap_to_oracle_pct": 19.21,
+     "naive_lastmonth_best_pct": -0.54,
+     "random_mean_pct": -5.09,
+     "random_p50_pct": 0.0,
+     "beats_random": false,
+     "buy_hold_pct": -14.13,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "LINK",
+     "pred_regime": "up_mid",
+     "pred_config": "ema_6_65|trail10",
+     "pred_feb_pct": 7.18,
+     "feb_oracle_config": "ema_4_48_84|time24",
+     "feb_oracle_pct": 30.84,
+     "gap_to_oracle_pct": 23.66,
+     "naive_lastmonth_best_pct": 7.18,
+     "random_mean_pct": 0.43,
+     "random_p50_pct": 3.04,
+     "beats_random": true,
+     "buy_hold_pct": 60.24,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "LTC",
+     "pred_regime": "up_hi",
+     "pred_config": "ema_6_65|trail10",
+     "pred_feb_pct": -1.71,
+     "feb_oracle_config": "ema_22_33|tp8",
+     "feb_oracle_pct": 9.75,
+     "gap_to_oracle_pct": 11.46,
+     "naive_lastmonth_best_pct": -1.71,
+     "random_mean_pct": -9.03,
+     "random_p50_pct": -5.58,
+     "beats_random": true,
+     "buy_hold_pct": -14.92,
+     "beats_buyhold": true
+    }
+   ],
+   "eval_book": {
+    "book_pred_perasset_pct": -1.08,
+    "book_single_mode_config": "ema_6_65|trail10",
+    "book_single_mode_pct": -1.08,
+    "book_single_global_config": "ema_6_65|trail10",
+    "book_single_global_pct": -1.08,
+    "book_oracle_pct": 11.83,
+    "book_naive_lastmonth_pct": -0.05,
+    "book_buyhold_pct": 3.68,
+    "book_random_mean_pct": -5.41,
+    "book_random_p05_pct": -13.55,
+    "book_random_p95_pct": 1.88,
+    "book_pred_beats_random": true,
+    "book_pred_pctile_vs_random": 79.5,
+    "book_gap_to_oracle_pct": 12.91
+   },
+   "scoreboard": {
+    "n_assets": 7,
+    "n_beats_random": 5,
+    "n_beats_naive_lastmonth": 1,
+    "n_beats_buyhold": 5,
+    "mean_gap_to_oracle_pct": 12.91,
+    "book_pred_pct": -1.08,
+    "book_random_mean_pct": -5.41,
+    "book_oracle_pct": 11.83,
+    "book_beats_random": true,
+    "book_pctile_vs_random": 79.5,
+    "map_differentiates_by_regime": false,
+    "n_distinct_configs_picked": 1
+   }
+  },
+  "30m": {
+   "cadence": "30m",
+   "n_assets": 7,
+   "assets": [
+    "BTC",
+    "ETH",
+    "BNB",
+    "XRP",
+    "ADA",
+    "LINK",
+    "LTC"
+   ],
+   "config_space": {
+    "n_entry_specs": 8,
+    "entry_specs": [
+     "ema_2_3",
+     "ema_6_65",
+     "ema_22_33",
+     "ema_102_237",
+     "ema_2_3_4",
+     "ema_4_48_84",
+     "ema_10_43_75",
+     "ema_186_208_233"
+    ],
+    "exit_menu": [
+     "signalflip",
+     "trail5",
+     "trail10",
+     "atr3",
+     "time24",
+     "tp8"
+    ],
+    "n_configs": 48
+   },
+   "data_expansion": {
+    "1_cross_sectional": {
+     "n_assets": 7,
+     "note": "each asset = 1 (asset,month-1) regime sample"
+    },
+    "2_sub_period": {
+     "n_subwindows": 5,
+     "n_subperiod_asset_config_samples": 1212,
+     "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+    },
+    "3_block_bootstrap": {
+     "n_boot": 400,
+     "block": 3,
+     "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+    },
+    "4_synthetic": {
+     "K_paths": 40,
+     "generator": "drift+vol+AR(1) regime-conditioned",
+     "note": "score each config across synthetic Feb-like paths -> prefer robust",
+     "n_assets_simulated": 7
+    },
+    "5_shrinkage": {
+     "shrinkage_B": 0.894,
+     "prior_compound_pct": 20.265,
+     "noise_var_est": 573.991,
+     "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+    },
+    "6_regime_to_config": {
+     "buckets": [
+      "up_hi",
+      "up_lo",
+      "up_mid"
+     ],
+     "distinct_configs_picked": 1,
+     "map_differentiates_by_regime": false,
+     "honest_note": "map COLLAPSES to ONE config for all buckets -> the edge (if any) is a SINGLE-AXIS dominance (e.g. slow-MA-trades-rarely-survives-cost), NOT learned regime navigation. Report as such."
+    }
+   },
+   "regimes_month1": {
+    "BTC": {
+     "bucket": "up_lo",
+     "trend_strength": 1.387,
+     "vol": 0.00397,
+     "price_vs_ma50": 0.0072,
+     "window_ret": 0.2093,
+     "n": 1446
+    },
+    "ETH": {
+     "bucket": "up_lo",
+     "trend_strength": 1.596,
+     "vol": 0.00559,
+     "price_vs_ma50": 0.0162,
+     "window_ret": 0.2826,
+     "n": 1004
+    },
+    "BNB": {
+     "bucket": "up_lo",
+     "trend_strength": 1.101,
+     "vol": 0.00556,
+     "price_vs_ma50": 0.0372,
+     "window_ret": 0.1928,
+     "n": 991
+    },
+    "XRP": {
+     "bucket": "up_mid",
+     "trend_strength": 1.251,
+     "vol": 0.00623,
+     "price_vs_ma50": 0.013,
+     "window_ret": 0.2377,
+     "n": 932
+    },
+    "ADA": {
+     "bucket": "up_hi",
+     "trend_strength": 1.909,
+     "vol": 0.00763,
+     "price_vs_ma50": 0.0016,
+     "window_ret": 0.4192,
+     "n": 828
+    },
+    "LINK": {
+     "bucket": "up_mid",
+     "trend_strength": 1.07,
+     "vol": 0.00727,
+     "price_vs_ma50": 0.0054,
+     "window_ret": 0.2711,
+     "n": 1214
+    },
+    "LTC": {
+     "bucket": "up_hi",
+     "trend_strength": 2.108,
+     "vol": 0.0074,
+     "price_vs_ma50": 0.0047,
+     "window_ret": 0.6018,
+     "n": 1488
+    }
+   },
+   "regime_config_map": {
+    "up_lo": {
+     "best_config": "ema_186_208_233|trail10",
+     "score": 120.069,
+     "n_assets": 3
+    },
+    "up_mid": {
+     "best_config": "ema_186_208_233|trail10",
+     "score": 151.019,
+     "n_assets": 2
+    },
+    "up_hi": {
+     "best_config": "ema_186_208_233|trail10",
+     "score": 146.297,
+     "n_assets": 2
+    }
+   },
+   "predicted_book_pick_mode": "ema_186_208_233|trail10",
+   "predicted_book_pick_global": "ema_186_208_233|trail10",
+   "eval_per_asset": [
+    {
+     "asset": "BTC",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_186_208_233|trail10",
+     "pred_feb_pct": -0.11,
+     "feb_oracle_config": "ema_6_65|atr3",
+     "feb_oracle_pct": 6.77,
+     "gap_to_oracle_pct": 6.89,
+     "naive_lastmonth_best_pct": -8.06,
+     "random_mean_pct": -12.81,
+     "random_p50_pct": -4.21,
+     "beats_random": true,
+     "buy_hold_pct": -7.07,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "ETH",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_186_208_233|trail10",
+     "pred_feb_pct": -4.53,
+     "feb_oracle_config": "ema_22_33|atr3",
+     "feb_oracle_pct": 26.41,
+     "gap_to_oracle_pct": 30.94,
+     "naive_lastmonth_best_pct": -4.53,
+     "random_mean_pct": -4.67,
+     "random_p50_pct": 0.46,
+     "beats_random": true,
+     "buy_hold_pct": 13.27,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "BNB",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_186_208_233|trail10",
+     "pred_feb_pct": 1.75,
+     "feb_oracle_config": "ema_22_33|time24",
+     "feb_oracle_pct": 9.01,
+     "gap_to_oracle_pct": 7.26,
+     "naive_lastmonth_best_pct": 2.71,
+     "random_mean_pct": -10.34,
+     "random_p50_pct": -2.07,
+     "beats_random": true,
+     "buy_hold_pct": 3.41,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "XRP",
+     "pred_regime": "up_mid",
+     "pred_config": "ema_186_208_233|trail10",
+     "pred_feb_pct": 0.0,
+     "feb_oracle_config": "ema_102_237|trail5",
+     "feb_oracle_pct": 12.17,
+     "gap_to_oracle_pct": 12.17,
+     "naive_lastmonth_best_pct": 0.0,
+     "random_mean_pct": -9.52,
+     "random_p50_pct": 0.0,
+     "beats_random": true,
+     "buy_hold_pct": -13.89,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "ADA",
+     "pred_regime": "up_hi",
+     "pred_config": "ema_186_208_233|trail10",
+     "pred_feb_pct": 0.15,
+     "feb_oracle_config": "ema_22_33|time24",
+     "feb_oracle_pct": 10.93,
+     "gap_to_oracle_pct": 10.78,
+     "naive_lastmonth_best_pct": 0.58,
+     "random_mean_pct": -14.62,
+     "random_p50_pct": -7.05,
+     "beats_random": true,
+     "buy_hold_pct": -14.44,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "LINK",
+     "pred_regime": "up_mid",
+     "pred_config": "ema_186_208_233|trail10",
+     "pred_feb_pct": -8.61,
+     "feb_oracle_config": "ema_22_33|signalflip",
+     "feb_oracle_pct": 40.95,
+     "gap_to_oracle_pct": 49.56,
+     "naive_lastmonth_best_pct": -8.61,
+     "random_mean_pct": 7.97,
+     "random_p50_pct": 12.55,
+     "beats_random": false,
+     "buy_hold_pct": 61.06,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "LTC",
+     "pred_regime": "up_hi",
+     "pred_config": "ema_186_208_233|trail10",
+     "pred_feb_pct": -12.28,
+     "feb_oracle_config": "ema_102_237|time24",
+     "feb_oracle_pct": 2.78,
+     "gap_to_oracle_pct": 15.06,
+     "naive_lastmonth_best_pct": -4.66,
+     "random_mean_pct": -15.05,
+     "random_p50_pct": -10.39,
+     "beats_random": true,
+     "buy_hold_pct": -14.84,
+     "beats_buyhold": true
+    }
+   ],
+   "eval_book": {
+    "book_pred_perasset_pct": -3.38,
+    "book_single_mode_config": "ema_186_208_233|trail10",
+    "book_single_mode_pct": -3.38,
+    "book_single_global_config": "ema_186_208_233|trail10",
+    "book_single_global_pct": -3.38,
+    "book_oracle_pct": 15.57,
+    "book_naive_lastmonth_pct": -3.22,
+    "book_buyhold_pct": 3.93,
+    "book_random_mean_pct": -8.83,
+    "book_random_p05_pct": -20.81,
+    "book_random_p95_pct": 2.65,
+    "book_pred_beats_random": true,
+    "book_pred_pctile_vs_random": 77.5,
+    "book_gap_to_oracle_pct": 18.95
+   },
+   "scoreboard": {
+    "n_assets": 7,
+    "n_beats_random": 6,
+    "n_beats_naive_lastmonth": 1,
+    "n_beats_buyhold": 4,
+    "mean_gap_to_oracle_pct": 18.95,
+    "book_pred_pct": -3.38,
+    "book_random_mean_pct": -8.83,
+    "book_oracle_pct": 15.57,
+    "book_beats_random": true,
+    "book_pctile_vs_random": 77.5,
+    "map_differentiates_by_regime": false,
+    "n_distinct_configs_picked": 1
+   }
+  },
+  "15m": {
+   "cadence": "15m",
+   "n_assets": 7,
+   "assets": [
+    "BTC",
+    "ETH",
+    "BNB",
+    "XRP",
+    "ADA",
+    "LINK",
+    "LTC"
+   ],
+   "config_space": {
+    "n_entry_specs": 8,
+    "entry_specs": [
+     "ema_2_3",
+     "ema_6_65",
+     "ema_22_33",
+     "ema_102_237",
+     "ema_2_3_4",
+     "ema_4_48_84",
+     "ema_10_43_75",
+     "ema_186_208_233"
+    ],
+    "exit_menu": [
+     "signalflip",
+     "trail5",
+     "trail10",
+     "atr3",
+     "time24",
+     "tp8"
+    ],
+    "n_configs": 48
+   },
+   "data_expansion": {
+    "1_cross_sectional": {
+     "n_assets": 7,
+     "note": "each asset = 1 (asset,month-1) regime sample"
+    },
+    "2_sub_period": {
+     "n_subwindows": 5,
+     "n_subperiod_asset_config_samples": 1296,
+     "CAVEAT": "weekly sub-windows OVERLAP MA warmup + are autocorrelated -> supporting evidence only, NOT independent samples"
+    },
+    "3_block_bootstrap": {
+     "n_boot": 400,
+     "block": 3,
+     "note": "resample month-1 per-config trade returns in blocks -> rank by median/p25"
+    },
+    "4_synthetic": {
+     "K_paths": 40,
+     "generator": "drift+vol+AR(1) regime-conditioned",
+     "note": "score each config across synthetic Feb-like paths -> prefer robust",
+     "n_assets_simulated": 7
+    },
+    "5_shrinkage": {
+     "shrinkage_B": 0.941,
+     "prior_compound_pct": -2.86,
+     "noise_var_est": 188.505,
+     "note": "B near 0 => heavy shrink (config differences are noise vs the bootstrap noise floor); B near 1 => differences clear the noise = signal"
+    },
+    "6_regime_to_config": {
+     "buckets": [
+      "flat_hi",
+      "up_lo",
+      "up_mid"
+     ],
+     "distinct_configs_picked": 1,
+     "map_differentiates_by_regime": false,
+     "honest_note": "map COLLAPSES to ONE config for all buckets -> the edge (if any) is a SINGLE-AXIS dominance (e.g. slow-MA-trades-rarely-survives-cost), NOT learned regime navigation. Report as such."
+    }
+   },
+   "regimes_month1": {
+    "BTC": {
+     "bucket": "up_lo",
+     "trend_strength": 1.337,
+     "vol": 0.00296,
+     "price_vs_ma50": 0.0001,
+     "window_ret": 0.2093,
+     "n": 2794
+    },
+    "ETH": {
+     "bucket": "up_lo",
+     "trend_strength": 1.585,
+     "vol": 0.00456,
+     "price_vs_ma50": 0.0023,
+     "window_ret": 0.2864,
+     "n": 1573
+    },
+    "BNB": {
+     "bucket": "up_lo",
+     "trend_strength": 1.062,
+     "vol": 0.00455,
+     "price_vs_ma50": 0.0144,
+     "window_ret": 0.1928,
+     "n": 1591
+    },
+    "XRP": {
+     "bucket": "up_mid",
+     "trend_strength": 1.228,
+     "vol": 0.00514,
+     "price_vs_ma50": 0.0099,
+     "window_ret": 0.2377,
+     "n": 1417
+    },
+    "ADA": {
+     "bucket": "flat_hi",
+     "trend_strength": 1.922,
+     "vol": 0.00581,
+     "price_vs_ma50": -0.0016,
+     "window_ret": 0.4192,
+     "n": 1410
+    },
+    "LINK": {
+     "bucket": "flat_hi",
+     "trend_strength": 1.071,
+     "vol": 0.00574,
+     "price_vs_ma50": -0.0037,
+     "window_ret": 0.2774,
+     "n": 2036
+    },
+    "LTC": {
+     "bucket": "up_mid",
+     "trend_strength": 2.039,
+     "vol": 0.00545,
+     "price_vs_ma50": 0.0003,
+     "window_ret": 0.6015,
+     "n": 2934
+    }
+   },
+   "regime_config_map": {
+    "up_lo": {
+     "best_config": "ema_186_208_233|signalflip",
+     "score": 91.906,
+     "n_assets": 3
+    },
+    "up_mid": {
+     "best_config": "ema_186_208_233|signalflip",
+     "score": 108.735,
+     "n_assets": 2
+    },
+    "flat_hi": {
+     "best_config": "ema_186_208_233|signalflip",
+     "score": 116.639,
+     "n_assets": 2
+    }
+   },
+   "predicted_book_pick_mode": "ema_186_208_233|signalflip",
+   "predicted_book_pick_global": "ema_186_208_233|signalflip",
+   "eval_per_asset": [
+    {
+     "asset": "BTC",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_186_208_233|signalflip",
+     "pred_feb_pct": -11.1,
+     "feb_oracle_config": "ema_102_237|atr3",
+     "feb_oracle_pct": 0.09,
+     "gap_to_oracle_pct": 11.18,
+     "naive_lastmonth_best_pct": -10.93,
+     "random_mean_pct": -24.24,
+     "random_p50_pct": -10.08,
+     "beats_random": true,
+     "buy_hold_pct": -7.19,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "ETH",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_186_208_233|signalflip",
+     "pred_feb_pct": -5.07,
+     "feb_oracle_config": "ema_102_237|signalflip",
+     "feb_oracle_pct": 12.81,
+     "gap_to_oracle_pct": 17.88,
+     "naive_lastmonth_best_pct": -5.56,
+     "random_mean_pct": -15.46,
+     "random_p50_pct": -2.97,
+     "beats_random": true,
+     "buy_hold_pct": 13.85,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "BNB",
+     "pred_regime": "up_lo",
+     "pred_config": "ema_186_208_233|signalflip",
+     "pred_feb_pct": 3.77,
+     "feb_oracle_config": "ema_186_208_233|trail5",
+     "feb_oracle_pct": 4.6,
+     "gap_to_oracle_pct": 0.83,
+     "naive_lastmonth_best_pct": 3.77,
+     "random_mean_pct": -17.81,
+     "random_p50_pct": -7.41,
+     "beats_random": true,
+     "buy_hold_pct": 3.51,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "XRP",
+     "pred_regime": "up_mid",
+     "pred_config": "ema_186_208_233|signalflip",
+     "pred_feb_pct": 9.29,
+     "feb_oracle_config": "ema_186_208_233|tp8",
+     "feb_oracle_pct": 9.64,
+     "gap_to_oracle_pct": 0.35,
+     "naive_lastmonth_best_pct": 8.27,
+     "random_mean_pct": -21.39,
+     "random_p50_pct": -14.06,
+     "beats_random": true,
+     "buy_hold_pct": -13.89,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "ADA",
+     "pred_regime": "flat_hi",
+     "pred_config": "ema_186_208_233|signalflip",
+     "pred_feb_pct": 2.46,
+     "feb_oracle_config": "ema_186_208_233|tp8",
+     "feb_oracle_pct": 7.7,
+     "gap_to_oracle_pct": 5.24,
+     "naive_lastmonth_best_pct": 2.46,
+     "random_mean_pct": -20.6,
+     "random_p50_pct": -13.71,
+     "beats_random": true,
+     "buy_hold_pct": -14.28,
+     "beats_buyhold": true
+    },
+    {
+     "asset": "LINK",
+     "pred_regime": "flat_hi",
+     "pred_config": "ema_186_208_233|signalflip",
+     "pred_feb_pct": 1.52,
+     "feb_oracle_config": "ema_10_43_75|tp8",
+     "feb_oracle_pct": 31.61,
+     "gap_to_oracle_pct": 30.09,
+     "naive_lastmonth_best_pct": 1.52,
+     "random_mean_pct": -6.12,
+     "random_p50_pct": -0.07,
+     "beats_random": true,
+     "buy_hold_pct": 61.06,
+     "beats_buyhold": false
+    },
+    {
+     "asset": "LTC",
+     "pred_regime": "up_mid",
+     "pred_config": "ema_186_208_233|signalflip",
+     "pred_feb_pct": -3.23,
+     "feb_oracle_config": "ema_102_237|tp8",
+     "feb_oracle_pct": 7.62,
+     "gap_to_oracle_pct": 10.85,
+     "naive_lastmonth_best_pct": -8.36,
+     "random_mean_pct": -27.74,
+     "random_p50_pct": -19.23,
+     "beats_random": true,
+     "buy_hold_pct": -14.6,
+     "beats_buyhold": true
+    }
+   ],
+   "eval_book": {
+    "book_pred_perasset_pct": -0.34,
+    "book_single_mode_config": "ema_186_208_233|signalflip",
+    "book_single_mode_pct": -0.34,
+    "book_single_global_config": "ema_186_208_233|signalflip",
+    "book_single_global_pct": -0.34,
+    "book_oracle_pct": 10.58,
+    "book_naive_lastmonth_pct": -1.26,
+    "book_buyhold_pct": 4.06,
+    "book_random_mean_pct": -19.37,
+    "book_random_p05_pct": -35.43,
+    "book_random_p95_pct": -4.28,
+    "book_pred_beats_random": true,
+    "book_pred_pctile_vs_random": 99.0,
+    "book_gap_to_oracle_pct": 10.92
+   },
+   "scoreboard": {
+    "n_assets": 7,
+    "n_beats_random": 7,
+    "n_beats_naive_lastmonth": 3,
+    "n_beats_buyhold": 4,
+    "mean_gap_to_oracle_pct": 10.92,
+    "book_pred_pct": -0.34,
+    "book_random_mean_pct": -19.37,
+    "book_oracle_pct": 10.58,
+    "book_beats_random": true,
+    "book_pctile_vs_random": 99.0,
+    "map_differentiates_by_regime": false,
+    "n_distinct_configs_picked": 1
+   }
+  }
+ },
+ "verdict": {
+  "headline": "RELATIVE SKILL vs RANDOM (cautious, MECHANISM-QUALIFIED): Jan-trained config-selection beat random config-selection on the majority of cadences AND >50% of assets, even into the crash -- but The regime->config map DIFFERENTIATES on 1/4 cadences. So this is a real but NARROW result: the selector reliably AVOIDS the cost-bleeding configs (value over no-skill picking), yet it is NOT a profitable bot (Feb is a crash; book still ~flat-to-negative, far below the +oracle) and NOT a regime->config map.",
+  "book_beats_random_cadences": 3,
+  "n_cadences": 4,
+  "mean_asset_beat_random_frac": 0.786,
+  "n_cadences_regime_map_differentiates": 1,
+  "lines": [
+   "TRAINED on Jan 2020 ONLY (calm); EVALUATED on Feb 2020 (COVID-crash ONSET, hard regime shift).",
+   "Win condition = beat RANDOM config-selection + approach the oracle. NOT 'Feb positive'.",
+   "HEADLINE: RELATIVE SKILL vs RANDOM (cautious, MECHANISM-QUALIFIED): Jan-trained config-selection beat random config-selection on the majority of cadences AND >50% of assets, even into the crash -- but The regime->config map DIFFERENTIATES on 1/4 cadences. So this is a real but NARROW result: the selector reliably AVOIDS the cost-bleeding configs (value over no-skill picking), yet it is NOT a profitable bot (Feb is a crash; book still ~flat-to-negative, far below the +oracle) and NOT a regime->config map.",
+   "",
+   "[4h] book pred -3.4% vs random -2.4% vs oracle +10.3% | book LOSES TO random (37.0th pctile) | 4/7 assets beat random",
+   "[1h] book pred -1.1% vs random -5.4% vs oracle +11.8% | book BEATS random (79.5th pctile) | 5/7 assets beat random",
+   "[30m] book pred -3.4% vs random -8.8% vs oracle +15.6% | book BEATS random (77.5th pctile) | 6/7 assets beat random",
+   "[15m] book pred -0.3% vs random -19.4% vs oracle +10.6% | book BEATS random (99.0th pctile) | 7/7 assets beat random",
+   "",
+   "",
+   "Mean fraction of assets beating random across cadences: 79%. Book beat random on 3/4 cadences. Regime->config map differentiates on 1/4 cadences.",
+   "CAVEATS: 1-month train = tiny n (wide CIs); sub-period samples overlap (autocorr); 'best config' is a search-grid argmax (optimistic) -- shrinkage+bootstrap+synthetic+random-control are the antidotes; SOL/DOGE/AVAX absent (7-asset effective universe)."
+  ]
+ }
+}

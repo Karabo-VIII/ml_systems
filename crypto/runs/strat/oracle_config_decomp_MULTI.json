@@ -1,0 +1,1075 @@
+{
+  "tool": "oracle_config_decomp",
+  "hypothesis": "oracle config-params are a math function of past-only move-properties",
+  "assets": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "cadences": [
+    "1d",
+    "4h",
+    "1h"
+  ],
+  "spec": {
+    "pre_window_mult": 2.0,
+    "pre_window_min_bars": 16,
+    "train_events": 12,
+    "test_events": 4,
+    "min_train_events": 6,
+    "min_test_events": 3,
+    "n_random": 8,
+    "taker_rt": 0.0024,
+    "law_pairs": [
+      "ma_length<-dom_cycle",
+      "ma_length<-duration_bars",
+      "slow_len<-dom_cycle",
+      "fast_len<-dom_cycle",
+      "exit_tp<-pre_magnitude",
+      "exit_tp<-pre_vol",
+      "ma_responsiveness<-efficiency_ratio",
+      "ma_responsiveness<-hurst",
+      "formulation_ride<-hurst",
+      "formulation_ride<-efficiency_ratio"
+    ],
+    "causal": "properties measured pre-move; laws fit on TRAIN only; TEST untouched",
+    "capture_units": "realized_long_roi_net_taker"
+  },
+  "results": [
+    {
+      "asset": "BTCUSDT",
+      "cadence": "1d",
+      "n_events": 250,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": 0.231019113918054,
+          "intercept": 35.67461127617644,
+          "r2": 0.0009914761597450417,
+          "pearson_r": 0.031487714425549256,
+          "n": 248
+        },
+        "ma_length<-duration_bars": {
+          "slope": -0.3886796948615261,
+          "intercept": 41.77671315467398,
+          "r2": 0.00033727025905283536,
+          "pearson_r": -0.01836491924983238,
+          "n": 250
+        },
+        "slow_len<-dom_cycle": {
+          "slope": 0.19922239589727872,
+          "intercept": 46.42955165164796,
+          "r2": 0.0005651104735003853,
+          "pearson_r": 0.02377205236197315,
+          "n": 157
+        },
+        "fast_len<-dom_cycle": {
+          "slope": -0.04213633792785314,
+          "intercept": 14.33109158015348,
+          "r2": 0.00023857838985796853,
+          "pearson_r": -0.015445982968327759,
+          "n": 248
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": 0.015915235543262903,
+          "intercept": 0.03538485911381746,
+          "r2": 0.011492943107057063,
+          "pearson_r": 0.10720514496542032,
+          "n": 92
+        },
+        "exit_tp<-pre_vol": {
+          "slope": 0.030129538784657232,
+          "intercept": 0.03623524234154445,
+          "r2": 0.0003720624493511737,
+          "pearson_r": 0.01928892037805245,
+          "n": 92
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": -0.9801530878596195,
+          "intercept": 1.9281476879081225,
+          "r2": 0.011244798586771854,
+          "pearson_r": -0.10604149464606713,
+          "n": 249
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": -1.6319895547079868,
+          "intercept": 2.868795058258153,
+          "r2": 0.03581196290836608,
+          "pearson_r": -0.1892404896114094,
+          "n": 17
+        },
+        "formulation_ride<-hurst": {
+          "slope": -0.7460626741830779,
+          "intercept": 1.3971689418055733,
+          "r2": 0.036173518140511174,
+          "pearson_r": -0.19019337039053463,
+          "n": 17
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": 0.11881981193691894,
+          "intercept": 0.9914244466735104,
+          "r2": 0.0007651016343825923,
+          "pearson_r": 0.02766047061028654,
+          "n": 249
+        }
+      },
+      "strongest_law": {
+        "law": "formulation_ride<-hurst",
+        "r2": 0.036173518140511174
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 69,
+          "F1_PRICE_MA": 68,
+          "F2_CROSS": 51,
+          "F4_STACK": 37,
+          "F5_PRICE_MA_MECH": 25
+        },
+        "ma_type": {
+          "SMA": 124,
+          "HMA": 87,
+          "WMA": 22,
+          "DEMA": 9,
+          "EMA": 8
+        }
+      },
+      "step2_construction": {
+        "n_steps": 59,
+        "capture_means": {
+          "constructed": -0.0009504970856514962,
+          "fixed": -0.0030940008896072155,
+          "lastweek_best": 0.0037883628767536102,
+          "oracle_ceiling": 0.025481411050855295,
+          "random": -0.0016960091938539462
+        },
+        "constructed_minus_fixed_mean": 0.0021435038039557194,
+        "constructed_minus_lastweek_mean": -0.004738859962405107,
+        "constructed_minus_random_mean": 0.00074551210820245,
+        "beats_fixed_winrate": 0.5423728813559322,
+        "beats_lastweek_winrate": 0.3559322033898305,
+        "beats_random_winrate": 0.576271186440678,
+        "ceiling_fraction": -0.037301587567286326,
+        "verdict": "NOT FOUND: constructed capture -0.0010 is NOT positive -- the law-built config does not capture real signal OOS (fixed=-0.0031, lastweek=0.0038)."
+      }
+    },
+    {
+      "asset": "BTCUSDT",
+      "cadence": "4h",
+      "n_events": 267,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": 0.00524552315189475,
+          "intercept": 59.14057791224114,
+          "r2": 1.0967987541077306e-05,
+          "pearson_r": 0.0033117952142230505,
+          "n": 267
+        },
+        "ma_length<-duration_bars": {
+          "slope": 0.1879576193259103,
+          "intercept": 50.65938959452448,
+          "r2": 0.0014707949279435528,
+          "pearson_r": 0.03835094429011242,
+          "n": 267
+        },
+        "slow_len<-dom_cycle": {
+          "slope": -0.08289240145784375,
+          "intercept": 78.43746711270316,
+          "r2": 0.0024562824886164014,
+          "pearson_r": -0.049560896769693184,
+          "n": 184
+        },
+        "fast_len<-dom_cycle": {
+          "slope": -0.03884951936569514,
+          "intercept": 22.833952186158434,
+          "r2": 0.003849598629655837,
+          "pearson_r": -0.06204513381124812,
+          "n": 267
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": 0.013183634488778831,
+          "intercept": 0.04496372252068655,
+          "r2": 0.006385587070888321,
+          "pearson_r": 0.07990986841991626,
+          "n": 171
+        },
+        "exit_tp<-pre_vol": {
+          "slope": 0.49289650704099175,
+          "intercept": 0.040383664327182,
+          "r2": 0.022144639273607658,
+          "pearson_r": 0.14881074985903278,
+          "n": 171
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": 1.6027299078334396,
+          "intercept": 2.037000155333223,
+          "r2": 0.008254063635209086,
+          "pearson_r": 0.09085187744460223,
+          "n": 267
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": 1.3298338420132265,
+          "intercept": 1.4541746775153321,
+          "r2": 0.004922391455330355,
+          "pearson_r": 0.07015975666527328,
+          "n": 267
+        },
+        "formulation_ride<-hurst": {
+          "slope": 0.18053717388352222,
+          "intercept": 1.3620309179527226,
+          "r2": 0.00037314829959878004,
+          "pearson_r": 0.0193170468653695,
+          "n": 267
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": 0.5591220441674165,
+          "intercept": 1.398758170773746,
+          "r2": 0.0041316846033103705,
+          "pearson_r": 0.06427818139392716,
+          "n": 267
+        }
+      },
+      "strongest_law": {
+        "law": "exit_tp<-pre_vol",
+        "r2": 0.022144639273607658
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 119,
+          "F5_PRICE_MA_MECH": 71,
+          "F2_CROSS": 44,
+          "F4_STACK": 21,
+          "F1_PRICE_MA": 12
+        },
+        "ma_type": {
+          "HMA": 112,
+          "SMA": 80,
+          "WMA": 28,
+          "DEMA": 27,
+          "EMA": 20
+        }
+      },
+      "step2_construction": {
+        "n_steps": 64,
+        "capture_means": {
+          "constructed": -0.003659409602619295,
+          "fixed": -0.006893639812815282,
+          "lastweek_best": -0.004945819892322235,
+          "oracle_ceiling": 0.032205068154784064,
+          "random": -0.005150417596544405
+        },
+        "constructed_minus_fixed_mean": 0.003234230210195987,
+        "constructed_minus_lastweek_mean": 0.00128641028970294,
+        "constructed_minus_random_mean": 0.00149100799392511,
+        "beats_fixed_winrate": 0.609375,
+        "beats_lastweek_winrate": 0.578125,
+        "beats_random_winrate": 0.59375,
+        "ceiling_fraction": -0.11362837628634825,
+        "verdict": "NOT FOUND: constructed capture -0.0037 is NOT positive -- the law-built config does not capture real signal OOS (fixed=-0.0069, lastweek=-0.0049)."
+      }
+    },
+    {
+      "asset": "BTCUSDT",
+      "cadence": "1h",
+      "n_events": 257,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": 0.06818703217062479,
+          "intercept": 76.69814729069662,
+          "r2": 0.017997766420806305,
+          "pearson_r": 0.13415575433355903,
+          "n": 257
+        },
+        "ma_length<-duration_bars": {
+          "slope": 0.21265967147909792,
+          "intercept": 56.171112687240566,
+          "r2": 0.019887729244370878,
+          "pearson_r": 0.1410238605498053,
+          "n": 257
+        },
+        "slow_len<-dom_cycle": {
+          "slope": 0.07448432258416504,
+          "intercept": 85.52949546733751,
+          "r2": 0.020766467756549667,
+          "pearson_r": 0.14410575198981362,
+          "n": 208
+        },
+        "fast_len<-dom_cycle": {
+          "slope": 0.017292831763979555,
+          "intercept": 21.682448449700228,
+          "r2": 0.0074720513394487265,
+          "pearson_r": 0.08644102810268284,
+          "n": 257
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": 0.02524673655243728,
+          "intercept": 0.04458306824700307,
+          "r2": 0.021576993992133975,
+          "pearson_r": 0.14689109568702235,
+          "n": 180
+        },
+        "exit_tp<-pre_vol": {
+          "slope": 1.016907359611756,
+          "intercept": 0.04122627642427388,
+          "r2": 0.01537697080852296,
+          "pearson_r": 0.12400391448870826,
+          "n": 180
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": 2.085806842285917,
+          "intercept": 2.013805097798647,
+          "r2": 0.003946703735801527,
+          "pearson_r": 0.06282279630676763,
+          "n": 257
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": 2.004894485636818,
+          "intercept": 1.0078844976187635,
+          "r2": 0.002602852949630474,
+          "pearson_r": 0.051018162938609966,
+          "n": 257
+        },
+        "formulation_ride<-hurst": {
+          "slope": 1.3624809448731516,
+          "intercept": 0.9322229115324627,
+          "r2": 0.0061592400998358166,
+          "pearson_r": 0.07848082631978139,
+          "n": 257
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": 1.087072086364179,
+          "intercept": 1.636441944412875,
+          "r2": 0.005492912856110532,
+          "pearson_r": 0.07411418795420122,
+          "n": 257
+        }
+      },
+      "strongest_law": {
+        "law": "exit_tp<-pre_magnitude",
+        "r2": 0.021576993992133975
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 170,
+          "F5_PRICE_MA_MECH": 49,
+          "F2_CROSS": 25,
+          "F4_STACK": 13
+        },
+        "ma_type": {
+          "HMA": 77,
+          "SMA": 72,
+          "DEMA": 50,
+          "EMA": 35,
+          "WMA": 23
+        }
+      },
+      "step2_construction": {
+        "n_steps": 61,
+        "capture_means": {
+          "constructed": -0.0029425670951646475,
+          "fixed": -0.01725435446696412,
+          "lastweek_best": -0.002925245804806394,
+          "oracle_ceiling": 0.034448076487489626,
+          "random": -0.009781352924011976
+        },
+        "constructed_minus_fixed_mean": 0.014311787371799473,
+        "constructed_minus_lastweek_mean": -1.732129035825333e-05,
+        "constructed_minus_random_mean": 0.006838785828847329,
+        "beats_fixed_winrate": 0.7377049180327869,
+        "beats_lastweek_winrate": 0.5245901639344263,
+        "beats_random_winrate": 0.6721311475409836,
+        "ceiling_fraction": -0.08542036000858533,
+        "verdict": "NOT FOUND: constructed capture -0.0029 is NOT positive -- the law-built config does not capture real signal OOS (fixed=-0.0173, lastweek=-0.0029)."
+      }
+    },
+    {
+      "asset": "ETHUSDT",
+      "cadence": "1d",
+      "n_events": 235,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": -0.11569495001290407,
+          "intercept": 50.5245424903403,
+          "r2": 0.00019109687106211304,
+          "pearson_r": -0.013823779188851356,
+          "n": 233
+        },
+        "ma_length<-duration_bars": {
+          "slope": 2.642251691563968,
+          "intercept": 26.901950950811074,
+          "r2": 0.011326070445401348,
+          "pearson_r": 0.10642401254135009,
+          "n": 235
+        },
+        "slow_len<-dom_cycle": {
+          "slope": 0.5893658437530598,
+          "intercept": 55.93536965035941,
+          "r2": 0.003952518767627922,
+          "pearson_r": 0.06286906049582551,
+          "n": 147
+        },
+        "fast_len<-dom_cycle": {
+          "slope": 0.016752155541631925,
+          "intercept": 15.403434404729929,
+          "r2": 2.633033573018473e-05,
+          "pearson_r": 0.005131309358240105,
+          "n": 233
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": 0.006052767492135996,
+          "intercept": 0.038591316680371995,
+          "r2": 0.0023228910707892014,
+          "pearson_r": 0.048196380266459476,
+          "n": 101
+        },
+        "exit_tp<-pre_vol": {
+          "slope": -0.08423967383083711,
+          "intercept": 0.04279581942452583,
+          "r2": 0.00685379700777744,
+          "pearson_r": -0.08278766217122903,
+          "n": 101
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": 0.28390197714608245,
+          "intercept": 1.6522836335861228,
+          "r2": 0.0009370197737210706,
+          "pearson_r": 0.030610778717976402,
+          "n": 234
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": -1.6464088778144215,
+          "intercept": 3.8310080045236248,
+          "r2": 0.05524396611166038,
+          "pearson_r": -0.23504034996498008,
+          "n": 12
+        },
+        "formulation_ride<-hurst": {
+          "slope": -1.073686710533818,
+          "intercept": 1.7085990279575503,
+          "r2": 0.11032159358951321,
+          "pearson_r": -0.33214694577778836,
+          "n": 12
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": 0.15355695046383794,
+          "intercept": 1.0729333120160243,
+          "r2": 0.001295061737110914,
+          "pearson_r": 0.03598696621154912,
+          "n": 234
+        }
+      },
+      "strongest_law": {
+        "law": "formulation_ride<-hurst",
+        "r2": 0.11032159358951321
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 73,
+          "F1_PRICE_MA": 60,
+          "F2_CROSS": 41,
+          "F4_STACK": 33,
+          "F5_PRICE_MA_MECH": 28
+        },
+        "ma_type": {
+          "SMA": 117,
+          "HMA": 84,
+          "DEMA": 15,
+          "WMA": 14,
+          "EMA": 5
+        }
+      },
+      "step2_construction": {
+        "n_steps": 56,
+        "capture_means": {
+          "constructed": -0.003761920667168476,
+          "fixed": -0.009055422757125077,
+          "lastweek_best": -0.005654892753316069,
+          "oracle_ceiling": 0.03433934843721103,
+          "random": -0.004718781105820893
+        },
+        "constructed_minus_fixed_mean": 0.005293502089956601,
+        "constructed_minus_lastweek_mean": 0.0018929720861475931,
+        "constructed_minus_random_mean": 0.0009568604386524168,
+        "beats_fixed_winrate": 0.5714285714285714,
+        "beats_lastweek_winrate": 0.5178571428571429,
+        "beats_random_winrate": 0.5535714285714286,
+        "ceiling_fraction": -0.10955131178586833,
+        "verdict": "NOT FOUND: constructed capture -0.0038 is NOT positive -- the law-built config does not capture real signal OOS (fixed=-0.0091, lastweek=-0.0057)."
+      }
+    },
+    {
+      "asset": "ETHUSDT",
+      "cadence": "4h",
+      "n_events": 237,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": 0.11089384464396863,
+          "intercept": 49.78023244802921,
+          "r2": 0.004947784420389456,
+          "pearson_r": 0.0703404891964043,
+          "n": 236
+        },
+        "ma_length<-duration_bars": {
+          "slope": 0.4433089378199471,
+          "intercept": 36.0043457321355,
+          "r2": 0.009856396837329529,
+          "pearson_r": 0.09927938777676529,
+          "n": 237
+        },
+        "slow_len<-dom_cycle": {
+          "slope": 0.1097700978704386,
+          "intercept": 65.30055835299304,
+          "r2": 0.004339985696503401,
+          "pearson_r": 0.0658785678085336,
+          "n": 152
+        },
+        "fast_len<-dom_cycle": {
+          "slope": 0.026687661572896662,
+          "intercept": 18.419171154497192,
+          "r2": 0.0018163595804582267,
+          "pearson_r": 0.042618770283273016,
+          "n": 236
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": 0.0049036104558093435,
+          "intercept": 0.048889838522027794,
+          "r2": 0.0008015477736832421,
+          "pearson_r": 0.02831161905796283,
+          "n": 162
+        },
+        "exit_tp<-pre_vol": {
+          "slope": 0.2607923432470798,
+          "intercept": 0.045530172803496444,
+          "r2": 0.006859818469222456,
+          "pearson_r": 0.08282402108822255,
+          "n": 162
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": 0.11725192205216448,
+          "intercept": 2.3630738702782095,
+          "r2": 3.787796846010938e-05,
+          "pearson_r": 0.0061545079787375685,
+          "n": 236
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": -0.13556037603117882,
+          "intercept": 2.4579915024638637,
+          "r2": 5.184676288738643e-05,
+          "pearson_r": -0.007200469629642911,
+          "n": 236
+        },
+        "formulation_ride<-hurst": {
+          "slope": 0.09700316973996435,
+          "intercept": 1.4421296706307054,
+          "r2": 0.00010513501330289277,
+          "pearson_r": 0.010253536624143338,
+          "n": 236
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": 0.7837191641183696,
+          "intercept": 1.4061238555244329,
+          "r2": 0.006701732304606467,
+          "pearson_r": 0.08186410876939014,
+          "n": 236
+        }
+      },
+      "strongest_law": {
+        "law": "ma_length<-duration_bars",
+        "r2": 0.009856396837329529
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 99,
+          "F5_PRICE_MA_MECH": 73,
+          "F2_CROSS": 39,
+          "F4_STACK": 14,
+          "F1_PRICE_MA": 12
+        },
+        "ma_type": {
+          "HMA": 97,
+          "SMA": 61,
+          "DEMA": 39,
+          "EMA": 20,
+          "WMA": 20
+        }
+      },
+      "step2_construction": {
+        "n_steps": 56,
+        "capture_means": {
+          "constructed": 0.000614868829927652,
+          "fixed": -0.010133157416993135,
+          "lastweek_best": 0.001130507257115303,
+          "oracle_ceiling": 0.044404514699900845,
+          "random": -0.011579515423212308
+        },
+        "constructed_minus_fixed_mean": 0.010748026246920787,
+        "constructed_minus_lastweek_mean": -0.000515638427187651,
+        "constructed_minus_random_mean": 0.01219438425313996,
+        "beats_fixed_winrate": 0.5892857142857143,
+        "beats_lastweek_winrate": 0.48214285714285715,
+        "beats_random_winrate": 0.6964285714285714,
+        "ceiling_fraction": 0.01384698907494253,
+        "verdict": "PARTIAL: constructed 0.0006 is positive and beats one baseline (fixed=-0.0101, lastweek=0.0011) but not both -- a weak/partial law."
+      }
+    },
+    {
+      "asset": "ETHUSDT",
+      "cadence": "1h",
+      "n_events": 225,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": 0.0768203793844227,
+          "intercept": 71.34143349086834,
+          "r2": 0.02299832284985026,
+          "pearson_r": 0.15165197937992866,
+          "n": 224
+        },
+        "ma_length<-duration_bars": {
+          "slope": 0.2952874177539792,
+          "intercept": 35.53642312315683,
+          "r2": 0.05103150882858498,
+          "pearson_r": 0.22590154676005408,
+          "n": 225
+        },
+        "slow_len<-dom_cycle": {
+          "slope": 0.08599288053303533,
+          "intercept": 78.13748908797794,
+          "r2": 0.029467255294040595,
+          "pearson_r": 0.17166029038202343,
+          "n": 185
+        },
+        "fast_len<-dom_cycle": {
+          "slope": -0.006875386771804082,
+          "intercept": 24.385265483180206,
+          "r2": 0.00161773942872101,
+          "pearson_r": -0.040221131619098786,
+          "n": 224
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": -0.00287127784433828,
+          "intercept": 0.049477082752647034,
+          "r2": 0.0003961710542929042,
+          "pearson_r": -0.019904046178924363,
+          "n": 149
+        },
+        "exit_tp<-pre_vol": {
+          "slope": 0.07605210063084303,
+          "intercept": 0.0484652942703877,
+          "r2": 0.00014487325589029876,
+          "pearson_r": 0.012036330665546345,
+          "n": 149
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": 5.319267528135659,
+          "intercept": 1.828047102704559,
+          "r2": 0.025761593126515492,
+          "pearson_r": 0.1605041841402131,
+          "n": 224
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": 1.4588198243834067,
+          "intercept": 1.3286987314480927,
+          "r2": 0.0013529787622507117,
+          "pearson_r": 0.036782859625790275,
+          "n": 224
+        },
+        "formulation_ride<-hurst": {
+          "slope": 0.331810386921489,
+          "intercept": 1.4481344751845096,
+          "r2": 0.0002929579685716499,
+          "pearson_r": 0.017116014973461397,
+          "n": 224
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": 0.8958636811772354,
+          "intercept": 1.581613641392895,
+          "r2": 0.0030583740905625323,
+          "pearson_r": 0.05530256857111276,
+          "n": 224
+        }
+      },
+      "strongest_law": {
+        "law": "ma_length<-duration_bars",
+        "r2": 0.05103150882858498
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 147,
+          "F5_PRICE_MA_MECH": 36,
+          "F2_CROSS": 32,
+          "F4_STACK": 7,
+          "F1_PRICE_MA": 3
+        },
+        "ma_type": {
+          "HMA": 65,
+          "SMA": 53,
+          "DEMA": 45,
+          "WMA": 32,
+          "EMA": 30
+        }
+      },
+      "step2_construction": {
+        "n_steps": 53,
+        "capture_means": {
+          "constructed": -0.010430967060958264,
+          "fixed": -0.016864173353960597,
+          "lastweek_best": -0.0036879262558824405,
+          "oracle_ceiling": 0.045085366809056476,
+          "random": -0.014738455447359581
+        },
+        "constructed_minus_fixed_mean": 0.006433206293002333,
+        "constructed_minus_lastweek_mean": -0.006743040805075823,
+        "constructed_minus_random_mean": 0.004307488386401317,
+        "beats_fixed_winrate": 0.6037735849056604,
+        "beats_lastweek_winrate": 0.39622641509433965,
+        "beats_random_winrate": 0.6226415094339622,
+        "ceiling_fraction": -0.23136036810202804,
+        "verdict": "NOT FOUND: constructed capture -0.0104 is NOT positive -- the law-built config does not capture real signal OOS (fixed=-0.0169, lastweek=-0.0037)."
+      }
+    },
+    {
+      "asset": "SOLUSDT",
+      "cadence": "1d",
+      "n_events": 185,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": 1.0634688371432912,
+          "intercept": 36.47467231860257,
+          "r2": 0.013703683993794402,
+          "pearson_r": 0.11706273529093104,
+          "n": 184
+        },
+        "ma_length<-duration_bars": {
+          "slope": 4.130713417964179,
+          "intercept": 15.07985689288144,
+          "r2": 0.02775436109206142,
+          "pearson_r": 0.16659640179806223,
+          "n": 185
+        },
+        "slow_len<-dom_cycle": {
+          "slope": 1.4975814830516598,
+          "intercept": 43.756605549197715,
+          "r2": 0.023348620149830857,
+          "pearson_r": 0.15280255282498134,
+          "n": 131
+        },
+        "fast_len<-dom_cycle": {
+          "slope": 0.032916546231225516,
+          "intercept": 11.375100653222189,
+          "r2": 0.00020921907935100847,
+          "pearson_r": 0.0144644073280353,
+          "n": 184
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": -0.017445421543651134,
+          "intercept": 0.04606447872331132,
+          "r2": 0.021310230557234466,
+          "pearson_r": -0.14598024029722045,
+          "n": 93
+        },
+        "exit_tp<-pre_vol": {
+          "slope": -0.07656479283087192,
+          "intercept": 0.04680537871776085,
+          "r2": 0.008306347137585268,
+          "pearson_r": -0.091139163577385,
+          "n": 93
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": 0.1567310903158084,
+          "intercept": 1.4494654831801939,
+          "r2": 0.00021613881345616814,
+          "pearson_r": 0.014701660227883913,
+          "n": 184
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": -1.7185533296952775,
+          "intercept": 2.908263631048672,
+          "r2": 0.11710984975364103,
+          "pearson_r": -0.34221316420272463,
+          "n": 16
+        },
+        "formulation_ride<-hurst": {
+          "slope": -0.391248586169874,
+          "intercept": 2.061963292186677,
+          "r2": 0.06899031771382369,
+          "pearson_r": -0.26266008016793013,
+          "n": 16
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": -0.1676144832151059,
+          "intercept": 1.227201890991172,
+          "r2": 0.001004245533638648,
+          "pearson_r": -0.031689833285121254,
+          "n": 184
+        }
+      },
+      "strongest_law": {
+        "law": "ma_responsiveness<-hurst",
+        "r2": 0.11710984975364103
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 72,
+          "F1_PRICE_MA": 33,
+          "F2_CROSS": 31,
+          "F4_STACK": 28,
+          "F5_PRICE_MA_MECH": 21
+        },
+        "ma_type": {
+          "SMA": 101,
+          "HMA": 54,
+          "WMA": 13,
+          "DEMA": 11,
+          "EMA": 6
+        }
+      },
+      "step2_construction": {
+        "n_steps": 43,
+        "capture_means": {
+          "constructed": -0.008546786227177777,
+          "fixed": -0.01963905729793278,
+          "lastweek_best": -0.010177251591806281,
+          "oracle_ceiling": 0.039936047938016,
+          "random": -0.014532471137709111
+        },
+        "constructed_minus_fixed_mean": 0.011092271070755003,
+        "constructed_minus_lastweek_mean": 0.0016304653646285038,
+        "constructed_minus_random_mean": 0.005985684910531334,
+        "beats_fixed_winrate": 0.6046511627906976,
+        "beats_lastweek_winrate": 0.4186046511627907,
+        "beats_random_winrate": 0.627906976744186,
+        "ceiling_fraction": -0.2140118181058648,
+        "verdict": "NOT FOUND: constructed capture -0.0085 is NOT positive -- the law-built config does not capture real signal OOS (fixed=-0.0196, lastweek=-0.0102)."
+      }
+    },
+    {
+      "asset": "SOLUSDT",
+      "cadence": "4h",
+      "n_events": 175,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": 0.007646205401120143,
+          "intercept": 55.10693815254428,
+          "r2": 2.8199204314405257e-05,
+          "pearson_r": 0.005310292300278378,
+          "n": 175
+        },
+        "ma_length<-duration_bars": {
+          "slope": 0.5122268416862451,
+          "intercept": 28.55455506281902,
+          "r2": 0.02202284828441259,
+          "pearson_r": 0.1484009713054888,
+          "n": 175
+        },
+        "slow_len<-dom_cycle": {
+          "slope": -0.0007882094792408842,
+          "intercept": 69.7045518939832,
+          "r2": 2.2367086371932743e-07,
+          "pearson_r": -0.0004729385413684684,
+          "n": 112
+        },
+        "fast_len<-dom_cycle": {
+          "slope": 0.0447635103663302,
+          "intercept": 15.130093235827657,
+          "r2": 0.006152649076146766,
+          "pearson_r": 0.07843882378099819,
+          "n": 175
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": 0.004376165550099681,
+          "intercept": 0.05064956959447374,
+          "r2": 0.0017437336843496576,
+          "pearson_r": 0.041758037362281876,
+          "n": 124
+        },
+        "exit_tp<-pre_vol": {
+          "slope": 0.056824701713751063,
+          "intercept": 0.05027384426693223,
+          "r2": 0.00046995368097557666,
+          "pearson_r": 0.021678415093727418,
+          "n": 124
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": 0.9575275902374506,
+          "intercept": 2.3722919522597947,
+          "r2": 0.0020472837542681033,
+          "pearson_r": 0.045246919831828665,
+          "n": 175
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": 0.6471664616240679,
+          "intercept": 2.105785668673194,
+          "r2": 0.0009501101820883484,
+          "pearson_r": 0.030823857352518712,
+          "n": 174
+        },
+        "formulation_ride<-hurst": {
+          "slope": -0.1318554929400893,
+          "intercept": 1.6124592107314542,
+          "r2": 0.00015852248558434479,
+          "pearson_r": -0.012590571296990757,
+          "n": 174
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": 1.555079842849818,
+          "intercept": 1.3714991252650153,
+          "r2": 0.021942753094346013,
+          "pearson_r": 0.14813086475932657,
+          "n": 175
+        }
+      },
+      "strongest_law": {
+        "law": "ma_length<-duration_bars",
+        "r2": 0.02202284828441259
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 74,
+          "F5_PRICE_MA_MECH": 58,
+          "F2_CROSS": 23,
+          "F4_STACK": 15,
+          "F1_PRICE_MA": 5
+        },
+        "ma_type": {
+          "HMA": 82,
+          "SMA": 39,
+          "WMA": 22,
+          "DEMA": 19,
+          "EMA": 13
+        }
+      },
+      "step2_construction": {
+        "n_steps": 41,
+        "capture_means": {
+          "constructed": -0.008251350987304945,
+          "fixed": -0.024810034874376947,
+          "lastweek_best": -0.0003008634578812274,
+          "oracle_ceiling": 0.06037689034009,
+          "random": -0.015957229024812097
+        },
+        "constructed_minus_fixed_mean": 0.016558683887072004,
+        "constructed_minus_lastweek_mean": -0.007950487529423718,
+        "constructed_minus_random_mean": 0.007705878037507151,
+        "beats_fixed_winrate": 0.6585365853658537,
+        "beats_lastweek_winrate": 0.4634146341463415,
+        "beats_random_winrate": 0.5609756097560976,
+        "ceiling_fraction": -0.1366640603851385,
+        "verdict": "NOT FOUND: constructed capture -0.0083 is NOT positive -- the law-built config does not capture real signal OOS (fixed=-0.0248, lastweek=-0.0003)."
+      }
+    },
+    {
+      "asset": "SOLUSDT",
+      "cadence": "1h",
+      "n_events": 165,
+      "step1_laws": {
+        "ma_length<-dom_cycle": {
+          "slope": -0.01093119576499824,
+          "intercept": 102.5817919792672,
+          "r2": 0.0006704905874510558,
+          "pearson_r": -0.02589383300036845,
+          "n": 165
+        },
+        "ma_length<-duration_bars": {
+          "slope": 0.0378255159298437,
+          "intercept": 90.98776659653225,
+          "r2": 0.0012809823272985632,
+          "pearson_r": 0.03579081344840299,
+          "n": 165
+        },
+        "slow_len<-dom_cycle": {
+          "slope": -0.006959434714549507,
+          "intercept": 108.86685389442016,
+          "r2": 0.00025747824886446224,
+          "pearson_r": -0.01604612878125973,
+          "n": 134
+        },
+        "fast_len<-dom_cycle": {
+          "slope": -0.015392041742798516,
+          "intercept": 31.64272903159388,
+          "r2": 0.0072952628856585156,
+          "pearson_r": -0.08541231108955219,
+          "n": 165
+        },
+        "exit_tp<-pre_magnitude": {
+          "slope": 0.014647337780005945,
+          "intercept": 0.048778546161217025,
+          "r2": 0.024281039957925632,
+          "pearson_r": 0.15582374645068,
+          "n": 118
+        },
+        "exit_tp<-pre_vol": {
+          "slope": 0.7791092046624265,
+          "intercept": 0.042813387154583146,
+          "r2": 0.03747363178583851,
+          "pearson_r": 0.19358107290186904,
+          "n": 118
+        },
+        "ma_responsiveness<-efficiency_ratio": {
+          "slope": -2.3273519026382243,
+          "intercept": 2.2866640228094695,
+          "r2": 0.003698912388644393,
+          "pearson_r": -0.060818684535629775,
+          "n": 165
+        },
+        "ma_responsiveness<-hurst": {
+          "slope": 1.8045764883061004,
+          "intercept": 1.1495271192283407,
+          "r2": 0.0019529825589291727,
+          "pearson_r": 0.044192562258022365,
+          "n": 165
+        },
+        "formulation_ride<-hurst": {
+          "slope": -1.228130233837261,
+          "intercept": 2.36289376416839,
+          "r2": 0.004490785827223065,
+          "pearson_r": -0.06701332574364045,
+          "n": 165
+        },
+        "formulation_ride<-efficiency_ratio": {
+          "slope": -1.6077248272763167,
+          "intercept": 1.7577142580946663,
+          "r2": 0.00876312676319535,
+          "pearson_r": -0.09361157387415094,
+          "n": 165
+        }
+      },
+      "strongest_law": {
+        "law": "exit_tp<-pre_vol",
+        "r2": 0.03747363178583851
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 109,
+          "F5_PRICE_MA_MECH": 27,
+          "F2_CROSS": 21,
+          "F1_PRICE_MA": 4,
+          "F4_STACK": 4
+        },
+        "ma_type": {
+          "HMA": 51,
+          "SMA": 44,
+          "DEMA": 33,
+          "WMA": 20,
+          "EMA": 17
+        }
+      },
+      "step2_construction": {
+        "n_steps": 38,
+        "capture_means": {
+          "constructed": -0.013777429972510042,
+          "fixed": -0.023232057257438484,
+          "lastweek_best": -0.01155036611186215,
+          "oracle_ceiling": 0.06178989103646764,
+          "random": -0.025204127447483286
+        },
+        "constructed_minus_fixed_mean": 0.009454627284928442,
+        "constructed_minus_lastweek_mean": -0.002227063860647893,
+        "constructed_minus_random_mean": 0.011426697474973244,
+        "beats_fixed_winrate": 0.5526315789473685,
+        "beats_lastweek_winrate": 0.5263157894736842,
+        "beats_random_winrate": 0.7105263157894737,
+        "ceiling_fraction": -0.22297223285891168,
+        "verdict": "NOT FOUND: constructed capture -0.0138 is NOT positive -- the law-built config does not capture real signal OOS (fixed=-0.0232, lastweek=-0.0116)."
+      }
+    }
+  ],
+  "overall_verdict": "PARTIAL on 1/9 runs; not a clean law -- construction beats one baseline but not both, robustly. Strongest law overall: ma_responsiveness<-hurst (R^2=0.117)."
+}

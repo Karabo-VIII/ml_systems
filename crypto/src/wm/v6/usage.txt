@@ -1,0 +1,100 @@
+V6 Model Family -- Combined Usage Guide
+========================================
+
+Architecture: Causal JEPA + Adversarial Time Shuffling
+  CausalGRU (NOT BiGRU) + JEPA + VICReg + TimeDiscriminator
+  d_model=256, d_latent=192, n_layers=3, predictor=2
+  Dual optimizer (main + discriminator)
+  get_loss() returns 4 values: (total, loss_dict, l_disc, outputs)
+  Discriminator: hidden=128, lambda_adv=0.10, lr_mult=1.0
+
+Variants:
+  V6    Base JEPA+Adversarial, 18 features (fixed)
+  V6.1  Anti-memorization (XD dropout/noise), 13/18 features
+  V6.2  No Discriminator (removes adversarial loss entirely), 13/18 features
+  V6.3  Adversarial Weight Schedule (0->0.15 over 60 epochs), 13/18 features
+
+All variants: RevIN DISABLED by default. Opt-in via --revin.
+
+================================================================================
+V6 BASE (src/wm/v6/v6_training/)
+================================================================================
+
+Features: 19 (fixed, no --features flag)
+
+  Training:
+    python src/wm/v6/v6_training/train_world_model.py
+    python src/wm/v6/v6_training/train_world_model.py --seed 42
+
+  Validation:
+    python src/wm/v6/v6_training/validate_world.py
+    python src/wm/v6/v6_training/validate_world.py --latest
+    python src/wm/v6/v6_training/validate_world.py --both
+    python src/wm/v6/v6_training/validate_world.py --robust
+
+  Checkpoints (models/v6/v6/base/):
+    v6_wm_best_ema.pt       Best EMA (selected by ShIC)
+    v6_wm_latest.pt         Latest (resumable)
+
+================================================================================
+V6.1 ANTI-MEMORIZATION (src/wm/v6/v6_1_training/)
+================================================================================
+
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v6/v6_1_training/train_world_model.py
+    python src/wm/v6/v6_1_training/train_world_model.py --features 13
+    python src/wm/v6/v6_1_training/train_world_model.py --seed 42
+
+  Validation:
+    python src/wm/v6/v6_1_training/validate_world.py
+    python src/wm/v6/v6_1_training/validate_world.py --features 13
+    python src/wm/v6/v6_1_training/validate_world.py --robust
+
+  Checkpoints (models/v6/v6_1/base/):
+    v6_1_f19_wm_best_ema.pt     19-feature best EMA
+    v6_1_f14_wm_best_ema.pt     14-feature best EMA
+
+================================================================================
+V6.2 NO DISCRIMINATOR (src/wm/v6/v6_2_training/)
+================================================================================
+
+Ablation: Removes TimeDiscriminator and adversarial loss entirely
+  Tests whether adversarial time-shuffling detection actually helps
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v6/v6_2_training/train_world_model.py
+    python src/wm/v6/v6_2_training/train_world_model.py --features 13
+
+  Validation:
+    python src/wm/v6/v6_2_training/validate_world.py
+    python src/wm/v6/v6_2_training/validate_world.py --robust
+
+  Checkpoints (models/v6/v6_2/base/):
+    v6_2_f19_wm_best_ema.pt     19-feature best EMA
+
+================================================================================
+V6.3 ADVERSARIAL WEIGHT SCHEDULE (src/wm/v6/v6_3_training/)
+================================================================================
+
+Ablation: Ramps adversarial weight from 0 to 0.15 over 60 epochs
+  Lets encoder first learn JEPA representations, then introduces adversarial pressure
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v6/v6_3_training/train_world_model.py
+    python src/wm/v6/v6_3_training/train_world_model.py --features 13
+
+  Validation:
+    python src/wm/v6/v6_3_training/validate_world.py
+    python src/wm/v6/v6_3_training/validate_world.py --robust
+
+  Checkpoints (models/v6/v6_3/base/):
+    v6_3_f19_wm_best_ema.pt     19-feature best EMA
+
+================================================================================
+CHECKPOINT NAMING: v6_{variant}_f{features}_wm_{type}.pt
+VALIDATION GATES: MSE<0.10, IC>0.015, KL 0.01-15.0, ShIC/IC>0.3, Val/Train<2.0
+================================================================================

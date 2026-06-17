@@ -1,0 +1,101 @@
+V8 Model Family -- Combined Usage Guide
+========================================
+
+Architecture: Neural ODE (Continuous-Time Dynamics) + RSSM
+  Initial state encoder projects features to hidden state
+  Neural ODE: dh/dt = f_theta(h, t) solved via Runge-Kutta 4
+  ODE Hidden: [256, 512, 512, 256], step_size=1.0, substeps=2
+  RSSM latent (24x24 = 576), KL anneal + Gumbel tau
+  d_model=256, LR=1e-4 (slower for ODE stability), warmup=10 epochs
+
+Variants:
+  V8    Base Neural ODE, 18 features (fixed)
+  V8.1  Anti-memorization (XD dropout/noise), 13/18 features
+  V8.2  Euler solver (1 eval/step, 4 substeps vs RK4 2 substeps), 13/18 features
+  V8.3  No dynamics regularization (lambda=0), 13/18 features
+
+All variants: RevIN DISABLED by default. Opt-in via --revin.
+
+================================================================================
+V8 BASE (src/wm/v8/v8_training/)
+================================================================================
+
+Features: 19 (fixed, no --features flag)
+
+  Training:
+    python src/wm/v8/v8_training/train_world_model.py
+    python src/wm/v8/v8_training/train_world_model.py --seed 42
+
+  Validation:
+    python src/wm/v8/v8_training/validate_world.py
+    python src/wm/v8/v8_training/validate_world.py --latest
+    python src/wm/v8/v8_training/validate_world.py --both
+    python src/wm/v8/v8_training/validate_world.py --robust
+
+  Checkpoints (models/v8/v8/base/):
+    v8_wm_best_ema.pt       Best EMA (selected by ShIC)
+    v8_wm_latest.pt         Latest (resumable)
+
+================================================================================
+V8.1 ANTI-MEMORIZATION (src/wm/v8/v8_1_training/)
+================================================================================
+
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v8/v8_1_training/train_world_model.py
+    python src/wm/v8/v8_1_training/train_world_model.py --features 13
+    python src/wm/v8/v8_1_training/train_world_model.py --seed 42
+
+  Validation:
+    python src/wm/v8/v8_1_training/validate_world.py
+    python src/wm/v8/v8_1_training/validate_world.py --features 13
+    python src/wm/v8/v8_1_training/validate_world.py --robust
+
+  Checkpoints (models/v8/v8_1/base/):
+    v8_1_f19_wm_best_ema.pt     19-feature best EMA
+    v8_1_f14_wm_best_ema.pt     14-feature best EMA
+
+================================================================================
+V8.2 EULER SOLVER (src/wm/v8/v8_2_training/)
+================================================================================
+
+Ablation: Euler integration (1 eval/step) vs RK4 (4 evals/step)
+  Compensated with 4 substeps (vs 2) to maintain accuracy
+  Tests solver quality vs compute tradeoff
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v8/v8_2_training/train_world_model.py
+    python src/wm/v8/v8_2_training/train_world_model.py --features 13
+
+  Validation:
+    python src/wm/v8/v8_2_training/validate_world.py
+    python src/wm/v8/v8_2_training/validate_world.py --robust
+
+  Checkpoints (models/v8/v8_2/base/):
+    v8_2_f19_wm_best_ema.pt     19-feature best EMA
+
+================================================================================
+V8.3 NO DYNAMICS REGULARIZATION (src/wm/v8/v8_3_training/)
+================================================================================
+
+Ablation: Removes dynamics smoothness regularization (lambda=0)
+  Tests whether ODE learns better without complexity penalties on dh/dt
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v8/v8_3_training/train_world_model.py
+    python src/wm/v8/v8_3_training/train_world_model.py --features 13
+
+  Validation:
+    python src/wm/v8/v8_3_training/validate_world.py
+    python src/wm/v8/v8_3_training/validate_world.py --robust
+
+  Checkpoints (models/v8/v8_3/base/):
+    v8_3_f19_wm_best_ema.pt     19-feature best EMA
+
+================================================================================
+CHECKPOINT NAMING: v8_{variant}_f{features}_wm_{type}.pt
+VALIDATION GATES: MSE<0.10, IC>0.015, KL 0.01-15.0, ShIC/IC>0.3, Val/Train<2.0
+================================================================================

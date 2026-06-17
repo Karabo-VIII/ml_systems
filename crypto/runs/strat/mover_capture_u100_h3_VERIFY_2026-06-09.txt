@@ -1,0 +1,35 @@
+## MOVER-CAPTURE selection power -- score=vol_expansion H=3 K=5 -- 42 assets
+   (SELECTED top-K by score vs RANDOM=x-sec-mean vs ORACLE top-K-by-forward; net taker 0.24%, long-only)
+   window    days     SEL%     RND%  ORACLE%  edge_pp   capt   win  >rnd
+   TRAIN     1068    0.092    0.044    7.605    0.048  0.012  0.51  0.48
+   VAL        304   -0.532   -0.751   10.347    0.219 -0.051  0.50  0.45
+   OOS        291   -0.717   -0.634   10.989   -0.083 -0.065  0.47  0.45
+   UNSEEN     145   -0.034   -0.310   15.100    0.276 -0.002  0.45  0.48
+## MOVER-CAPTURE selection power -- score=breakout H=3 K=5 -- 42 assets
+   (SELECTED top-K by score vs RANDOM=x-sec-mean vs ORACLE top-K-by-forward; net taker 0.24%, long-only)
+   window    days     SEL%     RND%  ORACLE%  edge_pp   capt   win  >rnd
+   TRAIN     1077   -0.096    0.027    7.667   -0.122 -0.012  0.50  0.44
+   VAL        304   -0.640   -0.763   10.429    0.123 -0.061  0.41  0.44
+   OOS        291   -1.084   -0.640   11.028   -0.444 -0.098  0.41  0.46
+   UNSEEN     145   -0.462   -0.310   15.100   -0.151 -0.031  0.39  0.46
+## MOVER-CAPTURE selection power -- score=momentum H=3 K=5 -- 42 assets
+   (SELECTED top-K by score vs RANDOM=x-sec-mean vs ORACLE top-K-by-forward; net taker 0.24%, long-only)
+   window    days     SEL%     RND%  ORACLE%  edge_pp   capt   win  >rnd
+   TRAIN     1087    0.005    0.020    7.789   -0.016  0.001  0.49  0.45
+   VAL        304   -1.038   -0.757   10.713   -0.281 -0.097  0.43  0.41
+   OOS        291   -1.052   -0.615   11.203   -0.437 -0.094  0.43  0.43
+   UNSEEN     145   -0.263   -0.310   15.100    0.048 -0.017  0.39  0.47
+## MOVER-CAPTURE selection power -- score=range_surge H=3 K=5 -- 42 assets
+   (SELECTED top-K by score vs RANDOM=x-sec-mean vs ORACLE top-K-by-forward; net taker 0.24%, long-only)
+   window    days     SEL%     RND%  ORACLE%  edge_pp   capt   win  >rnd
+   TRAIN     1078    0.010    0.010    7.655   -0.000  0.001  0.50  0.47
+   VAL        304   -0.561   -0.765   10.456    0.204 -0.054  0.45  0.47
+   OOS        291   -0.852   -0.639   11.028   -0.213 -0.077  0.46  0.44
+   UNSEEN     145    0.091   -0.310   15.100    0.401  0.006  0.44  0.51
+## MOVER-CAPTURE selection power -- score=accel H=3 K=5 -- 42 assets
+   (SELECTED top-K by score vs RANDOM=x-sec-mean vs ORACLE top-K-by-forward; net taker 0.24%, long-only)
+   window    days     SEL%     RND%  ORACLE%  edge_pp   capt   win  >rnd
+   TRAIN     1086   -0.207    0.023    7.778   -0.230 -0.027  0.49  0.44
+   VAL        304   -0.713   -0.752   10.707    0.040 -0.067  0.45  0.44
+   OOS        291   -1.109   -0.618   11.176   -0.491 -0.099  0.44  0.40
+   UNSEEN     145   -0.284   -0.310   15.100    0.026 -0.019  0.40  0.44

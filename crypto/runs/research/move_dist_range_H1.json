@@ -1,0 +1,81 @@
+{
+  "agg": {
+    "cadence": "range",
+    "horizon_bars": 1,
+    "cost_rt": 0.0024,
+    "n_assets": 3,
+    "thresholds": [
+      0.02,
+      0.05,
+      0.1
+    ],
+    "univ_freq_mfe_ge_0.02": 0.004776910158343867,
+    "univ_freq_net_ge_0.02": 0.0030257149475098263,
+    "univ_freq_mfe_ge_0.05": 0.00011523200160167239,
+    "univ_freq_net_ge_0.05": 8.630000247028228e-05,
+    "univ_freq_mfe_ge_0.1": 5.242592389347007e-06,
+    "univ_freq_net_ge_0.1": 9.005054086606109e-07,
+    "univ_freq_net_positive": 0.6555072075693139,
+    "univ_mfe_median": 0.007658155179817659,
+    "movers_premise": {},
+    "n_periods_for_movers": 0,
+    "top10_assets_by_net_positive_mfe": [
+      {
+        "asset": "ETHUSDT",
+        "freq_net_positive": 0.752,
+        "freq_net_ge_0.05": 0.0,
+        "mfe_median": 0.0077
+      },
+      {
+        "asset": "BTCUSDT",
+        "freq_net_positive": 0.651,
+        "freq_net_ge_0.05": 0.0,
+        "mfe_median": 0.0047
+      },
+      {
+        "asset": "PEPEUSDT",
+        "freq_net_positive": 0.564,
+        "freq_net_ge_0.05": 0.0,
+        "mfe_median": 0.0081
+      }
+    ]
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "n_bars": 137218,
+      "mfe_median": 0.004743188670544367,
+      "mfe_p90": 0.005656357192581532,
+      "freq_mfe_ge_0.02": 0.0036802751825562243,
+      "freq_net_ge_0.02": 0.002368493929367867,
+      "freq_mfe_ge_0.05": 5.101371540176945e-05,
+      "freq_net_ge_0.05": 4.372604177294524e-05,
+      "freq_mfe_ge_0.1": 0.0,
+      "freq_net_ge_0.1": 0.0,
+      "freq_net_positive": 0.6509787345683511
+    },
+    "ETHUSDT": {
+      "n_bars": 76768,
+      "mfe_median": 0.007658155179817659,
+      "mfe_p90": 0.008120183804364656,
+      "freq_mfe_ge_0.02": 0.007099312213422259,
+      "freq_net_ge_0.02": 0.004767611504793664,
+      "freq_mfe_ge_0.05": 0.0002865777407253022,
+      "freq_net_ge_0.05": 0.00020842017507294707,
+      "freq_mfe_ge_0.1": 1.3026260942059192e-05,
+      "freq_net_ge_0.1": 0.0,
+      "freq_net_positive": 0.75177157148812
+    },
+    "PEPEUSDT": {
+      "n_bars": 740325,
+      "mfe_median": 0.00813008130081293,
+      "mfe_p90": 0.012345679012345692,
+      "freq_mfe_ge_0.02": 0.0035511430790531187,
+      "freq_net_ge_0.02": 0.0019410394083679465,
+      "freq_mfe_ge_0.05": 8.104548677945498e-06,
+      "freq_net_ge_0.05": 6.75379056495458e-06,
+      "freq_mfe_ge_0.1": 2.7015162259818325e-06,
+      "freq_net_ge_0.1": 2.7015162259818325e-06,
+      "freq_net_positive": 0.5637713166514706
+    }
+  }
+}

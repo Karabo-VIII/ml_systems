@@ -1,0 +1,830 @@
+{
+ "2h": {
+  "buyhold": {
+   "net": 50.2,
+   "sharpe": 2.44,
+   "maxdd": -19.6
+  },
+  "voltgt_bh": {
+   "net": 52.1,
+   "sharpe": 3.22,
+   "maxdd": -13.2
+  },
+  "rows": [
+   {
+    "cfg": "ROC(50,thr0.0)",
+    "base": {
+     "val_net": 23.2,
+     "net": 44.2,
+     "worst": 23.2,
+     "sharpe": 3.17,
+     "maxdd": -11.3,
+     "drift": 21.1,
+     "robust": false,
+     "time_in": 0.61,
+     "n_trades": 35.9
+    },
+    "iron": {
+     "val_net": 20.7,
+     "net": 36.8,
+     "worst": 20.7,
+     "sharpe": 3.49,
+     "maxdd": -7.5,
+     "drift": 16.1,
+     "robust": false,
+     "time_in": 0.46,
+     "n_trades": 32.1
+    }
+   },
+   {
+    "cfg": "ROC(50,thr2.0)",
+    "base": {
+     "val_net": 24.8,
+     "net": 42.2,
+     "worst": 24.8,
+     "sharpe": 3.26,
+     "maxdd": -7.6,
+     "drift": 17.4,
+     "robust": false,
+     "time_in": 0.51,
+     "n_trades": 33.3
+    },
+    "iron": {
+     "val_net": 23.5,
+     "net": 32.9,
+     "worst": 23.5,
+     "sharpe": 3.33,
+     "maxdd": -6.7,
+     "drift": 9.5,
+     "robust": true,
+     "time_in": 0.4,
+     "n_trades": 31.5
+    }
+   },
+   {
+    "cfg": "ROC(20,thr0.0)",
+    "base": {
+     "val_net": 13.4,
+     "net": 42.9,
+     "worst": 13.4,
+     "sharpe": 2.73,
+     "maxdd": -17.4,
+     "drift": 29.4,
+     "robust": false,
+     "time_in": 0.66,
+     "n_trades": 59.4
+    },
+    "iron": {
+     "val_net": 17.3,
+     "net": 32.8,
+     "worst": 17.3,
+     "sharpe": 3.16,
+     "maxdd": -7.8,
+     "drift": 15.5,
+     "robust": false,
+     "time_in": 0.43,
+     "n_trades": 46.6
+    }
+   },
+   {
+    "cfg": "ROC(100,thr0.0)",
+    "base": {
+     "val_net": 15.4,
+     "net": 18.9,
+     "worst": 15.4,
+     "sharpe": 1.68,
+     "maxdd": -15.8,
+     "drift": 3.4,
+     "robust": true,
+     "time_in": 0.53,
+     "n_trades": 25.7
+    },
+    "iron": {
+     "val_net": 23.7,
+     "net": 29.3,
+     "worst": 23.7,
+     "sharpe": 2.98,
+     "maxdd": -8.5,
+     "drift": 5.7,
+     "robust": true,
+     "time_in": 0.43,
+     "n_trades": 25.8
+    }
+   },
+   {
+    "cfg": "ROC(20,thr2.0)",
+    "base": {
+     "val_net": 11.1,
+     "net": 34.5,
+     "worst": 11.1,
+     "sharpe": 2.61,
+     "maxdd": -12.0,
+     "drift": 23.4,
+     "robust": false,
+     "time_in": 0.52,
+     "n_trades": 50.3
+    },
+    "iron": {
+     "val_net": 13.7,
+     "net": 28.2,
+     "worst": 13.7,
+     "sharpe": 3.09,
+     "maxdd": -4.8,
+     "drift": 14.6,
+     "robust": false,
+     "time_in": 0.35,
+     "n_trades": 42.1
+    }
+   },
+   {
+    "cfg": "ROC(50,thr5.0)",
+    "base": {
+     "val_net": 18.9,
+     "net": 26.3,
+     "worst": 18.9,
+     "sharpe": 2.45,
+     "maxdd": -8.2,
+     "drift": 7.4,
+     "robust": true,
+     "time_in": 0.4,
+     "n_trades": 28.2
+    },
+    "iron": {
+     "val_net": 17.4,
+     "net": 25.7,
+     "worst": 17.4,
+     "sharpe": 3.03,
+     "maxdd": -4.8,
+     "drift": 8.2,
+     "robust": true,
+     "time_in": 0.31,
+     "n_trades": 27.5
+    }
+   },
+   {
+    "cfg": "ROC(100,thr2.0)",
+    "base": {
+     "val_net": 17.4,
+     "net": 12.5,
+     "worst": 12.5,
+     "sharpe": 1.26,
+     "maxdd": -13.8,
+     "drift": -4.9,
+     "robust": true,
+     "time_in": 0.48,
+     "n_trades": 25.7
+    },
+    "iron": {
+     "val_net": 23.7,
+     "net": 22.9,
+     "worst": 22.9,
+     "sharpe": 2.53,
+     "maxdd": -8.3,
+     "drift": -0.8,
+     "robust": true,
+     "time_in": 0.4,
+     "n_trades": 24.6
+    }
+   },
+   {
+    "cfg": "ROC(10,thr2.0)",
+    "base": {
+     "val_net": 5.4,
+     "net": 19.6,
+     "worst": 5.4,
+     "sharpe": 1.63,
+     "maxdd": -11.1,
+     "drift": 14.3,
+     "robust": false,
+     "time_in": 0.53,
+     "n_trades": 67.6
+    },
+    "iron": {
+     "val_net": 13.3,
+     "net": 22.4,
+     "worst": 13.3,
+     "sharpe": 2.65,
+     "maxdd": -6.1,
+     "drift": 9.0,
+     "robust": true,
+     "time_in": 0.32,
+     "n_trades": 50.7
+    }
+   },
+   {
+    "cfg": "ROC(10,thr5.0)",
+    "base": {
+     "val_net": 17.4,
+     "net": 24.0,
+     "worst": 17.4,
+     "sharpe": 2.43,
+     "maxdd": -7.7,
+     "drift": 6.6,
+     "robust": true,
+     "time_in": 0.28,
+     "n_trades": 33.6
+    },
+    "iron": {
+     "val_net": 15.2,
+     "net": 19.6,
+     "worst": 15.2,
+     "sharpe": 3.08,
+     "maxdd": -4.3,
+     "drift": 4.4,
+     "robust": true,
+     "time_in": 0.16,
+     "n_trades": 27.7
+    }
+   },
+   {
+    "cfg": "ROC(10,thr0.0)",
+    "base": {
+     "val_net": 23.3,
+     "net": 30.5,
+     "worst": 23.3,
+     "sharpe": 2.02,
+     "maxdd": -19.0,
+     "drift": 7.2,
+     "robust": true,
+     "time_in": 0.71,
+     "n_trades": 79.3
+    },
+    "iron": {
+     "val_net": 24.7,
+     "net": 17.5,
+     "worst": 17.5,
+     "sharpe": 1.85,
+     "maxdd": -10.2,
+     "drift": -7.3,
+     "robust": true,
+     "time_in": 0.43,
+     "n_trades": 58.7
+    }
+   },
+   {
+    "cfg": "ROC(20,thr5.0)",
+    "base": {
+     "val_net": 12.9,
+     "net": 23.5,
+     "worst": 12.9,
+     "sharpe": 2.34,
+     "maxdd": -8.9,
+     "drift": 10.6,
+     "robust": false,
+     "time_in": 0.32,
+     "n_trades": 33.5
+    },
+    "iron": {
+     "val_net": 11.0,
+     "net": 17.5,
+     "worst": 11.0,
+     "sharpe": 2.47,
+     "maxdd": -6.0,
+     "drift": 6.5,
+     "robust": true,
+     "time_in": 0.22,
+     "n_trades": 30.3
+    }
+   },
+   {
+    "cfg": "ROC(50,thr10.0)",
+    "base": {
+     "val_net": 12.8,
+     "net": 16.4,
+     "worst": 12.8,
+     "sharpe": 2.15,
+     "maxdd": -7.6,
+     "drift": 3.6,
+     "robust": true,
+     "time_in": 0.25,
+     "n_trades": 19.4
+    },
+    "iron": {
+     "val_net": 10.7,
+     "net": 17.4,
+     "worst": 10.7,
+     "sharpe": 2.77,
+     "maxdd": -5.0,
+     "drift": 6.7,
+     "robust": true,
+     "time_in": 0.18,
+     "n_trades": 19.0
+    }
+   },
+   {
+    "cfg": "ROC(100,thr5.0)",
+    "base": {
+     "val_net": 15.9,
+     "net": 12.6,
+     "worst": 12.6,
+     "sharpe": 1.31,
+     "maxdd": -13.3,
+     "drift": -3.3,
+     "robust": true,
+     "time_in": 0.4,
+     "n_trades": 22.1
+    },
+    "iron": {
+     "val_net": 18.2,
+     "net": 15.6,
+     "worst": 15.6,
+     "sharpe": 1.9,
+     "maxdd": -8.2,
+     "drift": -2.6,
+     "robust": true,
+     "time_in": 0.34,
+     "n_trades": 21.8
+    }
+   },
+   {
+    "cfg": "ROC(10,thr10.0)",
+    "base": {
+     "val_net": 12.7,
+     "net": 20.8,
+     "worst": 12.7,
+     "sharpe": 3.85,
+     "maxdd": -3.3,
+     "drift": 8.1,
+     "robust": true,
+     "time_in": 0.1,
+     "n_trades": 11.4
+    },
+    "iron": {
+     "val_net": 7.5,
+     "net": 11.6,
+     "worst": 7.5,
+     "sharpe": 3.13,
+     "maxdd": -2.3,
+     "drift": 4.1,
+     "robust": true,
+     "time_in": 0.06,
+     "n_trades": 10.2
+    }
+   },
+   {
+    "cfg": "ROC(100,thr10.0)",
+    "base": {
+     "val_net": 14.3,
+     "net": 6.3,
+     "worst": 6.3,
+     "sharpe": 0.85,
+     "maxdd": -10.9,
+     "drift": -8.0,
+     "robust": true,
+     "time_in": 0.3,
+     "n_trades": 16.9
+    },
+    "iron": {
+     "val_net": 12.9,
+     "net": 11.1,
+     "worst": 11.1,
+     "sharpe": 1.63,
+     "maxdd": -7.5,
+     "drift": -1.8,
+     "robust": true,
+     "time_in": 0.25,
+     "n_trades": 17.2
+    }
+   },
+   {
+    "cfg": "ROC(20,thr10.0)",
+    "base": {
+     "val_net": 9.7,
+     "net": 6.0,
+     "worst": 6.0,
+     "sharpe": 0.98,
+     "maxdd": -6.4,
+     "drift": -3.7,
+     "robust": true,
+     "time_in": 0.16,
+     "n_trades": 16.4
+    },
+    "iron": {
+     "val_net": 7.8,
+     "net": 6.3,
+     "worst": 6.3,
+     "sharpe": 1.32,
+     "maxdd": -4.3,
+     "drift": -1.6,
+     "robust": true,
+     "time_in": 0.1,
+     "n_trades": 15.4
+    }
+   }
+  ]
+ },
+ "1h": {
+  "buyhold": {
+   "net": 51.6,
+   "sharpe": 2.49,
+   "maxdd": -19.4
+  },
+  "voltgt_bh": {
+   "net": 54.2,
+   "sharpe": 3.33,
+   "maxdd": -12.8
+  },
+  "rows": [
+   {
+    "cfg": "ROC(50,thr0.0)",
+    "base": {
+     "val_net": 22.9,
+     "net": 42.9,
+     "worst": 22.9,
+     "sharpe": 2.96,
+     "maxdd": -9.7,
+     "drift": 20.0,
+     "robust": false,
+     "time_in": 0.6,
+     "n_trades": 70.6
+    },
+    "iron": {
+     "val_net": 25.0,
+     "net": 34.4,
+     "worst": 25.0,
+     "sharpe": 3.28,
+     "maxdd": -7.2,
+     "drift": 9.3,
+     "robust": true,
+     "time_in": 0.43,
+     "n_trades": 62.2
+    }
+   },
+   {
+    "cfg": "ROC(50,thr5.0)",
+    "base": {
+     "val_net": 16.2,
+     "net": 39.1,
+     "worst": 16.2,
+     "sharpe": 3.68,
+     "maxdd": -6.2,
+     "drift": 22.9,
+     "robust": false,
+     "time_in": 0.32,
+     "n_trades": 43.2
+    },
+    "iron": {
+     "val_net": 12.7,
+     "net": 31.2,
+     "worst": 12.7,
+     "sharpe": 3.99,
+     "maxdd": -3.9,
+     "drift": 18.5,
+     "robust": false,
+     "time_in": 0.23,
+     "n_trades": 41.4
+    }
+   },
+   {
+    "cfg": "ROC(50,thr2.0)",
+    "base": {
+     "val_net": 25.0,
+     "net": 36.9,
+     "worst": 25.0,
+     "sharpe": 2.79,
+     "maxdd": -10.1,
+     "drift": 11.9,
+     "robust": false,
+     "time_in": 0.47,
+     "n_trades": 62.3
+    },
+    "iron": {
+     "val_net": 21.9,
+     "net": 30.5,
+     "worst": 21.9,
+     "sharpe": 3.14,
+     "maxdd": -7.7,
+     "drift": 8.7,
+     "robust": true,
+     "time_in": 0.35,
+     "n_trades": 58.9
+    }
+   },
+   {
+    "cfg": "ROC(100,thr0.0)",
+    "base": {
+     "val_net": 13.8,
+     "net": 36.5,
+     "worst": 13.8,
+     "sharpe": 2.79,
+     "maxdd": -10.4,
+     "drift": 22.6,
+     "robust": false,
+     "time_in": 0.57,
+     "n_trades": 48.9
+    },
+    "iron": {
+     "val_net": 24.9,
+     "net": 28.9,
+     "worst": 24.9,
+     "sharpe": 2.83,
+     "maxdd": -9.1,
+     "drift": 4.1,
+     "robust": true,
+     "time_in": 0.41,
+     "n_trades": 51.7
+    }
+   },
+   {
+    "cfg": "ROC(20,thr2.0)",
+    "base": {
+     "val_net": 15.6,
+     "net": 31.9,
+     "worst": 15.6,
+     "sharpe": 2.59,
+     "maxdd": -9.5,
+     "drift": 16.2,
+     "robust": false,
+     "time_in": 0.46,
+     "n_trades": 89.3
+    },
+    "iron": {
+     "val_net": 14.3,
+     "net": 28.6,
+     "worst": 14.3,
+     "sharpe": 3.37,
+     "maxdd": -5.6,
+     "drift": 14.3,
+     "robust": false,
+     "time_in": 0.3,
+     "n_trades": 73.7
+    }
+   },
+   {
+    "cfg": "ROC(20,thr0.0)",
+    "base": {
+     "val_net": 30.6,
+     "net": 28.6,
+     "worst": 28.6,
+     "sharpe": 1.99,
+     "maxdd": -16.7,
+     "drift": -2.0,
+     "robust": true,
+     "time_in": 0.67,
+     "n_trades": 107.5
+    },
+    "iron": {
+     "val_net": 25.0,
+     "net": 25.6,
+     "worst": 25.0,
+     "sharpe": 2.56,
+     "maxdd": -9.3,
+     "drift": 0.6,
+     "robust": true,
+     "time_in": 0.41,
+     "n_trades": 84.0
+    }
+   },
+   {
+    "cfg": "ROC(100,thr2.0)",
+    "base": {
+     "val_net": 11.8,
+     "net": 25.1,
+     "worst": 11.8,
+     "sharpe": 2.15,
+     "maxdd": -9.0,
+     "drift": 13.3,
+     "robust": false,
+     "time_in": 0.48,
+     "n_trades": 45.8
+    },
+    "iron": {
+     "val_net": 24.3,
+     "net": 25.2,
+     "worst": 24.3,
+     "sharpe": 2.66,
+     "maxdd": -7.4,
+     "drift": 0.9,
+     "robust": true,
+     "time_in": 0.36,
+     "n_trades": 46.9
+    }
+   },
+   {
+    "cfg": "ROC(10,thr0.0)",
+    "base": {
+     "val_net": 8.2,
+     "net": 23.3,
+     "worst": 8.2,
+     "sharpe": 1.76,
+     "maxdd": -15.0,
+     "drift": 15.1,
+     "robust": false,
+     "time_in": 0.7,
+     "n_trades": 153.0
+    },
+    "iron": {
+     "val_net": 12.5,
+     "net": 23.5,
+     "worst": 12.5,
+     "sharpe": 2.53,
+     "maxdd": -8.4,
+     "drift": 11.1,
+     "robust": false,
+     "time_in": 0.39,
+     "n_trades": 110.3
+    }
+   },
+   {
+    "cfg": "ROC(100,thr5.0)",
+    "base": {
+     "val_net": 22.0,
+     "net": 18.9,
+     "worst": 18.9,
+     "sharpe": 1.9,
+     "maxdd": -9.0,
+     "drift": -3.2,
+     "robust": true,
+     "time_in": 0.37,
+     "n_trades": 37.2
+    },
+    "iron": {
+     "val_net": 22.1,
+     "net": 22.0,
+     "worst": 22.0,
+     "sharpe": 2.64,
+     "maxdd": -5.8,
+     "drift": -0.1,
+     "robust": true,
+     "time_in": 0.28,
+     "n_trades": 38.5
+    }
+   },
+   {
+    "cfg": "ROC(20,thr5.0)",
+    "base": {
+     "val_net": 18.9,
+     "net": 27.6,
+     "worst": 18.9,
+     "sharpe": 3.43,
+     "maxdd": -4.9,
+     "drift": 8.7,
+     "robust": true,
+     "time_in": 0.25,
+     "n_trades": 44.9
+    },
+    "iron": {
+     "val_net": 14.1,
+     "net": 20.6,
+     "worst": 14.1,
+     "sharpe": 3.8,
+     "maxdd": -3.1,
+     "drift": 6.5,
+     "robust": true,
+     "time_in": 0.15,
+     "n_trades": 39.5
+    }
+   },
+   {
+    "cfg": "ROC(10,thr5.0)",
+    "base": {
+     "val_net": 6.1,
+     "net": 17.4,
+     "worst": 6.1,
+     "sharpe": 2.26,
+     "maxdd": -6.2,
+     "drift": 11.3,
+     "robust": false,
+     "time_in": 0.2,
+     "n_trades": 41.5
+    },
+    "iron": {
+     "val_net": 2.7,
+     "net": 18.4,
+     "worst": 2.7,
+     "sharpe": 3.63,
+     "maxdd": -2.9,
+     "drift": 15.7,
+     "robust": false,
+     "time_in": 0.1,
+     "n_trades": 33.7
+    }
+   },
+   {
+    "cfg": "ROC(10,thr2.0)",
+    "base": {
+     "val_net": 7.3,
+     "net": 13.4,
+     "worst": 7.3,
+     "sharpe": 1.32,
+     "maxdd": -11.0,
+     "drift": 6.1,
+     "robust": true,
+     "time_in": 0.46,
+     "n_trades": 105.8
+    },
+    "iron": {
+     "val_net": 5.9,
+     "net": 16.1,
+     "worst": 5.9,
+     "sharpe": 2.14,
+     "maxdd": -6.9,
+     "drift": 10.1,
+     "robust": false,
+     "time_in": 0.26,
+     "n_trades": 82.1
+    }
+   },
+   {
+    "cfg": "ROC(100,thr10.0)",
+    "base": {
+     "val_net": 11.3,
+     "net": 11.7,
+     "worst": 11.3,
+     "sharpe": 1.64,
+     "maxdd": -6.5,
+     "drift": 0.5,
+     "robust": true,
+     "time_in": 0.24,
+     "n_trades": 27.5
+    },
+    "iron": {
+     "val_net": 12.3,
+     "net": 12.3,
+     "worst": 12.3,
+     "sharpe": 2.1,
+     "maxdd": -3.9,
+     "drift": -0.0,
+     "robust": true,
+     "time_in": 0.18,
+     "n_trades": 28.1
+    }
+   },
+   {
+    "cfg": "ROC(50,thr10.0)",
+    "base": {
+     "val_net": 5.4,
+     "net": 11.9,
+     "worst": 5.4,
+     "sharpe": 1.85,
+     "maxdd": -5.2,
+     "drift": 6.5,
+     "robust": true,
+     "time_in": 0.18,
+     "n_trades": 24.8
+    },
+    "iron": {
+     "val_net": 3.1,
+     "net": 10.8,
+     "worst": 3.1,
+     "sharpe": 2.18,
+     "maxdd": -2.9,
+     "drift": 7.8,
+     "robust": true,
+     "time_in": 0.12,
+     "n_trades": 24.1
+    }
+   },
+   {
+    "cfg": "ROC(20,thr10.0)",
+    "base": {
+     "val_net": 8.0,
+     "net": 5.3,
+     "worst": 5.3,
+     "sharpe": 1.13,
+     "maxdd": -4.9,
+     "drift": -2.7,
+     "robust": true,
+     "time_in": 0.1,
+     "n_trades": 16.2
+    },
+    "iron": {
+     "val_net": 3.5,
+     "net": 7.0,
+     "worst": 3.5,
+     "sharpe": 2.05,
+     "maxdd": -2.5,
+     "drift": 3.5,
+     "robust": true,
+     "time_in": 0.05,
+     "n_trades": 14.9
+    }
+   },
+   {
+    "cfg": "ROC(10,thr10.0)",
+    "base": {
+     "val_net": 2.7,
+     "net": 5.2,
+     "worst": 2.7,
+     "sharpe": 1.64,
+     "maxdd": -4.4,
+     "drift": 2.5,
+     "robust": true,
+     "time_in": 0.06,
+     "n_trades": 10.1
+    },
+    "iron": {
+     "val_net": 0.7,
+     "net": 6.3,
+     "worst": 0.7,
+     "sharpe": 3.06,
+     "maxdd": -1.2,
+     "drift": 5.6,
+     "robust": true,
+     "time_in": 0.03,
+     "n_trades": 8.2
+    }
+   }
+  ]
+ }
+}

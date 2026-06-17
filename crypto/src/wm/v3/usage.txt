@@ -1,0 +1,99 @@
+V3 Model Family -- Combined Usage Guide
+========================================
+
+Architecture: WaveNet-GRU Hybrid + RSSM
+  WaveNet TCN [96->128->192->256, dilations 1/2/4/8]
+  Gated activations (tanh * sigmoid)
+  CausalGRU (256 hidden, 2 layers) + RSSM latent (24x24 categorical)
+  RMSNorm, AdamW betas=(0.9, 0.95)
+
+Variants:
+  V3    Base WaveNet-GRU, 18 features (fixed)
+  V3.1  Anti-memorization (XD dropout/noise), 13/18 features
+  V3.2  Alt dilations [1,3,9,27] (vs [1,2,4,8]), 13/18 features
+  V3.3  WaveNet-Only, no GRU (tests GRU redundancy), 13/18 features
+
+All variants: RevIN DISABLED by default. Opt-in via --revin.
+
+================================================================================
+V3 BASE (src/wm/v3/v3_training/)
+================================================================================
+
+Features: 19 (fixed, no --features flag)
+
+  Training:
+    python src/wm/v3/v3_training/train_world_model.py
+    python src/wm/v3/v3_training/train_world_model.py --seed 42
+
+  Validation:
+    python src/wm/v3/v3_training/validate_world.py
+    python src/wm/v3/v3_training/validate_world.py --latest
+    python src/wm/v3/v3_training/validate_world.py --both
+    python src/wm/v3/v3_training/validate_world.py --robust
+
+  Checkpoints (models/v3/v3/base/):
+    v3_wm_best_ema.pt       Best EMA (selected by ShIC)
+    v3_wm_latest.pt         Latest (resumable)
+
+================================================================================
+V3.1 ANTI-MEMORIZATION (src/wm/v3/v3_1_training/)
+================================================================================
+
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v3/v3_1_training/train_world_model.py
+    python src/wm/v3/v3_1_training/train_world_model.py --features 13
+    python src/wm/v3/v3_1_training/train_world_model.py --seed 42
+
+  Validation:
+    python src/wm/v3/v3_1_training/validate_world.py
+    python src/wm/v3/v3_1_training/validate_world.py --features 13
+    python src/wm/v3/v3_1_training/validate_world.py --robust
+
+  Checkpoints (models/v3/v3_1/base/):
+    v3_1_f19_wm_best_ema.pt     19-feature best EMA
+    v3_1_f14_wm_best_ema.pt     14-feature best EMA
+
+================================================================================
+V3.2 ALT DILATIONS [1,3,9,27] (src/wm/v3/v3_2_training/)
+================================================================================
+
+Ablation: Larger receptive field with sparser coverage
+  Tests whether wider receptive field captures longer-range dependencies
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v3/v3_2_training/train_world_model.py
+    python src/wm/v3/v3_2_training/train_world_model.py --features 13
+
+  Validation:
+    python src/wm/v3/v3_2_training/validate_world.py
+    python src/wm/v3/v3_2_training/validate_world.py --robust
+
+  Checkpoints (models/v3/v3_2/base/):
+    v3_2_f19_wm_best_ema.pt     19-feature best EMA
+
+================================================================================
+V3.3 WAVENET-ONLY, NO GRU (src/wm/v3/v3_3_training/)
+================================================================================
+
+Ablation: Removes CausalGRU, feeds WaveNet output directly to RSSM
+  Tests whether GRU state is redundant when WaveNet handles temporal context
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v3/v3_3_training/train_world_model.py
+    python src/wm/v3/v3_3_training/train_world_model.py --features 13
+
+  Validation:
+    python src/wm/v3/v3_3_training/validate_world.py
+    python src/wm/v3/v3_3_training/validate_world.py --robust
+
+  Checkpoints (models/v3/v3_3/base/):
+    v3_3_f19_wm_best_ema.pt     19-feature best EMA
+
+================================================================================
+CHECKPOINT NAMING: v3_{variant}_f{features}_wm_{type}.pt
+VALIDATION GATES: MSE<0.10, IC>0.015, KL 0.01-15.0, ShIC/IC>0.3, Val/Train<2.0
+================================================================================

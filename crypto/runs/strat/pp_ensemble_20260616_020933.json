@@ -1,0 +1,1106 @@
+{
+ "repro": {
+  "command": "python -m strat.pp_ensemble ",
+  "git_sha": "4e0c34e",
+  "dev_years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024
+  ],
+  "unseen_window": [
+   "2025-12-31",
+   "2026-06-01"
+  ],
+  "derisk": "light",
+  "cost_maker": 0.0006,
+  "deflation_family": [
+   "bear_rally",
+   "terminal_leg",
+   "drawdown_aware",
+   "asymmetric",
+   "vote",
+   "routed"
+  ]
+ },
+ "prereg": {
+  "H0_door_shut": "NO ensemble variant lands NE of the cash-going book held-out with p05>0 AND survives multiple-comparisons deflation -> long-only participate-and-preserve is DEFINITIVELY SHUT; the honest doors are SHORT (OFF) or CARRY.",
+  "H1_reopens": "an ensemble variant DOMINATES the book (MORE bull-capture AND preservation within 5pp), beats it on full-cycle held-out WEALTH, passes held-out block-bootstrap p05>0 AND permutation max-stat p<0.05 AND PBO<0.5 -> long-only participate-and-preserve RE-OPENS.",
+  "asymmetric_loss": "false-ship a non-preserving book into a -60% bear >> false-skip. A best-of-6 that fails deflation is NOT a result. The ensemble RAISES the multiplicity count (4 gates + 2 ensembles = 6).",
+  "dominance_def": "ensemble is NE of the book iff bull_capture_pct > book's AND bear_preservation_pct >= book's - 5pp.",
+  "decisive_gate": "REOPENS iff (NE of book) AND (held-out p05 > 0) AND (permutation max-stat p < 0.05) AND (PBO < 0.5). Anything less = SHUT.",
+  "regime_detector": "CAUSAL trailing slow-MA(100) + past-20-bar slope; states {bull=above&rising, bear=below&falling, recovery=else}; pre-registered routing map; NO OOS fit, NO lookahead.",
+  "multiplicity_family": "deflation runs over ALL 6 {bear_rally, terminal_leg, drawdown_aware, asymmetric, vote, routed}; max-stat null takes max edge across 6; PBO over 6 columns.",
+  "dev_years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024
+  ],
+  "unseen_window": [
+   "2025-12-31",
+   "2026-06-01"
+  ]
+ },
+ "results": {
+  "prereg": {
+   "H0_door_shut": "NO ensemble variant lands NE of the cash-going book held-out with p05>0 AND survives multiple-comparisons deflation -> long-only participate-and-preserve is DEFINITIVELY SHUT; the honest doors are SHORT (OFF) or CARRY.",
+   "H1_reopens": "an ensemble variant DOMINATES the book (MORE bull-capture AND preservation within 5pp), beats it on full-cycle held-out WEALTH, passes held-out block-bootstrap p05>0 AND permutation max-stat p<0.05 AND PBO<0.5 -> long-only participate-and-preserve RE-OPENS.",
+   "asymmetric_loss": "false-ship a non-preserving book into a -60% bear >> false-skip. A best-of-6 that fails deflation is NOT a result. The ensemble RAISES the multiplicity count (4 gates + 2 ensembles = 6).",
+   "dominance_def": "ensemble is NE of the book iff bull_capture_pct > book's AND bear_preservation_pct >= book's - 5pp.",
+   "decisive_gate": "REOPENS iff (NE of book) AND (held-out p05 > 0) AND (permutation max-stat p < 0.05) AND (PBO < 0.5). Anything less = SHUT.",
+   "regime_detector": "CAUSAL trailing slow-MA(100) + past-20-bar slope; states {bull=above&rising, bear=below&falling, recovery=else}; pre-registered routing map; NO OOS fit, NO lookahead.",
+   "multiplicity_family": "deflation runs over ALL 6 {bear_rally, terminal_leg, drawdown_aware, asymmetric, vote, routed}; max-stat null takes max edge across 6; PBO over 6 columns.",
+   "dev_years": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+   ],
+   "unseen_window": [
+    "2025-12-31",
+    "2026-06-01"
+   ]
+  },
+  "derisk": "light",
+  "per_year_metrics": {
+   "cash_book": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 17.8,
+     "maxdd_pct": -4.4,
+     "sharpe": 1.57,
+     "win_day_pct": 26.6,
+     "calmar": 4.05
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 23.1,
+     "maxdd_pct": -11.5,
+     "sharpe": 1.32,
+     "win_day_pct": 56.2,
+     "calmar": 2.01
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -14.0,
+     "maxdd_pct": -19.8,
+     "sharpe": -1.04,
+     "win_day_pct": 42.7,
+     "calmar": -0.71
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 20.2,
+     "maxdd_pct": -8.2,
+     "sharpe": 1.64,
+     "win_day_pct": 51.8,
+     "calmar": 2.45
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 28.3,
+     "maxdd_pct": -7.7,
+     "sharpe": 1.67,
+     "win_day_pct": 51.6,
+     "calmar": 3.66
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -20.2,
+     "maxdd_pct": -25.8,
+     "sharpe": -1.18,
+     "win_day_pct": 44.5,
+     "calmar": -0.79
+    }
+   },
+   "raw_beta": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 26.7,
+     "maxdd_pct": -19.4,
+     "sharpe": 0.97,
+     "win_day_pct": 28.3,
+     "calmar": 1.38
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 208.4,
+     "maxdd_pct": -49.5,
+     "sharpe": 1.86,
+     "win_day_pct": 61.9,
+     "calmar": 4.21
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -71.9,
+     "maxdd_pct": -73.4,
+     "sharpe": -1.22,
+     "win_day_pct": 49.3,
+     "calmar": -0.98
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 116.8,
+     "maxdd_pct": -33.9,
+     "sharpe": 1.9,
+     "win_day_pct": 55.9,
+     "calmar": 3.45
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 65.8,
+     "maxdd_pct": -45.9,
+     "sharpe": 1.13,
+     "win_day_pct": 53.0,
+     "calmar": 1.44
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -61.9,
+     "maxdd_pct": -68.2,
+     "sharpe": -0.79,
+     "win_day_pct": 50.8,
+     "calmar": -0.91
+    }
+   },
+   "family_free": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 25.1,
+     "maxdd_pct": -16.2,
+     "sharpe": 1.11,
+     "win_day_pct": 28.8,
+     "calmar": 1.55
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 162.8,
+     "maxdd_pct": -44.2,
+     "sharpe": 1.91,
+     "win_day_pct": 61.4,
+     "calmar": 3.68
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -64.6,
+     "maxdd_pct": -66.2,
+     "sharpe": -1.28,
+     "win_day_pct": 49.6,
+     "calmar": -0.98
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 81.9,
+     "maxdd_pct": -31.4,
+     "sharpe": 1.76,
+     "win_day_pct": 56.2,
+     "calmar": 2.61
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 46.3,
+     "maxdd_pct": -44.2,
+     "sharpe": 0.99,
+     "win_day_pct": 53.0,
+     "calmar": 1.05
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -54.9,
+     "maxdd_pct": -61.9,
+     "sharpe": -0.76,
+     "win_day_pct": 50.8,
+     "calmar": -0.89
+    }
+   },
+   "bear_rally": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 15.0,
+     "maxdd_pct": -12.0,
+     "sharpe": 0.91,
+     "win_day_pct": 26.6,
+     "calmar": 1.25
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 172.4,
+     "maxdd_pct": -23.8,
+     "sharpe": 2.71,
+     "win_day_pct": 58.1,
+     "calmar": 7.25
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -46.1,
+     "maxdd_pct": -49.8,
+     "sharpe": -1.73,
+     "win_day_pct": 43.8,
+     "calmar": -0.93
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 70.5,
+     "maxdd_pct": -26.4,
+     "sharpe": 2.03,
+     "win_day_pct": 53.2,
+     "calmar": 2.68
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 53.4,
+     "maxdd_pct": -21.3,
+     "sharpe": 1.41,
+     "win_day_pct": 51.6,
+     "calmar": 2.51
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -45.4,
+     "maxdd_pct": -48.8,
+     "sharpe": -1.38,
+     "win_day_pct": 50.5,
+     "calmar": -0.93
+    }
+   },
+   "terminal_leg": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 15.8,
+     "maxdd_pct": -14.8,
+     "sharpe": 0.88,
+     "win_day_pct": 28.6,
+     "calmar": 1.07
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 121.6,
+     "maxdd_pct": -32.4,
+     "sharpe": 1.84,
+     "win_day_pct": 59.7,
+     "calmar": 3.75
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -36.7,
+     "maxdd_pct": -37.5,
+     "sharpe": -2.46,
+     "win_day_pct": 46.3,
+     "calmar": -0.98
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 52.6,
+     "maxdd_pct": -18.7,
+     "sharpe": 1.68,
+     "win_day_pct": 55.1,
+     "calmar": 2.82
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 40.6,
+     "maxdd_pct": -29.7,
+     "sharpe": 1.08,
+     "win_day_pct": 51.9,
+     "calmar": 1.37
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -35.0,
+     "maxdd_pct": -42.3,
+     "sharpe": -0.88,
+     "win_day_pct": 51.9,
+     "calmar": -0.83
+    }
+   },
+   "drawdown_aware": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 11.4,
+     "maxdd_pct": -8.2,
+     "sharpe": 0.98,
+     "win_day_pct": 28.0,
+     "calmar": 1.39
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 64.1,
+     "maxdd_pct": -12.4,
+     "sharpe": 2.22,
+     "win_day_pct": 46.6,
+     "calmar": 5.17
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -12.6,
+     "maxdd_pct": -13.9,
+     "sharpe": -1.88,
+     "win_day_pct": 32.9,
+     "calmar": -0.91
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 34.9,
+     "maxdd_pct": -15.2,
+     "sharpe": 1.61,
+     "win_day_pct": 52.6,
+     "calmar": 2.3
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 35.9,
+     "maxdd_pct": -18.3,
+     "sharpe": 1.44,
+     "win_day_pct": 51.9,
+     "calmar": 1.96
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -14.0,
+     "maxdd_pct": -15.4,
+     "sharpe": -1.02,
+     "win_day_pct": 45.9,
+     "calmar": -0.91
+    }
+   },
+   "asymmetric": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 21.8,
+     "maxdd_pct": -10.9,
+     "sharpe": 1.13,
+     "win_day_pct": 27.2,
+     "calmar": 2.0
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 162.8,
+     "maxdd_pct": -24.2,
+     "sharpe": 2.35,
+     "win_day_pct": 58.4,
+     "calmar": 6.72
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -36.6,
+     "maxdd_pct": -40.4,
+     "sharpe": -1.18,
+     "win_day_pct": 49.3,
+     "calmar": -0.9
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 57.4,
+     "maxdd_pct": -25.8,
+     "sharpe": 1.78,
+     "win_day_pct": 54.8,
+     "calmar": 2.23
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 30.9,
+     "maxdd_pct": -35.6,
+     "sharpe": 0.89,
+     "win_day_pct": 53.6,
+     "calmar": 0.87
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -15.4,
+     "maxdd_pct": -25.6,
+     "sharpe": -0.25,
+     "win_day_pct": 50.5,
+     "calmar": -0.6
+    }
+   },
+   "vote": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 16.1,
+     "maxdd_pct": -10.7,
+     "sharpe": 1.01,
+     "win_day_pct": 28.8,
+     "calmar": 1.51
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 129.0,
+     "maxdd_pct": -21.4,
+     "sharpe": 2.39,
+     "win_day_pct": 61.6,
+     "calmar": 6.03
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -33.3,
+     "maxdd_pct": -34.9,
+     "sharpe": -1.85,
+     "win_day_pct": 49.9,
+     "calmar": -0.96
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 53.8,
+     "maxdd_pct": -21.3,
+     "sharpe": 1.87,
+     "win_day_pct": 55.1,
+     "calmar": 2.52
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 41.0,
+     "maxdd_pct": -25.7,
+     "sharpe": 1.24,
+     "win_day_pct": 52.5,
+     "calmar": 1.59
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -27.7,
+     "maxdd_pct": -31.8,
+     "sharpe": -0.93,
+     "win_day_pct": 50.3,
+     "calmar": -0.87
+    }
+   },
+   "routed": {
+    "2020": {
+     "n_days": 364,
+     "net_pct": 10.5,
+     "maxdd_pct": -12.5,
+     "sharpe": 0.67,
+     "win_day_pct": 28.6,
+     "calmar": 0.84
+    },
+    "2021": {
+     "n_days": 365,
+     "net_pct": 109.3,
+     "maxdd_pct": -28.8,
+     "sharpe": 1.96,
+     "win_day_pct": 58.1,
+     "calmar": 3.8
+    },
+    "2022": {
+     "n_days": 365,
+     "net_pct": -31.1,
+     "maxdd_pct": -31.7,
+     "sharpe": -2.39,
+     "win_day_pct": 43.6,
+     "calmar": -0.98
+    },
+    "2023": {
+     "n_days": 365,
+     "net_pct": 44.9,
+     "maxdd_pct": -21.8,
+     "sharpe": 1.6,
+     "win_day_pct": 53.4,
+     "calmar": 2.06
+    },
+    "2024": {
+     "n_days": 366,
+     "net_pct": 37.2,
+     "maxdd_pct": -28.2,
+     "sharpe": 1.11,
+     "win_day_pct": 51.6,
+     "calmar": 1.32
+    },
+    "2025": {
+     "n_days": 364,
+     "net_pct": -27.9,
+     "maxdd_pct": -34.3,
+     "sharpe": -0.95,
+     "win_day_pct": 49.2,
+     "calmar": -0.81
+    }
+   }
+  },
+  "full_cycle_dev": {
+   "cash_book": {
+    "n_days": 2189,
+    "net_pct": 53.3,
+    "maxdd_pct": -25.8,
+    "sharpe": 0.56,
+    "win_day_pct": 45.6,
+    "calmar": 2.07
+   },
+   "raw_beta": {
+    "n_days": 2189,
+    "net_pct": 50.4,
+    "maxdd_pct": -78.9,
+    "sharpe": 0.44,
+    "win_day_pct": 49.9,
+    "calmar": 0.64
+   },
+   "family_free": {
+    "n_days": 2189,
+    "net_pct": 39.6,
+    "maxdd_pct": -72.9,
+    "sharpe": 0.38,
+    "win_day_pct": 50.0,
+    "calmar": 0.54
+   },
+   "bear_rally": {
+    "n_days": 2189,
+    "net_pct": 141.3,
+    "maxdd_pct": -55.5,
+    "sharpe": 0.61,
+    "win_day_pct": 47.3,
+    "calmar": 2.55
+   },
+   "terminal_leg": {
+    "n_days": 2189,
+    "net_pct": 126.8,
+    "maxdd_pct": -49.1,
+    "sharpe": 0.57,
+    "win_day_pct": 48.9,
+    "calmar": 2.58
+   },
+   "drawdown_aware": {
+    "n_days": 2189,
+    "net_pct": 151.7,
+    "maxdd_pct": -28.0,
+    "sharpe": 0.96,
+    "win_day_pct": 43.0,
+    "calmar": 5.42
+   },
+   "asymmetric": {
+    "n_days": 2189,
+    "net_pct": 253.9,
+    "maxdd_pct": -49.4,
+    "sharpe": 0.78,
+    "win_day_pct": 49.0,
+    "calmar": 5.14
+   },
+   "vote": {
+    "n_days": 2189,
+    "net_pct": 178.2,
+    "maxdd_pct": -44.1,
+    "sharpe": 0.75,
+    "win_day_pct": 49.7,
+    "calmar": 4.04
+   },
+   "routed": {
+    "n_days": 2189,
+    "net_pct": 128.5,
+    "maxdd_pct": -46.2,
+    "sharpe": 0.62,
+    "win_day_pct": 47.4,
+    "calmar": 2.78
+   }
+  },
+  "frontier": {
+   "cash_book": {
+    "bull_capture_pct": 9.5,
+    "bear_preservation_pct": 64.9,
+    "fc_net_pct": 53.3,
+    "fc_maxdd_pct": -25.8
+   },
+   "raw_beta": {
+    "bull_capture_pct": 100.0,
+    "bear_preservation_pct": 0.0,
+    "fc_net_pct": 50.4,
+    "fc_maxdd_pct": -78.9
+   },
+   "family_free": {
+    "bull_capture_pct": 59.4,
+    "bear_preservation_pct": 9.8,
+    "fc_net_pct": 39.6,
+    "fc_maxdd_pct": -72.9
+   },
+   "bear_rally": {
+    "bull_capture_pct": 55.1,
+    "bear_preservation_pct": 32.2,
+    "fc_net_pct": 141.3,
+    "fc_maxdd_pct": -55.5,
+    "dominates_book": false
+   },
+   "terminal_leg": {
+    "bull_capture_pct": 34.5,
+    "bear_preservation_pct": 42.4,
+    "fc_net_pct": 126.8,
+    "fc_maxdd_pct": -49.1,
+    "dominates_book": false
+   },
+   "drawdown_aware": {
+    "bull_capture_pct": 18.0,
+    "bear_preservation_pct": 79.0,
+    "fc_net_pct": 151.7,
+    "fc_maxdd_pct": -28.0,
+    "dominates_book": true
+   },
+   "asymmetric": {
+    "bull_capture_pct": 42.9,
+    "bear_preservation_pct": 45.0,
+    "fc_net_pct": 253.9,
+    "fc_maxdd_pct": -49.4,
+    "dominates_book": false
+   },
+   "vote": {
+    "bull_capture_pct": 36.5,
+    "bear_preservation_pct": 52.5,
+    "fc_net_pct": 178.2,
+    "fc_maxdd_pct": -44.1,
+    "dominates_book": false
+   },
+   "routed": {
+    "bull_capture_pct": 27.6,
+    "bear_preservation_pct": 53.3,
+    "fc_net_pct": 128.5,
+    "fc_maxdd_pct": -46.2,
+    "dominates_book": false
+   }
+  },
+  "dominators": [
+   "drawdown_aware"
+  ],
+  "ensemble_dominators": [],
+  "best_ensemble": "vote",
+  "best_ensemble_candidates": [
+   {
+    "name": "vote",
+    "fc_net_pct": 178.2,
+    "bear_preservation_pct": 52.5
+   },
+   {
+    "name": "routed",
+    "fc_net_pct": 128.5,
+    "bear_preservation_pct": 53.3
+   }
+  ],
+  "overall_family_best": "asymmetric",
+  "unseen_once": {
+   "window": [
+    "2025-12-31",
+    "2026-06-01"
+   ],
+   "regime": "CHOP/SIDEWAYS",
+   "cash_book": {
+    "net_pct": -0.9,
+    "maxdd_pct": -2.3,
+    "sharpe": -0.83,
+    "calmar": -0.39
+   },
+   "raw_beta": {
+    "net_pct": -8.1,
+    "maxdd_pct": -40.2,
+    "sharpe": -0.06,
+    "calmar": -0.2
+   },
+   "family_free": {
+    "net_pct": -3.3,
+    "maxdd_pct": -35.5,
+    "sharpe": 0.09,
+    "calmar": -0.09
+   },
+   "bear_rally": {
+    "net_pct": 2.4,
+    "maxdd_pct": -20.1,
+    "sharpe": 0.35,
+    "calmar": 0.12
+   },
+   "terminal_leg": {
+    "net_pct": 2.8,
+    "maxdd_pct": -8.4,
+    "sharpe": 0.61,
+    "calmar": 0.34
+   },
+   "drawdown_aware": {
+    "net_pct": 2.0,
+    "maxdd_pct": -7.1,
+    "sharpe": 0.58,
+    "calmar": 0.28
+   },
+   "asymmetric": {
+    "net_pct": -6.3,
+    "maxdd_pct": -18.1,
+    "sharpe": -0.54,
+    "calmar": -0.35
+   },
+   "vote": {
+    "net_pct": 0.4,
+    "maxdd_pct": -9.5,
+    "sharpe": 0.14,
+    "calmar": 0.04
+   },
+   "routed": {
+    "net_pct": 1.9,
+    "maxdd_pct": -8.2,
+    "sharpe": 0.43,
+    "calmar": 0.23
+   }
+  },
+  "scorecards": {
+   "cash_book": {
+    "name": "pp_ensemble::cash_book",
+    "kind": "BOOK",
+    "n_days": 2338,
+    "per_split": {
+     "SEL": {
+      "n": 1898,
+      "compound_pct": 90.19,
+      "ann_pct": 13.16,
+      "maxdd_pct": -25.69,
+      "sharpe": 0.98,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.457,
+        "n": 1898
+       },
+       "3d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.408,
+        "n": 632
+       },
+       "7d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.435,
+        "n": 271
+       }
+      }
+     },
+     "OOS": {
+      "n": 291,
+      "compound_pct": -19.38,
+      "ann_pct": -23.68,
+      "maxdd_pct": -25.77,
+      "sharpe": -1.25,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": -0.004,
+        "frac_positive": 0.45,
+        "n": 291
+       },
+       "3d": {
+        "median_pct": -0.168,
+        "frac_positive": 0.371,
+        "n": 97
+       },
+       "7d": {
+        "median_pct": -0.814,
+        "frac_positive": 0.268,
+        "n": 41
+       }
+      }
+     },
+     "UNSEEN": {
+      "n": 149,
+      "compound_pct": -0.91,
+      "ann_pct": -2.21,
+      "maxdd_pct": -2.31,
+      "sharpe": -0.83,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": -0.0,
+        "frac_positive": 0.477,
+        "n": 149
+       },
+       "3d": {
+        "median_pct": -0.001,
+        "frac_positive": 0.49,
+        "n": 49
+       },
+       "7d": {
+        "median_pct": -0.001,
+        "frac_positive": 0.476,
+        "n": 21
+       }
+      }
+     }
+    },
+    "full_block_bootstrap": {
+     "p05": -17.91,
+     "p50": 47.72,
+     "p95": 173.45
+    },
+    "heldout_block_bootstrap": {
+     "p05": -38.8,
+     "p50": -19.92,
+     "p95": 6.58
+    },
+    "ship_read": {
+     "unseen_compound_pos": false,
+     "full_p05_pos": false,
+     "heldout_p05_pos": false,
+     "ship": false
+    }
+   },
+   "vote": {
+    "name": "pp_ensemble::vote",
+    "kind": "BOOK",
+    "n_days": 2338,
+    "per_split": {
+     "SEL": {
+      "n": 1898,
+      "compound_pct": 236.44,
+      "ann_pct": 26.28,
+      "maxdd_pct": -44.07,
+      "sharpe": 0.99,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.494,
+        "n": 1898
+       },
+       "3d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.459,
+        "n": 632
+       },
+       "7d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.439,
+        "n": 271
+       }
+      }
+     },
+     "OOS": {
+      "n": 291,
+      "compound_pct": -17.32,
+      "ann_pct": -21.22,
+      "maxdd_pct": -26.34,
+      "sharpe": -0.59,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": 0.019,
+        "frac_positive": 0.515,
+        "n": 291
+       },
+       "3d": {
+        "median_pct": -0.039,
+        "frac_positive": 0.454,
+        "n": 97
+       },
+       "7d": {
+        "median_pct": -0.588,
+        "frac_positive": 0.268,
+        "n": 41
+       }
+      }
+     },
+     "UNSEEN": {
+      "n": 149,
+      "compound_pct": 0.4,
+      "ann_pct": 0.99,
+      "maxdd_pct": -9.49,
+      "sharpe": 0.14,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": -0.009,
+        "frac_positive": 0.49,
+        "n": 149
+       },
+       "3d": {
+        "median_pct": -0.011,
+        "frac_positive": 0.49,
+        "n": 49
+       },
+       "7d": {
+        "median_pct": -0.314,
+        "frac_positive": 0.429,
+        "n": 21
+       }
+      }
+     }
+    },
+    "full_block_bootstrap": {
+     "p05": -13.9,
+     "p50": 170.58,
+     "p95": 813.77
+    },
+    "heldout_block_bootstrap": {
+     "p05": -47.21,
+     "p50": -15.76,
+     "p95": 38.95
+    },
+    "ship_read": {
+     "unseen_compound_pos": true,
+     "full_p05_pos": false,
+     "heldout_p05_pos": false,
+     "ship": false
+    }
+   },
+   "routed": {
+    "name": "pp_ensemble::routed",
+    "kind": "BOOK",
+    "n_days": 2338,
+    "per_split": {
+     "SEL": {
+      "n": 1898,
+      "compound_pct": 179.82,
+      "ann_pct": 21.88,
+      "maxdd_pct": -46.19,
+      "sharpe": 0.84,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.471,
+        "n": 1898
+       },
+       "3d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.457,
+        "n": 632
+       },
+       "7d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.469,
+        "n": 271
+       }
+      }
+     },
+     "OOS": {
+      "n": 291,
+      "compound_pct": -18.33,
+      "ann_pct": -22.43,
+      "maxdd_pct": -24.85,
+      "sharpe": -0.69,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": 0.0,
+        "frac_positive": 0.495,
+        "n": 291
+       },
+       "3d": {
+        "median_pct": -0.037,
+        "frac_positive": 0.443,
+        "n": 97
+       },
+       "7d": {
+        "median_pct": -0.269,
+        "frac_positive": 0.317,
+        "n": 41
+       }
+      }
+     },
+     "UNSEEN": {
+      "n": 149,
+      "compound_pct": 1.85,
+      "ann_pct": 4.6,
+      "maxdd_pct": -8.2,
+      "sharpe": 0.43,
+      "softbench_roi": {
+       "1d": {
+        "median_pct": 0.003,
+        "frac_positive": 0.517,
+        "n": 149
+       },
+       "3d": {
+        "median_pct": 0.026,
+        "frac_positive": 0.571,
+        "n": 49
+       },
+       "7d": {
+        "median_pct": 0.043,
+        "frac_positive": 0.524,
+        "n": 21
+       }
+      }
+     }
+    },
+    "full_block_bootstrap": {
+     "p05": -30.73,
+     "p50": 123.93,
+     "p95": 673.07
+    },
+    "heldout_block_bootstrap": {
+     "p05": -45.53,
+     "p50": -15.18,
+     "p95": 33.79
+    },
+    "ship_read": {
+     "unseen_compound_pos": true,
+     "full_p05_pos": false,
+     "heldout_p05_pos": false,
+     "ship": false
+    }
+   }
+  },
+  "deflation": {
+   "permutation_null": {
+    "observed_best_edge_pp": 200.61,
+    "best_name": "vote",
+    "per_construction_edge_pp": {
+     "bear_rally": 88.01,
+     "terminal_leg": 73.44,
+     "drawdown_aware": 98.37,
+     "asymmetric": 200.61,
+     "vote": 124.85,
+     "routed": 75.2
+    },
+    "null_max_p95_pp": 244.7,
+    "p_value_maxstat": 0.092,
+    "n_perm": 2000,
+    "block": 10,
+    "seed": 11,
+    "family_size": 6,
+    "survives_deflation": false
+   },
+   "pbo": {
+    "pbo": 0.6714285714285714,
+    "prob_oos_loss": 0.2857142857142857,
+    "perf_degradation_slope": -1.1136603238048572,
+    "median_logit": -0.9162907318741551,
+    "n_combinations": 70,
+    "S": 8,
+    "T_used": 2184,
+    "N": 6,
+    "verdict": "FAIL",
+    "family": [
+     "bear_rally",
+     "terminal_leg",
+     "drawdown_aware",
+     "asymmetric",
+     "vote",
+     "routed"
+    ]
+   }
+  },
+  "verdict": {
+   "verdict": "SHUT_NO_NE_POINT",
+   "reopens": false,
+   "gates": {
+    "ne_of_book": false,
+    "beats_book_wealth": true,
+    "heldout_p05_pos": false,
+    "unseen_pos": true,
+    "permutation_survives": false,
+    "pbo_lt_half": false,
+    "preserve_unseen": true
+   },
+   "best_ensemble": "vote",
+   "best_fc_dev_net_pct": 178.2,
+   "book_fc_dev_net_pct": 53.3,
+   "buyhold_fc_dev_net_pct": 50.4,
+   "best_heldout_p05": -47.21,
+   "best_unseen_net_pct": 0.4,
+   "best_unseen_maxdd_pct": -9.5,
+   "permutation_p": 0.092,
+   "pbo": 0.6714285714285714,
+   "lines": [
+    "## DECISIVE VERDICT (regime-conditioned ENSEMBLE -- the last shot for long-only participate-AND-preserve) [VERIFIED-HELDOUT + UNSEEN-ONCE]",
+    "INCUMBENT (cash-going book): full-cycle DEV net 53.3% maxDD -25.8% | frontier point bull-capture 9.5% / bear-preservation 64.9%. Buy-hold net 50.4%.",
+    "ENSEMBLES NORTHEAST of the book (MORE participation AND preservation within 5pp): NONE -> NO ensemble dominates -- they sit ON the frontier line.",
+    "BEST participate-AND-preserve ENSEMBLE: vote (full-cycle DEV net 178.2% vs book 53.3%; beats book wealth by >5pp).",
+    "SEALED UNSEEN read: best ensemble vote net 0.4% DD -9.5% vs cash-book net -0.9% DD -2.3% (regime CHOP/SIDEWAYS); UNSEEN-positive True, preservation-kept True.",
+    "DECISIVE GATE 1 (NE of book): False.",
+    "DECISIVE GATE 2 (held-out block-bootstrap p05 > 0): p05 = -47.21% -> False.",
+    "DECISIVE GATE 3 (permutation max-stat p < 0.05 over the 6-family): p = 0.092 -> False.",
+    "DECISIVE GATE 4 (PBO < 0.5 over the 6-family): PBO = 0.6714285714285714 -> False.",
+    "ALL-GATES (REOPENS iff ALL true): NE=False | p05>0=False | perm_p<0.05=False | PBO<0.5=False.",
+    "SHUT: the regime-conditioned ENSEMBLE -- the cheapest remaining falsifier -- does NOT clear the decisive gate. Combining the 4 gates (by vote OR by causal regime-routing) does NOT produce a long-only construction that is NE of the book held-out with p05>0 AND survives multiple-comparisons deflation. Long-only participate-and-preserve is DEFINITIVELY CLOSED. The honest doors are SHORT (OFF -- the user's shortcut) or CARRY (the funding-dispersion dollar-neutral sleeve).",
+    "CHEAPEST FALSIFIER: long-only participate-and-preserve is now DEFINITIVELY SHUT (4 directional gates + 2 ensembles, all fail the held-out + deflation gates). The only remaining long-only falsifier would be an EXTERNAL conditioner (Coinglass / on-chain) that times the de-risk -- which is no longer 'long-only beta re-shaping' but a new signal. The honest doors are SHORT (OFF) or CARRY."
+   ]
+  },
+  "charts": [
+   "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\pp_ensemble_frontier.png"
+  ]
+ },
+ "charts": [
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\pp_ensemble_frontier.png"
+ ]
+}

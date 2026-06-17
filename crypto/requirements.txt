@@ -1,0 +1,72 @@
+# requirements.txt
+# Definitive, cleaned, and organized project dependencies.
+
+# For PyTorch with CUDA support (must be at the top)
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+# Core PyTorch
+torch
+torchvision
+torchaudio
+
+# Core Data Science & Utilities
+numpy==1.26.4
+pandas
+pyyaml
+requests
+matplotlib
+python-dotenv
+joblib
+pyarrow
+ipython
+tqdm
+pytz
+
+# Machine Learning & Reinforcement Learning
+scikit-learn
+stable-baselines3[extra]
+sb3-contrib
+gymnasium
+pettingzoo
+lightgbm
+shap
+optuna
+
+# Asynchronous & Parallel Computing
+dask
+distributed
+
+# Quantitative Finance & Backtesting
+pandas-ta
+ccxt
+quantstats
+vectorbt
+arch
+wandb
+
+# Hardware Acceleration (Optional)
+cudf
+cupy
+
+# Solana (Optional)
+solana
+solders
+
+bokeh>=3.1.0
+
+statsmodels 
+pmdarima
+
+catboost
+polars
+torch
+pytorch-lightning 
+pytorch-forecasting
+
+numba 
+psutil 
+scipy
+# Meta-graph orchestrator -- the persistent autonomous meta-loop (docs/META_GRAPH.md), added 2026-06-05
+langgraph
+langgraph-checkpoint-sqlite
+anthropic

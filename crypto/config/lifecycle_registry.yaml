@@ -1,0 +1,140 @@
+# Strategy Lifecycle Registry — G1 governance objective
+# Per docs/STRATEGIC_OBJECTIVES.md §7
+#
+# Each pillar has a lifecycle state. Transitions are gated. Reading + writing
+# is mediated by src/audit/lifecycle_state.py.
+#
+# States:
+#   BIRTH           — scaffold exists; py_compile OK; smoke PASS
+#   PAPER           — at least one v3 paper-trade-replay window completed
+#   LIVE_PROBATION  — multi-window v3 positive; not yet on live capital
+#   LIVE_PROMOTED   — on live capital; rolling 30-day drift within tolerance
+#   DECAY_WATCH     — drift detected (G2); reduced allocation; pending review
+#   SUNSET          — 60-day window failed gates; allocation = 0; pending archive
+#   ARCHIVED        — moved to backups/BKP_<date>_SUNSET/
+#
+# Transition rules (codified in src/audit/lifecycle_state.py):
+#   BIRTH -> PAPER:           1 v3 window any result; py_compile + smoke + CDAP CLEAN
+#   PAPER -> LIVE_PROBATION:  Sh >= 0.5 AND DD >= -10% on ≥1 v3 window
+#   LIVE_PROBATION -> LIVE_PROMOTED: 3+ non-overlapping v3 windows positive; PBO < 0.30; DSR p < 0.10
+#   LIVE_PROMOTED -> DECAY_WATCH: rolling 30d live Sharpe drops > 50% from validated OR IC drops > 30%
+#   DECAY_WATCH -> SUNSET:    60-day window fails Sh > 0.3 OR breaches DD -15%
+#   SUNSET -> ARCHIVED:       90 days no recovery; manual review
+#
+# Status as of 2026-05-15 (initial seed; review + update each session end):
+
+version: 1
+last_updated: "2026-05-15"
+
+pillars:
+  # ====== LIVE_PROMOTED (default-deploy) ======
+  CONSERVATIVE:
+    state: LIVE_PROMOTED
+    state_since: "2026-05-05"
+    validated_sharpe: 11.52      # 5-quarter mean
+    notes: "Day-0 deploy per TRUE_VALIDATION_VERDICT_2026_05_05"
+
+  PRIME:
+    state: LIVE_PROMOTED
+    state_since: "2026-05-05"
+    validated_sharpe: 8.31
+    notes: "Day-30 promote"
+
+  # ====== LIVE_PROBATION (multi-window v3 positive, not yet live) ======
+  AGGRESSIVE:
+    state: LIVE_PROBATION
+    state_since: "2026-05-05"
+    validated_sharpe: 6.55
+    notes: "Day-60 hold; rho 0.57 borderline"
+
+  V6_FRONTIER_v2026_05:
+    state: LIVE_PROBATION
+    state_since: "2026-05-12"
+    notes: "Multi-window v3 pending"
+
+  V7_FRONTIER_v2026_05_13:
+    state: LIVE_PROBATION
+    state_since: "2026-05-13"
+    notes: "Multi-window v3 pending; whale + liq overlays unverified at blend level"
+
+  CASH_DEFENSIVE:
+    state: LIVE_PROMOTED
+    state_since: "2026-05-09"
+    notes: "AUTO_REGIME defensive; passes by construction"
+
+  CONSERVATIVE_NEUTRAL:
+    state: LIVE_PROBATION
+    state_since: "2026-05-09"
+    notes: "Sideways-regime variant"
+
+  R24_P1:
+    state: LIVE_PROBATION
+    state_since: "2026-05-10"
+    validated_sharpe: 5.71
+    notes: "April UNSEEN +0.89%/d; R24 winner"
+
+  TA_SML_DYNAMIC:
+    state: LIVE_PROBATION
+    state_since: "2026-05-10"
+    notes: "Regime-routed dynamic hybrid"
+
+  # ====== PAPER (≥1 v3 window completed, awaiting more) ======
+  CONSERVATIVE_3D:
+    state: PAPER
+    state_since: "2026-05-10"
+    notes: "R19A 3-day hold variant"
+
+  R19_EXTENDED:
+    state: PAPER
+    state_since: "2026-05-10"
+    notes: "R19BCD funding_carry + event_pair"
+
+  R22_1_SOLO:
+    state: PAPER
+    state_since: "2026-05-10"
+    notes: "M8 K=1L 5.5yr audited"
+
+  R23_S1_S4:
+    state: PAPER
+    state_since: "2026-05-10"
+    notes: "Combinatrix S1+S4 5.5yr audited"
+
+  # ====== BIRTH (scaffolded; no v3 yet — EXPLORATORY) ======
+  NEW_LISTING_MOMENTUM:           {state: BIRTH, state_since: "2026-05-14", notes: "R11 EXPLORATORY"}
+  R12_BTC_CASCADE_EXPLORER:       {state: BIRTH, state_since: "2026-05-14", notes: "R12 EXPLORATORY"}
+  MOVER_ORACLE_K3:                {state: BIRTH, state_since: "2026-05-15", notes: "R16"}
+  CONS_PLUS_ORACLE:               {state: BIRTH, state_since: "2026-05-15", notes: "R16 stack"}
+  MOVER_ORACLE_K1_AGGRESSIVE:     {state: BIRTH, state_since: "2026-05-15", notes: "R16 K1 high-DD"}
+  CROSS_LANE_K5_SHIP:             {state: BIRTH, state_since: "2026-05-15", notes: "R17 WF claimed; state doc R31 noted v3 -23%"}
+  CROSS_LANE_PLUS_CONS:           {state: BIRTH, state_since: "2026-05-15", notes: "R17 stack"}
+  R18_STABLECOIN_SUPPLY:          {state: BIRTH, state_since: "2026-05-15", notes: "R18 EXPLORATORY"}
+  MOVER_ORACLE_V2_K1:             {state: BIRTH, state_since: "2026-05-15", notes: "R19 K1 dynamics features"}
+  CONS_PLUS_ORACLE_V2:            {state: BIRTH, state_since: "2026-05-15", notes: "R19 stack"}
+  SIMPLE_MOMENTUM_K5:             {state: BIRTH, state_since: "2026-05-15", notes: "R20"}
+  SIMPLE_MOMENTUM_K5_NB:          {state: BIRTH, state_since: "2026-05-15", notes: "R20 with regime gate"}
+  REGIME_ROUTER_SHIP:             {state: BIRTH, state_since: "2026-05-15", notes: "R21 winning formula"}
+  ROUTER_PLUS_CONS:               {state: BIRTH, state_since: "2026-05-15", notes: "R21 stack"}
+  REGIME_ROUTER_V2:               {state: BIRTH, state_since: "2026-05-15", notes: "R21B tight gate"}
+  REGIME_ROUTER_STRICT:           {state: BIRTH, state_since: "2026-05-15", notes: "R21B strict gate; +212% Jan-Apr claim pending v3 verify"}
+
+  # ====== CONCEDED / never built ======
+  # Per META_ROI §2.4: do not revive without new evidence
+  funding_divergence_strategy:    {state: ARCHIVED, state_since: "2026-04-23", notes: "Sh 0.83 best, DD -60.8%, signal dies 2025+"}
+  top_trader_long_short:          {state: ARCHIVED, state_since: "2026-04-23", notes: "Sh 0.39, signal dies 2025+"}
+  macro_em_dxy_overlay:           {state: ARCHIVED, state_since: "2026-04-22", notes: "Validation rejected"}
+  setup_classifiers_as_gates:     {state: ARCHIVED, state_since: "2026-04-22", notes: "Feature injection lost 21% return"}
+  funding_carry_standalone:       {state: ARCHIVED, state_since: "2026-04-20", notes: "+0.4%/yr at retail fees"}
+
+# Filter sleeves (defensive, no blend-level lifecycle)
+filters:
+  losers_oracle_filter:
+    type: cross_lane_filter
+    state: BIRTH
+    state_since: "2026-05-15"
+    notes: "Smoke PASS; not yet wired into any blend"
+
+  vrp_regime_filter:
+    type: defensive_cash_sleeve
+    state: BIRTH
+    state_since: "2026-05-15"
+    notes: "Smoke PASS on FTX Nov 2022; partial Mech #5 coverage"

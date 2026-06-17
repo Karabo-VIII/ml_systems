@@ -1,0 +1,280 @@
+{
+  "meta": {
+    "cadence": "1d",
+    "min_move_net": 0.03,
+    "policy": "trail",
+    "model": "logistic",
+    "panel": [
+      "ADA"
+    ],
+    "n_books": 150,
+    "cost_rt": 0.0024,
+    "capture_rate_def": "realized_setup_harness_compound / oracle_ceiling_compound per window",
+    "reused": [
+      "oracle_dna_shuffled_falsifier.fit_predict",
+      "oracle_ceiling_builder.oracle_high_capture",
+      "strat.setup_harness.SetupHarness",
+      "strat.fill_model",
+      "strat.benchmark",
+      "strat.firewall",
+      "strat.battery"
+    ]
+  },
+  "n_survive": 0,
+  "cells": [
+    {
+      "asset": "ADA",
+      "cadence": "1d",
+      "model": "logistic",
+      "min_move_net": 0.03,
+      "policy": {
+        "name": "trail",
+        "trail_pct": 0.1,
+        "max_hold_bars": 7
+      },
+      "n_bars": 2322,
+      "n_features": 40,
+      "oracle_base_rate": 0.1689691817215728,
+      "oracle_median_hold_bars": 2,
+      "dna_threshold": 0.6126,
+      "fit_entry_rate": 0.169,
+      "held_entry_rate": 0.15,
+      "oracle_ceiling_compound_pct": {
+        "TRAIN": 159795499989350.97,
+        "VAL": 20414.63,
+        "OOS": 3863.08,
+        "UNSEEN": 436.48
+      },
+      "realized_compound_pct": {
+        "TRAIN": 36.44,
+        "VAL": 60.33,
+        "OOS": 4.99,
+        "UNSEEN": -25.36
+      },
+      "realized_n_trades": {
+        "TRAIN": 129,
+        "VAL": 23,
+        "OOS": 19,
+        "UNSEEN": 12
+      },
+      "capture_rate": {
+        "TRAIN": 0.0,
+        "VAL": 0.003,
+        "OOS": 0.0013,
+        "UNSEEN": -0.0581
+      },
+      "capture_rate_held_out": -0.0047,
+      "held_realized_pct": -20.37,
+      "held_ceiling_pct": 4299.56,
+      "fill_model": {
+        "taker": {
+          "TRAIN": {
+            "median": 36.44,
+            "p05": 36.44,
+            "p95": 36.44,
+            "n_filled_avg": 129.0
+          },
+          "VAL": {
+            "median": 60.33,
+            "p05": 60.33,
+            "p95": 60.33,
+            "n_filled_avg": 23.0
+          },
+          "OOS": {
+            "median": 4.99,
+            "p05": 4.99,
+            "p95": 4.99,
+            "n_filled_avg": 19.0
+          },
+          "UNSEEN": {
+            "median": -25.36,
+            "p05": -25.36,
+            "p95": -25.36,
+            "n_filled_avg": 12.0
+          }
+        },
+        "maker_pessimistic": {
+          "TRAIN": {
+            "median": -99.07,
+            "p05": -99.91,
+            "p95": -93.27,
+            "n_filled_avg": 38.7
+          },
+          "VAL": {
+            "median": -45.91,
+            "p05": -74.69,
+            "p95": -11.67,
+            "n_filled_avg": 6.9
+          },
+          "OOS": {
+            "median": -29.68,
+            "p05": -55.31,
+            "p95": -2.97,
+            "n_filled_avg": 5.7
+          },
+          "UNSEEN": {
+            "median": -21.87,
+            "p05": -49.14,
+            "p95": 0.06,
+            "n_filled_avg": 3.6
+          }
+        },
+        "ideal_ref": {
+          "TRAIN": {
+            "median": 63.69,
+            "p05": 63.69,
+            "p95": 63.69,
+            "n_filled_avg": 129.0
+          },
+          "VAL": {
+            "median": 65.53,
+            "p05": 65.53,
+            "p95": 65.53,
+            "n_filled_avg": 23.0
+          },
+          "OOS": {
+            "median": 7.82,
+            "p05": 7.82,
+            "p95": 7.82,
+            "n_filled_avg": 19.0
+          },
+          "UNSEEN": {
+            "median": -24.06,
+            "p05": -24.06,
+            "p95": -24.06,
+            "n_filled_avg": 12.0
+          }
+        }
+      },
+      "benchmark_excess": {
+        "per_window": {
+          "TRAIN": {
+            "cand_pct": 36.44,
+            "beta_matched_pct": 530.27,
+            "buyhold_pct": 918.81,
+            "excess_pp": -493.83,
+            "exposure_f": 0.549,
+            "is_bear": false,
+            "beats_beta": false
+          },
+          "VAL": {
+            "cand_pct": 60.33,
+            "beta_matched_pct": 48.9,
+            "buyhold_pct": 72.1,
+            "excess_pp": 11.44,
+            "exposure_f": 0.497,
+            "is_bear": false,
+            "beats_beta": true
+          },
+          "OOS": {
+            "cand_pct": 4.99,
+            "beta_matched_pct": -23.99,
+            "buyhold_pct": -52.29,
+            "excess_pp": 28.98,
+            "exposure_f": 0.454,
+            "is_bear": true,
+            "beats_beta": true
+          },
+          "UNSEEN": {
+            "cand_pct": -25.36,
+            "beta_matched_pct": -18.44,
+            "buyhold_pct": -33.45,
+            "excess_pp": -6.92,
+            "exposure_f": 0.564,
+            "is_bear": true,
+            "beats_beta": false
+          }
+        },
+        "beats_beta_held": false,
+        "bear_windows": [
+          "OOS",
+          "UNSEEN"
+        ],
+        "bear_preserved": false,
+        "note": "beta-matched = costless static hold at the candidate's own time-in-market fraction f"
+      },
+      "firewall": {
+        "per_window": {
+          "TRAIN": {
+            "real": 36.44,
+            "null_p50": 194.0,
+            "null_p95": 2882.75,
+            "beats_null": false,
+            "n_trades": 129
+          },
+          "VAL": {
+            "real": 60.33,
+            "null_p50": 38.07,
+            "null_p95": 410.91,
+            "beats_null": false,
+            "n_trades": 23
+          },
+          "OOS": {
+            "real": 4.99,
+            "null_p50": 17.88,
+            "null_p95": 107.06,
+            "beats_null": false,
+            "n_trades": 19
+          },
+          "UNSEEN": {
+            "real": -25.36,
+            "null_p50": -14.13,
+            "null_p95": 15.1,
+            "beats_null": false,
+            "n_trades": 12
+          }
+        },
+        "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "beats_held": false,
+        "pos_held": false,
+        "n_books": 150,
+        "cost_rt": 0.0024,
+        "regime_mode": "regime_matched_gate_on"
+      },
+      "battery": {
+        "n": 12,
+        "n_eff": 6.7,
+        "jk2": -1.2,
+        "jk3": -8.4,
+        "p05": -42.29,
+        "p50": -15.15,
+        "p95": 15.46,
+        "unseen_maxdd_pct": -25.8,
+        "all_4_positive": false,
+        "monthly": {
+          "n_months": 0,
+          "mpos": 0.0,
+          "worst_month_pct": 0.0
+        },
+        "concentration_flag": true,
+        "lens_A_strict": false,
+        "lens_B_pragmatic": false,
+        "lens_C_temporal": false,
+        "dsr_note": "caller must supply DSR/Holm at true family_n=1",
+        "firewall_note": "must ALSO beat the cost-matched random-entry null on held-out (src/strat/firewall.py)",
+        "verdict": "FAIL"
+      },
+      "leak_guard": {
+        "verdict": "INSUFFICIENT_EDGE (no positive held-out edge to leak-test; ratio is noise here -- rely on the structural guarantee)",
+        "held_compound_base_pp": -20.37,
+        "held_compound_lag+1_pp": -35.67,
+        "held_compound_lead-1_pp": -36.31,
+        "lag_delta_pp": 15.3,
+        "lead_injection_delta_pp": 15.94,
+        "ratio_lead_over_lag": 1.042,
+        "ratio_threshold": 1.5,
+        "structural_guarantee": "entry fill=opens[i+1]; breach via highs/lows; pessimistic stop-first & prior-hwm trail"
+      },
+      "VERDICT": {
+        "positive_held_out": false,
+        "capture_rate_positive_held": false,
+        "beats_beta_benchmark_held": false,
+        "beats_firewall_held": false,
+        "bear_preserved": false,
+        "battery_verdict": "FAIL",
+        "leak_guard": "INSUFFICIENT_EDGE (no positive held-out edge to leak-test; ratio is noise here -- rely on the structural guarantee)",
+        "BRIDGE_SURVIVES": false
+      }
+    }
+  ]
+}

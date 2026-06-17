@@ -1,0 +1,7 @@
+# games_engine -- runtime dependencies (tested with the versions noted in comments).
+# Install a torch build for YOUR platform/CUDA first if needed: https://pytorch.org/get-started/
+# (CPU-only torch works -- chess/connect-4 run fine on CPU; GPU just speeds training.)
+torch>=2.0            # tested 2.7.1
+python-chess>=1.11    # tested 1.11.2  (imported as `chess`)
+numpy>=1.24           # tested 2.2.6
+minatar>=1.0          # the scaled-Atari benchmark -- https://github.com/kenjyoung/MinAtar

@@ -1,0 +1,65 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\mining\\intraday_oracle.py --universe u50 --cadences 1h --maker",
+  "git_sha": "215af95"
+ },
+ "cost_rt": 0.0006,
+ "report": {
+  "1h": {
+   "n_events": 33883,
+   "scorecard": {
+    "SEL": {
+     "n": 25482,
+     "mean_pct": 0.029,
+     "se_pct": 0.037,
+     "median_pct": -0.985,
+     "win": 0.357,
+     "pf": 1.02,
+     "jk_drop_top5pct_mean_pct": -0.865,
+     "n_eff": 8163.8,
+     "breadth_pos": 24,
+     "breadth_tot": 47,
+     "bootstrap_p05_pct": -100.0
+    },
+    "OOS": {
+     "n": 5740,
+     "mean_pct": 0.04,
+     "se_pct": 0.07,
+     "median_pct": -0.951,
+     "win": 0.355,
+     "pf": 1.03,
+     "jk_drop_top5pct_mean_pct": -0.829,
+     "n_eff": 1922.0,
+     "breadth_pos": 29,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    },
+    "UNSEEN": {
+     "n": 2661,
+     "mean_pct": -0.046,
+     "se_pct": 0.118,
+     "median_pct": -0.987,
+     "win": 0.336,
+     "pf": 0.97,
+     "jk_drop_top5pct_mean_pct": -0.902,
+     "n_eff": 630.0,
+     "breadth_pos": 17,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -99.98
+    }
+   },
+   "SEL_oracle_mean_pct": 7.41,
+   "SEL_capture_median": -0.109,
+   "SEL_causal_vs_null_pp": 0.144,
+   "SEL_median_hold_bars": 15,
+   "OOS_oracle_mean_pct": 6.31,
+   "OOS_capture_median": -0.111,
+   "OOS_causal_vs_null_pp": 0.225,
+   "OOS_median_hold_bars": 14,
+   "UNSEEN_oracle_mean_pct": 5.75,
+   "UNSEEN_capture_median": -0.141,
+   "UNSEEN_causal_vs_null_pp": 0.196,
+   "UNSEEN_median_hold_bars": 15
+  }
+ }
+}

@@ -1,0 +1,258 @@
+{
+  "run_date": "2026-06-10",
+  "best_config": "atr15",
+  "atr_mult": 15.0,
+  "full_cycle_compound_pct": 163.89,
+  "full_cycle_cagr_pct_yr": 16.41,
+  "oos_compound_pct": -6.46,
+  "oos_cagr_pct_yr": -8.04,
+  "unseen_compound_pct": 5.38,
+  "unseen_cagr_pct_yr": 13.82,
+  "bh_full_cagr_pct_yr": 49.42,
+  "bh_oos_cagr_pct_yr": -11.05,
+  "bh_unseen_cagr_pct_yr": -54.19,
+  "baseline_oos_cagr_pct_yr": -7.5,
+  "baseline_unseen_cagr_pct_yr": 0.0,
+  "oos_beats_2x_per_yr": false,
+  "unseen_beats_2x_per_yr": false,
+  "oos_beats_bh": true,
+  "unseen_beats_bh": true,
+  "short_leg_comparison": {
+    "OOS": {
+      "window": "OOS",
+      "symmetric_book_pct": -6.46,
+      "long_only_book_pct": -7.755,
+      "delta_pct": 1.295,
+      "short_adds_wealth": true,
+      "n_short_trades": 20,
+      "n_long_trades": 11,
+      "per_asset_short_pnl": {
+        "BTCUSDT": {
+          "compound_pct": -17.48,
+          "n_trades": 2
+        },
+        "ETHUSDT": {
+          "compound_pct": -44.75,
+          "n_trades": 2
+        },
+        "SOLUSDT": {
+          "compound_pct": 4.37,
+          "n_trades": 2
+        },
+        "BNBUSDT": {
+          "compound_pct": 19.87,
+          "n_trades": 2
+        },
+        "XRPUSDT": {
+          "compound_pct": -1.88,
+          "n_trades": 1
+        },
+        "DOGEUSDT": {
+          "compound_pct": -6.52,
+          "n_trades": 2
+        },
+        "ADAUSDT": {
+          "compound_pct": 21.16,
+          "n_trades": 3
+        },
+        "AVAXUSDT": {
+          "compound_pct": 72.51,
+          "n_trades": 1
+        },
+        "LINKUSDT": {
+          "compound_pct": -11.63,
+          "n_trades": 3
+        },
+        "LTCUSDT": {
+          "compound_pct": 18.97,
+          "n_trades": 2
+        }
+      },
+      "caveat_participation": false
+    },
+    "UNSEEN": {
+      "window": "UNSEEN",
+      "symmetric_book_pct": 5.385,
+      "long_only_book_pct": 0.0,
+      "delta_pct": 5.385,
+      "short_adds_wealth": true,
+      "n_short_trades": 4,
+      "n_long_trades": 0,
+      "per_asset_short_pnl": {
+        "BTCUSDT": {
+          "compound_pct": 0.0,
+          "n_trades": 0
+        },
+        "ETHUSDT": {
+          "compound_pct": 23.08,
+          "n_trades": 2
+        },
+        "SOLUSDT": {
+          "compound_pct": 0.0,
+          "n_trades": 0
+        },
+        "BNBUSDT": {
+          "compound_pct": 0.0,
+          "n_trades": 0
+        },
+        "XRPUSDT": {
+          "compound_pct": 35.72,
+          "n_trades": 1
+        },
+        "DOGEUSDT": {
+          "compound_pct": 0.0,
+          "n_trades": 0
+        },
+        "ADAUSDT": {
+          "compound_pct": 0.0,
+          "n_trades": 0
+        },
+        "AVAXUSDT": {
+          "compound_pct": 0.0,
+          "n_trades": 0
+        },
+        "LINKUSDT": {
+          "compound_pct": 0.0,
+          "n_trades": 0
+        },
+        "LTCUSDT": {
+          "compound_pct": 1.15,
+          "n_trades": 1
+        }
+      },
+      "caveat_participation": false
+    }
+  },
+  "whipsaw_flag_oos": false,
+  "whipsaw_flag_unseen": false,
+  "honest_verdict": "NEITHER clears 2x/yr: OOS=-8%/yr, UNSEEN=+14%/yr. Adding short leg does NOT close the gap to 100% CAGR. | SHORT LEG ADDS SOME: symmetric beats baseline on at least one period (OOS: -0.5pp, UNSEEN: +13.8pp) -- but is it robust both periods?",
+  "oos_beats_baseline": false,
+  "unseen_beats_baseline": true,
+  "gap_to_2x_pp": 108.0,
+  "window_book": {
+    "TRAIN": {
+      "compound_pct": 273.223,
+      "cagr_pct_yr": 35.33,
+      "book_long_compound_pct": 289.549,
+      "book_short_compound_pct": -4.191,
+      "max_dd_pct": -89.87,
+      "n_trades": 104,
+      "asset_compounds": {
+        "BTCUSDT": 483.7,
+        "ETHUSDT": 1961.24,
+        "SOLUSDT": 4630.62,
+        "BNBUSDT": 1977.13,
+        "XRPUSDT": -84.27,
+        "DOGEUSDT": 872.9,
+        "ADAUSDT": 1113.48,
+        "AVAXUSDT": -59.11,
+        "LINKUSDT": 8.07,
+        "LTCUSDT": -45.93
+      }
+    },
+    "VAL": {
+      "compound_pct": -28.274,
+      "cagr_pct_yr": -32.92,
+      "book_long_compound_pct": -8.867,
+      "book_short_compound_pct": -21.295,
+      "max_dd_pct": -75.15,
+      "n_trades": 26,
+      "asset_compounds": {
+        "BTCUSDT": 24.33,
+        "ETHUSDT": -50.87,
+        "SOLUSDT": -68.9,
+        "BNBUSDT": -2.7,
+        "XRPUSDT": 177.53,
+        "DOGEUSDT": -19.33,
+        "ADAUSDT": -13.83,
+        "AVAXUSDT": -68.9,
+        "LINKUSDT": -20.99,
+        "LTCUSDT": -58.87
+      }
+    },
+    "OOS": {
+      "compound_pct": -6.46,
+      "cagr_pct_yr": -8.04,
+      "book_long_compound_pct": -7.755,
+      "book_short_compound_pct": 1.404,
+      "max_dd_pct": -47.79,
+      "n_trades": 31,
+      "asset_compounds": {
+        "BTCUSDT": -37.63,
+        "ETHUSDT": -47.23,
+        "SOLUSDT": 14.39,
+        "BNBUSDT": 83.19,
+        "XRPUSDT": 24.63,
+        "DOGEUSDT": -23.62,
+        "ADAUSDT": -17.06,
+        "AVAXUSDT": 50.21,
+        "LINKUSDT": -32.97,
+        "LTCUSDT": -6.46
+      }
+    },
+    "UNSEEN": {
+      "compound_pct": 5.385,
+      "cagr_pct_yr": 13.82,
+      "book_long_compound_pct": 0.0,
+      "book_short_compound_pct": 5.385,
+      "max_dd_pct": 0.0,
+      "n_trades": 4,
+      "asset_compounds": {
+        "BTCUSDT": 0.0,
+        "ETHUSDT": 23.08,
+        "SOLUSDT": 0.0,
+        "BNBUSDT": 0.0,
+        "XRPUSDT": 35.72,
+        "DOGEUSDT": 0.0,
+        "ADAUSDT": 0.0,
+        "AVAXUSDT": 0.0,
+        "LINKUSDT": 0.0,
+        "LTCUSDT": 1.15
+      }
+    }
+  },
+  "all_configs_summary": {
+    "atr3": {
+      "atr_mult": 3.0,
+      "oos_compound_pct": -19.799,
+      "oos_cagr_pct_yr": -24.19,
+      "unseen_compound_pct": 13.323,
+      "unseen_cagr_pct_yr": 36.16,
+      "train_val_compound_pct": 217.453
+    },
+    "atr6": {
+      "atr_mult": 6.0,
+      "oos_compound_pct": -19.711,
+      "oos_cagr_pct_yr": -24.08,
+      "unseen_compound_pct": 21.119,
+      "unseen_cagr_pct_yr": 60.46,
+      "train_val_compound_pct": 201.362
+    },
+    "atr10": {
+      "atr_mult": 10.0,
+      "oos_compound_pct": -8.338,
+      "oos_cagr_pct_yr": -10.35,
+      "unseen_compound_pct": 11.29,
+      "unseen_cagr_pct_yr": 30.21,
+      "train_val_compound_pct": 228.43800000000002
+    },
+    "atr15": {
+      "atr_mult": 15.0,
+      "oos_compound_pct": -6.46,
+      "oos_cagr_pct_yr": -8.04,
+      "unseen_compound_pct": 5.385,
+      "unseen_cagr_pct_yr": 13.82,
+      "train_val_compound_pct": 244.949
+    }
+  },
+  "pre_delivery_self_audit": {
+    "look_ahead_check": "PASS -- entry fill=opens[i+1]; ATR uses atr[j-1]; SMA regime is rolling past-only; no same-bar close peek for entry decision",
+    "oos_touched_once": "PASS -- best_key selected on TRAIN+VAL tune_score only; OOS+UNSEEN read-only after",
+    "real_numbers": "PASS -- all numbers from ChimeraLoader real chimera data",
+    "cost_applied": "PASS -- COST_RT=0.0024 round-trip per trade; FUNDING=0.00045/day * hold_days per SHORT (conservative upper bound)",
+    "perp_short_noted": "PASS -- strategy is PERP-only (shorting not available on SPOT); funding cost applied as upper bound (real funding varies; bear funding often near-zero)",
+    "whipsaw_test": "PASS -- explicit compare_short_vs_flat() checks delta(symmetric - long_only) for both OOS and UNSEEN; whipsaw flags reported",
+    "one_period_luck_check": "PASS -- spec warning explicitly coded: if UNSEEN clears 2x/yr but OOS does NOT, verdict labels it ONE-PERIOD LUCK",
+    "regime_decomp_noted": "NOTE -- short fires ONLY in confirmed BEAR (price<SMA200 AND SMA50<SMA200 AND SMA50 falling); OOS (mixed regimes 2025-03 to 2025-12) may have few confirmed bear bars for u10"
+  }
+}

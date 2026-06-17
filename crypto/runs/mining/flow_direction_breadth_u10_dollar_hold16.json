@@ -1,0 +1,3538 @@
+{
+  "universe": "u10",
+  "cadence": "dollar",
+  "hold_bars": 16,
+  "seed": 7,
+  "trigger": "|flow_feature| >= p90(SEL); trade sign(flow_feature); hold 16 bars",
+  "cost_source": "src/strat/fill_model.py::MODES (taker + maker_pessimistic)",
+  "splits": "SEL 0.7 / OOS 0.2 / UNSEEN remainder, purge 50, warmup 64",
+  "n_assets_used": 10,
+  "assets_used": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT",
+    "BNBUSDT",
+    "XRPUSDT",
+    "DOGEUSDT",
+    "ADAUSDT",
+    "AVAXUSDT",
+    "LINKUSDT",
+    "LTCUSDT"
+  ],
+  "skipped": [],
+  "BREADTH_SUMMARY": {
+    "raw_flow": {
+      "OOS": {
+        "taker": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -22.257,
+          "median_net_bps": -22.363,
+          "mean_excess_bps": 1.741
+        },
+        "maker_pf1.00": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -42.473,
+          "median_net_bps": -42.382,
+          "mean_excess_bps": 1.741
+        },
+        "maker_pf0.40": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -16.989,
+          "median_net_bps": -16.953,
+          "mean_excess_bps": 0.695
+        },
+        "maker_pf0.21": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -8.919,
+          "median_net_bps": -8.901,
+          "mean_excess_bps": 0.366
+        }
+      },
+      "UNSEEN": {
+        "taker": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 9,
+          "mean_net_bps": -23.666,
+          "median_net_bps": -23.698,
+          "mean_excess_bps": 0.336
+        },
+        "maker_pf1.00": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 9,
+          "mean_net_bps": -45.465,
+          "median_net_bps": -45.63,
+          "mean_excess_bps": 0.333
+        },
+        "maker_pf0.40": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 9,
+          "mean_net_bps": -18.186,
+          "median_net_bps": -18.252,
+          "mean_excess_bps": 0.13
+        },
+        "maker_pf0.21": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 9,
+          "mean_net_bps": -9.548,
+          "median_net_bps": -9.582,
+          "mean_excess_bps": 0.071
+        }
+      }
+    },
+    "residual_flow": {
+      "OOS": {
+        "taker": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -21.983,
+          "median_net_bps": -22.272,
+          "mean_excess_bps": 2.013
+        },
+        "maker_pf1.00": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -41.931,
+          "median_net_bps": -42.061,
+          "mean_excess_bps": 2.02
+        },
+        "maker_pf0.40": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -16.772,
+          "median_net_bps": -16.824,
+          "mean_excess_bps": 0.809
+        },
+        "maker_pf0.21": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -8.805,
+          "median_net_bps": -8.832,
+          "mean_excess_bps": 0.424
+        }
+      },
+      "UNSEEN": {
+        "taker": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 7,
+          "mean_net_bps": -23.617,
+          "median_net_bps": -23.601,
+          "mean_excess_bps": 0.385
+        },
+        "maker_pf1.00": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 7,
+          "mean_net_bps": -48.353,
+          "median_net_bps": -49.356,
+          "mean_excess_bps": 0.377
+        },
+        "maker_pf0.40": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 7,
+          "mean_net_bps": -19.341,
+          "median_net_bps": -19.742,
+          "mean_excess_bps": 0.148
+        },
+        "maker_pf0.21": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 7,
+          "mean_net_bps": -10.154,
+          "median_net_bps": -10.364,
+          "mean_excess_bps": 0.086
+        }
+      }
+    },
+    "vpin_signed": {
+      "OOS": {
+        "taker": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -23.604,
+          "median_net_bps": -23.666,
+          "mean_excess_bps": 0.397
+        },
+        "maker_pf1.00": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -43.395,
+          "median_net_bps": -43.289,
+          "mean_excess_bps": 0.403
+        },
+        "maker_pf0.40": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -17.358,
+          "median_net_bps": -17.316,
+          "mean_excess_bps": 0.16
+        },
+        "maker_pf0.21": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 10,
+          "mean_net_bps": -9.113,
+          "median_net_bps": -9.091,
+          "mean_excess_bps": 0.083
+        }
+      },
+      "UNSEEN": {
+        "taker": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 5,
+          "mean_net_bps": -24.258,
+          "median_net_bps": -24.145,
+          "mean_excess_bps": -0.255
+        },
+        "maker_pf1.00": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 4,
+          "mean_net_bps": -45.346,
+          "median_net_bps": -45.372,
+          "mean_excess_bps": -0.259
+        },
+        "maker_pf0.40": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 5,
+          "mean_net_bps": -18.139,
+          "median_net_bps": -18.149,
+          "mean_excess_bps": -0.104
+        },
+        "maker_pf0.21": {
+          "n_assets": 10,
+          "n_net_positive": 0,
+          "n_beats_null": 5,
+          "mean_net_bps": -9.523,
+          "median_net_bps": -9.528,
+          "mean_excess_bps": -0.054
+        }
+      }
+    }
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "n_bars": 2694758,
+      "n_SEL": 1886216,
+      "n_OOS": 538852,
+      "n_UNSEEN": 269426,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.6497,
+        "SEL": {
+          "n_trades": 188622,
+          "gross_dir_bps": 0.81,
+          "up_rate_correct": 0.509,
+          "cost": {
+            "taker": {
+              "net_bps": -23.194,
+              "null_dir_bps": -23.999,
+              "excess_bps": 0.805,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -37.698,
+              "null_dir_bps": -38.499,
+              "excess_bps": 0.801,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.079,
+              "null_dir_bps": -15.403,
+              "excess_bps": 0.323,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -7.917,
+              "null_dir_bps": -8.084,
+              "excess_bps": 0.168,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 61273,
+          "gross_dir_bps": 0.87,
+          "up_rate_correct": 0.528,
+          "cost": {
+            "taker": {
+              "net_bps": -23.128,
+              "null_dir_bps": -24.006,
+              "excess_bps": 0.877,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -31.561,
+              "null_dir_bps": -32.432,
+              "excess_bps": 0.871,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.624,
+              "null_dir_bps": -12.973,
+              "excess_bps": 0.349,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.628,
+              "null_dir_bps": -6.813,
+              "excess_bps": 0.185,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 30760,
+          "gross_dir_bps": 0.09,
+          "up_rate_correct": 0.51,
+          "cost": {
+            "taker": {
+              "net_bps": -23.911,
+              "null_dir_bps": -23.987,
+              "excess_bps": 0.076,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -31.767,
+              "null_dir_bps": -31.856,
+              "excess_bps": 0.088,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.707,
+              "null_dir_bps": -12.736,
+              "excess_bps": 0.029,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.671,
+              "null_dir_bps": -6.692,
+              "excess_bps": 0.021,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.4506,
+        "SEL": {
+          "n_trades": 188622,
+          "gross_dir_bps": 1.25,
+          "up_rate_correct": 0.51,
+          "cost": {
+            "taker": {
+              "net_bps": -22.754,
+              "null_dir_bps": -24.0,
+              "excess_bps": 1.246,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -39.164,
+              "null_dir_bps": -40.409,
+              "excess_bps": 1.245,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.666,
+              "null_dir_bps": -16.162,
+              "excess_bps": 0.496,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.224,
+              "null_dir_bps": -8.486,
+              "excess_bps": 0.261,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 59277,
+          "gross_dir_bps": 1.04,
+          "up_rate_correct": 0.527,
+          "cost": {
+            "taker": {
+              "net_bps": -22.964,
+              "null_dir_bps": -24.011,
+              "excess_bps": 1.047,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -30.753,
+              "null_dir_bps": -31.797,
+              "excess_bps": 1.043,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.301,
+              "null_dir_bps": -12.714,
+              "excess_bps": 0.413,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.458,
+              "null_dir_bps": -6.676,
+              "excess_bps": 0.218,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 32425,
+          "gross_dir_bps": 0.6,
+          "up_rate_correct": 0.514,
+          "cost": {
+            "taker": {
+              "net_bps": -23.401,
+              "null_dir_bps": -24.002,
+              "excess_bps": 0.601,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -31.041,
+              "null_dir_bps": -31.633,
+              "excess_bps": 0.592,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.416,
+              "null_dir_bps": -12.661,
+              "excess_bps": 0.245,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.519,
+              "null_dir_bps": -6.645,
+              "excess_bps": 0.127,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.3725,
+        "SEL": {
+          "n_trades": 188622,
+          "gross_dir_bps": 0.57,
+          "up_rate_correct": 0.506,
+          "cost": {
+            "taker": {
+              "net_bps": -23.428,
+              "null_dir_bps": -24.001,
+              "excess_bps": 0.573,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -38.005,
+              "null_dir_bps": -38.575,
+              "excess_bps": 0.569,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.202,
+              "null_dir_bps": -15.433,
+              "excess_bps": 0.231,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -7.981,
+              "null_dir_bps": -8.101,
+              "excess_bps": 0.12,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 72501,
+          "gross_dir_bps": 0.56,
+          "up_rate_correct": 0.509,
+          "cost": {
+            "taker": {
+              "net_bps": -23.442,
+              "null_dir_bps": -24.008,
+              "excess_bps": 0.566,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -31.586,
+              "null_dir_bps": -32.145,
+              "excess_bps": 0.559,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.635,
+              "null_dir_bps": -12.86,
+              "excess_bps": 0.225,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.633,
+              "null_dir_bps": -6.751,
+              "excess_bps": 0.118,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 39990,
+          "gross_dir_bps": 0.05,
+          "up_rate_correct": 0.494,
+          "cost": {
+            "taker": {
+              "net_bps": -23.952,
+              "null_dir_bps": -24.0,
+              "excess_bps": 0.048,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -31.237,
+              "null_dir_bps": -31.288,
+              "excess_bps": 0.051,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.495,
+              "null_dir_bps": -12.511,
+              "excess_bps": 0.016,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.56,
+              "null_dir_bps": -6.569,
+              "excess_bps": 0.009,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      }
+    },
+    "ETHUSDT": {
+      "n_bars": 4003889,
+      "n_SEL": 2802608,
+      "n_OOS": 800678,
+      "n_UNSEEN": 400339,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.7313,
+        "SEL": {
+          "n_trades": 280261,
+          "gross_dir_bps": 0.92,
+          "up_rate_correct": 0.513,
+          "cost": {
+            "taker": {
+              "net_bps": -23.083,
+              "null_dir_bps": -24.001,
+              "excess_bps": 0.918,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -38.85,
+              "null_dir_bps": -39.774,
+              "excess_bps": 0.925,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.54,
+              "null_dir_bps": -15.907,
+              "excess_bps": 0.367,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.158,
+              "null_dir_bps": -8.351,
+              "excess_bps": 0.193,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 72448,
+          "gross_dir_bps": 1.13,
+          "up_rate_correct": 0.521,
+          "cost": {
+            "taker": {
+              "net_bps": -22.868,
+              "null_dir_bps": -23.996,
+              "excess_bps": 1.127,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -30.86,
+              "null_dir_bps": -31.999,
+              "excess_bps": 1.139,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.344,
+              "null_dir_bps": -12.792,
+              "excess_bps": 0.449,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.481,
+              "null_dir_bps": -6.718,
+              "excess_bps": 0.237,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 36216,
+          "gross_dir_bps": 0.36,
+          "up_rate_correct": 0.509,
+          "cost": {
+            "taker": {
+              "net_bps": -23.636,
+              "null_dir_bps": -24.016,
+              "excess_bps": 0.38,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -34.166,
+              "null_dir_bps": -34.532,
+              "excess_bps": 0.366,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -13.666,
+              "null_dir_bps": -13.811,
+              "excess_bps": 0.145,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -7.175,
+              "null_dir_bps": -7.251,
+              "excess_bps": 0.077,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5659,
+        "SEL": {
+          "n_trades": 280261,
+          "gross_dir_bps": 1.39,
+          "up_rate_correct": 0.513,
+          "cost": {
+            "taker": {
+              "net_bps": -22.61,
+              "null_dir_bps": -23.995,
+              "excess_bps": 1.385,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -40.215,
+              "null_dir_bps": -41.607,
+              "excess_bps": 1.393,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -16.086,
+              "null_dir_bps": -16.642,
+              "excess_bps": 0.556,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.445,
+              "null_dir_bps": -8.737,
+              "excess_bps": 0.292,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 77674,
+          "gross_dir_bps": 1.19,
+          "up_rate_correct": 0.521,
+          "cost": {
+            "taker": {
+              "net_bps": -22.814,
+              "null_dir_bps": -24.01,
+              "excess_bps": 1.196,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -30.03,
+              "null_dir_bps": -31.218,
+              "excess_bps": 1.189,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.012,
+              "null_dir_bps": -12.483,
+              "excess_bps": 0.471,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.306,
+              "null_dir_bps": -6.555,
+              "excess_bps": 0.249,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 37224,
+          "gross_dir_bps": 1.6,
+          "up_rate_correct": 0.508,
+          "cost": {
+            "taker": {
+              "net_bps": -22.401,
+              "null_dir_bps": -24.006,
+              "excess_bps": 1.604,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -33.175,
+              "null_dir_bps": -34.765,
+              "excess_bps": 1.59,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -13.27,
+              "null_dir_bps": -13.915,
+              "excess_bps": 0.645,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.967,
+              "null_dir_bps": -7.304,
+              "excess_bps": 0.337,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.5408,
+        "SEL": {
+          "n_trades": 280261,
+          "gross_dir_bps": 0.54,
+          "up_rate_correct": 0.503,
+          "cost": {
+            "taker": {
+              "net_bps": -23.462,
+              "null_dir_bps": -24.0,
+              "excess_bps": 0.538,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -38.974,
+              "null_dir_bps": -39.508,
+              "excess_bps": 0.535,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.589,
+              "null_dir_bps": -15.804,
+              "excess_bps": 0.215,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.184,
+              "null_dir_bps": -8.298,
+              "excess_bps": 0.114,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 83309,
+          "gross_dir_bps": 0.12,
+          "up_rate_correct": 0.502,
+          "cost": {
+            "taker": {
+              "net_bps": -23.884,
+              "null_dir_bps": -23.993,
+              "excess_bps": 0.109,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -31.101,
+              "null_dir_bps": -31.217,
+              "excess_bps": 0.117,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.44,
+              "null_dir_bps": -12.488,
+              "excess_bps": 0.048,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.531,
+              "null_dir_bps": -6.556,
+              "excess_bps": 0.025,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 42808,
+          "gross_dir_bps": -0.37,
+          "up_rate_correct": 0.488,
+          "cost": {
+            "taker": {
+              "net_bps": -24.368,
+              "null_dir_bps": -24.006,
+              "excess_bps": -0.362,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -34.22,
+              "null_dir_bps": -33.866,
+              "excess_bps": -0.355,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -13.688,
+              "null_dir_bps": -13.536,
+              "excess_bps": -0.152,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -7.186,
+              "null_dir_bps": -7.108,
+              "excess_bps": -0.078,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      }
+    },
+    "SOLUSDT": {
+      "n_bars": 4103965,
+      "n_SEL": 2872661,
+      "n_OOS": 820693,
+      "n_UNSEEN": 410347,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.691,
+        "SEL": {
+          "n_trades": 287267,
+          "gross_dir_bps": 0.79,
+          "up_rate_correct": 0.512,
+          "cost": {
+            "taker": {
+              "net_bps": -23.207,
+              "null_dir_bps": -24.002,
+              "excess_bps": 0.795,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -48.5,
+              "null_dir_bps": -49.291,
+              "excess_bps": 0.791,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -19.4,
+              "null_dir_bps": -19.72,
+              "excess_bps": 0.32,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.185,
+              "null_dir_bps": -10.351,
+              "excess_bps": 0.166,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 68547,
+          "gross_dir_bps": 1.58,
+          "up_rate_correct": 0.525,
+          "cost": {
+            "taker": {
+              "net_bps": -22.418,
+              "null_dir_bps": -23.999,
+              "excess_bps": 1.581,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -30.546,
+              "null_dir_bps": -32.123,
+              "excess_bps": 1.577,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.218,
+              "null_dir_bps": -12.847,
+              "excess_bps": 0.629,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.415,
+              "null_dir_bps": -6.746,
+              "excess_bps": 0.331,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 38278,
+          "gross_dir_bps": 1.43,
+          "up_rate_correct": 0.513,
+          "cost": {
+            "taker": {
+              "net_bps": -22.567,
+              "null_dir_bps": -23.998,
+              "excess_bps": 1.431,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -33.29,
+              "null_dir_bps": -34.719,
+              "excess_bps": 1.429,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -13.316,
+              "null_dir_bps": -13.885,
+              "excess_bps": 0.569,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.991,
+              "null_dir_bps": -7.292,
+              "excess_bps": 0.301,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5726,
+        "SEL": {
+          "n_trades": 287267,
+          "gross_dir_bps": 1.7,
+          "up_rate_correct": 0.513,
+          "cost": {
+            "taker": {
+              "net_bps": -22.3,
+              "null_dir_bps": -23.981,
+              "excess_bps": 1.681,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -51.469,
+              "null_dir_bps": -53.175,
+              "excess_bps": 1.705,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.588,
+              "null_dir_bps": -21.27,
+              "excess_bps": 0.682,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.809,
+              "null_dir_bps": -11.164,
+              "excess_bps": 0.355,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 78891,
+          "gross_dir_bps": 1.71,
+          "up_rate_correct": 0.522,
+          "cost": {
+            "taker": {
+              "net_bps": -22.286,
+              "null_dir_bps": -24.001,
+              "excess_bps": 1.715,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -29.572,
+              "null_dir_bps": -31.282,
+              "excess_bps": 1.71,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -11.829,
+              "null_dir_bps": -12.513,
+              "excess_bps": 0.685,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.21,
+              "null_dir_bps": -6.57,
+              "excess_bps": 0.36,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 42415,
+          "gross_dir_bps": 1.82,
+          "up_rate_correct": 0.516,
+          "cost": {
+            "taker": {
+              "net_bps": -22.182,
+              "null_dir_bps": -23.998,
+              "excess_bps": 1.816,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -32.394,
+              "null_dir_bps": -34.225,
+              "excess_bps": 1.831,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.958,
+              "null_dir_bps": -13.68,
+              "excess_bps": 0.723,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.803,
+              "null_dir_bps": -7.186,
+              "excess_bps": 0.383,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.5524,
+        "SEL": {
+          "n_trades": 287267,
+          "gross_dir_bps": 0.81,
+          "up_rate_correct": 0.498,
+          "cost": {
+            "taker": {
+              "net_bps": -23.194,
+              "null_dir_bps": -24.0,
+              "excess_bps": 0.806,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -46.948,
+              "null_dir_bps": -47.746,
+              "excess_bps": 0.798,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -18.779,
+              "null_dir_bps": -19.096,
+              "excess_bps": 0.317,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.859,
+              "null_dir_bps": -10.029,
+              "excess_bps": 0.17,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 74813,
+          "gross_dir_bps": 0.25,
+          "up_rate_correct": 0.492,
+          "cost": {
+            "taker": {
+              "net_bps": -23.751,
+              "null_dir_bps": -24.006,
+              "excess_bps": 0.255,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -31.628,
+              "null_dir_bps": -31.881,
+              "excess_bps": 0.254,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -12.651,
+              "null_dir_bps": -12.753,
+              "excess_bps": 0.102,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -6.642,
+              "null_dir_bps": -6.695,
+              "excess_bps": 0.054,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 40430,
+          "gross_dir_bps": -0.46,
+          "up_rate_correct": 0.478,
+          "cost": {
+            "taker": {
+              "net_bps": -24.463,
+              "null_dir_bps": -24.001,
+              "excess_bps": -0.462,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -34.819,
+              "null_dir_bps": -34.356,
+              "excess_bps": -0.463,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -13.928,
+              "null_dir_bps": -13.732,
+              "excess_bps": -0.195,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -7.312,
+              "null_dir_bps": -7.213,
+              "excess_bps": -0.099,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      }
+    },
+    "BNBUSDT": {
+      "n_bars": 2292603,
+      "n_SEL": 1604708,
+      "n_OOS": 458420,
+      "n_UNSEEN": 229211,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.7236,
+        "SEL": {
+          "n_trades": 160471,
+          "gross_dir_bps": 0.43,
+          "up_rate_correct": 0.503,
+          "cost": {
+            "taker": {
+              "net_bps": -23.573,
+              "null_dir_bps": -24.004,
+              "excess_bps": 0.431,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -48.649,
+              "null_dir_bps": -49.088,
+              "excess_bps": 0.438,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -19.46,
+              "null_dir_bps": -19.632,
+              "excess_bps": 0.172,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.216,
+              "null_dir_bps": -10.308,
+              "excess_bps": 0.091,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 45321,
+          "gross_dir_bps": 1.75,
+          "up_rate_correct": 0.52,
+          "cost": {
+            "taker": {
+              "net_bps": -22.246,
+              "null_dir_bps": -24.004,
+              "excess_bps": 1.758,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -39.047,
+              "null_dir_bps": -40.802,
+              "excess_bps": 1.755,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.619,
+              "null_dir_bps": -16.324,
+              "excess_bps": 0.705,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.2,
+              "null_dir_bps": -8.57,
+              "excess_bps": 0.37,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 21889,
+          "gross_dir_bps": 0.31,
+          "up_rate_correct": 0.51,
+          "cost": {
+            "taker": {
+              "net_bps": -23.691,
+              "null_dir_bps": -23.99,
+              "excess_bps": 0.299,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -39.528,
+              "null_dir_bps": -39.861,
+              "excess_bps": 0.333,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.811,
+              "null_dir_bps": -15.94,
+              "excess_bps": 0.128,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.301,
+              "null_dir_bps": -8.363,
+              "excess_bps": 0.062,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5656,
+        "SEL": {
+          "n_trades": 160471,
+          "gross_dir_bps": 1.4,
+          "up_rate_correct": 0.506,
+          "cost": {
+            "taker": {
+              "net_bps": -22.598,
+              "null_dir_bps": -24.003,
+              "excess_bps": 1.405,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -49.945,
+              "null_dir_bps": -51.367,
+              "excess_bps": 1.422,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -19.978,
+              "null_dir_bps": -20.541,
+              "excess_bps": 0.563,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.488,
+              "null_dir_bps": -10.783,
+              "excess_bps": 0.294,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 43605,
+          "gross_dir_bps": 2.4,
+          "up_rate_correct": 0.523,
+          "cost": {
+            "taker": {
+              "net_bps": -21.601,
+              "null_dir_bps": -23.995,
+              "excess_bps": 2.393,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -37.898,
+              "null_dir_bps": -40.297,
+              "excess_bps": 2.399,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.159,
+              "null_dir_bps": -16.121,
+              "excess_bps": 0.962,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -7.959,
+              "null_dir_bps": -8.463,
+              "excess_bps": 0.504,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 23151,
+          "gross_dir_bps": 0.49,
+          "up_rate_correct": 0.508,
+          "cost": {
+            "taker": {
+              "net_bps": -23.508,
+              "null_dir_bps": -24.002,
+              "excess_bps": 0.494,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -39.899,
+              "null_dir_bps": -40.393,
+              "excess_bps": 0.494,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.96,
+              "null_dir_bps": -16.151,
+              "excess_bps": 0.191,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.379,
+              "null_dir_bps": -8.483,
+              "excess_bps": 0.104,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.5236,
+        "SEL": {
+          "n_trades": 160471,
+          "gross_dir_bps": 0.8,
+          "up_rate_correct": 0.505,
+          "cost": {
+            "taker": {
+              "net_bps": -23.198,
+              "null_dir_bps": -24.002,
+              "excess_bps": 0.804,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -48.25,
+              "null_dir_bps": -49.052,
+              "excess_bps": 0.803,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -19.3,
+              "null_dir_bps": -19.619,
+              "excess_bps": 0.319,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.132,
+              "null_dir_bps": -10.302,
+              "excess_bps": 0.169,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 48665,
+          "gross_dir_bps": 0.92,
+          "up_rate_correct": 0.507,
+          "cost": {
+            "taker": {
+              "net_bps": -23.076,
+              "null_dir_bps": -24.015,
+              "excess_bps": 0.94,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -39.583,
+              "null_dir_bps": -40.516,
+              "excess_bps": 0.933,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.833,
+              "null_dir_bps": -16.197,
+              "excess_bps": 0.364,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.312,
+              "null_dir_bps": -8.507,
+              "excess_bps": 0.195,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 24954,
+          "gross_dir_bps": 0.06,
+          "up_rate_correct": 0.499,
+          "cost": {
+            "taker": {
+              "net_bps": -23.935,
+              "null_dir_bps": -24.004,
+              "excess_bps": 0.069,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -39.305,
+              "null_dir_bps": -39.358,
+              "excess_bps": 0.053,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -15.722,
+              "null_dir_bps": -15.754,
+              "excess_bps": 0.032,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.254,
+              "null_dir_bps": -8.269,
+              "excess_bps": 0.015,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      }
+    },
+    "XRPUSDT": {
+      "n_bars": 2231584,
+      "n_SEL": 1561994,
+      "n_OOS": 446217,
+      "n_UNSEEN": 223109,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.6899,
+        "SEL": {
+          "n_trades": 156200,
+          "gross_dir_bps": 1.25,
+          "up_rate_correct": 0.506,
+          "cost": {
+            "taker": {
+              "net_bps": -22.746,
+              "null_dir_bps": -23.992,
+              "excess_bps": 1.246,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -62.725,
+              "null_dir_bps": -63.967,
+              "excess_bps": 1.242,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -25.09,
+              "null_dir_bps": -25.595,
+              "excess_bps": 0.505,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -13.172,
+              "null_dir_bps": -13.433,
+              "excess_bps": 0.261,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 48814,
+          "gross_dir_bps": 0.69,
+          "up_rate_correct": 0.518,
+          "cost": {
+            "taker": {
+              "net_bps": -23.308,
+              "null_dir_bps": -23.995,
+              "excess_bps": 0.688,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -43.175,
+              "null_dir_bps": -43.866,
+              "excess_bps": 0.691,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.27,
+              "null_dir_bps": -17.551,
+              "excess_bps": 0.281,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.067,
+              "null_dir_bps": -9.212,
+              "excess_bps": 0.145,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 22486,
+          "gross_dir_bps": 0.12,
+          "up_rate_correct": 0.498,
+          "cost": {
+            "taker": {
+              "net_bps": -23.877,
+              "null_dir_bps": -24.018,
+              "excess_bps": 0.141,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -46.432,
+              "null_dir_bps": -46.546,
+              "excess_bps": 0.114,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -18.573,
+              "null_dir_bps": -18.617,
+              "excess_bps": 0.044,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.751,
+              "null_dir_bps": -9.784,
+              "excess_bps": 0.033,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5127,
+        "SEL": {
+          "n_trades": 156200,
+          "gross_dir_bps": 2.23,
+          "up_rate_correct": 0.508,
+          "cost": {
+            "taker": {
+              "net_bps": -21.77,
+              "null_dir_bps": -24.002,
+              "excess_bps": 2.232,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -63.786,
+              "null_dir_bps": -66.012,
+              "excess_bps": 2.226,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -25.514,
+              "null_dir_bps": -26.408,
+              "excess_bps": 0.894,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -13.395,
+              "null_dir_bps": -13.865,
+              "excess_bps": 0.47,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 53464,
+          "gross_dir_bps": 0.76,
+          "up_rate_correct": 0.516,
+          "cost": {
+            "taker": {
+              "net_bps": -23.24,
+              "null_dir_bps": -23.976,
+              "excess_bps": 0.736,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -42.81,
+              "null_dir_bps": -43.576,
+              "excess_bps": 0.766,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.124,
+              "null_dir_bps": -17.432,
+              "excess_bps": 0.308,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.99,
+              "null_dir_bps": -9.151,
+              "excess_bps": 0.161,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 25723,
+          "gross_dir_bps": 0.42,
+          "up_rate_correct": 0.5,
+          "cost": {
+            "taker": {
+              "net_bps": -23.578,
+              "null_dir_bps": -23.997,
+              "excess_bps": 0.419,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -49.862,
+              "null_dir_bps": -50.296,
+              "excess_bps": 0.434,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -19.945,
+              "null_dir_bps": -20.111,
+              "excess_bps": 0.166,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.471,
+              "null_dir_bps": -10.554,
+              "excess_bps": 0.083,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.455,
+        "SEL": {
+          "n_trades": 156200,
+          "gross_dir_bps": 0.4,
+          "up_rate_correct": 0.5,
+          "cost": {
+            "taker": {
+              "net_bps": -23.6,
+              "null_dir_bps": -23.993,
+              "excess_bps": 0.393,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -63.648,
+              "null_dir_bps": -64.056,
+              "excess_bps": 0.408,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -25.459,
+              "null_dir_bps": -25.62,
+              "excess_bps": 0.161,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -13.366,
+              "null_dir_bps": -13.451,
+              "excess_bps": 0.085,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 51009,
+          "gross_dir_bps": 0.32,
+          "up_rate_correct": 0.496,
+          "cost": {
+            "taker": {
+              "net_bps": -23.683,
+              "null_dir_bps": -23.991,
+              "excess_bps": 0.309,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -43.436,
+              "null_dir_bps": -43.769,
+              "excess_bps": 0.334,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.374,
+              "null_dir_bps": -17.507,
+              "excess_bps": 0.132,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.121,
+              "null_dir_bps": -9.189,
+              "excess_bps": 0.068,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 23131,
+          "gross_dir_bps": 0.0,
+          "up_rate_correct": 0.49,
+          "cost": {
+            "taker": {
+              "net_bps": -23.998,
+              "null_dir_bps": -24.0,
+              "excess_bps": 0.002,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -46.22,
+              "null_dir_bps": -46.197,
+              "excess_bps": -0.023,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -18.488,
+              "null_dir_bps": -18.501,
+              "excess_bps": 0.013,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.706,
+              "null_dir_bps": -9.711,
+              "excess_bps": 0.005,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      }
+    },
+    "DOGEUSDT": {
+      "n_bars": 1733366,
+      "n_SEL": 1213242,
+      "n_OOS": 346573,
+      "n_UNSEEN": 173287,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.6944,
+        "SEL": {
+          "n_trades": 121325,
+          "gross_dir_bps": 2.76,
+          "up_rate_correct": 0.51,
+          "cost": {
+            "taker": {
+              "net_bps": -21.244,
+              "null_dir_bps": -24.002,
+              "excess_bps": 2.758,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -77.229,
+              "null_dir_bps": -79.968,
+              "excess_bps": 2.739,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -30.892,
+              "null_dir_bps": -31.999,
+              "excess_bps": 1.107,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -16.218,
+              "null_dir_bps": -16.797,
+              "excess_bps": 0.578,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 37657,
+          "gross_dir_bps": 1.61,
+          "up_rate_correct": 0.524,
+          "cost": {
+            "taker": {
+              "net_bps": -22.393,
+              "null_dir_bps": -24.016,
+              "excess_bps": 1.623,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -52.064,
+              "null_dir_bps": -53.659,
+              "excess_bps": 1.594,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.826,
+              "null_dir_bps": -21.467,
+              "excess_bps": 0.642,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.934,
+              "null_dir_bps": -11.273,
+              "excess_bps": 0.339,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 18286,
+          "gross_dir_bps": 0.13,
+          "up_rate_correct": 0.513,
+          "cost": {
+            "taker": {
+              "net_bps": -23.871,
+              "null_dir_bps": -24.01,
+              "excess_bps": 0.139,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -63.7,
+              "null_dir_bps": -63.823,
+              "excess_bps": 0.123,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -25.48,
+              "null_dir_bps": -25.547,
+              "excess_bps": 0.067,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -13.377,
+              "null_dir_bps": -13.41,
+              "excess_bps": 0.033,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5316,
+        "SEL": {
+          "n_trades": 121325,
+          "gross_dir_bps": 4.45,
+          "up_rate_correct": 0.513,
+          "cost": {
+            "taker": {
+              "net_bps": -19.552,
+              "null_dir_bps": -23.976,
+              "excess_bps": 4.424,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -82.036,
+              "null_dir_bps": -86.501,
+              "excess_bps": 4.465,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -32.814,
+              "null_dir_bps": -34.595,
+              "excess_bps": 1.781,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -17.228,
+              "null_dir_bps": -18.164,
+              "excess_bps": 0.937,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 41274,
+          "gross_dir_bps": 1.63,
+          "up_rate_correct": 0.521,
+          "cost": {
+            "taker": {
+              "net_bps": -22.375,
+              "null_dir_bps": -24.002,
+              "excess_bps": 1.627,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -51.409,
+              "null_dir_bps": -53.009,
+              "excess_bps": 1.6,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.563,
+              "null_dir_bps": -21.223,
+              "excess_bps": 0.66,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.796,
+              "null_dir_bps": -11.14,
+              "excess_bps": 0.344,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 19790,
+          "gross_dir_bps": -0.73,
+          "up_rate_correct": 0.511,
+          "cost": {
+            "taker": {
+              "net_bps": -24.726,
+              "null_dir_bps": -23.99,
+              "excess_bps": -0.737,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -69.771,
+              "null_dir_bps": -69.006,
+              "excess_bps": -0.764,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -27.908,
+              "null_dir_bps": -27.599,
+              "excess_bps": -0.309,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -14.652,
+              "null_dir_bps": -14.515,
+              "excess_bps": -0.137,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.474,
+        "SEL": {
+          "n_trades": 121325,
+          "gross_dir_bps": 1.66,
+          "up_rate_correct": 0.505,
+          "cost": {
+            "taker": {
+              "net_bps": -22.336,
+              "null_dir_bps": -24.015,
+              "excess_bps": 1.679,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -77.966,
+              "null_dir_bps": -79.601,
+              "excess_bps": 1.635,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -31.186,
+              "null_dir_bps": -31.85,
+              "excess_bps": 0.664,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -16.373,
+              "null_dir_bps": -16.722,
+              "excess_bps": 0.35,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 39664,
+          "gross_dir_bps": 0.83,
+          "up_rate_correct": 0.501,
+          "cost": {
+            "taker": {
+              "net_bps": -23.171,
+              "null_dir_bps": -24.023,
+              "excess_bps": 0.852,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -52.241,
+              "null_dir_bps": -53.101,
+              "excess_bps": 0.86,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.896,
+              "null_dir_bps": -21.229,
+              "excess_bps": 0.332,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.971,
+              "null_dir_bps": -11.142,
+              "excess_bps": 0.172,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 18494,
+          "gross_dir_bps": -0.29,
+          "up_rate_correct": 0.501,
+          "cost": {
+            "taker": {
+              "net_bps": -24.293,
+              "null_dir_bps": -24.026,
+              "excess_bps": -0.267,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -62.833,
+              "null_dir_bps": -62.564,
+              "excess_bps": -0.269,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -25.133,
+              "null_dir_bps": -25.01,
+              "excess_bps": -0.124,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -13.195,
+              "null_dir_bps": -13.13,
+              "excess_bps": -0.065,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      }
+    },
+    "ADAUSDT": {
+      "n_bars": 3780109,
+      "n_SEL": 2645962,
+      "n_OOS": 755922,
+      "n_UNSEEN": 377961,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.673,
+        "SEL": {
+          "n_trades": 264597,
+          "gross_dir_bps": 1.01,
+          "up_rate_correct": 0.505,
+          "cost": {
+            "taker": {
+              "net_bps": -22.989,
+              "null_dir_bps": -24.003,
+              "excess_bps": 1.014,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -42.945,
+              "null_dir_bps": -43.96,
+              "excess_bps": 1.015,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.178,
+              "null_dir_bps": -17.583,
+              "excess_bps": 0.405,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.018,
+              "null_dir_bps": -9.23,
+              "excess_bps": 0.211,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 82030,
+          "gross_dir_bps": 1.67,
+          "up_rate_correct": 0.515,
+          "cost": {
+            "taker": {
+              "net_bps": -22.332,
+              "null_dir_bps": -23.991,
+              "excess_bps": 1.66,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -53.494,
+              "null_dir_bps": -55.161,
+              "excess_bps": 1.666,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -21.398,
+              "null_dir_bps": -22.061,
+              "excess_bps": 0.663,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.234,
+              "null_dir_bps": -11.586,
+              "excess_bps": 0.352,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 40612,
+          "gross_dir_bps": 0.88,
+          "up_rate_correct": 0.509,
+          "cost": {
+            "taker": {
+              "net_bps": -23.116,
+              "null_dir_bps": -23.998,
+              "excess_bps": 0.882,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -51.393,
+              "null_dir_bps": -52.288,
+              "excess_bps": 0.895,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.557,
+              "null_dir_bps": -20.899,
+              "excess_bps": 0.341,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.793,
+              "null_dir_bps": -10.981,
+              "excess_bps": 0.188,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5294,
+        "SEL": {
+          "n_trades": 264597,
+          "gross_dir_bps": 2.1,
+          "up_rate_correct": 0.509,
+          "cost": {
+            "taker": {
+              "net_bps": -21.897,
+              "null_dir_bps": -24.004,
+              "excess_bps": 2.107,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -42.526,
+              "null_dir_bps": -44.62,
+              "excess_bps": 2.094,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.011,
+              "null_dir_bps": -17.854,
+              "excess_bps": 0.843,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.931,
+              "null_dir_bps": -9.375,
+              "excess_bps": 0.444,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 76206,
+          "gross_dir_bps": 1.74,
+          "up_rate_correct": 0.511,
+          "cost": {
+            "taker": {
+              "net_bps": -22.258,
+              "null_dir_bps": -23.993,
+              "excess_bps": 1.735,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -54.71,
+              "null_dir_bps": -56.459,
+              "excess_bps": 1.749,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -21.884,
+              "null_dir_bps": -22.577,
+              "excess_bps": 0.693,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.489,
+              "null_dir_bps": -11.851,
+              "excess_bps": 0.362,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 42631,
+          "gross_dir_bps": 0.38,
+          "up_rate_correct": 0.506,
+          "cost": {
+            "taker": {
+              "net_bps": -23.623,
+              "null_dir_bps": -24.014,
+              "excess_bps": 0.391,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -57.021,
+              "null_dir_bps": -57.4,
+              "excess_bps": 0.379,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -22.809,
+              "null_dir_bps": -22.971,
+              "excess_bps": 0.163,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.974,
+              "null_dir_bps": -12.054,
+              "excess_bps": 0.08,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.5485,
+        "SEL": {
+          "n_trades": 264597,
+          "gross_dir_bps": 0.58,
+          "up_rate_correct": 0.493,
+          "cost": {
+            "taker": {
+              "net_bps": -23.417,
+              "null_dir_bps": -23.998,
+              "excess_bps": 0.582,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -42.535,
+              "null_dir_bps": -43.115,
+              "excess_bps": 0.581,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.014,
+              "null_dir_bps": -17.25,
+              "excess_bps": 0.236,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.932,
+              "null_dir_bps": -9.054,
+              "excess_bps": 0.122,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 77493,
+          "gross_dir_bps": 0.02,
+          "up_rate_correct": 0.494,
+          "cost": {
+            "taker": {
+              "net_bps": -23.98,
+              "null_dir_bps": -23.986,
+              "excess_bps": 0.006,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -54.409,
+              "null_dir_bps": -54.434,
+              "excess_bps": 0.025,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -21.764,
+              "null_dir_bps": -21.772,
+              "excess_bps": 0.008,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.426,
+              "null_dir_bps": -11.431,
+              "excess_bps": 0.005,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 38891,
+          "gross_dir_bps": -0.52,
+          "up_rate_correct": 0.485,
+          "cost": {
+            "taker": {
+              "net_bps": -24.516,
+              "null_dir_bps": -24.011,
+              "excess_bps": -0.505,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -51.954,
+              "null_dir_bps": -51.443,
+              "excess_bps": -0.51,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.781,
+              "null_dir_bps": -20.579,
+              "excess_bps": -0.203,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.91,
+              "null_dir_bps": -10.803,
+              "excess_bps": -0.108,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      }
+    },
+    "AVAXUSDT": {
+      "n_bars": 2422269,
+      "n_SEL": 1695474,
+      "n_OOS": 484354,
+      "n_UNSEEN": 242177,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.7111,
+        "SEL": {
+          "n_trades": 169548,
+          "gross_dir_bps": 0.82,
+          "up_rate_correct": 0.509,
+          "cost": {
+            "taker": {
+              "net_bps": -23.177,
+              "null_dir_bps": -24.005,
+              "excess_bps": 0.828,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -59.612,
+              "null_dir_bps": -60.438,
+              "excess_bps": 0.827,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -23.845,
+              "null_dir_bps": -24.173,
+              "excess_bps": 0.328,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -12.518,
+              "null_dir_bps": -12.693,
+              "excess_bps": 0.175,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 46805,
+          "gross_dir_bps": 3.43,
+          "up_rate_correct": 0.525,
+          "cost": {
+            "taker": {
+              "net_bps": -20.571,
+              "null_dir_bps": -23.993,
+              "excess_bps": 3.422,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -52.22,
+              "null_dir_bps": -55.655,
+              "excess_bps": 3.435,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.888,
+              "null_dir_bps": -22.262,
+              "excess_bps": 1.374,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.966,
+              "null_dir_bps": -11.685,
+              "excess_bps": 0.719,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 21564,
+          "gross_dir_bps": 0.43,
+          "up_rate_correct": 0.497,
+          "cost": {
+            "taker": {
+              "net_bps": -23.568,
+              "null_dir_bps": -24.019,
+              "excess_bps": 0.45,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -56.496,
+              "null_dir_bps": -56.872,
+              "excess_bps": 0.376,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -22.598,
+              "null_dir_bps": -22.754,
+              "excess_bps": 0.156,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.864,
+              "null_dir_bps": -11.955,
+              "excess_bps": 0.091,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5818,
+        "SEL": {
+          "n_trades": 169548,
+          "gross_dir_bps": 2.68,
+          "up_rate_correct": 0.51,
+          "cost": {
+            "taker": {
+              "net_bps": -21.322,
+              "null_dir_bps": -24.007,
+              "excess_bps": 2.685,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -61.909,
+              "null_dir_bps": -64.577,
+              "excess_bps": 2.668,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -24.764,
+              "null_dir_bps": -25.843,
+              "excess_bps": 1.079,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -13.001,
+              "null_dir_bps": -13.562,
+              "excess_bps": 0.561,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 44299,
+          "gross_dir_bps": 4.05,
+          "up_rate_correct": 0.525,
+          "cost": {
+            "taker": {
+              "net_bps": -19.945,
+              "null_dir_bps": -23.994,
+              "excess_bps": 4.049,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -51.16,
+              "null_dir_bps": -55.249,
+              "excess_bps": 4.089,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.464,
+              "null_dir_bps": -22.097,
+              "excess_bps": 1.633,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.744,
+              "null_dir_bps": -11.595,
+              "excess_bps": 0.851,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 22916,
+          "gross_dir_bps": 0.26,
+          "up_rate_correct": 0.493,
+          "cost": {
+            "taker": {
+              "net_bps": -23.743,
+              "null_dir_bps": -24.004,
+              "excess_bps": 0.262,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -66.626,
+              "null_dir_bps": -66.834,
+              "excess_bps": 0.208,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -26.65,
+              "null_dir_bps": -26.711,
+              "excess_bps": 0.06,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -13.991,
+              "null_dir_bps": -14.081,
+              "excess_bps": 0.09,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.574,
+        "SEL": {
+          "n_trades": 169548,
+          "gross_dir_bps": 0.21,
+          "up_rate_correct": 0.493,
+          "cost": {
+            "taker": {
+              "net_bps": -23.785,
+              "null_dir_bps": -23.988,
+              "excess_bps": 0.203,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -59.178,
+              "null_dir_bps": -59.378,
+              "excess_bps": 0.201,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -23.671,
+              "null_dir_bps": -23.757,
+              "excess_bps": 0.086,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -12.427,
+              "null_dir_bps": -12.473,
+              "excess_bps": 0.046,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 47649,
+          "gross_dir_bps": 0.52,
+          "up_rate_correct": 0.491,
+          "cost": {
+            "taker": {
+              "net_bps": -23.482,
+              "null_dir_bps": -23.995,
+              "excess_bps": 0.512,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -54.48,
+              "null_dir_bps": -54.99,
+              "excess_bps": 0.51,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -21.792,
+              "null_dir_bps": -22.001,
+              "excess_bps": 0.209,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.441,
+              "null_dir_bps": -11.546,
+              "excess_bps": 0.105,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 22565,
+          "gross_dir_bps": -1.73,
+          "up_rate_correct": 0.468,
+          "cost": {
+            "taker": {
+              "net_bps": -25.728,
+              "null_dir_bps": -23.994,
+              "excess_bps": -1.734,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -56.866,
+              "null_dir_bps": -55.137,
+              "excess_bps": -1.73,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -22.747,
+              "null_dir_bps": -22.061,
+              "excess_bps": -0.685,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.942,
+              "null_dir_bps": -11.574,
+              "excess_bps": -0.368,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      }
+    },
+    "LINKUSDT": {
+      "n_bars": 3035654,
+      "n_SEL": 2124843,
+      "n_OOS": 607031,
+      "n_UNSEEN": 303516,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.6962,
+        "SEL": {
+          "n_trades": 212485,
+          "gross_dir_bps": 0.69,
+          "up_rate_correct": 0.504,
+          "cost": {
+            "taker": {
+              "net_bps": -23.311,
+              "null_dir_bps": -24.003,
+              "excess_bps": 0.693,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -55.211,
+              "null_dir_bps": -55.898,
+              "excess_bps": 0.686,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -22.085,
+              "null_dir_bps": -22.36,
+              "excess_bps": 0.275,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.594,
+              "null_dir_bps": -11.739,
+              "excess_bps": 0.145,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 60443,
+          "gross_dir_bps": 2.54,
+          "up_rate_correct": 0.515,
+          "cost": {
+            "taker": {
+              "net_bps": -21.459,
+              "null_dir_bps": -23.995,
+              "excess_bps": 2.536,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -50.171,
+              "null_dir_bps": -52.702,
+              "excess_bps": 2.53,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.069,
+              "null_dir_bps": -21.071,
+              "excess_bps": 1.003,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.536,
+              "null_dir_bps": -11.07,
+              "excess_bps": 0.534,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 25016,
+          "gross_dir_bps": -0.72,
+          "up_rate_correct": 0.478,
+          "cost": {
+            "taker": {
+              "net_bps": -24.718,
+              "null_dir_bps": -23.992,
+              "excess_bps": -0.726,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -53.048,
+              "null_dir_bps": -52.363,
+              "excess_bps": -0.685,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -21.219,
+              "null_dir_bps": -20.926,
+              "excess_bps": -0.293,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.14,
+              "null_dir_bps": -10.985,
+              "excess_bps": -0.155,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5457,
+        "SEL": {
+          "n_trades": 212485,
+          "gross_dir_bps": 1.57,
+          "up_rate_correct": 0.503,
+          "cost": {
+            "taker": {
+              "net_bps": -22.434,
+              "null_dir_bps": -24.0,
+              "excess_bps": 1.566,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -54.631,
+              "null_dir_bps": -56.218,
+              "excess_bps": 1.587,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -21.852,
+              "null_dir_bps": -22.482,
+              "excess_bps": 0.629,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.472,
+              "null_dir_bps": -11.801,
+              "excess_bps": 0.329,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 65114,
+          "gross_dir_bps": 2.89,
+          "up_rate_correct": 0.513,
+          "cost": {
+            "taker": {
+              "net_bps": -21.108,
+              "null_dir_bps": -23.99,
+              "excess_bps": 2.881,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -49.656,
+              "null_dir_bps": -52.552,
+              "excess_bps": 2.896,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -19.862,
+              "null_dir_bps": -21.022,
+              "excess_bps": 1.159,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.428,
+              "null_dir_bps": -11.036,
+              "excess_bps": 0.608,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 30042,
+          "gross_dir_bps": -0.91,
+          "up_rate_correct": 0.483,
+          "cost": {
+            "taker": {
+              "net_bps": -24.909,
+              "null_dir_bps": -23.998,
+              "excess_bps": -0.912,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -54.895,
+              "null_dir_bps": -53.99,
+              "excess_bps": -0.905,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -21.958,
+              "null_dir_bps": -21.597,
+              "excess_bps": -0.361,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.528,
+              "null_dir_bps": -11.339,
+              "excess_bps": -0.189,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.5672,
+        "SEL": {
+          "n_trades": 212485,
+          "gross_dir_bps": 0.64,
+          "up_rate_correct": 0.498,
+          "cost": {
+            "taker": {
+              "net_bps": -23.362,
+              "null_dir_bps": -23.989,
+              "excess_bps": 0.627,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -54.796,
+              "null_dir_bps": -55.44,
+              "excess_bps": 0.644,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -21.918,
+              "null_dir_bps": -22.173,
+              "excess_bps": 0.255,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -11.507,
+              "null_dir_bps": -11.64,
+              "excess_bps": 0.133,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 59836,
+          "gross_dir_bps": 0.08,
+          "up_rate_correct": 0.487,
+          "cost": {
+            "taker": {
+              "net_bps": -23.924,
+              "null_dir_bps": -23.997,
+              "excess_bps": 0.073,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -52.346,
+              "null_dir_bps": -52.433,
+              "excess_bps": 0.088,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.938,
+              "null_dir_bps": -20.972,
+              "excess_bps": 0.034,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.993,
+              "null_dir_bps": -11.008,
+              "excess_bps": 0.015,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 26649,
+          "gross_dir_bps": 0.37,
+          "up_rate_correct": 0.478,
+          "cost": {
+            "taker": {
+              "net_bps": -23.635,
+              "null_dir_bps": -23.991,
+              "excess_bps": 0.356,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -51.487,
+              "null_dir_bps": -51.833,
+              "excess_bps": 0.347,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -20.595,
+              "null_dir_bps": -20.734,
+              "excess_bps": 0.139,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.812,
+              "null_dir_bps": -10.893,
+              "excess_bps": 0.081,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      }
+    },
+    "LTCUSDT": {
+      "n_bars": 3943596,
+      "n_SEL": 2760403,
+      "n_OOS": 788619,
+      "n_UNSEEN": 394310,
+      "raw_flow": {
+        "thr_p90_on_SEL": 1.6573,
+        "SEL": {
+          "n_trades": 276041,
+          "gross_dir_bps": 0.91,
+          "up_rate_correct": 0.5,
+          "cost": {
+            "taker": {
+              "net_bps": -23.09,
+              "null_dir_bps": -23.997,
+              "excess_bps": 0.907,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -43.447,
+              "null_dir_bps": -44.353,
+              "excess_bps": 0.906,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.379,
+              "null_dir_bps": -17.742,
+              "excess_bps": 0.363,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.124,
+              "null_dir_bps": -9.316,
+              "excess_bps": 0.192,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 79126,
+          "gross_dir_bps": 2.15,
+          "up_rate_correct": 0.522,
+          "cost": {
+            "taker": {
+              "net_bps": -21.85,
+              "null_dir_bps": -23.991,
+              "excess_bps": 2.141,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -41.589,
+              "null_dir_bps": -43.746,
+              "excess_bps": 2.157,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -16.636,
+              "null_dir_bps": -17.493,
+              "excess_bps": 0.857,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.734,
+              "null_dir_bps": -9.184,
+              "excess_bps": 0.45,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 42584,
+          "gross_dir_bps": 0.29,
+          "up_rate_correct": 0.507,
+          "cost": {
+            "taker": {
+              "net_bps": -23.706,
+              "null_dir_bps": -23.995,
+              "excess_bps": 0.289,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -44.827,
+              "null_dir_bps": -45.122,
+              "excess_bps": 0.294,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.931,
+              "null_dir_bps": -18.046,
+              "excess_bps": 0.115,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.414,
+              "null_dir_bps": -9.477,
+              "excess_bps": 0.063,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      },
+      "residual_flow": {
+        "thr_p90_on_SEL": 1.5381,
+        "SEL": {
+          "n_trades": 276041,
+          "gross_dir_bps": 1.83,
+          "up_rate_correct": 0.504,
+          "cost": {
+            "taker": {
+              "net_bps": -22.171,
+              "null_dir_bps": -24.001,
+              "excess_bps": 1.831,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -42.73,
+              "null_dir_bps": -44.563,
+              "excess_bps": 1.833,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.092,
+              "null_dir_bps": -17.822,
+              "excess_bps": 0.73,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.973,
+              "null_dir_bps": -9.356,
+              "excess_bps": 0.383,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 79241,
+          "gross_dir_bps": 2.76,
+          "up_rate_correct": 0.52,
+          "cost": {
+            "taker": {
+              "net_bps": -21.24,
+              "null_dir_bps": -23.993,
+              "excess_bps": 2.752,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -41.311,
+              "null_dir_bps": -44.064,
+              "excess_bps": 2.754,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -16.524,
+              "null_dir_bps": -17.627,
+              "excess_bps": 1.103,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -8.675,
+              "null_dir_bps": -9.254,
+              "excess_bps": 0.579,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 43426,
+          "gross_dir_bps": -0.1,
+          "up_rate_correct": 0.507,
+          "cost": {
+            "taker": {
+              "net_bps": -24.098,
+              "null_dir_bps": -24.012,
+              "excess_bps": -0.086,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf1.00": {
+              "net_bps": -48.85,
+              "null_dir_bps": -48.758,
+              "excess_bps": -0.092,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.40": {
+              "net_bps": -19.54,
+              "null_dir_bps": -19.498,
+              "excess_bps": -0.042,
+              "positive": false,
+              "beats_null": false
+            },
+            "maker_pf0.21": {
+              "net_bps": -10.258,
+              "null_dir_bps": -10.236,
+              "excess_bps": -0.022,
+              "positive": false,
+              "beats_null": false
+            }
+          }
+        }
+      },
+      "vpin_signed": {
+        "thr_p90_on_SEL": 1.5359,
+        "SEL": {
+          "n_trades": 276041,
+          "gross_dir_bps": 0.48,
+          "up_rate_correct": 0.493,
+          "cost": {
+            "taker": {
+              "net_bps": -23.522,
+              "null_dir_bps": -23.997,
+              "excess_bps": 0.475,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -43.411,
+              "null_dir_bps": -43.887,
+              "excess_bps": 0.475,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.365,
+              "null_dir_bps": -17.553,
+              "excess_bps": 0.188,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.116,
+              "null_dir_bps": -9.217,
+              "excess_bps": 0.1,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "OOS": {
+          "n_trades": 78400,
+          "gross_dir_bps": 0.35,
+          "up_rate_correct": 0.497,
+          "cost": {
+            "taker": {
+              "net_bps": -23.648,
+              "null_dir_bps": -23.994,
+              "excess_bps": 0.346,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -43.142,
+              "null_dir_bps": -43.493,
+              "excess_bps": 0.351,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.257,
+              "null_dir_bps": -17.401,
+              "excess_bps": 0.144,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.06,
+              "null_dir_bps": -9.135,
+              "excess_bps": 0.075,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        },
+        "UNSEEN": {
+          "n_trades": 41621,
+          "gross_dir_bps": 0.31,
+          "up_rate_correct": 0.493,
+          "cost": {
+            "taker": {
+              "net_bps": -23.692,
+              "null_dir_bps": -23.999,
+              "excess_bps": 0.307,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf1.00": {
+              "net_bps": -44.524,
+              "null_dir_bps": -44.837,
+              "excess_bps": 0.313,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.40": {
+              "net_bps": -17.81,
+              "null_dir_bps": -17.933,
+              "excess_bps": 0.124,
+              "positive": false,
+              "beats_null": true
+            },
+            "maker_pf0.21": {
+              "net_bps": -9.35,
+              "null_dir_bps": -9.416,
+              "excess_bps": 0.066,
+              "positive": false,
+              "beats_null": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "_elapsed_s": 370.2
+}

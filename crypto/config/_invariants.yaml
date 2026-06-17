@@ -1,0 +1,2181 @@
+# CDAP Global Invariants Registry
+# ================================
+# Machine-checkable invariants that MUST hold across the codebase.
+# Every diff is validated against this file by `src/audit/check_invariants.py`.
+# A drift = halt commit (Stage-2 RED TEAM mandate).
+#
+# Add to this file when:
+#   - A bug is fixed that originated from cross-file value drift
+#   - A new cross-version constant is locked in
+#   - A pipeline / strategy / training invariant is established
+#
+# Schema:
+#   - cross_version_constants: identical literal value across all matching files
+#   - cross_file_eq:           one file's expression must equal another's
+#   - file_must_contain:       file must contain a literal string or regex
+#   - file_must_not_contain:   file must NOT contain a string/regex
+#   - dag_ordering:            run_pipeline stage ordering rules
+#   - cli_flags:               CLI scripts must accept declared flags
+#
+# Severity:
+#   critical -> halt commit (exit 2)
+#   warn     -> stderr WARN (exit 1, doesn't halt)
+
+version: 1
+mandate: "DOUBLE_AUDIT_PROTOCOL.md - Contract-Driven Audit Protocol"
+
+# Top-level archived-version exclusion: applied automatically to every
+# cross_version_constants rule. Per CLAUDE.md, V2/V5/V7 are flagged
+# ARCHIVED; their settings.py files contain intentional architectural
+# deviations from the cross-version invariants and should not raise drift
+# findings.
+archived_version_globs:
+  - "backups/BKP_20260429_MODEL_HARMONIZATION/v2/v*/settings.py"
+  - "backups/BKP_20260429_MODEL_HARMONIZATION/v5/v*/settings.py"
+  - "backups/BKP_20260429_MODEL_HARMONIZATION/v7/v*/settings.py"
+  # V20 is a Capacity-tier proposal with fundamentally different architecture
+  # (tick-level Performer/Hyena, seq_len=3600 vs 96, B=16 vs 32). The
+  # WM_BATCH_SIZE=32 invariant doesn't apply because the memory budget
+  # (B*seq_len=57,600 vs V1.x's 3,072) requires a smaller batch.
+  # See docs/WM_HIGH_TIER_TARGETS_2026_04_30.md §V20 for rationale.
+  - "src/wm/v20/v20_training/settings.py"
+
+# ─────────────────────────────────────────────────────────────────────
+# Cross-version constants (must be identical across all V1-V9 settings.py)
+# ─────────────────────────────────────────────────────────────────────
+cross_version_constants:
+
+  - name: DIRECT_RETURN_WEIGHT
+    value: 3.0
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+    rationale: |
+      Huber dominance regularizes against TwoHot temporal memorization.
+      DRW=1.0 caused ShIC decline; DRW=3.0 = stable ShIC=0.030 (Feb 2026).
+      V3/V4/V6 had stale DRW=3.0 (correct) at 2026-03-17 audit; this guard
+      prevents future drift.
+
+  - name: WM_BATCH_SIZE
+    value: 32
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+    rationale: "Larger batches accelerate memorization (confirmed batch=128 experiment)."
+
+  - name: BIN_MIN
+    value: -1.0
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+    rationale: "[-5,5] creates wrong bins for raw returns; [-1,1] is correct."
+
+  - name: BIN_MAX
+    value: 1.0
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+
+  - name: NUM_BINS
+    value: 255
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+    rationale: "Schema compatibility with all checkpoints."
+
+  - name: TWOHOT_FOCAL_GAMMA
+    value: 0.0
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+    rationale: "Focal upweights temporally-clustered tails = memorization."
+
+  - name: WM_STEPS_PER_EPOCH
+    value: 2000
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+    rationale: |
+      <2000 causes ShIC checks to fire before model learns (confirmed V3/V6).
+      V3/V4/V6 had stale 300 from initial creation; caught by 2026-03-17 audit.
+
+  - name: DIVERSITY_STEPS_PER_EPOCH
+    value: 2000
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+
+  - name: REC_LOG_VAR_CLAMP_MIN
+    value: 0.5
+    files: ["src/wm/v1/v1_*_training/settings.py", "src/wm/v3/v3_training/settings.py",
+            "src/wm/v4/v4_training/settings.py", "src/wm/v8/v8_training/settings.py",
+            "src/wm/v9/v9_training/settings.py"]
+    severity: critical
+    rationale: "Pattern Q fix: reconstruction max weight reduced 1.0x -> 0.61x."
+
+  # Added 2026-05-16 per WM_VERSION_VERDICTS — close the drift surface
+  # the wm_audit_crawler is checking against `src/wm/_shared/invariants.py`.
+
+  - name: target_prefix
+    value: target_return
+    files: ["src/wm/v*/v*_training/settings.py"]
+    severity: critical
+    rationale: |
+      Voladj targets create vol shortcut (V1.0 OOS: voladj IC=0.10 but
+      raw IC=0.017). Mandate raw returns everywhere.
+    # NOTE: ACTIVE_HORIZONS=[1,4,16,64] is also a canonical invariant per
+    # CLAUDE.md but the current cross_version_constants regex doesn't
+    # handle list literals. Verified via grep at 2026-05-16: all 19
+    # settings.py have `ACTIVE_HORIZONS = [1, 4, 16, 64]`. Add a
+    # list-aware checker when the next list-typed invariant ships.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Walk-forward invariants
+# ─────────────────────────────────────────────────────────────────────
+walk_forward:
+
+  - name: purge_gap_present
+    pattern: "purge_gap.*=.*[0-9]+|PURGE_GAP|_PURGE_DAYS"
+    files: ["src/anti_fragile.py", "src/strategy/ml/training_data_extractor.py",
+            "src/analysis/walk_forward.py"]
+    must_match: true
+    severity: critical
+    rationale: "G-AUDIT-002: purge gap = 0 caused leakage in xsec ranker."
+
+  - name: split_four_way_used
+    pattern: "split_four_way"
+    files: ["src/wm/v*/v*_training/train_world_model.py"]
+    must_match: true
+    severity: warn
+    rationale: "50/20/20/10 split with purge gaps; deviation requires explicit justification."
+
+
+# ─────────────────────────────────────────────────────────────────────
+# train_world_model.py invariants (per CLAUDE.md cross-version table)
+# Scoped to ACTIVE BASELINE trainers only. Excludes:
+#   - V1.0 (legacy INPUT_DIM convention; predates n_features convention)
+#   - V*.1/V*.2/V*.3 variants (archived experiments)
+#   - V2/V5/V7 (ARCHIVED per CLAUDE.md)
+# ─────────────────────────────────────────────────────────────────────
+train_world_model:
+
+  - name: strict_false_on_load
+    pattern: "load_state_dict\\([^)]*strict\\s*=\\s*False"
+    files:
+      - "src/wm/v1/v1_0_training/train_world_model.py"
+      - "src/wm/v1/v1_1_training/train_world_model.py"
+      - "src/wm/v1/v1_4_training/train_world_model.py"
+      - "src/wm/v1/v1_6_training/train_world_model.py"
+      - "src/wm/v3/v3_training/train_world_model.py"
+      - "src/wm/v3/v3_1_training/train_world_model.py"
+      - "src/wm/v3/v3_2_training/train_world_model.py"
+      - "src/wm/v3/v3_3_training/train_world_model.py"
+      - "src/wm/v4/v4_training/train_world_model.py"
+      - "src/wm/v4/v4_1_training/train_world_model.py"
+      - "src/wm/v4/v4_2_training/train_world_model.py"
+      - "src/wm/v4/v4_3_training/train_world_model.py"
+      - "src/wm/v6/v6_training/train_world_model.py"
+      - "src/wm/v6/v6_1_training/train_world_model.py"
+      - "src/wm/v6/v6_2_training/train_world_model.py"
+      - "src/wm/v6/v6_3_training/train_world_model.py"
+      - "src/wm/v8/v8_training/train_world_model.py"
+      - "src/wm/v8/v8_1_training/train_world_model.py"
+      - "src/wm/v8/v8_2_training/train_world_model.py"
+      - "src/wm/v8/v8_3_training/train_world_model.py"
+      - "src/wm/v9/v9_training/train_world_model.py"
+      - "src/wm/v11/v11_training/train_world_model.py"
+      - "src/wm/v12/v12_training/train_world_model.py"
+      - "src/wm/v13/v13_training/train_world_model.py"
+      - "src/wm/v14/v14_training/train_world_model.py"
+      - "src/wm/v22/v22_training/train_world_model.py"
+      - "src/wm/v23/v23_training/train_world_model.py"
+      - "src/wm/v24/v24_training/train_world_model.py"
+      - "src/wm/v25/v25_training/train_world_model.py"
+      - "src/wm/v19/v19_training/train_world_model.py"
+      # v8/v8_1, v8/v8_2, v8/v8_3 EXCLUDED: these variant trainers call
+      # load_state_dict WITHOUT strict=False (confirmed 2026-05-24). They
+      # must be fixed separately before being added to this list.
+    must_match: true
+    severity: warn
+    rationale: "Schema compatibility when architecture changes (CLAUDE.md invariant)."
+
+  - name: shic_decline_count_persisted
+    pattern: "shic_decline_count"
+    files:
+      - "src/wm/v1/v1_0_training/train_world_model.py"
+      - "src/wm/v1/v1_1_training/train_world_model.py"
+      - "src/wm/v1/v1_4_training/train_world_model.py"
+      - "src/wm/v1/v1_6_training/train_world_model.py"
+      - "src/wm/v3/v3_training/train_world_model.py"
+      - "src/wm/v3/v3_1_training/train_world_model.py"
+      - "src/wm/v3/v3_2_training/train_world_model.py"
+      - "src/wm/v3/v3_3_training/train_world_model.py"
+      - "src/wm/v4/v4_training/train_world_model.py"
+      - "src/wm/v4/v4_1_training/train_world_model.py"
+      - "src/wm/v4/v4_2_training/train_world_model.py"
+      - "src/wm/v4/v4_3_training/train_world_model.py"
+      - "src/wm/v6/v6_training/train_world_model.py"
+      - "src/wm/v6/v6_1_training/train_world_model.py"
+      - "src/wm/v6/v6_2_training/train_world_model.py"
+      - "src/wm/v6/v6_3_training/train_world_model.py"
+      - "src/wm/v8/v8_training/train_world_model.py"
+      - "src/wm/v8/v8_1_training/train_world_model.py"
+      - "src/wm/v8/v8_2_training/train_world_model.py"
+      - "src/wm/v8/v8_3_training/train_world_model.py"
+      - "src/wm/v9/v9_training/train_world_model.py"
+      - "src/wm/v11/v11_training/train_world_model.py"
+      - "src/wm/v12/v12_training/train_world_model.py"
+      - "src/wm/v13/v13_training/train_world_model.py"
+      - "src/wm/v14/v14_training/train_world_model.py"
+      - "src/wm/v22/v22_training/train_world_model.py"
+      - "src/wm/v23/v23_training/train_world_model.py"
+      - "src/wm/v24/v24_training/train_world_model.py"
+      - "src/wm/v25/v25_training/train_world_model.py"
+    must_match: true
+    severity: warn
+    rationale: "Without it, restarts reset counter = infinite ShIC declines."
+
+  - name: n_features_in_checkpoint
+    pattern: "n_features"
+    files:
+      - "src/wm/v1/v1_0_training/train_world_model.py"
+      - "src/wm/v1/v1_1_training/train_world_model.py"
+      - "src/wm/v1/v1_4_training/train_world_model.py"
+      - "src/wm/v1/v1_6_training/train_world_model.py"
+      - "src/wm/v3/v3_training/train_world_model.py"
+      - "src/wm/v3/v3_1_training/train_world_model.py"
+      - "src/wm/v3/v3_2_training/train_world_model.py"
+      - "src/wm/v3/v3_3_training/train_world_model.py"
+      - "src/wm/v4/v4_training/train_world_model.py"
+      - "src/wm/v4/v4_1_training/train_world_model.py"
+      - "src/wm/v4/v4_2_training/train_world_model.py"
+      - "src/wm/v4/v4_3_training/train_world_model.py"
+      - "src/wm/v6/v6_training/train_world_model.py"
+      - "src/wm/v6/v6_1_training/train_world_model.py"
+      - "src/wm/v6/v6_2_training/train_world_model.py"
+      - "src/wm/v6/v6_3_training/train_world_model.py"
+      - "src/wm/v8/v8_training/train_world_model.py"
+      - "src/wm/v8/v8_1_training/train_world_model.py"
+      - "src/wm/v8/v8_2_training/train_world_model.py"
+      - "src/wm/v8/v8_3_training/train_world_model.py"
+      - "src/wm/v9/v9_training/train_world_model.py"
+      - "src/wm/v11/v11_training/train_world_model.py"
+      - "src/wm/v12/v12_training/train_world_model.py"
+      - "src/wm/v13/v13_training/train_world_model.py"
+      - "src/wm/v14/v14_training/train_world_model.py"
+      - "src/wm/v22/v22_training/train_world_model.py"
+      - "src/wm/v23/v23_training/train_world_model.py"
+      - "src/wm/v24/v24_training/train_world_model.py"
+      - "src/wm/v25/v25_training/train_world_model.py"
+    must_match: true
+    severity: warn
+    rationale: "Collision guard depends on it (prevents loading f13 ckpt for f37 model)."
+
+  - name: adamw_betas_canonical
+    pattern: "betas\\s*=\\s*\\(\\s*0\\.9\\s*,\\s*0\\.95\\s*\\)"
+    files:
+      - "src/wm/v1/v1_*_training/train_world_model.py"
+      - "src/wm/v3/v3_training/train_world_model.py"
+      - "src/wm/v4/v4_training/train_world_model.py"
+      - "src/wm/v6/v6_training/train_world_model.py"
+      - "src/wm/v8/v8_training/train_world_model.py"
+      - "src/wm/v11/v11_training/train_world_model.py"
+      - "src/wm/v12/v12_training/train_world_model.py"
+      - "src/wm/v13/v13_training/train_world_model.py"
+      - "src/wm/v14/v14_training/train_world_model.py"
+      - "src/wm/v22/v22_training/train_world_model.py"
+      - "src/wm/v23/v23_training/train_world_model.py"
+      - "src/wm/v24/v24_training/train_world_model.py"
+      - "src/wm/v25/v25_training/train_world_model.py"
+      - "src/wm/v22/v22_training/train_world_model.py"
+      - "src/wm/v23/v23_training/train_world_model.py"
+      - "src/wm/v24/v24_training/train_world_model.py"
+      - "src/wm/v25/v25_training/train_world_model.py"
+    must_match: true
+    severity: warn
+    rationale: |
+      LLaMA/Chinchilla convention. PyTorch's default beta2=0.999 biases
+      against learning from recent large gradients. 2026-05-16: was missing
+      from V11-V14 + V22-V25 (8 versions); fixed in same commit as this rule.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Cost model invariants
+# ─────────────────────────────────────────────────────────────────────
+cost_model:
+
+  - name: p_fill_default_is_optimistic
+    pattern: "p_fill.*=.*0\\.80|p_fill_default.*0\\.80"
+    files: ["src/strategy/cost_model.py", "src/analysis/execution_sim.py"]
+    must_be_documented_as: "OPTIMISTIC; real measured 0.20-0.40 per maker_cost_calibration.yaml"
+    severity: warn
+    rationale: "OHLC replay calibration 2026-04-22 found real p_fill 20-40%."
+
+  - name: spot_round_trip_cost
+    expected_value: "0.0024"  # 0.24% RT taker
+    pattern: "SPOT_COST.*0\\.0024|round_trip.*0\\.0024"
+    files: ["src/strategy/cost_model.py"]
+    severity: warn
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Simulator invariants (post-MtM-bug-fix 2026-04-22)
+# ─────────────────────────────────────────────────────────────────────
+simulator:
+
+  - name: mtm_only_no_double_count
+    # Single-line match (checker iterates lines; comments stripped).
+    # Forbidden code patterns:
+    #   pnl_bar += ret_from_entry           (original bug)
+    #   pnl_bar += w * ret_from_entry        (with weight)
+    #   pnl_bar = pnl_bar + ret_from_entry   (alt form)
+    pattern_must_not_contain: "pnl_bar\\s*\\+=.*ret_from_entry|pnl_bar\\s*=\\s*pnl_bar\\s*\\+.*ret_from_entry"
+    # 2026-06-05 re-point: the original 3 src/analysis simulators were ARCHIVED in the 2026-06-04 reset, leaving
+    # this CRITICAL guard pointing at deleted files (silent no-op). Re-pointed to the LIVE simulation dirs so the
+    # antipattern is caught ANYWHERE it might be reintroduced (verified: no live file currently contains it).
+    # The live harness uses different accounting (no pnl_bar); its MtM correctness is additionally covered by the
+    # apparatus gate (src/audit/check_strat_apparatus.py, Layer 9) + the reconciliation probe below.
+    files: ["src/wealth_bot/**/*.py", "src/strat/**/*.py"]
+    severity: critical
+    rationale: |
+      MtM double-count fix 2026-04-22. Adding ret_from_entry to pnl_bar
+      double-counts MtM since intermediate bars already paid in. Equity
+      inflation 5-7x. NEVER reintroduce -- now scanned across the live sim dirs.
+
+  - name: reconciliation_probe_present
+    files: ["scripts/probe_simulator_fix.py"]
+    must_exist: true
+    severity: warn
+    rationale: "Every new simulator must include reconciliation probe."
+
+  - name: chimera_v51_spawn_no_recursion
+    # The child must invoke with --workers 1 (sequential path). Any other
+    # value re-enters the parallel branch and recursively spawns -> Windows
+    # segfault (exit=0xC0000005) and exit=0 noops, producing zero output.
+    pattern_must_not_contain: '"--workers"\s*,\s*"(?!1")[2-9][0-9]*"'
+    files: ["src/pipeline/make_dataset.py"]
+    severity: critical
+    rationale: |
+      2026-04-28 bug: child spawn hardcoded "--workers 12" caused infinite
+      recursion. Symptom: stale manifests mis-tagged "OK", actual chimera
+      build output: 0 new files. Fixed; this invariant prevents reintroduction.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Leakage invariants
+# ─────────────────────────────────────────────────────────────────────
+leakage:
+
+  - name: feature_registry_no_catalog_schema_collision
+    pattern_must_not_contain: '^prefix_families:|^meta:\s*$'
+    files: ["config/feature_registry.yaml"]
+    severity: critical
+    rationale: |
+      Schema-collision guard (added 2026-05-20).
+      `prefix_families:` and top-level `meta:` are markers of the metadata
+      catalog schema (config/feature_catalog.yaml). If they appear in the
+      pipeline-spec YAML, c59c4e7 has happened again: an auto-builder has
+      overwritten the registry. Recovery: restore from git, ensure
+      scripts/audit/build_feature_registry.py writes to feature_catalog.yaml.
+
+  - name: live_sleeve_no_forward_return_in_selection
+    # Selection-time look-ahead detector for LIVE-DEPLOY code only.
+    # The 2026-05-20 audit found 5 analysis scripts with this bug;
+    # those are marked DEPRECATED in their docstrings (sentinels).
+    # This rule polices LIVE sleeves (src/strategy/sleeves/*) where
+    # look-ahead would propagate to actual deployment.
+    pattern_must_not_contain: '\.sort_values\("ret_E_14d"|\.sort_values\("ret_fwd_|\.nlargest\(\s*\d+\s*,\s*"ret_E_14d"|\.nlargest\(\s*\d+\s*,\s*"ret_fwd_|=\s*np\.where\([^)]*ret_E_14d|=\s*today_fires\["ret_E_14d"\]|\["asym_ret"\]\s*=.*ret_E_14d'
+    files:
+      - "src/strategy/sleeves/smart_discovery_17_sleeve.py"
+    severity: critical
+    rationale: |
+      Selection-time look-ahead bug (root cause of 2026-05-20 V2 inflation:
+      claimed +468% OOS was actually +33% honest). When K-selection sorts
+      today's fires by ret_E_14d (the 14-day forward return), the
+      simulator is using perfect foresight to pick winners. This is
+      mathematically wrong for any deploy claim.
+
+      Catches BOTH direct-sort AND derived-column patterns.
+
+      SCOPE: applies to LIVE sleeves in src/strategy/sleeves/ that drive
+      actual deployment. Analysis scripts in scripts/audit/ are
+      EXEMPTED -- they intentionally use forward returns for best-K
+      upper-bound computation (with explicit DEPRECATED/SENTINEL
+      notes). Audit scripts with this pattern (full list):
+        scripts/audit/improve_metrics_v2.py        (DEPRECATED sentinel)
+        scripts/audit/proper_portfolio_simulator.py (DEPRECATED sentinel)
+        scripts/audit/dynamic_rolling_evolution.py  (DEPRECATED sentinel)
+        scripts/audit/run_n1_n3_setup_validation.py (DEPRECATED sentinel)
+        scripts/audit/subset_engines_analysis.py    (DEPRECATED sentinel)
+        scripts/audit/oos_replay_14_setups.py       (uses ret_E_14d in
+          asym_ret pattern; documented as best-K-upper-bound)
+        scripts/audit/honest_v2_simulator.py        (intentionally has
+          best-K mode AS WELL AS signal-K honest mode; report both)
+
+      Legal selection signals for LIVE deploy: indicator strength,
+      signal-magnitude, cross-asset rank computed AT entry, ML-ranker
+      output trained on past-only features.
+
+      Memory: [[red-team-failure-diagnostic-2026-05-20]],
+              [[feedback-honesty-no-inflation]]
+
+  # Disabled (too noisy via regex; real detection requires AST analysis).
+  # The G-AUDIT-011 BOCPD bug was caught manually; permanent fix is to
+  # use sklearn TimeSeriesSplit or rolling.std() instead of full-series .std().
+  # Any future BOCPD-class diff MUST be reviewed by an expert agent.
+  # - name: no_full_history_standardization
+  #   pattern_must_not_contain: "..."
+  #   files: ["src/frontier/features/*.py", "src/pipeline/*.py"]
+  #   severity: warn
+  #   rationale: "G-AUDIT-011: BOCPD used full-history std() = look-ahead leakage."
+
+  - name: no_inline_gitignore_comments
+    # Match: a non-comment line that has [SP|TAB] + # later on the SAME line.
+    # Use horizontal-whitespace only ([ \t]+) — \s also matches \n which would
+    # span across lines and false-positive on consecutive comment paragraphs.
+    pattern_must_not_contain: "^[A-Za-z0-9_*/.\\\\-][A-Za-z0-9_*/.\\\\-]*[ \\t]+#"
+    files: [".gitignore"]
+    severity: critical
+    rationale: |
+      G-PIPE-005: inline comments after pattern broke `data/processed/` rule.
+      Git doesn't support inline comments in .gitignore.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# DAG / pipeline ordering invariants
+# ─────────────────────────────────────────────────────────────────────
+dag:
+
+  - name: chimera_legacy_runs_after_fetch_only
+    rule: "chimera_legacy.depends_on == ['fetch_binance']"
+    file: "src/pipeline/run_pipeline.py"
+    severity: critical
+    rationale: |
+      chimera_legacy must NOT depend on hawkes/panels/frontier — adding
+      such a dep would re-introduce the model-training-blocked-by-hawkes
+      delay (fixed 2026-04-28).
+
+  - name: chimera_v51_depends_on_v50_and_frontier
+    rule: "chimera_v51.depends_on contains chimera_legacy AND frontier_consolidate"
+    file: "src/pipeline/run_pipeline.py"
+    severity: critical
+
+  - name: parse_tiers_chimera_legacy_position
+    rule: "parse_tiers('all') has chimera_legacy at index 1 (right after fetch_binance)"
+    file: "src/pipeline/run_pipeline.py"
+    severity: warn
+
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Universe yamls: liquidity_tier coverage
+# Every asset spec in u50/u100 must carry a measured liquidity_tier.
+# (u10 is also patched but is small enough that drift is obvious.)
+# ─────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────
+# run_pipeline.py orchestrator: every multi-asset child stage must
+# thread --universe through. Catches the regression class where the
+# child script accepts --universe but the parent forgets to pass it.
+# ─────────────────────────────────────────────────────────────────────
+run_pipeline_cmds:
+
+  # Each pattern uses inline (?s) so '.' matches newlines — cmd lists are
+  # multi-line in run_pipeline.py. Bounded to .{0,400} to scope to the
+  # script's own cmd block (not stray --universe mentions elsewhere).
+  - name: fetch_threads_universe
+    pattern: '(?s)fetch_all\.py.{0,400}--universe'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+    rationale: |
+      Provenance: 2026-04-29 dry-run audit caught fetch_binance dropping
+      --universe at the orchestrator layer. fetch_all.py accepts --universe
+      but run_pipeline didn't thread it -> "--universe u50 --tiers all"
+      would download EVERY discovered asset under data/raw/, not just
+      u50's 48. Same B5 / G-PIPE bug class as chimera_legacy + frontier
+      (commit 8f14433).
+
+  - name: chimera_legacy_threads_universe
+    pattern: '(?s)make_dataset_legacy\.py.{0,400}--universe'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+    rationale: |
+      Provenance: 2026-04-29 user ran end-to-end pipeline at u50;
+      chimera_legacy iterated 104 raw-discovered assets instead of 48
+      u50 assets because the cmd list omitted --universe. Burned ~70min
+      compute on out-of-scope assets. Same B5 pattern as build_panels
+      (fixed earlier in commit 03656e9).
+
+  - name: build_panels_threads_universe
+    pattern: '(?s)build_panels\.py.{0,400}--universe'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: hawkes_threads_universe
+    pattern: '(?s)hawkes_branching_ratio\.py.{0,400}--universe'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: frontier_threads_universe
+    pattern: '(?s)frontier_consolidator\.py.{0,400}--universe'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: chimera_v51_threads_universe
+    pattern: '(?s)make_dataset\.py.{0,400}--universe'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  # --force threading: orchestrator must propagate --force to every child
+  # cmd so that `run_pipeline.py --force` truly forces a fresh rebuild
+  # across all stages (delete prior dated snapshots before rebuild).
+  # Provenance: 2026-04-29 user request — without uniform --force, a stale
+  # u10 snapshot can survive a u50 rebuild and silently re-poison strategy
+  # backtests. Each child script defines --force semantics (delete-prior
+  # for chimera/panels/frontier/bars, alias for fetch).
+  - name: fetch_threads_force
+    pattern: '(?s)fetch_all\.py.{0,500}--force'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: bar_fabric_threads_force
+    pattern: '(?s)build_bars\.py.{0,500}--force'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: build_panels_threads_force
+    pattern: '(?s)build_panels\.py.{0,500}--force'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: hawkes_threads_force
+    pattern: '(?s)hawkes_branching_ratio\.py.{0,500}--force'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: frontier_threads_force
+    pattern: '(?s)frontier_consolidator\.py.{0,500}--force'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: chimera_legacy_threads_force
+    pattern: '(?s)make_dataset_legacy\.py.{0,500}--force'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  - name: chimera_v51_threads_force
+    pattern: '(?s)make_dataset\.py.{0,500}--force'
+    files: ["src/pipeline/run_pipeline.py"]
+    must_match: true
+    severity: critical
+
+  # Panel-builder skip-existing globs MUST point at the CANONICAL panel
+  # output, not auxiliary per-asset files. Provenance: 2026-04-29 top_trader
+  # crashed FileNotFoundError on s3_metrics_panel.parquet because the s3
+  # skip-existing glob `s3_*.parquet` matched per-asset
+  # `s3_metrics_daily_<SYM>.parquet` files and the s3 stage was silently
+  # skipped, leaving the consolidated panel unbuilt.
+  - name: build_panels_glob_canonical_s3
+    pattern: 's3_metrics_panel\.parquet'
+    files: ["src/pipeline/build_panels.py"]
+    must_match: true
+    severity: critical
+
+  - name: build_panels_glob_canonical_whale
+    pattern: 'whale_activity_daily\.parquet'
+    files: ["src/pipeline/build_panels.py"]
+    must_match: true
+    severity: critical
+
+  - name: build_panels_glob_canonical_liq
+    pattern: 'liq_daily_approx\.parquet'
+    files: ["src/pipeline/build_panels.py"]
+    must_match: true
+    severity: critical
+
+  - name: build_panels_glob_canonical_top_trader
+    pattern: 's3_features_long\.parquet'
+    files: ["src/pipeline/build_panels.py"]
+    must_match: true
+    severity: critical
+
+
+# ─────────────────────────────────────────────────────────────────────
+# @browser directive must exist (top-of-CLAUDE.md gate)
+# ─────────────────────────────────────────────────────────────────────
+browser_directive:
+
+  - name: directive_doc_present
+    pattern: "^# @browser"
+    files: ["docs/BROWSER_DIRECTIVE.md"]
+    must_match: true
+    severity: critical
+    rationale: |
+      docs/BROWSER_DIRECTIVE.md is the load-bearing gate that binds the
+      assistant to continuity / solutioning / character rules across every
+      prompt (the @browser tag injected by UserPromptSubmit hook). Removing
+      it strips ~10 silent-failure-prevention rules. Each rule has bug
+      provenance; do not delete without supersession.
+
+  - name: claude_md_cites_directive
+    pattern: "BROWSER_DIRECTIVE.md"
+    files: ["CLAUDE.md"]
+    must_match: true
+    severity: critical
+    rationale: "CLAUDE.md must cite the directive in its top-of-file gate so cold-start instances load it first."
+
+  - name: b11_external_research_rule_present
+    pattern: "B11"
+    files: ["docs/BROWSER_DIRECTIVE.md"]
+    must_match: true
+    severity: critical
+    rationale: |
+      B11 binds @browser to the external-research mandate (WebSearch /
+      WebFetch on factual claims about external state). Removing it lets
+      stale-knowledge silent failures slip through. Composes with /un's
+      Mandatory External Research rule.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Universe yamls: liquidity_tier coverage
+# Every asset spec in u50/u100 must carry a measured liquidity_tier.
+# (u10 is also patched but is small enough that drift is obvious.)
+# ─────────────────────────────────────────────────────────────────────
+universe_yamls:
+
+  - name: liquidity_tier_present_u50
+    pattern: "liquidity_tier"
+    files: ["config/universes/u50.yaml"]
+    must_match: true
+    severity: warn
+    rationale: |
+      Every u50 asset should carry a measured liquidity_tier from the
+      screener (scripts/screen_universe_by_liquidity.py +
+      scripts/apply_liquidity_tiers.py). Missing tier = un-classified
+      asset, sized off legacy pos_cap with no liquidity adjustment.
+
+  - name: liquidity_tier_present_u100
+    pattern: "liquidity_tier"
+    files: ["config/universes/u100.yaml"]
+    must_match: true
+    severity: warn
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Multi-asset pipeline scripts must accept --universe
+# ─────────────────────────────────────────────────────────────────────
+cli_universe_support:
+  required_flags: ["--universe"]
+  files:
+    - "src/pipeline/fetch_all.py"
+    - "src/pipeline/build_bars.py"
+    - "src/pipeline/frontier_consolidator.py"
+    - "src/pipeline/make_dataset.py"
+    - "src/pipeline/make_dataset_legacy.py"
+    - "src/pipeline/add_xrel_features.py"
+    - "src/pipeline/features/hawkes_branching_ratio.py"
+    - "src/pipeline/features/realized_volatility.py"
+    - "src/pipeline/features/transfer_entropy_panel.py"
+    - "src/pipeline/features/basis_signals.py"
+    - "src/pipeline/features/multi_venue_features.py"
+    - "src/pipeline/features/lob_proxy_panel.py"
+    - "src/pipeline/features/lob_proxy_daily.py"
+    - "src/pipeline/features/liq_features.py"
+    - "src/pipeline/ingest/whale_activity.py"
+    - "src/pipeline/ingest/liquidations_approx.py"
+    - "src/pipeline/bars/dib_bars_fast.py"
+    - "src/pipeline/bars/range_bars_fast.py"
+    - "src/pipeline/bars/runs_bars.py"
+    - "src/pipeline/bars/adaptive_vol_bars.py"
+    - "scripts/audit/build_asset_own_regime_panel.py"
+  exclude_files:
+    # Universe-agnostic by design
+    - "src/pipeline/build_panels.py"
+    - "src/pipeline/pre_train_gate.py"
+    - "src/pipeline/gc_snapshots.py"
+    - "src/pipeline/coverage_report.py"
+  severity: warn
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Layer-isolation: strategy + model code should consume data via the
+# canonical loaders (ChimeraLoader, cadence_loader), NOT via direct
+# pl.read_parquet on chimera or panel paths. Direct reads bypass the
+# v51-vs-v50 selection logic, the cadence resolution, and the data_api
+# contract -- silent breaks when pipeline schema evolves.
+#
+# Provenance: 2026-04-29 architecture audit. Today's session caught the
+# te_panel asset-format bug (silent 100% NaN) precisely because strategies
+# read panels by hand and don't validate schema. Today's fix tightens the
+# producer side; this rule tightens the consumer side.
+#
+# Status: WARN-level until migration sweep is complete. Strategy modules
+# under src/strategy/gen4_frontier_alpha/ have ~25 direct reads to migrate
+# (one canary -- te_flow_tilt -- proves the pattern in this commit).
+# ─────────────────────────────────────────────────────────────────────
+layer_isolation:
+
+  - name: strategy_no_direct_chimera_read
+    pattern_must_not_contain: 'pl\.read_parquet.*chimera'
+    files:
+      - "src/strategy/gen4_frontier_alpha/*.py"
+      - "src/strategy/gen3_engine_stack/*.py"
+      - "src/strategy/gen5_growth/**/*.py"
+    severity: critical
+    rationale: "Strategy code should read chimera via ChimeraLoader / data_api, not direct pl.read_parquet."
+
+  - name: strategy_no_direct_panel_read
+    pattern_must_not_contain: 'pl\.read_parquet.*panels/daily'
+    files:
+      - "src/strategy/gen4_frontier_alpha/*.py"
+      - "src/strategy/gen3_engine_stack/*.py"
+    severity: critical
+
+  - name: model_no_direct_chimera_read
+    pattern_must_not_contain: 'pl\.read_parquet.*chimera'
+    files:
+      - "src/wm/v0/v0_baseline/*.py"
+      - "src/wm/v1/v1_*_training/*.py"
+      - "src/wm/v3/v3*_training/*.py"
+      - "src/wm/v4/v4*_training/*.py"
+      - "src/wm/v6/v6*_training/*.py"
+      - "src/wm/v8/v8*_training/*.py"
+      - "src/wm/v9/v9*_training/*.py"
+      - "src/wm/v11/v11_training/*.py"
+      - "src/wm/v12/v12_training/*.py"
+      - "src/wm/v13/v13_training/*.py"
+      - "src/wm/v14/v14_training/*.py"
+    severity: critical
+    rationale: "WM training scripts must load via data_api.load_full_data_for_training. Direct pl.read_parquet of chimera files bypasses cadence resolution + gate hooks."
+
+  - name: model_no_direct_anti_fragile_load_full_data
+    pattern_must_not_contain: 'from anti_fragile import.*load_full_data'
+    files:
+      - "src/wm/v1/v1_*_training/train_world_model.py"
+      - "src/wm/v3/v3*_training/train_world_model.py"
+      - "src/wm/v4/v4*_training/train_world_model.py"
+      - "src/wm/v6/v6*_training/train_world_model.py"
+      - "src/wm/v8/v8*_training/train_world_model.py"
+      - "src/wm/v9/v9*_training/train_world_model.py"
+      - "src/wm/v11/v11_training/train_world_model.py"
+      - "src/wm/v12/v12_training/train_world_model.py"
+      - "src/wm/v13/v13_training/train_world_model.py"
+      - "src/wm/v14/v14_training/train_world_model.py"
+      - "src/wm/v22/v22_training/train_world_model.py"
+      - "src/wm/v23/v23_training/train_world_model.py"
+      - "src/wm/v24/v24_training/train_world_model.py"
+      - "src/wm/v25/v25_training/train_world_model.py"
+    severity: critical
+    rationale: |
+      Phase D.10 (2026-04-29): WM trainers route load_full_data through
+      data_api so future pipeline schema changes touch one module instead
+      of 28. Any new version that imports load_full_data directly from
+      anti_fragile bypasses the contract; replace with
+      `from data_api import load_full_data_for_training as load_full_data`.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Required patterns (file MUST contain pattern). Phase B.6 uniform CLI.
+# ─────────────────────────────────────────────────────────────────────
+
+# ─────────────────────────────────────────────────────────────────────
+# No-tracked-binaries policy (informational; enforced by pre-commit hook)
+# Provenance: 2026-04-30 discovery of 119 GB historical chimera parquet
+# bloat in .git/objects/. The pre-commit hook
+# (src/audit/check_no_large_files.py) blocks future additions of files
+# > 5 MB or matching banned extensions. This block documents the policy
+# but is NOT yet machine-checked by check_invariants.py (the hook handles
+# enforcement at commit time).
+# ─────────────────────────────────────────────────────────────────────
+no_tracked_binaries_policy:
+  banned_extensions:
+    - ".parquet"
+    - ".pt"
+    - ".pth"
+    - ".pkl"
+    - ".pickle"
+    - ".bin"
+    - ".npy"
+    - ".npz"
+    - ".h5"
+    - ".hdf5"
+    - ".feather"
+    - ".arrow"
+    - ".mp4"
+    - ".avi"
+    - ".mov"
+    - ".webm"
+    - ".mkv"
+    - ".wav"
+    - ".mp3"
+    - ".ogg"
+  max_size_mb: 5
+  enforcement: "src/audit/check_no_large_files.py (pre-commit hook)"
+  bypass: "SKIP_LARGE_FILES_CHECK=1 git commit -m '...'"
+
+required_patterns:
+
+  - name: feature_registry_yaml_has_sources_key
+    pattern: '^sources:'
+    files: ["config/feature_registry.yaml"]
+    severity: critical
+    rationale: |
+      Pipeline-spec schema-lock (added 2026-05-20 after c59c4e7 regression).
+      src/pipeline/feature_registry.py::FeatureRegistry.load() reads
+      `data["sources"]` and `data["chimera_v51"]`. If this key is absent the
+      6 pipeline consumers (frontier_consolidator, validate_chimera,
+      make_dataset, data_health_check, pipeline_e2e_test,
+      transfer_entropy_panel) ALL fail with KeyError. Catches schema-drift
+      pre-commit instead of mid-rebuild. Companion: pattern_must_not_contain
+      `prefix_families:` (catalog-schema marker — those files belong in
+      config/feature_catalog.yaml).
+
+  - name: feature_registry_yaml_has_chimera_v51_key
+    pattern: '^chimera_v51:'
+    files: ["config/feature_registry.yaml"]
+    severity: critical
+    rationale: |
+      Pipeline-spec schema-lock. FeatureRegistry.load() reads
+      data["chimera_v51"] to construct ChimeraSpec(sources_to_join, ...).
+      Without this key, frontier_consolidator fails with KeyError.
+
+  - name: wm_trainer_features_flag
+    pattern: '"--features"'
+    files:
+      - "src/wm/v1/v1_*_training/train_world_model.py"
+      - "src/wm/v3/v3_training/train_world_model.py"
+      - "src/wm/v3/v3_1_training/train_world_model.py"
+      - "src/wm/v3/v3_2_training/train_world_model.py"
+      - "src/wm/v3/v3_3_training/train_world_model.py"
+      - "src/wm/v4/v4_training/train_world_model.py"
+      - "src/wm/v4/v4_1_training/train_world_model.py"
+      - "src/wm/v4/v4_2_training/train_world_model.py"
+      - "src/wm/v4/v4_3_training/train_world_model.py"
+      - "src/wm/v6/v6_training/train_world_model.py"
+      - "src/wm/v6/v6_1_training/train_world_model.py"
+      - "src/wm/v6/v6_2_training/train_world_model.py"
+      - "src/wm/v6/v6_3_training/train_world_model.py"
+      - "src/wm/v8/v8_training/train_world_model.py"
+      - "src/wm/v8/v8_1_training/train_world_model.py"
+      - "src/wm/v8/v8_2_training/train_world_model.py"
+      - "src/wm/v8/v8_3_training/train_world_model.py"
+      - "src/wm/v9/v9_training/train_world_model.py"
+      - "src/wm/v11/v11_training/train_world_model.py"
+      - "src/wm/v12/v12_training/train_world_model.py"
+      - "src/wm/v13/v13_training/train_world_model.py"
+      - "src/wm/v14/v14_training/train_world_model.py"
+      - "src/wm/v22/v22_training/train_world_model.py"
+      - "src/wm/v23/v23_training/train_world_model.py"
+      - "src/wm/v24/v24_training/train_world_model.py"
+      - "src/wm/v25/v25_training/train_world_model.py"
+    severity: critical
+    rationale: |
+      Phase B.6 (2026-04-29): every WM base trainer must accept --features
+      so run_all_training.py can pass `--features 13` uniformly. Adapter,
+      snapshot, NCL variants are exempt (they inherit from the base
+      checkpoint which already encodes the f-count).
+
+  - name: wm_smoke_test_present
+    pattern: 'def test_smoke_imports'
+    files:
+      - "tests/test_wm_smoke.py"
+    severity: critical
+    rationale: |
+      Phase B.4 + WM_FINDINGS_COMPLEMENT (2026-04-29): cross-version
+      invariant smoke test must exist. Asserts (per-version) that
+      WM_BATCH_SIZE=32, NUM_BINS=255, ACTIVE_HORIZONS=[1,4,16,64],
+      TWOHOT_FOCAL_GAMMA=0.0 are present in V1.0/V1.1/V1.4/V1.6
+      settings.py. Catches Phase-A-style migration breakage at
+      PR time, not after 4 GPU-hours. 5/5 PASS in <2s on CPU.
+
+  - name: wm_smoke_invariant_assertions
+    pattern: 'WM_BATCH_SIZE.*32|ACTIVE_HORIZONS.*1.*4.*16.*64|NUM_BINS.*255|TWOHOT_FOCAL_GAMMA.*0\.0'
+    files:
+      - "tests/test_wm_smoke.py"
+    severity: warn
+    rationale: |
+      Smoke test must continue to assert the cross-version invariants.
+      If anyone weakens the smoke (drops invariant checks), this rule
+      surfaces it. Pattern is permissive (any one of the four phrases
+      satisfies); the actual count is enforced by pytest itself.
+
+  - name: per_asset_profile_schema_lock
+    pattern: 'is_cousin_set_member|regime_tag'
+    files:
+      - "scripts/audit/build_per_asset_ma_ema_profile.py"
+      - "scripts/audit/honest_v2_per_asset.py"
+      - "scripts/audit/honest_v2_per_asset_oos.py"
+      - "scripts/audit/honest_v2_per_asset_union.py"
+      - "src/strategy/sleeves/per_asset_ma_ema_sleeve.py"
+    severity: critical
+    rationale: |
+      Per-asset MA/EMA architecture schema-lock (added 2026-05-20).
+
+      The per-asset profile parquet (data/processed/per_asset_ma_ema_profile.parquet)
+      MUST contain both `is_cousin_set_member` (bool, marks deploy-grade cells from
+      within-asset complementarity selection) and `regime_tag` (string, marks
+      regime-survival classification: ALL_WEATHER / BLOCK_OWN_CRASH / BLOCK_OWN_BEAR /
+      BULL_AND_CHOP / BULL_ONLY / REGIME_DEPENDENT / INSUFFICIENT_DATA).
+
+      The simulators that consume the profile MUST reference both fields. This rule
+      ensures the schema doesn't drift away from cousin-set selection + regime-tag
+      gating.
+
+      Empirical anchor (commit 2026-05-20): OOS validation on canonical window
+      2024-05-16 -> 2025-03-15 delivered +159.33% NAV / +215% annualized /
+      Sortino +4.18 / Max DD -19% with the patched architecture, 2.4x the
+      current shipped confluence-only sleeve baseline (+67.21%) on the same
+      OOS window. The schema integrity ensures this lift survives future edits.
+
+      Memory: [[claude-instance-state-2026-05-20-...]]
+      Profile: data/processed/per_asset_ma_ema_profile.parquet
+
+  - name: per_asset_ma_ema_sleeve_constraints
+    # Ensures the per-asset MA/EMA UNION sleeve enforces user-mandated
+    # small-account safety constraints (2026-05-20): K_MAX=8, per-asset cap=10%,
+    # total deploy cap=60% (40% cash buffer always), AND confirmation gate
+    # requires ≥2 qualifying cells per asset (added 2026-05-20 evening).
+    pattern: 'TOTAL_DEPLOY_CAP = 0\.60|TOTAL_DEPLOY_CAP=0\.60'
+    files:
+      - "src/strategy/sleeves/per_asset_ma_ema_sleeve.py"
+    severity: critical
+
+  - name: per_asset_ma_ema_confirmation_gate
+    # Confirmation gate empirically delivers +18.46pp NAV / +0.61 Sortino /
+    # -5pp DD on canonical OOS (FIX_VARIANTS_REPORT.md). Removing the gate
+    # reverts to the no-gate baseline (+72.94% instead of +91.40%).
+    pattern: 'CONFIRMATION_GATE_MIN'
+    files:
+      - "src/strategy/sleeves/per_asset_ma_ema_sleeve.py"
+    severity: critical
+    rationale: |
+      User-mandated 2026-05-20: "60% max portfolio allocation, and 10% max
+      allocation per asset". The 60% cap reserves a 40% cash buffer at all
+      times for small-account safety. Removing or relaxing this constant
+      breaks the safety contract.
+
+      The sleeve also enforces PER_ASSET_CAP = 0.10 and K_MAX = 8; combined,
+      these constraints produced the OOS profile of +44.50% / Sortino +2.10 /
+      DD -17.94% / mean deploy 55.3%.
+
+      Memory: [[user-mandate-60-10-K8-cash-buffer-2026-05-20]]
+
+  - name: audit_script_upper_bound_sentinel
+    pattern: 'UPPER_BOUND_NOT_DEPLOY_ESTIMATE'
+    files:
+      - "scripts/audit/test_smart_ma_discovery.py"
+      - "scripts/audit/test_exit_v2_atr_and_setup_toxicity.py"
+      - "scripts/audit/rsi_exhaust_with_multi_exit.py"
+    severity: critical
+    rationale: |
+      Sister rule to leakage::live_sleeve_no_forward_return_in_selection.
+
+      2026-05-20 oracle audit (docs/ORACLE_CORRECTIONS_2026_05_20.md) found
+      these three scripts emit a `nav_4pct` headline that is the arithmetic
+      sum of per-event PnLs x 4% notional sizing across THOUSANDS of events
+      over 11 months. Implied entry rate per day exceeds available NAV. The
+      number is a best-K-equivalent upper bound under the same disease class
+      as the 5 simulators deprecated in f60365d -- expressed via
+      capacity-free aggregation rather than forward-return-as-K-selector.
+
+      The JSON output field is now `nav_4pct_upper_bound_arithmetic` and a
+      UPPER_BOUND_NOT_DEPLOY_ESTIMATE block has been added to each file's
+      docstring. This rule guarantees that block remains.
+
+      For HONEST portfolio NAV: feed the per-event ledger through
+      honest_v2_simulator.simulate_honest with proper K_MAX / BET_FRACTION /
+      capital lockup, or use v3 paper_trade_replay (canonical truth).
+
+      RELATIVE comparisons within a script (setup-toxicity vs 7d-hold;
+      Fibonacci vs brute-force) remain VALID because both arms share the
+      same notional aggregator. The disease is in cross-script ABSOLUTE
+      magnitude claims.
+
+      Memory: [[red-team-failure-diagnostic-2026-05-20]],
+              [[feedback-honesty-no-inflation]]
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Multi-asset pipeline scripts must accept --force
+# Provenance: 2026-04-29 user request — `--force` must be a uniform
+# rebuild contract: every pipeline script either (a) deletes prior
+# dated snapshots before rebuild (chimera/panels/frontier/bars), or
+# (b) is aliased to its existing rebuild flag (fetch -> --recheck-missing).
+# Without uniform support, run_pipeline.py --force passes the flag to
+# children that silently ignore it -> stale snapshots survive a forced
+# rebuild and silently re-poison strategy backtests.
+# ─────────────────────────────────────────────────────────────────────
+cli_force_support:
+  required_flags: ["--force"]
+  files:
+    - "src/pipeline/fetch_all.py"
+    - "src/pipeline/build_bars.py"
+    - "src/pipeline/build_panels.py"
+    - "src/pipeline/frontier_consolidator.py"
+    - "src/pipeline/make_dataset.py"
+    - "src/pipeline/make_dataset_legacy.py"
+    - "src/pipeline/add_xrel_features.py"
+    - "src/pipeline/features/hawkes_branching_ratio.py"
+    - "src/pipeline/features/realized_volatility.py"
+    - "src/pipeline/features/transfer_entropy_panel.py"
+    - "src/pipeline/features/basis_signals.py"
+    - "src/pipeline/features/multi_venue_features.py"
+    - "src/pipeline/features/lob_proxy_panel.py"
+    - "src/pipeline/features/lob_proxy_daily.py"
+    - "src/pipeline/features/liq_features.py"
+    - "src/pipeline/ingest/whale_activity.py"
+    - "src/pipeline/ingest/liquidations_approx.py"
+    - "src/pipeline/bars/dib_bars_fast.py"
+    - "src/pipeline/bars/range_bars_fast.py"
+    - "src/pipeline/bars/runs_bars.py"
+    - "src/pipeline/bars/adaptive_vol_bars.py"
+    - "scripts/audit/build_asset_own_regime_panel.py"
+  exclude_files:
+    # Universe-agnostic / read-only
+    - "src/pipeline/pre_train_gate.py"
+    - "src/pipeline/gc_snapshots.py"
+    - "src/pipeline/coverage_report.py"
+  severity: warn
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Producer contract: every pipeline producer must accept --assets (plural)
+# for asset-batch input. Provenance: 2026-05-21 retrofit closing the gap
+# surfaced by stale-asset refresh runbook. Singular --asset / --symbol
+# is allowed as a deprecated alias but --assets MUST exist for batch ops.
+# ─────────────────────────────────────────────────────────────────────
+cli_assets_support:
+  required_flags: ["--assets"]
+  files:
+    - "src/pipeline/fetch_all.py"
+    - "src/pipeline/frontier_consolidator.py"
+    - "src/pipeline/make_dataset.py"
+    - "src/pipeline/make_dataset_legacy.py"
+    - "src/pipeline/add_xrel_features.py"
+    - "src/pipeline/features/hawkes_branching_ratio.py"
+    - "src/pipeline/features/realized_volatility.py"
+    - "src/pipeline/features/transfer_entropy_panel.py"
+    - "src/pipeline/features/basis_signals.py"
+    - "src/pipeline/features/multi_venue_features.py"
+    - "src/pipeline/features/lob_proxy_panel.py"
+    - "src/pipeline/features/lob_proxy_daily.py"
+    - "src/pipeline/features/liq_features.py"
+    - "src/pipeline/ingest/whale_activity.py"
+    - "src/pipeline/ingest/liquidations_approx.py"
+    - "src/pipeline/bars/dib_bars_fast.py"
+    - "src/pipeline/bars/range_bars_fast.py"
+    - "src/pipeline/bars/runs_bars.py"
+    - "src/pipeline/bars/adaptive_vol_bars.py"
+    - "scripts/audit/build_asset_own_regime_panel.py"
+  exclude_files:
+    - "src/pipeline/pre_train_gate.py"
+    - "src/pipeline/gc_snapshots.py"
+    - "src/pipeline/coverage_report.py"
+  severity: warn
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Multi-asset pipeline scripts must end with print_coverage_report
+# ─────────────────────────────────────────────────────────────────────
+cli_coverage_report:
+  required_pattern: "print_coverage_report|COVERAGE -- "
+  files:
+    - "src/pipeline/build_bars.py"
+    - "src/pipeline/build_panels.py"
+    - "src/pipeline/frontier_consolidator.py"
+    - "src/pipeline/make_dataset.py"
+    - "src/pipeline/features/hawkes_branching_ratio.py"
+  pending_files:
+    - "src/pipeline/make_dataset_legacy.py"
+  severity: warn
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Atomic-write contract for any silver/gold producer
+# ─────────────────────────────────────────────────────────────────────
+# Either the inline tmp+rename+verify pattern OR atomic_write_parquet()
+# from src/pipeline/parquet_io.py satisfies this contract.
+atomic_write:
+  required_patterns:
+    # Match either the framework call OR the inline-pattern triple.
+    - "atomic_write_parquet|\\.tmp\\.parquet"
+    - "atomic_write_parquet|rename|replace"
+    - "atomic_write_parquet|read_parquet_schema|verify_cols"
+  files:
+    - "src/pipeline/frontier_consolidator.py"
+    - "src/pipeline/make_dataset.py"
+    - "src/pipeline/make_dataset_legacy.py"
+    - "src/pipeline/features/hawkes_branching_ratio.py"
+    - "src/pipeline/features/transfer_entropy_panel.py"
+    - "src/pipeline/ingest/whale_activity.py"
+    - "src/pipeline/ingest/liquidations_approx.py"
+    - "src/pipeline/ingest/binance_s3_metrics.py"
+    - "src/pipeline/bars/dib_bars_fast.py"
+    - "src/pipeline/bars/range_bars_fast.py"
+    - "src/pipeline/bars/runs_bars.py"
+    - "src/pipeline/bars/adaptive_vol_bars.py"
+  severity: warn
+  rationale: "Atomic-tmp-rename + col-name verify; prefer framework atomic_write_parquet()."
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Framework usage (post-2026-05-01 unification)
+# ─────────────────────────────────────────────────────────────────────
+# Producers that handle multiple assets / write panels SHOULD prefer the
+# framework helpers in src/pipeline/{parquet_io,dispatch,cli}.py over
+# inline copies. This section lists migrated stages; new stages should
+# follow the same pattern. Detected by import string.
+framework_usage:
+  required_imports:
+    parquet_io: "from parquet_io import"
+    cli: "from cli import"
+  recommended_for:
+    - "src/pipeline/bars/*.py"
+    - "src/pipeline/ingest/*.py"
+    - "src/pipeline/features/hawkes_branching_ratio.py"
+    - "src/pipeline/features/transfer_entropy_panel.py"
+    - "src/pipeline/frontier_consolidator.py"
+  severity: info
+  rationale: "Single source of truth for atomic-write, dispatch, CLI surface."
+
+
+# ─────────────────────────────────────────────────────────────────────
+# No emoji in print statements (Windows cp1252 crash)
+# ─────────────────────────────────────────────────────────────────────
+windows_safety:
+
+  - name: no_emoji_in_python_prints
+    pattern_must_not_contain: "[✀-➿\U0001f300-\U0001f9ff]"
+    files: ["src/**/*.py"]
+    severity: warn
+    rationale: "Windows cp1252 crashes on emoji in print statements."
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Connector-integrity meta-crawler (2026-05-17). Runs the
+# connector_integrity_crawler.py with 5 axes catching:
+#   A1 data_source_canonical    -- trainer/strategy reads wrong-version data
+#                                 (e.g., anti_fragile v50 default before today)
+#   A2 cost_model_canonical     -- simulator missing calibrated cost model
+#   A3 constraint_propagation   -- LO/lev only enforced at blend, not sim
+#   A4 yaml_vs_v3_drift         -- yaml aggregate_metrics_* inflated vs v3
+#   A5 wm_trainer_coverage      -- new trainer ships w/o CDAP invariant coverage
+#
+# Provenance: paper_trade_replay_v3 audit 2026-05-17 found 5 connector gaps
+# that existing CDAP checkers missed (anti_fragile v50 default glob, V22-V25
+# not in invariant lists, yaml inflation 7.6x on 5 blends, sim-layer LO/lev
+# guards missing). User mandate: "crawlers too primitive to catch real errors".
+#
+# Severity mapping: A1/A2 axes block commit (critical); A3/A4/A5 warn.
+connector_integrity:
+  enabled: true
+  crawler: "src/audit/connector_integrity_crawler.py"
+  critical_axes: ["A1_DATA_SOURCE", "A2_COST_MODEL"]
+  warn_axes: ["A3_CONSTRAINT_PROP", "A4_YAML_VS_V3", "A5_WM_COVERAGE"]
+  timeout_seconds: 60
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Performance anti-patterns (2026-05-16). Runs the dedicated AST-based
+# crawler at src/audit/perf_anti_pattern_crawler.py and surfaces its
+# findings as CDAP categories. Born from the hawkes/lob_proxy/range_bars
+# hot-loop episode where 3 critical Python-loop-over-data bottlenecks
+# slipped past review for months. CRITICAL findings (A1 np.empty_like+for
+# / A2 iterrows-class) block commit; HIGH findings (A3 concat-in-loop)
+# warn; MEDIUM/LOW are tracked in the crawler's full report at
+# runs/audit/perf_anti_patterns_<DATE>.md but don't gate CDAP.
+# ─────────────────────────────────────────────────────────────────────
+perf_anti_patterns:
+  enabled: true
+  crawler: "src/audit/perf_anti_pattern_crawler.py"
+  # Scope: pipeline-layer producers (where data hot-loops bite hardest).
+  # Strategy + WM scans can be run on-demand via crawler CLI (--root).
+  scan_root: "src/pipeline"
+  # Crawler's exit codes drive CDAP severity mapping:
+  #   rc=2 (any CRITICAL)  -> CDAP critical (BLOCK COMMIT)
+  #   rc=1 (HIGH only)     -> CDAP warn (non-blocking)
+  #   rc=0 (clean/LOW only) -> CDAP info (silent unless --verbose)
+  critical_axes: ["A1_NP_EMPTY_LIKE_FOR", "A2_ITERROWS", "A2_APPLY_AXIS1",
+                    "A2_APPLYMAP"]
+  warn_axes: ["A3_CONCAT_IN_LOOP"]
+  # Timeout: crawler is AST-only, should finish in <5s on src/pipeline (66 files)
+  timeout_seconds: 30
+
+
+# ─────────────────────────────────────────────────────────────────────
+# G1 governance: lifecycle registry vs production_blends.yaml consistency
+# Per R32 B1.4 — warns if a blend in production_blends.yaml is in SUNSET
+# or ARCHIVED state in lifecycle_registry.yaml.
+# ─────────────────────────────────────────────────────────────────────
+lifecycle:
+  enabled: true
+  blends_yaml: "config/production_blends.yaml"
+  registry_yaml: "config/lifecycle_registry.yaml"
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Strat-layer invariants (added 2026-04-30 per docs/STRAT_REVIEW_SPEC §10)
+# ─────────────────────────────────────────────────────────────────────
+strat_layer_invariants:
+
+  cost_model_routing:
+    description: "All strategy backtests route fees through MakerCostModel, not hardcoded constants."
+    audit_script: "scripts/strat_audit/cost_audit.py"
+    severity: critical
+    rationale: "G-AUDIT-010 caught hardcoded fees in gen3+ engines; CC-S1 enforces."
+
+  p_fill_calibration:
+    description: "All deployed strategies pass p_fill explicitly (not default 0.80; calibrated 0.30)."
+    audit_script: "scripts/strat_audit/p_fill_audit.py"
+    severity: high
+    rationale: "Real live equity 50-75% of fixed-backtest if not calibrated (memory/simulator_bug_fix_2026_04_22.md)."
+
+  purge_gap_400:
+    description: "All walk-forward call sites use purge >= 400 bars OR inherit from AntifragileConfig."
+    audit_script: "scripts/strat_audit/purge_gap_audit.py"
+    severity: critical
+    rationale: "G-AUDIT-002 caught purge=0 in xsec ranker; AntifragileConfig.purge_gap_bars=400 is canonical default."
+
+  mtm_no_double_count:
+    description: "All simulators have reconciliation probe or 2026-04-22 fix citation."
+    audit_script: "scripts/strat_audit/mtm_regression_audit.py"
+    severity: critical
+    rationale: "MtM double-count fixed 2026-04-22; CDAP guard prevents regression."
+
+  causal_standardization:
+    description: "All standardization on signal-fn inputs is causal (rolling/expanding/ewm)."
+    audit_script: "scripts/strat_audit/lookahead_audit.py"
+    severity: high
+    rationale: "G-AUDIT-011 caught full-history z-score in BOCPD; v1 heuristic noisy, v2 needed."
+
+  panel_t1_lag:
+    description: "Panel ingesters apply T+1 minimum lag from publication."
+    audit_script: "scripts/strat_audit/panel_t1_lag_audit.py"
+    severity: critical
+    rationale: "G-AUDIT-008 caught same-day publication race in ETF overlay; 7 panels currently HIGH."
+
+  dsr_published_ranking:
+    description: "Deployment ranking sorts by DSR (n=N_universe), not raw Sharpe."
+    audit_script: "scripts/strat_audit/dsr_re_rank.py"
+    severity: medium
+    rationale: "Multi-comparison correction across N=80+ trials; raw-Sh top-15 likely 30-50% reshuffle after DSR."
+
+  graduation_rule_two_gate:
+    description: "Strategy graduation requires DSR(n=N_total) >= 0.90 AND DSR(n=14) >= 0.95."
+    audit_script: "scripts/strat_audit/dsr_re_rank.py"
+    severity: high
+    rationale: "Per docs/CLAUDE_PROTOCOL_2026_04_30.md §3 Challenge B; cleaner than single-gate."
+
+  mech_coverage_5_of_8:
+    description: ">=5 of 8 alpha mechanisms have >=1 ship-tier strategy with that as primary."
+    audit_script: "scripts/strat_audit/mech_coverage_audit.py"
+    severity: medium
+    rationale: "Single-mechanism concentration = single regime-shift exposure."
+
+  composability_max_rho_threshold:
+    description: "New ship candidates: max|ρ| to deployed book <= 0.95 (else duplicate)."
+    audit_script: "scripts/strat_audit/strat_pairwise_residual.py"
+    severity: medium
+    rationale: "WM CC1 analog at strat layer; D4 composability."
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Flag-variant batch orchestrator (added 2026-05-02 for B007 follow-up)
+# ─────────────────────────────────────────────────────────────────────
+# `src/run_flag_batch.py` fires the same trainer multiple times with
+# different upgrade flags (SAM/MTP/MDN/FrAug/label_noise/logit_clip),
+# isolating each via --run-tag, then runs compare_v1_variants.py to
+# emit a side-by-side ShIC/IC/Gap table.
+#
+# CRITICAL invariant: any trainer used by run_flag_batch MUST consume
+# args.run_tag and embed it in ckpt_prefix. Without this, parallel
+# variants clobber each other silently. The orchestrator HALTs on
+# multi-variant batches when the version's capability map flags
+# run_tag=False -- DO NOT SUPPRESS THIS HALT.
+flag_batch_invariants:
+
+  - name: orchestrator_present
+    pattern: 'def run_variant'
+    files:
+      - "src/run_flag_batch.py"
+    severity: critical
+    rationale: |
+      run_flag_batch.py is the canonical info-first orchestrator for
+      flag-variant batches per /un Information-First Experimental Design.
+      Removing it would force users back to manual sequential commands
+      with high checkpoint-collision risk.
+
+  - name: analyzer_present
+    pattern: 'def parse_log'
+    files:
+      - "src/frontier_ml/v1_upgrades/compare_v1_variants.py"
+    severity: critical
+    rationale: |
+      compare_v1_variants.py is the post-batch analyzer. Without it,
+      run_flag_batch produces logs but no decision table. SHIP/MIXED/
+      FLAT/REGRESS verdicts come from this script.
+
+  - name: cohort_consumes_run_tag
+    pattern: 'run_tag_str'
+    files:
+      - "src/wm/v1/v1_0_training/train_world_model.py"
+      - "src/wm/v1/v1_1_training/train_world_model.py"
+      - "src/wm/v1/v1_4_training/train_world_model.py"
+      - "src/wm/v1/v1_6_training/train_world_model.py"
+      - "src/wm/v3/v3_training/train_world_model.py"
+      - "src/wm/v4/v4_training/train_world_model.py"
+      - "src/wm/v6/v6_training/train_world_model.py"
+      - "src/wm/v8/v8_training/train_world_model.py"
+      - "src/wm/v11/v11_training/train_world_model.py"
+      - "src/wm/v12/v12_training/train_world_model.py"
+      - "src/wm/v13/v13_training/train_world_model.py"
+      - "src/wm/v14/v14_training/train_world_model.py"
+      - "src/wm/v22/v22_training/train_world_model.py"
+      - "src/wm/v23/v23_training/train_world_model.py"
+      - "src/wm/v24/v24_training/train_world_model.py"
+      - "src/wm/v25/v25_training/train_world_model.py"
+    severity: critical
+    rationale: |
+      Every base trainer in the active cohort must consume run_tag in
+      ckpt_prefix (V1 standard, 2026-05-03 cohort harmonization).
+      Without it, run_flag_batch multi-variant runs would clobber
+      checkpoints. See docs/HARMONIZATION.md for the full standards
+      table and porting recipe. Variation versions (X/E/D, snapshot,
+      adapter, NCL) are tracked in HARMONIZATION.md as Phase-2
+      follow-up; V20+ are stubs and exempt.
+
+  - name: validate_world_feature_aware
+    pattern: 'self\.n_features|n_features=None|run_tag_str'
+    files:
+      - "src/wm/v3/v3_training/validate_world.py"
+      - "src/wm/v6/v6_training/validate_world.py"
+      - "src/wm/v8/v8_training/validate_world.py"
+    severity: high
+    rationale: |
+      V3/V6/V8 validate_world.py previously hardcoded
+      "v{N}{revin_tag}_wm_best_ema.pt" (no feature suffix). Post the
+      cohort harmonization rename (v{N}_f{features}{revin}{run_tag}_wm_*),
+      validation would silently fail to find the new checkpoint. The
+      validators now accept (n_features, run_tag) kwargs and build the
+      full prefix; legacy names retained as fallback for pre-rename
+      ckpts. Without this rule, a future regression would silently
+      lose validation across V3/V6/V8 retrains.
+
+  - name: validate_world_cli_features_flag
+    pattern: '"--features"'
+    files:
+      - "src/wm/v3/v3_training/validate_world.py"
+      - "src/wm/v6/v6_training/validate_world.py"
+      - "src/wm/v8/v8_training/validate_world.py"
+    severity: high
+    rationale: |
+      Constructor takes (n_features, run_tag) per validate_world_feature_aware,
+      but the CLI must EXPOSE --features and --run-tag flags so that
+      --latest / --both / --robust paths actually pass them through.
+      Without this, the constructor falls back to settings.INPUT_DIM
+      and silently loads wrong-feature ckpts, producing garbage
+      IC/ShIC numbers (the "trust the numbers" bar). Caught by red
+      team round-4 (commit 3e1df7f).
+
+  - name: validate_world_loud_dim_check
+    pattern: '_assert_dim_match|LOUD FAIL.*DIM MISMATCH'
+    files:
+      - "src/wm/v3/v3_training/validate_world.py"
+      - "src/wm/v6/v6_training/validate_world.py"
+      - "src/wm/v8/v8_training/validate_world.py"
+    severity: high
+    rationale: |
+      Even with feature-aware ckpt path resolution, a wrong-feature
+      ckpt at the legacy fallback path (or a user passing --model
+      <wrong-shape-ckpt>) would silently load with strict=False and
+      emit garbage IC/ShIC numbers. _assert_dim_match() reads the
+      ckpt's obs_encoder weight shape and RAISES (not warns) on
+      mismatch with the expected n_features. "Trust the numbers" bar:
+      better to fail than ship bogus metrics.
+
+  - name: safety_guards_module_present
+    pattern: 'def safe_torch_save|def safe_metric|def preflight_numerical_probe'
+    files:
+      - "src/frontier_ml/v1_upgrades/safety_guards.py"
+    severity: critical
+    rationale: |
+      Three orthogonal correctness guarantees motivated by the
+      "trust the numbers" mandate (2026-05-03):
+
+      safe_torch_save     -- atomic ckpt write (tmp + fsync + rename).
+                             Power-loss/disk-full mid-write cannot
+                             corrupt the target file.
+
+      safe_metric         -- LOUD-FAIL wrapper for IC/ShIC/Sharpe/Sortino.
+                             Refuses to publish NaN/inf; returns a tagged
+                             MetricResult so callers can choose to log
+                             "DEGENERATE" instead of silently emitting 0.0.
+
+      preflight_numerical_probe -- 50-step dry-run BEFORE a long training
+                             run. Asserts no NaN losses, grad_norm in
+                             [1e-3, 1e3], ShIC computable, GPU memory
+                             below ceiling. Catches fp16 overflow / dead
+                             grad / dim mismatch in 60s instead of 35h.
+
+      Module is STANDALONE; does not retrofit live code. Future trainer
+      rounds + variation-version Phase 2 + post-V1 retrain cycle adopt
+      via explicit import. Removing this module would silently re-open
+      the partial-write / NaN-publish / 35h-doomed-run vulnerabilities.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Strat layer 99.99% invariants (added 2026-05-03 strat-organization)
+# ─────────────────────────────────────────────────────────────────────
+# Three load-bearing rules for the strategy layer's "trust the numbers"
+# bar. Together with cost_model_routing + p_fill_calibration + dsr_published_ranking
+# (already in strat_layer_invariants above) these enforce the discipline:
+# every published Sharpe must come from a calibrated cost model + a
+# DSR'd backtest, and the WM signal must be CLASSIFIED correctly per the
+# CLAUDE.md Indisputable Operating Lens.
+strat_99_invariants:
+
+  - name: maker_cost_bucket_calibration_wired
+    pattern: '_bucket_p_fill_and_adverse|bucket_calibration'
+    files:
+      - "src/strategy/maker_cost_model.py"
+    severity: critical
+    rationale: |
+      MakerCostModel routes per-bucket p_fill / adverse_selection from
+      config/maker_cost_calibration.yaml. Pre-fix (2026-05-02): single
+      scalar p_fill=0.30 mispriced ~half the universe (real fills
+      21-40% per bucket). Post-fix: BLUE (BTC/ETH) p_fill=0.21,
+      STEADY=0.34, VOLATILE=0.32, DEGEN=0.40, all OHLC-replay calibrated.
+      Removing this routing would silently regress every Sharpe number
+      across the strategy registry.
+
+  - name: dsr_print_at_sharpe_site
+    description: "Any module printing Sharpe must compute DSR in the same function/scope."
+    audit_script: "scripts/strat_audit/dsr_print_audit.py"
+    severity: critical
+    rationale: |
+      CDAP `dsr_published_ranking` exists at MEDIUM. Promoting to
+      CRITICAL: any line that prints "Sharpe = X.XX" without DSR(n)
+      computation in the same function is a number-publication
+      violation. CLAUDE.md Pattern O (Backtest Validity Gate)
+      mandates DSR + selectivity + sample-size + cost-realism +
+      t-stat for every backtest claim. The print-site rule closes
+      the last hole.
+
+  - name: wm_signal_filter_only_below_headline
+    description: "Any strategy treating WM (V1.x) output as standalone alpha must have IC>=0.10 evidence in its registry entry."
+    audit_script: "scripts/strat_audit/wm_classification_audit.py"
+    severity: high
+    rationale: |
+      Per CLAUDE.md Indisputable Operating Lens (2026-04-30 mandate),
+      V1.x is at Trader-tier (IC ~0.067 / ShIC ~0.041 record). The
+      lens classifies:
+        Filter   IC>0.015  -> gate-only
+        Sizer    IC>0.030  -> position multiplier
+        Trader   IC>0.050  -> standalone w/ quarter-Kelly  [V1.x is here]
+        Headline IC>0.100  -> WM signal IS the alpha       [target]
+      A strategy that treats V1.1 output as standalone-alpha (ranking
+      assets by predicted return) violates the classification: V1.x
+      is not yet Headline-tier. Strategies must have explicit registry
+      tag of {filter|sizer|trader|headline} matching their actual WM-
+      tier consumption.
+
+  - name: lob_min_history_guard
+    description: "Strategies / models consuming lob_* features must enforce min 6mo history before training/deployment."
+    audit_script: "scripts/strat_audit/lob_history_audit.py"
+    severity: high
+    rationale: |
+      LOB collector started 2026-04-01; ~30 days of live coverage as
+      of 2026-05-03 (1.3% of chimera history; 0.01-0.04% of bars).
+      Backfill via binance_vision_book_depth_profile.py (2026-05-03
+      shipped) brings 3+ years of depth-profile data, but until that
+      lands and validates, any strategy consuming lob_* features will
+      overfit to a single regime-month.
+      Rule: every strategy / model whose FEATURE_LIST includes lob_*
+      MUST have a min_history_days parameter and refuse to train/deploy
+      below 180 days of LOB coverage on the asset.
+
+  - name: wm_ensemble_feature_aware_tmpls
+    pattern: 'ckpt_tmpl.*f\{feat\}'
+    files:
+      - "src/strategy/wm_ensemble.py"
+    severity: high
+    rationale: |
+      wm_ensemble.py registers per-version ckpt loading templates for
+      strategy-layer consumption. Post-2026-05-03 cohort harmonization,
+      every active version's primary template includes f{feat} so
+      different feature-count training rounds don't shadow each other
+      at inference. V3/V4/V6/V8 retain a legacy fallback for pre-rename
+      ckpts; V11-V14 enforce f{feat} unconditionally (they always wrote
+      that pattern).
+
+  - name: refresh_active_run_detection
+    pattern: 'def detect_active_run|HALT: another refresh is currently running'
+    files:
+      - "src/pipeline/refresh.py"
+    severity: high
+    rationale: |
+      refresh.py must check _dag_state_live.json on startup and HALT
+      if another refresh's heartbeat is fresh (< 120s old). Without
+      this guard, two parallel `refresh.py --target X` invocations
+      would race on the same outputs, last-write-wins, possibly
+      corrupting partial parquet files. Override paths: --attach
+      (read-only watch), --wait-active (block), --ignore-active
+      (race; only when targets disjoint). 2026-05-03 weakness fix.
+
+  - name: docs_present
+    pattern: 'Flag-Variant Batch Runner'
+    files:
+      - "docs/RUN_FLAG_BATCH.md"
+    severity: warn
+    rationale: |
+      Discoverability: capability map + decision rules + when-to-use-
+      which-orchestrator table live in docs/RUN_FLAG_BATCH.md. New
+      contributors need this to avoid clobbering checkpoints or
+      silently running no-op variants.
+
+  # ───────────────────────────────────────────────────────────────────
+  # Production blends — Round-16 (2026-05-09) wiring guards.
+  # Provenance: docs/DEPLOY_WIRING_AUDIT_2026_05_09.md uncovered that
+  # CONSERVATIVE/PRIME/AGGRESSIVE blends existed only as a Python dict
+  # in an offline backtest script. These rules enforce that the yaml
+  # source-of-truth + composer remain present.
+  # ───────────────────────────────────────────────────────────────────
+  - name: production_blends_yaml_present
+    pattern: 'production_blends_2026_05_09:'
+    files:
+      - "config/production_blends.yaml"
+    severity: critical
+    rationale: |
+      The CONSERVATIVE/PRIME/AGGRESSIVE blend definitions are the source
+      of truth for live deploy. Without this yaml, BlendComposer and
+      run_blend.py both abort. Removing this file = removing the live
+      deploy path.
+
+  - name: blend_composer_present
+    pattern: 'class BlendDefinition|def load_blend|KNOWN_RUNNERS'
+    files:
+      - "src/strategy/gen5_growth/blend_composer.py"
+    severity: critical
+    rationale: |
+      BlendComposer is the bridge between yaml definition and live runner.
+      It validates: weight sum = 1.0, runner kind in KNOWN_RUNNERS, every
+      non-cash sleeve has seed + ranker. If this module disappears,
+      run_blend.py is non-functional.
+
+  - name: pillar_p1_p5_cut_to_zero
+    pattern: '"P1": False'
+    files:
+      - "src/strategy/gen5_growth/orchestrator.py"
+    severity: critical
+    rationale: |
+      Per PROD_DEPLOY_VERDICT_2026_05_09 G2: P1 listing-frontrun is NEGATIVE
+      NET (-1.38%/event) on real-data replay. P5 same (-2.13%/event).
+      Both are flagged DISABLED in DEFAULT_PILLAR_FLAGS. If anyone re-enables
+      P1, 10% of equity routes to the demonstrated negative-net pillar.
+      Any change must update PROD_DEPLOY_VERDICT first.
+
+  - name: pillar_p5_cut_to_zero
+    pattern: '"P5": False'
+    files:
+      - "src/strategy/gen5_growth/orchestrator.py"
+    severity: critical
+    rationale: |
+      Twin of pillar_p1_p5_cut_to_zero — P5 must stay disabled until a
+      fresh real-data audit shows positive net.
+
+  - name: master_alloc_p1_p5_zero
+    pattern: 'P1_listing_frontrun: 0\.0'
+    files:
+      - "config/wealth_axis_master_allocation.yaml"
+    severity: critical
+    rationale: |
+      master allocation must reflect the orchestrator-level cut.
+      P1=0% in yaml + P1=False in orchestrator = belt and suspenders.
+
+  - name: xsec_orchestrator_default_ranker_explicit
+    pattern: "DEFAULT_RANKER = MODELS / 'xsec_ranker' / 'xgb_ndcg_v1_u87.pkl'"
+    files:
+      - "src/strategy/gen5_growth/xsec_orchestrator.py"
+    severity: warn
+    rationale: |
+      Pre-2026-05-09, XsecOrchestrator default was xgb_ndcg_v1.pkl (legacy,
+      non-u87). Live path overrode correctly via WEALTH_AXIS_PHASE6 sleeves
+      but the smoke test silently loaded the wrong ranker. Default must
+      now be u87.
+
+  # 2026-05-09 round-17 strat-layer upgrade rules
+  - name: intent_aggregation_present
+    pattern: 'def aggregate_intents'
+    files:
+      - "src/strategy/gen5_growth/intent_aggregation.py"
+    severity: critical
+    rationale: |
+      Solves the magnitude-capture-rate ~0.067x bug (per PAPER_TRADE_3BLEND
+      report 2026-05-09: DEXE +15.74% gross appearing 7x in ledger as
+      separate small wins). aggregate_intents() dedupes same-asset picks,
+      caps per-asset NAV, applies consensus boost on 3+ sleeve agreement.
+      Removing this module reverts to magnitude-collapse behavior.
+
+  - name: regime_selector_in_run_blend
+    pattern: 'def select_blend_for_regime'
+    files:
+      - "src/strategy/gen5_growth/scripts/run_blend.py"
+    severity: critical
+    rationale: |
+      Without regime gating, all 3 long-biased blends
+      (CONSERVATIVE/PRIME/AGGRESSIVE) lose simultaneously when BTC 30d <
+      -5% (per 2026-04-18 -> 24 paper-trade window where all 6 runs lost).
+      select_blend_for_regime() routes to CASH_DEFENSIVE in bear and
+      CONSERVATIVE_NEUTRAL in sideways. Operator can disable via
+      regime_selector.enabled = false in production_blends.yaml.
+
+  - name: defensive_blends_present
+    pattern: 'CASH_DEFENSIVE:'
+    files:
+      - "config/production_blends.yaml"
+    severity: critical
+    rationale: |
+      CASH_DEFENSIVE and CONSERVATIVE_NEUTRAL blends are the regime-aware
+      fallback for bear/sideways. They are auto-selected; without them
+      the regime selector silently falls through to the long-biased
+      default. Removing them defeats Gap 4 of the upgraded-lens review.
+
+  - name: take_profit_field_in_xsec
+    pattern: 'take_profit'
+    files:
+      - "src/strategy/gen5_growth/xsec_orchestrator.py"
+    severity: warn
+    rationale: |
+      Asymmetric R:R fix: take_profit defaults to 0.10, stop_loss to 0.05
+      (3:1 reward:risk vs prior 1:1 with no profit-take). Without this
+      field, EV per trade was -1.0% at 36% hit rate (per PAPER_TRADE_3BLEND
+      analysis). Removing the field reverts the asymmetry — regression.
+
+  - name: oracle_honest_scorer_exists
+    pattern: 'def validate'
+    files:
+      - "src/oracle/honest_scorer.py"
+    severity: critical
+    rationale: |
+      2026-05-21 Oracle Layer Charter: every oracle predictions parquet must
+      pass honest_scorer.validate() (8 gates incl. ShIC, DSR, v3-truth-Sharpe,
+      canonical splits) before consumption by the strat layer.
+      Removing this module breaks the validation contract documented in
+      docs/ORACLE_LAYER_CHARTER_2026_05_21.md and reverts to the class of
+      bugs that produced offline +91% vs v3 +3% silent inflation
+      (PER_ASSET_MA_EMA_UNION_2026_05_20).
+
+  - name: oracle_v3_truth_scorer_exists
+    pattern: 'def score_candidate'
+    files:
+      - "src/oracle/v3_truth_scorer.py"
+    severity: critical
+    rationale: |
+      2026-05-21 Oracle Layer Charter: cell-selection metric MUST be the
+      deploy metric. v3_truth_scorer.score_candidate() applies cost drag,
+      ShIC and DSR adjustment at SELECTION time -- not after deploy.
+      Removing this module reverts to the structural lie where candidates
+      are selected by `sharpe_train_point` (inflated 60-100pp vs v3 truth).
+
+  - name: oracle_split_config_imported_in_train_scripts
+    pattern: 'from split_config import'
+    files:
+      - "scripts/oracle/build_oracle_ma_ml.py"
+      - "scripts/oracle/predict_movers_from_behavior.py"
+      - "scripts/oracle/train_per_sleeve_setup_classifier.py"
+      - "scripts/oracle/train_win_capture_v2_xrel.py"
+    severity: critical
+    rationale: |
+      2026-05-21 split-fragmentation fix: these scripts previously hardcoded
+      TRAIN/VAL/OOS dates that conflicted with canonical src/split_config.py.
+      Result was in-sample contamination for canonical-VAL backtest windows
+      (Auditor finding #1: 137/304 v3-VAL days in-sample for ORACLE_MA_ML).
+      Each script MUST import canonical split boundaries.
+
+# ─────────────────────────────────────────────────────────────────────
+# Pipeline A+ closure invariants (2026-05-22, oracle data-layer closure)
+# ─────────────────────────────────────────────────────────────────────
+# These three invariants close the gaps that produced 3 registry-related
+# bugs in 14 days (label leak 78dbdd7, z-score wall break c59c4e7, schema
+# clash 7fa8bbd). They lift the feature-engineering sub-layer from B- to A+.
+
+pipeline_a_plus_closure:
+
+  - name: feature_registry_has_schema_version
+    pattern: 'schema_version:'
+    files:
+      - "config/feature_registry.yaml"
+    severity: critical
+    rationale: |
+      Registry edits without a versioned schema have produced 3 silent
+      breakage bugs in the last 14 days. schema_version is monotonic
+      and MUST be bumped on any features/, prefix:, path:, layout:, or
+      sources_to_join change. The contract test in
+      src/pipeline/registry_contract_test.py reads this field; missing
+      schema_version means the contract test can't gate registry edits.
+
+  - name: validate_chimera_has_lookahead_mutual_info
+    pattern: 'def check_lookahead_mutual_info'
+    files:
+      - "src/pipeline/validate_chimera.py"
+    severity: critical
+    rationale: |
+      Pearson correlation (check_lookahead_correlation) catches DIRECT
+      linear leaks like btc_ret_same_day at |corr|=0.348. Subtle
+      non-linear leaks (feature = |future_return|, feature =
+      forward-rolling vol) have low Pearson but high mutual information.
+      check_lookahead_mutual_info is the MI-based detector that closes
+      this gap. Removing it reverts to a class of silent leaks Pearson
+      cannot catch.
+
+  - name: registry_contract_test_module_exists
+    pattern: 'def main'
+    files:
+      - "src/pipeline/registry_contract_test.py"
+    severity: critical
+    rationale: |
+      registry_contract_test.py is the deterministic gate that runs 7
+      checks against feature_registry.yaml (schema_version present,
+      orphan sources_to_join, reserved-name guard, prefix uniqueness,
+      layout/date validity, glob match, wide_pattern capture). Wired
+      into pre_train_gate.py as the cheap registry-edit guard.
+      Removing this module disables the gate.
+
+# ─────────────────────────────────────────────────────────────────────
+# Pipeline progress convention invariants (2026-05-22, oracle homogeneous-CLI closure)
+# ─────────────────────────────────────────────────────────────────────
+pipeline_progress_convention:
+
+  - name: progress_module_exists
+    pattern: 'def phase_log'
+    files:
+      - "src/pipeline/progress.py"
+    severity: critical
+    rationale: |
+      Single source of truth for producer progress emission. Defines
+      VALID_PHASES + ProgressTask + stage_run. Removing this disables
+      the homogeneous-interface convention shipped 2026-05-22. All
+      producers progressively migrate to import from this module.
+
+  - name: refresh_streams_subprocess_stdout
+    pattern: 'subprocess.PIPE'
+    files:
+      - "src/pipeline/refresh.py"
+    severity: critical
+    rationale: |
+      refresh.py must stream subprocess stdout to the user's terminal
+      via PIPE + reader thread (not directly to log file via stdout=logf).
+      Reverting to direct file piping hides producer progress from the
+      user — the gap this session closed. See docs/PIPELINE_PROGRESS_CONVENTION_2026_05_22.md.
+
+# ─────────────────────────────────────────────────────────────────────
+# Pipeline universality + leak-detector invariants (2026-05-22, oracle A+ closure)
+# ─────────────────────────────────────────────────────────────────────
+pipeline_universality:
+
+  - name: validate_chimera_has_normalization_leakage_check
+    pattern: 'def check_normalization_leakage'
+    files:
+      - "src/pipeline/validate_chimera.py"
+    severity: critical
+    rationale: |
+      Catches cross-fold normalization leakage: features z-scored using
+      full-history statistics drift in mean between train and test halves.
+      Added 2026-05-22 oracle pipeline A+ closure. Advisory WARN per
+      column; legitimate regime drift can hit 0.5-1.0σ; threshold 1.5σ.
+
+  - name: validate_chimera_has_same_day_pub_race_check
+    pattern: 'def check_same_day_publication_race'
+    files:
+      - "src/pipeline/validate_chimera.py"
+    severity: critical
+    rationale: |
+      Catches features whose non-null date range extends beyond the target's,
+      which necessarily indicates forward-shifted (look-ahead) data. Closes
+      the "feature created at close[t+ε] for return[t→t+1]" leak class that
+      Pearson + MI leak detectors may not catch if the leak shows up as
+      a date-range mismatch rather than a correlation spike.
+
+  - name: producer_uses_pipeline_progress
+    pattern: '_pl\(|phase_log\(|ProgressTask\('
+    files:
+      - "src/pipeline/bars/*.py"
+      - "src/pipeline/ingest/*.py"
+      - "src/pipeline/features/*.py"
+      - "src/pipeline/add_xrel_features.py"
+      - "src/pipeline/frontier_consolidator.py"
+      - "src/pipeline/make_dataset.py"
+      - "src/pipeline/make_dataset_legacy.py"
+      - "src/pipeline/features/basis_signals.py"
+      - "src/pipeline/features/hawkes_branching_ratio.py"
+      - "src/pipeline/fetch_all.py"
+    severity: warn
+    rationale: |
+      Every refresh-invoked producer should use pipeline.progress for
+      homogeneous progress emission per the convention shipped 2026-05-22.
+      Per auditor sweep ad217ce9239ceb16b TOP-5 ladder + long-tail
+      sweep: 23/25 producers now compliant; remaining 2 are orchestrator
+      (refresh.py) + gate-report (pre_train_gate.py) which are
+      intentionally banner-styled. WARN-only because dropping the
+      convention from a producer doesn't break correctness — it just
+      makes the user-facing stream inconsistent.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Trader deploy gates (added 2026-05-28 with trader-skill upgrade)
+# ─────────────────────────────────────────────────────────────────────
+# Closes the 16-item PRE_DEPLOY_CHECKLIST (`.claude/skills/trader/PRE_DEPLOY_CHECKLIST.md`)
+# + Lifecycle + Risk + Execution + Sizing playbook items.
+#
+# Pattern-matchable rules live here. Rules requiring file-existence /
+# JSON-shape / multi-file-correlation checks live in
+# `src/audit/check_deploy_gates.py` (stub, expands on demand).
+#
+# A "deploy commit" is detected by either:
+#   - file path matches `runs/deploy/*/deploy_claim.json`, or
+#   - a `config/sleeves/*.yaml` `stage:` field changes to a live_* value.
+# Deploy commits run the full trader-gate validation. Non-deploy commits
+# still run the static pattern checks below.
+trader_deploy_gates:
+
+  # Item 1 — cost source is canonical
+  # Sleeves under scripts/wealth_bot/ must NOT redefine fee/slippage/funding constants;
+  # they must import from src/strategy/cost_model.py.
+  - name: trader_cost_source_canonical
+    pattern_must_not_contain: 'fee_bps\s*=\s*[0-9]|slippage_bps\s*=\s*[0-9]|round_trip_cost\s*=\s*0\.00'
+    files: ["scripts/wealth_bot/**/*.py"]
+    severity: warn
+    rationale: |
+      Sleeves must source costs from src/strategy/cost_model.py (SPOT_COST /
+      PERP_COST). Local redefinition escapes cost-model recalibration
+      (G-AUDIT-010). PRE_DEPLOY_CHECKLIST item 1.
+
+  # Item 2 — MtM reconciliation probe must exist
+  - name: trader_mtm_reconciliation_probe
+    files: ["scripts/probe_simulator_fix.py"]
+    must_exist: true
+    severity: critical
+    rationale: |
+      Every new simulator MUST include a reconciliation gate (sum(pnl_stream)
+      ≈ sum(trade_log.pnl) within 0.1%). Pre-2026-04-22 MtM double-count
+      caused 5-7x equity inflation. PRE_DEPLOY_CHECKLIST item 2. Already
+      enforced by simulator:reconciliation_probe_present above; restated
+      here under the trader_deploy_gates section for completeness.
+
+  # Item 3 — no look-ahead in K-selection
+  # Trade selection/filter logic must not RANK / SORT / FILTER by target_return
+  # or future_return columns. Schema checks (`if "target_return" in df.columns`)
+  # are legitimate and are NOT matched.
+  - name: trader_no_lookahead_in_selection
+    pattern_must_not_contain: 'sort_values\([^)]*target_return|sort_values\([^)]*forward_return|argsort.*target_return|argmax.*target_return|nlargest\([^)]*target_return|nsmallest\([^)]*target_return|top.*target_return|\[df\[.target_return|\[.*target_return.*\]\s*>'
+    files: ["scripts/wealth_bot/**/*.py", "src/strategy/**/*.py"]
+    severity: critical
+    rationale: |
+      K-selection or trade filtering must never RANK or FILTER by
+      target/future-return columns. Schema checks (`if "target_return_1" in
+      df.columns`) are NOT matched — only ranking/sorting/filtering operations.
+      PRE_DEPLOY_CHECKLIST item 3. Provenance: 2026-05-25 R51 E51_1 + R54 A54_2
+      gap-window incidents.
+
+  # Item 4 — stride-1 predictions
+  # WM-prediction-emitting scripts must use stride=1 (post-Pattern-N fix 2026-04-14).
+  - name: trader_stride_1_predictions
+    pattern: 'stride\s*=\s*1|--stride\s+1'
+    files: ["src/wm/gen_preds.py", "src/strategy/generate_wm_predictions.py"]
+    must_match: true
+    severity: critical
+    rationale: |
+      Pattern N (2026-04-14): pre-stride-1-fix predictions were stale up to
+      95 bars; all pre-fix backtests untrusted. PRE_DEPLOY_CHECKLIST item 4.
+
+  # Item 6 — claim contract v1.2 import
+  # Any script emitting a SHIP-tier audit JSON must use build_ship_claim_block.
+  - name: trader_claim_contract_v12_import
+    pattern: 'from\s+wealth_bot\.framework\.claim_contract\s+import|from\s+src\.wealth_bot\.framework\.claim_contract\s+import'
+    files: ["scripts/wealth_bot/**/ship*.py", "scripts/wealth_bot/**/promote*.py", "scripts/wealth_bot/**/deploy*.py"]
+    must_match: true
+    severity: warn
+    rationale: |
+      Deploy scripts must build claim via build_ship_claim_block (claim_contract v1.2)
+      so check_wealth_bot_claims.py can validate. PRE_DEPLOY_CHECKLIST item 6.
+      Pattern-match is heuristic (not all deploy scripts named ship*/promote*/deploy*);
+      check_deploy_gates.py handles the full check.
+
+  # Item 11 — DSR + CSCV multi-test imports for sweep-derived strategies
+  - name: trader_dsr_cscv_used_in_walkforward
+    pattern: 'deflated_sharpe|cscv_pbo|DSR_p_value'
+    files: ["src/analysis/strategy_walkforward.py", "src/analysis/strategy_universe_eval.py"]
+    must_match: true
+    severity: warn
+    rationale: |
+      Sweeps > 20 configs require DSR > 0.95 AND CSCV PBO < 0.50 at promotion.
+      Walk-forward harness must compute both. PRE_DEPLOY_CHECKLIST item 11.
+
+  # Item 14 — decay monitor referenced by RiskController
+  - name: trader_risk_controller_has_decay_monitor
+    pattern: 'decay_monitor|DecayMonitor|halt_IC_halflife|halt_consecutive_DD'
+    files: ["src/strategy/risk_controller.py"]
+    must_match: true
+    severity: warn
+    rationale: |
+      RiskController.size_trade() must integrate decay monitor (per CLAUDE.md
+      and trader-skill RISK_PLAYBOOK). PRE_DEPLOY_CHECKLIST item 14.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Trader risk/sizing invariants (RISK_PLAYBOOK + SIZING_THEORY)
+# ─────────────────────────────────────────────────────────────────────
+trader_risk_sizing:
+
+  # Long-only + spot + lev=1 hard North Star bounds.
+  # Sleeve YAMLs must not declare leverage > 1 or short positions in LIVE stages.
+  - name: trader_long_only_north_star
+    pattern_must_not_contain: 'leverage\s*:\s*[2-9]|leverage\s*:\s*1\.\d+|allow_short\s*:\s*true|position_range_min\s*:\s*-'
+    files: ["config/sleeves/**/*.yaml"]
+    severity: critical
+    rationale: |
+      PROJECT_NORTH_STAR §3.1: LONG-ONLY + SPOT + LEV=1. Any sleeve YAML
+      enabling shorts or leverage > 1 = automatic reject. SIZING_THEORY +
+      CRYPTO_MICROSTRUCTURE hard cap.
+
+  - name: trader_max_kelly_fraction_le_half
+    pattern_must_not_contain: 'max_kelly_fraction\s*:\s*0\.[6-9]|max_kelly_fraction\s*:\s*1\.|max_kelly_fraction\s*:\s*[1-9]'
+    files: ["config/sleeves/**/*.yaml"]
+    severity: critical
+    rationale: |
+      No full-Kelly under any condition. Maximum is 1/2-Kelly per
+      SIZING_THEORY.md hard caps. Default is 1/8-Kelly for new sleeves.
+
+  - name: trader_spot_mode_default
+    pattern_must_not_contain: 'mode\s*:\s*perp|mode\s*:\s*PERP|perp_enabled\s*:\s*true'
+    files: ["config/sleeves/**/*.yaml"]
+    severity: critical
+    rationale: |
+      PERP deferred per docs/futures_strategy_considerations.md (0/1304 configs
+      profitable after funding). SPOT-only mandate.
+
+  # No trail-stops on H6-class entries (H23 refutation)
+  - name: trader_no_trail_stop_on_h6_class
+    pattern_must_not_contain: 'trail_stop\s*:\s*true|trailing_stop\s*:\s*true'
+    files: ["config/sleeves/**/h6*.yaml", "config/sleeves/**/H6*.yaml", "config/sleeves/**/catalyst*.yaml"]
+    severity: warn
+    rationale: |
+      H23 trail-stop on H6 entries: -35.5%, REFUTED 2026-05-27 commit 5c108c4.
+      Catalyst-class plays have no downside protection beyond max-hold. Until a
+      working mechanism is found, do not deploy trail-stops on H6-class.
+
+  # Fat-tail asset cap: PEPE-class sleeves must cap kelly fraction at 1/16
+  - name: trader_fat_tail_assets_capped
+    pattern_must_not_contain: 'max_kelly_fraction\s*:\s*0\.[1-9]'
+    files: ["config/sleeves/**/pepe*.yaml", "config/sleeves/**/PEPE*.yaml", "config/sleeves/**/memecoin*.yaml"]
+    severity: warn
+    rationale: |
+      PEPE-class memecoins are fat-tailed; Kelly's σ² assumption fails.
+      Cap max_kelly_fraction at 0.0625 (1/16-Kelly) per SIZING_THEORY anti-Kelly
+      rule. Conservative against PEPE × MA/EMA gold-standard dossier findings.
+
+  # RiskController kill switches must be present in code
+  - name: trader_risk_controller_has_kill_switches
+    pattern: 'kill_switch|should_halt|portfolio_dd_halt|api_error_rate_halt|data_feed_gap_halt'
+    files: ["src/wealth_bot/bot/risk_manager.py"]
+    must_match: true
+    severity: warn
+    rationale: |
+      RISK_PLAYBOOK §Kill switches: 6 automatic halts (portfolio DD > 20%,
+      single-trade loss > 5%, cross-sleeve corr > 0.9, API error > 5%/1h,
+      data feed gap > 5min, mechanism falsifier turns FALSE). Retargeted
+      2026-06-06 (harmonise) from the never-rebuilt src/strategy/risk_controller.py
+      to the LIVE kill-switch home src/wealth_bot/bot/risk_manager.py (has
+      kill_switch + should_halt logic) -- so the safety rule ENFORCES against real
+      code instead of vacuously not-enforcing on a ghost path. WARN-severity: full
+      6-halt coverage is to be re-verified when the trader sleeve goes live.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Trader lifecycle invariants (LIFECYCLE.md)
+# ─────────────────────────────────────────────────────────────────────
+# These rules require directory-correlation checks not expressible in pure
+# regex schema; implementation lives in src/audit/check_deploy_gates.py
+# (see file_contains_or_dir_check rule type below).
+trader_lifecycle:
+
+  # Every sleeve directory must declare a lifecycle.yaml.
+  # Stub: pattern-checked here on any existing lifecycle.yaml; full
+  # directory-completeness check in check_deploy_gates.py.
+  - name: trader_lifecycle_yaml_has_required_fields
+    pattern: 'current_stage\s*:|stage_entered_at_utc\s*:|min_time_in_stage_days\s*:'
+    files: ["config/sleeves/**/lifecycle.yaml"]
+    must_match: true
+    severity: warn
+    rationale: |
+      Every sleeve's lifecycle.yaml must declare current_stage,
+      stage_entered_at_utc, and min_time_in_stage_days. LIFECYCLE.md §
+      "Lifecycle YAML (one per sleeve)".
+
+  - name: trader_lifecycle_stage_values_valid
+    pattern_must_not_contain: 'current_stage\s*:\s*(?!incubation|paper|live_small|live_scale|retired)'
+    files: ["config/sleeves/**/lifecycle.yaml"]
+    severity: warn
+    rationale: |
+      Stage must be one of: incubation | paper | live_small | live_scale | retired.
+      LIFECYCLE.md stage diagram.
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Bitemporal / as-of (knowable-at) look-ahead defense (added 2026-06-06)
+# ─────────────────────────────────────────────────────────────────────
+# STRUCTURAL look-ahead defense for lag-prone vendor sources (ETF flows,
+# Wikipedia/attention, funding, on-chain). The project catches look-ahead
+# REACTIVELY today (ad-hoc shift(1) + validate_chimera correlation / MI /
+# same-day-publication-race detectors). The bitemporal layer records WHEN
+# each datum became KNOWABLE so a feature can't attach to a bar that closed
+# before it existed:
+#
+#       knowable_at = event_time + publication_lag ;  attach iff knowable_at <= base_time
+#
+# The contract: a lag-prone source must either go through the as-of join
+# (src/pipeline/asof_join.py) OR declare a publication lag
+# (config/feature_publication_lag.yaml) -- so a feature can't be used without
+# a knowable-at contract. Severity is WARN (advisory) to start: these are
+# `pattern` + must_match rules over the apparatus files only, checked by
+# check_pattern_must_contain (which WARNs -- never escalates to critical -- if
+# a target file is missing, so a path move can't block every commit and the
+# rule can't false-positive across the whole repo).
+bitemporal_asof:
+
+  - name: asof_join_module_present
+    pattern: 'def asof_join_knowable'
+    files:
+      - "src/pipeline/asof_join.py"
+    severity: warn
+    rationale: |
+      asof_join.py is the structural look-ahead defense: a pure, deterministic
+      backward as-of join on the KNOWABLE-AT timestamp (event_time + publication
+      lag). Removing it reverts lag-prone sources to ad-hoc shift(1) + the
+      reactive validate_chimera detectors only -- which fire AFTER a vendor
+      revision / backfill / same-day-publication race has already leaked into
+      chimera.
+
+  - name: asof_join_enforces_knowable_at_contract
+    # The join must (a) gate on knowable_at = feature_time + publication_lag and
+    # (b) reject negative lag (which would re-open look-ahead). This pattern
+    # proves the leak-free invariant is still wired, not just the function name.
+    pattern: 'publication_lag_ms\s*<\s*0|knowable_at\s*=\s*feature_time|feature_time \+ publication_lag'
+    files:
+      - "src/pipeline/asof_join.py"
+    severity: warn
+    rationale: |
+      Guards the two load-bearing invariants of the knowable-at contract:
+      attach iff (feature_time + publication_lag) <= base_time, AND a negative
+      publication_lag is rejected (a negative lag lets a value attach BEFORE its
+      event time = look-ahead). If a refactor drops the negative-lag guard or
+      the knowable-at arithmetic, this surfaces it.
+
+  - name: publication_lag_registry_present
+    # The lag-prone families the design flagged MUST carry a declared lag so a
+    # producer can route them through the as-of join instead of attaching them
+    # raw. Match all four seeded families in one pattern (any present satisfies;
+    # the YAML's own structure is validated at load by load_publication_lags()).
+    pattern: 'etf_flows:|wikipedia:|funding:|onchain:'
+    files:
+      - "config/feature_publication_lag.yaml"
+    severity: warn
+    rationale: |
+      config/feature_publication_lag.yaml is the declared-lag registry
+      (family -> lag_ms). asof_join.load_publication_lags() reads it; a producer
+      joining a lag-prone source looks up its family's lag here. The seeded
+      lag-prone families (etf_flows ~1d, wikipedia/attention ~1d next-bar,
+      funding ~8h, onchain conservative ~1d) are the same same-day-publication /
+      vendor-revision class validate_chimera flags reactively. Missing registry
+      = no knowable-at contract for these sources. WARN (advisory) at introduction.
+
+# ─────────────────────────────────────────────────────────────────────
+# Agent-layer taxonomy (the 3-class F/A1/A2 separation, machine-enforced).
+# Provenance: docs/AGENT_LAYER_ARCHITECTURE_2026_06_11.md SS1.8 (Phase 0).
+# These 4 invariants make the F->A1 boundary unbreakable. Each is TWO-SIDED:
+# it REJECTS a violation AND ACCEPTS valid code. Empty-glob guards: a rule whose
+# file glob matches NOTHING surfaces a WARN (never silently passes).
+# ─────────────────────────────────────────────────────────────────────
+agent_taxonomy:
+
+  # (a) The forecaster is FROZEN inside any agent: no F.train(), no F-params in
+  # an optimizer. The .detach() guarantee is structural in forecast_bundle.
+  # from_forecaster (which detaches every tensor); here we forbid the two
+  # un-freezing operations on the agent side.
+  forecaster_frozen_in_agents:
+    agent_globs:
+      - "src/agents/**/*.py"
+    # Lines matching these (outside comments) = a forecaster being un-frozen.
+    forbidden_patterns:
+      - '\b(?:wm|forecaster|world_model|self\.wm)\.train\(\s*\)'      # F.train() un-freeze
+      - '(?:optim\.\w+|Optimizer|Adam\w*|SGD)\s*\([^)]*\b(?:wm|forecaster|world_model)\.parameters\(\)'  # F-params in optimizer
+    severity: critical
+    rationale: |
+      An A1/A2/A1H plans over a FROZEN forecaster. Calling F.train() or putting
+      F.parameters() into an optimizer trains the forecaster from the agent's
+      objective -> GIGO + IC-as-objective through the back door. The bundle's
+      tensors are detached at the source (forecast_bundle.from_forecaster); this
+      rule guards the agent side. Two-sided: a frozen agent (for p in wm: p.requires_grad=False)
+      does NOT match; an un-freeze DOES.
+
+  # (b) The critic/reward NEVER regresses to a decoded return_logits (F's
+  # prediction). It must trace to a REALIZED target_return_*. The GIGO firewall.
+  no_predicted_return_as_realized_reward:
+    agent_globs:
+      - "src/agents/**/*.py"
+    # A reward/critic-target line that references the decoded F prediction.
+    forbidden_patterns:
+      - '(?:reward|critic_target|value_target|reward_target)\b[^=\n]*=[^=\n]*\b(?:return_logits|decoded_return|pred_return|predicted_return)\b'
+    # Files whose basename starts with one of these may use predicted returns
+    # (the explicitly-flagged imagination/DREAM modes), provided they assert
+    # genuine_learning.passed -- exempt from this rule.
+    dream_exempt_prefixes:
+      - "dream"
+    severity: critical
+    rationale: |
+      Rewarding on F's PREDICTED return teaches the agent to trade the WM's
+      hallucination (the GIGO trap). The realized reward must be a target_return_*
+      (REPLAY mode). Predicted-return reward is allowed ONLY in an explicit dream_*
+      module gated on genuine_learning.passed. Two-sided: reward = action * target_return_1
+      does NOT match; reward = decode(return_logits) DOES (outside dream_*).
+
+  # (c) Every agent-LOGIC module declares __class_tag__ in {A1, A2, A1H}. Stops
+  # the V16/V17 mis-file class (an untagged acting module) from recurring.
+  agent_class_declared:
+    # The agent-logic entry points (NOT utilities/backbones/configs). Each MUST
+    # declare a module-level __class_tag__ in VALID_CLASSES.
+    agent_logic_globs:
+      - "src/agents/a1_wm_consuming/dreamer_v3_agent.py"
+      - "src/agents/a1_wm_consuming/environment.py"
+      - "src/agents/a1_wm_consuming/policy.py"
+      - "src/agents/a1_wm_consuming/ppo.py"
+      - "src/agents/a1_wm_consuming/sac_agent.py"
+      - "src/agents/a1_wm_consuming/train_agent.py"
+      - "src/agents/a2_raw_data/*_agent.py"
+      - "src/agents/a1h_hybrid/*_agent.py"
+    valid_classes: ["A1", "A2", "A1H"]
+    severity: critical
+    rationale: |
+      An acting module without a class tag is undeclared (the V16/V17 mis-file
+      pattern). The tag is the machine-readable class. Two-sided: a module with
+      __class_tag__ = "A1" PASSES; one missing the tag, or with an invalid value,
+      FAILS. (Utilities/backbones/configs are intentionally NOT in scope.)
+
+  # (d) V16/V17 are A1 backbones, not forecasters: src/wm/v16 and src/wm/v17
+  # must contain ONLY the MOVED.md tombstone, never model code.
+  v16_v17_not_in_wm:
+    tombstone_dirs:
+      - "src/wm/v16"
+      - "src/wm/v17"
+    # Any .py under these dirs = model code resurfacing in the forecaster zoo.
+    forbidden_extension: ".py"
+    severity: critical
+    rationale: |
+      V16 (DreamerV3) and V17 (TD-MPC2) are A1 backbones, reclassified to
+      src/agents/a1_wm_consuming/backbones/. The src/wm/v16 + src/wm/v17 dirs
+      keep only a MOVED.md tombstone. A .py reappearing there = the reclassification
+      regressed. Two-sided: a dir with only MOVED.md PASSES; any .py FAILS.

@@ -1,0 +1,91 @@
+{
+ "spec": {
+  "grid": true,
+  "strategies_file": null,
+  "strategies": null,
+  "family": "2MA",
+  "max_configs": 6,
+  "rel_tol": 0.15,
+  "universe": "u10",
+  "cadence": "1d",
+  "window": "ALL",
+  "maker": false,
+  "spine": false,
+  "vol_target": 0.02,
+  "max_per_name": 0.15,
+  "trail_stop": 0.0,
+  "per_config": true
+ },
+ "out": {
+  "mode": "per_config",
+  "n_configs": 6,
+  "rows": [
+   {
+    "strategy": "ema_102_103",
+    "final_pct": 2419.9145029111774,
+    "CAGR_pct": 65.6,
+    "sharpe": 1.22,
+    "sortino": 1.39,
+    "calmar": 1.17,
+    "maxdd_pct": -56.2,
+    "maxdd_duration_days": 842.0,
+    "roll3d_pos": 0.454
+   },
+   {
+    "strategy": "ema_18_128",
+    "final_pct": 2042.1096438258007,
+    "CAGR_pct": 61.4,
+    "sharpe": 1.2,
+    "sortino": 1.37,
+    "calmar": 1.11,
+    "maxdd_pct": -55.4,
+    "maxdd_duration_days": 838.0,
+    "roll3d_pos": 0.411
+   },
+   {
+    "strategy": "ema_2_5",
+    "final_pct": 836.4146141374297,
+    "CAGR_pct": 41.9,
+    "sharpe": 0.98,
+    "sortino": 1.26,
+    "calmar": 0.64,
+    "maxdd_pct": -65.6,
+    "maxdd_duration_days": 1165.0,
+    "roll3d_pos": 0.421
+   },
+   {
+    "strategy": "ema_44_45",
+    "final_pct": 1580.0110536405207,
+    "CAGR_pct": 55.4,
+    "sharpe": 1.11,
+    "sortino": 1.23,
+    "calmar": 0.91,
+    "maxdd_pct": -61.0,
+    "maxdd_duration_days": 838.0,
+    "roll3d_pos": 0.422
+   },
+   {
+    "strategy": "ema_62_172",
+    "final_pct": 1347.1949114208685,
+    "CAGR_pct": 51.8,
+    "sharpe": 1.07,
+    "sortino": 1.18,
+    "calmar": 0.92,
+    "maxdd_pct": -56.4,
+    "maxdd_duration_days": 842.0,
+    "roll3d_pos": 0.436
+   },
+   {
+    "strategy": "ema_8_91",
+    "final_pct": 2333.670522462067,
+    "CAGR_pct": 64.7,
+    "sharpe": 1.25,
+    "sortino": 1.39,
+    "calmar": 1.07,
+    "maxdd_pct": -60.3,
+    "maxdd_duration_days": 837.0,
+    "roll3d_pos": 0.421
+   }
+  ]
+ }
+}

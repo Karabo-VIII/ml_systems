@@ -1,0 +1,1496 @@
+{
+ "repro": {
+  "command": "python -m strat.dynamic_allocation_engine --n-shuffle 200",
+  "git_sha": "1756867",
+  "cost_maker": 0.0006,
+  "cost_taker": 0.0024,
+  "runway": [
+   "2020-01-01",
+   "2021-01-01"
+  ],
+  "splits": {
+   "TRAIN": [
+    "2020-01-01",
+    "2020-07-01"
+   ],
+   "VAL": [
+    "2020-07-01",
+    "2020-10-01"
+   ],
+   "OOS": [
+    "2020-10-01",
+    "2021-01-01"
+   ]
+  },
+  "roll_days": 7,
+  "n_shuffle": 200,
+  "universe": "u10",
+  "constraint": "2020 BAND ONLY",
+  "syms": [
+   "BTCUSDT",
+   "ETHUSDT",
+   "SOLUSDT",
+   "BNBUSDT",
+   "XRPUSDT",
+   "DOGEUSDT",
+   "ADAUSDT",
+   "AVAXUSDT",
+   "LINKUSDT",
+   "LTCUSDT"
+  ],
+  "honest_frame": "long-only sleeves -> gap-fill is DD-dampening not return rescue; objective is risk-adjusted (Sharpe/maxDD/p05), NOT alpha; 2020-bull-only in-sample"
+ },
+ "results": {
+  "1d": {
+   "cadence": "1d",
+   "ma_type": "KAMA",
+   "ma_source": "ma_type_tf_research winner",
+   "n_windows": 51,
+   "features": [
+    "recent_trend",
+    "recent_mr",
+    "perf_spread",
+    "trend_strength",
+    "vol_level",
+    "trend_breadth",
+    "mr_breadth",
+    "chop_vs_trend",
+    "vol_regime"
+   ],
+   "roll_days": 7,
+   "tier_selection": {
+    "a_val_sharpe": 1.64,
+    "b_val_sharpe": 1.83,
+    "a_val_net": 10.2,
+    "b_val_net": 10.3,
+    "b_backend": "sklearn_hgb",
+    "chosen": "B"
+   },
+   "static_blend": {
+    "weight_trend": 0.5,
+    "name": "50_50"
+   },
+   "splits": {
+    "TRAIN": {
+     "n_windows": 26,
+     "DYNAMIC": {
+      "net": 23.4,
+      "sharpe": 1.59,
+      "maxdd": -20.2,
+      "p05": -8.9
+     },
+     "STATIC": {
+      "net": 4.7,
+      "sharpe": 0.44,
+      "maxdd": -26.2,
+      "p05": -28.7
+     },
+     "VOLTGT_BH": {
+      "net": 12.4,
+      "sharpe": 0.74,
+      "maxdd": -53.1,
+      "p05": -58.8
+     },
+     "TREND_ALONE": {
+      "net": 6.2,
+      "sharpe": 0.76,
+      "maxdd": -15.9,
+      "p05": -13.4
+     },
+     "MR_ALONE": {
+      "net": -1.9,
+      "sharpe": 0.3,
+      "maxdd": -37.9,
+      "p05": -47.9
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 4.6,
+      "mean": 6.25,
+      "p05": -3.85,
+      "p95": 18.12,
+      "eng_net": 23.4,
+      "eng_percentile": 1.0,
+      "p_value": 0.0,
+      "beats_median": true,
+      "timing_skill": true
+     },
+     "RANDOM_net": 4.5,
+     "mean_weight_trend": 0.508
+    },
+    "VAL": {
+     "n_windows": 13,
+     "DYNAMIC": {
+      "net": 10.3,
+      "sharpe": 1.83,
+      "maxdd": -7.9,
+      "p05": -4.9
+     },
+     "STATIC": {
+      "net": 8.1,
+      "sharpe": 1.65,
+      "maxdd": -7.1,
+      "p05": -5.4
+     },
+     "VOLTGT_BH": {
+      "net": 40.1,
+      "sharpe": 2.53,
+      "maxdd": -27.0,
+      "p05": -17.1
+     },
+     "TREND_ALONE": {
+      "net": 9.2,
+      "sharpe": 1.95,
+      "maxdd": -7.2,
+      "p05": -5.7
+     },
+     "MR_ALONE": {
+      "net": 6.4,
+      "sharpe": 0.97,
+      "maxdd": -10.9,
+      "p05": -10.6
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 8.26,
+      "mean": 8.31,
+      "p05": 6.5,
+      "p95": 10.42,
+      "eng_net": 10.3,
+      "eng_percentile": 0.94,
+      "p_value": 0.06,
+      "beats_median": true,
+      "timing_skill": true
+     },
+     "RANDOM_net": 8.1,
+     "mean_weight_trend": 0.521
+    },
+    "OOS": {
+     "n_windows": 12,
+     "DYNAMIC": {
+      "net": 18.5,
+      "sharpe": 2.83,
+      "maxdd": -8.6,
+      "p05": 0.3
+     },
+     "STATIC": {
+      "net": 15.2,
+      "sharpe": 2.89,
+      "maxdd": -5.4,
+      "p05": 0.1
+     },
+     "VOLTGT_BH": {
+      "net": 42.6,
+      "sharpe": 2.67,
+      "maxdd": -16.4,
+      "p05": -10.9
+     },
+     "TREND_ALONE": {
+      "net": 18.3,
+      "sharpe": 2.53,
+      "maxdd": -10.7,
+      "p05": -3.6
+     },
+     "MR_ALONE": {
+      "net": 11.6,
+      "sharpe": 2.01,
+      "maxdd": -5.6,
+      "p05": -3.9
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 14.15,
+      "mean": 15.25,
+      "p05": 11.39,
+      "p95": 18.8,
+      "eng_net": 18.5,
+      "eng_percentile": 0.815,
+      "p_value": 0.185,
+      "beats_median": true,
+      "timing_skill": false
+     },
+     "RANDOM_net": 15.3,
+     "mean_weight_trend": 0.53
+    }
+   },
+   "pbo_rank_flip": 0.0,
+   "_oos_weight_timeline": [
+    [
+     "2020-10-05 00:00:00",
+     0.4308669926716824,
+     0.3394631818457382
+    ],
+    [
+     "2020-10-12 00:00:00",
+     0.436104515156062,
+     0.37824391396293455
+    ],
+    [
+     "2020-10-19 00:00:00",
+     0.5017266938021023,
+     0.06927450853978565
+    ],
+    [
+     "2020-10-26 00:00:00",
+     0.7792890259828095,
+     0.2679990430720615
+    ],
+    [
+     "2020-11-02 00:00:00",
+     0.5173831674249669,
+     0.3802443903307867
+    ],
+    [
+     "2020-11-09 00:00:00",
+     0.8,
+     0.3572139190498329
+    ],
+    [
+     "2020-11-16 00:00:00",
+     0.6483550787992485,
+     0.0038497046057353675
+    ],
+    [
+     "2020-11-23 00:00:00",
+     0.8,
+     0.7921620001130709
+    ],
+    [
+     "2020-11-30 00:00:00",
+     0.2844669980431081,
+     0.00036848335969184376
+    ],
+    [
+     "2020-12-07 00:00:00",
+     0.2767052823946928,
+     0.042685261861169776
+    ],
+    [
+     "2020-12-14 00:00:00",
+     0.3902862718264274,
+     0.14887352339460222
+    ],
+    [
+     "2020-12-21 00:00:00",
+     0.4948108021495492,
+     0.8222502368636823
+    ]
+   ]
+  },
+  "4h": {
+   "cadence": "4h",
+   "ma_type": "EMA",
+   "ma_source": "EMA fallback (TF absent from ma_type_tf_research)",
+   "n_windows": 51,
+   "features": [
+    "recent_trend",
+    "recent_mr",
+    "perf_spread",
+    "trend_strength",
+    "vol_level",
+    "trend_breadth",
+    "mr_breadth",
+    "chop_vs_trend",
+    "vol_regime"
+   ],
+   "roll_days": 7,
+   "tier_selection": {
+    "a_val_sharpe": 1.41,
+    "b_val_sharpe": 2.23,
+    "a_val_net": 11.7,
+    "b_val_net": 14.8,
+    "b_backend": "sklearn_hgb",
+    "chosen": "B"
+   },
+   "static_blend": {
+    "weight_trend": 0.5,
+    "name": "50_50"
+   },
+   "splits": {
+    "TRAIN": {
+     "n_windows": 26,
+     "DYNAMIC": {
+      "net": 67.3,
+      "sharpe": 3.31,
+      "maxdd": -18.3,
+      "p05": 19.1
+     },
+     "STATIC": {
+      "net": 22.1,
+      "sharpe": 1.18,
+      "maxdd": -31.5,
+      "p05": -22.9
+     },
+     "VOLTGT_BH": {
+      "net": 20.4,
+      "sharpe": 0.91,
+      "maxdd": -50.6,
+      "p05": -51.6
+     },
+     "TREND_ALONE": {
+      "net": 37.9,
+      "sharpe": 1.85,
+      "maxdd": -15.9,
+      "p05": -8.1
+     },
+     "MR_ALONE": {
+      "net": -1.7,
+      "sharpe": 0.38,
+      "maxdd": -49.7,
+      "p05": -61.4
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 32.39,
+      "mean": 33.88,
+      "p05": 18.3,
+      "p95": 53.92,
+      "eng_net": 67.3,
+      "eng_percentile": 1.0,
+      "p_value": 0.0,
+      "beats_median": true,
+      "timing_skill": true
+     },
+     "RANDOM_net": 22.4,
+     "mean_weight_trend": 0.518
+    },
+    "VAL": {
+     "n_windows": 13,
+     "DYNAMIC": {
+      "net": 14.8,
+      "sharpe": 2.23,
+      "maxdd": -10.6,
+      "p05": -8.7
+     },
+     "STATIC": {
+      "net": 15.2,
+      "sharpe": 2.13,
+      "maxdd": -12.1,
+      "p05": -8.1
+     },
+     "VOLTGT_BH": {
+      "net": 44.5,
+      "sharpe": 2.7,
+      "maxdd": -26.4,
+      "p05": -14.7
+     },
+     "TREND_ALONE": {
+      "net": 31.6,
+      "sharpe": 3.69,
+      "maxdd": -8.3,
+      "p05": -0.4
+     },
+     "MR_ALONE": {
+      "net": -0.6,
+      "sharpe": 0.16,
+      "maxdd": -19.5,
+      "p05": -24.5
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 17.22,
+      "mean": 17.05,
+      "p05": 12.91,
+      "p95": 21.1,
+      "eng_net": 14.8,
+      "eng_percentile": 0.23,
+      "p_value": 0.77,
+      "beats_median": false,
+      "timing_skill": false
+     },
+     "RANDOM_net": 15.2,
+     "mean_weight_trend": 0.56
+    },
+    "OOS": {
+     "n_windows": 12,
+     "DYNAMIC": {
+      "net": 16.7,
+      "sharpe": 2.54,
+      "maxdd": -7.7,
+      "p05": -4.4
+     },
+     "STATIC": {
+      "net": 19.4,
+      "sharpe": 2.68,
+      "maxdd": -7.5,
+      "p05": -4.0
+     },
+     "VOLTGT_BH": {
+      "net": 47.8,
+      "sharpe": 2.78,
+      "maxdd": -17.6,
+      "p05": -10.7
+     },
+     "TREND_ALONE": {
+      "net": 29.6,
+      "sharpe": 2.98,
+      "maxdd": -10.8,
+      "p05": -3.0
+     },
+     "MR_ALONE": {
+      "net": 8.8,
+      "sharpe": 1.22,
+      "maxdd": -11.0,
+      "p05": -11.3
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 18.91,
+      "mean": 18.47,
+      "p05": 14.48,
+      "p95": 21.42,
+      "eng_net": 16.7,
+      "eng_percentile": 0.175,
+      "p_value": 0.825,
+      "beats_median": false,
+      "timing_skill": false
+     },
+     "RANDOM_net": 19.8,
+     "mean_weight_trend": 0.496
+    }
+   },
+   "pbo_rank_flip": 0.0,
+   "_oos_weight_timeline": [
+    [
+     "2020-10-05 00:00:00",
+     0.5539388057512902,
+     0.28779260007606594
+    ],
+    [
+     "2020-10-12 00:00:00",
+     0.3783904090508452,
+     0.3834568535395334
+    ],
+    [
+     "2020-10-19 00:00:00",
+     0.4433463129551732,
+     0.05650690264387681
+    ],
+    [
+     "2020-10-26 00:00:00",
+     0.4076936030105921,
+     0.28710139157447156
+    ],
+    [
+     "2020-11-02 00:00:00",
+     0.37449682875220963,
+     0.3742637555151302
+    ],
+    [
+     "2020-11-09 00:00:00",
+     0.35424447356790445,
+     0.3864203930709289
+    ],
+    [
+     "2020-11-16 00:00:00",
+     0.3217842392176038,
+     0.007987278675989785
+    ],
+    [
+     "2020-11-23 00:00:00",
+     0.5479910844550693,
+     0.7717394668197312
+    ],
+    [
+     "2020-11-30 00:00:00",
+     0.7238348100248568,
+     0.04274463454695227
+    ],
+    [
+     "2020-12-07 00:00:00",
+     0.6236840132792231,
+     0.04928124729640177
+    ],
+    [
+     "2020-12-14 00:00:00",
+     0.5612870974283953,
+     0.16627752496382267
+    ],
+    [
+     "2020-12-21 00:00:00",
+     0.6593160113915619,
+     0.8579420652983115
+    ]
+   ]
+  },
+  "2h": {
+   "cadence": "2h",
+   "ma_type": "EMA",
+   "ma_source": "EMA fallback (TF absent from ma_type_tf_research)",
+   "n_windows": 51,
+   "features": [
+    "recent_trend",
+    "recent_mr",
+    "perf_spread",
+    "trend_strength",
+    "vol_level",
+    "trend_breadth",
+    "mr_breadth",
+    "chop_vs_trend",
+    "vol_regime"
+   ],
+   "roll_days": 7,
+   "tier_selection": {
+    "a_val_sharpe": 1.78,
+    "b_val_sharpe": 2.89,
+    "a_val_net": 16.8,
+    "b_val_net": 22.8,
+    "b_backend": "sklearn_hgb",
+    "chosen": "B"
+   },
+   "static_blend": {
+    "weight_trend": 0.477,
+    "name": "min_var"
+   },
+   "splits": {
+    "TRAIN": {
+     "n_windows": 26,
+     "DYNAMIC": {
+      "net": 65.0,
+      "sharpe": 2.84,
+      "maxdd": -19.6,
+      "p05": 13.4
+     },
+     "STATIC": {
+      "net": 20.5,
+      "sharpe": 1.06,
+      "maxdd": -33.3,
+      "p05": -23.1
+     },
+     "VOLTGT_BH": {
+      "net": 18.7,
+      "sharpe": 0.87,
+      "maxdd": -51.2,
+      "p05": -52.8
+     },
+     "TREND_ALONE": {
+      "net": 41.1,
+      "sharpe": 1.77,
+      "maxdd": -19.8,
+      "p05": -11.1
+     },
+     "MR_ALONE": {
+      "net": -5.5,
+      "sharpe": 0.29,
+      "maxdd": -51.1,
+      "p05": -60.8
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 29.23,
+      "mean": 30.83,
+      "p05": 16.92,
+      "p95": 48.99,
+      "eng_net": 65.0,
+      "eng_percentile": 1.0,
+      "p_value": 0.0,
+      "beats_median": true,
+      "timing_skill": true
+     },
+     "RANDOM_net": 21.6,
+     "mean_weight_trend": 0.545
+    },
+    "VAL": {
+     "n_windows": 13,
+     "DYNAMIC": {
+      "net": 22.8,
+      "sharpe": 2.89,
+      "maxdd": -13.1,
+      "p05": -5.4
+     },
+     "STATIC": {
+      "net": 20.3,
+      "sharpe": 2.44,
+      "maxdd": -14.3,
+      "p05": -7.9
+     },
+     "VOLTGT_BH": {
+      "net": 35.7,
+      "sharpe": 2.24,
+      "maxdd": -28.7,
+      "p05": -21.4
+     },
+     "TREND_ALONE": {
+      "net": 35.2,
+      "sharpe": 3.61,
+      "maxdd": -9.5,
+      "p05": 1.3
+     },
+     "MR_ALONE": {
+      "net": 6.3,
+      "sharpe": 0.76,
+      "maxdd": -21.2,
+      "p05": -23.3
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 22.62,
+      "mean": 23.13,
+      "p05": 19.02,
+      "p95": 29.88,
+      "eng_net": 22.8,
+      "eng_percentile": 0.525,
+      "p_value": 0.475,
+      "beats_median": true,
+      "timing_skill": false
+     },
+     "RANDOM_net": 21.0,
+     "mean_weight_trend": 0.562
+    },
+    "OOS": {
+     "n_windows": 12,
+     "DYNAMIC": {
+      "net": 35.9,
+      "sharpe": 2.97,
+      "maxdd": -13.2,
+      "p05": -4.7
+     },
+     "STATIC": {
+      "net": 32.2,
+      "sharpe": 3.06,
+      "maxdd": -12.1,
+      "p05": -1.5
+     },
+     "VOLTGT_BH": {
+      "net": 55.5,
+      "sharpe": 2.4,
+      "maxdd": -21.6,
+      "p05": -19.1
+     },
+     "TREND_ALONE": {
+      "net": 22.0,
+      "sharpe": 1.84,
+      "maxdd": -10.3,
+      "p05": -15.4
+     },
+     "MR_ALONE": {
+      "net": 39.0,
+      "sharpe": 2.96,
+      "maxdd": -15.6,
+      "p05": -1.9
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 31.13,
+      "mean": 31.44,
+      "p05": 23.66,
+      "p95": 42.21,
+      "eng_net": 35.9,
+      "eng_percentile": 0.775,
+      "p_value": 0.225,
+      "beats_median": true,
+      "timing_skill": false
+     },
+     "RANDOM_net": 32.3,
+     "mean_weight_trend": 0.58
+    }
+   },
+   "pbo_rank_flip": 1.0,
+   "_oos_weight_timeline": [
+    [
+     "2020-10-05 00:00:00",
+     0.7239337542230891,
+     0.4247236997596302
+    ],
+    [
+     "2020-10-12 00:00:00",
+     0.5842273584324644,
+     0.2425841223415181
+    ],
+    [
+     "2020-10-19 00:00:00",
+     0.6625838863014292,
+     0.18675886059127686
+    ],
+    [
+     "2020-10-26 00:00:00",
+     0.5308936299884609,
+     0.5955391825494247
+    ],
+    [
+     "2020-11-02 00:00:00",
+     0.4151294080094078,
+     0.20917191858524678
+    ],
+    [
+     "2020-11-09 00:00:00",
+     0.7506917282949063,
+     0.14138236376792013
+    ],
+    [
+     "2020-11-16 00:00:00",
+     0.7507015608126301,
+     0.04148061381237563
+    ],
+    [
+     "2020-11-23 00:00:00",
+     0.5373789509052687,
+     0.648566217867849
+    ],
+    [
+     "2020-11-30 00:00:00",
+     0.3112474106431709,
+     0.049923695508470256
+    ],
+    [
+     "2020-12-07 00:00:00",
+     0.47656684013362466,
+     0.32226643023936535
+    ],
+    [
+     "2020-12-14 00:00:00",
+     0.8,
+     0.07279379249094696
+    ],
+    [
+     "2020-12-21 00:00:00",
+     0.41689432942376314,
+     0.2203987904799416
+    ]
+   ]
+  },
+  "1h": {
+   "cadence": "1h",
+   "ma_type": "EMA",
+   "ma_source": "EMA fallback (TF absent from ma_type_tf_research)",
+   "n_windows": 51,
+   "features": [
+    "recent_trend",
+    "recent_mr",
+    "perf_spread",
+    "trend_strength",
+    "vol_level",
+    "trend_breadth",
+    "mr_breadth",
+    "chop_vs_trend",
+    "vol_regime"
+   ],
+   "roll_days": 7,
+   "tier_selection": {
+    "a_val_sharpe": 1.12,
+    "b_val_sharpe": 1.81,
+    "a_val_net": 8.4,
+    "b_val_net": 12.9,
+    "b_backend": "sklearn_hgb",
+    "chosen": "B"
+   },
+   "static_blend": {
+    "weight_trend": 0.5,
+    "name": "50_50"
+   },
+   "splits": {
+    "TRAIN": {
+     "n_windows": 26,
+     "DYNAMIC": {
+      "net": 66.7,
+      "sharpe": 2.88,
+      "maxdd": -19.6,
+      "p05": 14.4
+     },
+     "STATIC": {
+      "net": 25.6,
+      "sharpe": 1.27,
+      "maxdd": -31.5,
+      "p05": -19.2
+     },
+     "VOLTGT_BH": {
+      "net": 31.8,
+      "sharpe": 1.15,
+      "maxdd": -50.0,
+      "p05": -47.0
+     },
+     "TREND_ALONE": {
+      "net": 48.7,
+      "sharpe": 1.95,
+      "maxdd": -14.8,
+      "p05": -2.1
+     },
+     "MR_ALONE": {
+      "net": -3.3,
+      "sharpe": 0.32,
+      "maxdd": -49.8,
+      "p05": -58.1
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 31.95,
+      "mean": 34.04,
+      "p05": 18.91,
+      "p95": 52.46,
+      "eng_net": 66.7,
+      "eng_percentile": 1.0,
+      "p_value": 0.0,
+      "beats_median": true,
+      "timing_skill": true
+     },
+     "RANDOM_net": 25.5,
+     "mean_weight_trend": 0.56
+    },
+    "VAL": {
+     "n_windows": 13,
+     "DYNAMIC": {
+      "net": 12.9,
+      "sharpe": 1.81,
+      "maxdd": -13.6,
+      "p05": -11.6
+     },
+     "STATIC": {
+      "net": 13.1,
+      "sharpe": 1.78,
+      "maxdd": -14.2,
+      "p05": -11.7
+     },
+     "VOLTGT_BH": {
+      "net": 38.6,
+      "sharpe": 2.42,
+      "maxdd": -27.3,
+      "p05": -17.8
+     },
+     "TREND_ALONE": {
+      "net": 25.2,
+      "sharpe": 2.6,
+      "maxdd": -9.5,
+      "p05": -3.9
+     },
+     "MR_ALONE": {
+      "net": 0.7,
+      "sharpe": 0.28,
+      "maxdd": -20.4,
+      "p05": -27.8
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 13.61,
+      "mean": 13.8,
+      "p05": 9.1,
+      "p95": 19.24,
+      "eng_net": 12.9,
+      "eng_percentile": 0.435,
+      "p_value": 0.565,
+      "beats_median": false,
+      "timing_skill": false
+     },
+     "RANDOM_net": 13.2,
+     "mean_weight_trend": 0.563
+    },
+    "OOS": {
+     "n_windows": 12,
+     "DYNAMIC": {
+      "net": 29.6,
+      "sharpe": 3.53,
+      "maxdd": -8.8,
+      "p05": 2.7
+     },
+     "STATIC": {
+      "net": 35.3,
+      "sharpe": 3.83,
+      "maxdd": -7.3,
+      "p05": 2.8
+     },
+     "VOLTGT_BH": {
+      "net": 70.8,
+      "sharpe": 3.57,
+      "maxdd": -15.9,
+      "p05": -0.7
+     },
+     "TREND_ALONE": {
+      "net": 48.2,
+      "sharpe": 3.71,
+      "maxdd": -9.6,
+      "p05": 3.2
+     },
+     "MR_ALONE": {
+      "net": 21.5,
+      "sharpe": 2.31,
+      "maxdd": -11.3,
+      "p05": -5.1
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 33.36,
+      "mean": 32.52,
+      "p05": 24.56,
+      "p95": 39.17,
+      "eng_net": 29.6,
+      "eng_percentile": 0.2,
+      "p_value": 0.8,
+      "beats_median": false,
+      "timing_skill": false
+     },
+     "RANDOM_net": 35.8,
+     "mean_weight_trend": 0.46
+    }
+   },
+   "pbo_rank_flip": 1.0,
+   "_oos_weight_timeline": [
+    [
+     "2020-10-05 00:00:00",
+     0.471416380196818,
+     0.1447446863199186
+    ],
+    [
+     "2020-10-12 00:00:00",
+     0.4203672129101863,
+     0.34054789286406795
+    ],
+    [
+     "2020-10-19 00:00:00",
+     0.39735734767979347,
+     0.00333815540022202
+    ],
+    [
+     "2020-10-26 00:00:00",
+     0.35284490945600927,
+     0.375085471163344
+    ],
+    [
+     "2020-11-02 00:00:00",
+     0.527478814357444,
+     0.3272190556038948
+    ],
+    [
+     "2020-11-09 00:00:00",
+     0.4140622027623772,
+     0.42090258722447815
+    ],
+    [
+     "2020-11-16 00:00:00",
+     0.24050996044453374,
+     0.0660129352813257
+    ],
+    [
+     "2020-11-23 00:00:00",
+     0.20847382632384234,
+     0.7904661861634628
+    ],
+    [
+     "2020-11-30 00:00:00",
+     0.5003899135380212,
+     0.12409873567933319
+    ],
+    [
+     "2020-12-07 00:00:00",
+     0.462533240901761,
+     0.11444899167023335
+    ],
+    [
+     "2020-12-14 00:00:00",
+     0.7193349123773854,
+     0.12769445675464738
+    ],
+    [
+     "2020-12-21 00:00:00",
+     0.8,
+     0.9049135164001189
+    ]
+   ]
+  },
+  "30m": {
+   "cadence": "30m",
+   "ma_type": "EMA",
+   "ma_source": "EMA fallback (TF absent from ma_type_tf_research)",
+   "n_windows": 51,
+   "features": [
+    "recent_trend",
+    "recent_mr",
+    "perf_spread",
+    "trend_strength",
+    "vol_level",
+    "trend_breadth",
+    "mr_breadth",
+    "chop_vs_trend",
+    "vol_regime"
+   ],
+   "roll_days": 7,
+   "tier_selection": {
+    "a_val_sharpe": 1.74,
+    "b_val_sharpe": 3.02,
+    "a_val_net": 14.2,
+    "b_val_net": 23.5,
+    "b_backend": "sklearn_hgb",
+    "chosen": "B"
+   },
+   "static_blend": {
+    "weight_trend": 0.333,
+    "name": "min_var"
+   },
+   "splits": {
+    "TRAIN": {
+     "n_windows": 26,
+     "DYNAMIC": {
+      "net": 83.3,
+      "sharpe": 3.35,
+      "maxdd": -14.6,
+      "p05": 25.4
+     },
+     "STATIC": {
+      "net": 34.9,
+      "sharpe": 1.55,
+      "maxdd": -30.9,
+      "p05": -17.2
+     },
+     "VOLTGT_BH": {
+      "net": 40.7,
+      "sharpe": 1.34,
+      "maxdd": -48.9,
+      "p05": -41.4
+     },
+     "TREND_ALONE": {
+      "net": 40.2,
+      "sharpe": 1.64,
+      "maxdd": -17.4,
+      "p05": -6.4
+     },
+     "MR_ALONE": {
+      "net": 25.5,
+      "sharpe": 1.1,
+      "maxdd": -40.5,
+      "p05": -38.1
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 39.85,
+      "mean": 42.19,
+      "p05": 23.12,
+      "p95": 60.1,
+      "eng_net": 83.3,
+      "eng_percentile": 1.0,
+      "p_value": 0.0,
+      "beats_median": true,
+      "timing_skill": true
+     },
+     "RANDOM_net": 37.6,
+     "mean_weight_trend": 0.505
+    },
+    "VAL": {
+     "n_windows": 13,
+     "DYNAMIC": {
+      "net": 23.5,
+      "sharpe": 3.02,
+      "maxdd": -10.3,
+      "p05": -1.8
+     },
+     "STATIC": {
+      "net": 19.0,
+      "sharpe": 2.46,
+      "maxdd": -13.7,
+      "p05": -7.3
+     },
+     "VOLTGT_BH": {
+      "net": 39.8,
+      "sharpe": 2.47,
+      "maxdd": -26.9,
+      "p05": -18.1
+     },
+     "TREND_ALONE": {
+      "net": 26.5,
+      "sharpe": 2.62,
+      "maxdd": -9.3,
+      "p05": -3.3
+     },
+     "MR_ALONE": {
+      "net": 14.3,
+      "sharpe": 1.64,
+      "maxdd": -16.1,
+      "p05": -15.4
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 22.27,
+      "mean": 22.02,
+      "p05": 17.26,
+      "p95": 26.67,
+      "eng_net": 23.5,
+      "eng_percentile": 0.71,
+      "p_value": 0.29,
+      "beats_median": true,
+      "timing_skill": false
+     },
+     "RANDOM_net": 21.2,
+     "mean_weight_trend": 0.482
+    },
+    "OOS": {
+     "n_windows": 12,
+     "DYNAMIC": {
+      "net": 49.1,
+      "sharpe": 5.21,
+      "maxdd": -6.7,
+      "p05": 15.4
+     },
+     "STATIC": {
+      "net": 43.9,
+      "sharpe": 4.71,
+      "maxdd": -8.1,
+      "p05": 10.9
+     },
+     "VOLTGT_BH": {
+      "net": 93.6,
+      "sharpe": 4.1,
+      "maxdd": -14.4,
+      "p05": 8.1
+     },
+     "TREND_ALONE": {
+      "net": 38.4,
+      "sharpe": 2.96,
+      "maxdd": -13.1,
+      "p05": -3.4
+     },
+     "MR_ALONE": {
+      "net": 44.9,
+      "sharpe": 4.23,
+      "maxdd": -10.4,
+      "p05": 13.7
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 39.51,
+      "mean": 39.37,
+      "p05": 31.46,
+      "p95": 48.82,
+      "eng_net": 49.1,
+      "eng_percentile": 1.0,
+      "p_value": 0.0,
+      "beats_median": true,
+      "timing_skill": true
+     },
+     "RANDOM_net": 43.3,
+     "mean_weight_trend": 0.429
+    }
+   },
+   "pbo_rank_flip": 0.0,
+   "_oos_weight_timeline": [
+    [
+     "2020-10-05 00:00:00",
+     0.2742370635244314,
+     0.13509629418568045
+    ],
+    [
+     "2020-10-12 00:00:00",
+     0.2,
+     0.3380237656713237
+    ],
+    [
+     "2020-10-19 00:00:00",
+     0.5980754097351532,
+     0.0329770437200091
+    ],
+    [
+     "2020-10-26 00:00:00",
+     0.2626625889362897,
+     0.3992318500800642
+    ],
+    [
+     "2020-11-02 00:00:00",
+     0.5362516613900697,
+     0.3064483563773053
+    ],
+    [
+     "2020-11-09 00:00:00",
+     0.3394143666810425,
+     0.48086252245373046
+    ],
+    [
+     "2020-11-16 00:00:00",
+     0.5071209057483455,
+     0.005969714284212064
+    ],
+    [
+     "2020-11-23 00:00:00",
+     0.5415455027400499,
+     0.8963465621789085
+    ],
+    [
+     "2020-11-30 00:00:00",
+     0.39872179177161976,
+     0.18926235424319243
+    ],
+    [
+     "2020-12-07 00:00:00",
+     0.322072597175636,
+     0.1376095987271386
+    ],
+    [
+     "2020-12-14 00:00:00",
+     0.3968802390431232,
+     0.10682104734247107
+    ],
+    [
+     "2020-12-21 00:00:00",
+     0.7688037201285368,
+     0.9539812223832438
+    ]
+   ]
+  },
+  "15m": {
+   "cadence": "15m",
+   "ma_type": "EMA",
+   "ma_source": "EMA fallback (TF absent from ma_type_tf_research)",
+   "n_windows": 51,
+   "features": [
+    "recent_trend",
+    "recent_mr",
+    "perf_spread",
+    "trend_strength",
+    "vol_level",
+    "trend_breadth",
+    "mr_breadth",
+    "chop_vs_trend",
+    "vol_regime"
+   ],
+   "roll_days": 7,
+   "tier_selection": {
+    "a_val_sharpe": 2.43,
+    "b_val_sharpe": 3.64,
+    "a_val_net": 22.1,
+    "b_val_net": 32.0,
+    "b_backend": "sklearn_hgb",
+    "chosen": "B"
+   },
+   "static_blend": {
+    "weight_trend": 0.271,
+    "name": "min_var"
+   },
+   "splits": {
+    "TRAIN": {
+     "n_windows": 26,
+     "DYNAMIC": {
+      "net": 68.1,
+      "sharpe": 2.71,
+      "maxdd": -22.9,
+      "p05": 5.3
+     },
+     "STATIC": {
+      "net": 27.5,
+      "sharpe": 1.26,
+      "maxdd": -32.3,
+      "p05": -31.0
+     },
+     "VOLTGT_BH": {
+      "net": 60.9,
+      "sharpe": 1.68,
+      "maxdd": -49.9,
+      "p05": -35.8
+     },
+     "TREND_ALONE": {
+      "net": 26.5,
+      "sharpe": 1.19,
+      "maxdd": -27.1,
+      "p05": -20.5
+     },
+     "MR_ALONE": {
+      "net": 22.1,
+      "sharpe": 1.01,
+      "maxdd": -39.8,
+      "p05": -44.3
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 30.62,
+      "mean": 31.61,
+      "p05": 16.48,
+      "p95": 48.18,
+      "eng_net": 68.1,
+      "eng_percentile": 1.0,
+      "p_value": 0.0,
+      "beats_median": true,
+      "timing_skill": true
+     },
+     "RANDOM_net": 29.0,
+     "mean_weight_trend": 0.51
+    },
+    "VAL": {
+     "n_windows": 13,
+     "DYNAMIC": {
+      "net": 32.0,
+      "sharpe": 3.64,
+      "maxdd": -11.3,
+      "p05": 5.6
+     },
+     "STATIC": {
+      "net": 29.7,
+      "sharpe": 3.44,
+      "maxdd": -11.7,
+      "p05": 1.6
+     },
+     "VOLTGT_BH": {
+      "net": 51.6,
+      "sharpe": 2.9,
+      "maxdd": -27.7,
+      "p05": -13.7
+     },
+     "TREND_ALONE": {
+      "net": 19.7,
+      "sharpe": 2.0,
+      "maxdd": -12.8,
+      "p05": -9.6
+     },
+     "MR_ALONE": {
+      "net": 32.6,
+      "sharpe": 3.19,
+      "maxdd": -13.8,
+      "p05": 0.2
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 26.49,
+      "mean": 26.53,
+      "p05": 19.75,
+      "p95": 32.85,
+      "eng_net": 32.0,
+      "eng_percentile": 0.9,
+      "p_value": 0.1,
+      "beats_median": true,
+      "timing_skill": false
+     },
+     "RANDOM_net": 26.9,
+     "mean_weight_trend": 0.517
+    },
+    "OOS": {
+     "n_windows": 12,
+     "DYNAMIC": {
+      "net": 45.5,
+      "sharpe": 4.37,
+      "maxdd": -7.1,
+      "p05": 9.0
+     },
+     "STATIC": {
+      "net": 64.9,
+      "sharpe": 6.11,
+      "maxdd": -7.3,
+      "p05": 26.7
+     },
+     "VOLTGT_BH": {
+      "net": 106.5,
+      "sharpe": 4.4,
+      "maxdd": -13.9,
+      "p05": 14.3
+     },
+     "TREND_ALONE": {
+      "net": 33.9,
+      "sharpe": 2.54,
+      "maxdd": -15.8,
+      "p05": -9.5
+     },
+     "MR_ALONE": {
+      "net": 76.4,
+      "sharpe": 6.45,
+      "maxdd": -8.6,
+      "p05": 36.9
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 51.28,
+      "mean": 49.84,
+      "p05": 38.8,
+      "p95": 61.04,
+      "eng_net": 45.5,
+      "eng_percentile": 0.305,
+      "p_value": 0.695,
+      "beats_median": false,
+      "timing_skill": false
+     },
+     "RANDOM_net": 55.3,
+     "mean_weight_trend": 0.54
+    }
+   },
+   "pbo_rank_flip": 1.0,
+   "_oos_weight_timeline": [
+    [
+     "2020-10-05 00:00:00",
+     0.5413196438841046,
+     0.2320678910728478
+    ],
+    [
+     "2020-10-12 00:00:00",
+     0.6914278714158028,
+     0.4565622425911579
+    ],
+    [
+     "2020-10-19 00:00:00",
+     0.40320619694528237,
+     0.02564264345577339
+    ],
+    [
+     "2020-10-26 00:00:00",
+     0.33877871886354294,
+     0.43919043613658254
+    ],
+    [
+     "2020-11-02 00:00:00",
+     0.4752071883583522,
+     0.2323554515939137
+    ],
+    [
+     "2020-11-09 00:00:00",
+     0.8,
+     0.4627932236789094
+    ],
+    [
+     "2020-11-16 00:00:00",
+     0.4933470154736989,
+     0.12500748854714097
+    ],
+    [
+     "2020-11-23 00:00:00",
+     0.6171034332697708,
+     0.8861246882993075
+    ],
+    [
+     "2020-11-30 00:00:00",
+     0.563007858266291,
+     0.2088273277494865
+    ],
+    [
+     "2020-12-07 00:00:00",
+     0.6138772850675771,
+     0.1689080180910817
+    ],
+    [
+     "2020-12-14 00:00:00",
+     0.2826588006073377,
+     0.1340031312177575
+    ],
+    [
+     "2020-12-21 00:00:00",
+     0.6626130507417314,
+     0.9786970444901483
+    ]
+   ]
+  }
+ },
+ "verdict": {
+  "headline": "DYNAMIC-ADDS-VALUE (partial): at 1/6 cadences (['30m']) the dynamic engine beat the STATIC blend on a risk-adjusted axis (Sharpe or p05) AND showed genuine TIMING SKILL (engine net > weight-shuffle median, p<0.10). Verify robustness before believing.",
+  "beat_static_sharpe": [
+   "30m"
+  ],
+  "beat_static_dd": [
+   "30m"
+  ],
+  "beat_static_p05": [
+   "30m"
+  ],
+  "beat_voltgt": [],
+  "timing_skill": [
+   "30m"
+  ],
+  "real_edge_cadences": [
+   "30m"
+  ],
+  "n_cadences": 6,
+  "lines": [
+   "BAR TO BEAT: the STATIC complementary blend (B's optimal per-TF weight) on a RISK-ADJUSTED axis (Sharpe / maxDD / p05) AND the engine's own WEIGHT-SHUFFLE distribution (timing skill, p<0.10).",
+   "HONEST FRAME: both sleeves are LONG-ONLY -> gap-filling is DRAWDOWN-DAMPENING, not return rescue. The engine target is risk-adjusted return, NOT alpha. We do not claim alpha it does not have.",
+   "HEADLINE: DYNAMIC-ADDS-VALUE (partial): at 1/6 cadences (['30m']) the dynamic engine beat the STATIC blend on a risk-adjusted axis (Sharpe or p05) AND showed genuine TIMING SKILL (engine net > weight-shuffle median, p<0.10). Verify robustness before believing.",
+   "",
+   "[1d] OOS DYN net 18.5% Sh 2.83 DD -8.6% p05 0.3% (w_trend~0.53) vs STATIC net 15.2% Sh 2.89 DD -5.4% p05 0.1% vs VOLTGT 42.6% | shuf-med 14.15% p=0.185 no-skill | tier B",
+   "[4h] OOS DYN net 16.7% Sh 2.54 DD -7.7% p05 -4.4% (w_trend~0.496) vs STATIC net 19.4% Sh 2.68 DD -7.5% p05 -4.0% vs VOLTGT 47.8% | shuf-med 18.91% p=0.825 no-skill | tier B",
+   "[2h] OOS DYN net 35.9% Sh 2.97 DD -13.2% p05 -4.7% (w_trend~0.58) vs STATIC net 32.2% Sh 3.06 DD -12.1% p05 -1.5% vs VOLTGT 55.5% | shuf-med 31.13% p=0.225 no-skill | tier B",
+   "[1h] OOS DYN net 29.6% Sh 3.53 DD -8.8% p05 2.7% (w_trend~0.46) vs STATIC net 35.3% Sh 3.83 DD -7.3% p05 2.8% vs VOLTGT 70.8% | shuf-med 33.36% p=0.8 no-skill | tier B",
+   "[30m] OOS DYN net 49.1% Sh 5.21 DD -6.7% p05 15.4% (w_trend~0.429) vs STATIC net 43.9% Sh 4.71 DD -8.1% p05 10.9% vs VOLTGT 93.6% | shuf-med 39.51% p=0.0 TIMING-SKILL | tier B",
+   "[15m] OOS DYN net 45.5% Sh 4.37 DD -7.1% p05 9.0% (w_trend~0.54) vs STATIC net 64.9% Sh 6.11 DD -7.3% p05 26.7% vs VOLTGT 106.5% | shuf-med 51.28% p=0.695 no-skill | tier B",
+   "",
+   "beat-static(Sharpe) ['30m'] | beat-static(maxDD) ['30m'] | beat-static(p05) ['30m'] | beat-VOLTGT(net) [] | timing-skill ['30m']",
+   "CAVEATS: 2020-BULL-ONLY, in-sample regime (single bull -- the trend sleeve is structurally favored; the DD-dampening value of complementarity is exactly what should generalize worse-known until a bear/chop regime is tested -- synthetic regime-stress is a LATER phase, flagged not done here). Long-only; equal-weight u10; causal lag-1 MtM; maker. Tier chosen on VAL (never OOS). 1d has few rolling windows (small-sample). UNSEEN N/A (2020 band only)."
+  ]
+ }
+}

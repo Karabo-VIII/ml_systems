@@ -1,0 +1,15 @@
+# Universe index — references the per-universe YAMLs.
+# Loaded by src/pipeline/universe_loader.py.
+universes:
+  u10: config/universes/u10.yaml
+  u50: config/universes/u50.yaml
+  u100: config/universes/u100.yaml
+
+default: u50
+
+# DNA buckets (canonical)
+dna_buckets:
+  BLUE:     { description: "Deepest liquidity, lower tails. BTC, ETH." }
+  STEADY:   { description: "Large-cap, moderate volatility." }
+  VOLATILE: { description: "High vol, fat tails." }
+  DEGEN:    { description: "Extreme tails, memecoins, very thin." }

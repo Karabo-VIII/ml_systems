@@ -1,0 +1,60 @@
+# Regime-gated trend book v1 -- the FROZEN deploy candidate (2026-06-11)
+# The only honest survivor of the full re-grade (docs/STRATEGY_LEADERBOARD_2026_06_11.md +
+# UNSEEN paper-trade): preserves capital in bears (UNSEEN -2 to -3.5% vs market -18%),
+# robust full-cycle (block-bootstrap p05 +59..+106), beats buy&hold AND the random null.
+# Long-only spot, lev=1. PARAMS ARE FROZEN -- selected on TRAIN/VAL, never tuned on OOS/UNSEEN.
+#
+# Status: PAPER-TRADE candidate (stage-04). NOT real capital. Honest expectations are
+# disclosed in docs/DEPLOY_DECISION_2026_06_11.md (beta+regime-gate, not alpha; preserves-not-
+# earns in a sustained bear; per-window 1d/3d returns are ~coin-flip; budget DD -49 to -55%).
+
+book: regime_gated_trend_v1
+source_module: strat.tsmom_ensemble          # the validated, MtM-correct engine
+universe: u50
+cadence: 1d
+constraints:
+  long_only: true
+  spot: true
+  leverage: 1.0
+cost:
+  taker_rt: 0.0024                            # headline grade
+  maker_rt_sensitivity: 0.0012                # reported only; real p_fill 0.21-0.40 (D43)
+
+# Three frozen risk points (the user's deploy decision). Default = balanced.
+variants:
+  defensive:                                  # best UNSEEN preserver
+    book: TSMOM_breadth                        # OR BLEND_25r
+    full_cycle_ann_pct: 54                      # VERIFIED RWYB (u50 taker)
+    unseen_final_pct: -2.1                      # VERIFIED (sealed window, 5mo bear)
+    full_bootstrap_p05: 59
+  balanced:                                   # charter default
+    book: BLEND_50r                            # 0.5*regime_beta(SMA120) + 0.5*TSMOM_breadth
+    full_cycle_ann_pct: 64
+    unseen_final_pct: -2.8
+    full_bootstrap_p05: 88
+  aggressive:                                 # highest full-cycle, deepest DD
+    book: regime_beta                          # equal-weight long close>SMA120, flat=cash
+    full_cycle_ann_pct: 73
+    unseen_final_pct: -3.5
+    full_bootstrap_p05: 106
+
+# the validated regime-beta + TSMOM ensemble parameters (FROZEN)
+params:
+  regime_gate_sma: 120                        # fast MA beats classic 200 in crypto (thread-22)
+  tsmom_lookbacks: [21, 63, 126, 252]
+  vol_window: 30
+  rebalance: daily
+  weight_lag_bars: 1                          # past-only, MtM-correct
+
+risk_envelope:                                # per CAMPAIGN_CHARTER section 3
+  risk_per_trade_pct: [0.5, 1.0]
+  portfolio_heat_cap_pct: 6                    # alts treated as ONE BTC-beta bet
+  vol_target_annual_pct: 30
+  daily_kill_switch_pct: 4.5
+  dd_ladder: { derisk_50pct_at: -5, hard_review_at: -10 }
+
+repro:
+  books: "python -m strat.tsmom_ensemble --universe u50 --cadence 1d"
+  grade: "python -m strat.regrade_leaderboard --universe u50"
+  paper_trade: "python -m strat.unseen_paper_trade --universe u50"
+provenance: "re-grade 2026-06-11; survivor of full inventory; UNSEEN paper-trade verified"

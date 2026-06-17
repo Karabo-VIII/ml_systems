@@ -1,0 +1,1 @@
+"""selfplay -- AlphaZero self-play TRAINING orchestration: the learn/watch loop (play.py), the recipe launcher (run_engine.py), and the unattended-run watchdog (watchdog.py). The turnkey DEMO lives at the repo root (run_engines.py); this package is the training side."""

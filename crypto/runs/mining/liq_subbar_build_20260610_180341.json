@@ -1,0 +1,30 @@
+{
+  "args": {
+    "assets": [
+      "BTC"
+    ],
+    "universe": null,
+    "start_date": "2024-06-01",
+    "end_date": "2024-06-03",
+    "workers": 4,
+    "force": true
+  },
+  "results": [
+    {
+      "sym": "BTCUSDT",
+      "status": "built",
+      "rows": 4320,
+      "days_ok": 3,
+      "days_failed": 0,
+      "threshold_usd": 100000,
+      "ts_range": [
+        1717200000000,
+        1717459140000
+      ],
+      "elapsed_s": 0.2,
+      "out": "data\\processed\\liq_subbar\\BTCUSDT_1m.parquet",
+      "liq_long_usd_total": 268930409.1266476,
+      "liq_short_usd_total": 352641224.0770626
+    }
+  ]
+}

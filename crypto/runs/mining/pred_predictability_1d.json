@@ -1,0 +1,13 @@
+{
+  "cadence": "1d",
+  "n_features": 40,
+  "n_train": 29778,
+  "n_test": 12786,
+  "test_base_rate_up": 0.46,
+  "direction_AUC_gbm": 0.5084,
+  "direction_AUC_logistic": 0.5038,
+  "magnitude_R2_gbm": 0.0011,
+  "verdict": "DIRECTION unpredictable (AUC~0.5)",
+  "note": "Held-out time-split (train first 70%, test last 30%), pooled across assets. AUC 0.50=coin flip. Magnitude R2>0 confirms vol predictability. NO costs/gate -- predictability ceiling only.",
+  "_elapsed_s": 2.6
+}

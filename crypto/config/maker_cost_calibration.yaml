@@ -1,0 +1,19 @@
+# OHLC-calibrated MakerCostModel overrides (generated).
+# Replaces p_fill=0.80 default + adverse_selection=0.3 default.
+maker_cost_calibration:
+  blue:
+    p_fill: 0.2083
+    adverse_selection: 1.0000
+    n_observed: 96
+  steady:
+    p_fill: 0.3433
+    adverse_selection: 0.9627
+    n_observed: 469
+  volatile:
+    p_fill: 0.3159
+    adverse_selection: 0.9598
+    n_observed: 630
+  degen:
+    p_fill: 0.3976
+    adverse_selection: 0.9697
+    n_observed: 166

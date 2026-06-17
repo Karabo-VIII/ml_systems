@@ -1,0 +1,706 @@
+================================================================================
+UNCONSTRAINED RED TEAM: ARCHITECTURE AUDIT (ALL VERSIONS)
+Date: 2026-04-04
+Mode: No hedging. No deference. What I would actually build with my money.
+================================================================================
+
+
+================================================================================
+THE FUNDAMENTAL PROBLEM (Before Any Architecture Discussion)
+================================================================================
+
+IC=0.05 at h=1 with 0.24% round-trip cost is STRUCTURALLY UNPROFITABLE
+as a standalone signal. The math:
+
+  Expected return per trade = IC * cross_sectional_vol * scale
+  = 0.05 * 0.03 (daily crypto vol) = 0.15% expected per trade
+  Cost = 0.24% round-trip (SPOT 0.12%/side)
+  Net = -0.09% per trade
+
+No architecture change fixes this. The WM is a FILTER, not a signal.
+Every architecture decision should be evaluated through this lens:
+"Does this make the WM a better filter for rule-based strategies?"
+
+The correct metric is NOT IC. It's: "How many bad Donchian/VPIN entries
+does this model prevent, and does the improvement exceed the cost of
+the WM infrastructure?"
+
+
+================================================================================
+V1.0: TRANSFORMER + RSSM (Reference Baseline)
+================================================================================
+
+Architecture: 3-layer causal Transformer (d=256, 8 heads) + RSSM 24x24
+Parameters: ~2M
+Results: IC=0.056, ShIC=0.027
+Status: PASSES all gates. Clean training. Solid baseline.
+
+CRITIQUE:
+
+1. TRANSFORMER IS OVERKILL FOR THIS SEQUENCE LENGTH
+   T=96 bars. 3-layer 8-head attention is O(96^2 * 3) = 27,648 attention
+   scores per sample. For a 96-length sequence of 13 features, this is
+   massively over-parameterized. The attention is learning to attend to
+   ~5 distinct temporal patterns in a 96-bar window.
+
+   A 2-layer GRU (V2/V3 approach) would capture the same sequential
+   dependencies with 4x fewer parameters and faster training.
+
+2. RSSM 24x24 = 576 CATEGORICAL DIMS IS TOO LARGE
+   The latent space has 24^24 possible states = 1.3 * 10^33 combinations.
+   The training set has ~50,000 sequences (2.6M bars / 96 * 0.60 train).
+   The effective codebook usage is likely <1% of the state space.
+
+   This is a memorization invitation: with 576 binary-ish dimensions
+   and 50K training samples, the posterior can uniquely encode each
+   training sequence. The prior-posterior KL provides some regularization,
+   but ShIC=0.027 (vs IC=0.056) shows ~50% of the signal is temporal.
+
+3. HARD GUMBEL-SOFTMAX CREATES GRADIENT DISCONTINUITIES
+   tau=1.0 with hard=True is the WORST of both worlds. Hard=True uses
+   straight-through estimator (forward: argmax, backward: softmax grad).
+   At tau=1.0, the softmax is nearly uniform, so the gradient is nearly
+   equal across all classes -- the model gets almost no gradient signal
+   about WHICH class to select. It learns slowly and relies on the
+   stochastic sampling to explore.
+
+   V1.6 fixes this by annealing tau 1.0->0.5, which is better but
+   still timid. tau=0.3 would give sharper gradients.
+
+4. RECONSTRUCTION LOSS IS WASTED CAPACITY
+   MSE(recon, obs) at the output forces the 256D trunk to preserve
+   enough information to reconstruct 13 input features. This consumes
+   representation capacity that should go to return prediction.
+
+   The Kendall balancing tries to downweight it (s_rec clamped min=0.0,
+   so max weight = 1.0x), but it still occupies optimizer bandwidth.
+   Reconstruction loss made sense for Dreamer-v3 (image prediction in
+   Atari/DM Control). For 13 numeric features with mean ~0 and std ~1,
+   reconstruction is trivial and teaches the model nothing useful.
+
+5. BLOCK MASKING (15% OF 96 BARS) IS TOO GENTLE
+   1 block of 9 bars masked. The model can trivially interpolate 9 bars
+   from the surrounding 87 bars of context. This provides almost zero
+   regularization benefit. Compare: BERT masks 15% randomly, which is
+   much harder because masked tokens aren't contiguous.
+
+   Recommendation: increase to 30% random token masking (not block).
+
+6. DREAM STEP IS DISCONNECTED FROM TRAINING
+   dream_step uses @torch.no_grad() in V1.0. The dream GRU (Linear +
+   GRU(256,256)) is never trained. Its parameters are initialized and
+   frozen. This is dead code occupying memory.
+
+   V1.6 fixes this with dream_step_train, but the dream consistency
+   weight (0.1) is too low to matter. At 0.1 weight and every-4th-batch
+   application, the dream loss contributes ~0.025 of total loss. Noise.
+
+
+VERDICT: V1.0 works because it's simple enough to not overfit badly.
+Its IC comes from the Transformer attending to recent microstructure
+patterns. The RSSM latent space and reconstruction loss are largely
+irrelevant -- the return trunk reads from h_seq (Transformer output),
+and the z_post contribution is minor. You could remove the RSSM entirely
+and get similar IC from the Transformer alone.
+
+
+================================================================================
+V1.1: V1.0 + XD ANTI-MEMORIZATION
+================================================================================
+
+Architecture: V1.0 + base_dim/input_dim split + XD dropout/noise
+Parameters: ~2M (same)
+Results: IC=0.057 (f13), 0.065 (f25), ShIC=0.027
+Status: DEPLOYED. Best IC at f25.
+
+CRITIQUE:
+
+1. XD ANTI-MEMORIZATION IS THE RIGHT IDEA, WRONG EXECUTION
+   70% per-timestep dropout on XD features + N(0, 0.3) noise during
+   training. This is aggressive enough to prevent memorization but so
+   aggressive that the model can't learn useful XD patterns at all.
+   It effectively teaches the model to ignore XD features.
+
+   Better: Use XD features as a SEPARATE input stream with its own
+   encoder, merged after the temporal backbone. This way the backbone
+   learns temporal patterns from base features, and the XD encoder
+   learns cross-asset correlations. No dropout needed because the
+   XD encoder is structurally separated from the temporal memory.
+
+2. f25 > f13 BY +13% IC -- HAWKES FEATURES ARE THE WIN
+   The jump from f13 to f25 adds: kurtosis, bar_duration, funding_momentum,
+   + 4 Hawkes features. The Hawkes features (tick clustering, buy/sell
+   intensity) are dollar-bar-native microstructure signals. They're
+   exactly the kind of features the model should emphasize.
+
+   But the model treats all 25 features equally at the input (linear
+   projection). V1.4's FeatureAttentionBlock was designed to let
+   features interact, but it only improved IC by +0.001 over V1.1.
+   The reason: FeatureAttentionBlock operates per-timestep (no temporal
+   context), so it can't learn "Hawkes spike + vol cluster yesterday =
+   breakout today". It's a spatial-only operation on temporal data.
+
+3. ABLATION SUBSETS ARE ARCHITECTURALLY CORRECT BUT UNUSED
+   V1.1 adds ablation_trunks/heads for marginal feature contribution
+   analysis. This is good infrastructure. But there's no evidence it
+   was ever used in training (ABLATION_LOSS_WEIGHT=0.5 is in settings
+   but the ablation_subsets parameter is None by default).
+
+   If trained with ablation losses, this would give you per-feature
+   IC contribution -- exactly what you need for feature selection
+   without exhaustive f13/f18/f25/f37 training runs.
+
+
+================================================================================
+V1.4: FeatureAttentionBlock
+================================================================================
+
+Architecture: V1.1 + iTransformer cross-feature attention pre-encoder
+Parameters: ~2M + ~10K (FeatureAttention block is tiny)
+Results: IC=0.057 (f13), 0.064 (f25), ShIC=0.027
+Status: Trained. Marginal improvement over V1.1.
+
+CRITIQUE:
+
+1. FeatureAttentionBlock IS THE RIGHT IDEA IN THE WRONG PLACE
+   Cross-feature attention lets features interact: "when VPIN spikes
+   and flow is positive, that's different from VPIN alone." This is
+   valuable. But it operates per-timestep independently -- it can't
+   learn temporal feature interactions.
+
+   Move it to AFTER the temporal encoder, not before. Post-encoder
+   feature attention on the h_seq representations would capture
+   "VPIN spiked AND the temporal context shows momentum" -- that's
+   the actual trading signal.
+
+2. d_feat=32 WITH F=13-25 FEATURES IS UNDERPOWERED
+   Each feature gets embedded to 32D, then 4-head attention with
+   head_dim=8. Head_dim=8 means each attention head has 8 dimensions
+   to distinguish feature relationships. This is too small for
+   meaningful cross-feature learning. The block is essentially a
+   learned linear mixing layer with attention syntax.
+
+3. fp32 FORCED DUE TO NUMERICAL INSTABILITY
+   The entire FeatureAttention block runs in fp32 because RMSNorm
+   with head_dim=8 and eps=1e-6 causes NaN in fp16. This is a
+   symptom of the block being too small. With d_feat=64 and
+   head_dim=16, fp16 would be stable AND the block would have
+   enough capacity to learn meaningful interactions.
+
+4. MARGINAL IC GAIN (+0.001 OVER V1.1) DOESN'T JUSTIFY COMPLEXITY
+   V1.4 f25 IC=0.064 vs V1.1 f25 IC=0.065. Within noise.
+   The FeatureAttention block adds latency, memory, and a fp32
+   precision island. For zero measurable benefit.
+
+
+================================================================================
+V1.6: ALL TECHNIQUES (KL Anneal + Gumbel Anneal + ATME + Dream)
+================================================================================
+
+Architecture: V1.1 + KL annealing + Gumbel tau annealing + ATME + Dream
+Parameters: ~2M (same backbone)
+Results: IC=0.052 (f13), 0.060 (f25), ShIC=0.028 (highest)
+Status: Trained. Highest ShIC but LOWER IC than V1.1.
+
+CRITIQUE:
+
+1. V1.6 TRADES IC FOR ShIC -- THIS IS CORRECT
+   V1.6 has the highest ShIC (0.028 vs 0.027 for others) but the
+   lowest IC (0.052 vs 0.057 for V1.0). The techniques (ATME, KL
+   anneal) successfully reduce memorization, which lowers contiguous
+   IC but preserves shuffled IC. For a FILTER use-case, ShIC matters
+   more than IC because the model needs to generalize to unseen
+   market conditions.
+
+2. ATME IS THE BEST ANTI-MEMORIZATION TECHNIQUE IN THE CODEBASE
+   Zeroing h_seq for 15% of sequences forces z_post to carry genuine
+   return signal. This directly attacks the temporal memorization
+   pathway. The fact that V1.6 has highest ShIC validates ATME.
+
+   But ATME_PROB=0.15 is conservative. At 15%, 85% of batches still
+   train the temporal memorization pathway. Increasing to 0.30 would
+   more aggressively force the latent to carry signal. The risk is
+   underfitting, but with ShIC=0.028 there's room to push.
+
+3. GUMBEL TAU ANNEALING 1.0->0.5 IS TOO SLOW
+   50 epochs to reach tau=0.5. The model trains for 120-150 epochs.
+   For the first 50 epochs, the Gumbel is near-uniform (tau~0.8+),
+   giving weak gradient signal. The model learns to use the continuous
+   relaxation rather than discrete states.
+
+   Better: Anneal faster (20 epochs to 0.5) and go lower (0.3 final).
+   Or: Use VQ-VAE style discrete bottleneck instead of Gumbel entirely.
+
+4. DREAM CONSISTENCY AT 0.1 WEIGHT IS NOISE
+   l_dream = 0.1 * Huber(dream_pred, actual), applied every 4th batch.
+   Effective contribution: 0.025 of total loss. This is below the
+   noise floor of the Kendall-weighted multi-task loss.
+
+   Either increase to 0.5 weight with every-batch application, or
+   remove it. Half-measures waste forward pass compute.
+
+5. KL ANNEAL GUARD CLAMP IS SMART BUT CREATES A SHARP TRANSITION
+   Clamping s_kl to min=-2.0 during anneal, then unclamping at
+   kl_anneal=1.0, creates a discontinuity in the effective KL weight
+   at epoch 20. The Kendall log_var may have drifted to -2.0 (the
+   clamp floor) and suddenly becomes free to move to -6.0 (403x weight).
+   This can cause training instability at the anneal completion point.
+
+   Better: Linear release of the clamp over 10 epochs rather than
+   instant removal.
+
+
+================================================================================
+V2: JEPA + VICReg (Contrastive)
+================================================================================
+
+Architecture: CausalGRU (2L) + EMA target encoder + VICReg
+Parameters: ~2M trainable
+Results: NEVER TRAINED
+Status: Code exists, untested.
+
+CRITIQUE:
+
+1. JEPA IS FUNDAMENTALLY MISALIGNED WITH THIS PROBLEM
+   JEPA learns to predict FUTURE embeddings from past context. The
+   contrastive loss says "the embedding at t+1 should be predictable
+   from the embedding at t." This is exactly temporal memorization --
+   it trains the model to encode temporal structure.
+
+   For Atari (where JEPA originated), temporal prediction IS the task.
+   For crypto return prediction, temporal structure IS the enemy
+   (ShIC test). JEPA's inductive bias directly contradicts the
+   anti-memorization philosophy.
+
+2. VICReg PREVENTS COLLAPSE BUT DOESN'T PREVENT MEMORIZATION
+   VICReg ensures the embeddings don't collapse to a constant. Good.
+   But it says nothing about whether the embeddings encode temporal
+   shortcuts or genuine microstructure patterns. You can have high
+   VICReg variance AND high temporal memorization simultaneously.
+
+3. CONTINUOUS 192D LATENT WITH NO DISCRETE BOTTLENECK
+   No information bottleneck. The model can freely encode any pattern
+   in 192 continuous dimensions. Combined with JEPA's temporal
+   prediction objective, this is a memorization highway.
+
+VERDICT: Do not train V2. Its core objective (temporal prediction)
+is the opposite of what you need (temporal invariance).
+
+
+================================================================================
+V3: WaveNet-TCN + GRU + RSSM
+================================================================================
+
+Architecture: WaveNet (dilations [1,2,4,8]) + CausalGRU (2L) + RSSM 24x24
+Parameters: ~2.5-3M
+Results: NEVER TRAINED (audited 2026-03-18, settings corrected)
+Status: Code exists, ready to train.
+
+CRITIQUE:
+
+1. WaveNet DILATED CONVOLUTIONS ARE THEORETICALLY IDEAL FOR DOLLAR BARS
+   Dilations [1,2,4,8] give receptive fields of [3,5,9,17] bars
+   (kernel=3). The multi-scale aggregation captures patterns at
+   ~1-minute (dilation 1), ~5-minute (dilation 4), ~20-minute
+   (dilation 8) timescales simultaneously. For dollar bars where
+   the timescale is volume-dependent, this is exactly right.
+
+   This is the strongest architectural prior in the codebase for
+   microstructure data. Dollar bars are fundamentally multi-scale
+   (volume arrives in bursts), and WaveNet captures this naturally.
+
+2. WaveNet + GRU IS REDUNDANT
+   The GRU after WaveNet adds sequential processing on top of the
+   TCN's sequential processing. The WaveNet already captures multi-
+   scale temporal dependencies. The GRU's job (sequential state) is
+   already done by the WaveNet's dilated convolutions.
+
+   Better: WaveNet -> RSSM directly (skip GRU). Or: WaveNet only,
+   no RSSM, with ATME for anti-memorization.
+
+3. MULTI-SCALE AGGREGATION SKIP CONNECTIONS ARE VALUABLE
+   Concatenating outputs from all 4 dilation levels preserves scale-
+   specific information. The model can learn that dilation-1 patterns
+   (tick-level) are relevant for h=1 returns, while dilation-8
+   patterns (session-level) are relevant for h=64.
+
+VERDICT: V3's WaveNet is the architecturally best-motivated encoder
+for dollar-bar data. Worth training. But simplify: remove the GRU,
+connect WaveNet directly to RSSM or return heads.
+
+
+================================================================================
+V4: Mamba SSM
+================================================================================
+
+Architecture: 2x MambaBlock (d=384, d_state=16) + RSSM 24x24
+Parameters: ~3-4M
+Results: ShIC=0.017 FAIL (memorized)
+Status: Trained once, failed. Known memorization issue.
+
+CRITIQUE:
+
+1. MAMBA'S SELECTIVE GATING IS A MEMORIZATION ACCELERATOR
+   Mamba's core innovation is input-dependent state transitions: each
+   token decides what to remember and forget. This is EXACTLY temporal
+   memorization -- the model learns "remember this specific pattern
+   because it appeared at training bar 47,283."
+
+   For language (Mamba's target domain), input-dependent gating is
+   correct -- you want to remember relevant context. For return
+   prediction where temporal patterns are non-stationary, it's
+   catastrophic. The model memorizes the training distribution's
+   temporal structure.
+
+2. d_model=384 IS OVER-PARAMETERIZED
+   V1 works at d_model=256 with IC=0.056. V4 at d_model=384 has
+   50% more parameters per layer. More parameters + Mamba's selective
+   gating = faster memorization. The ShIC=0.017 result confirms this.
+
+3. ATME "FIX" IS COSMETIC FOR MAMBA
+   The code comment says it directly: "z_post = f(posterior(h_seq,
+   obs_seq)), so zeroing h_seq in feat_heads alone is cosmetic."
+   Mamba's state carries temporal information into the posterior
+   computation. Zeroing h_seq after the posterior is computed
+   doesn't remove the temporal information from z_post.
+
+   To fix: Apply ATME BEFORE the posterior head, not after. Or
+   add SSM state noise during training (mentioned in MEMORY.md
+   but not implemented).
+
+VERDICT: V4 Mamba is architecturally wrong for this problem. Selective
+gating optimizes for temporal memorization. Do not retrain without
+fundamental changes (SSM state noise, pre-posterior ATME, reduced d_model).
+
+
+================================================================================
+V5: Hybrid Mamba-Attention
+================================================================================
+
+Architecture: Mamba + downsampled local attention + RSSM 32x32
+Parameters: ~5-6M
+Results: NEVER TRAINED
+Status: Code exists, untested.
+
+CRITIQUE:
+
+1. COMBINES TWO MEMORIZATION ACCELERATORS
+   Mamba (selective gating) + Attention (quadratic context). Both
+   excel at capturing temporal structure. Together they're a temporal
+   memorization machine.
+
+2. RSSM 32x32 = 1024D LATENT IS MASSIVE
+   32^32 possible states. With 50K training sequences, the posterior
+   can perfectly encode every training sample with room to spare.
+   This latent is 1.8x larger than V1's already-oversized 576D.
+
+3. DOWNSAMPLE-UPSAMPLE ADDS COMPLEXITY WITHOUT BENEFIT
+   Strided conv T->T/4 -> attention on 24 tokens -> upsample back.
+   This compresses and decompresses temporal information. For a
+   96-bar sequence, 24 meta-tokens is reasonable. But the Mamba
+   pathway already processes all 96 bars. The attention pathway
+   is redundant unless it captures DIFFERENT patterns than Mamba --
+   and there's no architectural mechanism to ensure specialization.
+
+VERDICT: Do not train V5. It amplifies V4's memorization problem
+and adds V1's attention overhead. 5-6M params on 50K sequences
+is asking for overfitting.
+
+
+================================================================================
+V6: JEPA + Adversarial Discriminator
+================================================================================
+
+Architecture: CausalGRU (3L) + EMA target + VICReg + Time-Shuffle Discriminator
+Parameters: ~2.5M
+Results: NEVER TRAINED
+Status: Code exists, untested.
+
+CRITIQUE:
+
+1. ADVERSARIAL TEMPORAL ERASURE IS THE RIGHT APPROACH
+   The time-shuffle discriminator says: "Can you tell if this latent
+   sequence is in temporal order?" The encoder is trained to make
+   this discrimination impossible. This directly attacks temporal
+   memorization -- the latent should carry microstructure signal but
+   not temporal sequence identity.
+
+   This is better than ATME (V1.6) because it's a learned adversary
+   rather than random dropout. The discriminator finds the MOST
+   temporally-informative directions in latent space and the encoder
+   learns to eliminate them.
+
+2. BUT JEPA + ADVERSARIAL IS CONTRADICTORY
+   JEPA trains: "predict future embedding from past." Discriminator
+   trains: "remove temporal structure from embedding." These two
+   objectives directly fight each other. The model oscillates
+   between encoding temporal structure (JEPA) and removing it
+   (discriminator). Training will be unstable.
+
+3. 4-TUPLE get_loss BREAKS CALLER INTERFACE
+   V6 returns (total, dict, l_disc, outputs) while every other version
+   returns (total, dict, outputs). This means train_world_model.py
+   needs V6-specific handling. A real deployment risk.
+
+4. WGAN-GP ADDS TRAINING COMPLEXITY
+   Gradient penalty on the discriminator requires a second backward
+   pass per batch. This doubles the effective training time and adds
+   a hyperparameter (gradient penalty weight) that's hard to tune.
+
+VERDICT: The adversarial temporal erasure idea is excellent. But
+extract it from the JEPA framework. Apply the time-shuffle
+discriminator to V1's Transformer + RSSM backbone. That gives
+you temporal erasure without the contradictory JEPA objective.
+
+
+================================================================================
+V7: Vision Transformer (Patches)
+================================================================================
+
+Architecture: Patch embedding (4 bars -> 1 patch) + 4-layer ViT + RSSM 24x24
+Parameters: ~3M
+Results: NEVER TRAINED
+Status: Code exists, untested.
+
+CRITIQUE:
+
+1. PATCH COMPRESSION THROWS AWAY INTRA-PATCH INFORMATION
+   4 bars compressed into 1 patch token. For BTC at ~288 bars/day,
+   4 bars ~ 20 minutes. Intra-patch microstructure (VPIN spikes,
+   flow reversals) is averaged out in the patch embedding.
+
+   This is the opposite of what you need: your best strategies
+   (VPIN trigger, momentum ignition) depend on BAR-LEVEL features
+   that happen within a 4-bar window.
+
+2. 24 PATCH TOKENS IS APPROPRIATE SCALE
+   Global attention on 24 tokens is O(576) -- very efficient. The
+   model can attend to any patch in the sequence. But with only 24
+   tokens, positional information is coarse. The model can distinguish
+   "morning" from "evening" (if dollar bars have diurnal patterns)
+   but not "5 minutes ago" from "15 minutes ago."
+
+3. RETURN PREDICTIONS BROADCAST 4x
+   Patch-level predictions are repeat_interleave(4) to bar level.
+   The same predicted return is assigned to 4 consecutive bars. This
+   is correct for h=64 (where 4-bar resolution doesn't matter) but
+   wrong for h=1 (where the bar-specific prediction matters).
+
+VERDICT: V7's patch compression is architecturally inappropriate for
+bar-level microstructure features. Don't train.
+
+
+================================================================================
+V8: Neural ODE (RK4)
+================================================================================
+
+Architecture: RK4-solved ODE (d=256) + RSSM 24x24
+Parameters: ~2.5M
+Results: NEVER TRAINED
+Status: Code exists, untested.
+
+CRITIQUE:
+
+1. CONTINUOUS-TIME DYNAMICS IS THEORETICALLY IDEAL FOR DOLLAR BARS
+   Dollar bars arrive at irregular intervals. Time-bar models assume
+   uniform dt. Neural ODE treats time as continuous -- the dynamics
+   f(h, t, obs) evolve at the actual observation times. This is the
+   correct mathematical framework for volume-clock data.
+
+2. BUT RK4 WITH 192 FUNCTION EVALUATIONS IS COMPUTATIONALLY BRUTAL
+   T=96 timesteps * ODE_SUBSTEPS=2 = 192 ODE function evaluations
+   per forward pass. Each evaluation runs the ODEDynamics MLP
+   [256,512,512,256]. That's ~192 * 2 * (256*512) = ~50M MACs per
+   sample, just for the ODE integration. V1's Transformer is ~10M
+   MACs. 5x slower training for uncertain benefit.
+
+3. DYNAMICS REGULARIZATION IS THE RIGHT REGULARIZER
+   Penalizing ||f(h,t,obs)||^2 encourages smooth trajectories.
+   This is a continuous-time version of "don't change state too fast,"
+   which is anti-memorization: sharp state transitions encode specific
+   training sequences. Smooth dynamics generalize better.
+
+4. FIXED-STEP RK4 WASTES COMPUTE ON SMOOTH REGIONS
+   Adaptive solvers (Dormand-Prince, etc.) take fewer steps when
+   dynamics are smooth and more when they're sharp. Fixed RK4 takes
+   the same 2 sub-steps everywhere. For crypto where 80% of bars
+   are uneventful and 20% have all the action, adaptive stepping
+   would be 3-5x faster.
+
+VERDICT: V8 is theoretically the most principled architecture for
+dollar-bar data. But practically, the compute cost makes it
+impractical for iteration. Consider training a reduced version:
+T=48 (downsample 2x), ODE_SUBSTEPS=1, smaller MLP [256,256,256].
+
+
+================================================================================
+V9: Mixture-of-Experts (3 Regime Experts)
+================================================================================
+
+Architecture: GRU + 3 regime experts (Bear TCN, Neutral TCN, Bull Attn) + Router
+Parameters: ~4M
+Results: NEVER TRAINED
+Status: Code exists, untested.
+
+CRITIQUE:
+
+1. REGIME-SPECIALIZED EXPERTS IS THE BEST IDEA IN THE CODEBASE
+   Bear markets and bull markets have fundamentally different
+   microstructure: bear = correlated liquidation cascades, bull =
+   momentum-driven, neutral = mean-reverting noise. A single model
+   learning all three creates an averaged representation that's
+   mediocre at all three.
+
+   Three specialized experts, each optimized for its regime, should
+   produce better per-regime predictions. The ensemble ablation found
+   that V1.1_f18 is the best bear specialist (IC=0.128@h16) and
+   V1.1_f13 is the best bull specialist (IC=0.090@h16). V9's
+   architecture formalizes this.
+
+2. BEAR=TCN[4,8], NEUTRAL=TCN[1,2], BULL=ATTENTION IS WELL-MOTIVATED
+   Bear: long-range dilations capture liquidation cascades (spread
+   over many bars). Neutral: short-range captures mean-reversion
+   (2-4 bar patterns). Bull: attention captures trend structure
+   (attend to breakout points anywhere in the window).
+
+3. SOFT ROUTING IS CORRECT (NOT HARD TOP-K)
+   Markets transition between regimes gradually. Hard routing would
+   create discrete regime switches that don't match reality. Soft
+   routing (weighted average of experts) handles transitions smoothly.
+
+4. ROUTER ENTROPY REGULARIZATION PREVENTS COLLAPSE
+   Without it, the router collapses to always selecting one expert.
+   The entropy penalty ensures all three experts get trained.
+   BUT the penalty is fixed-weight (not Kendall), which is the right
+   call -- Kendall would fight it.
+
+5. 4M PARAMETERS IS BORDERLINE FOR 50K SEQUENCES
+   3 parallel experts + router + shared GRU. Regime-balanced sampling
+   ensures each expert sees sufficient data, but the effective
+   training set per expert is ~17K sequences (50K / 3 regimes).
+   This is tight. Consider reducing expert capacity.
+
+VERDICT: V9 is the second-best architecture after V3 for this problem.
+The regime specialization matches the trading reality. Priority: HIGH.
+
+
+================================================================================
+WHAT I WOULD ACTUALLY BUILD (Unconstrained)
+================================================================================
+
+None of these architectures are right. Here's what I would build:
+
+ARCHITECTURE: "V11 -- Microstructure Feature Extractor"
+
+1. NO RSSM. No latent space. No generative model. No reconstruction.
+   The RSSM, KL loss, reconstruction, and dream step consume ~40%
+   of the model capacity for features the trading system never uses.
+   The return trunk reads from h_seq and z_post, but z_post's
+   contribution is marginal (V1.0 works fine, and ATME shows
+   performance improves when z is forced to work independently).
+   Kill the RSSM. Use the capacity for return prediction.
+
+2. ENCODER: WaveNet-TCN (V3's design) with multi-scale aggregation.
+   Dollar bars are multi-scale volume-clock data. WaveNet captures
+   this naturally. No attention, no GRU, no Transformer. Dilations
+   [1, 2, 4, 8, 16] for receptive fields from 3 bars to 33 bars.
+
+3. ANTI-MEMORIZATION: Time-shuffle discriminator (V6's idea) applied
+   to the WaveNet output. Forces the encoder to produce temporal-
+   invariant representations. Combined with ATME at 30% dropout.
+
+4. RETURN PREDICTION: Direct. WaveNet output -> return trunk -> heads.
+   No intermediate latent. The return trunk gets the full multi-scale
+   representation and predicts returns at h=1, h=4.
+   DROP h=16 and h=64. They don't generalize OOS (confirmed).
+   This halves the return prediction compute.
+
+5. FEATURE ATTENTION: Post-encoder (not pre-encoder like V1.4).
+   After WaveNet extracts temporal patterns, let features interact:
+   "VPIN spike pattern + positive flow pattern = breakout signal."
+
+6. REGIME ROUTING: V9's MoE idea, but simpler. 2 experts (trending
+   vs mean-reverting) gated by Hurst regime. Not a learned router --
+   the Hurst feature already tells you the regime. This is cheaper
+   than learning a router and more interpretable.
+
+7. MULTI-ASSET: Shared encoder, per-asset projection heads. The
+   asset embedding adds asset-specific bias, but the microstructure
+   patterns are shared across assets. Train on all 40 assets
+   simultaneously. More data = better generalization.
+
+EXPECTED OUTCOME: ShIC = 0.030-0.035 (vs current 0.028 ceiling).
+IC may be slightly lower than V1.1 f25 (0.060 vs 0.065) because
+the architecture refuses to memorize. But as a FILTER, higher ShIC
+= better OOS strategy performance.
+
+PARAMETER COUNT: ~1.5M (vs V1's 2M). Smaller because no RSSM, no
+reconstruction decoder, no dream modules.
+
+TRAINING TIME: ~60% of V1 per epoch (no RSSM sampling, no recon
+loss, no dream step, smaller model). On RTX 4060: ~4 hours for
+150 epochs.
+
+
+================================================================================
+REALISTIC RECOMMENDATION (Given Constraints)
+================================================================================
+
+You can't build V11 today. You have 9 architectures with code ready
+and checkpoints to retrain on 40 assets. Here's the priority order:
+
+1. V1.6 f34 (HIGHEST PRIORITY)
+   - Already works (ShIC=0.028, highest)
+   - f34 adds 4 untested SOTA features (yz_vol, cs_spread, perm_entropy, kyle_lambda)
+   - Expected IC improvement: +5-10% (these are institutionally-validated features)
+   - Training time: 4 hours
+   - Risk: Low (V1.6 is proven, f34 is a superset of f25)
+
+2. V9 f25 MoE (HIGH PRIORITY)
+   - Regime specialization matches trading reality
+   - 3 experts with soft routing
+   - Expected ShIC: 0.025-0.030 (diversity across regimes)
+   - Training time: ~6 hours (4M params)
+   - Risk: Medium (never trained, may need router tuning)
+
+3. V3 f25 WaveNet (HIGH PRIORITY)
+   - Best architectural fit for dollar-bar data
+   - Multi-scale temporal patterns via dilated convolutions
+   - Expected ShIC: 0.025-0.030
+   - Training time: ~5 hours
+   - Risk: Medium (never trained, TCN hyperparams need validation)
+
+4. V1.1 f34 (MEDIUM -- DIVERSITY)
+   - Same proven backbone, new features
+   - Provides diversity for ensemble with V1.6 f34
+   - Training time: 4 hours
+
+5. V4 Mamba f13 (LOW PRIORITY -- EXPERIMENT ONLY)
+   - Only if: SSM state noise implemented + ATME before posterior
+   - Do NOT retrain with current code (will memorize again)
+
+DO NOT TRAIN: V2, V5, V6, V7, V8.
+- V2/V6: JEPA objective contradicts anti-memorization
+- V5: Amplifies V4's memorization
+- V7: Patch compression destroys bar-level signals
+- V8: 5x training cost for uncertain benefit
+
+
+================================================================================
+TRAINING ORDER FOR 40-ASSET RETRAIN
+================================================================================
+
+With extended universe (40 assets), each training run is ~40% longer
+(more data per epoch) but produces a more robust model (more diversity).
+
+Week 1: V1.6 f34 (40 assets) -- fast win, proven base
+Week 1: V1.1 f34 (40 assets) -- in parallel if possible
+Week 2: V9 f25 (40 assets) -- regime specialization
+Week 2: V3 f25 (40 assets) -- multi-scale temporal
+Week 3: Ensemble ablation on the 4 new checkpoints
+Week 3: strategy_eval_v2 with winning model(s)
+
+
+================================================================================
+END
+================================================================================

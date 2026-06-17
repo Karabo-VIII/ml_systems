@@ -1,0 +1,5938 @@
+{
+  "config": {
+    "cadence": "4h",
+    "fast": 8,
+    "slow": 21,
+    "ma": "ema",
+    "er_win": 20,
+    "er_thresh": 0.4,
+    "atr_win": 14,
+    "atr_trail_mult": 3.0,
+    "max_hold": 42,
+    "taker": 0.0024,
+    "cells": {
+      "A_ERon_ATRtrail": {
+        "gate_on": true,
+        "exit": "atr"
+      },
+      "B_ERon_oppcross": {
+        "gate_on": true,
+        "exit": "xcross"
+      },
+      "C_ERoff_ATRtrail": {
+        "gate_on": false,
+        "exit": "atr"
+      },
+      "D_ERoff_oppcross": {
+        "gate_on": false,
+        "exit": "xcross"
+      }
+    },
+    "null": "ERon=regime_matched(er>0.4), ERoff=plain_all_bars",
+    "windows": {
+      "train_end": "2024-05-15",
+      "val_end": "2025-03-15",
+      "oos_end": "2025-12-31",
+      "unseen_end": "2026-05-22",
+      "train_start": null
+    }
+  },
+  "aggregate": {
+    "A_ERon_ATRtrail": {
+      "n_eval": 25,
+      "n_beat_null_AND_pos_held": 0,
+      "n_pos_held": 2,
+      "OOS_real_median": -9.75,
+      "OOS_real_mean": -10.4,
+      "UNSEEN_real_median": -4.04,
+      "UNSEEN_real_mean": 14.13,
+      "OOS_null_p50_median": 13.02,
+      "UNSEEN_null_p50_median": -2.94
+    },
+    "B_ERon_oppcross": {
+      "n_eval": 25,
+      "n_beat_null_AND_pos_held": 0,
+      "n_pos_held": 2,
+      "OOS_real_median": -21.19,
+      "OOS_real_mean": -15.95,
+      "UNSEEN_real_median": -8.55,
+      "UNSEEN_real_mean": 7.62,
+      "OOS_null_p50_median": 5.81,
+      "UNSEEN_null_p50_median": -6.89
+    },
+    "C_ERoff_ATRtrail": {
+      "n_eval": 25,
+      "n_beat_null_AND_pos_held": 0,
+      "n_pos_held": 1,
+      "OOS_real_median": -23.19,
+      "OOS_real_mean": -15.93,
+      "UNSEEN_real_median": -27.29,
+      "UNSEEN_real_mean": -12.48,
+      "OOS_null_p50_median": -27.43,
+      "UNSEEN_null_p50_median": -24.3
+    },
+    "D_ERoff_oppcross": {
+      "n_eval": 25,
+      "n_beat_null_AND_pos_held": 0,
+      "n_pos_held": 2,
+      "OOS_real_median": -25.91,
+      "OOS_real_mean": -15.93,
+      "UNSEEN_real_median": -21.14,
+      "UNSEEN_real_mean": -11.27,
+      "OOS_null_p50_median": -19.36,
+      "UNSEEN_null_p50_median": -19.74
+    }
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1747,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 137.07,
+            "n": 142,
+            "wr": 0.373
+          },
+          "VAL": {
+            "comp": -10.9,
+            "n": 28,
+            "wr": 0.25
+          },
+          "OOS": {
+            "comp": 1.31,
+            "n": 24,
+            "wr": 0.333
+          },
+          "UNSEEN": {
+            "comp": -3.29,
+            "n": 11,
+            "wr": 0.364
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 137.07,
+            "null_p50": 12.98,
+            "null_p95": 244.55,
+            "beats_null": false,
+            "n": 142
+          },
+          "VAL": {
+            "real": -10.9,
+            "null_p50": 0.46,
+            "null_p95": 37.04,
+            "beats_null": false,
+            "n": 28
+          },
+          "OOS": {
+            "real": 1.31,
+            "null_p50": 5.37,
+            "null_p95": 32.28,
+            "beats_null": false,
+            "n": 24
+          },
+          "UNSEEN": {
+            "real": -3.29,
+            "null_p50": -1.23,
+            "null_p95": 16.61,
+            "beats_null": false,
+            "n": 11
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1747,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 296.52,
+            "n": 116,
+            "wr": 0.388
+          },
+          "VAL": {
+            "comp": -3.69,
+            "n": 22,
+            "wr": 0.364
+          },
+          "OOS": {
+            "comp": 1.09,
+            "n": 20,
+            "wr": 0.35
+          },
+          "UNSEEN": {
+            "comp": -7.71,
+            "n": 9,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 296.52,
+            "null_p50": 44.93,
+            "null_p95": 598.57,
+            "beats_null": false,
+            "n": 116
+          },
+          "VAL": {
+            "real": -3.69,
+            "null_p50": 3.37,
+            "null_p95": 66.83,
+            "beats_null": false,
+            "n": 22
+          },
+          "OOS": {
+            "real": 1.09,
+            "null_p50": -0.62,
+            "null_p95": 28.32,
+            "beats_null": false,
+            "n": 20
+          },
+          "UNSEEN": {
+            "real": -7.71,
+            "null_p50": -6.89,
+            "null_p95": 12.08,
+            "beats_null": false,
+            "n": 9
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 7421,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 49.54,
+            "n": 424,
+            "wr": 0.387
+          },
+          "VAL": {
+            "comp": -13.66,
+            "n": 86,
+            "wr": 0.349
+          },
+          "OOS": {
+            "comp": -5.67,
+            "n": 80,
+            "wr": 0.325
+          },
+          "UNSEEN": {
+            "comp": -30.15,
+            "n": 45,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 49.54,
+            "null_p50": 39.26,
+            "null_p95": 618.04,
+            "beats_null": false,
+            "n": 424
+          },
+          "VAL": {
+            "real": -13.66,
+            "null_p50": -7.31,
+            "null_p95": 62.98,
+            "beats_null": false,
+            "n": 86
+          },
+          "OOS": {
+            "real": -5.67,
+            "null_p50": -16.36,
+            "null_p95": 27.08,
+            "beats_null": false,
+            "n": 80
+          },
+          "UNSEEN": {
+            "real": -30.15,
+            "null_p50": -19.34,
+            "null_p95": 11.21,
+            "beats_null": false,
+            "n": 45
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 7421,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 288.0,
+            "n": 255,
+            "wr": 0.314
+          },
+          "VAL": {
+            "comp": 0.67,
+            "n": 43,
+            "wr": 0.302
+          },
+          "OOS": {
+            "comp": -9.71,
+            "n": 49,
+            "wr": 0.306
+          },
+          "UNSEEN": {
+            "comp": -13.95,
+            "n": 23,
+            "wr": 0.391
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 288.0,
+            "null_p50": 70.82,
+            "null_p95": 1029.77,
+            "beats_null": false,
+            "n": 255
+          },
+          "VAL": {
+            "real": 0.67,
+            "null_p50": 3.49,
+            "null_p95": 73.48,
+            "beats_null": false,
+            "n": 43
+          },
+          "OOS": {
+            "real": -9.71,
+            "null_p50": -5.32,
+            "null_p95": 33.64,
+            "beats_null": false,
+            "n": 49
+          },
+          "UNSEEN": {
+            "real": -13.95,
+            "null_p50": -13.59,
+            "null_p95": 17.32,
+            "beats_null": false,
+            "n": 23
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "ETHUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1627,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 83.59,
+            "n": 148,
+            "wr": 0.378
+          },
+          "VAL": {
+            "comp": 4.54,
+            "n": 21,
+            "wr": 0.286
+          },
+          "OOS": {
+            "comp": -2.45,
+            "n": 32,
+            "wr": 0.375
+          },
+          "UNSEEN": {
+            "comp": -16.63,
+            "n": 14,
+            "wr": 0.214
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 83.59,
+            "null_p50": 23.27,
+            "null_p95": 258.88,
+            "beats_null": false,
+            "n": 148
+          },
+          "VAL": {
+            "real": 4.54,
+            "null_p50": -2.98,
+            "null_p95": 48.79,
+            "beats_null": false,
+            "n": 21
+          },
+          "OOS": {
+            "real": -2.45,
+            "null_p50": 21.42,
+            "null_p95": 98.58,
+            "beats_null": false,
+            "n": 32
+          },
+          "UNSEEN": {
+            "real": -16.63,
+            "null_p50": -9.42,
+            "null_p95": 12.35,
+            "beats_null": false,
+            "n": 14
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1627,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 234.22,
+            "n": 112,
+            "wr": 0.375
+          },
+          "VAL": {
+            "comp": 6.93,
+            "n": 19,
+            "wr": 0.263
+          },
+          "OOS": {
+            "comp": -2.79,
+            "n": 23,
+            "wr": 0.304
+          },
+          "UNSEEN": {
+            "comp": -17.83,
+            "n": 12,
+            "wr": 0.25
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 234.22,
+            "null_p50": 70.62,
+            "null_p95": 720.15,
+            "beats_null": false,
+            "n": 112
+          },
+          "VAL": {
+            "real": 6.93,
+            "null_p50": -1.5,
+            "null_p95": 52.74,
+            "beats_null": false,
+            "n": 19
+          },
+          "OOS": {
+            "real": -2.79,
+            "null_p50": 21.08,
+            "null_p95": 105.1,
+            "beats_null": false,
+            "n": 23
+          },
+          "UNSEEN": {
+            "real": -17.83,
+            "null_p50": -13.38,
+            "null_p95": 12.63,
+            "beats_null": false,
+            "n": 12
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 7415,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 389.65,
+            "n": 442,
+            "wr": 0.357
+          },
+          "VAL": {
+            "comp": -33.05,
+            "n": 87,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": 18.94,
+            "n": 82,
+            "wr": 0.341
+          },
+          "UNSEEN": {
+            "comp": -43.85,
+            "n": 46,
+            "wr": 0.283
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 389.65,
+            "null_p50": 132.25,
+            "null_p95": 1944.06,
+            "beats_null": false,
+            "n": 442
+          },
+          "VAL": {
+            "real": -33.05,
+            "null_p50": -37.55,
+            "null_p95": 31.46,
+            "beats_null": false,
+            "n": 87
+          },
+          "OOS": {
+            "real": 18.94,
+            "null_p50": 4.7,
+            "null_p95": 150.36,
+            "beats_null": false,
+            "n": 82
+          },
+          "UNSEEN": {
+            "real": -43.85,
+            "null_p50": -25.19,
+            "null_p95": 7.83,
+            "beats_null": false,
+            "n": 46
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 7415,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 366.66,
+            "n": 250,
+            "wr": 0.32
+          },
+          "VAL": {
+            "comp": -32.11,
+            "n": 53,
+            "wr": 0.245
+          },
+          "OOS": {
+            "comp": 13.85,
+            "n": 52,
+            "wr": 0.346
+          },
+          "UNSEEN": {
+            "comp": -35.01,
+            "n": 23,
+            "wr": 0.174
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 366.66,
+            "null_p50": 172.53,
+            "null_p95": 1688.68,
+            "beats_null": false,
+            "n": 250
+          },
+          "VAL": {
+            "real": -32.11,
+            "null_p50": -25.69,
+            "null_p95": 43.15,
+            "beats_null": false,
+            "n": 53
+          },
+          "OOS": {
+            "real": 13.85,
+            "null_p50": 9.95,
+            "null_p95": 143.75,
+            "beats_null": false,
+            "n": 52
+          },
+          "UNSEEN": {
+            "real": -35.01,
+            "null_p50": -20.22,
+            "null_p95": 18.69,
+            "beats_null": false,
+            "n": 23
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "SOLUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1111,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -37.53,
+            "n": 103,
+            "wr": 0.369
+          },
+          "VAL": {
+            "comp": -0.35,
+            "n": 24,
+            "wr": 0.375
+          },
+          "OOS": {
+            "comp": -20.96,
+            "n": 28,
+            "wr": 0.321
+          },
+          "UNSEEN": {
+            "comp": -9.36,
+            "n": 9,
+            "wr": 0.222
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -37.53,
+            "null_p50": 60.86,
+            "null_p95": 535.82,
+            "beats_null": false,
+            "n": 103
+          },
+          "VAL": {
+            "real": -0.35,
+            "null_p50": -12.3,
+            "null_p95": 62.32,
+            "beats_null": false,
+            "n": 24
+          },
+          "OOS": {
+            "real": -20.96,
+            "null_p50": -6.81,
+            "null_p95": 36.2,
+            "beats_null": false,
+            "n": 28
+          },
+          "UNSEEN": {
+            "real": -9.36,
+            "null_p50": -3.26,
+            "null_p95": 19.79,
+            "beats_null": false,
+            "n": 9
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1111,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 1894.45,
+            "n": 80,
+            "wr": 0.45
+          },
+          "VAL": {
+            "comp": -19.92,
+            "n": 20,
+            "wr": 0.35
+          },
+          "OOS": {
+            "comp": -21.3,
+            "n": 25,
+            "wr": 0.32
+          },
+          "UNSEEN": {
+            "comp": -19.6,
+            "n": 8,
+            "wr": 0.125
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 1894.45,
+            "null_p50": 315.28,
+            "null_p95": 2352.92,
+            "beats_null": false,
+            "n": 80
+          },
+          "VAL": {
+            "real": -19.92,
+            "null_p50": -2.59,
+            "null_p95": 79.3,
+            "beats_null": false,
+            "n": 20
+          },
+          "OOS": {
+            "real": -21.3,
+            "null_p50": -6.23,
+            "null_p95": 47.15,
+            "beats_null": false,
+            "n": 25
+          },
+          "UNSEEN": {
+            "real": -19.6,
+            "null_p50": -5.89,
+            "null_p95": 19.83,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6208,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 1665.58,
+            "n": 331,
+            "wr": 0.39
+          },
+          "VAL": {
+            "comp": 34.49,
+            "n": 77,
+            "wr": 0.312
+          },
+          "OOS": {
+            "comp": -6.91,
+            "n": 78,
+            "wr": 0.372
+          },
+          "UNSEEN": {
+            "comp": -34.03,
+            "n": 44,
+            "wr": 0.318
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 1665.58,
+            "null_p50": 362.37,
+            "null_p95": 7480.28,
+            "beats_null": false,
+            "n": 331
+          },
+          "VAL": {
+            "real": 34.49,
+            "null_p50": -18.95,
+            "null_p95": 121.32,
+            "beats_null": false,
+            "n": 77
+          },
+          "OOS": {
+            "real": -6.91,
+            "null_p50": -18.56,
+            "null_p95": 102.39,
+            "beats_null": false,
+            "n": 78
+          },
+          "UNSEEN": {
+            "real": -34.03,
+            "null_p50": -26.97,
+            "null_p95": 24.82,
+            "beats_null": false,
+            "n": 44
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6208,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 3066.79,
+            "n": 199,
+            "wr": 0.352
+          },
+          "VAL": {
+            "comp": 2.55,
+            "n": 47,
+            "wr": 0.319
+          },
+          "OOS": {
+            "comp": -24.32,
+            "n": 53,
+            "wr": 0.283
+          },
+          "UNSEEN": {
+            "comp": -29.99,
+            "n": 25,
+            "wr": 0.2
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 3066.79,
+            "null_p50": 322.49,
+            "null_p95": 10727.05,
+            "beats_null": false,
+            "n": 199
+          },
+          "VAL": {
+            "real": 2.55,
+            "null_p50": -25.85,
+            "null_p95": 80.38,
+            "beats_null": false,
+            "n": 47
+          },
+          "OOS": {
+            "real": -24.32,
+            "null_p50": -10.48,
+            "null_p95": 85.66,
+            "beats_null": false,
+            "n": 53
+          },
+          "UNSEEN": {
+            "real": -29.99,
+            "null_p50": -24.08,
+            "null_p95": 17.56,
+            "beats_null": false,
+            "n": 25
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "XRPUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1028,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 122.96,
+            "n": 120,
+            "wr": 0.358
+          },
+          "VAL": {
+            "comp": 85.41,
+            "n": 27,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": -7.5,
+            "n": 22,
+            "wr": 0.318
+          },
+          "UNSEEN": {
+            "comp": 3.59,
+            "n": 8,
+            "wr": 0.5
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 122.96,
+            "null_p50": 0.72,
+            "null_p95": 493.89,
+            "beats_null": false,
+            "n": 120
+          },
+          "VAL": {
+            "real": 85.41,
+            "null_p50": 34.07,
+            "null_p95": 286.45,
+            "beats_null": false,
+            "n": 27
+          },
+          "OOS": {
+            "real": -7.5,
+            "null_p50": 11.82,
+            "null_p95": 52.25,
+            "beats_null": false,
+            "n": 22
+          },
+          "UNSEEN": {
+            "real": 3.59,
+            "null_p50": -3.7,
+            "null_p95": 26.46,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1028,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 302.59,
+            "n": 91,
+            "wr": 0.418
+          },
+          "VAL": {
+            "comp": 117.56,
+            "n": 21,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": -28.54,
+            "n": 19,
+            "wr": 0.211
+          },
+          "UNSEEN": {
+            "comp": -10.38,
+            "n": 6,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 302.59,
+            "null_p50": 27.63,
+            "null_p95": 1068.84,
+            "beats_null": false,
+            "n": 91
+          },
+          "VAL": {
+            "real": 117.56,
+            "null_p50": 144.03,
+            "null_p95": 566.59,
+            "beats_null": false,
+            "n": 21
+          },
+          "OOS": {
+            "real": -28.54,
+            "null_p50": 4.58,
+            "null_p95": 84.75,
+            "beats_null": false,
+            "n": 19
+          },
+          "UNSEEN": {
+            "real": -10.38,
+            "null_p50": -10.86,
+            "null_p95": 15.3,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6585,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 144.78,
+            "n": 406,
+            "wr": 0.337
+          },
+          "VAL": {
+            "comp": 269.75,
+            "n": 80,
+            "wr": 0.375
+          },
+          "OOS": {
+            "comp": -28.89,
+            "n": 78,
+            "wr": 0.308
+          },
+          "UNSEEN": {
+            "comp": -25.84,
+            "n": 37,
+            "wr": 0.324
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 144.78,
+            "null_p50": -52.67,
+            "null_p95": 646.95,
+            "beats_null": false,
+            "n": 406
+          },
+          "VAL": {
+            "real": 269.75,
+            "null_p50": 88.55,
+            "null_p95": 543.55,
+            "beats_null": false,
+            "n": 80
+          },
+          "OOS": {
+            "real": -28.89,
+            "null_p50": -28.25,
+            "null_p95": 46.51,
+            "beats_null": false,
+            "n": 78
+          },
+          "UNSEEN": {
+            "real": -25.84,
+            "null_p50": -21.72,
+            "null_p95": 13.89,
+            "beats_null": false,
+            "n": 37
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6585,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 80.09,
+            "n": 248,
+            "wr": 0.27
+          },
+          "VAL": {
+            "comp": 295.8,
+            "n": 51,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": -30.65,
+            "n": 44,
+            "wr": 0.227
+          },
+          "UNSEEN": {
+            "comp": -29.0,
+            "n": 20,
+            "wr": 0.15
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 80.09,
+            "null_p50": -34.23,
+            "null_p95": 727.57,
+            "beats_null": false,
+            "n": 248
+          },
+          "VAL": {
+            "real": 295.8,
+            "null_p50": 97.86,
+            "null_p95": 687.0,
+            "beats_null": false,
+            "n": 51
+          },
+          "OOS": {
+            "real": -30.65,
+            "null_p50": -12.22,
+            "null_p95": 59.67,
+            "beats_null": false,
+            "n": 44
+          },
+          "UNSEEN": {
+            "real": -29.0,
+            "null_p50": -17.38,
+            "null_p95": 18.35,
+            "beats_null": false,
+            "n": 20
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "BNBUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1275,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 262.21,
+            "n": 124,
+            "wr": 0.435
+          },
+          "VAL": {
+            "comp": -22.61,
+            "n": 30,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": 4.16,
+            "n": 20,
+            "wr": 0.35
+          },
+          "UNSEEN": {
+            "comp": -17.48,
+            "n": 11,
+            "wr": 0.182
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 262.21,
+            "null_p50": 123.37,
+            "null_p95": 860.51,
+            "beats_null": false,
+            "n": 124
+          },
+          "VAL": {
+            "real": -22.61,
+            "null_p50": -11.04,
+            "null_p95": 29.12,
+            "beats_null": false,
+            "n": 30
+          },
+          "OOS": {
+            "real": 4.16,
+            "null_p50": 13.02,
+            "null_p95": 50.47,
+            "beats_null": false,
+            "n": 20
+          },
+          "UNSEEN": {
+            "real": -17.48,
+            "null_p50": -2.33,
+            "null_p95": 11.6,
+            "beats_null": false,
+            "n": 11
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1275,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 1427.87,
+            "n": 94,
+            "wr": 0.457
+          },
+          "VAL": {
+            "comp": -16.69,
+            "n": 25,
+            "wr": 0.28
+          },
+          "OOS": {
+            "comp": 10.67,
+            "n": 17,
+            "wr": 0.353
+          },
+          "UNSEEN": {
+            "comp": -16.46,
+            "n": 9,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 1427.87,
+            "null_p50": 391.82,
+            "null_p95": 4555.21,
+            "beats_null": false,
+            "n": 94
+          },
+          "VAL": {
+            "real": -16.69,
+            "null_p50": -3.41,
+            "null_p95": 54.0,
+            "beats_null": false,
+            "n": 25
+          },
+          "OOS": {
+            "real": 10.67,
+            "null_p50": 29.15,
+            "null_p95": 77.4,
+            "beats_null": false,
+            "n": 17
+          },
+          "UNSEEN": {
+            "real": -16.46,
+            "null_p50": -12.17,
+            "null_p95": 12.61,
+            "beats_null": false,
+            "n": 9
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 7514,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 309.33,
+            "n": 431,
+            "wr": 0.374
+          },
+          "VAL": {
+            "comp": -2.74,
+            "n": 84,
+            "wr": 0.381
+          },
+          "OOS": {
+            "comp": 29.74,
+            "n": 74,
+            "wr": 0.432
+          },
+          "UNSEEN": {
+            "comp": -27.29,
+            "n": 43,
+            "wr": 0.326
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 309.33,
+            "null_p50": 234.39,
+            "null_p95": 3833.31,
+            "beats_null": false,
+            "n": 431
+          },
+          "VAL": {
+            "real": -2.74,
+            "null_p50": -12.3,
+            "null_p95": 66.03,
+            "beats_null": false,
+            "n": 84
+          },
+          "OOS": {
+            "real": 29.74,
+            "null_p50": 1.17,
+            "null_p95": 76.53,
+            "beats_null": false,
+            "n": 74
+          },
+          "UNSEEN": {
+            "real": -27.29,
+            "null_p50": -26.71,
+            "null_p95": 3.0,
+            "beats_null": false,
+            "n": 43
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 7514,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 1769.93,
+            "n": 246,
+            "wr": 0.37
+          },
+          "VAL": {
+            "comp": 8.03,
+            "n": 51,
+            "wr": 0.353
+          },
+          "OOS": {
+            "comp": 8.04,
+            "n": 51,
+            "wr": 0.392
+          },
+          "UNSEEN": {
+            "comp": -21.14,
+            "n": 21,
+            "wr": 0.286
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 1769.93,
+            "null_p50": 267.76,
+            "null_p95": 6739.55,
+            "beats_null": false,
+            "n": 246
+          },
+          "VAL": {
+            "real": 8.03,
+            "null_p50": -7.97,
+            "null_p95": 63.79,
+            "beats_null": false,
+            "n": 51
+          },
+          "OOS": {
+            "real": 8.04,
+            "null_p50": 9.71,
+            "null_p95": 75.28,
+            "beats_null": false,
+            "n": 51
+          },
+          "UNSEEN": {
+            "real": -21.14,
+            "null_p50": -19.74,
+            "null_p95": 10.63,
+            "beats_null": false,
+            "n": 21
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "DOGEUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 869,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 14036.22,
+            "n": 92,
+            "wr": 0.457
+          },
+          "VAL": {
+            "comp": 18.46,
+            "n": 22,
+            "wr": 0.409
+          },
+          "OOS": {
+            "comp": -4.31,
+            "n": 24,
+            "wr": 0.333
+          },
+          "UNSEEN": {
+            "comp": 2.86,
+            "n": 7,
+            "wr": 0.571
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 14036.22,
+            "null_p50": 869.48,
+            "null_p95": 24747.1,
+            "beats_null": false,
+            "n": 92
+          },
+          "VAL": {
+            "real": 18.46,
+            "null_p50": -4.07,
+            "null_p95": 92.19,
+            "beats_null": false,
+            "n": 22
+          },
+          "OOS": {
+            "real": -4.31,
+            "null_p50": 13.78,
+            "null_p95": 87.19,
+            "beats_null": false,
+            "n": 24
+          },
+          "UNSEEN": {
+            "real": 2.86,
+            "null_p50": -2.94,
+            "null_p95": 21.19,
+            "beats_null": false,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 869,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 11969.87,
+            "n": 73,
+            "wr": 0.342
+          },
+          "VAL": {
+            "comp": 10.84,
+            "n": 19,
+            "wr": 0.211
+          },
+          "OOS": {
+            "comp": -28.8,
+            "n": 18,
+            "wr": 0.222
+          },
+          "UNSEEN": {
+            "comp": -1.92,
+            "n": 6,
+            "wr": 0.5
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 11969.87,
+            "null_p50": 1527.33,
+            "null_p95": 36848.39,
+            "beats_null": false,
+            "n": 73
+          },
+          "VAL": {
+            "real": 10.84,
+            "null_p50": -7.77,
+            "null_p95": 156.24,
+            "beats_null": false,
+            "n": 19
+          },
+          "OOS": {
+            "real": -28.8,
+            "null_p50": 7.99,
+            "null_p95": 91.08,
+            "beats_null": false,
+            "n": 18
+          },
+          "UNSEEN": {
+            "real": -1.92,
+            "null_p50": -10.21,
+            "null_p95": 10.32,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 5517,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 2490.6,
+            "n": 333,
+            "wr": 0.342
+          },
+          "VAL": {
+            "comp": 67.45,
+            "n": 72,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": -12.88,
+            "n": 72,
+            "wr": 0.25
+          },
+          "UNSEEN": {
+            "comp": -33.31,
+            "n": 39,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 2490.6,
+            "null_p50": 186.97,
+            "null_p95": 22307.58,
+            "beats_null": false,
+            "n": 333
+          },
+          "VAL": {
+            "real": 67.45,
+            "null_p50": -11.25,
+            "null_p95": 170.36,
+            "beats_null": false,
+            "n": 72
+          },
+          "OOS": {
+            "real": -12.88,
+            "null_p50": -27.43,
+            "null_p95": 70.44,
+            "beats_null": false,
+            "n": 72
+          },
+          "UNSEEN": {
+            "real": -33.31,
+            "null_p50": -17.95,
+            "null_p95": 31.57,
+            "beats_null": false,
+            "n": 39
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 5517,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 6974.43,
+            "n": 201,
+            "wr": 0.308
+          },
+          "VAL": {
+            "comp": 123.59,
+            "n": 42,
+            "wr": 0.31
+          },
+          "OOS": {
+            "comp": -28.44,
+            "n": 46,
+            "wr": 0.196
+          },
+          "UNSEEN": {
+            "comp": -32.66,
+            "n": 22,
+            "wr": 0.318
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 6974.43,
+            "null_p50": 268.78,
+            "null_p95": 8440.51,
+            "beats_null": false,
+            "n": 201
+          },
+          "VAL": {
+            "real": 123.59,
+            "null_p50": -20.34,
+            "null_p95": 225.69,
+            "beats_null": false,
+            "n": 42
+          },
+          "OOS": {
+            "real": -28.44,
+            "null_p50": -20.87,
+            "null_p95": 87.08,
+            "beats_null": false,
+            "n": 46
+          },
+          "UNSEEN": {
+            "real": -32.66,
+            "null_p50": -15.83,
+            "null_p95": 19.91,
+            "beats_null": false,
+            "n": 22
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "ZECUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1248,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -72.63,
+            "n": 119,
+            "wr": 0.328
+          },
+          "VAL": {
+            "comp": 6.43,
+            "n": 23,
+            "wr": 0.609
+          },
+          "OOS": {
+            "comp": -16.56,
+            "n": 33,
+            "wr": 0.394
+          },
+          "UNSEEN": {
+            "comp": 107.25,
+            "n": 10,
+            "wr": 0.7
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -72.63,
+            "null_p50": -26.11,
+            "null_p95": 253.09,
+            "beats_null": false,
+            "n": 119
+          },
+          "VAL": {
+            "real": 6.43,
+            "null_p50": 5.01,
+            "null_p95": 78.36,
+            "beats_null": false,
+            "n": 23
+          },
+          "OOS": {
+            "real": -16.56,
+            "null_p50": 28.4,
+            "null_p95": 386.02,
+            "beats_null": false,
+            "n": 33
+          },
+          "UNSEEN": {
+            "real": 107.25,
+            "null_p50": 22.69,
+            "null_p95": 110.25,
+            "beats_null": false,
+            "n": 10
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1248,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -8.97,
+            "n": 99,
+            "wr": 0.354
+          },
+          "VAL": {
+            "comp": 57.93,
+            "n": 16,
+            "wr": 0.438
+          },
+          "OOS": {
+            "comp": 41.45,
+            "n": 24,
+            "wr": 0.292
+          },
+          "UNSEEN": {
+            "comp": 69.57,
+            "n": 8,
+            "wr": 0.5
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -8.97,
+            "null_p50": -1.85,
+            "null_p95": 522.1,
+            "beats_null": false,
+            "n": 99
+          },
+          "VAL": {
+            "real": 57.93,
+            "null_p50": 8.52,
+            "null_p95": 104.8,
+            "beats_null": false,
+            "n": 16
+          },
+          "OOS": {
+            "real": 41.45,
+            "null_p50": 65.13,
+            "null_p95": 501.47,
+            "beats_null": false,
+            "n": 24
+          },
+          "UNSEEN": {
+            "real": 69.57,
+            "null_p50": 14.91,
+            "null_p95": 126.82,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": true
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 7102,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -45.22,
+            "n": 397,
+            "wr": 0.34
+          },
+          "VAL": {
+            "comp": -1.93,
+            "n": 76,
+            "wr": 0.342
+          },
+          "OOS": {
+            "comp": 161.13,
+            "n": 82,
+            "wr": 0.427
+          },
+          "UNSEEN": {
+            "comp": 51.91,
+            "n": 34,
+            "wr": 0.324
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -45.22,
+            "null_p50": -75.1,
+            "null_p95": 255.67,
+            "beats_null": false,
+            "n": 397
+          },
+          "VAL": {
+            "real": -1.93,
+            "null_p50": 3.66,
+            "null_p95": 277.22,
+            "beats_null": false,
+            "n": 76
+          },
+          "OOS": {
+            "real": 161.13,
+            "null_p50": 402.46,
+            "null_p95": 2295.62,
+            "beats_null": false,
+            "n": 82
+          },
+          "UNSEEN": {
+            "real": 51.91,
+            "null_p50": -1.99,
+            "null_p95": 133.29,
+            "beats_null": false,
+            "n": 34
+          }
+        },
+        "beats_held": false,
+        "pos_held": true
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 7102,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 86.79,
+            "n": 243,
+            "wr": 0.333
+          },
+          "VAL": {
+            "comp": 108.6,
+            "n": 49,
+            "wr": 0.347
+          },
+          "OOS": {
+            "comp": 210.68,
+            "n": 48,
+            "wr": 0.396
+          },
+          "UNSEEN": {
+            "comp": 37.46,
+            "n": 22,
+            "wr": 0.227
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 86.79,
+            "null_p50": -64.34,
+            "null_p95": 386.49,
+            "beats_null": false,
+            "n": 243
+          },
+          "VAL": {
+            "real": 108.6,
+            "null_p50": 7.98,
+            "null_p95": 290.42,
+            "beats_null": false,
+            "n": 49
+          },
+          "OOS": {
+            "real": 210.68,
+            "null_p50": 327.35,
+            "null_p95": 2294.67,
+            "beats_null": false,
+            "n": 48
+          },
+          "UNSEEN": {
+            "real": 37.46,
+            "null_p50": -0.97,
+            "null_p95": 166.15,
+            "beats_null": false,
+            "n": 22
+          }
+        },
+        "beats_held": false,
+        "pos_held": true
+      }
+    },
+    "TRXUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1367,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -39.98,
+            "n": 140,
+            "wr": 0.357
+          },
+          "VAL": {
+            "comp": 39.05,
+            "n": 41,
+            "wr": 0.415
+          },
+          "OOS": {
+            "comp": -5.82,
+            "n": 29,
+            "wr": 0.379
+          },
+          "UNSEEN": {
+            "comp": -4.04,
+            "n": 15,
+            "wr": 0.267
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -39.98,
+            "null_p50": 3.22,
+            "null_p95": 420.41,
+            "beats_null": false,
+            "n": 140
+          },
+          "VAL": {
+            "real": 39.05,
+            "null_p50": -2.06,
+            "null_p95": 67.58,
+            "beats_null": false,
+            "n": 41
+          },
+          "OOS": {
+            "real": -5.82,
+            "null_p50": -9.94,
+            "null_p95": 9.96,
+            "beats_null": false,
+            "n": 29
+          },
+          "UNSEEN": {
+            "real": -4.04,
+            "null_p50": -0.16,
+            "null_p95": 11.37,
+            "beats_null": false,
+            "n": 15
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1367,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -55.3,
+            "n": 110,
+            "wr": 0.355
+          },
+          "VAL": {
+            "comp": 19.54,
+            "n": 28,
+            "wr": 0.214
+          },
+          "OOS": {
+            "comp": -1.18,
+            "n": 21,
+            "wr": 0.381
+          },
+          "UNSEEN": {
+            "comp": 0.3,
+            "n": 10,
+            "wr": 0.3
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -55.3,
+            "null_p50": -2.27,
+            "null_p95": 340.48,
+            "beats_null": false,
+            "n": 110
+          },
+          "VAL": {
+            "real": 19.54,
+            "null_p50": 8.3,
+            "null_p95": 119.57,
+            "beats_null": false,
+            "n": 28
+          },
+          "OOS": {
+            "real": -1.18,
+            "null_p50": -7.52,
+            "null_p95": 18.54,
+            "beats_null": false,
+            "n": 21
+          },
+          "UNSEEN": {
+            "real": 0.3,
+            "null_p50": 5.26,
+            "null_p95": 19.33,
+            "beats_null": false,
+            "n": 10
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 7951,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 11.0,
+            "n": 445,
+            "wr": 0.409
+          },
+          "VAL": {
+            "comp": 61.1,
+            "n": 92,
+            "wr": 0.457
+          },
+          "OOS": {
+            "comp": -2.89,
+            "n": 84,
+            "wr": 0.321
+          },
+          "UNSEEN": {
+            "comp": 11.59,
+            "n": 46,
+            "wr": 0.565
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 11.0,
+            "null_p50": 66.34,
+            "null_p95": 1276.28,
+            "beats_null": false,
+            "n": 445
+          },
+          "VAL": {
+            "real": 61.1,
+            "null_p50": 16.86,
+            "null_p95": 175.01,
+            "beats_null": false,
+            "n": 92
+          },
+          "OOS": {
+            "real": -2.89,
+            "null_p50": -6.86,
+            "null_p95": 33.53,
+            "beats_null": false,
+            "n": 84
+          },
+          "UNSEEN": {
+            "real": 11.59,
+            "null_p50": 1.56,
+            "null_p95": 23.84,
+            "beats_null": false,
+            "n": 46
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 7951,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 206.56,
+            "n": 258,
+            "wr": 0.368
+          },
+          "VAL": {
+            "comp": 37.23,
+            "n": 43,
+            "wr": 0.326
+          },
+          "OOS": {
+            "comp": 3.7,
+            "n": 52,
+            "wr": 0.327
+          },
+          "UNSEEN": {
+            "comp": 8.49,
+            "n": 22,
+            "wr": 0.455
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 206.56,
+            "null_p50": 83.38,
+            "null_p95": 1491.42,
+            "beats_null": false,
+            "n": 258
+          },
+          "VAL": {
+            "real": 37.23,
+            "null_p50": 25.49,
+            "null_p95": 179.26,
+            "beats_null": false,
+            "n": 43
+          },
+          "OOS": {
+            "real": 3.7,
+            "null_p50": 1.61,
+            "null_p95": 40.19,
+            "beats_null": false,
+            "n": 52
+          },
+          "UNSEEN": {
+            "real": 8.49,
+            "null_p50": 9.11,
+            "null_p95": 31.05,
+            "beats_null": false,
+            "n": 22
+          }
+        },
+        "beats_held": false,
+        "pos_held": true
+      }
+    },
+    "PEPEUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 462,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 12.7,
+            "n": 26,
+            "wr": 0.346
+          },
+          "VAL": {
+            "comp": 20.57,
+            "n": 19,
+            "wr": 0.368
+          },
+          "OOS": {
+            "comp": 10.48,
+            "n": 21,
+            "wr": 0.429
+          },
+          "UNSEEN": {
+            "comp": 7.92,
+            "n": 7,
+            "wr": 0.286
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 12.7,
+            "null_p50": 141.49,
+            "null_p95": 848.31,
+            "beats_null": false,
+            "n": 26
+          },
+          "VAL": {
+            "real": 20.57,
+            "null_p50": 19.31,
+            "null_p95": 241.97,
+            "beats_null": false,
+            "n": 19
+          },
+          "OOS": {
+            "real": 10.48,
+            "null_p50": 14.96,
+            "null_p95": 87.15,
+            "beats_null": false,
+            "n": 21
+          },
+          "UNSEEN": {
+            "real": 7.92,
+            "null_p50": -7.61,
+            "null_p95": 24.04,
+            "beats_null": false,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": true
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 462,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 334.86,
+            "n": 19,
+            "wr": 0.474
+          },
+          "VAL": {
+            "comp": 57.39,
+            "n": 18,
+            "wr": 0.278
+          },
+          "OOS": {
+            "comp": -21.08,
+            "n": 19,
+            "wr": 0.316
+          },
+          "UNSEEN": {
+            "comp": -13.7,
+            "n": 5,
+            "wr": 0.4
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 334.86,
+            "null_p50": 193.81,
+            "null_p95": 1785.3,
+            "beats_null": false,
+            "n": 19
+          },
+          "VAL": {
+            "real": 57.39,
+            "null_p50": 34.58,
+            "null_p95": 398.95,
+            "beats_null": false,
+            "n": 18
+          },
+          "OOS": {
+            "real": -21.08,
+            "null_p50": 5.81,
+            "null_p95": 112.84,
+            "beats_null": false,
+            "n": 19
+          },
+          "UNSEEN": {
+            "real": -13.7,
+            "null_p50": -11.14,
+            "null_p95": 27.36,
+            "beats_null": false,
+            "n": 5
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 2851,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 245.29,
+            "n": 81,
+            "wr": 0.346
+          },
+          "VAL": {
+            "comp": -57.91,
+            "n": 81,
+            "wr": 0.259
+          },
+          "OOS": {
+            "comp": -27.74,
+            "n": 77,
+            "wr": 0.325
+          },
+          "UNSEEN": {
+            "comp": 14.59,
+            "n": 34,
+            "wr": 0.382
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 245.29,
+            "null_p50": 67.32,
+            "null_p95": 1694.19,
+            "beats_null": false,
+            "n": 81
+          },
+          "VAL": {
+            "real": -57.91,
+            "null_p50": -37.72,
+            "null_p95": 215.06,
+            "beats_null": false,
+            "n": 81
+          },
+          "OOS": {
+            "real": -27.74,
+            "null_p50": -31.97,
+            "null_p95": 85.12,
+            "beats_null": false,
+            "n": 77
+          },
+          "UNSEEN": {
+            "real": 14.59,
+            "null_p50": -21.97,
+            "null_p95": 75.09,
+            "beats_null": false,
+            "n": 34
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 2851,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 459.16,
+            "n": 50,
+            "wr": 0.3
+          },
+          "VAL": {
+            "comp": -58.37,
+            "n": 48,
+            "wr": 0.229
+          },
+          "OOS": {
+            "comp": -25.91,
+            "n": 46,
+            "wr": 0.37
+          },
+          "UNSEEN": {
+            "comp": -11.22,
+            "n": 25,
+            "wr": 0.28
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 459.16,
+            "null_p50": 66.88,
+            "null_p95": 956.8,
+            "beats_null": false,
+            "n": 50
+          },
+          "VAL": {
+            "real": -58.37,
+            "null_p50": -31.71,
+            "null_p95": 183.71,
+            "beats_null": false,
+            "n": 48
+          },
+          "OOS": {
+            "real": -25.91,
+            "null_p50": -28.05,
+            "null_p95": 104.68,
+            "beats_null": false,
+            "n": 46
+          },
+          "UNSEEN": {
+            "real": -11.22,
+            "null_p50": -22.95,
+            "null_p95": 35.42,
+            "beats_null": false,
+            "n": 25
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "ADAUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1111,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 89.57,
+            "n": 119,
+            "wr": 0.345
+          },
+          "VAL": {
+            "comp": 2.0,
+            "n": 26,
+            "wr": 0.269
+          },
+          "OOS": {
+            "comp": -27.69,
+            "n": 23,
+            "wr": 0.304
+          },
+          "UNSEEN": {
+            "comp": -16.06,
+            "n": 8,
+            "wr": 0.25
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 89.57,
+            "null_p50": -0.78,
+            "null_p95": 277.26,
+            "beats_null": false,
+            "n": 119
+          },
+          "VAL": {
+            "real": 2.0,
+            "null_p50": 35.26,
+            "null_p95": 216.06,
+            "beats_null": false,
+            "n": 26
+          },
+          "OOS": {
+            "real": -27.69,
+            "null_p50": -6.25,
+            "null_p95": 44.33,
+            "beats_null": false,
+            "n": 23
+          },
+          "UNSEEN": {
+            "real": -16.06,
+            "null_p50": 3.66,
+            "null_p95": 35.51,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1111,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 248.34,
+            "n": 94,
+            "wr": 0.372
+          },
+          "VAL": {
+            "comp": 33.91,
+            "n": 21,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": -44.56,
+            "n": 18,
+            "wr": 0.222
+          },
+          "UNSEEN": {
+            "comp": -24.81,
+            "n": 7,
+            "wr": 0.286
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 248.34,
+            "null_p50": 101.24,
+            "null_p95": 1437.36,
+            "beats_null": false,
+            "n": 94
+          },
+          "VAL": {
+            "real": 33.91,
+            "null_p50": 90.4,
+            "null_p95": 410.25,
+            "beats_null": false,
+            "n": 21
+          },
+          "OOS": {
+            "real": -44.56,
+            "null_p50": -10.73,
+            "null_p95": 52.78,
+            "beats_null": false,
+            "n": 18
+          },
+          "UNSEEN": {
+            "real": -24.81,
+            "null_p50": -4.92,
+            "null_p95": 35.33,
+            "beats_null": false,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6592,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 152.51,
+            "n": 421,
+            "wr": 0.344
+          },
+          "VAL": {
+            "comp": 75.46,
+            "n": 74,
+            "wr": 0.338
+          },
+          "OOS": {
+            "comp": -34.52,
+            "n": 77,
+            "wr": 0.273
+          },
+          "UNSEEN": {
+            "comp": -43.01,
+            "n": 40,
+            "wr": 0.325
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 152.51,
+            "null_p50": 31.6,
+            "null_p95": 988.98,
+            "beats_null": false,
+            "n": 421
+          },
+          "VAL": {
+            "real": 75.46,
+            "null_p50": 2.33,
+            "null_p95": 233.09,
+            "beats_null": false,
+            "n": 74
+          },
+          "OOS": {
+            "real": -34.52,
+            "null_p50": -43.09,
+            "null_p95": 16.67,
+            "beats_null": false,
+            "n": 77
+          },
+          "UNSEEN": {
+            "real": -43.01,
+            "null_p50": -24.41,
+            "null_p95": 18.85,
+            "beats_null": false,
+            "n": 40
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6592,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 453.46,
+            "n": 245,
+            "wr": 0.306
+          },
+          "VAL": {
+            "comp": 55.09,
+            "n": 44,
+            "wr": 0.318
+          },
+          "OOS": {
+            "comp": -29.51,
+            "n": 45,
+            "wr": 0.267
+          },
+          "UNSEEN": {
+            "comp": -40.61,
+            "n": 24,
+            "wr": 0.25
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 453.46,
+            "null_p50": 71.12,
+            "null_p95": 1841.6,
+            "beats_null": false,
+            "n": 245
+          },
+          "VAL": {
+            "real": 55.09,
+            "null_p50": 18.8,
+            "null_p95": 313.29,
+            "beats_null": false,
+            "n": 44
+          },
+          "OOS": {
+            "real": -29.51,
+            "null_p50": -30.44,
+            "null_p95": 35.69,
+            "beats_null": false,
+            "n": 45
+          },
+          "UNSEEN": {
+            "real": -40.61,
+            "null_p50": -21.1,
+            "null_p95": 14.69,
+            "beats_null": false,
+            "n": 24
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "LINKUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1128,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -14.88,
+            "n": 127,
+            "wr": 0.409
+          },
+          "VAL": {
+            "comp": -20.55,
+            "n": 24,
+            "wr": 0.292
+          },
+          "OOS": {
+            "comp": -9.75,
+            "n": 24,
+            "wr": 0.417
+          },
+          "UNSEEN": {
+            "comp": -12.98,
+            "n": 9,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -14.88,
+            "null_p50": 45.48,
+            "null_p95": 486.99,
+            "beats_null": false,
+            "n": 127
+          },
+          "VAL": {
+            "real": -20.55,
+            "null_p50": 2.15,
+            "null_p95": 72.86,
+            "beats_null": false,
+            "n": 24
+          },
+          "OOS": {
+            "real": -9.75,
+            "null_p50": 34.36,
+            "null_p95": 121.8,
+            "beats_null": false,
+            "n": 24
+          },
+          "UNSEEN": {
+            "real": -12.98,
+            "null_p50": -4.48,
+            "null_p95": 16.27,
+            "beats_null": false,
+            "n": 9
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1128,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 225.92,
+            "n": 102,
+            "wr": 0.353
+          },
+          "VAL": {
+            "comp": -44.48,
+            "n": 23,
+            "wr": 0.217
+          },
+          "OOS": {
+            "comp": -2.54,
+            "n": 18,
+            "wr": 0.444
+          },
+          "UNSEEN": {
+            "comp": -24.78,
+            "n": 8,
+            "wr": 0.125
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 225.92,
+            "null_p50": 121.01,
+            "null_p95": 1419.14,
+            "beats_null": false,
+            "n": 102
+          },
+          "VAL": {
+            "real": -44.48,
+            "null_p50": -0.6,
+            "null_p95": 99.76,
+            "beats_null": false,
+            "n": 23
+          },
+          "OOS": {
+            "real": -2.54,
+            "null_p50": 32.08,
+            "null_p95": 143.13,
+            "beats_null": false,
+            "n": 18
+          },
+          "UNSEEN": {
+            "real": -24.78,
+            "null_p50": -9.98,
+            "null_p95": 18.64,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 7032,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 155.46,
+            "n": 431,
+            "wr": 0.39
+          },
+          "VAL": {
+            "comp": -2.65,
+            "n": 77,
+            "wr": 0.338
+          },
+          "OOS": {
+            "comp": -7.32,
+            "n": 82,
+            "wr": 0.378
+          },
+          "UNSEEN": {
+            "comp": -32.23,
+            "n": 39,
+            "wr": 0.359
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 155.46,
+            "null_p50": 3.83,
+            "null_p95": 1043.18,
+            "beats_null": false,
+            "n": 431
+          },
+          "VAL": {
+            "real": -2.65,
+            "null_p50": -11.89,
+            "null_p95": 114.14,
+            "beats_null": false,
+            "n": 77
+          },
+          "OOS": {
+            "real": -7.32,
+            "null_p50": -22.26,
+            "null_p95": 103.03,
+            "beats_null": false,
+            "n": 82
+          },
+          "UNSEEN": {
+            "real": -32.23,
+            "null_p50": -24.3,
+            "null_p95": 9.81,
+            "beats_null": false,
+            "n": 39
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 7032,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 581.97,
+            "n": 246,
+            "wr": 0.362
+          },
+          "VAL": {
+            "comp": -8.01,
+            "n": 49,
+            "wr": 0.265
+          },
+          "OOS": {
+            "comp": -4.4,
+            "n": 54,
+            "wr": 0.352
+          },
+          "UNSEEN": {
+            "comp": -40.74,
+            "n": 29,
+            "wr": 0.207
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 581.97,
+            "null_p50": 61.81,
+            "null_p95": 1529.34,
+            "beats_null": false,
+            "n": 246
+          },
+          "VAL": {
+            "real": -8.01,
+            "null_p50": -11.45,
+            "null_p95": 138.98,
+            "beats_null": false,
+            "n": 49
+          },
+          "OOS": {
+            "real": -4.4,
+            "null_p50": -20.41,
+            "null_p95": 111.57,
+            "beats_null": false,
+            "n": 54
+          },
+          "UNSEEN": {
+            "real": -40.74,
+            "null_p50": -19.12,
+            "null_p95": 16.67,
+            "beats_null": false,
+            "n": 29
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "SUIUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 447,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -2.18,
+            "n": 23,
+            "wr": 0.348
+          },
+          "VAL": {
+            "comp": -7.0,
+            "n": 24,
+            "wr": 0.375
+          },
+          "OOS": {
+            "comp": 22.94,
+            "n": 20,
+            "wr": 0.35
+          },
+          "UNSEEN": {
+            "comp": -15.45,
+            "n": 10,
+            "wr": 0.2
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -2.18,
+            "null_p50": -12.22,
+            "null_p95": 60.16,
+            "beats_null": false,
+            "n": 23
+          },
+          "VAL": {
+            "real": -7.0,
+            "null_p50": 44.24,
+            "null_p95": 196.83,
+            "beats_null": false,
+            "n": 24
+          },
+          "OOS": {
+            "real": 22.94,
+            "null_p50": 22.86,
+            "null_p95": 134.06,
+            "beats_null": false,
+            "n": 20
+          },
+          "UNSEEN": {
+            "real": -15.45,
+            "null_p50": -4.41,
+            "null_p95": 21.71,
+            "beats_null": false,
+            "n": 10
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 447,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 25.65,
+            "n": 18,
+            "wr": 0.444
+          },
+          "VAL": {
+            "comp": 37.89,
+            "n": 17,
+            "wr": 0.294
+          },
+          "OOS": {
+            "comp": 0.24,
+            "n": 17,
+            "wr": 0.235
+          },
+          "UNSEEN": {
+            "comp": 17.0,
+            "n": 6,
+            "wr": 0.5
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 25.65,
+            "null_p50": -8.14,
+            "null_p95": 94.8,
+            "beats_null": false,
+            "n": 18
+          },
+          "VAL": {
+            "real": 37.89,
+            "null_p50": 91.7,
+            "null_p95": 445.42,
+            "beats_null": false,
+            "n": 17
+          },
+          "OOS": {
+            "real": 0.24,
+            "null_p50": 12.99,
+            "null_p95": 106.64,
+            "beats_null": false,
+            "n": 17
+          },
+          "UNSEEN": {
+            "real": 17.0,
+            "null_p50": -11.62,
+            "null_p95": 24.69,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": true
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 2997,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -34.86,
+            "n": 93,
+            "wr": 0.366
+          },
+          "VAL": {
+            "comp": 92.06,
+            "n": 74,
+            "wr": 0.351
+          },
+          "OOS": {
+            "comp": 13.59,
+            "n": 76,
+            "wr": 0.342
+          },
+          "UNSEEN": {
+            "comp": -6.02,
+            "n": 31,
+            "wr": 0.29
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -34.86,
+            "null_p50": -23.57,
+            "null_p95": 145.76,
+            "beats_null": false,
+            "n": 93
+          },
+          "VAL": {
+            "real": 92.06,
+            "null_p50": 29.67,
+            "null_p95": 389.4,
+            "beats_null": false,
+            "n": 74
+          },
+          "OOS": {
+            "real": 13.59,
+            "null_p50": -31.16,
+            "null_p95": 77.43,
+            "beats_null": false,
+            "n": 76
+          },
+          "UNSEEN": {
+            "real": -6.02,
+            "null_p50": -25.31,
+            "null_p95": 32.27,
+            "beats_null": false,
+            "n": 31
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 2997,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -21.98,
+            "n": 68,
+            "wr": 0.309
+          },
+          "VAL": {
+            "comp": 129.37,
+            "n": 47,
+            "wr": 0.447
+          },
+          "OOS": {
+            "comp": -37.86,
+            "n": 50,
+            "wr": 0.26
+          },
+          "UNSEEN": {
+            "comp": -1.08,
+            "n": 22,
+            "wr": 0.273
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -21.98,
+            "null_p50": -19.87,
+            "null_p95": 102.72,
+            "beats_null": false,
+            "n": 68
+          },
+          "VAL": {
+            "real": 129.37,
+            "null_p50": 42.31,
+            "null_p95": 423.95,
+            "beats_null": false,
+            "n": 47
+          },
+          "OOS": {
+            "real": -37.86,
+            "null_p50": -26.59,
+            "null_p95": 84.38,
+            "beats_null": false,
+            "n": 50
+          },
+          "UNSEEN": {
+            "real": -1.08,
+            "null_p50": -25.46,
+            "null_p95": 38.01,
+            "beats_null": false,
+            "n": 22
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "AVAXUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1000,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 233.48,
+            "n": 99,
+            "wr": 0.333
+          },
+          "VAL": {
+            "comp": -23.86,
+            "n": 23,
+            "wr": 0.174
+          },
+          "OOS": {
+            "comp": -24.35,
+            "n": 26,
+            "wr": 0.308
+          },
+          "UNSEEN": {
+            "comp": -12.74,
+            "n": 8,
+            "wr": 0.375
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 233.48,
+            "null_p50": 107.68,
+            "null_p95": 1870.43,
+            "beats_null": false,
+            "n": 99
+          },
+          "VAL": {
+            "real": -23.86,
+            "null_p50": -7.86,
+            "null_p95": 53.39,
+            "beats_null": false,
+            "n": 23
+          },
+          "OOS": {
+            "real": -24.35,
+            "null_p50": -7.85,
+            "null_p95": 39.93,
+            "beats_null": false,
+            "n": 26
+          },
+          "UNSEEN": {
+            "real": -12.74,
+            "null_p50": -1.45,
+            "null_p95": 18.95,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1000,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 1368.51,
+            "n": 78,
+            "wr": 0.397
+          },
+          "VAL": {
+            "comp": 2.57,
+            "n": 18,
+            "wr": 0.389
+          },
+          "OOS": {
+            "comp": -36.7,
+            "n": 21,
+            "wr": 0.286
+          },
+          "UNSEEN": {
+            "comp": -16.65,
+            "n": 8,
+            "wr": 0.375
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 1368.51,
+            "null_p50": 394.16,
+            "null_p95": 3966.59,
+            "beats_null": false,
+            "n": 78
+          },
+          "VAL": {
+            "real": 2.57,
+            "null_p50": -12.13,
+            "null_p95": 91.49,
+            "beats_null": false,
+            "n": 18
+          },
+          "OOS": {
+            "real": -36.7,
+            "null_p50": -11.5,
+            "null_p95": 47.35,
+            "beats_null": false,
+            "n": 21
+          },
+          "UNSEEN": {
+            "real": -16.65,
+            "null_p50": -4.75,
+            "null_p95": 25.16,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 5724,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 2513.66,
+            "n": 315,
+            "wr": 0.413
+          },
+          "VAL": {
+            "comp": -16.22,
+            "n": 74,
+            "wr": 0.351
+          },
+          "OOS": {
+            "comp": -23.19,
+            "n": 74,
+            "wr": 0.324
+          },
+          "UNSEEN": {
+            "comp": -44.24,
+            "n": 40,
+            "wr": 0.3
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 2513.66,
+            "null_p50": 70.21,
+            "null_p95": 1964.52,
+            "beats_null": true,
+            "n": 315
+          },
+          "VAL": {
+            "real": -16.22,
+            "null_p50": -41.02,
+            "null_p95": 75.51,
+            "beats_null": false,
+            "n": 74
+          },
+          "OOS": {
+            "real": -23.19,
+            "null_p50": -29.64,
+            "null_p95": 54.68,
+            "beats_null": false,
+            "n": 74
+          },
+          "UNSEEN": {
+            "real": -44.24,
+            "null_p50": -24.61,
+            "null_p95": 16.84,
+            "beats_null": false,
+            "n": 40
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 5724,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 4872.23,
+            "n": 194,
+            "wr": 0.33
+          },
+          "VAL": {
+            "comp": -3.09,
+            "n": 39,
+            "wr": 0.308
+          },
+          "OOS": {
+            "comp": -15.45,
+            "n": 44,
+            "wr": 0.341
+          },
+          "UNSEEN": {
+            "comp": -49.07,
+            "n": 23,
+            "wr": 0.13
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 4872.23,
+            "null_p50": 149.84,
+            "null_p95": 2666.65,
+            "beats_null": true,
+            "n": 194
+          },
+          "VAL": {
+            "real": -3.09,
+            "null_p50": -31.33,
+            "null_p95": 98.61,
+            "beats_null": false,
+            "n": 39
+          },
+          "OOS": {
+            "real": -15.45,
+            "null_p50": -26.3,
+            "null_p95": 77.78,
+            "beats_null": false,
+            "n": 44
+          },
+          "UNSEEN": {
+            "real": -49.07,
+            "null_p50": -19.96,
+            "null_p95": 21.16,
+            "beats_null": false,
+            "n": 23
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "TAOUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 396,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -11.78,
+            "n": 2,
+            "wr": 0.0
+          },
+          "VAL": {
+            "comp": 10.76,
+            "n": 23,
+            "wr": 0.435
+          },
+          "OOS": {
+            "comp": -26.55,
+            "n": 19,
+            "wr": 0.263
+          },
+          "UNSEEN": {
+            "comp": 39.23,
+            "n": 13,
+            "wr": 0.462
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -11.78,
+            "null_p50": -5.03,
+            "null_p95": 13.57,
+            "beats_null": false,
+            "n": 2
+          },
+          "VAL": {
+            "real": 10.76,
+            "null_p50": 4.63,
+            "null_p95": 121.89,
+            "beats_null": false,
+            "n": 23
+          },
+          "OOS": {
+            "real": -26.55,
+            "null_p50": -4.67,
+            "null_p95": 57.77,
+            "beats_null": false,
+            "n": 19
+          },
+          "UNSEEN": {
+            "real": 39.23,
+            "null_p50": 1.1,
+            "null_p95": 59.4,
+            "beats_null": false,
+            "n": 13
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 396,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -18.63,
+            "n": 2,
+            "wr": 0.0
+          },
+          "VAL": {
+            "comp": -1.73,
+            "n": 18,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": -32.32,
+            "n": 16,
+            "wr": 0.25
+          },
+          "UNSEEN": {
+            "comp": 11.69,
+            "n": 9,
+            "wr": 0.444
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -18.63,
+            "null_p50": -7.9,
+            "null_p95": 16.28,
+            "beats_null": false,
+            "n": 2
+          },
+          "VAL": {
+            "real": -1.73,
+            "null_p50": 0.51,
+            "null_p95": 224.82,
+            "beats_null": false,
+            "n": 18
+          },
+          "OOS": {
+            "real": -32.32,
+            "null_p50": -5.47,
+            "null_p95": 53.01,
+            "beats_null": false,
+            "n": 16
+          },
+          "UNSEEN": {
+            "real": 11.69,
+            "null_p50": 2.36,
+            "null_p95": 69.9,
+            "beats_null": false,
+            "n": 9
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 2079,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -4.51,
+            "n": 5,
+            "wr": 0.4
+          },
+          "VAL": {
+            "comp": -1.59,
+            "n": 70,
+            "wr": 0.329
+          },
+          "OOS": {
+            "comp": -33.77,
+            "n": 80,
+            "wr": 0.325
+          },
+          "UNSEEN": {
+            "comp": -1.42,
+            "n": 40,
+            "wr": 0.35
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -4.51,
+            "null_p50": -10.45,
+            "null_p95": 24.78,
+            "beats_null": false,
+            "n": 5
+          },
+          "VAL": {
+            "real": -1.59,
+            "null_p50": -28.27,
+            "null_p95": 115.02,
+            "beats_null": false,
+            "n": 70
+          },
+          "OOS": {
+            "real": -33.77,
+            "null_p50": -28.51,
+            "null_p95": 136.6,
+            "beats_null": false,
+            "n": 80
+          },
+          "UNSEEN": {
+            "real": -1.42,
+            "null_p50": -3.44,
+            "null_p95": 117.38,
+            "beats_null": false,
+            "n": 40
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 2079,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -1.21,
+            "n": 2,
+            "wr": 0.5
+          },
+          "VAL": {
+            "comp": 40.5,
+            "n": 42,
+            "wr": 0.357
+          },
+          "OOS": {
+            "comp": -44.74,
+            "n": 50,
+            "wr": 0.3
+          },
+          "UNSEEN": {
+            "comp": 8.88,
+            "n": 21,
+            "wr": 0.286
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -1.21,
+            "null_p50": -9.19,
+            "null_p95": 23.05,
+            "beats_null": false,
+            "n": 2
+          },
+          "VAL": {
+            "real": 40.5,
+            "null_p50": -28.49,
+            "null_p95": 147.3,
+            "beats_null": false,
+            "n": 42
+          },
+          "OOS": {
+            "real": -44.74,
+            "null_p50": -13.83,
+            "null_p95": 119.07,
+            "beats_null": false,
+            "n": 50
+          },
+          "UNSEEN": {
+            "real": 8.88,
+            "null_p50": -4.97,
+            "null_p95": 114.81,
+            "beats_null": false,
+            "n": 21
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "FETUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 937,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -45.95,
+            "n": 106,
+            "wr": 0.368
+          },
+          "VAL": {
+            "comp": -10.81,
+            "n": 17,
+            "wr": 0.294
+          },
+          "OOS": {
+            "comp": 5.76,
+            "n": 21,
+            "wr": 0.524
+          },
+          "UNSEEN": {
+            "comp": 6.3,
+            "n": 8,
+            "wr": 0.375
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -45.95,
+            "null_p50": -3.22,
+            "null_p95": 743.97,
+            "beats_null": false,
+            "n": 106
+          },
+          "VAL": {
+            "real": -10.81,
+            "null_p50": 7.74,
+            "null_p95": 92.59,
+            "beats_null": false,
+            "n": 17
+          },
+          "OOS": {
+            "real": 5.76,
+            "null_p50": -0.84,
+            "null_p95": 68.77,
+            "beats_null": false,
+            "n": 21
+          },
+          "UNSEEN": {
+            "real": 6.3,
+            "null_p50": 6.73,
+            "null_p95": 66.31,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": true
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 937,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 1301.15,
+            "n": 87,
+            "wr": 0.437
+          },
+          "VAL": {
+            "comp": -0.5,
+            "n": 15,
+            "wr": 0.333
+          },
+          "OOS": {
+            "comp": -21.19,
+            "n": 18,
+            "wr": 0.222
+          },
+          "UNSEEN": {
+            "comp": 52.44,
+            "n": 5,
+            "wr": 0.6
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 1301.15,
+            "null_p50": 175.41,
+            "null_p95": 4833.52,
+            "beats_null": false,
+            "n": 87
+          },
+          "VAL": {
+            "real": -0.5,
+            "null_p50": -22.02,
+            "null_p95": 57.83,
+            "beats_null": false,
+            "n": 15
+          },
+          "OOS": {
+            "real": -21.19,
+            "null_p50": -8.5,
+            "null_p95": 104.49,
+            "beats_null": false,
+            "n": 18
+          },
+          "UNSEEN": {
+            "real": 52.44,
+            "null_p50": 15.38,
+            "null_p95": 120.98,
+            "beats_null": false,
+            "n": 5
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6507,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 701.13,
+            "n": 385,
+            "wr": 0.392
+          },
+          "VAL": {
+            "comp": -54.36,
+            "n": 73,
+            "wr": 0.274
+          },
+          "OOS": {
+            "comp": -65.33,
+            "n": 80,
+            "wr": 0.275
+          },
+          "UNSEEN": {
+            "comp": 16.32,
+            "n": 37,
+            "wr": 0.351
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 701.13,
+            "null_p50": 229.08,
+            "null_p95": 6539.01,
+            "beats_null": false,
+            "n": 385
+          },
+          "VAL": {
+            "real": -54.36,
+            "null_p50": -60.63,
+            "null_p95": 22.31,
+            "beats_null": false,
+            "n": 73
+          },
+          "OOS": {
+            "real": -65.33,
+            "null_p50": -43.99,
+            "null_p95": 55.35,
+            "beats_null": false,
+            "n": 80
+          },
+          "UNSEEN": {
+            "real": 16.32,
+            "null_p50": -3.7,
+            "null_p95": 88.48,
+            "beats_null": false,
+            "n": 37
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6507,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 7123.75,
+            "n": 246,
+            "wr": 0.354
+          },
+          "VAL": {
+            "comp": -41.0,
+            "n": 43,
+            "wr": 0.209
+          },
+          "OOS": {
+            "comp": -62.53,
+            "n": 46,
+            "wr": 0.283
+          },
+          "UNSEEN": {
+            "comp": -7.97,
+            "n": 24,
+            "wr": 0.208
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 7123.75,
+            "null_p50": 387.81,
+            "null_p95": 19521.94,
+            "beats_null": false,
+            "n": 246
+          },
+          "VAL": {
+            "real": -41.0,
+            "null_p50": -42.32,
+            "null_p95": 45.82,
+            "beats_null": false,
+            "n": 43
+          },
+          "OOS": {
+            "real": -62.53,
+            "null_p50": -26.63,
+            "null_p95": 192.01,
+            "beats_null": false,
+            "n": 46
+          },
+          "UNSEEN": {
+            "real": -7.97,
+            "null_p50": -9.17,
+            "null_p95": 81.84,
+            "beats_null": false,
+            "n": 24
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "ENJUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 811,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -57.0,
+            "n": 104,
+            "wr": 0.298
+          },
+          "VAL": {
+            "comp": -16.84,
+            "n": 22,
+            "wr": 0.273
+          },
+          "OOS": {
+            "comp": -25.92,
+            "n": 18,
+            "wr": 0.222
+          },
+          "UNSEEN": {
+            "comp": 147.86,
+            "n": 7,
+            "wr": 0.571
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -57.0,
+            "null_p50": -31.7,
+            "null_p95": 231.73,
+            "beats_null": false,
+            "n": 104
+          },
+          "VAL": {
+            "real": -16.84,
+            "null_p50": -8.57,
+            "null_p95": 54.8,
+            "beats_null": false,
+            "n": 22
+          },
+          "OOS": {
+            "real": -25.92,
+            "null_p50": 14.03,
+            "null_p95": 81.36,
+            "beats_null": false,
+            "n": 18
+          },
+          "UNSEEN": {
+            "real": 147.86,
+            "null_p50": 0.37,
+            "null_p95": 121.2,
+            "beats_null": true,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 811,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 145.45,
+            "n": 88,
+            "wr": 0.364
+          },
+          "VAL": {
+            "comp": 36.33,
+            "n": 15,
+            "wr": 0.467
+          },
+          "OOS": {
+            "comp": -25.86,
+            "n": 14,
+            "wr": 0.214
+          },
+          "UNSEEN": {
+            "comp": 139.17,
+            "n": 6,
+            "wr": 0.5
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 145.45,
+            "null_p50": 83.47,
+            "null_p95": 1210.68,
+            "beats_null": false,
+            "n": 88
+          },
+          "VAL": {
+            "real": 36.33,
+            "null_p50": -26.75,
+            "null_p95": 72.72,
+            "beats_null": false,
+            "n": 15
+          },
+          "OOS": {
+            "real": -25.86,
+            "null_p50": 2.35,
+            "null_p95": 77.65,
+            "beats_null": false,
+            "n": 14
+          },
+          "UNSEEN": {
+            "real": 139.17,
+            "null_p50": -7.08,
+            "null_p95": 181.74,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6217,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -60.84,
+            "n": 382,
+            "wr": 0.353
+          },
+          "VAL": {
+            "comp": -24.56,
+            "n": 68,
+            "wr": 0.397
+          },
+          "OOS": {
+            "comp": -56.0,
+            "n": 63,
+            "wr": 0.286
+          },
+          "UNSEEN": {
+            "comp": -0.45,
+            "n": 26,
+            "wr": 0.231
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -60.84,
+            "null_p50": -45.18,
+            "null_p95": 1229.87,
+            "beats_null": false,
+            "n": 382
+          },
+          "VAL": {
+            "real": -24.56,
+            "null_p50": -51.57,
+            "null_p95": 33.21,
+            "beats_null": false,
+            "n": 68
+          },
+          "OOS": {
+            "real": -56.0,
+            "null_p50": -49.62,
+            "null_p95": 31.3,
+            "beats_null": false,
+            "n": 63
+          },
+          "UNSEEN": {
+            "real": -0.45,
+            "null_p50": -3.53,
+            "null_p95": 209.77,
+            "beats_null": false,
+            "n": 26
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6217,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 421.64,
+            "n": 243,
+            "wr": 0.337
+          },
+          "VAL": {
+            "comp": 4.86,
+            "n": 43,
+            "wr": 0.326
+          },
+          "OOS": {
+            "comp": -48.39,
+            "n": 46,
+            "wr": 0.239
+          },
+          "UNSEEN": {
+            "comp": 16.7,
+            "n": 18,
+            "wr": 0.167
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 421.64,
+            "null_p50": -2.25,
+            "null_p95": 1745.81,
+            "beats_null": false,
+            "n": 243
+          },
+          "VAL": {
+            "real": 4.86,
+            "null_p50": -41.95,
+            "null_p95": 70.53,
+            "beats_null": false,
+            "n": 43
+          },
+          "OOS": {
+            "real": -48.39,
+            "null_p50": -38.89,
+            "null_p95": 55.61,
+            "beats_null": false,
+            "n": 46
+          },
+          "UNSEEN": {
+            "real": 16.7,
+            "null_p50": -3.72,
+            "null_p95": 203.86,
+            "beats_null": false,
+            "n": 18
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "ORDIUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 379,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 39.11,
+            "n": 17,
+            "wr": 0.235
+          },
+          "VAL": {
+            "comp": -49.29,
+            "n": 31,
+            "wr": 0.226
+          },
+          "OOS": {
+            "comp": -23.71,
+            "n": 25,
+            "wr": 0.32
+          },
+          "UNSEEN": {
+            "comp": 43.48,
+            "n": 9,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 39.11,
+            "null_p50": 45.38,
+            "null_p95": 366.13,
+            "beats_null": false,
+            "n": 17
+          },
+          "VAL": {
+            "real": -49.29,
+            "null_p50": -29.34,
+            "null_p95": 49.14,
+            "beats_null": false,
+            "n": 31
+          },
+          "OOS": {
+            "real": -23.71,
+            "null_p50": 19.22,
+            "null_p95": 119.56,
+            "beats_null": false,
+            "n": 25
+          },
+          "UNSEEN": {
+            "real": 43.48,
+            "null_p50": -7.61,
+            "null_p95": 221.53,
+            "beats_null": false,
+            "n": 9
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 379,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 162.89,
+            "n": 12,
+            "wr": 0.5
+          },
+          "VAL": {
+            "comp": -46.03,
+            "n": 26,
+            "wr": 0.231
+          },
+          "OOS": {
+            "comp": -51.58,
+            "n": 20,
+            "wr": 0.2
+          },
+          "UNSEEN": {
+            "comp": 12.67,
+            "n": 7,
+            "wr": 0.429
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 162.89,
+            "null_p50": 28.33,
+            "null_p95": 270.37,
+            "beats_null": false,
+            "n": 12
+          },
+          "VAL": {
+            "real": -46.03,
+            "null_p50": -27.59,
+            "null_p95": 67.84,
+            "beats_null": false,
+            "n": 26
+          },
+          "OOS": {
+            "real": -51.58,
+            "null_p50": 9.94,
+            "null_p95": 149.41,
+            "beats_null": false,
+            "n": 20
+          },
+          "UNSEEN": {
+            "real": 12.67,
+            "null_p50": -21.9,
+            "null_p95": 172.54,
+            "beats_null": false,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 2603,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 67.22,
+            "n": 56,
+            "wr": 0.446
+          },
+          "VAL": {
+            "comp": -70.66,
+            "n": 86,
+            "wr": 0.326
+          },
+          "OOS": {
+            "comp": -40.64,
+            "n": 80,
+            "wr": 0.4
+          },
+          "UNSEEN": {
+            "comp": 18.07,
+            "n": 34,
+            "wr": 0.324
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 67.22,
+            "null_p50": 48.66,
+            "null_p95": 498.69,
+            "beats_null": false,
+            "n": 56
+          },
+          "VAL": {
+            "real": -70.66,
+            "null_p50": -58.23,
+            "null_p95": 46.9,
+            "beats_null": false,
+            "n": 86
+          },
+          "OOS": {
+            "real": -40.64,
+            "null_p50": -42.04,
+            "null_p95": 93.52,
+            "beats_null": false,
+            "n": 80
+          },
+          "UNSEEN": {
+            "real": 18.07,
+            "null_p50": -28.47,
+            "null_p95": 180.5,
+            "beats_null": false,
+            "n": 34
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 2603,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 100.23,
+            "n": 32,
+            "wr": 0.25
+          },
+          "VAL": {
+            "comp": -52.5,
+            "n": 44,
+            "wr": 0.341
+          },
+          "OOS": {
+            "comp": -59.39,
+            "n": 46,
+            "wr": 0.217
+          },
+          "UNSEEN": {
+            "comp": 6.64,
+            "n": 20,
+            "wr": 0.2
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 100.23,
+            "null_p50": 43.12,
+            "null_p95": 508.69,
+            "beats_null": false,
+            "n": 32
+          },
+          "VAL": {
+            "real": -52.5,
+            "null_p50": -62.99,
+            "null_p95": 65.4,
+            "beats_null": false,
+            "n": 44
+          },
+          "OOS": {
+            "real": -59.39,
+            "null_p50": -35.08,
+            "null_p95": 97.9,
+            "beats_null": false,
+            "n": 46
+          },
+          "UNSEEN": {
+            "real": 6.64,
+            "null_p50": -17.83,
+            "null_p95": 197.84,
+            "beats_null": false,
+            "n": 20
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "NEARUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 952,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 116.27,
+            "n": 90,
+            "wr": 0.433
+          },
+          "VAL": {
+            "comp": 42.14,
+            "n": 17,
+            "wr": 0.588
+          },
+          "OOS": {
+            "comp": -6.43,
+            "n": 26,
+            "wr": 0.385
+          },
+          "UNSEEN": {
+            "comp": 0.06,
+            "n": 13,
+            "wr": 0.308
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 116.27,
+            "null_p50": -2.95,
+            "null_p95": 436.52,
+            "beats_null": false,
+            "n": 90
+          },
+          "VAL": {
+            "real": 42.14,
+            "null_p50": 10.48,
+            "null_p95": 95.96,
+            "beats_null": false,
+            "n": 17
+          },
+          "OOS": {
+            "real": -6.43,
+            "null_p50": 14.91,
+            "null_p95": 96.87,
+            "beats_null": false,
+            "n": 26
+          },
+          "UNSEEN": {
+            "real": 0.06,
+            "null_p50": 13.42,
+            "null_p95": 89.24,
+            "beats_null": false,
+            "n": 13
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 952,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 392.4,
+            "n": 69,
+            "wr": 0.377
+          },
+          "VAL": {
+            "comp": 35.27,
+            "n": 13,
+            "wr": 0.462
+          },
+          "OOS": {
+            "comp": -24.6,
+            "n": 19,
+            "wr": 0.263
+          },
+          "UNSEEN": {
+            "comp": 17.57,
+            "n": 8,
+            "wr": 0.5
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 392.4,
+            "null_p50": -1.76,
+            "null_p95": 633.91,
+            "beats_null": false,
+            "n": 69
+          },
+          "VAL": {
+            "real": 35.27,
+            "null_p50": 11.11,
+            "null_p95": 113.38,
+            "beats_null": false,
+            "n": 13
+          },
+          "OOS": {
+            "real": -24.6,
+            "null_p50": 8.85,
+            "null_p95": 110.24,
+            "beats_null": false,
+            "n": 19
+          },
+          "UNSEEN": {
+            "real": 17.57,
+            "null_p50": -4.98,
+            "null_p95": 87.24,
+            "beats_null": false,
+            "n": 8
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 5849,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 38.71,
+            "n": 336,
+            "wr": 0.357
+          },
+          "VAL": {
+            "comp": -57.18,
+            "n": 73,
+            "wr": 0.301
+          },
+          "OOS": {
+            "comp": -47.25,
+            "n": 74,
+            "wr": 0.324
+          },
+          "UNSEEN": {
+            "comp": 62.0,
+            "n": 35,
+            "wr": 0.457
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 38.71,
+            "null_p50": 73.47,
+            "null_p95": 3763.6,
+            "beats_null": false,
+            "n": 336
+          },
+          "VAL": {
+            "real": -57.18,
+            "null_p50": -46.65,
+            "null_p95": 35.32,
+            "beats_null": false,
+            "n": 73
+          },
+          "OOS": {
+            "real": -47.25,
+            "null_p50": -32.75,
+            "null_p95": 82.78,
+            "beats_null": false,
+            "n": 74
+          },
+          "UNSEEN": {
+            "real": 62.0,
+            "null_p50": 18.62,
+            "null_p95": 135.88,
+            "beats_null": false,
+            "n": 35
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 5849,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 417.98,
+            "n": 204,
+            "wr": 0.319
+          },
+          "VAL": {
+            "comp": -30.02,
+            "n": 44,
+            "wr": 0.295
+          },
+          "OOS": {
+            "comp": -44.92,
+            "n": 50,
+            "wr": 0.26
+          },
+          "UNSEEN": {
+            "comp": 65.45,
+            "n": 21,
+            "wr": 0.381
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 417.98,
+            "null_p50": 117.42,
+            "null_p95": 3104.6,
+            "beats_null": false,
+            "n": 204
+          },
+          "VAL": {
+            "real": -30.02,
+            "null_p50": -45.25,
+            "null_p95": 53.59,
+            "beats_null": false,
+            "n": 44
+          },
+          "OOS": {
+            "real": -44.92,
+            "null_p50": -28.21,
+            "null_p95": 51.02,
+            "beats_null": false,
+            "n": 50
+          },
+          "UNSEEN": {
+            "real": 65.45,
+            "null_p50": 12.66,
+            "null_p95": 128.99,
+            "beats_null": false,
+            "n": 21
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "WLDUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 439,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 82.12,
+            "n": 17,
+            "wr": 0.353
+          },
+          "VAL": {
+            "comp": 32.5,
+            "n": 17,
+            "wr": 0.412
+          },
+          "OOS": {
+            "comp": 48.38,
+            "n": 19,
+            "wr": 0.263
+          },
+          "UNSEEN": {
+            "comp": -0.7,
+            "n": 9,
+            "wr": 0.556
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 82.12,
+            "null_p50": 7.87,
+            "null_p95": 233.87,
+            "beats_null": false,
+            "n": 17
+          },
+          "VAL": {
+            "real": 32.5,
+            "null_p50": -20.49,
+            "null_p95": 46.26,
+            "beats_null": false,
+            "n": 17
+          },
+          "OOS": {
+            "real": 48.38,
+            "null_p50": 39.84,
+            "null_p95": 301.51,
+            "beats_null": false,
+            "n": 19
+          },
+          "UNSEEN": {
+            "real": -0.7,
+            "null_p50": -7.42,
+            "null_p95": 34.38,
+            "beats_null": false,
+            "n": 9
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 439,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 79.67,
+            "n": 14,
+            "wr": 0.357
+          },
+          "VAL": {
+            "comp": 8.77,
+            "n": 14,
+            "wr": 0.357
+          },
+          "OOS": {
+            "comp": 36.51,
+            "n": 17,
+            "wr": 0.176
+          },
+          "UNSEEN": {
+            "comp": -8.55,
+            "n": 7,
+            "wr": 0.429
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 79.67,
+            "null_p50": 60.16,
+            "null_p95": 455.42,
+            "beats_null": false,
+            "n": 14
+          },
+          "VAL": {
+            "real": 8.77,
+            "null_p50": -35.86,
+            "null_p95": 52.58,
+            "beats_null": false,
+            "n": 14
+          },
+          "OOS": {
+            "real": 36.51,
+            "null_p50": 50.09,
+            "null_p95": 320.97,
+            "beats_null": false,
+            "n": 17
+          },
+          "UNSEEN": {
+            "real": -8.55,
+            "null_p50": -15.77,
+            "null_p95": 21.37,
+            "beats_null": false,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 2428,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 121.11,
+            "n": 76,
+            "wr": 0.368
+          },
+          "VAL": {
+            "comp": -30.72,
+            "n": 69,
+            "wr": 0.261
+          },
+          "OOS": {
+            "comp": -40.97,
+            "n": 69,
+            "wr": 0.217
+          },
+          "UNSEEN": {
+            "comp": -37.72,
+            "n": 33,
+            "wr": 0.394
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 121.11,
+            "null_p50": 14.42,
+            "null_p95": 465.83,
+            "beats_null": false,
+            "n": 76
+          },
+          "VAL": {
+            "real": -30.72,
+            "null_p50": -60.28,
+            "null_p95": 15.27,
+            "beats_null": false,
+            "n": 69
+          },
+          "OOS": {
+            "real": -40.97,
+            "null_p50": -34.92,
+            "null_p95": 79.84,
+            "beats_null": false,
+            "n": 69
+          },
+          "UNSEEN": {
+            "real": -37.72,
+            "null_p50": -24.57,
+            "null_p95": 42.85,
+            "beats_null": false,
+            "n": 33
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 2428,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 193.86,
+            "n": 42,
+            "wr": 0.333
+          },
+          "VAL": {
+            "comp": -31.22,
+            "n": 39,
+            "wr": 0.308
+          },
+          "OOS": {
+            "comp": -8.93,
+            "n": 42,
+            "wr": 0.214
+          },
+          "UNSEEN": {
+            "comp": -21.23,
+            "n": 20,
+            "wr": 0.25
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 193.86,
+            "null_p50": 17.85,
+            "null_p95": 517.32,
+            "beats_null": false,
+            "n": 42
+          },
+          "VAL": {
+            "real": -31.22,
+            "null_p50": -53.06,
+            "null_p95": 43.94,
+            "beats_null": false,
+            "n": 39
+          },
+          "OOS": {
+            "real": -8.93,
+            "null_p50": -30.96,
+            "null_p95": 121.21,
+            "beats_null": false,
+            "n": 42
+          },
+          "UNSEEN": {
+            "real": -21.23,
+            "null_p50": -22.12,
+            "null_p95": 58.34,
+            "beats_null": false,
+            "n": 20
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "ENAUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 323,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -4.33,
+            "n": 1,
+            "wr": 0.0
+          },
+          "VAL": {
+            "comp": -19.77,
+            "n": 20,
+            "wr": 0.3
+          },
+          "OOS": {
+            "comp": -18.01,
+            "n": 23,
+            "wr": 0.348
+          },
+          "UNSEEN": {
+            "comp": -8.46,
+            "n": 7,
+            "wr": 0.286
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -4.33,
+            "null_p50": -1.84,
+            "null_p95": 6.95,
+            "beats_null": false,
+            "n": 1
+          },
+          "VAL": {
+            "real": -19.77,
+            "null_p50": -33.15,
+            "null_p95": 43.93,
+            "beats_null": false,
+            "n": 20
+          },
+          "OOS": {
+            "real": -18.01,
+            "null_p50": 2.06,
+            "null_p95": 111.61,
+            "beats_null": false,
+            "n": 23
+          },
+          "UNSEEN": {
+            "real": -8.46,
+            "null_p50": -10.52,
+            "null_p95": 17.86,
+            "beats_null": false,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 323,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -0.55,
+            "n": 1,
+            "wr": 0.0
+          },
+          "VAL": {
+            "comp": 12.28,
+            "n": 18,
+            "wr": 0.278
+          },
+          "OOS": {
+            "comp": -47.71,
+            "n": 21,
+            "wr": 0.238
+          },
+          "UNSEEN": {
+            "comp": -8.92,
+            "n": 6,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -0.55,
+            "null_p50": -2.94,
+            "null_p95": 9.1,
+            "beats_null": false,
+            "n": 1
+          },
+          "VAL": {
+            "real": 12.28,
+            "null_p50": -49.51,
+            "null_p95": 16.67,
+            "beats_null": false,
+            "n": 18
+          },
+          "OOS": {
+            "real": -47.71,
+            "null_p50": 1.04,
+            "null_p95": 124.32,
+            "beats_null": false,
+            "n": 21
+          },
+          "UNSEEN": {
+            "real": -8.92,
+            "null_p50": -15.44,
+            "null_p95": 28.77,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 1936,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 1.21,
+            "n": 13,
+            "wr": 0.385
+          },
+          "VAL": {
+            "comp": -68.4,
+            "n": 74,
+            "wr": 0.324
+          },
+          "OOS": {
+            "comp": 10.11,
+            "n": 73,
+            "wr": 0.37
+          },
+          "UNSEEN": {
+            "comp": -31.51,
+            "n": 29,
+            "wr": 0.345
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 1.21,
+            "null_p50": -18.7,
+            "null_p95": 35.96,
+            "beats_null": false,
+            "n": 13
+          },
+          "VAL": {
+            "real": -68.4,
+            "null_p50": -32.95,
+            "null_p95": 150.3,
+            "beats_null": false,
+            "n": 74
+          },
+          "OOS": {
+            "real": 10.11,
+            "null_p50": -35.31,
+            "null_p95": 166.33,
+            "beats_null": false,
+            "n": 73
+          },
+          "UNSEEN": {
+            "real": -31.51,
+            "null_p50": -31.8,
+            "null_p95": 16.25,
+            "beats_null": false,
+            "n": 29
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 1936,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 9.61,
+            "n": 6,
+            "wr": 0.333
+          },
+          "VAL": {
+            "comp": -51.6,
+            "n": 46,
+            "wr": 0.304
+          },
+          "OOS": {
+            "comp": -2.46,
+            "n": 43,
+            "wr": 0.256
+          },
+          "UNSEEN": {
+            "comp": -9.92,
+            "n": 16,
+            "wr": 0.312
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 9.61,
+            "null_p50": -11.49,
+            "null_p95": 51.49,
+            "beats_null": false,
+            "n": 6
+          },
+          "VAL": {
+            "real": -51.6,
+            "null_p50": -28.5,
+            "null_p95": 158.25,
+            "beats_null": false,
+            "n": 46
+          },
+          "OOS": {
+            "real": -2.46,
+            "null_p50": -25.07,
+            "null_p95": 144.51,
+            "beats_null": false,
+            "n": 43
+          },
+          "UNSEEN": {
+            "real": -9.92,
+            "null_p50": -29.88,
+            "null_p95": 23.74,
+            "beats_null": false,
+            "n": 16
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "LTCUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1113,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -66.64,
+            "n": 143,
+            "wr": 0.322
+          },
+          "VAL": {
+            "comp": 1.54,
+            "n": 31,
+            "wr": 0.452
+          },
+          "OOS": {
+            "comp": -38.95,
+            "n": 26,
+            "wr": 0.308
+          },
+          "UNSEEN": {
+            "comp": -5.04,
+            "n": 6,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -66.64,
+            "null_p50": -55.68,
+            "null_p95": 141.39,
+            "beats_null": false,
+            "n": 143
+          },
+          "VAL": {
+            "real": 1.54,
+            "null_p50": 13.41,
+            "null_p95": 80.63,
+            "beats_null": false,
+            "n": 31
+          },
+          "OOS": {
+            "real": -38.95,
+            "null_p50": -5.42,
+            "null_p95": 33.65,
+            "beats_null": false,
+            "n": 26
+          },
+          "UNSEEN": {
+            "real": -5.04,
+            "null_p50": -2.94,
+            "null_p95": 12.59,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1113,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 18.48,
+            "n": 106,
+            "wr": 0.406
+          },
+          "VAL": {
+            "comp": -16.89,
+            "n": 22,
+            "wr": 0.318
+          },
+          "OOS": {
+            "comp": -37.1,
+            "n": 19,
+            "wr": 0.316
+          },
+          "UNSEEN": {
+            "comp": -10.3,
+            "n": 6,
+            "wr": 0.333
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 18.48,
+            "null_p50": -35.1,
+            "null_p95": 210.31,
+            "beats_null": false,
+            "n": 106
+          },
+          "VAL": {
+            "real": -16.89,
+            "null_p50": 10.69,
+            "null_p95": 103.35,
+            "beats_null": false,
+            "n": 22
+          },
+          "OOS": {
+            "real": -37.1,
+            "null_p50": 5.49,
+            "null_p95": 48.98,
+            "beats_null": false,
+            "n": 19
+          },
+          "UNSEEN": {
+            "real": -10.3,
+            "null_p50": -6.6,
+            "null_p95": 12.3,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6949,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -23.46,
+            "n": 439,
+            "wr": 0.367
+          },
+          "VAL": {
+            "comp": -19.01,
+            "n": 85,
+            "wr": 0.376
+          },
+          "OOS": {
+            "comp": -64.89,
+            "n": 91,
+            "wr": 0.275
+          },
+          "UNSEEN": {
+            "comp": -26.29,
+            "n": 38,
+            "wr": 0.316
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -23.46,
+            "null_p50": -42.2,
+            "null_p95": 418.85,
+            "beats_null": false,
+            "n": 439
+          },
+          "VAL": {
+            "real": -19.01,
+            "null_p50": -8.09,
+            "null_p95": 160.43,
+            "beats_null": false,
+            "n": 85
+          },
+          "OOS": {
+            "real": -64.89,
+            "null_p50": -26.63,
+            "null_p95": 40.73,
+            "beats_null": false,
+            "n": 91
+          },
+          "UNSEEN": {
+            "real": -26.29,
+            "null_p50": -23.73,
+            "null_p95": 5.78,
+            "beats_null": false,
+            "n": 38
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6949,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -33.14,
+            "n": 269,
+            "wr": 0.32
+          },
+          "VAL": {
+            "comp": 5.09,
+            "n": 50,
+            "wr": 0.38
+          },
+          "OOS": {
+            "comp": -49.99,
+            "n": 53,
+            "wr": 0.245
+          },
+          "UNSEEN": {
+            "comp": -27.06,
+            "n": 21,
+            "wr": 0.238
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -33.14,
+            "null_p50": -12.08,
+            "null_p95": 580.12,
+            "beats_null": false,
+            "n": 269
+          },
+          "VAL": {
+            "real": 5.09,
+            "null_p50": -2.21,
+            "null_p95": 106.51,
+            "beats_null": false,
+            "n": 50
+          },
+          "OOS": {
+            "real": -49.99,
+            "null_p50": -19.36,
+            "null_p95": 60.79,
+            "beats_null": false,
+            "n": 53
+          },
+          "UNSEEN": {
+            "real": -27.06,
+            "null_p50": -17.53,
+            "null_p95": 3.36,
+            "beats_null": false,
+            "n": 21
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "AAVEUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 940,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -55.44,
+            "n": 96,
+            "wr": 0.375
+          },
+          "VAL": {
+            "comp": 19.71,
+            "n": 24,
+            "wr": 0.5
+          },
+          "OOS": {
+            "comp": -19.55,
+            "n": 21,
+            "wr": 0.286
+          },
+          "UNSEEN": {
+            "comp": -19.9,
+            "n": 9,
+            "wr": 0.222
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -55.44,
+            "null_p50": -38.13,
+            "null_p95": 248.84,
+            "beats_null": false,
+            "n": 96
+          },
+          "VAL": {
+            "real": 19.71,
+            "null_p50": 22.16,
+            "null_p95": 133.52,
+            "beats_null": false,
+            "n": 24
+          },
+          "OOS": {
+            "real": -19.55,
+            "null_p50": 5.99,
+            "null_p95": 60.78,
+            "beats_null": false,
+            "n": 21
+          },
+          "UNSEEN": {
+            "real": -19.9,
+            "null_p50": -4.24,
+            "null_p95": 21.91,
+            "beats_null": false,
+            "n": 9
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 940,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -15.66,
+            "n": 80,
+            "wr": 0.312
+          },
+          "VAL": {
+            "comp": 99.22,
+            "n": 18,
+            "wr": 0.722
+          },
+          "OOS": {
+            "comp": -17.27,
+            "n": 19,
+            "wr": 0.421
+          },
+          "UNSEEN": {
+            "comp": -28.82,
+            "n": 7,
+            "wr": 0.0
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -15.66,
+            "null_p50": -22.79,
+            "null_p95": 182.59,
+            "beats_null": false,
+            "n": 80
+          },
+          "VAL": {
+            "real": 99.22,
+            "null_p50": 29.45,
+            "null_p95": 186.59,
+            "beats_null": false,
+            "n": 18
+          },
+          "OOS": {
+            "real": -17.27,
+            "null_p50": 8.15,
+            "null_p95": 79.28,
+            "beats_null": false,
+            "n": 19
+          },
+          "UNSEEN": {
+            "real": -28.82,
+            "null_p50": -12.85,
+            "null_p95": 12.02,
+            "beats_null": false,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 5971,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -53.66,
+            "n": 351,
+            "wr": 0.365
+          },
+          "VAL": {
+            "comp": 51.04,
+            "n": 82,
+            "wr": 0.354
+          },
+          "OOS": {
+            "comp": -21.22,
+            "n": 84,
+            "wr": 0.405
+          },
+          "UNSEEN": {
+            "comp": -40.59,
+            "n": 38,
+            "wr": 0.289
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -53.66,
+            "null_p50": -28.12,
+            "null_p95": 1897.32,
+            "beats_null": false,
+            "n": 351
+          },
+          "VAL": {
+            "real": 51.04,
+            "null_p50": 13.01,
+            "null_p95": 246.15,
+            "beats_null": false,
+            "n": 82
+          },
+          "OOS": {
+            "real": -21.22,
+            "null_p50": -23.71,
+            "null_p95": 99.57,
+            "beats_null": false,
+            "n": 84
+          },
+          "UNSEEN": {
+            "real": -40.59,
+            "null_p50": -34.33,
+            "null_p95": 18.78,
+            "beats_null": false,
+            "n": 38
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 5971,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 72.64,
+            "n": 209,
+            "wr": 0.297
+          },
+          "VAL": {
+            "comp": 64.14,
+            "n": 52,
+            "wr": 0.365
+          },
+          "OOS": {
+            "comp": -24.33,
+            "n": 50,
+            "wr": 0.32
+          },
+          "UNSEEN": {
+            "comp": -36.29,
+            "n": 25,
+            "wr": 0.32
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 72.64,
+            "null_p50": 14.93,
+            "null_p95": 1453.48,
+            "beats_null": false,
+            "n": 209
+          },
+          "VAL": {
+            "real": 64.14,
+            "null_p50": 19.45,
+            "null_p95": 300.33,
+            "beats_null": false,
+            "n": 52
+          },
+          "OOS": {
+            "real": -24.33,
+            "null_p50": -17.75,
+            "null_p95": 91.31,
+            "beats_null": false,
+            "n": 50
+          },
+          "UNSEEN": {
+            "real": -36.29,
+            "null_p50": -31.42,
+            "null_p95": 15.71,
+            "beats_null": false,
+            "n": 25
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "DASHUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 992,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -69.61,
+            "n": 125,
+            "wr": 0.272
+          },
+          "VAL": {
+            "comp": 10.39,
+            "n": 22,
+            "wr": 0.318
+          },
+          "OOS": {
+            "comp": -36.88,
+            "n": 26,
+            "wr": 0.154
+          },
+          "UNSEEN": {
+            "comp": 160.08,
+            "n": 7,
+            "wr": 0.714
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -69.61,
+            "null_p50": -8.44,
+            "null_p95": 396.5,
+            "beats_null": false,
+            "n": 125
+          },
+          "VAL": {
+            "real": 10.39,
+            "null_p50": 2.46,
+            "null_p95": 62.04,
+            "beats_null": false,
+            "n": 22
+          },
+          "OOS": {
+            "real": -36.88,
+            "null_p50": 35.74,
+            "null_p95": 258.95,
+            "beats_null": false,
+            "n": 26
+          },
+          "UNSEEN": {
+            "real": 160.08,
+            "null_p50": 3.83,
+            "null_p95": 142.52,
+            "beats_null": true,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 992,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -39.71,
+            "n": 104,
+            "wr": 0.298
+          },
+          "VAL": {
+            "comp": -6.97,
+            "n": 18,
+            "wr": 0.389
+          },
+          "OOS": {
+            "comp": -16.6,
+            "n": 22,
+            "wr": 0.182
+          },
+          "UNSEEN": {
+            "comp": 99.89,
+            "n": 6,
+            "wr": 0.5
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -39.71,
+            "null_p50": -8.93,
+            "null_p95": 689.75,
+            "beats_null": false,
+            "n": 104
+          },
+          "VAL": {
+            "real": -6.97,
+            "null_p50": 6.52,
+            "null_p95": 78.23,
+            "beats_null": false,
+            "n": 18
+          },
+          "OOS": {
+            "real": -16.6,
+            "null_p50": 37.31,
+            "null_p95": 447.01,
+            "beats_null": false,
+            "n": 22
+          },
+          "UNSEEN": {
+            "real": 99.89,
+            "null_p50": -5.1,
+            "null_p95": 147.46,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6870,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -21.33,
+            "n": 409,
+            "wr": 0.372
+          },
+          "VAL": {
+            "comp": -4.46,
+            "n": 71,
+            "wr": 0.352
+          },
+          "OOS": {
+            "comp": -4.16,
+            "n": 74,
+            "wr": 0.297
+          },
+          "UNSEEN": {
+            "comp": 57.98,
+            "n": 32,
+            "wr": 0.406
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -21.33,
+            "null_p50": -79.95,
+            "null_p95": 289.35,
+            "beats_null": false,
+            "n": 409
+          },
+          "VAL": {
+            "real": -4.46,
+            "null_p50": -23.85,
+            "null_p95": 62.16,
+            "beats_null": false,
+            "n": 71
+          },
+          "OOS": {
+            "real": -4.16,
+            "null_p50": 12.37,
+            "null_p95": 620.93,
+            "beats_null": false,
+            "n": 74
+          },
+          "UNSEEN": {
+            "real": 57.98,
+            "null_p50": -17.01,
+            "null_p95": 186.69,
+            "beats_null": false,
+            "n": 32
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6870,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 234.79,
+            "n": 233,
+            "wr": 0.335
+          },
+          "VAL": {
+            "comp": -1.43,
+            "n": 45,
+            "wr": 0.244
+          },
+          "OOS": {
+            "comp": -14.18,
+            "n": 45,
+            "wr": 0.267
+          },
+          "UNSEEN": {
+            "comp": 61.27,
+            "n": 21,
+            "wr": 0.381
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 234.79,
+            "null_p50": -59.97,
+            "null_p95": 459.88,
+            "beats_null": false,
+            "n": 233
+          },
+          "VAL": {
+            "real": -1.43,
+            "null_p50": -21.13,
+            "null_p95": 120.98,
+            "beats_null": false,
+            "n": 45
+          },
+          "OOS": {
+            "real": -14.18,
+            "null_p50": 7.96,
+            "null_p95": 320.2,
+            "beats_null": false,
+            "n": 45
+          },
+          "UNSEEN": {
+            "real": 61.27,
+            "null_p50": -21.92,
+            "null_p95": 217.7,
+            "beats_null": false,
+            "n": 21
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "UNIUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 846,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -67.56,
+            "n": 93,
+            "wr": 0.29
+          },
+          "VAL": {
+            "comp": -33.32,
+            "n": 28,
+            "wr": 0.286
+          },
+          "OOS": {
+            "comp": -7.44,
+            "n": 22,
+            "wr": 0.227
+          },
+          "UNSEEN": {
+            "comp": -16.61,
+            "n": 7,
+            "wr": 0.286
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -67.56,
+            "null_p50": -26.61,
+            "null_p95": 199.31,
+            "beats_null": false,
+            "n": 93
+          },
+          "VAL": {
+            "real": -33.32,
+            "null_p50": 3.02,
+            "null_p95": 129.6,
+            "beats_null": false,
+            "n": 28
+          },
+          "OOS": {
+            "real": -7.44,
+            "null_p50": 23.4,
+            "null_p95": 118.5,
+            "beats_null": false,
+            "n": 22
+          },
+          "UNSEEN": {
+            "real": -16.61,
+            "null_p50": -0.26,
+            "null_p95": 14.76,
+            "beats_null": false,
+            "n": 7
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 846,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -52.0,
+            "n": 80,
+            "wr": 0.3
+          },
+          "VAL": {
+            "comp": -35.48,
+            "n": 21,
+            "wr": 0.19
+          },
+          "OOS": {
+            "comp": 6.78,
+            "n": 17,
+            "wr": 0.294
+          },
+          "UNSEEN": {
+            "comp": -10.85,
+            "n": 5,
+            "wr": 0.2
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -52.0,
+            "null_p50": 15.29,
+            "null_p95": 523.47,
+            "beats_null": false,
+            "n": 80
+          },
+          "VAL": {
+            "real": -35.48,
+            "null_p50": 14.14,
+            "null_p95": 133.7,
+            "beats_null": false,
+            "n": 21
+          },
+          "OOS": {
+            "real": 6.78,
+            "null_p50": 20.22,
+            "null_p95": 115.43,
+            "beats_null": false,
+            "n": 17
+          },
+          "UNSEEN": {
+            "real": -10.85,
+            "null_p50": -4.35,
+            "null_p95": 12.33,
+            "beats_null": false,
+            "n": 5
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6007,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -89.04,
+            "n": 375,
+            "wr": 0.339
+          },
+          "VAL": {
+            "comp": -31.65,
+            "n": 77,
+            "wr": 0.364
+          },
+          "OOS": {
+            "comp": -53.4,
+            "n": 86,
+            "wr": 0.302
+          },
+          "UNSEEN": {
+            "comp": -47.62,
+            "n": 36,
+            "wr": 0.306
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -89.04,
+            "null_p50": -49.51,
+            "null_p95": 578.42,
+            "beats_null": false,
+            "n": 375
+          },
+          "VAL": {
+            "real": -31.65,
+            "null_p50": -27.23,
+            "null_p95": 137.51,
+            "beats_null": false,
+            "n": 77
+          },
+          "OOS": {
+            "real": -53.4,
+            "null_p50": -19.24,
+            "null_p95": 143.82,
+            "beats_null": false,
+            "n": 86
+          },
+          "UNSEEN": {
+            "real": -47.62,
+            "null_p50": -32.35,
+            "null_p95": 11.16,
+            "beats_null": false,
+            "n": 36
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6007,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": -56.57,
+            "n": 224,
+            "wr": 0.321
+          },
+          "VAL": {
+            "comp": -32.82,
+            "n": 48,
+            "wr": 0.354
+          },
+          "OOS": {
+            "comp": -35.39,
+            "n": 46,
+            "wr": 0.283
+          },
+          "UNSEEN": {
+            "comp": -46.12,
+            "n": 23,
+            "wr": 0.13
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -56.57,
+            "null_p50": -31.14,
+            "null_p95": 769.94,
+            "beats_null": false,
+            "n": 224
+          },
+          "VAL": {
+            "real": -32.82,
+            "null_p50": -25.53,
+            "null_p95": 137.97,
+            "beats_null": false,
+            "n": 48
+          },
+          "OOS": {
+            "real": -35.39,
+            "null_p50": -8.53,
+            "null_p95": 133.72,
+            "beats_null": false,
+            "n": 46
+          },
+          "UNSEEN": {
+            "real": -46.12,
+            "null_p50": -28.55,
+            "null_p95": 13.93,
+            "beats_null": false,
+            "n": 23
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    },
+    "BCHUSDT": {
+      "A_ERon_ATRtrail": {
+        "n_entries": 1058,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": -1.95,
+            "n": 119,
+            "wr": 0.319
+          },
+          "VAL": {
+            "comp": -19.54,
+            "n": 23,
+            "wr": 0.348
+          },
+          "OOS": {
+            "comp": -30.21,
+            "n": 23,
+            "wr": 0.261
+          },
+          "UNSEEN": {
+            "comp": -6.53,
+            "n": 6,
+            "wr": 0.167
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": -1.95,
+            "null_p50": 10.18,
+            "null_p95": 457.29,
+            "beats_null": false,
+            "n": 119
+          },
+          "VAL": {
+            "real": -19.54,
+            "null_p50": -11.54,
+            "null_p95": 31.95,
+            "beats_null": false,
+            "n": 23
+          },
+          "OOS": {
+            "real": -30.21,
+            "null_p50": -4.42,
+            "null_p95": 26.07,
+            "beats_null": false,
+            "n": 23
+          },
+          "UNSEEN": {
+            "real": -6.53,
+            "null_p50": -3.16,
+            "null_p95": 12.11,
+            "beats_null": false,
+            "n": 6
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "B_ERon_oppcross": {
+        "n_entries": 1058,
+        "regime_mode": "regime_matched_gate_on",
+        "windows": {
+          "TRAIN": {
+            "comp": 790.2,
+            "n": 89,
+            "wr": 0.416
+          },
+          "VAL": {
+            "comp": -18.32,
+            "n": 18,
+            "wr": 0.389
+          },
+          "OOS": {
+            "comp": -33.82,
+            "n": 20,
+            "wr": 0.2
+          },
+          "UNSEEN": {
+            "comp": -8.4,
+            "n": 5,
+            "wr": 0.0
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 790.2,
+            "null_p50": 60.23,
+            "null_p95": 1081.67,
+            "beats_null": false,
+            "n": 89
+          },
+          "VAL": {
+            "real": -18.32,
+            "null_p50": -27.22,
+            "null_p95": 40.37,
+            "beats_null": false,
+            "n": 18
+          },
+          "OOS": {
+            "real": -33.82,
+            "null_p50": -0.74,
+            "null_p95": 45.9,
+            "beats_null": false,
+            "n": 20
+          },
+          "UNSEEN": {
+            "real": -8.4,
+            "null_p50": -6.45,
+            "null_p95": 10.61,
+            "beats_null": false,
+            "n": 5
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "C_ERoff_ATRtrail": {
+        "n_entries": 6723,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 268.24,
+            "n": 411,
+            "wr": 0.355
+          },
+          "VAL": {
+            "comp": -6.14,
+            "n": 77,
+            "wr": 0.338
+          },
+          "OOS": {
+            "comp": -54.13,
+            "n": 89,
+            "wr": 0.337
+          },
+          "UNSEEN": {
+            "comp": -38.82,
+            "n": 37,
+            "wr": 0.243
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 268.24,
+            "null_p50": -47.09,
+            "null_p95": 640.89,
+            "beats_null": false,
+            "n": 411
+          },
+          "VAL": {
+            "real": -6.14,
+            "null_p50": -28.87,
+            "null_p95": 62.96,
+            "beats_null": false,
+            "n": 77
+          },
+          "OOS": {
+            "real": -54.13,
+            "null_p50": 14.03,
+            "null_p95": 121.89,
+            "beats_null": false,
+            "n": 89
+          },
+          "UNSEEN": {
+            "real": -38.82,
+            "null_p50": -33.57,
+            "null_p95": -0.92,
+            "beats_null": false,
+            "n": 37
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      },
+      "D_ERoff_oppcross": {
+        "n_entries": 6723,
+        "regime_mode": "plain_all_bars",
+        "windows": {
+          "TRAIN": {
+            "comp": 696.16,
+            "n": 260,
+            "wr": 0.308
+          },
+          "VAL": {
+            "comp": -28.4,
+            "n": 44,
+            "wr": 0.295
+          },
+          "OOS": {
+            "comp": -32.98,
+            "n": 51,
+            "wr": 0.412
+          },
+          "UNSEEN": {
+            "comp": -33.47,
+            "n": 20,
+            "wr": 0.05
+          }
+        },
+        "firewall": {
+          "TRAIN": {
+            "real": 696.16,
+            "null_p50": -10.34,
+            "null_p95": 980.76,
+            "beats_null": false,
+            "n": 260
+          },
+          "VAL": {
+            "real": -28.4,
+            "null_p50": -20.79,
+            "null_p95": 73.48,
+            "beats_null": false,
+            "n": 44
+          },
+          "OOS": {
+            "real": -32.98,
+            "null_p50": 14.4,
+            "null_p95": 122.45,
+            "beats_null": false,
+            "n": 51
+          },
+          "UNSEEN": {
+            "real": -33.47,
+            "null_p50": -28.65,
+            "null_p95": 1.66,
+            "beats_null": false,
+            "n": 20
+          }
+        },
+        "beats_held": false,
+        "pos_held": false
+      }
+    }
+  }
+}

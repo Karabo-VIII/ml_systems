@@ -1,0 +1,41 @@
+# MANDATORY GATES -- gates that must NEVER be skipped, by any instance, no matter what.
+# User mandate (2026-06-05): "what's mandatory should never be skipped no matter what... if you make an update
+# and it is skipped, the mandatory gate can catch it and force pathway through the relevant gate."
+#
+# Enforced mechanically (defence in depth -- prose cannot turn any of these off):
+#   1. The PreToolUse permission gate (.claude/hooks/permission_gate.py) BLOCKS the bypass vectors below, so a
+#      mandatory gate physically cannot be skipped via a flag/env.
+#   2. scripts/mandatory_gate.py VERIFIES the wiring (pre-commit hook installed + invokes CDAP; bypass vectors
+#      blocked) AND detects declared-but-undispatched invariant sections (a silent no-op == a skipped gate).
+#   3. mandatory_gate.py is itself runnable inside CDAP + the pre-commit hook, so the gate enforces its own
+#      unskippability. A mandatory-gate violation -> exit 2 -> HALT (fix the root cause; do NOT bypass).
+#
+# "force pathway through the relevant gate": the gate that APPLIES is selected by `applies_when`. Add a new
+# mandatory gate here as the project evolves; the verifier picks it up.
+
+gates:
+  - name: CDAP
+    description: Contract-Driven Audit Protocol -- the universal commit gate.
+    command: python src/audit/check_invariants.py
+    applies_when: every_commit
+    enforced_by: .git/hooks/pre-commit
+    mandatory: true
+    bypass_vectors_to_block:
+      - "SKIP_CDAP"
+      - "git commit --no-verify"
+
+# Invariant sections that MUST be dispatched by check_invariants.py::run_audit(). A section declared in
+# config/_invariants.yaml but never consumed by run_audit() is a SILENTLY-SKIPPED mandatory gate (the
+# 2026-06-05 audit found ~10 such dead sections). The verifier flags drift here as CRITICAL.
+mandatory_invariant_sections:
+  - cross_version_constants
+  - walk_forward
+  - simulator
+  - atomic_write
+  - windows_safety
+  - perf_anti_patterns
+
+meta:
+  principle: "What is mandatory is mechanically unskippable. If a gate would be skipped, mandatory_gate.py exits 2 and HALTS the work."
+  self_check: "python scripts/mandatory_gate.py"
+  note: "This manifest is read by scripts/mandatory_gate.py. Edit it (not the enforcement code) to declare new mandatory gates as the project evolves."

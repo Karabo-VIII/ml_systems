@@ -1,0 +1,168 @@
+# PEPE Regime-Router Deploy Config -- §F.11 REGIME-ROUTED DEPLOY PROTOCOL
+#
+# Design date: 2026-05-26
+# L3 Review date: 2026-05-26 (REVISED v2 -- R12 static REFUTED_AT_G1, WF-LGBM substituted)
+# Design doc:  docs/dossiers/PEPE_REGIME_ROUTER_DEPLOY_SPEC_2026_05_26.md §10 (REVISED v2)
+# Git SHA:     (populate at deploy time)
+# Chimera SHA: (populate at deploy time via data/manifests/v51_PEPEUSDT_4h.json)
+#
+# WARNING: PAPER-TRADE-ONLY (L3 verdict 2026-05-26).
+#   - R12 STATIC IS REFUTED_AT_G1 (commit 850d05a; combined +78.22% < +130% G1 floor).
+#   - R12 sub-strategy REPLACED with R12+WF-LGBM (R60, commit 7203886; PARTIALLY_PASS).
+#   - R23a remains PARTIALLY_PASS (SMALL_POSITION_ONLY, quarter-Kelly mandatory).
+#   - Both candidates fail G3 (boot_p05 < 0). G3 PASS required before live capital.
+#   - 11 pre-live items (9 original + 2 new: #10 WF-LGBM cell distribution, #11 paper-trade 90d).
+#   - DO NOT ROUTE TO REAL ORDERS until G3 cleared on at least one leg.
+#
+# Routing table basis (routing CELLS are still valid from R57a + R57a-followup):
+#   chop x low_vol          -> R12+WF-LGBM   (R12static +103.7%; WF-LGBM n INFERRED ~4-6)
+#   trending_down x low_vol -> R12+WF-LGBM   (R12static +32.0%; WF-LGBM n INFERRED ~7-9)
+#   trending_up x med_vol   -> R12+WF-LGBM   (R12static +5.9% MED_CONF; WF-LGBM CAUTION)
+#   trending_up x low_vol   -> R23a           (+46.1% vs +6.8%; unchanged)
+#   trending_up x high_vol  -> R23a           (+46.8% vs -1.1%) [LOW_CONF on n=6]
+#   chop x med_vol          -> HALT           (both lose; unchanged)
+#   trending_down x med_vol -> HALT           (both lose; unchanged)
+#   chop x high_vol         -> DEFER          (n=3 LOW_CONF; unchanged)
+#   trending_down x high_vol-> DEFER          (n=1 LOW_CONF; unchanged)
+#
+# NOTE: R12 cells show R12 STATIC per-cell data. WF-LGBM per-cell data NOT YET MEASURED.
+# Pre-live item #10 required: run classify_all() on WF-LGBM signal bars to get cell counts.
+
+router:
+  asset: PEPE
+  cadence: 4h
+  mode: paper_trade  # paper_trade | live (live requires L3 sign-off)
+
+  sub_strategies:
+    r12:
+      yaml: src/wealth_bot/configs/pepe_ema_bot_static_1strat_dist30_lgbm.yaml  # WF-LGBM variant (R60); replaces REFUTED static
+      wallet_capital_usd: 5000.0
+      instrument: 1000PEPEUSDT  # Binance USDM perp
+      kelly_fraction: 0.25      # REDUCED from 1.0: WF-LGBM is PARTIALLY_PASS (G3 FAIL); do not use full-Kelly
+      max_hold_bars: 18         # 3 calendar days at 4h
+      status: PARTIALLY_PASS    # R60 commit 7203886; G6 PASS, G3 FAIL (p05=-8.1%); 0/6 variants SHIP
+      notes: >
+        R12 STATIC IS REFUTED_AT_G1 (commit 850d05a; combined +78.22% < +130%).
+        Sub-strategy replaced with R12+WF-LGBM (R60 rolling retrain, K=180, thr=0.60).
+        WF-LGBM: G6 persistence PASS, G3 FAIL (n_unseen=11-12, p05=-8.1%).
+        Per-cell distribution NOT YET MEASURED -- pre-live item #10 required before routing.
+        Kelly reduced to 0.25 matching R23a given G3 FAIL status.
+        Perp chimera proxy still used (pre-live item #1 still open: real 1000PEPEUSDT chimera).
+      wf_lgbm_config:
+        retrain_every_k_bars: 180   # primary; secondary K=90
+        train_window_bars: 365
+        threshold: 0.60
+        shic_status: FAIL           # microstructure features not temporally ordered at h=1
+        per_cell_data_status: NOT_MEASURED  # item #10 required
+
+    r23a:
+      yaml: src/wealth_bot/configs/pepe_ema_bot_static_1strat_dist30_lgbm.yaml
+      wallet_capital_usd: 5000.0
+      instrument: PEPEUSDT  # Binance SPOT
+      kelly_fraction: 0.25   # quarter-Kelly per Q5=1 (fat-tail, K=2 collapses) -- MANDATORY
+      max_hold_bars: 18
+      status: PARTIALLY_PASS  # Q-DIAGNOSTIC SMALL_POSITION_ONLY; G3 FAIL (p05=-9.51%)
+      notes: >
+        R23a EMA30_dist>1% + whale_net>0. SMALL_POSITION_ONLY per Q-DIAGNOSTIC.
+        Verified UNSEEN +60.31% (patched sim, next-bar close, 0.22% RT spot taker).
+        top_3_trades = 52.7% of compound -- fat-tail profile; quarter-Kelly MANDATORY.
+        G3 FAIL: p05=-9.51%; K=2=+1.54%; K=2+S9=-32.54%.
+        Routing benefit (HALT of trending_up x med_vol KILL CELL) is INFERRED not backtested.
+        DD_UNSEEN still INFERRED <25% -- item still open (verify from per-trade log).
+
+  regime_classifier:
+    sma_fast: 50
+    sma_slow: 200
+    slope_window: 5       # bars for SMA-50 linear regression slope
+    vol_window: 30        # bars for rolling log-return std
+    vol_p33: 0.01870      # calibrated from R57a (recalibrate() after chimera refresh)
+    vol_p67: 0.02627      # calibrated from R57a (recalibrate() after chimera refresh)
+    warmup_bars: 200      # bars before first valid classification
+    recalibrate_on_load: false  # set true to recompute p33/p67 from chimera at init
+
+  routing_table:
+    # Explicit table mirrors router.py _ROUTING_TABLE for audit cross-check
+    chop_x_low_vol:             {route: R12,   conf: OK,       r12_pct: 103.7, r23a_pct: 19.3,  n_r12: 8,  n_r23a: 11}
+    trending_down_x_low_vol:    {route: R12,   conf: OK,       r12_pct: 32.0,  r23a_pct: 27.6,  n_r12: 12, n_r23a: 11}
+    trending_up_x_med_vol:      {route: R12,   conf: OK,       r12_pct: 5.9,   r23a_pct: -26.6, n_r12: 11, n_r23a: 18}
+    trending_up_x_low_vol:      {route: R23a,  conf: OK,       r12_pct: 6.8,   r23a_pct: 46.1,  n_r12: 9,  n_r23a: 15}
+    trending_up_x_high_vol:     {route: R23a,  conf: LOW_CONF, r12_pct: -1.1,  r23a_pct: 46.8,  n_r12: 3,  n_r23a: 6}
+    chop_x_med_vol:             {route: HALT,  conf: OK,       r12_pct: -11.8, r23a_pct: -19.5, n_r12: 8,  n_r23a: 12}
+    trending_down_x_med_vol:    {route: HALT,  conf: MED_CONF, r12_pct: -4.7,  r23a_pct: -10.9, n_r12: 5,  n_r23a: 9}
+    chop_x_high_vol:            {route: DEFER, conf: LOW_CONF, r12_pct: -1.8,  r23a_pct: 6.6,   n_r12: 2,  n_r23a: 3}
+    trending_down_x_high_vol:   {route: DEFER, conf: LOW_CONF, r12_pct: 3.9,   r23a_pct: 1.6,   n_r12: 2,  n_r23a: 1}
+
+  transition_rule:
+    regime_switch_to_halt_or_defer: exit_now     # force exit at next bar open
+    regime_switch_to_different_strategy: hold_to_exit  # hold to sub-strategy exit
+    regime_switch_to_same_strategy: continue     # no interruption
+
+  l3_review:
+    date: "2026-05-26"
+    reviewer: "Trading/Risk Expert (claude-sonnet-4-6)"
+    verdict: PAPER-TRADE-ONLY
+    rationale: >
+      Both sub-strategies PARTIALLY_PASS; both fail G3 (boot_p05 < 0).
+      G3 PASS required before live capital per asymmetric-loss framework.
+      Router combined system benefit is INFERRED, not backtested.
+      WF-LGBM per-cell distribution NOT MEASURED (item #10 open).
+      R10k-R50k bounded real capital acceptable ONLY with explicit user acknowledgement
+      of G3 FAIL status -- NOT a recommendation, a bounded risk disclosure.
+      Real capital above R50k: NOT justified under any scenario with PARTIALLY_PASS pair.
+    migration_to_deploy_now:
+      - "G3 PASS on WF-LGBM at 1h cadence (R60 prescription; ~3h effort)"
+      - "OR G3 PASS on new within-TI config (SMA(5,15)+whale+fund_med needs UNSEEN n>=15)"
+      - "Measure WF-LGBM per-cell distribution (item #10; ~2h effort)"
+      - "Complete 30-day paper-trade minimum with per-regime cell logging"
+
+  risk:
+    # Router-level kill-switch (applied ABOVE per-sub-strategy limits)
+    max_portfolio_drawdown_pct: 30.0  # halt BOTH wallets if combined equity drops 30%
+    max_consecutive_losses_router: 6  # halt if 6 consecutive losses across any sub-strat
+    halt_on_regime_ambiguity: true    # WARMUP bars never produce entries
+    # L3 REVISED 2026-05-26: both sub-strategies at quarter-Kelly given G3 FAIL
+    # Original spec had r12 at full-Kelly. Revised to 0.25 matching r23a.
+    combined_max_capital_deployed_usd: 2500.0  # 50% of each wallet (quarter-Kelly applied to both)
+
+  logging:
+    audit_log_path: runs/paper_trade/regime_router/regime_audit.jsonl
+    log_every_bar: true         # log classification at every 4h bar (not just entries)
+    log_format: jsonl
+    # JSONL fields per bar: bar_idx, timestamp_ms, cell, route, r12_signal,
+    #   r23a_signal, action_taken, equity_r12, equity_r23a, rationale
+
+  paper_trade:
+    segment: UNSEEN
+    start_date: null   # null = use canonical UNSEEN_START_DATE from split_config.py
+    end_date: null     # null = use canonical unseen_end from sub-strategy YAMLs
+    output_dir: runs/paper_trade/regime_router
+
+  # Reproducibility block (populate at run time; script should fill these)
+  repro:
+    git_sha: null              # git rev-parse HEAD at run time
+    chimera_sha256_pepe: null  # sha256(data/processed/chimera/4h/pepeusdt_v51_chimera_4h_*.parquet)
+    chimera_sha256_btc: null   # sha256(data/processed/chimera/4h/btcusdt_v51_chimera_4h_*.parquet)
+    chimera_mtime: null        # mtime of PEPE chimera parquet
+    framework_version: "wealth_bot v1.0 (regime_router stub 2026-05-26)"
+    python_version: null       # platform.python_version() at run time
+    env: windows_11_rtx4060
+
+# Capital allocation variants (paper trade only; live requires L3 sign-off):
+#
+# Variant 1 -- Equal split (default):
+#   Wallet A (R5k): R12 perp (full-Kelly when R12 regime)
+#   Wallet B (R5k): R23a spot (quarter-Kelly when R23a regime)
+#   Cash reserve:   0 (both wallets idle when HALT/DEFER)
+#
+# Variant 2 -- Cash reserve:
+#   Wallet A (R5k): R12 perp
+#   Wallet B (R3.3k): R23a spot
+#   Wallet C (R1.7k): cash reserve (deployed when Variant 1 would HALT)
+#   [Cash reserve earns 0% in paper-trade; in live may earn stablecoin yield]
+#
+# Historical capital utilization estimate (UNSEEN period, n=43 OOS+UNSEEN):
+#   ~33% of bars in R23a-active cells (trending_up x low/high_vol)
+#   ~38% of bars in R12-active cells (chop x low_vol, td x low_vol, tu x med_vol)
+#   ~21% of bars in HALT cells
+#   ~8%  of bars in DEFER cells
+#   => Combined capital utilization ~71% of time one or both wallets active

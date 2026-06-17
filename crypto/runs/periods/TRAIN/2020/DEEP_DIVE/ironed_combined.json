@@ -1,0 +1,335 @@
+{
+ "repro": {
+  "command": "python -m strat.ironed_combined ",
+  "git_sha": "d96bc16",
+  "cost_maker": 0.0006,
+  "split": {
+   "TRAIN": [
+    "2020-01-01",
+    "2020-07-01"
+   ],
+   "VAL": [
+    "2020-07-01",
+    "2020-10-01"
+   ],
+   "OOS": [
+    "2020-10-01",
+    "2021-01-01"
+   ]
+  },
+  "oos": [
+   "2020-10-01",
+   "2021-01-01"
+  ],
+  "sat_max_leverage": 3.0,
+  "sat_frac_cap": 0.4,
+  "reco_core_frac": 0.7,
+  "generated": "20260614_002428",
+  "weighting_rules": [
+   "equal_weight (1/N)",
+   "inverse_vol (w~1/sd on full OOS overlap, a deployment constant)"
+  ]
+ },
+ "results": {
+  "sleeves_oos": {
+   "1d_family": {
+    "n_days": 92,
+    "compound": 49.8,
+    "ann_indicative": 396.5,
+    "ann_vol_pct": 58.8,
+    "sharpe": 3.03,
+    "maxdd": -14.1,
+    "daily_pos_rate_pct": 63.0,
+    "p05": 0.58,
+    "p95": 139.65
+   },
+   "4h_ironed": {
+    "n_days": 92,
+    "compound": 40.8,
+    "ann_indicative": 288.2,
+    "ann_vol_pct": 46.0,
+    "sharpe": 3.18,
+    "maxdd": -13.1,
+    "daily_pos_rate_pct": 62.0,
+    "p05": 0.16,
+    "p95": 112.95
+   },
+   "15m_nogate": {
+    "n_days": 92,
+    "compound": 67.0,
+    "ann_indicative": 664.8,
+    "ann_vol_pct": 42.7,
+    "sharpe": 4.99,
+    "maxdd": -6.9,
+    "daily_pos_rate_pct": 58.7,
+    "p05": 18.99,
+    "p95": 162.67
+   }
+  },
+  "sleeve_15m_halfgate_oos": {
+   "n_days": 92,
+   "compound": 62.1,
+   "ann_indicative": 580.1,
+   "ann_vol_pct": 37.1,
+   "sharpe": 5.37,
+   "maxdd": -5.3,
+   "daily_pos_rate_pct": 58.7,
+   "p05": 21.03,
+   "p95": 136.25
+  },
+  "benchmarks_oos": {
+   "VOLTGT_BH_1d": {
+    "n_days": 92,
+    "compound": 49.4,
+    "ann_indicative": 392.3,
+    "ann_vol_pct": 62.2,
+    "sharpe": 2.88,
+    "maxdd": -15.5,
+    "daily_pos_rate_pct": 59.8,
+    "p05": -5.47,
+    "p95": 149.12
+   },
+   "BUYHOLD_1d": {
+    "n_days": 92,
+    "compound": 47.4,
+    "ann_indicative": 365.8,
+    "ann_vol_pct": 79.3,
+    "sharpe": 2.34,
+    "maxdd": -20.2,
+    "daily_pos_rate_pct": 56.5,
+    "p05": -13.73,
+    "p95": 174.22
+   }
+  },
+  "books": {
+   "deploy_1d_4h": {
+    "sleeves": [
+     "1d_family",
+     "4h_ironed"
+    ],
+    "participation": {
+     "oos_days": 92,
+     "union_profitably_engaged_pct": 64.1,
+     "per_sleeve_profit_days_pct": {
+      "1d_family": 63.0,
+      "4h_ironed": 62.0
+     },
+     "union_in_market_pct": 100.0,
+     "per_sleeve_in_market_pct": {
+      "1d_family": 100.0,
+      "4h_ironed": 100.0
+     }
+    },
+    "diversification": {
+     "corr_matrix": {
+      "1d_family": {
+       "1d_family": 1.0,
+       "4h_ironed": 0.927
+      },
+      "4h_ironed": {
+       "1d_family": 0.927,
+       "4h_ironed": 1.0
+      }
+     },
+     "mean_pairwise_corr": 0.927,
+     "n_eff": 1.04
+    },
+    "book_net": {
+     "equal_weight": {
+      "n_days": 92,
+      "compound": 45.5,
+      "ann_indicative": 342.2,
+      "ann_vol_pct": 51.5,
+      "sharpe": 3.15,
+      "maxdd": -13.6,
+      "daily_pos_rate_pct": 62.0,
+      "p05": 1.3,
+      "p95": 125.34
+     },
+     "inverse_vol": {
+      "n_days": 92,
+      "compound": 44.9,
+      "ann_indicative": 335.6,
+      "ann_vol_pct": 50.7,
+      "sharpe": 3.16,
+      "maxdd": -13.5,
+      "daily_pos_rate_pct": 62.0,
+      "p05": 1.21,
+      "p95": 123.61,
+      "weights": {
+       "1d_family": 0.439,
+       "4h_ironed": 0.561
+      }
+     },
+     "best_single_sleeve": {
+      "name": "1d_family",
+      "n_days": 92,
+      "compound": 49.8,
+      "ann_indicative": 396.5,
+      "ann_vol_pct": 58.8,
+      "sharpe": 3.03,
+      "maxdd": -14.1,
+      "daily_pos_rate_pct": 63.0,
+      "p05": 0.58,
+      "p95": 139.65
+     }
+    },
+    "profit_daily": {
+     "eq_window_pos_1d_pct": 62.0,
+     "eq_window_pos_3d_pct": 57.8,
+     "buyhold_window_pos_1d_pct": 56.5,
+     "buyhold_window_pos_3d_pct": 56.7
+    }
+   },
+   "core_1d_4h_15m": {
+    "sleeves": [
+     "1d_family",
+     "4h_ironed",
+     "15m_nogate"
+    ],
+    "participation": {
+     "oos_days": 92,
+     "union_profitably_engaged_pct": 65.2,
+     "per_sleeve_profit_days_pct": {
+      "1d_family": 63.0,
+      "4h_ironed": 62.0,
+      "15m_nogate": 58.7
+     },
+     "union_in_market_pct": 100.0,
+     "per_sleeve_in_market_pct": {
+      "1d_family": 100.0,
+      "4h_ironed": 100.0,
+      "15m_nogate": 100.0
+     }
+    },
+    "diversification": {
+     "corr_matrix": {
+      "1d_family": {
+       "1d_family": 1.0,
+       "4h_ironed": 0.927,
+       "15m_nogate": 0.827
+      },
+      "4h_ironed": {
+       "1d_family": 0.927,
+       "4h_ironed": 1.0,
+       "15m_nogate": 0.907
+      },
+      "15m_nogate": {
+       "1d_family": 0.827,
+       "4h_ironed": 0.907,
+       "15m_nogate": 1.0
+      }
+     },
+     "mean_pairwise_corr": 0.887,
+     "n_eff": 1.08
+    },
+    "book_net": {
+     "equal_weight": {
+      "n_days": 92,
+      "compound": 52.6,
+      "ann_indicative": 434.6,
+      "ann_vol_pct": 47.3,
+      "sharpe": 3.79,
+      "maxdd": -11.2,
+      "daily_pos_rate_pct": 60.9,
+      "p05": 7.86,
+      "p95": 134.4
+     },
+     "inverse_vol": {
+      "n_days": 92,
+      "compound": 53.1,
+      "ann_indicative": 442.3,
+      "ann_vol_pct": 46.4,
+      "sharpe": 3.88,
+      "maxdd": -10.9,
+      "daily_pos_rate_pct": 60.9,
+      "p05": 8.73,
+      "p95": 135.09,
+      "weights": {
+       "1d_family": 0.273,
+       "4h_ironed": 0.35,
+       "15m_nogate": 0.377
+      }
+     },
+     "best_single_sleeve": {
+      "name": "15m_nogate",
+      "n_days": 92,
+      "compound": 67.0,
+      "ann_indicative": 664.8,
+      "ann_vol_pct": 42.7,
+      "sharpe": 4.99,
+      "maxdd": -6.9,
+      "daily_pos_rate_pct": 58.7,
+      "p05": 18.99,
+      "p95": 162.67
+     }
+    },
+    "profit_daily": {
+     "eq_window_pos_1d_pct": 60.9,
+     "eq_window_pos_3d_pct": 57.8,
+     "buyhold_window_pos_1d_pct": 56.5,
+     "buyhold_window_pos_3d_pct": 56.7
+    }
+   }
+  },
+  "orthogonal_satellite": {
+   "satellite_oos_1x": {
+    "n_days": 92,
+    "compound": 9.1,
+    "ann_indicative": 41.1,
+    "ann_vol_pct": 4.3,
+    "sharpe": 8.09,
+    "maxdd": -0.5,
+    "daily_pos_rate_pct": 69.6,
+    "p05": 5.98,
+    "p95": 12.66
+   },
+   "core_def": "equal-weight core_1d_4h_15m (the participating trend core)",
+   "blends": {
+    "core_alone": {
+     "n_days": 92,
+     "compound": 52.6,
+     "ann_indicative": 434.6,
+     "ann_vol_pct": 47.3,
+     "sharpe": 3.79,
+     "maxdd": -11.2,
+     "daily_pos_rate_pct": 60.9,
+     "p05": 7.86,
+     "p95": 134.4,
+     "overlap_days": 92,
+     "core_sat_pearson": -0.1641
+    },
+    "core70_sat30": {
+     "n_days": 92,
+     "compound": 46.3,
+     "ann_indicative": 351.9,
+     "ann_vol_pct": 32.7,
+     "sharpe": 4.79,
+     "maxdd": -7.6,
+     "daily_pos_rate_pct": 63.0,
+     "p05": 15.28,
+     "p95": 98.17,
+     "overlap_days": 92,
+     "core_frac": 0.7,
+     "sat_leverage": 3.0,
+     "sat_realized_risk_share": 0.104,
+     "core_sat_pearson": -0.1641
+    }
+   },
+   "sat_max_leverage": 3.0,
+   "sat_frac_cap": 0.4,
+   "diversification_vs_core_alone": {
+    "sharpe_core_alone": 3.79,
+    "sharpe_blend": 4.79,
+    "sharpe_delta": 1.0,
+    "maxdd_core_alone": -11.2,
+    "maxdd_blend": -7.6,
+    "maxdd_delta_pp": 3.6,
+    "p05_core_alone": 7.86,
+    "p05_blend": 15.28,
+    "compound_core_alone": 52.6,
+    "compound_blend": 46.3
+   }
+  }
+ }
+}

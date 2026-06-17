@@ -1,0 +1,43 @@
+==============================================================================================================
+MULTI-MA-ALIGNMENT SELECTION LAB -- universe grid (SELECTION-skill verdict, no UNSEEN leak)
+==============================================================================================================
+
+  BTCUSDT 1d: 2334 bars  TRAIN+VAL-selected best ->
+    BTCUSDT   1d      f10/m20/L50 h10  | TV_comp=  620.97% | SEL-null(OOS+UN): edge=32.0058pp z=1.0103 p=0.16789 mnEdge=0.008512 mnP=0.19387 ntr=26 beats=False | UNSEEN: sig=4.31% bh=-20.54% beats_bh=True orc=98.05% cap=0.0439 | SEL-null(UN): edge=14.7854pp p=0.08461 beats=False
+
+  ETHUSDT 1d: 2326 bars  TRAIN+VAL-selected best ->
+    ETHUSDT   1d      f10/m20/L50 h20  | TV_comp= 1793.06% | SEL-null(OOS+UN): edge=145.9889pp z=2.5843 p=0.02465 mnEdge=0.066401 mnP=0.04064 ntr=12 beats=True | UNSEEN: sig=3.84% bh=-35.46% beats_bh=True orc=113.57% cap=0.0338 | SEL-null(UN): edge=25.2381pp p=0.10859 beats=False
+
+  SOLUSDT 1d: 2083 bars  TRAIN+VAL-selected best ->
+    SOLUSDT   1d      f10/m20/L50 h20  | TV_comp=10746.11% | SEL-null(OOS+UN): edge=-39.7257pp z=-1.0478 p=0.90207 mnEdge=-0.044037 mnP=0.88274 ntr=11 beats=False | UNSEEN: sig=-37.80% bh=-38.12% beats_bh=True orc=80.86% cap=-0.4674 | SEL-null(UN): edge=-27.6888pp p=0.93338 beats=False
+
+  BNBUSDT 1d: 2325 bars  TRAIN+VAL-selected best ->
+    BNBUSDT   1d      f10/m50/L200 h20  | TV_comp= 3154.23% | SEL-null(OOS+UN): edge=47.7563pp z=1.6698 p=0.06262 mnEdge=0.043617 mnP=0.04997 ntr=9 beats=False | UNSEEN: sig=0.00% bh=-32.22% beats_bh=True orc=64.37% cap=0.0 | SEL-null(UN): edge=Nonepp p=None beats=None
+
+  XRPUSDT 1d: 2325 bars  TRAIN+VAL-selected best ->
+    XRPUSDT   1d      f10/m20/L50 h20  | TV_comp=  219.98% | SEL-null(OOS+UN): edge=-40.6053pp z=-0.5489 p=0.6549 mnEdge=-0.00599 mnP=0.52765 ntr=12 beats=False | UNSEEN: sig=-29.86% bh=-40.38% beats_bh=True orc=84.46% cap=-0.3535 | SEL-null(UN): edge=-16.2381pp p=0.87941 beats=False
+
+  DOGEUSDT 1d: 2109 bars  TRAIN+VAL-selected best ->
+    DOGEUSDT  1d      f10/m50/L100 h20  | TV_comp= 7724.94% | SEL-null(OOS+UN): edge=34.6799pp z=0.2617 p=0.28714 mnEdge=0.135887 mnP=0.12525 ntr=7 beats=False | UNSEEN: sig=0.00% bh=-33.06% beats_bh=True orc=71.47% cap=0.0 | SEL-null(UN): edge=Nonepp p=None beats=None
+
+  ADAUSDT 1d: 2322 bars  TRAIN+VAL-selected best ->
+    ADAUSDT   1d      f10/m20/L50 h10  | TV_comp=10412.28% | SEL-null(OOS+UN): edge=17.1025pp z=0.0313 p=0.37175 mnEdge=0.008952 mnP=0.38441 ntr=13 beats=False | UNSEEN: sig=-8.25% bh=-51.03% beats_bh=True orc=134.41% cap=-0.0614 | SEL-null(UN): edge=-6.8852pp p=0.83544 beats=False
+
+  AVAXUSDT 1d: 2075 bars  TRAIN+VAL-selected best ->
+    AVAXUSDT  1d      f10/m20/L50 h5   | TV_comp=  956.36% | SEL-null(OOS+UN): edge=-23.5899pp z=-0.7369 p=0.76682 mnEdge=-0.012109 mnP=0.76949 ntr=28 beats=False | UNSEEN: sig=-25.58% bh=-33.98% beats_bh=True orc=159.61% cap=-0.1603 | SEL-null(UN): edge=-15.8645pp p=0.9054 beats=False
+
+  LINKUSDT 1d: 2330 bars  TRAIN+VAL-selected best ->
+    LINKUSDT  1d      f10/m20/L100 h20  | TV_comp=  512.53% | SEL-null(OOS+UN): edge=-42.7414pp z=-0.9094 p=0.85276 mnEdge=-0.052777 mnP=0.79347 ntr=8 beats=False | UNSEEN: sig=-13.83% bh=-35.45% beats_bh=True orc=113.46% cap=-0.1219 | SEL-null(UN): edge=-14.0186pp p=0.76815 beats=False
+
+  LTCUSDT 1d: 2335 bars  TRAIN+VAL-selected best ->
+    LTCUSDT   1d      f10/m20/L50 h20  | TV_comp=  137.12% | SEL-null(OOS+UN): edge=28.8013pp z=0.4229 p=0.27648 mnEdge=0.030415 mnP=0.20453 ntr=11 beats=False | UNSEEN: sig=-0.76% bh=-43.39% beats_bh=True orc=46.19% cap=-0.0164 | SEL-null(UN): edge=13.9315pp p=0.1932 beats=False
+
+==============================================================================================================
+UNSEEN AGGREGATE (per-series TRAIN+VAL-selected best):
+  series                         : 10
+  beats SELECTION null on UNSEEN : 0/10
+  beats BUY&HOLD on UNSEEN       : 10/10
+  beats BOTH on UNSEEN           : 0/10  (<- the wealth-add verdict)
+  GRID PBO                       : None  verdict=INSUFFICIENT  N=20 T=4
+
+  artifact: C:\Users\karab\Documents\coding\v4_crypto_stystem\runs\strat\selection_lab_u10_1d.json

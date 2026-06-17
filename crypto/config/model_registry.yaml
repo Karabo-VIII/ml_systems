@@ -1,0 +1,356 @@
+# Model Registry — declarative spec of every trained model.
+#
+# Schema:
+#   models: dict of model-id -> spec
+#     family: 'world_model' | 'ranker' | 'meta_labeler' | 'rl_agent' | 'classifier'
+#     family_subtype: model-specific category (e.g., 'transformer_rssm', 'wavenet_moe')
+#     checkpoint_glob: relative path glob for the checkpoint(s)
+#     features: list of feature columns OR universe ref ('f34' = first 34 chimera cols)
+#     train_data: 'v50_chimera' | 'v51_chimera' | ranker-specific
+#     universe: 'u10' | 'u50' | 'u100'
+#     status: 'production' | 'frozen' | 'deprecated' | 'experimental' | 'stub'
+#     trained_at: ISO date or 'unknown'
+#     v51_compatible: bool — can this model be evaluated on v51 chimera as-is?
+#     retrain_needed: bool — should we retrain on v51 154-feature panel?
+#     notes: str
+#
+#   training_data_spec: declares the canonical TrainingLoader inputs.
+
+version: "1.0"
+generated_for: "model_layer_phase_M1"
+generated_at: "2026-04-26"
+
+# =============================================================================
+# WORLD MODELS (V1-V14, V15 stub)
+# =============================================================================
+models:
+
+  v1_0_base_f34:
+    family: world_model
+    family_subtype: transformer_rssm
+    checkpoint_glob: "models/v1/v1_0/base/v1_0_f34_wm_best_ema.pt"
+    architecture: "Transformer encoder (d_model=256) + RSSM (24x24 categorical) + TwoHot return (255 bins)"
+    features: f34
+    train_data: v50_chimera
+    universe: u10
+    status: production
+    trained_at: "2026-03-15"
+    v51_compatible: true   # f34 cols are subset of v51's 154
+    retrain_needed: true   # to leverage 80 frontier features (v51 has 154 cols)
+    benchmarks:
+      contiguous_ic_h1: 0.0660
+      shuffled_ic_h1: 0.0320
+    notes: "Reference baseline. Simplest architecture; often beats complex ones."
+
+  v1_1_base_f34:
+    family: world_model
+    family_subtype: transformer_rssm_xd_anti_memo
+    checkpoint_glob: "models/v1/v1_1/base/v1_1_f34_wm_best_ema.pt"
+    architecture: "V1.0 + cross-asset anti-memorization (base_dim/input_dim split)"
+    features: f34
+    train_data: v50_chimera
+    universe: u10
+    status: production
+    trained_at: "2026-03-17"
+    v51_compatible: true
+    retrain_needed: true
+    benchmarks:
+      contiguous_ic_h1: 0.0674
+      shuffled_ic_h1: 0.0330
+    notes: "Current f34 record. Variants: 13/18/21/25/30/37 features."
+
+  v1_4_base_f34:
+    family: world_model
+    family_subtype: transformer_rssm_feature_attn
+    checkpoint_glob: "models/v1/v1_4/base/v1_4_f34_wm_best_ema.pt"
+    architecture: "V1.0 + FeatureAttentionBlock (iTransformer cross-feature attention)"
+    features: f34
+    train_data: v50_chimera
+    universe: u10
+    status: production
+    trained_at: "2026-03-19"
+    v51_compatible: true
+    retrain_needed: true
+    benchmarks:
+      contiguous_ic_h1: 0.0679
+      shuffled_ic_h1: 0.0314
+
+  v1_6_base_f34:
+    family: world_model
+    family_subtype: transformer_rssm_full_anti_memo
+    checkpoint_glob: "models/v1/v1_6/base/v1_6_f34_wm_best_ema.pt"
+    architecture: "V1.1 + KL anneal + Gumbel + ATME + dream"
+    features: f34
+    train_data: v50_chimera
+    universe: u10
+    status: production
+    trained_at: "2026-03-20"
+    v51_compatible: true
+    retrain_needed: true
+    benchmarks:
+      contiguous_ic_h1: 0.0619
+      shuffled_ic_h1: 0.0329
+
+  v2_base:
+    family: world_model
+    family_subtype: jepa
+    checkpoint_glob: "models/v2/v2/base/v2_*_wm_best_ema.pt"
+    status: deprecated
+    notes: "ARCHIVED. JEPA collapse, replaced by V1.x."
+
+  v3_clean_base:
+    family: world_model
+    family_subtype: wavenet_direct
+    checkpoint_glob: "models/v3/v3/base/v3_*_wm_best_ema.pt"
+    status: experimental
+    notes: "WaveNet-Direct (multi-scale dilated causal conv). Ready (--clean flag)."
+
+  v4_base:
+    family: world_model
+    family_subtype: mamba3_rssm
+    checkpoint_glob: "models/v4/v4/base/v4_*_wm_best_ema.pt"
+    status: experimental
+    notes: "Mamba-3 SSM (ICLR 2026) + RSSM. Complex-valued state via RoPE, SSD chunk-based scan."
+
+  v5_base:
+    family: world_model
+    status: deprecated
+    notes: "ARCHIVED in src/wm/v1/archive/."
+
+  v6_clean_base:
+    family: world_model
+    family_subtype: transformer_discriminator
+    checkpoint_glob: "models/v6/v6/base/v6_*_wm_best_ema.pt"
+    status: experimental
+    notes: "JEPA + time-shuffle discriminator. Ready (--clean)."
+
+  v7_base:
+    family: world_model
+    status: deprecated
+    notes: "ARCHIVED."
+
+  v8_base:
+    family: world_model
+    family_subtype: neural_ode_rk4
+    checkpoint_glob: "models/v8/v8/base/v8_*_wm_best_ema.pt"
+    status: experimental
+    notes: "Neural ODE (RK4). Continuous-time dynamics."
+
+  v9_clean_base:
+    family: world_model
+    family_subtype: gru_moe_3experts
+    checkpoint_glob: "models/v9/v9/base/v9_*_wm_best_ema.pt"
+    status: experimental
+    notes: "GRU + 3 MoE experts (regime-gated bear/neutral/bull). Ready (--clean)."
+
+  v10_meta_ensemble:
+    family: world_model
+    family_subtype: meta_aggregator
+    checkpoint_glob: "models/v10/v10/*"
+    status: experimental
+    notes: "Meta-ensemble router over V1-V9. ~10K params."
+
+  v11_base_f34:
+    family: world_model
+    family_subtype: wavenet_moe_discriminator
+    checkpoint_glob: "models/v11/base/v11_f34_wm_best_ema.pt"
+    status: frozen
+    notes: "FROZEN per CLAUDE.md. Settings drift (ACTIVE_HORIZONS, TEMPORAL_CTX_DROP). Do NOT retrain."
+
+  v12_base_f34:
+    family: world_model
+    family_subtype: cross_asset_attention
+    checkpoint_glob: "models/v12/base/v12_f34_wm_best_ema.pt"
+    status: frozen
+    notes: "FROZEN. iTransformer-style cross-asset. ACTIVE_HORIZONS deviation."
+
+  v13_base_f34:
+    family: world_model
+    family_subtype: tft_temporal_fusion
+    checkpoint_glob: "models/v13/base/v13_f34_wm_best_ema.pt"
+    status: frozen
+    notes: "FROZEN. Temporal Fusion Transformer."
+
+  v14_base_f34:
+    family: world_model
+    family_subtype: diffusion_return_distribution
+    checkpoint_glob: "models/v14/base/v14_f34_wm_best_ema.pt"
+    status: frozen
+    notes: "FROZEN. Diffusion return distribution. TEMPORAL_CTX_DROP correctly skipped."
+
+  v15_patchtst_encoder:
+    family: world_model
+    family_subtype: patchtst_encoder_only
+    checkpoint_glob: ""
+    status: stub
+    notes: "Encoder-only stub from G10 gap closure. No training pipeline yet — Phase M2 will add (V20)."
+
+# =============================================================================
+# RANKERS / META-LABELERS
+# =============================================================================
+
+  rank_v1_lmart:
+    family: ranker
+    family_subtype: lambdamart
+    checkpoint_glob: "models/xsec_ranker/lmart_v1.pkl"
+    train_data: v50_panel_xsec
+    universe: u10
+    status: production
+    notes: "LambdaMART variant. xsec ranker. (Located at models/xsec_ranker/, not models/rank_v1/.)"
+
+  rank_v1_xgb_ndcg:
+    family: ranker
+    family_subtype: xgb_rank_ndcg
+    checkpoint_glob: "models/xsec_ranker/xgb_ndcg_v1.pkl"
+    train_data: v50_panel_xsec
+    universe: u50
+    status: production
+    notes: "XGB rank:ndcg. Champion config: K=10+10 dneut on U50_LIQUID, Sh ~4.21 (eval_v2 measured)."
+    v51_compatible: false  # trained on v50 schema; needs retrain on v51 154 cols
+    retrain_needed: true
+
+  xsec_ranker_v1:
+    family: ranker
+    family_subtype: xgb_rank_ndcg_alt
+    checkpoint_glob: "models/xsec_ranker/xsec_ranker_v1.pkl"
+    train_data: v50_panel_xsec
+    universe: u10
+    status: production
+    notes: "Alternative xsec ranker variant."
+
+  meta_labeler_v1:
+    family: meta_labeler
+    family_subtype: catboost_classifier
+    checkpoint_glob: "models/meta_labeler/v1.pkl"
+    status: deprecated
+
+  meta_labeler_v8_catboost:
+    family: meta_labeler
+    family_subtype: catboost_classifier
+    checkpoint_glob: "models/meta_labeler/v8_catboost.pkl"
+    train_data: v50_panel
+    universe: u50
+    status: production
+    notes: "Trained on 9 hand-coded features. CatBoost. AUC ~0.55. Bonferroni-validated."
+    v51_compatible: true   # uses subset of v51 cols
+    retrain_needed: true   # could lift AUC with full 154-feature panel
+
+  bounce_ml_v1:
+    family: classifier
+    family_subtype: catboost_setup_classifier
+    checkpoint_glob: "models/bounce_ml/bounce_ml_v1.pkl"
+    status: production
+    notes: "Bounce setup detector. CONCEDED for xsec integration (probs ~0.49 std 0.03 = no discrimination)."
+
+  fade_ml_v1:
+    family: classifier
+    family_subtype: catboost_setup_classifier
+    checkpoint_glob: "models/fade_ml/fade_ml_v1.pkl"
+    status: production
+    notes: "Fade setup detector. Same caveat."
+
+  swing_ml_v1:
+    family: classifier
+    family_subtype: catboost_setup_classifier
+    checkpoint_glob: "models/swing_ml/swing_ml_v1.pkl"
+    status: production
+    notes: "Swing setup detector. Same caveat."
+
+# =============================================================================
+# RL AGENTS
+# =============================================================================
+
+  agent_v1e_ppo_ensemble:
+    family: rl_agent
+    family_subtype: ppo_dual_stream_ensemble
+    checkpoint_glob: "models/agent/archive_pre_v51/agent_v1e_ensemble_best.pt"
+    status: deprecated
+    architecture: "DualStreamActorCritic + Hebbian plasticity. PPO + GAE."
+    notes: "ARCHIVED pre-v51. Replace with DreamerV3 agent (M3) + SAC (M3)."
+
+# =============================================================================
+# PHASE M2 NEW MODELS (planned, not yet trained)
+# =============================================================================
+
+  v18_chronos_t5_finetune:
+    family: world_model
+    family_subtype: foundation_model_finetune
+    checkpoint_glob: ""
+    status: planned
+    architecture: "amazon/chronos-t5-base (60M params) finetuned on crypto returns"
+    notes: "Phase M2. Highest-EV path to break 0.06 IC ceiling per ml_upgrades_research_2026_04_22.md."
+
+  v16_dreamer_v3:
+    family: world_model
+    family_subtype: dreamer_v3_rssm_full
+    checkpoint_glob: ""
+    status: planned
+    architecture: "Full DreamerV3: RSSM + symlog2bins + KL balance + reward/discount/continue/return heads"
+    notes: "Phase M2. Hafner 2023. Backbone for DreamerV3 agent."
+
+  v19_v1x_retrained_v51:
+    family: world_model
+    family_subtype: transformer_rssm
+    checkpoint_glob: ""
+    status: planned
+    architecture: "V1.0/V1.1/V1.4/V1.6 retrained on v51 154-feature panel"
+    notes: "Phase M2. Cheapest validation: does 80 frontier features lift IC vs v50 baseline?"
+
+# =============================================================================
+# PHASE M3 NEW MODELS (planned)
+# =============================================================================
+
+  agent_dreamer_v3:
+    family: rl_agent
+    family_subtype: dreamer_v3_actor_critic
+    checkpoint_glob: ""
+    status: planned
+    architecture: "Actor-critic in latent space; uses V16 frozen WM for imagination rollouts"
+    notes: "Phase M3. Replaces PPO as primary RL path."
+
+  agent_sac:
+    family: rl_agent
+    family_subtype: soft_actor_critic
+    checkpoint_glob: ""
+    status: planned
+    notes: "Phase M3. Off-policy continuous; 5-10x sample-efficient vs PPO."
+
+# =============================================================================
+# TRAINING DATA SPEC (canonical inputs for any model training)
+# =============================================================================
+
+training_data_spec:
+  default_chimera: v51       # v50 still readable for V1-V14 inference
+  default_cadence: dollar    # for WM training
+  default_universe: u10      # for WM (low n; cleaner regime)
+  ranker_universe: u50_liquid  # 50 audited
+  available_cadences: [dollar, 1d, 4h, 1h, 15m]
+  default_horizon_targets: [target_return_1, target_return_4, target_return_16, target_return_64]
+  default_split: {train_end: "2023-07-01", val_end: "2024-05-15", oos_end: "2025-03-15", unseen_start: "2025-03-15"}
+  purge_bars: 400  # capped at 5% of segment per cadence (see purge_split.py)
+
+# =============================================================================
+# RETRAINING QUEUE (after Job 2 builds full 53-asset v51)
+# =============================================================================
+
+retrain_queue:
+  priority_1:
+    - v1_0_base_f34       # cheapest, validates v51 lift over v50
+    - rank_v1_xgb_ndcg    # champion ranker; needs v51 for new features
+  priority_2:
+    - v1_1_base_f34
+    - v1_4_base_f34
+    - v1_6_base_f34
+    - meta_labeler_v8_catboost
+  defer_until_phase_m2:
+    - v18_chronos_t5_finetune
+    - v16_dreamer_v3
+    - v19_v1x_retrained_v51
+  do_not_retrain:
+    - v11_base_f34   # FROZEN
+    - v12_base_f34   # FROZEN
+    - v13_base_f34   # FROZEN
+    - v14_base_f34   # FROZEN
+    - v2_base        # ARCHIVED
+    - v5_base        # ARCHIVED
+    - v7_base        # ARCHIVED

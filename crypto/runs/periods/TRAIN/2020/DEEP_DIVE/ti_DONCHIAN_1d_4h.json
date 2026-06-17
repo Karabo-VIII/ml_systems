@@ -1,0 +1,480 @@
+{
+ "1d": {
+  "buyhold": {
+   "net": 47.4,
+   "sharpe": 2.34,
+   "maxdd": -20.2
+  },
+  "voltgt_bh": {
+   "net": 49.3,
+   "sharpe": 2.93,
+   "maxdd": -14.9
+  },
+  "rows": [
+   {
+    "cfg": "DONCH(20,5)",
+    "base": {
+     "val_net": 24.4,
+     "net": 41.8,
+     "worst": 24.4,
+     "sharpe": 3.24,
+     "maxdd": -15.5,
+     "drift": 17.5,
+     "robust": false,
+     "time_in": 0.45,
+     "n_trades": 4.7
+    },
+    "iron": {
+     "val_net": 19.5,
+     "net": 38.0,
+     "worst": 19.5,
+     "sharpe": 3.95,
+     "maxdd": -9.0,
+     "drift": 18.5,
+     "robust": false,
+     "time_in": 0.32,
+     "n_trades": 4.1
+    }
+   },
+   {
+    "cfg": "DONCH(20,10)",
+    "base": {
+     "val_net": 25.7,
+     "net": 42.7,
+     "worst": 25.7,
+     "sharpe": 3.39,
+     "maxdd": -15.2,
+     "drift": 17.1,
+     "robust": false,
+     "time_in": 0.42,
+     "n_trades": 3.7
+    },
+    "iron": {
+     "val_net": 21.1,
+     "net": 37.5,
+     "worst": 21.1,
+     "sharpe": 3.87,
+     "maxdd": -9.7,
+     "drift": 16.4,
+     "robust": false,
+     "time_in": 0.33,
+     "n_trades": 3.3
+    }
+   },
+   {
+    "cfg": "DONCH(10,5)",
+    "base": {
+     "val_net": 24.3,
+     "net": 35.2,
+     "worst": 24.3,
+     "sharpe": 2.56,
+     "maxdd": -16.8,
+     "drift": 10.9,
+     "robust": false,
+     "time_in": 0.56,
+     "n_trades": 6.4
+    },
+    "iron": {
+     "val_net": 17.7,
+     "net": 36.1,
+     "worst": 17.7,
+     "sharpe": 3.35,
+     "maxdd": -12.0,
+     "drift": 18.4,
+     "robust": false,
+     "time_in": 0.42,
+     "n_trades": 5.9
+    }
+   },
+   {
+    "cfg": "DONCH(30,10)",
+    "base": {
+     "val_net": 26.4,
+     "net": 32.1,
+     "worst": 26.4,
+     "sharpe": 2.86,
+     "maxdd": -15.1,
+     "drift": 5.6,
+     "robust": true,
+     "time_in": 0.36,
+     "n_trades": 3.3
+    },
+    "iron": {
+     "val_net": 20.0,
+     "net": 28.3,
+     "worst": 20.0,
+     "sharpe": 3.43,
+     "maxdd": -10.3,
+     "drift": 8.3,
+     "robust": true,
+     "time_in": 0.25,
+     "n_trades": 3.0
+    }
+   },
+   {
+    "cfg": "DONCH(30,5)",
+    "base": {
+     "val_net": 25.7,
+     "net": 31.9,
+     "worst": 25.7,
+     "sharpe": 2.89,
+     "maxdd": -13.9,
+     "drift": 6.3,
+     "robust": true,
+     "time_in": 0.38,
+     "n_trades": 4.0
+    },
+    "iron": {
+     "val_net": 19.7,
+     "net": 27.0,
+     "worst": 19.7,
+     "sharpe": 3.34,
+     "maxdd": -9.6,
+     "drift": 7.3,
+     "robust": true,
+     "time_in": 0.26,
+     "n_trades": 3.5
+    }
+   },
+   {
+    "cfg": "DONCH(55,5)",
+    "base": {
+     "val_net": 23.8,
+     "net": 33.3,
+     "worst": 23.8,
+     "sharpe": 3.2,
+     "maxdd": -12.8,
+     "drift": 9.5,
+     "robust": true,
+     "time_in": 0.28,
+     "n_trades": 3.3
+    },
+    "iron": {
+     "val_net": 17.3,
+     "net": 26.1,
+     "worst": 17.3,
+     "sharpe": 3.3,
+     "maxdd": -9.6,
+     "drift": 8.8,
+     "robust": true,
+     "time_in": 0.2,
+     "n_trades": 3.0
+    }
+   },
+   {
+    "cfg": "DONCH(55,10)",
+    "base": {
+     "val_net": 23.7,
+     "net": 32.9,
+     "worst": 23.7,
+     "sharpe": 3.14,
+     "maxdd": -13.5,
+     "drift": 9.2,
+     "robust": true,
+     "time_in": 0.25,
+     "n_trades": 2.8
+    },
+    "iron": {
+     "val_net": 17.6,
+     "net": 25.9,
+     "worst": 17.6,
+     "sharpe": 3.24,
+     "maxdd": -10.3,
+     "drift": 8.3,
+     "robust": true,
+     "time_in": 0.18,
+     "n_trades": 2.7
+    }
+   },
+   {
+    "cfg": "DONCH(30,20)",
+    "base": {
+     "val_net": 11.7,
+     "net": 24.3,
+     "worst": 11.7,
+     "sharpe": 2.6,
+     "maxdd": -13.2,
+     "drift": 12.7,
+     "robust": false,
+     "time_in": 0.28,
+     "n_trades": 1.9
+    },
+    "iron": {
+     "val_net": 11.3,
+     "net": 21.1,
+     "worst": 11.3,
+     "sharpe": 3.04,
+     "maxdd": -8.6,
+     "drift": 9.8,
+     "robust": true,
+     "time_in": 0.2,
+     "n_trades": 1.7
+    }
+   },
+   {
+    "cfg": "DONCH(55,20)",
+    "base": {
+     "val_net": 9.2,
+     "net": 23.1,
+     "worst": 9.2,
+     "sharpe": 2.5,
+     "maxdd": -13.5,
+     "drift": 13.9,
+     "robust": false,
+     "time_in": 0.18,
+     "n_trades": 1.6
+    },
+    "iron": {
+     "val_net": 9.1,
+     "net": 18.1,
+     "worst": 9.1,
+     "sharpe": 2.47,
+     "maxdd": -10.3,
+     "drift": 9.0,
+     "robust": true,
+     "time_in": 0.14,
+     "n_trades": 1.6
+    }
+   }
+  ]
+ },
+ "4h": {
+  "buyhold": {
+   "net": 47.8,
+   "sharpe": 2.36,
+   "maxdd": -19.8
+  },
+  "voltgt_bh": {
+   "net": 49.9,
+   "sharpe": 3.1,
+   "maxdd": -14.1
+  },
+  "rows": [
+   {
+    "cfg": "DONCH(30,20)",
+    "base": {
+     "val_net": 30.9,
+     "net": 33.0,
+     "worst": 30.9,
+     "sharpe": 2.81,
+     "maxdd": -14.7,
+     "drift": 2.1,
+     "robust": true,
+     "time_in": 0.46,
+     "n_trades": 11.0
+    },
+    "iron": {
+     "val_net": 25.5,
+     "net": 31.2,
+     "worst": 25.5,
+     "sharpe": 3.41,
+     "maxdd": -9.8,
+     "drift": 5.7,
+     "robust": true,
+     "time_in": 0.36,
+     "n_trades": 10.1
+    }
+   },
+   {
+    "cfg": "DONCH(20,10)",
+    "base": {
+     "val_net": 27.4,
+     "net": 25.3,
+     "worst": 25.3,
+     "sharpe": 2.35,
+     "maxdd": -9.5,
+     "drift": -2.1,
+     "robust": true,
+     "time_in": 0.41,
+     "n_trades": 19.1
+    },
+    "iron": {
+     "val_net": 21.5,
+     "net": 25.4,
+     "worst": 21.5,
+     "sharpe": 3.05,
+     "maxdd": -5.5,
+     "drift": 3.9,
+     "robust": true,
+     "time_in": 0.31,
+     "n_trades": 16.9
+    }
+   },
+   {
+    "cfg": "DONCH(55,20)",
+    "base": {
+     "val_net": 23.3,
+     "net": 27.7,
+     "worst": 23.3,
+     "sharpe": 2.78,
+     "maxdd": -11.0,
+     "drift": 4.4,
+     "robust": true,
+     "time_in": 0.35,
+     "n_trades": 8.6
+    },
+    "iron": {
+     "val_net": 21.8,
+     "net": 23.8,
+     "worst": 21.8,
+     "sharpe": 3.05,
+     "maxdd": -7.3,
+     "drift": 2.0,
+     "robust": true,
+     "time_in": 0.29,
+     "n_trades": 7.6
+    }
+   },
+   {
+    "cfg": "DONCH(10,5)",
+    "base": {
+     "val_net": 15.9,
+     "net": 21.8,
+     "worst": 15.9,
+     "sharpe": 1.82,
+     "maxdd": -9.8,
+     "drift": 5.9,
+     "robust": true,
+     "time_in": 0.5,
+     "n_trades": 33.0
+    },
+    "iron": {
+     "val_net": 18.1,
+     "net": 22.2,
+     "worst": 18.1,
+     "sharpe": 2.53,
+     "maxdd": -6.8,
+     "drift": 4.1,
+     "robust": true,
+     "time_in": 0.35,
+     "n_trades": 27.9
+    }
+   },
+   {
+    "cfg": "DONCH(30,10)",
+    "base": {
+     "val_net": 23.0,
+     "net": 24.1,
+     "worst": 23.0,
+     "sharpe": 2.41,
+     "maxdd": -11.6,
+     "drift": 1.1,
+     "robust": true,
+     "time_in": 0.35,
+     "n_trades": 16.3
+    },
+    "iron": {
+     "val_net": 19.4,
+     "net": 21.9,
+     "worst": 19.4,
+     "sharpe": 2.92,
+     "maxdd": -7.4,
+     "drift": 2.5,
+     "robust": true,
+     "time_in": 0.27,
+     "n_trades": 14.3
+    }
+   },
+   {
+    "cfg": "DONCH(55,10)",
+    "base": {
+     "val_net": 18.8,
+     "net": 23.6,
+     "worst": 18.8,
+     "sharpe": 2.66,
+     "maxdd": -9.4,
+     "drift": 4.7,
+     "robust": true,
+     "time_in": 0.27,
+     "n_trades": 12.1
+    },
+    "iron": {
+     "val_net": 17.3,
+     "net": 18.7,
+     "worst": 17.3,
+     "sharpe": 2.77,
+     "maxdd": -5.8,
+     "drift": 1.4,
+     "robust": true,
+     "time_in": 0.21,
+     "n_trades": 10.5
+    }
+   },
+   {
+    "cfg": "DONCH(20,5)",
+    "base": {
+     "val_net": 24.5,
+     "net": 8.9,
+     "worst": 8.9,
+     "sharpe": 1.03,
+     "maxdd": -14.6,
+     "drift": -15.5,
+     "robust": false,
+     "time_in": 0.36,
+     "n_trades": 24.4
+    },
+    "iron": {
+     "val_net": 17.3,
+     "net": 13.7,
+     "worst": 13.7,
+     "sharpe": 1.92,
+     "maxdd": -7.2,
+     "drift": -3.5,
+     "robust": true,
+     "time_in": 0.25,
+     "n_trades": 21.1
+    }
+   },
+   {
+    "cfg": "DONCH(30,5)",
+    "base": {
+     "val_net": 23.1,
+     "net": 11.0,
+     "worst": 11.0,
+     "sharpe": 1.3,
+     "maxdd": -14.9,
+     "drift": -12.1,
+     "robust": false,
+     "time_in": 0.31,
+     "n_trades": 20.2
+    },
+    "iron": {
+     "val_net": 18.6,
+     "net": 12.6,
+     "worst": 12.6,
+     "sharpe": 1.91,
+     "maxdd": -9.3,
+     "drift": -6.0,
+     "robust": true,
+     "time_in": 0.22,
+     "n_trades": 17.3
+    }
+   },
+   {
+    "cfg": "DONCH(55,5)",
+    "base": {
+     "val_net": 21.3,
+     "net": 11.0,
+     "worst": 11.0,
+     "sharpe": 1.45,
+     "maxdd": -12.4,
+     "drift": -10.3,
+     "robust": false,
+     "time_in": 0.24,
+     "n_trades": 14.9
+    },
+    "iron": {
+     "val_net": 18.6,
+     "net": 9.5,
+     "worst": 9.5,
+     "sharpe": 1.63,
+     "maxdd": -7.7,
+     "drift": -9.0,
+     "robust": true,
+     "time_in": 0.18,
+     "n_trades": 12.9
+    }
+   }
+  ]
+ }
+}

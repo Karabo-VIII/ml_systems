@@ -1,0 +1,330 @@
+exchange:
+  name: binance
+  enable_rate_limit: true
+data:
+  raw_dir: ./data/raw
+  processed_dir: ./data/processed
+  start_date: '2020-01-01 00:00:00'
+splits:
+  train_end: '2023-07-01'
+  val_end: '2024-05-15'
+  oos_end: '2025-03-15'
+  unseen_start: '2025-03-15'
+  live_start: '2025-09-03'
+  purge_bars: 400
+system:
+  num_workers: 8
+  memory_limit_gb: 32
+assets:
+  BTC/USDT:
+    dollar_bar_size: 2000000
+    is_active: true
+  ETH/USDT:
+    dollar_bar_size: 700000
+    is_active: true
+  SOL/USDT:
+    dollar_bar_size: 200000
+    is_active: true
+  BNB/USDT:
+    dollar_bar_size: 300000
+    is_active: true
+  XRP/USDT:
+    dollar_bar_size: 350000
+    is_active: true
+  DOGE/USDT:
+    dollar_bar_size: 400000
+    is_active: true
+  ADA/USDT:
+    dollar_bar_size: 100000
+    is_active: true
+  AVAX/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  LINK/USDT:
+    dollar_bar_size: 70000
+    is_active: true
+  LTC/USDT:
+    dollar_bar_size: 50000
+    is_active: true
+  SUI/USDT:
+    dollar_bar_size: 150000
+    is_active: true
+  TON/USDT:
+    dollar_bar_size: 100000
+    is_active: true
+  NEAR/USDT:
+    dollar_bar_size: 100000
+    is_active: true
+  APT/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  SEI/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  DOT/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  PEPE/USDT:
+    dollar_bar_size: 150000
+    is_active: true
+  SHIB/USDT:
+    dollar_bar_size: 200000
+    is_active: true
+  WIF/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  BONK/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  UNI/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  AAVE/USDT:
+    dollar_bar_size: 40000
+    is_active: true
+  INJ/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  ARB/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  OP/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  FIL/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  ATOM/USDT:
+    dollar_bar_size: 50000
+    is_active: true
+  ICP/USDT:
+    dollar_bar_size: 50000
+    is_active: true
+  RENDER/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  FET/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  WLD/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  ETC/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  BCH/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  TRX/USDT:
+    dollar_bar_size: 100000
+    is_active: true
+  HBAR/USDT:
+    dollar_bar_size: 60000
+    is_active: true
+  TAO/USDT:
+    dollar_bar_size: 40000
+    is_active: true
+  ZEC/USDT:
+    dollar_bar_size: 30000
+    is_active: true
+  DASH/USDT:
+    dollar_bar_size: 30000
+    is_active: true
+  TRUMP/USDT:
+    dollar_bar_size: 80000
+    is_active: true
+  ORDI/USDT:
+    dollar_bar_size: 150000
+    is_active: true
+  BOME/USDT:
+    dollar_bar_size: 120000
+    is_active: true
+  GUN/USDT:
+    dollar_bar_size: 110000
+    is_active: true
+  SPK/USDT:
+    dollar_bar_size: 93000
+    is_active: true
+  HIGH/USDT:
+    dollar_bar_size: 87000
+    is_active: true
+  U/USDT:
+    dollar_bar_size: 69000
+    is_active: true
+  BLUR/USDT:
+    dollar_bar_size: 57000
+    is_active: true
+  SUPER/USDT:
+    dollar_bar_size: 53000
+    is_active: true
+  ENJ/USDT:
+    dollar_bar_size: 52000
+    is_active: true
+  ENA/USDT:
+    dollar_bar_size: 48000
+    is_active: true
+  PENGU/USDT:
+    dollar_bar_size: 45000
+    is_active: true
+  CFG/USDT:
+    dollar_bar_size: 42000
+    is_active: true
+  XAUT/USDT:
+    dollar_bar_size: 42000
+    is_active: true
+  NEIRO/USDT:
+    dollar_bar_size: 39000
+    is_active: true
+  ZRO/USDT:
+    dollar_bar_size: 39000
+    is_active: true
+  PROM/USDT:
+    dollar_bar_size: 39000
+    is_active: true
+  ASTER/USDT:
+    dollar_bar_size: 36000
+    is_active: true
+  UTK/USDT:
+    dollar_bar_size: 35000
+    is_active: true
+  DOGS/USDT:
+    dollar_bar_size: 35000
+    is_active: true
+  CHZ/USDT:
+    dollar_bar_size: 35000
+    is_active: true
+  PNUT/USDT:
+    dollar_bar_size: 34000
+    is_active: true
+  AUDIO/USDT:
+    dollar_bar_size: 31000
+    is_active: true
+  GIGGLE/USDT:
+    dollar_bar_size: 31000
+    is_active: true
+  PLUME/USDT:
+    dollar_bar_size: 29000
+    is_active: true
+  MEME/USDT:
+    dollar_bar_size: 27000
+    is_active: true
+  FLOKI/USDT:
+    dollar_bar_size: 26000
+    is_active: true
+  PHB/USDT:
+    dollar_bar_size: 26000
+    is_active: true
+  XLM/USDT:
+    dollar_bar_size: 25000
+    is_active: true
+  D/USDT:
+    dollar_bar_size: 23000
+    is_active: true
+  BIO/USDT:
+    dollar_bar_size: 23000
+    is_active: true
+  DEXE/USDT:
+    dollar_bar_size: 22000
+    is_active: true
+  ZBT/USDT:
+    dollar_bar_size: 22000
+    is_active: true
+  TIA/USDT:
+    dollar_bar_size: 21000
+    is_active: true
+  EIGEN/USDT:
+    dollar_bar_size: 20000
+    is_active: true
+  POL/USDT:
+    dollar_bar_size: 19000
+    is_active: true
+  ALICE/USDT:
+    dollar_bar_size: 19000
+    is_active: true
+  DYDX/USDT:
+    dollar_bar_size: 19000
+    is_active: true
+  RSR/USDT:
+    dollar_bar_size: 18000
+    is_active: true
+  SAGA/USDT:
+    dollar_bar_size: 18000
+    is_active: true
+  XUSD/USDT:
+    dollar_bar_size: 18000
+    is_active: true
+  XPL/USDT:
+    dollar_bar_size: 17000
+    is_active: true
+  STO/USDT:
+    dollar_bar_size: 17000
+    is_active: true
+  VIRTUAL/USDT:
+    dollar_bar_size: 17000
+    is_active: true
+  MOVE/USDT:
+    dollar_bar_size: 17000
+    is_active: true
+  ZAMA/USDT:
+    dollar_bar_size: 16000
+    is_active: true
+  WLFI/USDT:
+    dollar_bar_size: 16000
+    is_active: true
+  ARKM/USDT:
+    dollar_bar_size: 16000
+    is_active: true
+  ZEN/USDT:
+    dollar_bar_size: 16000
+    is_active: true
+  AR/USDT:
+    dollar_bar_size: 15000
+    is_active: true
+  RARE/USDT:
+    dollar_bar_size: 15000
+    is_active: true
+  ONDO/USDT:
+    dollar_bar_size: 15000
+    is_active: true
+  MOVR/USDT:
+    dollar_bar_size: 15000
+    is_active: true
+  SAPIEN/USDT:
+    dollar_bar_size: 15000
+    is_active: true
+  1000SATS/USDT:
+    dollar_bar_size: 14000
+    is_active: true
+  W/USDT:
+    dollar_bar_size: 14000
+    is_active: true
+  QI/USDT:
+    dollar_bar_size: 13000
+    is_active: true
+  API3/USDT:
+    dollar_bar_size: 13000
+    is_active: true
+  CRV/USDT:
+    dollar_bar_size: 13000
+    is_active: true
+  ALGO/USDT:
+    dollar_bar_size: 12000
+    is_active: true
+  NIGHT/USDT:
+    dollar_bar_size: 12000
+    is_active: true
+  KAT/USDT:
+    dollar_bar_size: 12000
+    is_active: true
+  LDO/USDT:
+    dollar_bar_size: 12000
+    is_active: true
+  TREE/USDT:
+    dollar_bar_size: 12000
+    is_active: true
+  GTC/USDT:
+    dollar_bar_size: 12000
+    is_active: true
+  JST/USDT:
+    dollar_bar_size: 12000
+    is_active: true

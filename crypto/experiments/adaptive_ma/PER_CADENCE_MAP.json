@@ -1,0 +1,280 @@
+{
+  "per_cadence": {
+    "1d": {
+      "n_ok": 4,
+      "n_total": 4,
+      "mean_auc_heldout": 0.536,
+      "median_oracle_hold_bars": 2.0,
+      "mean_dna_capture_pct": -16.0,
+      "n_genuine": 0
+    },
+    "4h": {
+      "n_ok": 4,
+      "n_total": 4,
+      "mean_auc_heldout": 0.702,
+      "median_oracle_hold_bars": 2.0,
+      "mean_dna_capture_pct": -73.8,
+      "n_genuine": 0
+    },
+    "1h": {
+      "n_ok": 4,
+      "n_total": 4,
+      "mean_auc_heldout": 0.776,
+      "median_oracle_hold_bars": 2.0,
+      "mean_dna_capture_pct": -98.7,
+      "n_genuine": 0
+    },
+    "dollar": {
+      "n_ok": 0,
+      "n_total": 4,
+      "mean_auc_heldout": null,
+      "median_oracle_hold_bars": null,
+      "mean_dna_capture_pct": null,
+      "n_genuine": 0
+    },
+    "range": {
+      "n_ok": 2,
+      "n_total": 4,
+      "mean_auc_heldout": 0.896,
+      "median_oracle_hold_bars": 3.0,
+      "mean_dna_capture_pct": -92.8,
+      "n_genuine": 0
+    }
+  },
+  "rows": [
+    {
+      "cadence": "1d",
+      "asset": "BTC",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.253,
+      "auc_heldout": 0.5887,
+      "dna_capture_plain_pct": -35.5,
+      "null_p95_pct": 18.9,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "1d",
+      "asset": "ETH",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.259,
+      "auc_heldout": 0.4838,
+      "dna_capture_plain_pct": -21.1,
+      "null_p95_pct": 105.8,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "1d",
+      "asset": "SOL",
+      "oracle_hold_bars": 1,
+      "oracle_entries_frac": 0.25,
+      "auc_heldout": 0.4469,
+      "dna_capture_plain_pct": -40.2,
+      "null_p95_pct": 34.8,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "1d",
+      "asset": "BNB",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.256,
+      "auc_heldout": 0.6228,
+      "dna_capture_plain_pct": 33.0,
+      "null_p95_pct": 39.9,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "4h",
+      "asset": "BTC",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.213,
+      "auc_heldout": 0.7319,
+      "dna_capture_plain_pct": -73.3,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "4h",
+      "asset": "ETH",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.223,
+      "auc_heldout": 0.6648,
+      "dna_capture_plain_pct": -65.0,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": true,
+      "ok": true
+    },
+    {
+      "cadence": "4h",
+      "asset": "SOL",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.244,
+      "auc_heldout": 0.6383,
+      "dna_capture_plain_pct": -87.7,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": true,
+      "ok": true
+    },
+    {
+      "cadence": "4h",
+      "asset": "BNB",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.228,
+      "auc_heldout": 0.7745,
+      "dna_capture_plain_pct": -69.3,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "1h",
+      "asset": "BTC",
+      "oracle_hold_bars": 3,
+      "oracle_entries_frac": 0.154,
+      "auc_heldout": 0.8123,
+      "dna_capture_plain_pct": -98.7,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "1h",
+      "asset": "ETH",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.171,
+      "auc_heldout": 0.7491,
+      "dna_capture_plain_pct": -98.1,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "1h",
+      "asset": "SOL",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.195,
+      "auc_heldout": 0.7409,
+      "dna_capture_plain_pct": -98.9,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": true,
+      "ok": true
+    },
+    {
+      "cadence": "1h",
+      "asset": "BNB",
+      "oracle_hold_bars": 2,
+      "oracle_entries_frac": 0.174,
+      "auc_heldout": 0.8002,
+      "dna_capture_plain_pct": -99.0,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": true,
+      "ok": true
+    },
+    {
+      "cadence": "dollar",
+      "asset": "BTC",
+      "ok": false,
+      "error": "TIMEOUT 30s"
+    },
+    {
+      "cadence": "dollar",
+      "asset": "ETH",
+      "ok": false,
+      "error": "TIMEOUT 30s"
+    },
+    {
+      "cadence": "dollar",
+      "asset": "SOL",
+      "ok": false,
+      "error": "TIMEOUT 30s"
+    },
+    {
+      "cadence": "dollar",
+      "asset": "BNB",
+      "ok": false,
+      "error": "TIMEOUT 30s"
+    },
+    {
+      "cadence": "range",
+      "asset": "BTC",
+      "oracle_hold_bars": 3,
+      "oracle_entries_frac": 0.079,
+      "auc_heldout": 0.8977,
+      "dna_capture_plain_pct": -87.5,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "range",
+      "asset": "ETH",
+      "oracle_hold_bars": 3,
+      "oracle_entries_frac": 0.113,
+      "auc_heldout": 0.8941,
+      "dna_capture_plain_pct": -98.2,
+      "null_p95_pct": null,
+      "beats_null": false,
+      "dna_genuine": false,
+      "apparatus_sound": false,
+      "ok": true
+    },
+    {
+      "cadence": "range",
+      "asset": "SOL",
+      "oracle_hold_bars": null,
+      "oracle_entries_frac": null,
+      "auc_heldout": null,
+      "dna_capture_plain_pct": null,
+      "null_p95_pct": null,
+      "beats_null": null,
+      "dna_genuine": null,
+      "apparatus_sound": null,
+      "ok": false,
+      "error": "karab\\Documents\\coding\\v4_crypto_stystem\\data\\processed\\MISSING\\solusdt_v51_range.parquet "
+    },
+    {
+      "cadence": "range",
+      "asset": "BNB",
+      "oracle_hold_bars": null,
+      "oracle_entries_frac": null,
+      "auc_heldout": null,
+      "dna_capture_plain_pct": null,
+      "null_p95_pct": null,
+      "beats_null": null,
+      "dna_genuine": null,
+      "apparatus_sound": null,
+      "ok": false,
+      "error": "karab\\Documents\\coding\\v4_crypto_stystem\\data\\processed\\MISSING\\bnbusdt_v51_range.parquet "
+    }
+  ]
+}

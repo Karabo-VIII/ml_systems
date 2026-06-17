@@ -1,0 +1,114 @@
+# Canonical strategy-dimension registry (machine-readable mirror of
+# docs/CANONICAL_STRATEGY_DIMENSION_REGISTRY_2026_06_11.md).
+# Catalogs the 7 NON-signal decomposition axes (signal axis = config/ti_master_catalog.yaml + feature_registry.yaml).
+# have: 1=built-on-disk 0=not-built P=partial   la: S=causal-safe R=repaint/risky U=unsafe
+# Built 2026-06-11. The signal axis is deliberately excluded here (it has its own two catalogs).
+meta:
+  built: 2026-06-11
+  axes: 7   # 1,2,3,5,6,7,8 of the 8-axis lattice; axis-4 (signal) -> ti_master_catalog.yaml + feature_registry.yaml
+  doc: docs/CANONICAL_STRATEGY_DIMENSION_REGISTRY_2026_06_11.md
+  lattice_source: docs/MARKET_FRAMEWORK/README.md
+  note: "every axis below is a conditioning/execution layer, NOT an alpha source; lists are extensible"
+
+axis1_chart_bartype:
+  - {name: time, have: 1, la: S, note: "default; 15m/30m/1h/4h/1d on disk"}
+  - {name: dollar_coarse, have: 1, la: S}
+  - {name: dollar_imbalance_dib, have: P, la: S, note: "bars yes, chimera sparse/empty"}
+  - {name: runs_tick, have: 1, la: S}
+  - {name: runs_volume, have: 1, la: S}
+  - {name: range, have: 1, la: S}
+  - {name: adaptive_vol, have: 0, la: S, note: "proposed, not built"}
+  - {name: heikin_ashi, have: 0, la: R, note: "REPAINTS current bar -- confirmed-close only"}
+  - {name: renko, have: 0, la: R, note: "brick close lags; brick size = param"}
+
+axis2_cadence:
+  - {name: 1d, have: 1, cost: clears_maker, note: "home cadence; beta+yield floor"}
+  - {name: 4h, have: 1, cost: clears_maker, note: "standard sweep ~6 bars/day; trend-beta"}
+  - {name: 2h, have: 0, cost: unknown, note: "NOT built; resample 1h; intraday_oracle ad-hoc -> capture NEGATIVE"}
+  - {name: 1h, have: 1, cost: walled_HARD, dead: D60, note: "MR exp -0.43% OOS; MA whipsaw PF 0.91"}
+  - {name: 30m, have: 1, cost: cliff, dead: A7, note: "gross -89.5% taker"}
+  - {name: 15m, have: 1, cost: cliff, note: "finest built time-bar"}
+  - {name: 5m, have: 0, cost: worse_than_15m, note: "NOT built; finer than the wall = harder"}
+  - {name: dollar_coarse, have: 1, cost: clears, note: "volume-clock"}
+  - {name: event_clock_fine_dollar, have: P, cost: unknown, note: "sub-bar mostly unexplored"}
+  - {name: tick, have: 0, cost: unknown, note: "Fork-B; D13 IC-ruling genuinely untested only here"}
+
+axis3_instrument:
+  - {name: universe_u10_u50_u100, have: 1, note: "most of u100 unexplored"}
+  - {name: perp_vs_spot, have: 1, note: "CONSTRAINT long-only+spot+lev=1.0; perp=data-src/bear-LO-exception(parked)"}
+  - {name: options_deribit, have: 0, dead: "D38/D64/D65", note: "ingest absent; convexity/VRP; Fork-B-deep"}
+
+axis5_regime:
+  - {name: trend_sma200, have: 1, note: "the gate that preserves the bear (regime-gated book floor)"}
+  - {name: volatility_terciles, have: P, note: "largely open; the predictable channel (lesson #2)"}
+  - {name: crowding_funding_oi, have: P, note: "largely open"}
+  - {name: macro_liquidity_stbl_etf, have: 1, dead: D69, note: "null as timing"}
+  - {name: gmm_5state, have: 1, note: "precomputed; multi-axis routing open"}
+  - {name: per_asset_config_dna, have: 1, dead: "D62/D73", note: "NOISE 1/47; collapses date-demeaned"}
+
+axis6_method:
+  - {name: static_rules, have: 1, note: "workhorse"}
+  - {name: dynamic_regime_adaptive, have: 1, note: "the live lever (gating); per-asset adapt dead D62"}
+  - {name: ml_alpha_generator, have: 1, dead: "D16/D17", note: "DEAD AUC ~0.50"}
+  - {name: ml_meta_labeler, have: P, note: "only defensible ML role; open (lesson #7)"}
+  - {name: self_improving_rotation, have: 1, dead: D68, note: "x-sec momentum = beta+concentration"}
+  - {name: world_model, have: 1, dead: D13, note: "V1.1 IC 0.067 diagnostic-only; not alpha post-reset"}
+
+axis7_approach_portfolio:
+  - {name: per_asset_specialist_combine, have: 1, note: "concentration failure mode (lesson #6)"}
+  - {name: cross_sectional_breadth_pooled, have: P, dead: D68, note: "x-sec momentum = beta"}
+  - {name: regime_gated_portfolio, have: 1, note: "THE FLOOR; one full-cycle survivor; NOT UNSEEN-positive in 5mo bear"}
+  - {name: setup_chaser_book, have: 1, note: "book-not-config robustness frame"}
+  - {name: oracle_decomposition, have: 1, note: "guiding method: oracle -> DNA -> capture-rate proxy"}
+
+axis8a_entry_policy:
+  - {name: ma_ema_cross_up, params: "fast/slow len", coded: 1, src: "entry_signal_lab/family1_chandelier_trail", note: "whipsaws sub-4h"}
+  - {name: breakout_donchian, params: lookback, coded: 1, src: "intraday_oracle/trend_book_lab"}
+  - {name: rsi_boll_mr_bounce, params: thresh, coded: 1, src: family_regime_map, note: "MR PF 0.84-0.91 net-neg"}
+  - {name: buy_the_extreme, params: "-", coded: 1, dead: "D48-D52", note: "ANTI-edge; random beats it"}
+  - {name: wm_signal_gate, params: "IC>0.015", coded: 1, src: wm_entry_producer, note: "diagnostic-only"}
+
+axis8b_exit_mechanism:   # the primary ask -- dedicated exit catalog
+  # family: MECHANICAL = price/time-driven, no signal (the "mechanical exit")  |
+  #         STRAT      = signal/indicator/regime-driven (the "strat-based exit") |  HYBRID = both
+  # This split IS the user's flagged gap ("strat-based exit vs mechanical exits"); coverage_report
+  # in discovery_contract.py reads family from HERE so a run can't silently test only one side.
+  - {name: fixed_horizon_time_stop, family: mechanical, params: "hold H bars", coded: 1, src: "oracle_exit_knob/exit_capture_proxy",
+     read: "best-hold ~11-12 bars; LEAVE FIXED; H not factor-predictable R2 0.01-0.13; the no-skill control"}
+  - {name: trailing_chandelier, family: mechanical, params: "ATR mult x rolling-period-high", coded: 1, src: family1_chandelier_trail,
+     dead: D23, read: "adds ~2pp/trade; fails PEPE-MA UNSEEN but works on breadth-bounce (entry-dependent)"}
+  - {name: trailing_pct_off_high, family: mechanical, params: "trail fraction", coded: 1, src: naive_ma_trailing, read: "the 10pct-risk naive variant"}
+  - {name: ma_cross_exit_signal_flip, family: strat, params: "exit MA len", coded: 1, src: "exit_capture_proxy/family_regime_map",
+     read: "1h whipsaw PF 0.91; 4h PF 1.23 = beta"}
+  - {name: fixed_target_take_profit, family: mechanical, params: "R-mult or pct", coded: 0, read: "UNTESTED -- softest open exit sub-axis (D61)"}
+  - {name: triple_barrier, family: mechanical, params: "up/down/time", coded: 1, dead: D09, read: "AUC 0.472 as LABEL; as EXIT policy untested"}
+  - {name: managed_rsi_exit, family: strat, params: "exit RSI thresh", coded: P, read: "entry-coupled"}
+  - {name: regime_conditioned_exit, family: strat, params: "regime x hold", coded: 0, read: "UNTESTED -- D61 SOFTEST open"}
+  - {name: sub_bar_exit, family: hybrid, params: "finer exit clock", coded: 0, read: "UNTESTED -- D61 SOFTEST open"}
+
+exit_verdict:
+  dead: D61
+  finding: "smart exit-timing UNDERPERFORMS dumb fixed hold on daily breakouts (fair Delta -0.037, wins 3/12)"
+  artifact_caught: "the 'beats-null' was a HOLD-LENGTH artifact, caught by the no-skill fixed-hold control"
+  open_subaxes: [take_profit, regime_conditioned, sub_bar]
+  tool: "python src/strat/exit_capture_proxy.py  (selftest = two-sided soundness)"
+
+cross_cutting_lenses: [actor_inst_retail_defi_mm, sector_l1_meme_defi_ai, hold_cadence, capital_velocity]
+
+# Config-canonicalization axis -- NOT a slice of the lattice but a SEARCH-SPACE DISCIPLINE that
+# every config-discovery run must apply (else near-dup configs inflate multiple-comparisons and you
+# overfit to a noise-level param difference). The phenomenon: MA(28,29) ~= MA(27,30) ~= MA(28,30)
+# (archive 9,900-pair sweep, top-10 all clustered fast=25-31/slow=29-33). Was handled ad-hoc by
+# hand-curated sparse grids (ratio >=2x); NOW formalized in src/framework/discovery_contract.py
+# (canonicalize_grid: keep reps that are mutually >= rel_tol apart; report effective_N).
+config_canonicalization:
+  phenomenon: "near-identical configs (MA(28,29)~MA(27,30)) waste search budget + inflate multiple-comparisons"
+  evidence: "archive/restart_2026_06_04/docs/archive_pre_2026_05/MA_EMA_PERMUTATION_FINDINGS_2026_05_12.md (9900 pairs)"
+  rule: "two configs are near-dup iff every param within rel_tol (default 0.15); keep mutually-separated reps"
+  formalized_in: "src/framework/discovery_contract.py::canonicalize_grid"
+  granularity_ladder:  # which grouping granularity earns its degrees of freedom (all walk-forward, holdout-sealed)
+    per_asset: "DEAD -- config choice is noise (regime_dna_lab)"
+    per_cluster_asset_dna: "NOT robust -- u10 +5pp did not replicate at u50 (MA_GRANULARITY_DISCOVERY)"
+    per_regime: "HURTS -- adds losing DOWN-regime configs; regime-GATE instead (-25pp t-2.7 u50 3MA)"
+    per_cadence: "REAL + STABLE -- the one axis whose per-group optimum repeats across folds (PER_CADENCE_CONFIG)"
+    pooled_per_cadence: "THE honest architecture -- one config per timeframe, pooled across assets"

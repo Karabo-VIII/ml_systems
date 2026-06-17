@@ -1,0 +1,77 @@
+{
+  "cadence": "1h",
+  "trend_character": {
+    "n_assets": 104,
+    "trending_H>0.55": 2,
+    "meanrev_H<0.45": 9,
+    "randomwalk_0.45-0.55": 93,
+    "median_hurst": 0.482,
+    "median_VR5": 0.925
+  },
+  "feature_pca": {
+    "n_dense_features": 40,
+    "n_rows": 120000,
+    "pcs_for_70pct": 17,
+    "pcs_for_90pct": 27,
+    "pc1_var": 0.102,
+    "pc2_var": 0.1,
+    "top_pc1_loadings": [
+      {
+        "feat": "norm_bar_duration",
+        "loading": 0.329
+      },
+      {
+        "feat": "norm_fd_close",
+        "loading": -0.286
+      },
+      {
+        "feat": "norm_whale",
+        "loading": -0.281
+      },
+      {
+        "feat": "norm_hawkes_intensity",
+        "loading": -0.267
+      },
+      {
+        "feat": "norm_tick_count",
+        "loading": 0.262
+      },
+      {
+        "feat": "norm_hawkes_sell_intensity",
+        "loading": -0.247
+      }
+    ],
+    "top_pc2_loadings": [
+      {
+        "feat": "norm_fd_close",
+        "loading": 0.362
+      },
+      {
+        "feat": "norm_return_16",
+        "loading": 0.293
+      },
+      {
+        "feat": "norm_deviation",
+        "loading": 0.285
+      },
+      {
+        "feat": "norm_return_4",
+        "loading": 0.283
+      },
+      {
+        "feat": "norm_bar_duration",
+        "loading": 0.269
+      },
+      {
+        "feat": "norm_ma_distance",
+        "loading": 0.257
+      }
+    ]
+  },
+  "feature_redundancy": {
+    "n_pairs": 780,
+    "n_pairs_abscorr_gt_0.8": 2,
+    "n_pairs_abscorr_gt_0.6": 13
+  },
+  "_elapsed_s": 0.4
+}

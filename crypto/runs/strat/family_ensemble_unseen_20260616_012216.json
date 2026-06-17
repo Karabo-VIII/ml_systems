@@ -1,0 +1,445 @@
+{
+ "repro": {
+  "command": "python -m strat.family_ensemble_unseen ",
+  "git_sha": "6092c56",
+  "unseen_window": [
+   "2025-12-31",
+   "2026-06-01"
+  ],
+  "derisk_pick": "light",
+  "cost_maker": 0.0006,
+  "translating_families": [
+   "trend",
+   "breakout",
+   "momentum",
+   "MA"
+  ],
+  "dropped_families": [
+   "volume",
+   "mean-reversion"
+  ]
+ },
+ "prereg": {
+  "H0": "the book does NOT show the preserve signature OOS (UNSEEN) AND/OR fails scorecard p05 AND/OR the dropped families preserve EQUALLY (no family edge).",
+  "H1": "the preserve signature holds on UNSEEN (book maxDD < BH maxDD) AND held-out p05 > 0 AND the translating families add something over the dropped/random families.",
+  "asymmetric_loss": "false-ship a non-preserving book (real capital into a crash it does NOT cushion) >> false-skip. UNSEEN test-once -- no peeking/iterating/tuning on it.",
+  "pick_level": "light",
+  "unseen_window": [
+   "2025-12-31",
+   "2026-06-01"
+  ],
+  "preserve_signature_test": "book maxDD on UNSEEN comes in BELOW (less negative than) EW buy-hold maxDD; the book behaves like the drawdown-preserving book it claims to be."
+ },
+ "results": {
+  "prereg": {
+   "H0": "the book does NOT show the preserve signature OOS (UNSEEN) AND/OR fails scorecard p05 AND/OR the dropped families preserve EQUALLY (no family edge).",
+   "H1": "the preserve signature holds on UNSEEN (book maxDD < BH maxDD) AND held-out p05 > 0 AND the translating families add something over the dropped/random families.",
+   "asymmetric_loss": "false-ship a non-preserving book (real capital into a crash it does NOT cushion) >> false-skip. UNSEEN test-once -- no peeking/iterating/tuning on it.",
+   "pick_level": "light",
+   "unseen_window": [
+    "2025-12-31",
+    "2026-06-01"
+   ],
+   "preserve_signature_test": "book maxDD on UNSEEN comes in BELOW (less negative than) EW buy-hold maxDD; the book behaves like the drawdown-preserving book it claims to be."
+  },
+  "derisk": "light",
+  "unseen_once": {
+   "window": [
+    "2025-12-31",
+    "2026-06-01"
+   ],
+   "regime": "CHOP/SIDEWAYS",
+   "buyhold": {
+    "n_days": 149,
+    "net_pct": -8.1,
+    "maxdd_pct": -40.2,
+    "sharpe": -0.06,
+    "win_day_pct": 46.3,
+    "calmar": -0.2
+   },
+   "book": {
+    "n_days": 149,
+    "net_pct": -0.9,
+    "maxdd_pct": -2.3,
+    "sharpe": -0.83,
+    "win_day_pct": 47.7,
+    "calmar": -0.39
+   },
+   "dd_margin_pp": 37.9,
+   "preserve_signature_oos": true,
+   "n_admitted_unseen": 98
+  },
+  "scorecard": {
+   "name": "family_ensemble_book_translating",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 90.19,
+     "ann_pct": 13.16,
+     "maxdd_pct": -25.69,
+     "sharpe": 0.98,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.457,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.408,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.435,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -19.38,
+     "ann_pct": -23.68,
+     "maxdd_pct": -25.77,
+     "sharpe": -1.25,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.004,
+       "frac_positive": 0.45,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": -0.168,
+       "frac_positive": 0.371,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.814,
+       "frac_positive": 0.268,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -0.91,
+     "ann_pct": -2.21,
+     "maxdd_pct": -2.31,
+     "sharpe": -0.83,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.0,
+       "frac_positive": 0.477,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": -0.001,
+       "frac_positive": 0.49,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": -0.001,
+       "frac_positive": 0.476,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": -17.91,
+    "p50": 47.72,
+    "p95": 173.45
+   },
+   "heldout_block_bootstrap": {
+    "p05": -38.8,
+    "p50": -19.92,
+    "p95": 6.58
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": false,
+    "heldout_p05_pos": false,
+    "ship": false
+   }
+  },
+  "scorecard_buyhold": {
+   "name": "EW_buyhold_PIT",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 131.71,
+     "ann_pct": 17.54,
+     "maxdd_pct": -78.88,
+     "sharpe": 0.58,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.495,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.495,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.498,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -35.1,
+     "ann_pct": -41.85,
+     "maxdd_pct": -56.46,
+     "sharpe": -0.27,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.208,
+       "frac_positive": 0.522,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": 0.543,
+       "frac_positive": 0.515,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.364,
+       "frac_positive": 0.463,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -8.06,
+     "ann_pct": -18.61,
+     "maxdd_pct": -40.17,
+     "sharpe": -0.06,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.238,
+       "frac_positive": 0.463,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": 0.241,
+       "frac_positive": 0.551,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": 0.343,
+       "frac_positive": 0.619,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": -90.07,
+    "p50": 25.81,
+    "p95": 1642.72
+   },
+   "heldout_block_bootstrap": {
+    "p05": -82.23,
+    "p50": -37.79,
+    "p95": 105.11
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": false,
+    "heldout_p05_pos": false,
+    "ship": false
+   }
+  },
+  "family_vs_null": {
+   "translating": {
+    "families": [
+     "trend",
+     "breakout",
+     "momentum",
+     "MA"
+    ],
+    "y2022_book_maxdd": -19.8,
+    "y2022_bh_maxdd": -73.4,
+    "y2022_book_net": -14.0,
+    "y2022_bh_net": -71.9,
+    "y2022_dd_margin_pp": 53.6,
+    "full_cycle_book_net": 24.7,
+    "full_cycle_bh_net": 9.7,
+    "full_cycle_book_maxdd": -21.8,
+    "full_cycle_bh_maxdd": -78.9,
+    "unseen_book_net": -0.9,
+    "unseen_book_maxdd": -2.3,
+    "unseen_bh_maxdd": -40.2,
+    "unseen_dd_margin_pp": 37.9
+   },
+   "dropped_random": {
+    "families": [
+     "volume",
+     "mean-reversion"
+    ],
+    "y2022_book_maxdd": -4.8,
+    "y2022_bh_maxdd": -73.4,
+    "y2022_book_net": 2.1,
+    "y2022_bh_net": -71.9,
+    "y2022_dd_margin_pp": 68.6,
+    "full_cycle_book_net": 12.8,
+    "full_cycle_bh_net": 9.7,
+    "full_cycle_book_maxdd": -4.8,
+    "full_cycle_bh_maxdd": -78.9,
+    "unseen_book_net": -0.0,
+    "unseen_book_maxdd": -0.0,
+    "unseen_bh_maxdd": -40.2,
+    "unseen_dd_margin_pp": 40.2
+   },
+   "sharpe_null_pick": {
+    "families": [
+     "volume",
+     "mean-reversion",
+     "MA",
+     "breakout"
+    ],
+    "y2022_book_maxdd": -10.7,
+    "y2022_bh_maxdd": -73.4,
+    "y2022_book_net": -7.4,
+    "y2022_bh_net": -71.9,
+    "y2022_dd_margin_pp": 62.7,
+    "full_cycle_book_net": 16.4,
+    "full_cycle_bh_net": 9.7,
+    "full_cycle_book_maxdd": -12.5,
+    "full_cycle_bh_maxdd": -78.9,
+    "unseen_book_net": -1.0,
+    "unseen_book_maxdd": -1.7,
+    "unseen_bh_maxdd": -40.2,
+    "unseen_dd_margin_pp": 38.5
+   }
+  },
+  "family_edge": {
+   "bear_2022": {
+    "dimension": "y2022_book_maxdd",
+    "translating_margin_pp": 53.6,
+    "dropped_random_margin_pp": 68.6,
+    "sharpe_null_margin_pp": 62.7,
+    "family_edge": false,
+    "dropped_preserves_equally": false
+   },
+   "full_cycle": {
+    "dimension": "full_cycle_book_net",
+    "translating": 24.7,
+    "dropped_random": 12.8,
+    "sharpe_null": 16.4,
+    "translating_beats_dropped": true,
+    "translating_beats_sharpe_null": true,
+    "family_edge": true
+   }
+  },
+  "jackknife_family": {
+   "drop_trend": {
+    "keep": [
+     "breakout",
+     "momentum",
+     "MA"
+    ],
+    "y2022_book_maxdd": -19.9,
+    "y2022_dd_margin_pp": 53.5,
+    "unseen_book_net": -1.3,
+    "unseen_book_maxdd": -2.3
+   },
+   "drop_breakout": {
+    "keep": [
+     "trend",
+     "momentum",
+     "MA"
+    ],
+    "y2022_book_maxdd": -19.7,
+    "y2022_dd_margin_pp": 53.7,
+    "unseen_book_net": -0.7,
+    "unseen_book_maxdd": -1.5
+   },
+   "drop_momentum": {
+    "keep": [
+     "trend",
+     "breakout",
+     "MA"
+    ],
+    "y2022_book_maxdd": -17.7,
+    "y2022_dd_margin_pp": 55.7,
+    "unseen_book_net": -1.2,
+    "unseen_book_maxdd": -3.1
+   },
+   "drop_MA": {
+    "keep": [
+     "trend",
+     "breakout",
+     "momentum"
+    ],
+    "y2022_book_maxdd": -21.9,
+    "y2022_dd_margin_pp": 51.5,
+    "unseen_book_net": -0.4,
+    "unseen_book_maxdd": -2.3
+   }
+  },
+  "jackknife_family_neff_note": "n_eff computed from the per-family 2022 net contributions in the report (4 families -> max n_eff 4).",
+  "derisk_vs_raw": {
+   "raw_none": {
+    "derisk": "none",
+    "y2022_book_maxdd": -22.4,
+    "y2022_dd_margin_pp": 51.0,
+    "y2022_book_net": -15.9,
+    "unseen_book_net": -1.4,
+    "unseen_book_maxdd": -2.7,
+    "unseen_dd_margin_pp": 37.5
+   },
+   "light_overlay": {
+    "derisk": "light",
+    "y2022_book_maxdd": -19.8,
+    "y2022_dd_margin_pp": 53.6,
+    "y2022_book_net": -14.0,
+    "unseen_book_net": -0.9,
+    "unseen_book_maxdd": -2.3,
+    "unseen_dd_margin_pp": 37.9
+   }
+  },
+  "verdict": {
+   "verdict": "AMBIGUOUS",
+   "gates": {
+    "preserve_oos": true,
+    "p05_pos": false,
+    "family_edge": true,
+    "dropped_preserves_equally": false
+   },
+   "heldout_p05": -38.8,
+   "full_p05": -17.91,
+   "unseen_dd_margin_pp": 37.9,
+   "unseen_book_net": -0.9,
+   "unseen_bh_net": -8.1,
+   "unseen_regime": "CHOP/SIDEWAYS",
+   "lines": [
+    "## PHASE-2 VERDICT (sealed UNSEEN test-once + robustness) [VERIFIED-UNSEEN-ONCE]",
+    "UNSEEN window ('2025-12-31', '2026-06-01') regime: CHOP/SIDEWAYS (EW buy-hold net -8.1% maxDD -40.2%).",
+    "PRESERVE SIGNATURE OOS: book maxDD -2.3% vs BH maxDD -40.2% (margin 37.9pp) -> PRESENT (book loses less).",
+    "UNSEEN book net: -0.9% (vs BH -8.1%).",
+    "SCORECARD held-out p05 = -38.8% | full p05 = -17.91% | UNSEEN compound -0.91% -> p05 gate FAIL.",
+    "FAMILY-vs-NULL: translating 2022-DD-margin 53.6pp vs dropped 68.6pp vs sharpe-null 62.7pp; full-cycle net translating 24.7% vs dropped 12.8% vs sharpe-null 16.4%.",
+    "FAMILY EDGE: YES -- translating preserves/compounds materially better (translating distinguishes itself).",
+    "GATES: preserve_oos=True | p05>0=False | family_edge=True."
+   ]
+  },
+  "charts": [
+   "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\family_ensemble_unseen_equity.png",
+   "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\family_vs_null_robustness.png"
+  ]
+ },
+ "charts": [
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\family_ensemble_unseen_equity.png",
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\family_vs_null_robustness.png"
+ ]
+}

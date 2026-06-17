@@ -1,0 +1,314 @@
+{
+ "repro": {
+  "command": "python src/strat/config_selector_vs_manual.py",
+  "git_sha": "b34df5a",
+  "train_window": [
+   "2020-01-07",
+   "2020-02-07"
+  ],
+  "eval_window": [
+   "2020-02-07",
+   "2020-03-07"
+  ],
+  "cost_rt": 0.0024,
+  "universe": "u10",
+  "manual_cadence": "4h",
+  "manual_configs": [
+   "ema_102_103",
+   "ema_18_128",
+   "ema_2_5",
+   "ema_44_45",
+   "ema_62_172",
+   "ema_8_91"
+  ],
+  "manual_exit": "signalflip"
+ },
+ "result": {
+  "universe": "u10",
+  "cadences": [
+   "4h",
+   "1h",
+   "30m",
+   "15m"
+  ],
+  "cost_rt": 0.0024,
+  "manual_jan_reference_pct": 22.28,
+  "per_cadence": {
+   "4h": {
+    "cadence": "4h",
+    "ml": {
+     "pick_config": "ema_22_33|trail10",
+     "book_pick_mode": "ema_22_33|trail10",
+     "jan_pct": 31.26,
+     "feb_pct": -3.38,
+     "n_assets": 7,
+     "selector_perasset_feb_pct": -3.38,
+     "selector_beats_random_book": false,
+     "map_differentiates": true
+    },
+    "reference": {
+     "oracle_jan_pct": 37.36,
+     "oracle_feb_pct": 10.31,
+     "buyhold_jan_pct": 32.93,
+     "buyhold_feb_pct": 2.46,
+     "n_assets": 7
+    },
+    "manual": {
+     "jan_pct": 12.71,
+     "feb_pct": -1.14,
+     "n_assets": 7,
+     "configs": [
+      "ema_102_103",
+      "ema_18_128",
+      "ema_2_5",
+      "ema_44_45",
+      "ema_62_172",
+      "ema_8_91"
+     ],
+     "exit": "signalflip",
+     "per_asset": [
+      {
+       "asset": "BTC",
+       "jan_pct": 3.8,
+       "feb_pct": -2.79,
+       "per_config_jan_pct": {
+        "ema_102_103": -0.9,
+        "ema_18_128": 4.49,
+        "ema_2_5": 16.24,
+        "ema_44_45": 3.28,
+        "ema_62_172": -7.16,
+        "ema_8_91": 6.82
+       },
+       "per_config_feb_pct": {
+        "ema_102_103": 0.0,
+        "ema_18_128": -5.16,
+        "ema_2_5": -2.01,
+        "ema_44_45": 0.0,
+        "ema_62_172": 0.0,
+        "ema_8_91": -9.58
+       }
+      },
+      {
+       "asset": "ETH",
+       "jan_pct": 18.97,
+       "feb_pct": -0.69,
+       "per_config_jan_pct": {
+        "ema_102_103": 22.47,
+        "ema_18_128": 10.64,
+        "ema_2_5": 21.96,
+        "ema_44_45": 27.38,
+        "ema_62_172": 0.0,
+        "ema_8_91": 31.4
+       },
+       "per_config_feb_pct": {
+        "ema_102_103": 0.0,
+        "ema_18_128": 0.0,
+        "ema_2_5": 3.89,
+        "ema_44_45": 0.0,
+        "ema_62_172": -8.02,
+        "ema_8_91": 0.0
+       }
+      },
+      {
+       "asset": "BNB",
+       "jan_pct": 10.55,
+       "feb_pct": -6.6,
+       "per_config_jan_pct": {
+        "ema_102_103": 4.16,
+        "ema_18_128": 12.98,
+        "ema_2_5": 8.13,
+        "ema_44_45": 18.98,
+        "ema_62_172": 0.0,
+        "ema_8_91": 19.06
+       },
+       "per_config_feb_pct": {
+        "ema_102_103": 0.0,
+        "ema_18_128": -6.83,
+        "ema_2_5": -7.22,
+        "ema_44_45": 0.0,
+        "ema_62_172": -25.69,
+        "ema_8_91": 0.16
+       }
+      },
+      {
+       "asset": "XRP",
+       "jan_pct": 5.08,
+       "feb_pct": -6.42,
+       "per_config_jan_pct": {
+        "ema_102_103": -6.54,
+        "ema_18_128": 0.0,
+        "ema_2_5": 5.17,
+        "ema_44_45": 12.56,
+        "ema_62_172": 0.0,
+        "ema_8_91": 19.27
+       },
+       "per_config_feb_pct": {
+        "ema_102_103": 0.0,
+        "ema_18_128": -5.63,
+        "ema_2_5": -0.96,
+        "ema_44_45": 0.0,
+        "ema_62_172": -26.0,
+        "ema_8_91": -5.94
+       }
+      },
+      {
+       "asset": "ADA",
+       "jan_pct": 5.59,
+       "feb_pct": -6.71,
+       "per_config_jan_pct": {
+        "ema_102_103": -19.08,
+        "ema_18_128": 0.0,
+        "ema_2_5": 19.9,
+        "ema_44_45": 29.25,
+        "ema_62_172": 0.0,
+        "ema_8_91": 3.45
+       },
+       "per_config_feb_pct": {
+        "ema_102_103": 0.0,
+        "ema_18_128": -11.15,
+        "ema_2_5": -4.03,
+        "ema_44_45": 0.0,
+        "ema_62_172": -17.05,
+        "ema_8_91": -8.05
+       }
+      },
+      {
+       "asset": "LINK",
+       "jan_pct": 34.61,
+       "feb_pct": 20.35,
+       "per_config_jan_pct": {
+        "ema_102_103": 79.33,
+        "ema_18_128": 22.64,
+        "ema_2_5": 33.91,
+        "ema_44_45": 30.61,
+        "ema_62_172": 0.0,
+        "ema_8_91": 41.15
+       },
+       "per_config_feb_pct": {
+        "ema_102_103": 0.0,
+        "ema_18_128": 19.48,
+        "ema_2_5": 38.07,
+        "ema_44_45": 9.46,
+        "ema_62_172": 37.09,
+        "ema_8_91": 17.98
+       }
+      },
+      {
+       "asset": "LTC",
+       "jan_pct": 10.39,
+       "feb_pct": -5.12,
+       "per_config_jan_pct": {
+        "ema_102_103": 5.62,
+        "ema_18_128": 6.64,
+        "ema_2_5": 13.85,
+        "ema_44_45": 28.9,
+        "ema_62_172": -13.41,
+        "ema_8_91": 20.77
+       },
+       "per_config_feb_pct": {
+        "ema_102_103": 0.0,
+        "ema_18_128": 0.0,
+        "ema_2_5": -5.66,
+        "ema_44_45": -11.31,
+        "ema_62_172": 0.0,
+        "ema_8_91": -13.72
+       }
+      }
+     ],
+     "jan_reference_portfolio_harness_pct": 22.28,
+     "jan_sanity": {
+      "status": "PASS",
+      "repro_pct": 12.71,
+      "reference_pct": 22.28,
+      "band": "near reference",
+      "note": "equal-weight engine vs inverse-vol + corr-capped portfolio harness -> exact match NOT expected"
+     }
+    },
+    "winner": {
+     "jan_winner": "ML",
+     "jan_margin_pct": 18.55,
+     "feb_winner": "MANUAL",
+     "feb_margin_pct": -2.24,
+     "feb_both_negative": true,
+     "note": "FEB is the OOS decision; Jan is in-sample reference (manual is Jan-overfit by construction)"
+    }
+   },
+   "1h": {
+    "cadence": "1h",
+    "ml": {
+     "pick_config": "ema_6_65|trail10",
+     "book_pick_mode": "ema_6_65|trail10",
+     "jan_pct": 32.9,
+     "feb_pct": -1.08,
+     "n_assets": 7,
+     "selector_perasset_feb_pct": -1.08,
+     "selector_beats_random_book": true,
+     "map_differentiates": false
+    },
+    "reference": {
+     "oracle_jan_pct": 41.98,
+     "oracle_feb_pct": 11.83,
+     "buyhold_jan_pct": 31.94,
+     "buyhold_feb_pct": 3.68,
+     "n_assets": 7
+    }
+   },
+   "30m": {
+    "cadence": "30m",
+    "ml": {
+     "pick_config": "ema_186_208_233|trail10",
+     "book_pick_mode": "ema_186_208_233|trail10",
+     "jan_pct": 38.39,
+     "feb_pct": -3.38,
+     "n_assets": 7,
+     "selector_perasset_feb_pct": -3.38,
+     "selector_beats_random_book": true,
+     "map_differentiates": false
+    },
+    "reference": {
+     "oracle_jan_pct": 41.89,
+     "oracle_feb_pct": 15.57,
+     "buyhold_jan_pct": 31.4,
+     "buyhold_feb_pct": 3.93,
+     "n_assets": 7
+    }
+   },
+   "15m": {
+    "cadence": "15m",
+    "ml": {
+     "pick_config": "ema_186_208_233|signalflip",
+     "book_pick_mode": "ema_186_208_233|signalflip",
+     "jan_pct": 32.4,
+     "feb_pct": -0.34,
+     "n_assets": 7,
+     "selector_perasset_feb_pct": -0.34,
+     "selector_beats_random_book": true,
+     "map_differentiates": false
+    },
+    "reference": {
+     "oracle_jan_pct": 35.43,
+     "oracle_feb_pct": 10.58,
+     "buyhold_jan_pct": 31.54,
+     "buyhold_feb_pct": 4.06,
+     "n_assets": 7
+    }
+   }
+  },
+  "verdict": {
+   "headline": "BOTH LOSE IN THE CRASH (Feb): MANUAL -1.14% vs ML -3.38%. MANUAL loses LESS (by 2.24 pts). This is a crash month -- long-only trend books trained on calm Jan are expected to bleed; the 'winner' is the less-bad book, NOT a profit. Reported as a loss, not spun.",
+   "feb_winner": "MANUAL",
+   "feb_margin_pct": -2.24,
+   "feb_both_negative": true,
+   "jan_winner": "ML",
+   "lines": [
+    "HEADLINE: BOTH LOSE IN THE CRASH (Feb): MANUAL -1.14% vs ML -3.38%. MANUAL loses LESS (by 2.24 pts). This is a crash month -- long-only trend books trained on calm Jan are expected to bleed; the 'winner' is the less-bad book, NOT a profit. Reported as a loss, not spun.",
+    "DECISION on FEB 2020 (held-out OOS, COVID-crash onset). Jan is in-sample reference (manual top-6 was hand-picked on Jan = overfit by construction).",
+    "[4h Jan in-sample]  MANUAL +12.71% (vs +22.28% portfolio-harness ref)  |  ML +31.26%  |  oracle +37.36%  |  buy-hold +32.93%",
+    "[4h Feb OOS]        MANUAL -1.14%  |  ML -3.38%  |  oracle +10.31%  |  buy-hold +2.46%",
+    "Jan (in-sample) winner: ML by 18.55 pts (in-sample, not decision-relevant -- both are partly Jan-fit).",
+    "ML cadence sweep (Feb OOS): 4h: ML Feb -3.4% (Jan +31.3%) | 1h: ML Feb -1.1% (Jan +32.9%) | 30m: ML Feb -3.4% (Jan +38.4%) | 15m: ML Feb -0.3% (Jan +32.4%)",
+    "CAVEATS: ~7 of 10 u10 assets have 2020 data (SOL/DOGE/AVAX launched later); Jan is in-sample + the manual grid is Jan-overfit by construction; 1-month train = wide CIs; equal-weight engine here vs inverse-vol + corr-capped portfolio harness for the live manual book (so the manual Jan number differs from +22.28% -- both reported)."
+   ]
+  }
+ }
+}

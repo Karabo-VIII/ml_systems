@@ -1,0 +1,101 @@
+{
+ "name": "FULL_4h_keeperstack",
+ "kind": "BOOK",
+ "n_days": 2186,
+ "per_split": {
+  "SEL": {
+   "n": 1895,
+   "compound_pct": 636.67,
+   "ann_pct": 46.91,
+   "maxdd_pct": -25.47,
+   "sharpe": 1.5,
+   "softbench_roi": {
+    "1d": {
+     "median_pct": 0.0,
+     "frac_positive": 0.48,
+     "n": 1895
+    },
+    "3d": {
+     "median_pct": 0.0,
+     "frac_positive": 0.472,
+     "n": 631
+    },
+    "7d": {
+     "median_pct": -0.22,
+     "frac_positive": 0.422,
+     "n": 270
+    }
+   }
+  },
+  "OOS": {
+   "n": 291,
+   "compound_pct": 1.99,
+   "ann_pct": 2.51,
+   "maxdd_pct": -23.56,
+   "sharpe": 0.23,
+   "softbench_roi": {
+    "1d": {
+     "median_pct": 0.0,
+     "frac_positive": 0.44,
+     "n": 291
+    },
+    "3d": {
+     "median_pct": -0.068,
+     "frac_positive": 0.381,
+     "n": 97
+    },
+    "7d": {
+     "median_pct": -0.7,
+     "frac_positive": 0.293,
+     "n": 41
+    }
+   }
+  },
+  "UNSEEN": {
+   "n": 0
+  }
+ },
+ "full_block_bootstrap": {
+  "p05": 135.12,
+  "p50": 629.66,
+  "p95": 2486.19
+ },
+ "heldout_block_bootstrap": {
+  "p05": -32.97,
+  "p50": 1.79,
+  "p95": 60.38
+ },
+ "pbo": {
+  "pbo": 0.711965811965812,
+  "prob_oos_loss": 0.006526806526806527,
+  "perf_degradation_slope": -0.9186852948900278,
+  "median_logit": -0.6931471805599454,
+  "n_combinations": 12870,
+  "S": 16,
+  "T_used": 2176,
+  "N": 20,
+  "verdict": "FAIL"
+ },
+ "ship_read": {
+  "unseen_compound_pos": false,
+  "full_p05_pos": true,
+  "heldout_p05_pos": false,
+  "ship": false
+ },
+ "oos_breadth": {
+  "positive": 5,
+  "total": 10,
+  "per_asset": {
+   "BTCUSDT": 2.9,
+   "ETHUSDT": 44.9,
+   "SOLUSDT": 14.6,
+   "BNBUSDT": 29.8,
+   "XRPUSDT": -18.3,
+   "DOGEUSDT": -9.2,
+   "ADAUSDT": 2.3,
+   "AVAXUSDT": -6.2,
+   "LINKUSDT": -9.7,
+   "LTCUSDT": -32.5
+  }
+ }
+}

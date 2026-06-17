@@ -1,0 +1,560 @@
+# Feature Registry -- single source of truth for chimera v51 features.
+#
+# Schema:
+#   sources: dict of source-name -> source spec
+#     path: glob pattern relative to data/
+#     layout: 'per_asset' | 'global' | 'wide_per_asset'
+#       per_asset: parquet has an 'asset' column, one row per (asset, date)
+#       global: parquet has no 'asset' column, one row per date (broadcast to all assets)
+#       wide_per_asset: parquet has columns like 'btc_fund', 'eth_fund' etc.; one row per date
+#                       (extract per-asset by matching column prefix)
+#     date_col: name of the date column
+#     date_unit: 'date' (Date type) or 'datetime' (Datetime, will be normalized to date)
+#     asset_col: name of the asset column (per_asset only)
+#     wide_pattern: regex with one capture group for asset (wide_per_asset only)
+#                   matched against column names; capture is converted to UPPER asset symbol
+#     features: list of feature columns to include (or '*' for all non-key columns)
+#     min_date: optional start date filter (ISO 8601)
+#     prefix: optional prefix added to feature names in the output (avoids collisions)
+#
+#   chimera_v51:
+#     sources_to_join: ordered list of source-names. Earlier joins override later (left-join).
+#     missing_value_policy: 'forward_fill' | 'leave_nan'
+#     drop_old_bars: false (always left-join; let strategies decide)
+#
+# Adding a new feature:
+#   1. Add a new source spec under `sources:`
+#   2. Add the source-name to `chimera_v51.sources_to_join`
+#   3. Run python src/pipeline/frontier_consolidator.py --asset BTC to test
+#   4. Run python src/pipeline/make_dataset.py for full rebuild
+
+# ============================================================
+# SCHEMA VERSIONING (2026-05-22, oracle pipeline-A+ closure)
+# ============================================================
+# `schema_version` is monotonic. BUMP THE PATCH WHEN: a feature is added/removed,
+# a prefix changes, a path/layout/asset_col/date_col changes, or sources_to_join
+# reorders. The CDAP invariant `feature_registry_has_schema_version` enforces
+# presence; the contract test `src/pipeline/registry_contract_test.py` enforces
+# semantics (orphan-reference check, reserved-name guard, prefix-uniqueness, etc.).
+#
+# Why monotonic: prior bugs (2026-05-18 schema clash 7fa8bbd; xrel_ z-score wall
+# break c59c4e7; btc_ret_same_day label leak 78dbdd7) all share root cause —
+# registry edits without a version-stamped contract test. Bumping schema_version
+# forces the contract test to re-run and surfaces interaction bugs at commit time.
+#
+# Rule: any diff to features/, prefix:, path:, layout:, or sources_to_join MUST
+# bump schema_version. CDAP catches missing bumps via cross-version invariant on
+# the (version, last-modified-date) pair.
+schema_version: "1.5.0"
+schema_version_changelog:
+  - "1.5.0 (2026-05-24): T2-A SURGICAL Phase 2. Added bd_bgf_imbalance_l1 as a BAR-GRAIN attached column. NOT in sources_to_join (which is daily silver only); joined via make_dataset.attach_bargrain() at bar level. Source panel: data/processed/bar_grain/bd/<SYM>USDT_bgf.parquet. +1 feature (Phase 1 multi-perm gate green at 3.74x lift; other bd_* candidates regressed and were excluded). expected_chimera_v51_total_features 183 -> 184."
+  - "1.4.0 (2026-05-24): added T2-E xex_features source (7 cols from cross_exchange_daily; sparse top-5); +7 features; expected_total_new_features 135 -> 142; expected_chimera_v51_total_features 176 -> 183"
+  - "1.3.0 (2026-05-24): added T2-D premium_features source (5 cols derived from basis_features); +5 features; expected_total_new_features 130 -> 135; expected_chimera_v51_total_features 171 -> 176"
+  - "1.2.0 (2026-05-24): added T2-C funding_features source (10 per-asset cols from raw funding settlements); +10 features; expected_total_new_features 120 -> 130; expected_chimera_v51_total_features 161 -> 171"
+  - "1.1.0 (2026-05-22): added schema_version field + contract test gate per oracle pipeline-A+ closure"
+  - "1.0.0 (legacy): pre-versioning baseline"
+
+version: "1.0"
+generated_for: "chimera_v51"
+
+sources:
+
+  # ============================================================
+  # PER-ASSET FRONTIER SOURCES (joined on (asset, date))
+  # ============================================================
+
+  hawkes_branching:
+    path: "processed/hawkes/daily/hawkes_branching_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: date
+    asset_col: asset
+    features:
+      - eta_total
+      - eta_buy
+      - eta_sell
+      - eta_imbalance
+      - n_trades
+    prefix: "hbr_"
+    notes: "G5 Hawkes branching ratio. Currently 30-day panel; full 730-day pending overnight rerun."
+
+  s3_features:
+    path: "processed/panels/daily/s3_features_long.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: datetime
+    asset_col: asset
+    features:
+      - oi_usd
+      - top_acct_lsr
+      - top_pos_lsr
+      - global_lsr
+      - taker_lsr
+      - top_pos_lsr_z
+      - top_pos_lsr_xsec_z
+      - global_lsr_z
+      - smart_vs_retail
+      - smart_vs_retail_z
+      - smart_bullish
+      - smart_bearish
+      - smart_extreme_long
+      - smart_extreme_short
+    prefix: "s3_"
+    notes: "Binance S3 metrics: top-trader long/short ratios, smart vs retail divergence."
+
+  basis_features:
+    path: "processed/panels/daily/basis_features_long.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: datetime
+    asset_col: asset
+    features:
+      - basis_pct
+      - basis_z30
+      - basis_delta_1d
+      - basis_delta_3d
+      - basis_xsec_z
+      - basis_bull_shock
+      - basis_bear_shock
+      - basis_panic
+      - basis_frenzy
+    prefix: "bs_"
+    notes: |
+      Spot-perp basis. Producer: src/pipeline/features/basis_signals.py
+      reads spot_klines_daily.parquet (built by binance_spot_klines.py)
+      and joins against per-asset perp daily close from chimera_legacy.
+      Re-activated 2026-04-29 -- spot fetcher + builder both wired.
+
+  # 2026-05-24: T2-C addition. Long per-asset funding-rate features (10 cols).
+  # Distinct from existing wide-format `funding_panel` source (only `fp_fund_panel`).
+  # Producer: src/pipeline/features/funding_panel_daily.py from raw funding
+  # settlements (3x/day at 00/08/16 UTC) under data/raw/<SYM>USDT/funding/.
+  funding_features:
+    path: "processed/panels/daily/funding_panel_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: date
+    asset_col: asset
+    features:
+      - fund_rate_mean
+      - fund_rate_max
+      - fund_rate_min
+      - fund_rate_abs_mean
+      - fund_rate_z30
+      - fund_extreme_long_count
+      - fund_extreme_short_count
+      - fund_sign_flip
+      - fund_avg_apr
+      - fund_n_settlements
+    prefix: ""   # feature names already carry 'fund_' baked in
+
+  # 2026-05-24: T2-D addition. Premium-derived features (5 cols) layered on
+  # top of basis_features_long. NO new ingester; consumes basis_pct.
+  # Producer: src/pipeline/features/premium_features_daily.py
+  premium_features:
+    path: "processed/panels/daily/premium_features_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: date
+    asset_col: asset
+    features:
+      - premium_vol30
+      - premium_persistence30
+      - premium_extreme_count30
+      - premium_z90
+      - premium_apr
+    prefix: ""   # feature names already carry 'premium_' baked in
+
+  # 2026-05-24: T2-E addition. Cross-exchange spread features (7 cols).
+  # Sparse-by-design: only BTC/ETH/SOL/XRP/DOGE covered (top-5 cross-exchange
+  # liquid). Other assets get null xex_* fields, exempted by validator
+  # NAN_FAMILY_STRICT_BUDGET.
+  # Producer: src/pipeline/features/xex_features_daily.py
+  xex_features:
+    path: "processed/panels/daily/xex_features_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: date
+    asset_col: asset
+    features:
+      - xex_cb_bn_spread_bps
+      - xex_by_bn_spread_bps
+      - xex_ok_bn_spread_bps
+      - xex_spread_dispersion
+      - xex_max_abs_spread
+      - xex_cb_bn_z30
+      - xex_n_venues_active
+    prefix: ""   # feature names already carry 'xex_' baked in
+    # 2026-05-25: explicit sparse-by-design coverage. Top-5 cross-exchange
+    # liquid only; data_health_check.check_universe_coverage exempts via
+    # the `assets` key (avoids the U10 FAIL that blocks the pre-train gate).
+    expected_coverage:
+      assets: ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "DOGEUSDT"]
+    notes: |
+      Spot-perp basis. Producer: src/pipeline/features/basis_signals.py
+      reads spot_klines_daily.parquet (built by binance_spot_klines.py)
+      and joins against per-asset perp daily close from chimera_legacy.
+      Re-activated 2026-04-29 -- spot fetcher + builder both wired.
+
+  liq_features:
+    path: "processed/panels/daily/liq_features_long.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: datetime
+    asset_col: asset
+    features:
+      - liq_long_usd
+      - liq_short_usd
+      - liq_delta_usd
+      - liq_total_usd
+      - liq_long_z30
+      - liq_short_z30
+      - liq_delta_z30
+      - liq_long_xsec_z
+      - liq_short_xsec_z
+      - liq_long_spike
+      - liq_short_spike
+      - liq_capitulation
+      - liq_short_panic
+    prefix: ""    # features already begin with "liq_" -- avoid double-prefix
+    notes: |
+      Liquidation features (Binance approximation via klines). Producer:
+      src/pipeline/features/liq_features.py transforms liq_daily_approx
+      (built by liquidations_approx.py) into the long-format panel here.
+      Re-activated 2026-04-29 -- consolidator built. Empty prefix
+      because feature names already carry the liq_ prefix.
+
+  whale_activity:
+    path: "processed/panels/daily/whale_activity_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: datetime
+    asset_col: asset
+    features:
+      - whale_trade_count
+      - whale_trade_count_500k
+      - whale_buy_usd
+      - whale_sell_usd
+      - whale_net_usd
+    prefix: "wh_"
+    notes: "Whale activity from aggTrades."
+
+  wiki_pageviews:
+    path: "raw_external/wikipedia/wiki_pageviews_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: datetime
+    asset_col: asset
+    features:
+      - wiki_views
+    prefix: "soc_"
+    notes: "Wikipedia pageviews social attention."
+
+  cross_exchange_spreads:
+    path: "raw_external/coinbase_okx_bybit/cross_exchange_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: datetime
+    asset_col: asset
+    features:
+      - cb_bn_spread_bps
+      - by_bn_spread_bps
+      - ok_bn_spread_bps
+    prefix: "xex_"
+    notes: "Cross-exchange spread bps (Coinbase, Bybit, OKX vs Binance)."
+    expected_coverage:
+      assets: [BTCUSDT, ETHUSDT, SOLUSDT, XRPUSDT, DOGEUSDT]   # known subset
+
+  dvol:
+    path: "raw_external/deribit/dvol_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: datetime
+    asset_col: asset
+    features:
+      - dvol_close
+      - dvol_high
+      - dvol_low
+    prefix: "dv_"
+    notes: "Deribit DVOL implied vol index. Available for BTC and ETH only."
+    expected_coverage:
+      assets: [BTCUSDT, ETHUSDT]   # Deribit options are BTC/ETH only
+
+  # ============================================================
+  # GLOBAL FRONTIER SOURCES (broadcast same value to all assets)
+  # ============================================================
+
+  stable_flow:
+    path: "raw_external/defillama/stable_flow_features.parquet"
+    layout: global
+    date_col: date
+    date_unit: datetime
+    features:
+      - total_zscore_30d
+      - total_delta_7d_pct
+      - total_delta_30d_pct
+      - usdt_zscore_30d
+      - usdt_delta_7d_pct
+      - usdc_zscore_30d
+      - usde_zscore_30d
+      - dai_zscore_30d
+      - stable_shock
+      - stable_crash
+      - stable_shock_strong
+      - usdt_shock
+      - compound_shock
+    prefix: "stbl_"
+    notes: "DeFiLlama stablecoin supply flows. Same value applied to all assets per date."
+
+  etf_flows:
+    path: "raw_external/farside/etf_flow_features.parquet"
+    layout: global
+    date_col: date
+    date_unit: datetime
+    features:
+      - btc_etf_total_usdm
+      - btc_etf_total_z30
+      - btc_etf_total_7d_z
+      - btc_etf_inflow_shock
+      - btc_etf_outflow_shock
+      - btc_etf_mega_inflow
+      - btc_etf_mega_outflow
+      - eth_etf_total_usdm
+      - eth_etf_total_z30
+      - eth_etf_inflow_shock
+      - eth_etf_outflow_shock
+      - any_inflow_shock
+      - both_inflow_shock
+    prefix: "etf_"
+    notes: "Farside ETF flows (BTC + ETH). Same value applied to all assets per date."
+
+  # ============================================================
+  # WIDE-PER-ASSET FRONTIER SOURCES
+  # (one column per asset; extracted by pattern match)
+  # ============================================================
+
+  funding_panel:
+    path: "raw_external/binance_futures_panels/funding_panel_daily.parquet"
+    layout: wide_per_asset
+    date_col: date
+    date_unit: datetime
+    wide_pattern: "^([a-z0-9_]+)_fund$"   # btc_fund -> BTC
+    feature_alias: "fund_panel"           # column name in output
+    prefix: "fp_"
+    notes: "Cross-asset funding panel from Binance. Per-asset value extracted from wide schema."
+
+  rv_jumps:
+    path: "processed/panels/daily/rv_jump_panel.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: date
+    asset_col: asset
+    features:
+      - rv_5m
+      - bpv_5m
+      - jv_5m
+      - jump_frac
+      - jump_count
+      - jump_signed_var
+    prefix: "rv_"
+    notes: "Realized variance decomposition: BPV (Barndorff-Nielsen & Shephard 2004) + Lee-Mykland jump test (2008). Adds 6 features: continuous-vol vs jump-vol separation + signed jump asymmetry. SOTA microstructure addition (G-FRONTIER-001)."
+
+  te_panel:
+    path: "processed/panels/daily/te_panel.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: date
+    asset_col: asset
+    features:
+      - te_in
+      - te_out
+      - te_in_btc
+      - te_out_btc
+      - te_imb
+      - te_btc_imb
+    prefix: ""   # no prefix: feature names already carry "te_" -- avoid
+                 # "te_te_in" double-prefix. Strategy primitives (te_flow_tilt,
+                 # meta_learner_feature_builder, state_generator_factory)
+                 # query columns by name `te_in_btc` etc.
+    notes: |
+      Transfer-entropy directional information flow (Schreiber 2000;
+      see src/pipeline/features/transfer_entropy_panel.py).
+      Per-asset, per-date aggregates over rolling 90-day windows of the
+      |U| x |U| TE matrix:
+        te_in:      max TE FROM any peer INTO this asset (info-receiving)
+        te_out:     max TE FROM this asset TO any peer (info-leading)
+        te_in_btc:  TE(BTC -> asset)
+        te_out_btc: TE(asset -> BTC)
+        te_imb:     te_in - te_out  (positive = follower)
+        te_btc_imb: te_in_btc - te_out_btc
+      Strategy consumers: te_flow_tilt, meta_learner_feature_builder,
+      state_generator_factory.
+
+  multi_venue_features:
+    path: "processed/panels/daily/multi_venue_features.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: datetime
+    asset_col: asset
+    features:
+      - days_since_listed_binance
+      - days_since_listed_bybit
+      - days_since_listed_okx
+      - n_venues_listed
+      - is_multi_venue
+    prefix: "mv_"
+    notes: |
+      Multi-venue listing features. Producer:
+      src/pipeline/features/multi_venue_features.py derives per-(date, asset)
+      from the event catalogue at multi_venue_listings.parquet (Binance +
+      Bybit + OKX exchangeInfo). Re-activated 2026-04-29 (was DEFERRED in
+      registry; lifted out after Option B build).
+
+  lob_proxy_daily:
+    path: "processed/panels/daily/lob_proxy_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: date
+    asset_col: asset
+    features:
+      - lob_l1_imb_mean
+      - lob_l1_imb_std
+      - lob_l5_imb_mean
+      - lob_l5_imb_std
+      - lob_spread_bps_mean
+      - lob_spread_bps_p90
+      - lob_top_pressure_mean
+      - lob_count_imb_mean
+      - lob_run_length_p50
+      - lob_kyle_lambda_mean
+      - lob_kyle_lambda_abs_max
+      - lob_n_bars
+    prefix: ""    # features already begin with "lob_" -- avoid double-prefix
+    notes: |
+      LOB-proxy daily aggregates. Producer:
+      src/pipeline/features/lob_proxy_daily.py reads per-(sym, day) bar-level
+      lob_proxy_<SYM>USDT_<YYYYMMDD>.parquet files (built by
+      lob_proxy_panel.py) and aggregates to (date, asset) granularity for
+      the chimera join. Re-activated 2026-04-29 (was DEFERRED).
+
+  book_depth_profile_daily:
+    path: "processed/panels/daily/book_depth_profile_daily.parquet"
+    layout: per_asset
+    date_col: date
+    date_unit: date
+    asset_col: asset
+    features:
+      - bd_depth_l1pct_mean
+      - bd_depth_l1pct_p90
+      - bd_notional_l1pct_mean
+      - bd_imbalance_l1
+      - bd_imbalance_l5
+      - bd_notional_skew
+      - bd_total_depth_l5_mean
+      - bd_total_depth_l5_p10
+      - bd_thin_book_frac
+      - bd_depth_at_02pct
+      - bd_n_snapshots
+    prefix: ""    # features already begin with "bd_"
+    notes: |
+      Binance Vision bookDepth-profile daily aggregates (2026-05-03).
+      Distinct stream from lob_proxy_daily (which is aggTrades-derived).
+      Source: data.binance.vision/data/futures/um/daily/bookDepth/<SYM>/
+      Backfill 2024-01-01 -> 2026-05-01 for top-10 cohort (8513 rows,
+      2.5GB raw, 246M source snapshots). 16 months coverage vs the
+      30-day stub we had before. Producer:
+      src/pipeline/features/book_depth_profile_daily.py.
+
+  # ============================================================
+  # DEFERRED: panels that still don't fit the daily-per-asset join schema
+  # OR have broken upstream fetchers. Wiring them as-is would silently
+  # corrupt v51 training data. Each requires a pre-aggregation step
+  # before registry inclusion.
+  # ============================================================
+
+  # token_unlocks (DEFERRED 2026-04-29 -- CONCEDE):
+  #   Builder: src/pipeline/ingest/coingecko_unlocks.py
+  #   Output:  processed/panels/daily/token_unlocks_<YYYYMMDD>.parquet
+  #   Why STILL deferred: the underlying CoinGecko fetcher is a HEURISTIC
+  #     PROXY (line 178 of the script: `hash(cg_id) ^ now_day % 90` to
+  #     fake the next-unlock window). The script's own comment says
+  #     "DO NOT trade live on this proxy; it's a placeholder until real
+  #     schedule data is wired". Wiring synthetic data into chimera would
+  #     corrupt training labels.
+  #   Pre-work required: integrate a real unlock-calendar feed
+  #     (TokenUnlocks.app, CryptoRank PRO, or Messari -- all paid). Once
+  #     a real per-(asset, unlock_date) event source exists, write a
+  #     coingecko_unlocks_features.py that backfills daily
+  #     (date, asset, days_to_unlock, days_since_last) by computing
+  #     deltas vs known events. Then wire the derived panel here.
+  #   Strategy consumer: token_unlock_gate currently reads the panel
+  #     directly -- it gets the synthetic proxy until paid API integrates.
+  #
+  # multi_venue_listings + lob_proxy: NO LONGER DEFERRED. Both have
+  # derived companion panels (multi_venue_features, lob_proxy_daily)
+  # registered above. The raw multi_venue_listings.parquet (events) and
+  # lob_proxy_<sym>_<date>.parquet (bars) remain on disk for strategies
+  # that need event/bar resolution; they just don't enter chimera directly.
+
+# ============================================================
+# CHIMERA V51 ASSEMBLY SPEC
+# ============================================================
+chimera_v51:
+  base_source: "data/processed"            # v50 chimera files (read-only base)
+  base_pattern: "{asset_lower}usdt_v50_chimera.parquet"
+  output_pattern: "{asset_lower}usdt_v51_chimera.parquet"
+  sources_to_join:
+    - hawkes_branching
+    - s3_features
+    - basis_features
+    - liq_features
+    - whale_activity
+    - wiki_pageviews
+    - cross_exchange_spreads
+    - dvol
+    - stable_flow
+    - etf_flows
+    - funding_panel
+    - funding_features            # 2026-05-24 T2-C addition (10 per-asset cols)
+    - premium_features            # 2026-05-24 T2-D addition (5 cols from basis)
+    - xex_features                # 2026-05-24 T2-E addition (7 cols; sparse top-5)
+    - rv_jumps
+    - te_panel
+    - multi_venue_features
+    - lob_proxy_daily
+    - book_depth_profile_daily   # binance.vision bookDepth (2026-05-03)
+  missing_value_policy: forward_fill        # daily frontier values fill across all sub-day bars
+  forward_fill_max_days: 7                  # if a daily value is missing for >7d, leave NaN
+
+  # Output schema additions on top of v50:
+  expected_new_features_per_source:
+    hawkes_branching: 5
+    s3_features: 14
+    basis_features: 9
+    liq_features: 13
+    whale_activity: 5
+    wiki_pageviews: 1
+    cross_exchange_spreads: 3
+    dvol: 3
+    stable_flow: 13
+    etf_flows: 13
+    funding_panel: 1
+    funding_features: 10           # 2026-05-24 T2-C addition
+    premium_features: 5            # 2026-05-24 T2-D addition
+    xex_features: 7                # 2026-05-24 T2-E addition (sparse top-5)
+    rv_jumps: 6
+    te_panel: 6
+    multi_venue_features: 5
+    lob_proxy_daily: 12
+    book_depth_profile_daily: 11
+  expected_total_new_features: 142    # daily-silver sum (frontier_consolidator)
+  expected_bargrain_features: 1       # 2026-05-24 T2-A surgical: bd_bgf_imbalance_l1
+  expected_chimera_v51_total_features: 184   # 41 v50 + 142 frontier + 1 bargrain
+
+  cadence_materializations:
+    - cadence: "1d"
+      output_pattern: "{asset_lower}usdt_v51_chimera_1d.parquet"
+      agg: "last"   # use last bar of each day (close-of-day semantics)
+    - cadence: "4h"
+      output_pattern: "{asset_lower}usdt_v51_chimera_4h.parquet"
+      agg: "last"

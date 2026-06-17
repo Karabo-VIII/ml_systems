@@ -1,0 +1,77 @@
+{
+  "cadence": "30m",
+  "trend_character": {
+    "n_assets": 77,
+    "trending_H>0.55": 0,
+    "meanrev_H<0.45": 10,
+    "randomwalk_0.45-0.55": 67,
+    "median_hurst": 0.475,
+    "median_VR5": 0.893
+  },
+  "feature_pca": {
+    "n_dense_features": 40,
+    "n_rows": 120000,
+    "pcs_for_70pct": 16,
+    "pcs_for_90pct": 26,
+    "pc1_var": 0.104,
+    "pc2_var": 0.102,
+    "top_pc1_loadings": [
+      {
+        "feat": "norm_bar_duration",
+        "loading": 0.349
+      },
+      {
+        "feat": "norm_whale",
+        "loading": -0.309
+      },
+      {
+        "feat": "norm_hawkes_intensity",
+        "loading": -0.291
+      },
+      {
+        "feat": "norm_hawkes_sell_intensity",
+        "loading": -0.281
+      },
+      {
+        "feat": "norm_tick_count",
+        "loading": 0.278
+      },
+      {
+        "feat": "norm_hawkes_buy_intensity",
+        "loading": -0.268
+      }
+    ],
+    "top_pc2_loadings": [
+      {
+        "feat": "norm_fd_close",
+        "loading": 0.392
+      },
+      {
+        "feat": "norm_return_4",
+        "loading": 0.312
+      },
+      {
+        "feat": "norm_return_16",
+        "loading": 0.311
+      },
+      {
+        "feat": "norm_deviation",
+        "loading": 0.3
+      },
+      {
+        "feat": "norm_ma_distance",
+        "loading": 0.273
+      },
+      {
+        "feat": "norm_return_1",
+        "loading": 0.265
+      }
+    ]
+  },
+  "feature_redundancy": {
+    "n_pairs": 780,
+    "n_pairs_abscorr_gt_0.8": 2,
+    "n_pairs_abscorr_gt_0.6": 12
+  },
+  "_elapsed_s": 0.4
+}

@@ -1,0 +1,69 @@
+market: stocks
+instrument: _market
+created: unstamped
+current_stage: 00_research
+scope_note: stages 00-02 market-scoped (shared via the _market workspace); 03-06 instrument-scoped
+stages:
+  00_research:
+    status: todo
+    scope: market
+    purpose: Decompose the market to its fundamental constituents
+    gate:
+      name: research_complete
+      passed: false
+      evidence: ''
+    artifacts: []
+  01_mining:
+    status: todo
+    scope: market
+    purpose: Mine the data for structure (regime/cluster/trend/predictability)
+    gate:
+      name: mining_complete
+      passed: false
+      evidence: ''
+    artifacts: []
+  02_engine:
+    status: todo
+    scope: market
+    purpose: Build reusable engines + validation apparatus (oracle/decomposer/gate)
+    gate:
+      name: engine_ready
+      passed: false
+      evidence: ''
+    artifacts: []
+  03_strat:
+    status: todo
+    scope: instrument
+    purpose: Build + GATE-validate strategy candidates
+    gate:
+      name: strat_gated
+      passed: false
+      evidence: ''
+    artifacts: []
+  04_bot:
+    status: todo
+    scope: instrument
+    purpose: Wrap a validated strat into a bot (sizing/risk/lifecycle)
+    gate:
+      name: bot_built
+      passed: false
+      evidence: ''
+    artifacts: []
+  05_execution:
+    status: todo
+    scope: instrument
+    purpose: Execution model (fills/costs) + paper-trade
+    gate:
+      name: execution_validated
+      passed: false
+      evidence: ''
+    artifacts: []
+  06_deployment:
+    status: todo
+    scope: instrument
+    purpose: Deploy live (monitoring/decay/kill-switch)
+    gate:
+      name: deployed
+      passed: false
+      evidence: ''
+    artifacts: []

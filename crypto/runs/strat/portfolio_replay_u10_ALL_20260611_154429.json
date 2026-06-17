@@ -1,0 +1,52 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\portfolio_replay.py --universe u10 --window ALL --strategies ema_50_100,donch20,rsi_30_50 --spine",
+  "git_sha": "6be64f5"
+ },
+ "spec": {
+  "strategies": [
+   "ema_50_100",
+   "donch20",
+   "rsi_30_50"
+  ],
+  "universe": "u10",
+  "cadence": "1d",
+  "window": "ALL",
+  "sizing": "firm-spine",
+  "vol_target": 0.02,
+  "max_per_name": 0.15,
+  "cost_rt": 0.0024
+ },
+ "result": {
+  "window": "ALL",
+  "n_bars": 2335,
+  "n_assets": 10,
+  "final_equity": 48.04653166084632,
+  "final_pct": 4704.653166084632,
+  "ann_pct": 83.2,
+  "maxdd_pct": -39.8,
+  "sharpe": 1.67,
+  "avg_gross": 0.341,
+  "avg_daily_turnover": 0.0786,
+  "win_bar_rate": 0.335,
+  "roll3d_pos_rate": 0.361,
+  "roll3d_median_pct": 0.0,
+  "per_strat_hold_bars": {
+   "ema_50_100": 10736,
+   "donch20": 8163,
+   "rsi_30_50": 3234
+  },
+  "equity_curve_tail": [
+   48.0465,
+   48.0465,
+   48.0465,
+   48.0465,
+   48.0465,
+   48.0465,
+   48.0465,
+   48.0465,
+   48.0465,
+   48.0465
+  ]
+ }
+}

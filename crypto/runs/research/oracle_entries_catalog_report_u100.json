@@ -1,0 +1,110 @@
+{
+  "task": "materialize per-asset oracle entries (capturable multi-candle moves) across u100",
+  "cost_rt": 0.0024,
+  "path_stop_in_clean_win": -0.05,
+  "oracle_entry_definition": "clean-win bar = LONG entry at close[t] reaches +X% capturable move within the forward window WITHOUT the path first breaching -5% (path-capturability under OHLC granularity). realized_fwd_mfe = max favorable excursion = capturable ceiling (exit-at-peak); net_fwd_move = mfe - cost_rt; realized_fwd_mae = worst drawdown.",
+  "cadence_coverage": {
+    "needed": [
+      "4h",
+      "daily"
+    ],
+    "covered_by_catalogs": [
+      "4h",
+      "daily"
+    ],
+    "missing": [],
+    "dp_oracle_built": false,
+    "dp_note": "both needed cadences present -> DP oracle NOT built (task conditional not triggered). Stricter non-overlap DP variant exists at runs/research/extract_oracle_entries.py for uncovered cadences."
+  },
+  "u100_n_symbols": 77,
+  "cadences": {
+    "4h": {
+      "cadence": "4h",
+      "catalog": "data\\processed\\capturable_4h_catalog.parquet",
+      "n_catalog_assets": 87,
+      "n_u100_assets_materialized": 77,
+      "n_dropped_non_u100": 10,
+      "dropped_non_u100": [
+        "CFG",
+        "GUN",
+        "KAT",
+        "NIGHT",
+        "SPK",
+        "STO",
+        "U",
+        "W",
+        "XAUT",
+        "ZAMA"
+      ],
+      "total_oracle_entries": 481806,
+      "move_defs": {
+        "3pct_12bar": {
+          "win_flag": "win_3pct_12bar",
+          "mfe_col": "max_gain_12bar",
+          "mae_col": "max_loss_12bar",
+          "horizon_bars": 12,
+          "horizon_hours": 48
+        },
+        "5pct_18bar": {
+          "win_flag": "win_5pct_18bar",
+          "mfe_col": "max_gain_18bar",
+          "mae_col": "max_loss_18bar",
+          "horizon_bars": 18,
+          "horizon_hours": 72
+        }
+      },
+      "output": "runs\\research\\oracle_entries_catalog_4h_u100.parquet"
+    },
+    "daily": {
+      "cadence": "daily",
+      "catalog": "data\\processed\\capturable_win_catalog.parquet",
+      "n_catalog_assets": 87,
+      "n_u100_assets_materialized": 77,
+      "n_dropped_non_u100": 10,
+      "dropped_non_u100": [
+        "CFG",
+        "GUN",
+        "KAT",
+        "NIGHT",
+        "SPK",
+        "STO",
+        "U",
+        "W",
+        "XAUT",
+        "ZAMA"
+      ],
+      "total_oracle_entries": 115933,
+      "move_defs": {
+        "3pct_3d": {
+          "win_flag": "win_3pct",
+          "mfe_col": "max_gain_3d",
+          "mae_col": "max_loss_3d",
+          "horizon_bars": 3,
+          "horizon_hours": 72
+        },
+        "5pct_3d": {
+          "win_flag": "win_5pct",
+          "mfe_col": "max_gain_3d",
+          "mae_col": "max_loss_3d",
+          "horizon_bars": 3,
+          "horizon_hours": 72
+        },
+        "7pct_3d": {
+          "win_flag": "win_7pct",
+          "mfe_col": "max_gain_3d",
+          "mae_col": "max_loss_3d",
+          "horizon_bars": 3,
+          "horizon_hours": 72
+        },
+        "10pct_3d": {
+          "win_flag": "win_10pct",
+          "mfe_col": "max_gain_3d",
+          "mae_col": "max_loss_3d",
+          "horizon_bars": 3,
+          "horizon_hours": 72
+        }
+      },
+      "output": "runs\\research\\oracle_entries_catalog_daily_u100.parquet"
+    }
+  }
+}

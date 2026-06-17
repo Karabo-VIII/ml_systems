@@ -1,0 +1,1602 @@
+{
+ "1d|EMA": {
+  "best_cluster": "3MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 19.4,
+   "std_net": 10.2,
+   "mean_sharpe": 2.6,
+   "mean_maxdd": -10.2,
+   "within_corr": 0.67,
+   "medoid": "EMA(5,75,208)"
+  },
+  "top5": [
+   {
+    "cfg": "EMA(12,84,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 23.8,
+    "sharpe": 3.53,
+    "maxdd": -7.3
+   },
+   {
+    "cfg": "EMA(73,145)",
+    "cluster": "2MA-slow60-150",
+    "net": 8.2,
+    "sharpe": 3.23,
+    "maxdd": -2.4
+   },
+   {
+    "cfg": "EMA(19,34,48)",
+    "cluster": "3MA-mid20-60",
+    "net": 30.4,
+    "sharpe": 3.23,
+    "maxdd": -12.7
+   },
+   {
+    "cfg": "EMA(2,235)",
+    "cluster": "2MA-vslow150+",
+    "net": 18.7,
+    "sharpe": 3.2,
+    "maxdd": -6.9
+   },
+   {
+    "cfg": "EMA(5,75,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 29.5,
+    "sharpe": 3.12,
+    "maxdd": -11.3
+   }
+  ],
+  "ml_target_config": "EMA(12,84,148)"
+ },
+ "4h|EMA": {
+  "best_cluster": "3MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 32.5,
+   "std_net": 9.8,
+   "mean_sharpe": 3.33,
+   "mean_maxdd": -9.2,
+   "within_corr": 0.89,
+   "medoid": "EMA(2,148,208)"
+  },
+  "top5": [
+   {
+    "cfg": "EMA(2,148,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 40.1,
+    "sharpe": 4.21,
+    "maxdd": -7.3
+   },
+   {
+    "cfg": "EMA(8,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 36.8,
+    "sharpe": 4.08,
+    "maxdd": -7.3
+   },
+   {
+    "cfg": "EMA(4,48,84)",
+    "cluster": "3MA-slow60-150",
+    "net": 45.7,
+    "sharpe": 3.45,
+    "maxdd": -11.3
+   },
+   {
+    "cfg": "EMA(8,14,186)",
+    "cluster": "3MA-vslow150+",
+    "net": 44.8,
+    "sharpe": 3.44,
+    "maxdd": -11.7
+   },
+   {
+    "cfg": "EMA(3,48,166)",
+    "cluster": "3MA-vslow150+",
+    "net": 44.0,
+    "sharpe": 3.4,
+    "maxdd": -13.6
+   }
+  ],
+  "ml_target_config": "EMA(2,148,208)"
+ },
+ "2h|EMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 35.7,
+   "std_net": 9.2,
+   "mean_sharpe": 2.99,
+   "mean_maxdd": -8.5,
+   "within_corr": 0.88,
+   "medoid": "EMA(86,170)"
+  },
+  "top5": [
+   {
+    "cfg": "EMA(12,84,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 75.2,
+    "sharpe": 4.45,
+    "maxdd": -7.9
+   },
+   {
+    "cfg": "EMA(19,132,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 58.1,
+    "sharpe": 4.44,
+    "maxdd": -6.6
+   },
+   {
+    "cfg": "EMA(60,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 41.2,
+    "sharpe": 4.29,
+    "maxdd": -7.3
+   },
+   {
+    "cfg": "EMA(2,148,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 51.6,
+    "sharpe": 4.09,
+    "maxdd": -9.4
+   },
+   {
+    "cfg": "EMA(15,67,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 61.9,
+    "sharpe": 4.07,
+    "maxdd": -7.6
+   }
+  ],
+  "ml_target_config": "EMA(12,84,148)"
+ },
+ "1h|EMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 58.8,
+   "std_net": 13.6,
+   "mean_sharpe": 4.31,
+   "mean_maxdd": -7.5,
+   "within_corr": 0.95,
+   "medoid": "EMA(6,210)"
+  },
+  "top5": [
+   {
+    "cfg": "EMA(37,124)",
+    "cluster": "2MA-slow60-150",
+    "net": 71.0,
+    "sharpe": 4.81,
+    "maxdd": -6.0
+   },
+   {
+    "cfg": "EMA(6,210)",
+    "cluster": "2MA-vslow150+",
+    "net": 79.2,
+    "sharpe": 4.8,
+    "maxdd": -9.4
+   },
+   {
+    "cfg": "EMA(26,172)",
+    "cluster": "2MA-vslow150+",
+    "net": 71.0,
+    "sharpe": 4.77,
+    "maxdd": -7.7
+   },
+   {
+    "cfg": "EMA(31,239)",
+    "cluster": "2MA-vslow150+",
+    "net": 60.1,
+    "sharpe": 4.73,
+    "maxdd": -4.7
+   },
+   {
+    "cfg": "EMA(10,248)",
+    "cluster": "2MA-vslow150+",
+    "net": 65.0,
+    "sharpe": 4.65,
+    "maxdd": -7.5
+   }
+  ],
+  "ml_target_config": "EMA(37,124)"
+ },
+ "1d|SMA": {
+  "best_cluster": "3MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 22.3,
+   "std_net": 7.5,
+   "mean_sharpe": 2.83,
+   "mean_maxdd": -10.4,
+   "within_corr": 0.81,
+   "medoid": "SMA(186,208,233)"
+  },
+  "top5": [
+   {
+    "cfg": "SMA(15,27,48)",
+    "cluster": "3MA-mid20-60",
+    "net": 37.0,
+    "sharpe": 3.76,
+    "maxdd": -10.0
+   },
+   {
+    "cfg": "SMA(186,208,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 20.4,
+    "sharpe": 3.75,
+    "maxdd": -5.5
+   },
+   {
+    "cfg": "SMA(12,14,30)",
+    "cluster": "3MA-mid20-60",
+    "net": 50.7,
+    "sharpe": 3.52,
+    "maxdd": -16.8
+   },
+   {
+    "cfg": "SMA(10,16)",
+    "cluster": "2MA-fast<20",
+    "net": 50.5,
+    "sharpe": 3.32,
+    "maxdd": -17.5
+   },
+   {
+    "cfg": "SMA(24,53,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 21.4,
+    "sharpe": 3.28,
+    "maxdd": -10.1
+   }
+  ],
+  "ml_target_config": "SMA(15,27,48)"
+ },
+ "4h|SMA": {
+  "best_cluster": "3MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 25.9,
+   "std_net": 10.2,
+   "mean_sharpe": 2.63,
+   "mean_maxdd": -12.2,
+   "within_corr": 0.86,
+   "medoid": "SMA(2,148,208)"
+  },
+  "top5": [
+   {
+    "cfg": "SMA(2,148,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 35.1,
+    "sharpe": 4.09,
+    "maxdd": -7.3
+   },
+   {
+    "cfg": "SMA(8,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 30.2,
+    "sharpe": 3.62,
+    "maxdd": -8.6
+   },
+   {
+    "cfg": "SMA(8,28)",
+    "cluster": "2MA-mid20-60",
+    "net": 45.8,
+    "sharpe": 3.24,
+    "maxdd": -13.9
+   },
+   {
+    "cfg": "SMA(12,84,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 29.8,
+    "sharpe": 3.2,
+    "maxdd": -10.3
+   },
+   {
+    "cfg": "SMA(12,151)",
+    "cluster": "2MA-vslow150+",
+    "net": 30.1,
+    "sharpe": 3.15,
+    "maxdd": -10.0
+   }
+  ],
+  "ml_target_config": "SMA(2,148,208)"
+ },
+ "2h|SMA": {
+  "best_cluster": "3MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 42.4,
+   "std_net": 20.9,
+   "mean_sharpe": 3.08,
+   "mean_maxdd": -11.1,
+   "within_corr": 0.8,
+   "medoid": "SMA(186,208,233)"
+  },
+  "top5": [
+   {
+    "cfg": "SMA(186,208,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 69.3,
+    "sharpe": 5.46,
+    "maxdd": -7.3
+   },
+   {
+    "cfg": "SMA(15,67,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 68.8,
+    "sharpe": 4.46,
+    "maxdd": -9.7
+   },
+   {
+    "cfg": "SMA(8,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 59.3,
+    "sharpe": 4.25,
+    "maxdd": -7.7
+   },
+   {
+    "cfg": "SMA(2,148,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 65.7,
+    "sharpe": 4.03,
+    "maxdd": -10.8
+   },
+   {
+    "cfg": "SMA(2,235)",
+    "cluster": "2MA-vslow150+",
+    "net": 57.0,
+    "sharpe": 3.61,
+    "maxdd": -10.1
+   }
+  ],
+  "ml_target_config": "SMA(186,208,233)"
+ },
+ "1h|SMA": {
+  "best_cluster": "2MA-slow60-150",
+  "cluster_stats": {
+   "n": 14,
+   "mean_net": 66.1,
+   "std_net": 10.9,
+   "mean_sharpe": 4.18,
+   "mean_maxdd": -9.8,
+   "within_corr": 0.95,
+   "medoid": "SMA(8,108)"
+  },
+  "top5": [
+   {
+    "cfg": "SMA(10,248)",
+    "cluster": "2MA-vslow150+",
+    "net": 68.9,
+    "sharpe": 5.16,
+    "maxdd": -6.0
+   },
+   {
+    "cfg": "SMA(8,108)",
+    "cluster": "2MA-slow60-150",
+    "net": 86.3,
+    "sharpe": 5.05,
+    "maxdd": -8.2
+   },
+   {
+    "cfg": "SMA(6,210)",
+    "cluster": "2MA-vslow150+",
+    "net": 76.8,
+    "sharpe": 4.95,
+    "maxdd": -6.7
+   },
+   {
+    "cfg": "SMA(22,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 72.6,
+    "sharpe": 4.62,
+    "maxdd": -7.8
+   },
+   {
+    "cfg": "SMA(15,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 73.8,
+    "sharpe": 4.58,
+    "maxdd": -7.4
+   }
+  ],
+  "ml_target_config": "SMA(10,248)"
+ },
+ "1d|WMA": {
+  "best_cluster": "2MA-mid20-60",
+  "cluster_stats": {
+   "n": 9,
+   "mean_net": 31.5,
+   "std_net": 8.0,
+   "mean_sharpe": 2.62,
+   "mean_maxdd": -16.4,
+   "within_corr": 0.92,
+   "medoid": "WMA(22,33)"
+  },
+  "top5": [
+   {
+    "cfg": "WMA(22,33)",
+    "cluster": "2MA-mid20-60",
+    "net": 38.3,
+    "sharpe": 3.17,
+    "maxdd": -14.9
+   },
+   {
+    "cfg": "WMA(15,33)",
+    "cluster": "2MA-mid20-60",
+    "net": 36.8,
+    "sharpe": 3.01,
+    "maxdd": -14.9
+   },
+   {
+    "cfg": "WMA(19,34,48)",
+    "cluster": "3MA-mid20-60",
+    "net": 29.9,
+    "sharpe": 3.0,
+    "maxdd": -12.3
+   },
+   {
+    "cfg": "WMA(8,28)",
+    "cluster": "2MA-mid20-60",
+    "net": 42.2,
+    "sharpe": 2.99,
+    "maxdd": -15.2
+   },
+   {
+    "cfg": "WMA(12,39)",
+    "cluster": "2MA-mid20-60",
+    "net": 37.4,
+    "sharpe": 2.94,
+    "maxdd": -15.2
+   }
+  ],
+  "ml_target_config": "WMA(22,33)"
+ },
+ "4h|WMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 27.1,
+   "std_net": 8.1,
+   "mean_sharpe": 2.85,
+   "mean_maxdd": -9.2,
+   "within_corr": 0.9,
+   "medoid": "WMA(10,248)"
+  },
+  "top5": [
+   {
+    "cfg": "WMA(10,248)",
+    "cluster": "2MA-vslow150+",
+    "net": 39.3,
+    "sharpe": 3.67,
+    "maxdd": -8.3
+   },
+   {
+    "cfg": "WMA(2,235)",
+    "cluster": "2MA-vslow150+",
+    "net": 39.7,
+    "sharpe": 3.49,
+    "maxdd": -9.5
+   },
+   {
+    "cfg": "WMA(6,210)",
+    "cluster": "2MA-vslow150+",
+    "net": 36.9,
+    "sharpe": 3.39,
+    "maxdd": -8.7
+   },
+   {
+    "cfg": "WMA(8,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 32.8,
+    "sharpe": 3.37,
+    "maxdd": -9.5
+   },
+   {
+    "cfg": "WMA(2,148,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 32.8,
+    "sharpe": 3.32,
+    "maxdd": -10.1
+   }
+  ],
+  "ml_target_config": "WMA(10,248)"
+ },
+ "2h|WMA": {
+  "best_cluster": "2MA-slow60-150",
+  "cluster_stats": {
+   "n": 14,
+   "mean_net": 30.1,
+   "std_net": 12.1,
+   "mean_sharpe": 1.94,
+   "mean_maxdd": -12.8,
+   "within_corr": 0.9,
+   "medoid": "WMA(18,128)"
+  },
+  "top5": [
+   {
+    "cfg": "WMA(8,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 57.7,
+    "sharpe": 3.71,
+    "maxdd": -8.2
+   },
+   {
+    "cfg": "WMA(15,67,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 45.8,
+    "sharpe": 3.09,
+    "maxdd": -9.6
+   },
+   {
+    "cfg": "WMA(60,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 39.2,
+    "sharpe": 3.05,
+    "maxdd": -9.2
+   },
+   {
+    "cfg": "WMA(18,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 51.3,
+    "sharpe": 3.0,
+    "maxdd": -10.9
+   },
+   {
+    "cfg": "WMA(12,151)",
+    "cluster": "2MA-vslow150+",
+    "net": 51.1,
+    "sharpe": 2.97,
+    "maxdd": -11.9
+   }
+  ],
+  "ml_target_config": "WMA(8,132,233)"
+ },
+ "1h|WMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 64.9,
+   "std_net": 8.9,
+   "mean_sharpe": 4.3,
+   "mean_maxdd": -8.4,
+   "within_corr": 0.96,
+   "medoid": "WMA(12,151)"
+  },
+  "top5": [
+   {
+    "cfg": "WMA(37,124)",
+    "cluster": "2MA-slow60-150",
+    "net": 83.7,
+    "sharpe": 5.11,
+    "maxdd": -7.4
+   },
+   {
+    "cfg": "WMA(22,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 83.2,
+    "sharpe": 4.92,
+    "maxdd": -8.1
+   },
+   {
+    "cfg": "WMA(48,67,94)",
+    "cluster": "3MA-slow60-150",
+    "net": 66.7,
+    "sharpe": 4.82,
+    "maxdd": -7.4
+   },
+   {
+    "cfg": "WMA(44,75)",
+    "cluster": "2MA-slow60-150",
+    "net": 75.2,
+    "sharpe": 4.72,
+    "maxdd": -9.2
+   },
+   {
+    "cfg": "WMA(18,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 78.0,
+    "sharpe": 4.71,
+    "maxdd": -8.8
+   }
+  ],
+  "ml_target_config": "WMA(37,124)"
+ },
+ "1d|HMA": {
+  "best_cluster": "3MA-slow60-150",
+  "cluster_stats": {
+   "n": 17,
+   "mean_net": 29.2,
+   "std_net": 4.8,
+   "mean_sharpe": 2.46,
+   "mean_maxdd": -17.0,
+   "within_corr": 0.92,
+   "medoid": "HMA(48,67,94)"
+  },
+  "top5": [
+   {
+    "cfg": "HMA(48,67,94)",
+    "cluster": "3MA-slow60-150",
+    "net": 33.4,
+    "sharpe": 3.25,
+    "maxdd": -11.6
+   },
+   {
+    "cfg": "HMA(24,53,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 34.5,
+    "sharpe": 3.17,
+    "maxdd": -15.9
+   },
+   {
+    "cfg": "HMA(22,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 37.8,
+    "sharpe": 3.06,
+    "maxdd": -14.4
+   },
+   {
+    "cfg": "HMA(30,43,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 34.3,
+    "sharpe": 3.03,
+    "maxdd": -17.9
+   },
+   {
+    "cfg": "HMA(31,75)",
+    "cluster": "2MA-slow60-150",
+    "net": 39.2,
+    "sharpe": 3.02,
+    "maxdd": -17.6
+   }
+  ],
+  "ml_target_config": "HMA(48,67,94)"
+ },
+ "4h|HMA": {
+  "best_cluster": "2MA-slow60-150",
+  "cluster_stats": {
+   "n": 14,
+   "mean_net": 39.1,
+   "std_net": 9.7,
+   "mean_sharpe": 2.81,
+   "mean_maxdd": -13.9,
+   "within_corr": 0.91,
+   "medoid": "HMA(31,75)"
+  },
+  "top5": [
+   {
+    "cfg": "HMA(31,75)",
+    "cluster": "2MA-slow60-150",
+    "net": 58.0,
+    "sharpe": 4.06,
+    "maxdd": -7.1
+   },
+   {
+    "cfg": "HMA(48,67,94)",
+    "cluster": "3MA-slow60-150",
+    "net": 45.2,
+    "sharpe": 3.92,
+    "maxdd": -10.5
+   },
+   {
+    "cfg": "HMA(44,75)",
+    "cluster": "2MA-slow60-150",
+    "net": 43.5,
+    "sharpe": 3.29,
+    "maxdd": -10.8
+   },
+   {
+    "cfg": "HMA(3,19,84)",
+    "cluster": "3MA-slow60-150",
+    "net": 42.2,
+    "sharpe": 3.2,
+    "maxdd": -8.4
+   },
+   {
+    "cfg": "HMA(10,65)",
+    "cluster": "2MA-slow60-150",
+    "net": 46.9,
+    "sharpe": 3.15,
+    "maxdd": -14.8
+   }
+  ],
+  "ml_target_config": "HMA(31,75)"
+ },
+ "2h|HMA": {
+  "best_cluster": "3MA-slow60-150",
+  "cluster_stats": {
+   "n": 17,
+   "mean_net": 29.0,
+   "std_net": 13.1,
+   "mean_sharpe": 2.01,
+   "mean_maxdd": -15.5,
+   "within_corr": 0.74,
+   "medoid": "HMA(10,17,75)"
+  },
+  "top5": [
+   {
+    "cfg": "HMA(19,34,48)",
+    "cluster": "3MA-mid20-60",
+    "net": 90.3,
+    "sharpe": 4.32,
+    "maxdd": -19.4
+   },
+   {
+    "cfg": "HMA(15,27,48)",
+    "cluster": "3MA-mid20-60",
+    "net": 72.3,
+    "sharpe": 3.7,
+    "maxdd": -13.9
+   },
+   {
+    "cfg": "HMA(4,5)",
+    "cluster": "2MA-fast<20",
+    "net": 96.2,
+    "sharpe": 3.58,
+    "maxdd": -18.2
+   },
+   {
+    "cfg": "HMA(73,145)",
+    "cluster": "2MA-slow60-150",
+    "net": 48.0,
+    "sharpe": 3.04,
+    "maxdd": -13.2
+   },
+   {
+    "cfg": "HMA(22,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 57.1,
+    "sharpe": 3.0,
+    "maxdd": -11.8
+   }
+  ],
+  "ml_target_config": "HMA(19,34,48)"
+ },
+ "1h|HMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 62.5,
+   "std_net": 8.1,
+   "mean_sharpe": 4.08,
+   "mean_maxdd": -11.7,
+   "within_corr": 0.92,
+   "medoid": "HMA(31,239)"
+  },
+  "top5": [
+   {
+    "cfg": "HMA(60,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 52.5,
+    "sharpe": 5.01,
+    "maxdd": -5.3
+   },
+   {
+    "cfg": "HMA(186,208,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 58.2,
+    "sharpe": 4.82,
+    "maxdd": -5.9
+   },
+   {
+    "cfg": "HMA(31,239)",
+    "cluster": "2MA-vslow150+",
+    "net": 75.2,
+    "sharpe": 4.75,
+    "maxdd": -10.3
+   },
+   {
+    "cfg": "HMA(4,48,84)",
+    "cluster": "3MA-slow60-150",
+    "net": 53.7,
+    "sharpe": 4.68,
+    "maxdd": -9.6
+   },
+   {
+    "cfg": "HMA(8,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 55.8,
+    "sharpe": 4.61,
+    "maxdd": -6.6
+   }
+  ],
+  "ml_target_config": "HMA(60,132,233)"
+ },
+ "1d|DEMA": {
+  "best_cluster": "2MA-mid20-60",
+  "cluster_stats": {
+   "n": 9,
+   "mean_net": 35.7,
+   "std_net": 9.4,
+   "mean_sharpe": 2.77,
+   "mean_maxdd": -18.0,
+   "within_corr": 0.92,
+   "medoid": "DEMA(18,33)"
+  },
+  "top5": [
+   {
+    "cfg": "DEMA(18,33)",
+    "cluster": "2MA-mid20-60",
+    "net": 46.4,
+    "sharpe": 3.56,
+    "maxdd": -14.5
+   },
+   {
+    "cfg": "DEMA(15,33)",
+    "cluster": "2MA-mid20-60",
+    "net": 45.5,
+    "sharpe": 3.36,
+    "maxdd": -15.2
+   },
+   {
+    "cfg": "DEMA(22,33)",
+    "cluster": "2MA-mid20-60",
+    "net": 43.2,
+    "sharpe": 3.36,
+    "maxdd": -14.6
+   },
+   {
+    "cfg": "DEMA(8,14,186)",
+    "cluster": "3MA-vslow150+",
+    "net": 37.8,
+    "sharpe": 3.22,
+    "maxdd": -14.0
+   },
+   {
+    "cfg": "DEMA(19,34,48)",
+    "cluster": "3MA-mid20-60",
+    "net": 40.7,
+    "sharpe": 3.12,
+    "maxdd": -17.2
+   }
+  ],
+  "ml_target_config": "DEMA(18,33)"
+ },
+ "4h|DEMA": {
+  "best_cluster": "2MA-slow60-150",
+  "cluster_stats": {
+   "n": 14,
+   "mean_net": 34.2,
+   "std_net": 9.6,
+   "mean_sharpe": 2.67,
+   "mean_maxdd": -13.1,
+   "within_corr": 0.93,
+   "medoid": "DEMA(5,143)"
+  },
+  "top5": [
+   {
+    "cfg": "DEMA(6,210)",
+    "cluster": "2MA-vslow150+",
+    "net": 43.4,
+    "sharpe": 3.43,
+    "maxdd": -11.3
+   },
+   {
+    "cfg": "DEMA(5,143)",
+    "cluster": "2MA-slow60-150",
+    "net": 49.7,
+    "sharpe": 3.42,
+    "maxdd": -12.3
+   },
+   {
+    "cfg": "DEMA(15,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 45.0,
+    "sharpe": 3.38,
+    "maxdd": -13.1
+   },
+   {
+    "cfg": "DEMA(12,151)",
+    "cluster": "2MA-vslow150+",
+    "net": 46.6,
+    "sharpe": 3.37,
+    "maxdd": -13.4
+   },
+   {
+    "cfg": "DEMA(2,235)",
+    "cluster": "2MA-vslow150+",
+    "net": 41.7,
+    "sharpe": 3.14,
+    "maxdd": -12.6
+   }
+  ],
+  "ml_target_config": "DEMA(6,210)"
+ },
+ "2h|DEMA": {
+  "best_cluster": "3MA-mid20-60",
+  "cluster_stats": {
+   "n": 9,
+   "mean_net": 33.0,
+   "std_net": 9.8,
+   "mean_sharpe": 2.08,
+   "mean_maxdd": -16.3,
+   "within_corr": 0.81,
+   "medoid": "DEMA(3,10,53)"
+  },
+  "top5": [
+   {
+    "cfg": "DEMA(31,239)",
+    "cluster": "2MA-vslow150+",
+    "net": 35.7,
+    "sharpe": 2.84,
+    "maxdd": -10.3
+   },
+   {
+    "cfg": "DEMA(3,10,53)",
+    "cluster": "3MA-mid20-60",
+    "net": 46.7,
+    "sharpe": 2.83,
+    "maxdd": -12.8
+   },
+   {
+    "cfg": "DEMA(4,19,43)",
+    "cluster": "3MA-mid20-60",
+    "net": 39.6,
+    "sharpe": 2.68,
+    "maxdd": -12.5
+   },
+   {
+    "cfg": "DEMA(4,10,27)",
+    "cluster": "3MA-mid20-60",
+    "net": 45.1,
+    "sharpe": 2.53,
+    "maxdd": -16.3
+   },
+   {
+    "cfg": "DEMA(22,33)",
+    "cluster": "2MA-mid20-60",
+    "net": 43.1,
+    "sharpe": 2.39,
+    "maxdd": -11.7
+   }
+  ],
+  "ml_target_config": "DEMA(31,239)"
+ },
+ "1h|DEMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 55.7,
+   "std_net": 6.1,
+   "mean_sharpe": 4.02,
+   "mean_maxdd": -7.4,
+   "within_corr": 0.95,
+   "medoid": "DEMA(62,172)"
+  },
+  "top5": [
+   {
+    "cfg": "DEMA(73,145)",
+    "cluster": "2MA-slow60-150",
+    "net": 62.0,
+    "sharpe": 4.97,
+    "maxdd": -6.2
+   },
+   {
+    "cfg": "DEMA(15,27,48)",
+    "cluster": "3MA-mid20-60",
+    "net": 68.1,
+    "sharpe": 4.9,
+    "maxdd": -9.7
+   },
+   {
+    "cfg": "DEMA(62,172)",
+    "cluster": "2MA-vslow150+",
+    "net": 63.3,
+    "sharpe": 4.81,
+    "maxdd": -5.8
+   },
+   {
+    "cfg": "DEMA(37,124)",
+    "cluster": "2MA-slow60-150",
+    "net": 64.2,
+    "sharpe": 4.78,
+    "maxdd": -6.4
+   },
+   {
+    "cfg": "DEMA(52,203)",
+    "cluster": "2MA-vslow150+",
+    "net": 59.4,
+    "sharpe": 4.63,
+    "maxdd": -5.0
+   }
+  ],
+  "ml_target_config": "DEMA(73,145)"
+ },
+ "1d|TEMA": {
+  "best_cluster": "2MA-mid20-60",
+  "cluster_stats": {
+   "n": 9,
+   "mean_net": 31.7,
+   "std_net": 11.5,
+   "mean_sharpe": 2.52,
+   "mean_maxdd": -18.1,
+   "within_corr": 0.92,
+   "medoid": "TEMA(22,33)"
+  },
+  "top5": [
+   {
+    "cfg": "TEMA(22,33)",
+    "cluster": "2MA-mid20-60",
+    "net": 49.3,
+    "sharpe": 3.56,
+    "maxdd": -15.2
+   },
+   {
+    "cfg": "TEMA(15,67,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 30.9,
+    "sharpe": 3.51,
+    "maxdd": -9.3
+   },
+   {
+    "cfg": "TEMA(12,84,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 26.8,
+    "sharpe": 3.41,
+    "maxdd": -9.2
+   },
+   {
+    "cfg": "TEMA(26,45)",
+    "cluster": "2MA-mid20-60",
+    "net": 41.3,
+    "sharpe": 3.38,
+    "maxdd": -15.0
+   },
+   {
+    "cfg": "TEMA(18,33)",
+    "cluster": "2MA-mid20-60",
+    "net": 44.1,
+    "sharpe": 3.35,
+    "maxdd": -15.2
+   }
+  ],
+  "ml_target_config": "TEMA(22,33)"
+ },
+ "4h|TEMA": {
+  "best_cluster": "2MA-mid20-60",
+  "cluster_stats": {
+   "n": 9,
+   "mean_net": 40.6,
+   "std_net": 5.4,
+   "mean_sharpe": 2.88,
+   "mean_maxdd": -13.6,
+   "within_corr": 0.87,
+   "medoid": "TEMA(26,45)"
+  },
+  "top5": [
+   {
+    "cfg": "TEMA(102,237)",
+    "cluster": "2MA-vslow150+",
+    "net": 30.9,
+    "sharpe": 3.78,
+    "maxdd": -7.6
+   },
+   {
+    "cfg": "TEMA(186,208,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 21.9,
+    "sharpe": 3.76,
+    "maxdd": -4.5
+   },
+   {
+    "cfg": "TEMA(26,45)",
+    "cluster": "2MA-mid20-60",
+    "net": 46.1,
+    "sharpe": 3.61,
+    "maxdd": -9.1
+   },
+   {
+    "cfg": "TEMA(2,148,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 41.2,
+    "sharpe": 3.45,
+    "maxdd": -8.9
+   },
+   {
+    "cfg": "TEMA(5,12,34)",
+    "cluster": "3MA-mid20-60",
+    "net": 43.0,
+    "sharpe": 3.37,
+    "maxdd": -15.0
+   }
+  ],
+  "ml_target_config": "TEMA(102,237)"
+ },
+ "2h|TEMA": {
+  "best_cluster": "2MA-mid20-60",
+  "cluster_stats": {
+   "n": 9,
+   "mean_net": 32.5,
+   "std_net": 17.6,
+   "mean_sharpe": 1.88,
+   "mean_maxdd": -19.8,
+   "within_corr": 0.83,
+   "medoid": "TEMA(52,53)"
+  },
+  "top5": [
+   {
+    "cfg": "TEMA(52,53)",
+    "cluster": "2MA-mid20-60",
+    "net": 54.8,
+    "sharpe": 3.28,
+    "maxdd": -13.5
+   },
+   {
+    "cfg": "TEMA(8,34,75)",
+    "cluster": "3MA-slow60-150",
+    "net": 48.8,
+    "sharpe": 3.24,
+    "maxdd": -10.2
+   },
+   {
+    "cfg": "TEMA(6,43,60)",
+    "cluster": "3MA-slow60-150",
+    "net": 50.9,
+    "sharpe": 3.22,
+    "maxdd": -9.4
+   },
+   {
+    "cfg": "TEMA(19,34,48)",
+    "cluster": "3MA-mid20-60",
+    "net": 56.0,
+    "sharpe": 3.05,
+    "maxdd": -14.0
+   },
+   {
+    "cfg": "TEMA(3,19,84)",
+    "cluster": "3MA-slow60-150",
+    "net": 47.5,
+    "sharpe": 2.94,
+    "maxdd": -16.3
+   }
+  ],
+  "ml_target_config": "TEMA(52,53)"
+ },
+ "1h|TEMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 54.4,
+   "std_net": 5.7,
+   "mean_sharpe": 3.97,
+   "mean_maxdd": -10.5,
+   "within_corr": 0.92,
+   "medoid": "TEMA(52,203)"
+  },
+  "top5": [
+   {
+    "cfg": "TEMA(15,67,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 58.3,
+    "sharpe": 5.45,
+    "maxdd": -4.3
+   },
+   {
+    "cfg": "TEMA(24,53,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 55.7,
+    "sharpe": 5.19,
+    "maxdd": -6.6
+   },
+   {
+    "cfg": "TEMA(30,43,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 55.2,
+    "sharpe": 5.12,
+    "maxdd": -7.5
+   },
+   {
+    "cfg": "TEMA(37,124)",
+    "cluster": "2MA-slow60-150",
+    "net": 71.1,
+    "sharpe": 4.79,
+    "maxdd": -11.3
+   },
+   {
+    "cfg": "TEMA(73,145)",
+    "cluster": "2MA-slow60-150",
+    "net": 59.1,
+    "sharpe": 4.59,
+    "maxdd": -7.9
+   }
+  ],
+  "ml_target_config": "TEMA(15,67,233)"
+ },
+ "1d|KAMA": {
+  "best_cluster": "2MA-mid20-60",
+  "cluster_stats": {
+   "n": 9,
+   "mean_net": 27.2,
+   "std_net": 4.5,
+   "mean_sharpe": 2.81,
+   "mean_maxdd": -12.4,
+   "within_corr": 0.9,
+   "medoid": "KAMA(5,37)"
+  },
+  "top5": [
+   {
+    "cfg": "KAMA(186,208,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 16.2,
+    "sharpe": 4.34,
+    "maxdd": -2.4
+   },
+   {
+    "cfg": "KAMA(5,37)",
+    "cluster": "2MA-mid20-60",
+    "net": 34.8,
+    "sharpe": 3.46,
+    "maxdd": -11.9
+   },
+   {
+    "cfg": "KAMA(3,19,84)",
+    "cluster": "3MA-slow60-150",
+    "net": 36.0,
+    "sharpe": 3.36,
+    "maxdd": -13.5
+   },
+   {
+    "cfg": "KAMA(3,48,166)",
+    "cluster": "3MA-vslow150+",
+    "net": 35.6,
+    "sharpe": 3.3,
+    "maxdd": -13.0
+   },
+   {
+    "cfg": "KAMA(6,43,60)",
+    "cluster": "3MA-slow60-150",
+    "net": 26.6,
+    "sharpe": 3.26,
+    "maxdd": -9.4
+   }
+  ],
+  "ml_target_config": "KAMA(186,208,233)"
+ },
+ "4h|KAMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 18.3,
+   "std_net": 7.7,
+   "mean_sharpe": 2.43,
+   "mean_maxdd": -8.5,
+   "within_corr": 0.83,
+   "medoid": "KAMA(86,170)"
+  },
+  "top5": [
+   {
+    "cfg": "KAMA(86,170)",
+    "cluster": "2MA-vslow150+",
+    "net": 30.4,
+    "sharpe": 3.93,
+    "maxdd": -6.9
+   },
+   {
+    "cfg": "KAMA(102,237)",
+    "cluster": "2MA-vslow150+",
+    "net": 21.8,
+    "sharpe": 3.62,
+    "maxdd": -5.2
+   },
+   {
+    "cfg": "KAMA(4,5,186)",
+    "cluster": "3MA-vslow150+",
+    "net": 37.1,
+    "sharpe": 3.05,
+    "maxdd": -10.0
+   },
+   {
+    "cfg": "KAMA(6,43,60)",
+    "cluster": "3MA-slow60-150",
+    "net": 28.1,
+    "sharpe": 3.01,
+    "maxdd": -9.2
+   },
+   {
+    "cfg": "KAMA(3,6,7)",
+    "cluster": "3MA-fast<20",
+    "net": 36.6,
+    "sharpe": 2.89,
+    "maxdd": -12.2
+   }
+  ],
+  "ml_target_config": "KAMA(86,170)"
+ },
+ "2h|KAMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 24.2,
+   "std_net": 13.9,
+   "mean_sharpe": 2.08,
+   "mean_maxdd": -9.3,
+   "within_corr": 0.84,
+   "medoid": "KAMA(26,172)"
+  },
+  "top5": [
+   {
+    "cfg": "KAMA(48,67,94)",
+    "cluster": "3MA-slow60-150",
+    "net": 42.4,
+    "sharpe": 3.48,
+    "maxdd": -8.7
+   },
+   {
+    "cfg": "KAMA(26,172)",
+    "cluster": "2MA-vslow150+",
+    "net": 36.1,
+    "sharpe": 3.33,
+    "maxdd": -7.9
+   },
+   {
+    "cfg": "KAMA(30,43,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 36.7,
+    "sharpe": 3.19,
+    "maxdd": -10.9
+   },
+   {
+    "cfg": "KAMA(37,124)",
+    "cluster": "2MA-slow60-150",
+    "net": 28.7,
+    "sharpe": 3.01,
+    "maxdd": -8.9
+   },
+   {
+    "cfg": "KAMA(186,208,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 24.9,
+    "sharpe": 2.84,
+    "maxdd": -8.9
+   }
+  ],
+  "ml_target_config": "KAMA(48,67,94)"
+ },
+ "1h|KAMA": {
+  "best_cluster": "2MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 52.4,
+   "std_net": 8.2,
+   "mean_sharpe": 4.18,
+   "mean_maxdd": -8.3,
+   "within_corr": 0.95,
+   "medoid": "KAMA(12,151)"
+  },
+  "top5": [
+   {
+    "cfg": "KAMA(48,67,94)",
+    "cluster": "3MA-slow60-150",
+    "net": 48.1,
+    "sharpe": 4.89,
+    "maxdd": -4.7
+   },
+   {
+    "cfg": "KAMA(31,75)",
+    "cluster": "2MA-slow60-150",
+    "net": 60.2,
+    "sharpe": 4.74,
+    "maxdd": -5.8
+   },
+   {
+    "cfg": "KAMA(15,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 67.3,
+    "sharpe": 4.53,
+    "maxdd": -6.5
+   },
+   {
+    "cfg": "KAMA(22,128)",
+    "cluster": "2MA-slow60-150",
+    "net": 62.6,
+    "sharpe": 4.48,
+    "maxdd": -6.8
+   },
+   {
+    "cfg": "KAMA(37,124)",
+    "cluster": "2MA-slow60-150",
+    "net": 51.1,
+    "sharpe": 4.48,
+    "maxdd": -6.0
+   }
+  ],
+  "ml_target_config": "KAMA(48,67,94)"
+ },
+ "1d|VIDYA": {
+  "best_cluster": "3MA-fast<20",
+  "cluster_stats": {
+   "n": 4,
+   "mean_net": 37.2,
+   "std_net": 6.8,
+   "mean_sharpe": 3.09,
+   "mean_maxdd": -15.5,
+   "within_corr": 0.94,
+   "medoid": "VIDYA(2,5,8)"
+  },
+  "top5": [
+   {
+    "cfg": "VIDYA(2,5,8)",
+    "cluster": "3MA-fast<20",
+    "net": 41.7,
+    "sharpe": 3.29,
+    "maxdd": -15.2
+   },
+   {
+    "cfg": "VIDYA(2,3,4)",
+    "cluster": "3MA-fast<20",
+    "net": 43.0,
+    "sharpe": 3.26,
+    "maxdd": -17.0
+   },
+   {
+    "cfg": "VIDYA(4,5)",
+    "cluster": "2MA-fast<20",
+    "net": 40.1,
+    "sharpe": 3.25,
+    "maxdd": -15.2
+   },
+   {
+    "cfg": "VIDYA(6,17,75)",
+    "cluster": "3MA-slow60-150",
+    "net": 24.6,
+    "sharpe": 3.23,
+    "maxdd": -8.7
+   },
+   {
+    "cfg": "VIDYA(4,5,186)",
+    "cluster": "3MA-vslow150+",
+    "net": 33.8,
+    "sharpe": 3.14,
+    "maxdd": -14.6
+   }
+  ],
+  "ml_target_config": "VIDYA(2,5,8)"
+ },
+ "4h|VIDYA": {
+  "best_cluster": "3MA-slow60-150",
+  "cluster_stats": {
+   "n": 17,
+   "mean_net": 24.8,
+   "std_net": 8.9,
+   "mean_sharpe": 3.08,
+   "mean_maxdd": -7.8,
+   "within_corr": 0.88,
+   "medoid": "VIDYA(4,48,84)"
+  },
+  "top5": [
+   {
+    "cfg": "VIDYA(4,48,84)",
+    "cluster": "3MA-slow60-150",
+    "net": 34.9,
+    "sharpe": 4.06,
+    "maxdd": -6.3
+   },
+   {
+    "cfg": "VIDYA(19,132,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 20.0,
+    "sharpe": 3.94,
+    "maxdd": -4.3
+   },
+   {
+    "cfg": "VIDYA(4,5,186)",
+    "cluster": "3MA-vslow150+",
+    "net": 48.3,
+    "sharpe": 3.92,
+    "maxdd": -10.2
+   },
+   {
+    "cfg": "VIDYA(3,48,166)",
+    "cluster": "3MA-vslow150+",
+    "net": 33.3,
+    "sharpe": 3.83,
+    "maxdd": -7.1
+   },
+   {
+    "cfg": "VIDYA(2,30,106)",
+    "cluster": "3MA-slow60-150",
+    "net": 35.9,
+    "sharpe": 3.73,
+    "maxdd": -6.4
+   }
+  ],
+  "ml_target_config": "VIDYA(4,48,84)"
+ },
+ "2h|VIDYA": {
+  "best_cluster": "3MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 34.5,
+   "std_net": 10.9,
+   "mean_sharpe": 4.14,
+   "mean_maxdd": -5.7,
+   "within_corr": 0.82,
+   "medoid": "VIDYA(8,132,233)"
+  },
+  "top5": [
+   {
+    "cfg": "VIDYA(8,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 33.1,
+    "sharpe": 5.08,
+    "maxdd": -3.6
+   },
+   {
+    "cfg": "VIDYA(10,17,75)",
+    "cluster": "3MA-slow60-150",
+    "net": 69.8,
+    "sharpe": 4.84,
+    "maxdd": -7.1
+   },
+   {
+    "cfg": "VIDYA(2,148,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 36.0,
+    "sharpe": 4.74,
+    "maxdd": -5.1
+   },
+   {
+    "cfg": "VIDYA(6,17,75)",
+    "cluster": "3MA-slow60-150",
+    "net": 71.3,
+    "sharpe": 4.73,
+    "maxdd": -6.9
+   },
+   {
+    "cfg": "VIDYA(5,75,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 46.8,
+    "sharpe": 4.52,
+    "maxdd": -5.3
+   }
+  ],
+  "ml_target_config": "VIDYA(8,132,233)"
+ },
+ "1h|VIDYA": {
+  "best_cluster": "3MA-vslow150+",
+  "cluster_stats": {
+   "n": 10,
+   "mean_net": 45.9,
+   "std_net": 12.4,
+   "mean_sharpe": 4.67,
+   "mean_maxdd": -6.6,
+   "within_corr": 0.86,
+   "medoid": "VIDYA(15,67,233)"
+  },
+  "top5": [
+   {
+    "cfg": "VIDYA(15,67,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 54.0,
+    "sharpe": 5.6,
+    "maxdd": -4.0
+   },
+   {
+    "cfg": "VIDYA(8,132,233)",
+    "cluster": "3MA-vslow150+",
+    "net": 50.4,
+    "sharpe": 5.47,
+    "maxdd": -4.3
+   },
+   {
+    "cfg": "VIDYA(2,148,208)",
+    "cluster": "3MA-vslow150+",
+    "net": 52.4,
+    "sharpe": 5.38,
+    "maxdd": -6.0
+   },
+   {
+    "cfg": "VIDYA(10,248)",
+    "cluster": "2MA-vslow150+",
+    "net": 45.6,
+    "sharpe": 5.34,
+    "maxdd": -3.6
+   },
+   {
+    "cfg": "VIDYA(12,84,148)",
+    "cluster": "3MA-slow60-150",
+    "net": 54.2,
+    "sharpe": 5.27,
+    "maxdd": -4.9
+   }
+  ],
+  "ml_target_config": "VIDYA(15,67,233)"
+ }
+}

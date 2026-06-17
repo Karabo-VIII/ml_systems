@@ -1,0 +1,162 @@
+{
+ "tool": "mover_burst_timing",
+ "git_sha": "616a4484df3eca2afbd557f93b19dfec12844e58",
+ "seed": 7,
+ "params": {
+  "burst_x": 0.02,
+  "burst_k": 30,
+  "burst_step": 10,
+  "t_trig": 0.015,
+  "mover_runup": 0.05,
+  "trail_k": 0.02,
+  "ride_cost_rt": 0.0024,
+  "top_quantiles": [
+   0.3,
+   0.1
+  ],
+  "burst_feats": [
+   "vol_compression",
+   "vol_ratio_5_60",
+   "rv15",
+   "rv60",
+   "vol_build",
+   "vol_accel",
+   "aggr_imb30",
+   "aggr_accel",
+   "liq_tot30_z",
+   "liq_ls_asym",
+   "liq_ratio",
+   "oi_d1h",
+   "oi_d4h",
+   "funding",
+   "ret15m",
+   "ret60m",
+   "path_efficiency",
+   "regime",
+   "hour_utc"
+  ],
+  "fizzle_feats": [
+   "vol_compression",
+   "vol_ratio_5_60",
+   "rv15",
+   "rv60",
+   "vol_build",
+   "vol_accel",
+   "aggr_imb30",
+   "aggr_accel",
+   "liq_tot30_z",
+   "liq_ls_asym",
+   "liq_ratio",
+   "oi_d1h",
+   "oi_d4h",
+   "funding",
+   "ret15m",
+   "ret60m",
+   "path_efficiency",
+   "regime",
+   "hour_utc",
+   "overshoot",
+   "t2trig",
+   "day_run_pace",
+   "run_accel",
+   "dayvol_ratio"
+  ]
+ },
+ "n_assets": 10,
+ "part1_burst_onset": {
+  "hgb_train": 0.8848932792339835,
+  "hgb_oos": 0.8847052848613861,
+  "logit_train": 0.8569000574013379,
+  "logit_oos": 0.8617097937741013,
+  "shuffled_oos_auc_mean": 0.5034214869758318,
+  "shuffled_oos_auc_max": 0.5688091472216374,
+  "perm_importance_oos": {
+   "rv60": 0.1102476542043691,
+   "rv15": 0.019347520884350433,
+   "regime": 0.018379272967341764,
+   "hour_utc": 0.003739754360819747,
+   "vol_compression": 0.00250954175402196,
+   "ret60m": 0.0017942635684697894,
+   "vol_accel": 0.00155406519226986,
+   "ret15m": 0.001261877833907743,
+   "funding": 0.0012500759778144577,
+   "liq_ratio": 0.0009396239172226872
+  },
+  "n_train": 1546708,
+  "n_oos": 783030,
+  "base_rate_train": 0.04877520514537974,
+  "base_rate_oos": 0.025483059397468807,
+  "lead_time": {
+   "median_lead_min_top30_truebursts": 20.0,
+   "median_lead_min_all_truebursts": 20.0,
+   "precision_top30": 0.07440327956783264,
+   "base_rate_oos": 0.025483059397468807,
+   "n_truebursts_top30": 17478,
+   "burst_window_K": 30,
+   "note": "lead = minutes from the next-minute fill to first reaching the burst magnitude; small lead = most of the burst already gone when actionable"
+  }
+ },
+ "part2_fizzle_filter": {
+  "hgb_train": 0.8079469844987269,
+  "hgb_oos": 0.7035359257675057,
+  "logit_train": 0.7094185347173421,
+  "logit_oos": 0.6864609751270863,
+  "shuffled_oos_auc_mean": 0.492722288210165,
+  "shuffled_oos_auc_max": 0.5038043904408156,
+  "perm_importance_oos": {
+   "hour_utc": 0.07891268280884323,
+   "rv60": 0.02914984527290998,
+   "day_run_pace": 0.012049587346024904,
+   "ret15m": 0.007906660089538109,
+   "vol_compression": 0.007686362235222455,
+   "rv15": 0.0056883312250842755,
+   "funding": 0.005255203240328243,
+   "ret60m": 0.0047171122477723815,
+   "liq_tot30_z": 0.00265187172275827,
+   "dayvol_ratio": 0.002019604434666311
+  },
+  "n_train": 7023,
+  "n_oos": 3354,
+  "conversion_rate_train": 0.37904029616972806,
+  "conversion_rate_oos": 0.31097197376267144,
+  "filter_quantiles_oos": {
+   "top_30pct": {
+    "k_selected": 1006,
+    "conversion_hit_rate": 0.5029821073558648,
+    "lift_vs_base": 1.6174515705384185,
+    "ride_net_24bps_mean": -0.0019502696853696635,
+    "ride_gross_mean": 0.000449730314630336
+   },
+   "top_10pct": {
+    "k_selected": 335,
+    "conversion_hit_rate": 0.5791044776119403,
+    "lift_vs_base": 1.8622400938738712,
+    "ride_net_24bps_mean": -0.0024283341676063067,
+    "ride_gross_mean": -2.8334167606307116e-05
+   }
+  },
+  "lever": {
+   "all_trigger_ride_net_24bps_mean": -0.0028165378419222203,
+   "all_trigger_ride_gross_mean": -0.00041653784192222006,
+   "all_trigger_conversion": 0.31097197376267144,
+   "note": "lever PASSES iff a top-quantile FILTERED ride net beats the all-trigger ride net AND is net-positive OUT OF SAMPLE"
+  },
+  "verdict": {
+   "auc_beats_shuffled_null": true,
+   "top30_conversion": 0.5029821073558648,
+   "top10_conversion": 0.5791044776119403,
+   "top30_ride_net_positive_oos": false,
+   "top10_ride_net_positive_oos": false,
+   "top30_beats_all_trigger_oos": true,
+   "top10_beats_all_trigger_oos": true,
+   "LEVER_PASSES_OOS": false
+  }
+ },
+ "caveats": [
+  "u10 = CURRENT membership (survivorship on absolute levels); per-asset z'd",
+  "shuffled-null is the false-positive floor; >0.005 over its max = real signal",
+  "the fizzle label is MAGNITUDE (day-runup>=5%), NOT direction -- the filter does not claim to predict the sign of the move",
+  "ride re-run uses lane-#4 trail-to-close mechanics; 24bps RT is the gate; real p_fill 0.21-0.40 (D43) would degrade live further",
+  "UNSEEN: never entered features/labels/reports"
+ ]
+}

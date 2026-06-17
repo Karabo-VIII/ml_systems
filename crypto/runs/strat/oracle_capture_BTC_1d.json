@@ -1,0 +1,79 @@
+{
+  "tag": "BTC_1d",
+  "reframe": "capture >= 25% of the ORACLE move (price + indicator), per cadence x cost; UNSEEN-once",
+  "move_thr": 0.02,
+  "assets": [
+    "BTCUSDT"
+  ],
+  "cadences": [
+    "1d"
+  ],
+  "costs": {
+    "taker": 0.0024,
+    "maker": 0.0006
+  },
+  "signal": "momentum-continuation: close>prior-brk-high AND SMA_fast>SMA_slow (past-only)",
+  "accounting": "single-position non-overlapping; realized net summed per move-window vs oracle move",
+  "selection": "TRAIN+VAL pooled price-oracle capture (UNSEEN never used to pick a config)",
+  "cost_cliff_curve": {
+    "1d": {
+      "taker": {
+        "median_unseen_capture_price": -0.0234,
+        "n_series": 1,
+        "median_unseen_price_oracle_sum": 1.2065
+      },
+      "maker": {
+        "median_unseen_capture_price": -0.0204,
+        "n_series": 1,
+        "median_unseen_price_oracle_sum": 1.2065
+      }
+    }
+  },
+  "rows": [
+    {
+      "asset": "BTCUSDT",
+      "cadence": "1d",
+      "cost": "taker",
+      "move_window_bars": 5,
+      "n_bars": 2334,
+      "n_bars_loaded": 2334,
+      "cfg": "brk10/f20/s100/h20",
+      "tv_capture_price": 0.3717,
+      "oos_capture_price": 0.293,
+      "unseen_capture_price": -0.0234,
+      "unseen_capture_indic": -0.0786,
+      "unseen_n_moves": 25,
+      "unseen_n_trades": 2,
+      "unseen_price_oracle_sum": 1.206542,
+      "unseen_realized_sum": -0.028237,
+      "clears_25pct_price": false,
+      "clears_25pct_indic": false
+    },
+    {
+      "asset": "BTCUSDT",
+      "cadence": "1d",
+      "cost": "maker",
+      "move_window_bars": 5,
+      "n_bars": 2334,
+      "n_bars_loaded": 2334,
+      "cfg": "brk10/f20/s100/h20",
+      "tv_capture_price": 0.3801,
+      "oos_capture_price": 0.3065,
+      "unseen_capture_price": -0.0204,
+      "unseen_capture_indic": -0.0686,
+      "unseen_n_moves": 25,
+      "unseen_n_trades": 2,
+      "unseen_price_oracle_sum": 1.206542,
+      "unseen_realized_sum": -0.024637,
+      "clears_25pct_price": false,
+      "clears_25pct_indic": false
+    }
+  ],
+  "data_gaps": [],
+  "verdict": {
+    "n_cells": 2,
+    "n_cells_clear_25pct_price_UNSEEN": 0,
+    "n_cells_clear_25pct_indicator_UNSEEN": 0,
+    "cadence_cost_median_clears_25pct": []
+  }
+}

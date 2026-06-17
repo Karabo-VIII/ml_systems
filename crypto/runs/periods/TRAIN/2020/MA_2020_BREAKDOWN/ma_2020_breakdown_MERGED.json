@@ -1,0 +1,141 @@
+{
+ "by_tf_class_OOS": {
+  "1d|EMA": 19.2,
+  "1d|SMA": 19.6,
+  "1d|WMA": 19.4,
+  "1d|HMA": 30.5,
+  "1d|DEMA": 22.8,
+  "1d|TEMA": 27.6,
+  "1d|KAMA": 16.8,
+  "1d|VIDYA": 6.4,
+  "4h|EMA": 27.9,
+  "4h|SMA": 23.9,
+  "4h|WMA": 26.4,
+  "4h|HMA": 29.4,
+  "4h|DEMA": 25.9,
+  "4h|TEMA": 23.4,
+  "4h|KAMA": 17.3,
+  "4h|VIDYA": 18.0,
+  "1h|EMA": 53.0,
+  "1h|SMA": 53.1,
+  "1h|WMA": 52.2,
+  "1h|HMA": 49.0,
+  "1h|DEMA": 47.7,
+  "1h|TEMA": 49.5,
+  "1h|KAMA": 43.9,
+  "1h|VIDYA": 47.1,
+  "30m|EMA": 42.8,
+  "30m|SMA": 50.3,
+  "30m|WMA": 43.6,
+  "30m|HMA": 28.6,
+  "30m|DEMA": 40.8,
+  "30m|TEMA": 29.5,
+  "30m|KAMA": 45.5,
+  "30m|VIDYA": 47.9,
+  "15m|EMA": 36.8,
+  "15m|SMA": 45.5,
+  "15m|WMA": 34.2,
+  "15m|HMA": 2.5,
+  "15m|DEMA": 21.3,
+  "15m|TEMA": 3.9,
+  "15m|KAMA": 40.4,
+  "15m|VIDYA": 55.0
+ },
+ "winner_vs_oracle": {
+  "1d": {
+   "winner": "HMA",
+   "TRAIN": 52.4,
+   "VAL": 33.9,
+   "OOS": 30.5,
+   "YEAR": 166.3,
+   "oos_maxdd": -15.8,
+   "oos_boot_median": 25.0,
+   "oos_boot_p05": -9.6,
+   "best_cfg": "ema_5_86",
+   "js_B": 1.0,
+   "best_cfg_oos": 33.6,
+   "oracle_cfg": [
+    "VIDYA:ema_2_5_118",
+    37.3
+   ],
+   "oracle_pf": 611.2,
+   "fam_over_oracle_pct": 82.0
+  },
+  "4h": {
+   "winner": "HMA",
+   "TRAIN": 39.6,
+   "VAL": 36.9,
+   "OOS": 29.4,
+   "YEAR": 147.2,
+   "oos_maxdd": -12.7,
+   "oos_boot_median": 28.7,
+   "oos_boot_p05": -6.4,
+   "best_cfg": "ema_31_124",
+   "js_B": 0.99,
+   "best_cfg_oos": 36.4,
+   "oracle_cfg": [
+    "SMA:ema_102_103",
+    50.8
+   ],
+   "oracle_pf": 8344.0,
+   "fam_over_oracle_pct": 58.0
+  },
+  "1h": {
+   "winner": "SMA",
+   "TRAIN": 41.3,
+   "VAL": 31.2,
+   "OOS": 53.1,
+   "YEAR": 183.7,
+   "oos_maxdd": -11.0,
+   "oos_boot_median": 56.4,
+   "oos_boot_p05": 9.1,
+   "best_cfg": "ema_8_9_75",
+   "js_B": 0.98,
+   "best_cfg_oos": 31.9,
+   "oracle_cfg": [
+    "VIDYA:ema_3_102",
+    62.8
+   ],
+   "oracle_pf": 1056755.6,
+   "fam_over_oracle_pct": 85.0
+  },
+  "30m": {
+   "winner": "SMA",
+   "TRAIN": 25.1,
+   "VAL": 24.2,
+   "OOS": 50.3,
+   "YEAR": 133.4,
+   "oos_maxdd": -13.1,
+   "oos_boot_median": 51.3,
+   "oos_boot_p05": 0.5,
+   "best_cfg": "ema_102_103",
+   "js_B": 0.99,
+   "best_cfg_oos": 46.2,
+   "oracle_cfg": [
+    "HMA:ema_52_89",
+    74.0
+   ],
+   "oracle_pf": 66924495.4,
+   "fam_over_oracle_pct": 68.0
+  },
+  "15m": {
+   "winner": "VIDYA",
+   "TRAIN": 72.0,
+   "VAL": 34.2,
+   "OOS": 55.0,
+   "YEAR": 257.9,
+   "oos_maxdd": -13.6,
+   "oos_boot_median": 58.3,
+   "oos_boot_p05": 10.7,
+   "best_cfg": "ema_12_43_75",
+   "js_B": 0.99,
+   "best_cfg_oos": 47.6,
+   "oracle_cfg": [
+    "DEMA:ema_62_105",
+    63.8
+   ],
+   "oracle_pf": 21758954626.2,
+   "fam_over_oracle_pct": 86.0
+  }
+ }
+}

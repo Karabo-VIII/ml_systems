@@ -1,0 +1,1419 @@
+{
+  "config": {
+    "cadence": "4h",
+    "taker": 0.0024,
+    "ma": [
+      8,
+      21,
+      "ema"
+    ],
+    "er_win": 20,
+    "er_gate": 0.4,
+    "breakout_n": 20,
+    "atr_win": 14,
+    "atr_mult": 3.0,
+    "time_stop_bars": 42,
+    "windows": {
+      "train_end": "2024-05-15",
+      "val_end": "2025-03-15",
+      "oos_end": "2025-12-31",
+      "unseen_end": "2026-05-22",
+      "train_start": null
+    },
+    "n_assets_loaded": 25
+  },
+  "aggregate": {
+    "TRAIN": {
+      "pooled_trade_exp_pct": 0.7304,
+      "pooled_winrate": 0.35,
+      "pooled_n_trades": 1305,
+      "mean_comp": 82.67,
+      "median_comp": -1.12,
+      "n_assets_pos_comp": 12,
+      "n_assets": 25
+    },
+    "VAL": {
+      "pooled_trade_exp_pct": 0.2595,
+      "pooled_winrate": 0.347,
+      "pooled_n_trades": 377,
+      "mean_comp": 1.95,
+      "median_comp": -1.59,
+      "n_assets_pos_comp": 11,
+      "n_assets": 25
+    },
+    "OOS": {
+      "pooled_trade_exp_pct": 0.3245,
+      "pooled_winrate": 0.358,
+      "pooled_n_trades": 332,
+      "mean_comp": 1.82,
+      "median_comp": -4.24,
+      "n_assets_pos_comp": 10,
+      "n_assets": 25
+    },
+    "UNSEEN": {
+      "pooled_trade_exp_pct": 2.9894,
+      "pooled_winrate": 0.417,
+      "pooled_n_trades": 115,
+      "mean_comp": 12.87,
+      "median_comp": -2.25,
+      "n_assets_pos_comp": 10,
+      "n_assets": 25
+    },
+    "firewall_regime_matched": {
+      "n_beat_null_held": 0,
+      "n_assets": 25
+    }
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "n_setups": 488,
+      "TRAIN": {
+        "comp": 129.05,
+        "n": 79,
+        "wr": 0.405,
+        "exp_pct": 1.2262,
+        "dd": -19.58
+      },
+      "VAL": {
+        "comp": 3.2,
+        "n": 18,
+        "wr": 0.333,
+        "exp_pct": 0.2911,
+        "dd": -11.86
+      },
+      "OOS": {
+        "comp": 11.38,
+        "n": 12,
+        "wr": 0.5,
+        "exp_pct": 0.9477,
+        "dd": -2.63
+      },
+      "UNSEEN": {
+        "comp": -1.64,
+        "n": 6,
+        "wr": 0.5,
+        "exp_pct": -0.2713,
+        "dd": -3.15
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 129.05,
+          "p95": 408.8,
+          "beats": false
+        },
+        "VAL": {
+          "real": 3.2,
+          "p95": 33.2,
+          "beats": false
+        },
+        "OOS": {
+          "real": 11.38,
+          "p95": 21.83,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -1.64,
+          "p95": 7.16,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "ETHUSDT": {
+      "n_setups": 519,
+      "TRAIN": {
+        "comp": 65.24,
+        "n": 89,
+        "wr": 0.404,
+        "exp_pct": 0.7796,
+        "dd": -30.96
+      },
+      "VAL": {
+        "comp": 5.3,
+        "n": 14,
+        "wr": 0.357,
+        "exp_pct": 0.5346,
+        "dd": -8.64
+      },
+      "OOS": {
+        "comp": -1.17,
+        "n": 20,
+        "wr": 0.35,
+        "exp_pct": 0.0489,
+        "dd": -14.83
+      },
+      "UNSEEN": {
+        "comp": -5.03,
+        "n": 6,
+        "wr": 0.167,
+        "exp_pct": -0.8237,
+        "dd": -8.98
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 65.24,
+          "p95": 376.2,
+          "beats": false
+        },
+        "VAL": {
+          "real": 5.3,
+          "p95": 49.23,
+          "beats": false
+        },
+        "OOS": {
+          "real": -1.17,
+          "p95": 50.58,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -5.03,
+          "p95": 5.59,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "SOLUSDT": {
+      "n_setups": 334,
+      "TRAIN": {
+        "comp": 22.69,
+        "n": 60,
+        "wr": 0.367,
+        "exp_pct": 0.8873,
+        "dd": -39.31
+      },
+      "VAL": {
+        "comp": -1.59,
+        "n": 16,
+        "wr": 0.438,
+        "exp_pct": 0.2028,
+        "dd": -16.74
+      },
+      "OOS": {
+        "comp": -13.7,
+        "n": 17,
+        "wr": 0.294,
+        "exp_pct": -0.8189,
+        "dd": -16.04
+      },
+      "UNSEEN": {
+        "comp": -2.69,
+        "n": 4,
+        "wr": 0.5,
+        "exp_pct": -0.6447,
+        "dd": -3.91
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 22.69,
+          "p95": 698.31,
+          "beats": false
+        },
+        "VAL": {
+          "real": -1.59,
+          "p95": 54.12,
+          "beats": false
+        },
+        "OOS": {
+          "real": -13.7,
+          "p95": 13.66,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -2.69,
+          "p95": 7.4,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "XRPUSDT": {
+      "n_setups": 309,
+      "TRAIN": {
+        "comp": -20.66,
+        "n": 60,
+        "wr": 0.333,
+        "exp_pct": 0.122,
+        "dd": -52.15
+      },
+      "VAL": {
+        "comp": 37.55,
+        "n": 17,
+        "wr": 0.353,
+        "exp_pct": 2.8958,
+        "dd": -27.33
+      },
+      "OOS": {
+        "comp": -19.28,
+        "n": 15,
+        "wr": 0.2,
+        "exp_pct": -1.3352,
+        "dd": -18.47
+      },
+      "UNSEEN": {
+        "comp": 4.51,
+        "n": 4,
+        "wr": 0.75,
+        "exp_pct": 1.2398,
+        "dd": -5.5
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -20.66,
+          "p95": 318.49,
+          "beats": false
+        },
+        "VAL": {
+          "real": 37.55,
+          "p95": 337.57,
+          "beats": false
+        },
+        "OOS": {
+          "real": -19.28,
+          "p95": 43.88,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 4.51,
+          "p95": 13.68,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "BNBUSDT": {
+      "n_setups": 396,
+      "TRAIN": {
+        "comp": 108.62,
+        "n": 81,
+        "wr": 0.346,
+        "exp_pct": 1.4008,
+        "dd": -49.17
+      },
+      "VAL": {
+        "comp": -14.75,
+        "n": 20,
+        "wr": 0.35,
+        "exp_pct": -0.7265,
+        "dd": -27.44
+      },
+      "OOS": {
+        "comp": 8.07,
+        "n": 16,
+        "wr": 0.438,
+        "exp_pct": 0.5529,
+        "dd": -7.24
+      },
+      "UNSEEN": {
+        "comp": -4.98,
+        "n": 4,
+        "wr": 0.25,
+        "exp_pct": -1.2614,
+        "dd": -5.67
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 108.62,
+          "p95": 991.21,
+          "beats": false
+        },
+        "VAL": {
+          "real": -14.75,
+          "p95": 16.59,
+          "beats": false
+        },
+        "OOS": {
+          "real": 8.07,
+          "p95": 50.71,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -4.98,
+          "p95": 3.45,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "DOGEUSDT": {
+      "n_setups": 272,
+      "TRAIN": {
+        "comp": 1898.5,
+        "n": 45,
+        "wr": 0.333,
+        "exp_pct": 11.9693,
+        "dd": -37.71
+      },
+      "VAL": {
+        "comp": 46.98,
+        "n": 15,
+        "wr": 0.467,
+        "exp_pct": 3.5255,
+        "dd": -11.35
+      },
+      "OOS": {
+        "comp": 29.37,
+        "n": 13,
+        "wr": 0.385,
+        "exp_pct": 2.2931,
+        "dd": -8.62
+      },
+      "UNSEEN": {
+        "comp": -2.25,
+        "n": 3,
+        "wr": 0.333,
+        "exp_pct": -0.7236,
+        "dd": -4.87
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 1898.5,
+          "p95": 15070.01,
+          "beats": false
+        },
+        "VAL": {
+          "real": 46.98,
+          "p95": 187.92,
+          "beats": false
+        },
+        "OOS": {
+          "real": 29.37,
+          "p95": 31.49,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -2.25,
+          "p95": -0.98,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "ZECUSDT": {
+      "n_setups": 377,
+      "TRAIN": {
+        "comp": -56.3,
+        "n": 68,
+        "wr": 0.294,
+        "exp_pct": -0.8246,
+        "dd": -65.75
+      },
+      "VAL": {
+        "comp": -3.59,
+        "n": 14,
+        "wr": 0.429,
+        "exp_pct": -0.1223,
+        "dd": -25.36
+      },
+      "OOS": {
+        "comp": -21.48,
+        "n": 21,
+        "wr": 0.19,
+        "exp_pct": -0.1522,
+        "dd": -45.38
+      },
+      "UNSEEN": {
+        "comp": 37.83,
+        "n": 7,
+        "wr": 0.429,
+        "exp_pct": 5.8584,
+        "dd": -7.65
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -56.3,
+          "p95": 37.72,
+          "beats": false
+        },
+        "VAL": {
+          "real": -3.59,
+          "p95": 48.06,
+          "beats": false
+        },
+        "OOS": {
+          "real": -21.48,
+          "p95": 554.38,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 37.83,
+          "p95": 140.71,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "TRXUSDT": {
+      "n_setups": 455,
+      "TRAIN": {
+        "comp": -46.96,
+        "n": 82,
+        "wr": 0.28,
+        "exp_pct": -0.4536,
+        "dd": -53.56
+      },
+      "VAL": {
+        "comp": 32.43,
+        "n": 22,
+        "wr": 0.364,
+        "exp_pct": 1.6959,
+        "dd": -16.01
+      },
+      "OOS": {
+        "comp": -14.59,
+        "n": 17,
+        "wr": 0.353,
+        "exp_pct": -0.9111,
+        "dd": -15.13
+      },
+      "UNSEEN": {
+        "comp": 0.13,
+        "n": 8,
+        "wr": 0.25,
+        "exp_pct": 0.0366,
+        "dd": -4.62
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -46.96,
+          "p95": 44.58,
+          "beats": false
+        },
+        "VAL": {
+          "real": 32.43,
+          "p95": 86.83,
+          "beats": false
+        },
+        "OOS": {
+          "real": -14.59,
+          "p95": -0.96,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 0.13,
+          "p95": 11.94,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "PEPEUSDT": {
+      "n_setups": 150,
+      "TRAIN": {
+        "comp": 97.88,
+        "n": 18,
+        "wr": 0.444,
+        "exp_pct": 4.7335,
+        "dd": -15.1
+      },
+      "VAL": {
+        "comp": 3.77,
+        "n": 11,
+        "wr": 0.273,
+        "exp_pct": 0.9754,
+        "dd": -19.28
+      },
+      "OOS": {
+        "comp": -10.97,
+        "n": 14,
+        "wr": 0.357,
+        "exp_pct": -0.5433,
+        "dd": -25.31
+      },
+      "UNSEEN": {
+        "comp": 18.6,
+        "n": 2,
+        "wr": 0.5,
+        "exp_pct": 10.689,
+        "dd": -9.11
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 97.88,
+          "p95": 1872.94,
+          "beats": false
+        },
+        "VAL": {
+          "real": 3.77,
+          "p95": 227.52,
+          "beats": false
+        },
+        "OOS": {
+          "real": -10.97,
+          "p95": 61.74,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 18.6,
+          "p95": 37.89,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "ADAUSDT": {
+      "n_setups": 340,
+      "TRAIN": {
+        "comp": 18.47,
+        "n": 71,
+        "wr": 0.324,
+        "exp_pct": 0.744,
+        "dd": -56.0
+      },
+      "VAL": {
+        "comp": 30.41,
+        "n": 13,
+        "wr": 0.462,
+        "exp_pct": 2.9008,
+        "dd": -16.44
+      },
+      "OOS": {
+        "comp": -11.02,
+        "n": 12,
+        "wr": 0.333,
+        "exp_pct": -0.8187,
+        "dd": -16.24
+      },
+      "UNSEEN": {
+        "comp": -12.77,
+        "n": 4,
+        "wr": 0.25,
+        "exp_pct": -3.3013,
+        "dd": -14.82
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 18.47,
+          "p95": 673.16,
+          "beats": false
+        },
+        "VAL": {
+          "real": 30.41,
+          "p95": 194.98,
+          "beats": false
+        },
+        "OOS": {
+          "real": -11.02,
+          "p95": 53.82,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -12.77,
+          "p95": 1.79,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "LINKUSDT": {
+      "n_setups": 346,
+      "TRAIN": {
+        "comp": -17.2,
+        "n": 78,
+        "wr": 0.449,
+        "exp_pct": -0.0114,
+        "dd": -60.72
+      },
+      "VAL": {
+        "comp": -24.73,
+        "n": 17,
+        "wr": 0.294,
+        "exp_pct": -1.5127,
+        "dd": -29.95
+      },
+      "OOS": {
+        "comp": 9.66,
+        "n": 11,
+        "wr": 0.455,
+        "exp_pct": 0.9178,
+        "dd": -4.36
+      },
+      "UNSEEN": {
+        "comp": -6.27,
+        "n": 6,
+        "wr": 0.333,
+        "exp_pct": -1.0503,
+        "dd": -9.68
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -17.2,
+          "p95": 415.29,
+          "beats": false
+        },
+        "VAL": {
+          "real": -24.73,
+          "p95": 30.08,
+          "beats": false
+        },
+        "OOS": {
+          "real": 9.66,
+          "p95": 22.33,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -6.27,
+          "p95": 8.05,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "SUIUSDT": {
+      "n_setups": 123,
+      "TRAIN": {
+        "comp": 1.19,
+        "n": 10,
+        "wr": 0.4,
+        "exp_pct": 0.4095,
+        "dd": -13.75
+      },
+      "VAL": {
+        "comp": -13.6,
+        "n": 15,
+        "wr": 0.4,
+        "exp_pct": -0.7741,
+        "dd": -23.6
+      },
+      "OOS": {
+        "comp": 27.35,
+        "n": 10,
+        "wr": 0.4,
+        "exp_pct": 3.2573,
+        "dd": -9.64
+      },
+      "UNSEEN": {
+        "comp": -8.29,
+        "n": 4,
+        "wr": 0.25,
+        "exp_pct": -1.9003,
+        "dd": -16.44
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 1.19,
+          "p95": 53.95,
+          "beats": false
+        },
+        "VAL": {
+          "real": -13.6,
+          "p95": 60.73,
+          "beats": false
+        },
+        "OOS": {
+          "real": 27.35,
+          "p95": 88.31,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -8.29,
+          "p95": 17.8,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "AVAXUSDT": {
+      "n_setups": 282,
+      "TRAIN": {
+        "comp": -36.93,
+        "n": 64,
+        "wr": 0.266,
+        "exp_pct": -0.1609,
+        "dd": -68.07
+      },
+      "VAL": {
+        "comp": 18.12,
+        "n": 14,
+        "wr": 0.357,
+        "exp_pct": 1.551,
+        "dd": -10.96
+      },
+      "OOS": {
+        "comp": -15.97,
+        "n": 16,
+        "wr": 0.25,
+        "exp_pct": -0.923,
+        "dd": -25.07
+      },
+      "UNSEEN": {
+        "comp": -0.25,
+        "n": 2,
+        "wr": 0.5,
+        "exp_pct": -0.1019,
+        "dd": -2.22
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -36.93,
+          "p95": 1093.77,
+          "beats": false
+        },
+        "VAL": {
+          "real": 18.12,
+          "p95": 98.58,
+          "beats": false
+        },
+        "OOS": {
+          "real": -15.97,
+          "p95": 17.35,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -0.25,
+          "p95": 3.93,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "TAOUSDT": {
+      "n_setups": 119,
+      "TRAIN": {
+        "comp": -1.12,
+        "n": 1,
+        "wr": 0.0,
+        "exp_pct": -1.1152,
+        "dd": 0.0
+      },
+      "VAL": {
+        "comp": -1.32,
+        "n": 15,
+        "wr": 0.267,
+        "exp_pct": 0.5655,
+        "dd": -27.62
+      },
+      "OOS": {
+        "comp": -17.25,
+        "n": 12,
+        "wr": 0.25,
+        "exp_pct": -1.2608,
+        "dd": -28.62
+      },
+      "UNSEEN": {
+        "comp": 31.15,
+        "n": 8,
+        "wr": 0.5,
+        "exp_pct": 4.1884,
+        "dd": -6.15
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -1.12,
+          "p95": -0.96,
+          "beats": false
+        },
+        "VAL": {
+          "real": -1.32,
+          "p95": 75.35,
+          "beats": false
+        },
+        "OOS": {
+          "real": -17.25,
+          "p95": 53.22,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 31.15,
+          "p95": 89.0,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "FETUSDT": {
+      "n_setups": 257,
+      "TRAIN": {
+        "comp": -10.69,
+        "n": 60,
+        "wr": 0.4,
+        "exp_pct": 0.3961,
+        "dd": -57.76
+      },
+      "VAL": {
+        "comp": -7.21,
+        "n": 11,
+        "wr": 0.455,
+        "exp_pct": -0.4092,
+        "dd": -14.07
+      },
+      "OOS": {
+        "comp": -16.97,
+        "n": 11,
+        "wr": 0.364,
+        "exp_pct": -1.3905,
+        "dd": -26.7
+      },
+      "UNSEEN": {
+        "comp": 11.87,
+        "n": 6,
+        "wr": 0.5,
+        "exp_pct": 2.2521,
+        "dd": -12.54
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -10.69,
+          "p95": 846.66,
+          "beats": false
+        },
+        "VAL": {
+          "real": -7.21,
+          "p95": 116.32,
+          "beats": false
+        },
+        "OOS": {
+          "real": -16.97,
+          "p95": 37.65,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 11.87,
+          "p95": 49.65,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "ENJUSDT": {
+      "n_setups": 225,
+      "TRAIN": {
+        "comp": -74.69,
+        "n": 58,
+        "wr": 0.293,
+        "exp_pct": -1.964,
+        "dd": -78.05
+      },
+      "VAL": {
+        "comp": -30.45,
+        "n": 13,
+        "wr": 0.154,
+        "exp_pct": -2.6046,
+        "dd": -32.61
+      },
+      "OOS": {
+        "comp": -2.58,
+        "n": 6,
+        "wr": 0.5,
+        "exp_pct": -0.2282,
+        "dd": -17.85
+      },
+      "UNSEEN": {
+        "comp": 171.38,
+        "n": 2,
+        "wr": 1.0,
+        "exp_pct": 84.1664,
+        "dd": 0.0
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -74.69,
+          "p95": 101.17,
+          "beats": false
+        },
+        "VAL": {
+          "real": -30.45,
+          "p95": 18.09,
+          "beats": false
+        },
+        "OOS": {
+          "real": -2.58,
+          "p95": 18.17,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 171.38,
+          "p95": 90.42,
+          "beats": true
+        }
+      },
+      "fw_beats_held": false
+    },
+    "ORDIUSDT": {
+      "n_setups": 134,
+      "TRAIN": {
+        "comp": 35.08,
+        "n": 7,
+        "wr": 0.286,
+        "exp_pct": 7.4638,
+        "dd": -24.99
+      },
+      "VAL": {
+        "comp": -20.98,
+        "n": 14,
+        "wr": 0.214,
+        "exp_pct": -1.5039,
+        "dd": -36.29
+      },
+      "OOS": {
+        "comp": -18.12,
+        "n": 15,
+        "wr": 0.333,
+        "exp_pct": -1.0975,
+        "dd": -34.34
+      },
+      "UNSEEN": {
+        "comp": 89.46,
+        "n": 5,
+        "wr": 0.6,
+        "exp_pct": 20.28,
+        "dd": -8.1
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 35.08,
+          "p95": 311.5,
+          "beats": false
+        },
+        "VAL": {
+          "real": -20.98,
+          "p95": 7.42,
+          "beats": false
+        },
+        "OOS": {
+          "real": -18.12,
+          "p95": 60.75,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 89.46,
+          "p95": 185.43,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "NEARUSDT": {
+      "n_setups": 272,
+      "TRAIN": {
+        "comp": 6.71,
+        "n": 54,
+        "wr": 0.426,
+        "exp_pct": 0.5744,
+        "dd": -48.4
+      },
+      "VAL": {
+        "comp": 69.71,
+        "n": 10,
+        "wr": 0.6,
+        "exp_pct": 5.8811,
+        "dd": -4.73
+      },
+      "OOS": {
+        "comp": -4.24,
+        "n": 14,
+        "wr": 0.5,
+        "exp_pct": -0.2299,
+        "dd": -13.11
+      },
+      "UNSEEN": {
+        "comp": 11.55,
+        "n": 7,
+        "wr": 0.571,
+        "exp_pct": 1.7163,
+        "dd": -11.81
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 6.71,
+          "p95": 274.12,
+          "beats": false
+        },
+        "VAL": {
+          "real": 69.71,
+          "p95": 84.97,
+          "beats": false
+        },
+        "OOS": {
+          "real": -4.24,
+          "p95": 36.8,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 11.55,
+          "p95": 61.22,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "WLDUSDT": {
+      "n_setups": 152,
+      "TRAIN": {
+        "comp": 50.56,
+        "n": 10,
+        "wr": 0.5,
+        "exp_pct": 8.0488,
+        "dd": -19.33
+      },
+      "VAL": {
+        "comp": -24.34,
+        "n": 12,
+        "wr": 0.25,
+        "exp_pct": -2.0961,
+        "dd": -33.49
+      },
+      "OOS": {
+        "comp": 66.49,
+        "n": 9,
+        "wr": 0.333,
+        "exp_pct": 8.2881,
+        "dd": -23.18
+      },
+      "UNSEEN": {
+        "comp": -14.29,
+        "n": 6,
+        "wr": 0.5,
+        "exp_pct": -2.3217,
+        "dd": -19.98
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 50.56,
+          "p95": 422.57,
+          "beats": false
+        },
+        "VAL": {
+          "real": -24.34,
+          "p95": 2.77,
+          "beats": false
+        },
+        "OOS": {
+          "real": 66.49,
+          "p95": 199.23,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -14.29,
+          "p95": 26.89,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "ENAUSDT": {
+      "n_setups": 104,
+      "TRAIN": {
+        "comp": -9.44,
+        "n": 1,
+        "wr": 0.0,
+        "exp_pct": -9.4438,
+        "dd": 0.0
+      },
+      "VAL": {
+        "comp": 3.89,
+        "n": 13,
+        "wr": 0.308,
+        "exp_pct": 0.4789,
+        "dd": -18.23
+      },
+      "OOS": {
+        "comp": 17.25,
+        "n": 13,
+        "wr": 0.615,
+        "exp_pct": 1.5765,
+        "dd": -5.64
+      },
+      "UNSEEN": {
+        "comp": -8.16,
+        "n": 5,
+        "wr": 0.2,
+        "exp_pct": -1.6342,
+        "dd": -8.37
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -9.44,
+          "p95": -9.44,
+          "beats": false
+        },
+        "VAL": {
+          "real": 3.89,
+          "p95": 48.53,
+          "beats": false
+        },
+        "OOS": {
+          "real": 17.25,
+          "p95": 24.15,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -8.16,
+          "p95": 5.77,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "LTCUSDT": {
+      "n_setups": 333,
+      "TRAIN": {
+        "comp": -42.52,
+        "n": 76,
+        "wr": 0.355,
+        "exp_pct": -0.5628,
+        "dd": -58.67
+      },
+      "VAL": {
+        "comp": -5.41,
+        "n": 21,
+        "wr": 0.381,
+        "exp_pct": -0.1671,
+        "dd": -18.31
+      },
+      "OOS": {
+        "comp": 1.65,
+        "n": 14,
+        "wr": 0.5,
+        "exp_pct": 0.1859,
+        "dd": -7.12
+      },
+      "UNSEEN": {
+        "comp": -3.21,
+        "n": 3,
+        "wr": 0.333,
+        "exp_pct": -1.078,
+        "dd": -3.42
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -42.52,
+          "p95": 82.69,
+          "beats": false
+        },
+        "VAL": {
+          "real": -5.41,
+          "p95": 47.53,
+          "beats": false
+        },
+        "OOS": {
+          "real": 1.65,
+          "p95": 12.12,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -3.21,
+          "p95": 0.54,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "AAVEUSDT": {
+      "n_setups": 267,
+      "TRAIN": {
+        "comp": -27.36,
+        "n": 48,
+        "wr": 0.333,
+        "exp_pct": -0.2939,
+        "dd": -51.17
+      },
+      "VAL": {
+        "comp": 13.18,
+        "n": 16,
+        "wr": 0.5,
+        "exp_pct": 0.8872,
+        "dd": -9.55
+      },
+      "OOS": {
+        "comp": -7.54,
+        "n": 10,
+        "wr": 0.4,
+        "exp_pct": -0.743,
+        "dd": -11.35
+      },
+      "UNSEEN": {
+        "comp": -4.2,
+        "n": 3,
+        "wr": 0.333,
+        "exp_pct": -1.3601,
+        "dd": -7.44
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -27.36,
+          "p95": 429.39,
+          "beats": false
+        },
+        "VAL": {
+          "real": 13.18,
+          "p95": 86.76,
+          "beats": false
+        },
+        "OOS": {
+          "real": -7.54,
+          "p95": 13.66,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -4.2,
+          "p95": 4.98,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "DASHUSDT": {
+      "n_setups": 275,
+      "TRAIN": {
+        "comp": -38.92,
+        "n": 65,
+        "wr": 0.323,
+        "exp_pct": -0.1852,
+        "dd": -65.33
+      },
+      "VAL": {
+        "comp": -23.5,
+        "n": 18,
+        "wr": 0.278,
+        "exp_pct": -1.3403,
+        "dd": -22.04
+      },
+      "OOS": {
+        "comp": 19.43,
+        "n": 13,
+        "wr": 0.231,
+        "exp_pct": 2.4102,
+        "dd": -16.93
+      },
+      "UNSEEN": {
+        "comp": 29.64,
+        "n": 5,
+        "wr": 0.6,
+        "exp_pct": 6.1643,
+        "dd": -2.22
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -38.92,
+          "p95": 1432.96,
+          "beats": false
+        },
+        "VAL": {
+          "real": -23.5,
+          "p95": 34.64,
+          "beats": false
+        },
+        "OOS": {
+          "real": 19.43,
+          "p95": 489.51,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": 29.64,
+          "p95": 60.59,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "UNIUSDT": {
+      "n_setups": 229,
+      "TRAIN": {
+        "comp": -52.74,
+        "n": 55,
+        "wr": 0.309,
+        "exp_pct": -1.0237,
+        "dd": -73.48
+      },
+      "VAL": {
+        "comp": -33.78,
+        "n": 14,
+        "wr": 0.143,
+        "exp_pct": -2.8216,
+        "dd": -31.07
+      },
+      "OOS": {
+        "comp": 42.51,
+        "n": 11,
+        "wr": 0.455,
+        "exp_pct": 3.7794,
+        "dd": -13.48
+      },
+      "UNSEEN": {
+        "comp": -5.0,
+        "n": 3,
+        "wr": 0.333,
+        "exp_pct": -1.6661,
+        "dd": -2.94
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": -52.74,
+          "p95": 15.96,
+          "beats": false
+        },
+        "VAL": {
+          "real": -33.78,
+          "p95": 15.58,
+          "beats": false
+        },
+        "OOS": {
+          "real": 42.51,
+          "p95": 71.94,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -5.0,
+          "p95": 8.15,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "BCHUSDT": {
+      "n_setups": 292,
+      "TRAIN": {
+        "comp": 68.32,
+        "n": 65,
+        "wr": 0.338,
+        "exp_pct": 1.5193,
+        "dd": -34.7
+      },
+      "VAL": {
+        "comp": -10.44,
+        "n": 14,
+        "wr": 0.286,
+        "exp_pct": -0.7263,
+        "dd": -18.54
+      },
+      "OOS": {
+        "comp": -12.78,
+        "n": 10,
+        "wr": 0.2,
+        "exp_pct": -1.279,
+        "dd": -9.01
+      },
+      "UNSEEN": {
+        "comp": -5.3,
+        "n": 2,
+        "wr": 0.0,
+        "exp_pct": -2.6774,
+        "dd": -1.22
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 68.32,
+          "p95": 778.44,
+          "beats": false
+        },
+        "VAL": {
+          "real": -10.44,
+          "p95": 2.66,
+          "beats": false
+        },
+        "OOS": {
+          "real": -12.78,
+          "p95": 8.36,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -5.3,
+          "p95": -1.58,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    }
+  }
+}

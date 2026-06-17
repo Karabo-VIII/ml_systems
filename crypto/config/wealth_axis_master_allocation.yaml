@@ -1,0 +1,61 @@
+# Wealth-Axis Master Allocation — single source of truth
+# Round-16 (2026-05-09). PROD_DEPLOY_VERDICT_2026_05_09 mandate applied:
+# P1+P5 cut to 0% (negative-net on real-data replay G2 audit). Their freed
+# 20% redistributed to xsec (+15%) + USDC reserve (+5%).
+# All deployment % flows here. Validators check src/strategy/gen5_growth/
+# config.py + xsec_sleeves_2026_05_03.py against this.
+
+# Base layer 1: pillars (event-driven directional capital)
+# All percentages are of TOTAL EQUITY.
+pillars:
+  # Active pillars
+  P2_launchpool: 20.0             # event-driven (RESEARCH)
+  P6_hodler_airdrop: 5.0          # NEW 2026-05-03; D1 pre-approved
+  P8_listing_h1_momentum: 10.0    # SHIP — empirical +1.50%/event (corrected from +8.64%)
+
+  # CUT 2026-05-09 per PROD_DEPLOY_VERDICT G2 (NEGATIVE NET on 405-event replay):
+  P1_listing_frontrun: 0.0        # was 10%; -1.38%/event NET on real-data replay
+  P5_post_listing_breakout: 0.0   # was 10%; -2.13%/event NET on real-data replay
+
+  # Conceded pillars (stay 0%)
+  P3_funding_carry: 0.0           # CONCEDE 2026-04-22; 1 day in 477 above 50% APR
+  P4_copy_trading: 0.0            # CONCEDE 2026-04-22; dead alpha
+  P7_stablecoin_yield: 0.0        # CONCEDE 2026-04-22; -0.4%/yr at fees
+
+# Base layer 2: xsec sleeves (cross-sectional ranker portfolio)
+# Currently in src/strategy/gen5_growth/xsec_sleeves_2026_05_03.py as
+# WEALTH_AXIS_PHASE6. Master allocation: xsec sleeves get 60% of equity
+# (was 45%; +15% absorbed from P1+P5 cut). Internal weights below sum to 1.0.
+xsec_sleeves:
+  total_equity_pct: 60.0          # of total equity goes to xsec sleeve stack
+  internal_weights:
+    K5_5_d_neut_daily: 0.299       # 29.9% of xsec stack
+    K7_7_d_neut_daily: 0.345       # 34.5%
+    K10_10_d_neut_daily: 0.161     # 16.1%
+    K5_5_d_neut_4h_h32: 0.195      # 19.5% (Phase 6 new)
+  # 100% of internal weights goes to sleeves (residual reserved at master level)
+
+# Base layer 3: USDC residual reserve
+usdc_reserve:
+  total_equity_pct: 5.0   # +5% absorbed from P1+P5 cut for DD floor
+
+# Validation (Round-16 reconciled 2026-05-09):
+# pillars total:           P2+P6+P8 = 20+5+10 = 35%
+# xsec sleeves total:                            60%
+# usdc reserve:                                   5%
+# GRAND TOTAL:                                  100% ✅
+
+# Round-17 selectivity additions (deferred — opt-in via flag):
+# K1_1_conviction_sleeve: 5%   (K=1+1 conviction; small allocation)
+# regime_router:           on  (high-vol days -> conviction +50% weight)
+# Frontier WM ranker (V22/V25): replace xgb_ndcg_v1_u87 if probe-validated
+# Convexity OTM-put sleeve: 5% (DEFERRED — needs Deribit IV pipeline first)
+
+# Anti-fragile gates (Round 14 enforced):
+# Worst-regime Sharpe floor: 0.5
+# Robustness ratio floor: 0.3
+# Strategies failing get demoted to research tier (allocation -> 0%)
+
+# DEPLOY_GUIDE_REF: docs/PROD_DEPLOY_VERDICT_2026_05_09.md
+# WIRING_AUDIT_REF: docs/DEPLOY_WIRING_AUDIT_2026_05_09.md
+# UNBLOCK_REF:      docs/DEPLOY_WIRING_FIXES_2026_05_09.md

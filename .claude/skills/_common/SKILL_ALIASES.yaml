@@ -1,0 +1,109 @@
+# Skill alias registry — REBUILT 2026-05-28 (skills consolidation)
+#
+# The curated skill set is 13 skills: 4 domain experts + 7 coordinators + 2 value-chain.
+#   Domain experts : pipeline, architect, trainer, trader
+#   Coordinators   : normal, apex, validator, research, audit, decide, orc
+#   Value-chain    : narrate (describe) -> discover (find edge) -> trader (act)
+#
+# Every former skill name (~36 of them) maps into one of those 10 so old
+# muscle-memory slash commands still route correctly. The fuzzy slash-router
+# (scripts/fuzzy_slash_match.py) absorbs typos and separator variants against
+# both the canonical names and these aliases — no need to enumerate spellings.
+#
+# Format: canonical_skill: [aliases that route to it]
+
+# --- domain experts ---
+pipeline:
+  - data
+architect:
+  - design
+trainer:
+  - train
+trader:
+  - trade
+
+discover:
+  - discovery
+  - strat
+  - signal
+  - edge
+  - mine
+  - setup
+
+# narrate = descriptive market-intelligence (the WHAT, before any strat); head of the value chain
+narrate:
+  - nar
+  - read
+  - tape
+
+# --- coordinators ---
+validator:
+  - validate
+  - check
+research:
+  - sota
+
+# audit = merged adversarial review (former auditor + deep + red-team)
+audit:
+  - auditor
+  - red-team
+  - deep
+  - analyze
+
+# decide = merged reasoning/decision (former oracle + dialectic + meta)
+decide:
+  - oracle
+  - consult
+  - dialectic
+  - dialect
+  - debate
+  - meta
+
+# apex = full-power / parallel-worker coordinator (former max + un + maxx swarm)
+apex:
+  - max
+  - un
+  - unconstrained
+  - maxx
+  - team
+  - swarm
+  - three-team
+
+# orc = the DEFAULT autonomous operating model (3-loop gate: problem-solver + meta + project-3h). Official name /orc.
+orc:
+  - orchestrator
+  - autonomous
+  - auto
+  - or
+  - os
+  - orchestrate
+
+# normal = vanilla direct mode (default fallback for any unclassified /command)
+
+# --- harness built-ins (shipped with Claude Code, no project SKILL.md) ---
+update-config:
+  - settings
+security-review:
+  - security
+schedule:
+  - cron
+fewer-permission-prompts:
+  - permissions
+keybindings-help:
+  - keybindings
+
+__builtins__:
+  - verify
+  - run
+  - init
+  - review
+  - security-review
+  - update-config
+  - claude-api
+  - fewer-permission-prompts
+  - keybindings-help
+  - loop
+  - schedule
+  - code-review
+  - simplify
+  - deep-research

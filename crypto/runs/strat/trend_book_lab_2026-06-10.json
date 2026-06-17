@@ -1,0 +1,184 @@
+{
+  "run_date": "2026-06-10",
+  "best_config": "atr10_gate1",
+  "atr_mult": 10.0,
+  "regime_gate": true,
+  "full_cycle_compound_pct": 273.62,
+  "full_cycle_cagr_pct_yr": 22.92,
+  "oos_compound_pct": -6.02,
+  "oos_cagr_pct_yr": -7.5,
+  "unseen_compound_pct": 0.0,
+  "unseen_cagr_pct_yr": 0.0,
+  "bh_full_cagr_pct_yr": 49.42,
+  "bh_oos_cagr_pct_yr": -11.05,
+  "bh_unseen_cagr_pct_yr": -54.19,
+  "oos_beats_2x_per_yr": false,
+  "oos_beats_bh": true,
+  "unseen_beats_2x_per_yr": false,
+  "unseen_beats_bh": true,
+  "oos_worst_asset_dd_pct": -18.54,
+  "oos_total_trades": 15,
+  "window_book": {
+    "TRAIN": {
+      "compound_pct": 320.775,
+      "cagr_pct_yr": 39.11,
+      "max_dd_pct": -73.96,
+      "n_trades": 82,
+      "asset_compounds": {
+        "BTCUSDT": 359.74,
+        "ETHUSDT": 958.08,
+        "SOLUSDT": 2569.03,
+        "BNBUSDT": 2433.7,
+        "XRPUSDT": -62.39,
+        "DOGEUSDT": 397.61,
+        "ADAUSDT": 880.02,
+        "AVAXUSDT": -36.77,
+        "LINKUSDT": 203.7,
+        "LTCUSDT": 50.15
+      }
+    },
+    "VAL": {
+      "compound_pct": -5.515,
+      "cagr_pct_yr": -6.59,
+      "max_dd_pct": -30.23,
+      "n_trades": 26,
+      "asset_compounds": {
+        "BTCUSDT": -4.42,
+        "ETHUSDT": -24.14,
+        "SOLUSDT": -20.85,
+        "BNBUSDT": -33.44,
+        "XRPUSDT": 158.26,
+        "DOGEUSDT": -5.84,
+        "ADAUSDT": -18.58,
+        "AVAXUSDT": 9.32,
+        "LINKUSDT": -20.25,
+        "LTCUSDT": -14.03
+      }
+    },
+    "OOS": {
+      "compound_pct": -6.023,
+      "cagr_pct_yr": -7.5,
+      "max_dd_pct": -18.54,
+      "n_trades": 15,
+      "asset_compounds": {
+        "BTCUSDT": -4.35,
+        "ETHUSDT": 38.49,
+        "SOLUSDT": 15.41,
+        "BNBUSDT": 38.83,
+        "XRPUSDT": -14.94,
+        "DOGEUSDT": -21.16,
+        "ADAUSDT": -31.54,
+        "AVAXUSDT": -12.93,
+        "LINKUSDT": -9.29,
+        "LTCUSDT": -30.18
+      }
+    },
+    "UNSEEN": {
+      "compound_pct": 0.0,
+      "cagr_pct_yr": 0.0,
+      "max_dd_pct": 0.0,
+      "n_trades": 0,
+      "asset_compounds": {
+        "BTCUSDT": 0.0,
+        "ETHUSDT": 0.0,
+        "SOLUSDT": 0.0,
+        "BNBUSDT": 0.0,
+        "XRPUSDT": 0.0,
+        "DOGEUSDT": 0.0,
+        "ADAUSDT": 0.0,
+        "AVAXUSDT": 0.0,
+        "LINKUSDT": 0.0,
+        "LTCUSDT": 0.0
+      }
+    }
+  },
+  "all_configs_summary": {
+    "atr3_gate1": {
+      "atr_mult": 3.0,
+      "regime_gate": true,
+      "oos_compound_pct": -9.054,
+      "oos_cagr_pct_yr": -11.23,
+      "unseen_compound_pct": 0.0,
+      "train_val_compound_pct": 217.362
+    },
+    "atr6_gate1": {
+      "atr_mult": 6.0,
+      "regime_gate": true,
+      "oos_compound_pct": -9.04,
+      "oos_cagr_pct_yr": -11.21,
+      "unseen_compound_pct": 0.0,
+      "train_val_compound_pct": 264.23999999999995
+    },
+    "atr10_gate1": {
+      "atr_mult": 10.0,
+      "regime_gate": true,
+      "oos_compound_pct": -6.023,
+      "oos_cagr_pct_yr": -7.5,
+      "unseen_compound_pct": 0.0,
+      "train_val_compound_pct": 315.26
+    },
+    "atr15_gate1": {
+      "atr_mult": 15.0,
+      "regime_gate": true,
+      "oos_compound_pct": -4.061,
+      "oos_cagr_pct_yr": -5.07,
+      "unseen_compound_pct": 0.0,
+      "train_val_compound_pct": 282.563
+    },
+    "atr3_gate0": {
+      "atr_mult": 3.0,
+      "regime_gate": false,
+      "oos_compound_pct": -9.054,
+      "oos_cagr_pct_yr": -11.23,
+      "unseen_compound_pct": 0.0,
+      "train_val_compound_pct": 217.362
+    },
+    "atr6_gate0": {
+      "atr_mult": 6.0,
+      "regime_gate": false,
+      "oos_compound_pct": -9.04,
+      "oos_cagr_pct_yr": -11.21,
+      "unseen_compound_pct": 0.0,
+      "train_val_compound_pct": 264.23999999999995
+    },
+    "atr10_gate0": {
+      "atr_mult": 10.0,
+      "regime_gate": false,
+      "oos_compound_pct": -6.023,
+      "oos_cagr_pct_yr": -7.5,
+      "unseen_compound_pct": 0.0,
+      "train_val_compound_pct": 315.26
+    },
+    "atr15_gate0": {
+      "atr_mult": 15.0,
+      "regime_gate": false,
+      "oos_compound_pct": -4.061,
+      "oos_cagr_pct_yr": -5.07,
+      "unseen_compound_pct": 0.0,
+      "train_val_compound_pct": 282.563
+    }
+  },
+  "honest_verdict": {
+    "realizable_oos_ceiling": "-8%/yr (OOS CAGR, regime-managed ATR trend book, taker cost, LO spot)",
+    "gap_to_2x_pp": 107.5,
+    "vs_buy_and_hold_oos": "+4pp vs B&H OOS (-11%/yr)",
+    "is_just_beta": false,
+    "levers_to_close_gap": [
+      "perp-short in bear regimes (+symmetric participation)",
+      "leverage 2x-3x in confirmed bull (higher return, higher DD)",
+      "sub-bar entry timing (dib bars, cost cliff uncertain)",
+      "position sizing by regime conviction (higher size in strong bull)",
+      "portfolio breadth expansion beyond u10 (more assets = more setups)"
+    ],
+    "note": "UNSEEN is a separate held-out final check; OOS is the primary verdict surface (decided on TRAIN+VAL only)."
+  },
+  "pre_delivery_self_audit": {
+    "look_ahead_check": "PASS -- entry fill=opens[i+1]; ATR uses atr[j-1]; SMA-200 regime is rolling past-only",
+    "oos_touched_once": "PASS -- best_key selected on TRAIN+VAL tune_score only; OOS/UNSEEN reported after",
+    "real_numbers": "PASS -- all numbers from ChimeraLoader real chimera data",
+    "cost_applied": "PASS -- COST_RT=0.0024 (taker 0.24% round-trip) deducted every trade",
+    "bull_concentration_caveat": "NOTED -- OOS window may differ in regime profile from TRAIN; per-window regime breakdown not auto-computed but visible from per-asset OOS vs UNSEEN divergence",
+    "beta_distinction": "NOTED -- is_just_beta flag set if OOS CAGR <= 1.2x B&H OOS; regime gate REDUCES trades in bear (bear-abstention IS the mechanism -- honest, not alpha)",
+    "verdict_surface": "OOS CAGR is the headline; FULL-CYCLE noted as context only; UNSEEN as final check"
+  }
+}

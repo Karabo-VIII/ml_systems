@@ -1,0 +1,776 @@
+{
+ "1h": {
+  "selected": {
+   "ma_type": "VIDYA",
+   "whipsaw": [
+    2,
+    12,
+    0
+   ],
+   "exit": "none",
+   "gate_dwell": 168,
+   "best_single": "ema_31_124",
+   "voltgt_level": 0.009367
+  },
+  "bench": {
+   "buyhold": {
+    "oos_net": 89.4,
+    "oos_maxdd": -23.4,
+    "oos_sharpe": 3.45
+   },
+   "voltgt_bh": {
+    "oos_net": 81.2,
+    "oos_maxdd": -14.9,
+    "oos_sharpe": 4.29,
+    "oos_cov": 100.0
+   }
+  },
+  "ladder": {
+   "S0_single": {
+    "maker": {
+     "oos_net": 68.6,
+     "oos_maxdd": -23.4,
+     "oos_sharpe": 3.65,
+     "oos_cov": 76.9,
+     "trainval_net": 162.0,
+     "turnover": 5.3,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 67.7,
+     "oos_maxdd": -23.4,
+     "oos_sharpe": 3.61,
+     "oos_cov": 76.9,
+     "trainval_net": 157.4,
+     "turnover": 5.3,
+     "cost": "taker"
+    },
+    "turnover": 5.3,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 3.65,
+    "taker_sharpe": 3.61
+   },
+   "S1_family": {
+    "maker": {
+     "oos_net": 54.3,
+     "oos_maxdd": -19.7,
+     "oos_sharpe": 3.41,
+     "oos_cov": 66.8,
+     "trainval_net": 111.0,
+     "turnover": 14.4,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 52.0,
+     "oos_maxdd": -19.8,
+     "oos_sharpe": 3.31,
+     "oos_cov": 66.8,
+     "trainval_net": 101.8,
+     "turnover": 14.4,
+     "cost": "taker"
+    },
+    "turnover": 14.4,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 3.41,
+    "taker_sharpe": 3.31
+   },
+   "S2_whipsaw": {
+    "maker": {
+     "oos_net": 55.2,
+     "oos_maxdd": -19.7,
+     "oos_sharpe": 3.46,
+     "oos_cov": 66.6,
+     "trainval_net": 115.6,
+     "turnover": 13.9,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 53.0,
+     "oos_maxdd": -19.8,
+     "oos_sharpe": 3.35,
+     "oos_cov": 66.6,
+     "trainval_net": 106.7,
+     "turnover": 13.9,
+     "cost": "taker"
+    },
+    "turnover": 13.9,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 3.46,
+    "taker_sharpe": 3.35
+   },
+   "S3_exit": {
+    "maker": {
+     "oos_net": 55.2,
+     "oos_maxdd": -19.7,
+     "oos_sharpe": 3.46,
+     "oos_cov": 66.6,
+     "trainval_net": 115.6,
+     "turnover": 13.9,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 53.0,
+     "oos_maxdd": -19.8,
+     "oos_sharpe": 3.35,
+     "oos_cov": 66.6,
+     "trainval_net": 106.7,
+     "turnover": 13.9,
+     "cost": "taker"
+    },
+    "turnover": 13.9,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 3.46,
+    "taker_sharpe": 3.35
+   },
+   "S4_gate": {
+    "maker": {
+     "oos_net": 28.0,
+     "oos_maxdd": -8.8,
+     "oos_sharpe": 2.76,
+     "oos_cov": 45.9,
+     "trainval_net": 121.0,
+     "turnover": 13.7,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 26.2,
+     "oos_maxdd": -9.3,
+     "oos_sharpe": 2.61,
+     "oos_cov": 45.9,
+     "trainval_net": 113.3,
+     "turnover": 13.7,
+     "cost": "taker"
+    },
+    "turnover": 13.7,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.1,
+    "maker_sharpe": 2.76,
+    "taker_sharpe": 2.61
+   },
+   "S5_voltgt": {
+    "maker": {
+     "oos_net": 25.4,
+     "oos_maxdd": -7.6,
+     "oos_sharpe": 3.1,
+     "oos_cov": 38.3,
+     "trainval_net": 110.8,
+     "turnover": 12.3,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 23.8,
+     "oos_maxdd": -8.0,
+     "oos_sharpe": 2.93,
+     "oos_cov": 38.3,
+     "trainval_net": 104.2,
+     "turnover": 12.3,
+     "cost": "taker"
+    },
+    "turnover": 12.3,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 3.1,
+    "taker_sharpe": 2.93
+   }
+  },
+  "frontier": {
+   "nogate_voltgt": {
+    "maker": {
+     "oos_net": 48.3,
+     "oos_maxdd": -11.8,
+     "oos_sharpe": 4.11,
+     "oos_cov": 52.8,
+     "trainval_net": 98.7,
+     "turnover": 13.2,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 46.3,
+     "oos_maxdd": -11.9,
+     "oos_sharpe": 3.97,
+     "oos_cov": 52.8,
+     "trainval_net": 91.2,
+     "turnover": 13.2,
+     "cost": "taker"
+    },
+    "turnover": 13.2
+   },
+   "halfgate_voltgt": {
+    "maker": {
+     "oos_net": 36.7,
+     "oos_maxdd": -6.3,
+     "oos_sharpe": 3.91,
+     "oos_cov": 38.3,
+     "trainval_net": 105.6,
+     "turnover": 12.7,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 34.9,
+     "oos_maxdd": -6.5,
+     "oos_sharpe": 3.75,
+     "oos_cov": 38.3,
+     "trainval_net": 98.5,
+     "turnover": 12.7,
+     "cost": "taker"
+    },
+    "turnover": 12.7
+   },
+   "fullgate_voltgt": {
+    "maker": {
+     "oos_net": 25.4,
+     "oos_maxdd": -7.6,
+     "oos_sharpe": 3.1,
+     "oos_cov": 38.3,
+     "trainval_net": 110.8,
+     "turnover": 12.3,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 23.8,
+     "oos_maxdd": -8.0,
+     "oos_sharpe": 2.93,
+     "oos_cov": 38.3,
+     "trainval_net": 104.2,
+     "turnover": 12.3,
+     "cost": "taker"
+    },
+    "turnover": 12.3
+   }
+  },
+  "n_assets_book": 10,
+  "deploy_candidate_maker": false
+ },
+ "30m": {
+  "selected": {
+   "ma_type": "VIDYA",
+   "whipsaw": [
+    8,
+    96,
+    48
+   ],
+   "exit": "none",
+   "gate_dwell": 0,
+   "best_single": "ema_22_65",
+   "voltgt_level": 0.006935
+  },
+  "bench": {
+   "buyhold": {
+    "oos_net": 125.5,
+    "oos_maxdd": -25.3,
+    "oos_sharpe": 4.09
+   },
+   "voltgt_bh": {
+    "oos_net": 103.5,
+    "oos_maxdd": -15.4,
+    "oos_sharpe": 4.89,
+    "oos_cov": 100.0
+   }
+  },
+  "ladder": {
+   "S0_single": {
+    "maker": {
+     "oos_net": 78.0,
+     "oos_maxdd": -17.6,
+     "oos_sharpe": 4.03,
+     "oos_cov": 60.5,
+     "trainval_net": 124.4,
+     "turnover": 15.8,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 74.9,
+     "oos_maxdd": -17.6,
+     "oos_sharpe": 3.92,
+     "oos_cov": 60.5,
+     "trainval_net": 111.1,
+     "turnover": 15.8,
+     "cost": "taker"
+    },
+    "turnover": 15.8,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.1,
+    "maker_sharpe": 4.03,
+    "taker_sharpe": 3.92
+   },
+   "S1_family": {
+    "maker": {
+     "oos_net": 64.0,
+     "oos_maxdd": -16.5,
+     "oos_sharpe": 3.81,
+     "oos_cov": 62.4,
+     "trainval_net": 106.5,
+     "turnover": 26.6,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 59.2,
+     "oos_maxdd": -16.6,
+     "oos_sharpe": 3.6,
+     "oos_cov": 62.4,
+     "trainval_net": 89.4,
+     "turnover": 26.6,
+     "cost": "taker"
+    },
+    "turnover": 26.6,
+    "breadth_maker": 7,
+    "breadth_taker": 6,
+    "n_in_book": 10,
+    "n_eff": 2.1,
+    "maker_sharpe": 3.81,
+    "taker_sharpe": 3.6
+   },
+   "S2_whipsaw": {
+    "maker": {
+     "oos_net": 61.2,
+     "oos_maxdd": -16.9,
+     "oos_sharpe": 3.66,
+     "oos_cov": 64.0,
+     "trainval_net": 122.0,
+     "turnover": 17.8,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 58.0,
+     "oos_maxdd": -17.0,
+     "oos_sharpe": 3.52,
+     "oos_cov": 64.0,
+     "trainval_net": 109.8,
+     "turnover": 17.8,
+     "cost": "taker"
+    },
+    "turnover": 17.8,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 3.66,
+    "taker_sharpe": 3.52
+   },
+   "S3_exit": {
+    "maker": {
+     "oos_net": 61.2,
+     "oos_maxdd": -16.9,
+     "oos_sharpe": 3.66,
+     "oos_cov": 64.0,
+     "trainval_net": 122.0,
+     "turnover": 17.8,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 58.0,
+     "oos_maxdd": -17.0,
+     "oos_sharpe": 3.52,
+     "oos_cov": 64.0,
+     "trainval_net": 109.8,
+     "turnover": 17.8,
+     "cost": "taker"
+    },
+    "turnover": 17.8,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 3.66,
+    "taker_sharpe": 3.52
+   },
+   "S4_gate": {
+    "maker": {
+     "oos_net": 61.2,
+     "oos_maxdd": -16.9,
+     "oos_sharpe": 3.66,
+     "oos_cov": 64.0,
+     "trainval_net": 122.0,
+     "turnover": 17.8,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 58.0,
+     "oos_maxdd": -17.0,
+     "oos_sharpe": 3.52,
+     "oos_cov": 64.0,
+     "trainval_net": 109.8,
+     "turnover": 17.8,
+     "cost": "taker"
+    },
+    "turnover": 17.8,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 3.66,
+    "taker_sharpe": 3.52
+   },
+   "S5_voltgt": {
+    "maker": {
+     "oos_net": 54.4,
+     "oos_maxdd": -10.5,
+     "oos_sharpe": 4.36,
+     "oos_cov": 53.4,
+     "trainval_net": 104.5,
+     "turnover": 16.4,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 51.5,
+     "oos_maxdd": -10.8,
+     "oos_sharpe": 4.18,
+     "oos_cov": 53.4,
+     "trainval_net": 94.4,
+     "turnover": 16.4,
+     "cost": "taker"
+    },
+    "turnover": 16.4,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.0,
+    "maker_sharpe": 4.36,
+    "taker_sharpe": 4.18
+   }
+  },
+  "frontier": {
+   "nogate_voltgt": {
+    "maker": {
+     "oos_net": 54.4,
+     "oos_maxdd": -10.5,
+     "oos_sharpe": 4.36,
+     "oos_cov": 53.4,
+     "trainval_net": 104.5,
+     "turnover": 16.4,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 51.5,
+     "oos_maxdd": -10.8,
+     "oos_sharpe": 4.18,
+     "oos_cov": 53.4,
+     "trainval_net": 94.4,
+     "turnover": 16.4,
+     "cost": "taker"
+    },
+    "turnover": 16.4
+   },
+   "halfgate_voltgt": {
+    "maker": {
+     "oos_net": 37.5,
+     "oos_maxdd": -10.8,
+     "oos_sharpe": 3.75,
+     "oos_cov": 32.8,
+     "trainval_net": 79.7,
+     "turnover": 17.6,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 34.8,
+     "oos_maxdd": -11.1,
+     "oos_sharpe": 3.53,
+     "oos_cov": 32.8,
+     "trainval_net": 70.7,
+     "turnover": 17.6,
+     "cost": "taker"
+    },
+    "turnover": 17.6
+   },
+   "fullgate_voltgt": {
+    "maker": {
+     "oos_net": 21.9,
+     "oos_maxdd": -11.6,
+     "oos_sharpe": 2.54,
+     "oos_cov": 32.8,
+     "trainval_net": 55.5,
+     "turnover": 18.8,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 19.4,
+     "oos_maxdd": -11.9,
+     "oos_sharpe": 2.29,
+     "oos_cov": 32.8,
+     "trainval_net": 47.5,
+     "turnover": 18.8,
+     "cost": "taker"
+    },
+    "turnover": 18.8
+   }
+  },
+  "n_assets_book": 10,
+  "deploy_candidate_maker": false
+ },
+ "15m": {
+  "selected": {
+   "ma_type": "VIDYA",
+   "whipsaw": [
+    8,
+    96,
+    48
+   ],
+   "exit": "none",
+   "gate_dwell": 0,
+   "best_single": "ema_62_105",
+   "voltgt_level": 0.005223
+  },
+  "bench": {
+   "buyhold": {
+    "oos_net": 153.9,
+    "oos_maxdd": -26.7,
+    "oos_sharpe": 4.55
+   },
+   "voltgt_bh": {
+    "oos_net": 127.0,
+    "oos_maxdd": -16.1,
+    "oos_sharpe": 5.43,
+    "oos_cov": 100.0
+   }
+  },
+  "ladder": {
+   "S0_single": {
+    "maker": {
+     "oos_net": 96.3,
+     "oos_maxdd": -21.5,
+     "oos_sharpe": 4.49,
+     "oos_cov": 59.5,
+     "trainval_net": 199.0,
+     "turnover": 13.2,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 93.2,
+     "oos_maxdd": -21.6,
+     "oos_sharpe": 4.39,
+     "oos_cov": 59.5,
+     "trainval_net": 183.4,
+     "turnover": 13.2,
+     "cost": "taker"
+    },
+    "turnover": 13.2,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.1,
+    "maker_sharpe": 4.49,
+    "taker_sharpe": 4.39
+   },
+   "S1_family": {
+    "maker": {
+     "oos_net": 70.5,
+     "oos_maxdd": -13.6,
+     "oos_sharpe": 4.08,
+     "oos_cov": 57.1,
+     "trainval_net": 151.5,
+     "turnover": 48.7,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 60.8,
+     "oos_maxdd": -14.5,
+     "oos_sharpe": 3.66,
+     "oos_cov": 57.1,
+     "trainval_net": 113.2,
+     "turnover": 48.7,
+     "cost": "taker"
+    },
+    "turnover": 48.7,
+    "breadth_maker": 7,
+    "breadth_taker": 6,
+    "n_in_book": 10,
+    "n_eff": 2.2,
+    "maker_sharpe": 4.08,
+    "taker_sharpe": 3.66
+   },
+   "S2_whipsaw": {
+    "maker": {
+     "oos_net": 74.2,
+     "oos_maxdd": -15.7,
+     "oos_sharpe": 4.17,
+     "oos_cov": 60.6,
+     "trainval_net": 173.1,
+     "turnover": 31.3,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 67.7,
+     "oos_maxdd": -16.3,
+     "oos_sharpe": 3.9,
+     "oos_cov": 60.6,
+     "trainval_net": 145.7,
+     "turnover": 31.3,
+     "cost": "taker"
+    },
+    "turnover": 31.3,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.1,
+    "maker_sharpe": 4.17,
+    "taker_sharpe": 3.9
+   },
+   "S3_exit": {
+    "maker": {
+     "oos_net": 74.2,
+     "oos_maxdd": -15.7,
+     "oos_sharpe": 4.17,
+     "oos_cov": 60.6,
+     "trainval_net": 173.1,
+     "turnover": 31.3,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 67.7,
+     "oos_maxdd": -16.3,
+     "oos_sharpe": 3.9,
+     "oos_cov": 60.6,
+     "trainval_net": 145.7,
+     "turnover": 31.3,
+     "cost": "taker"
+    },
+    "turnover": 31.3,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.1,
+    "maker_sharpe": 4.17,
+    "taker_sharpe": 3.9
+   },
+   "S4_gate": {
+    "maker": {
+     "oos_net": 74.2,
+     "oos_maxdd": -15.7,
+     "oos_sharpe": 4.17,
+     "oos_cov": 60.6,
+     "trainval_net": 173.1,
+     "turnover": 31.3,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 67.7,
+     "oos_maxdd": -16.3,
+     "oos_sharpe": 3.9,
+     "oos_cov": 60.6,
+     "trainval_net": 145.7,
+     "turnover": 31.3,
+     "cost": "taker"
+    },
+    "turnover": 31.3,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.1,
+    "maker_sharpe": 4.17,
+    "taker_sharpe": 3.9
+   },
+   "S5_voltgt": {
+    "maker": {
+     "oos_net": 67.0,
+     "oos_maxdd": -8.6,
+     "oos_sharpe": 4.99,
+     "oos_cov": 51.7,
+     "trainval_net": 140.8,
+     "turnover": 28.1,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 61.4,
+     "oos_maxdd": -9.1,
+     "oos_sharpe": 4.67,
+     "oos_cov": 51.7,
+     "trainval_net": 119.6,
+     "turnover": 28.1,
+     "cost": "taker"
+    },
+    "turnover": 28.1,
+    "breadth_maker": 7,
+    "breadth_taker": 7,
+    "n_in_book": 10,
+    "n_eff": 2.5,
+    "maker_sharpe": 4.99,
+    "taker_sharpe": 4.67
+   }
+  },
+  "frontier": {
+   "nogate_voltgt": {
+    "maker": {
+     "oos_net": 67.0,
+     "oos_maxdd": -8.6,
+     "oos_sharpe": 4.99,
+     "oos_cov": 51.7,
+     "trainval_net": 140.8,
+     "turnover": 28.1,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 61.4,
+     "oos_maxdd": -9.1,
+     "oos_sharpe": 4.67,
+     "oos_cov": 51.7,
+     "trainval_net": 119.6,
+     "turnover": 28.1,
+     "cost": "taker"
+    },
+    "turnover": 28.1
+   },
+   "halfgate_voltgt": {
+    "maker": {
+     "oos_net": 62.1,
+     "oos_maxdd": -6.9,
+     "oos_sharpe": 5.55,
+     "oos_cov": 31.0,
+     "trainval_net": 81.9,
+     "turnover": 30.9,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 56.1,
+     "oos_maxdd": -7.2,
+     "oos_sharpe": 5.13,
+     "oos_cov": 31.0,
+     "trainval_net": 65.0,
+     "turnover": 30.9,
+     "cost": "taker"
+    },
+    "turnover": 30.9
+   },
+   "fullgate_voltgt": {
+    "maker": {
+     "oos_net": 56.7,
+     "oos_maxdd": -8.4,
+     "oos_sharpe": 5.55,
+     "oos_cov": 31.0,
+     "trainval_net": 35.9,
+     "turnover": 33.8,
+     "cost": "maker"
+    },
+    "taker": {
+     "oos_net": 50.3,
+     "oos_maxdd": -8.9,
+     "oos_sharpe": 5.05,
+     "oos_cov": 31.0,
+     "trainval_net": 22.5,
+     "turnover": 33.8,
+     "cost": "taker"
+    },
+    "turnover": 33.8
+   }
+  },
+  "n_assets_book": 10,
+  "deploy_candidate_maker": false
+ }
+}

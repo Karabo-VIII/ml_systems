@@ -1,0 +1,115 @@
+{
+ "results": {
+  "30m|EMA": {
+   "TRAIN": 43.1,
+   "VAL": 29.2,
+   "OOS": 42.8,
+   "YEAR": 163.9,
+   "oos_maxdd": -14.2,
+   "oos_boot_median": 45.1,
+   "oos_boot_p05": -3.0,
+   "best_cfg": "ema_15_65",
+   "js_B": 0.99,
+   "best_cfg_oos": 47.7
+  },
+  "30m|SMA": {
+   "TRAIN": 25.1,
+   "VAL": 24.2,
+   "OOS": 50.3,
+   "YEAR": 133.4,
+   "oos_maxdd": -13.1,
+   "oos_boot_median": 51.3,
+   "oos_boot_p05": 0.5,
+   "best_cfg": "ema_102_103",
+   "js_B": 0.99,
+   "best_cfg_oos": 46.2
+  },
+  "30m|WMA": {
+   "TRAIN": 28.5,
+   "VAL": 23.3,
+   "OOS": 43.6,
+   "YEAR": 127.6,
+   "oos_maxdd": -14.2,
+   "oos_boot_median": 44.7,
+   "oos_boot_p05": -4.3,
+   "best_cfg": "ema_22_65",
+   "js_B": 0.99,
+   "best_cfg_oos": 58.7
+  },
+  "30m|HMA": {
+   "TRAIN": 15.4,
+   "VAL": 17.2,
+   "OOS": 28.6,
+   "YEAR": 74.1,
+   "oos_maxdd": -12.3,
+   "oos_boot_median": 30.4,
+   "oos_boot_p05": -8.0,
+   "best_cfg": "ema_52_89",
+   "js_B": 1.0,
+   "best_cfg_oos": 74.0
+  },
+  "30m|DEMA": {
+   "TRAIN": 30.4,
+   "VAL": 16.3,
+   "OOS": 40.8,
+   "YEAR": 113.5,
+   "oos_maxdd": -12.2,
+   "oos_boot_median": 41.0,
+   "oos_boot_p05": -0.3,
+   "best_cfg": "ema_75_132_148",
+   "js_B": 0.99,
+   "best_cfg_oos": 61.3
+  },
+  "30m|TEMA": {
+   "TRAIN": 18.4,
+   "VAL": 8.1,
+   "OOS": 29.5,
+   "YEAR": 65.8,
+   "oos_maxdd": -13.0,
+   "oos_boot_median": 29.5,
+   "oos_boot_p05": -7.9,
+   "best_cfg": "ema_26_75",
+   "js_B": 0.99,
+   "best_cfg_oos": 51.6
+  },
+  "30m|KAMA": {
+   "TRAIN": 29.8,
+   "VAL": 22.9,
+   "OOS": 45.5,
+   "YEAR": 131.9,
+   "oos_maxdd": -12.6,
+   "oos_boot_median": 46.9,
+   "oos_boot_p05": 1.4,
+   "best_cfg": "ema_10_128",
+   "js_B": 0.99,
+   "best_cfg_oos": 51.6
+  },
+  "30m|VIDYA": {
+   "TRAIN": 43.8,
+   "VAL": 24.3,
+   "OOS": 47.9,
+   "YEAR": 164.4,
+   "oos_maxdd": -9.3,
+   "oos_boot_median": 49.6,
+   "oos_boot_p05": 7.6,
+   "best_cfg": "ema_4_30_67",
+   "js_B": 0.97,
+   "best_cfg_oos": 39.7
+  }
+ },
+ "winners": {
+  "30m": [
+   "SMA",
+   50.3
+  ]
+ },
+ "oracle": {
+  "30m": {
+   "hindsight_cfg": [
+    "HMA:ema_52_89",
+    74.0
+   ],
+   "perfect_foresight_oos": 66924495.4
+  }
+ }
+}

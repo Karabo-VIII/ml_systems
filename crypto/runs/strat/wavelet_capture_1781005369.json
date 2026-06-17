@@ -1,0 +1,2295 @@
+{
+  "created": "2026-06-09T13:42:29",
+  "leak_test_passed": true,
+  "soundness_witness": {
+    "spc_within_window_detects_timing(f=0.6)": true,
+    "capture_proxy_selftest_pass": true,
+    "note": "the membership/within-window null family has POWER (accepts a real timing skill, rejects no-skill) -> a NO-EDGE verdict is a real absence of edge."
+  },
+  "params": {
+    "cadences": "1d,4h",
+    "wavelet": "haar",
+    "thresh": 1.5,
+    "hold": 5,
+    "n_books": 400,
+    "modes": "taker,maker_pessimistic"
+  },
+  "runs": {
+    "1d__taker": {
+      "per_asset": [
+        {
+          "asset": "BTCUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 25,
+          "real_compound_pct": -9.705,
+          "capture": {
+            "n_windows_held": 6,
+            "mean_capture_held": 0.3891,
+            "null_p50_held": 0.4575,
+            "null_p95_held": 0.5084,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4575,
+            "all_windows": {
+              "TRAIN": {
+                "n": 16,
+                "mean_capture": 0.6464,
+                "null_p95": 0.5563,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 3,
+                "mean_capture": 0.6061,
+                "null_p95": 0.5772,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 4,
+                "mean_capture": 0.4745,
+                "null_p95": 0.5484,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 2,
+                "mean_capture": 0.2183,
+                "null_p95": 0.3884,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": 8.002,
+            "p95": 86.159,
+            "p": 0.6758,
+            "beats": false,
+            "excess_pct": -17.706
+          },
+          "compound_membership_null": {
+            "p50": -12.415,
+            "p95": 52.799,
+            "p": 0.4564,
+            "beats": false,
+            "excess_pct": 2.71
+          }
+        },
+        {
+          "asset": "ETHUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 17,
+          "real_compound_pct": 103.569,
+          "capture": {
+            "n_windows_held": 4,
+            "mean_capture_held": 0.6432,
+            "null_p50_held": 0.4713,
+            "null_p95_held": 0.5427,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.4713,
+            "all_windows": {
+              "TRAIN": {
+                "n": 8,
+                "mean_capture": 0.5625,
+                "null_p95": 0.543,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 5,
+                "mean_capture": 0.6236,
+                "null_p95": 0.6149,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 3,
+                "mean_capture": 0.5982,
+                "null_p95": 0.53,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.7782,
+                "null_p95": 0.5089,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": 7.024,
+            "p95": 88.961,
+            "p": 0.0374,
+            "beats": true,
+            "excess_pct": 96.546
+          },
+          "compound_membership_null": {
+            "p50": 45.52,
+            "p95": 125.989,
+            "p": 0.1222,
+            "beats": false,
+            "excess_pct": 58.05
+          }
+        },
+        {
+          "asset": "SOLUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 8,
+          "real_compound_pct": -21.482,
+          "capture": {
+            "n_windows_held": 3,
+            "mean_capture_held": 0.5905,
+            "null_p50_held": 0.5599,
+            "null_p95_held": 0.6005,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5599,
+            "all_windows": {
+              "TRAIN": {
+                "n": 5,
+                "mean_capture": 0.3368,
+                "null_p95": 0.4669,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              },
+              "OOS": {
+                "n": 2,
+                "mean_capture": 0.6592,
+                "null_p95": 0.6341,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.4529,
+                "null_p95": 0.5333,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -0.659,
+            "p95": 89.526,
+            "p": 0.783,
+            "beats": false,
+            "excess_pct": -20.823
+          },
+          "compound_membership_null": {
+            "p50": 11.433,
+            "p95": 97.341,
+            "p": 0.798,
+            "beats": false,
+            "excess_pct": -32.915
+          }
+        },
+        {
+          "asset": "BNBUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 20,
+          "real_compound_pct": 23.181,
+          "capture": {
+            "n_windows_held": 4,
+            "mean_capture_held": 0.4584,
+            "null_p50_held": 0.546,
+            "null_p95_held": 0.642,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.546,
+            "all_windows": {
+              "TRAIN": {
+                "n": 13,
+                "mean_capture": 0.5279,
+                "null_p95": 0.5088,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 3,
+                "mean_capture": 0.3825,
+                "null_p95": 0.5903,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 3,
+                "mean_capture": 0.3744,
+                "null_p95": 0.5582,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.7101,
+                "null_p95": 0.7253,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": 11.644,
+            "p95": 120.366,
+            "p": 0.4115,
+            "beats": false,
+            "excess_pct": 11.537
+          },
+          "compound_membership_null": {
+            "p50": 22.561,
+            "p95": 108.072,
+            "p": 0.4888,
+            "beats": false,
+            "excess_pct": 0.619
+          }
+        },
+        {
+          "asset": "XRPUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 17,
+          "real_compound_pct": 94.459,
+          "capture": {
+            "n_windows_held": 1,
+            "mean_capture_held": 0.8086,
+            "null_p50_held": 0.5807,
+            "null_p95_held": 0.5807,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.5807,
+            "all_windows": {
+              "TRAIN": {
+                "n": 14,
+                "mean_capture": 0.4682,
+                "null_p95": 0.5685,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 2,
+                "mean_capture": 0.7836,
+                "null_p95": 0.5224,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.8086,
+                "null_p95": 0.5807,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": 1.36,
+            "p95": 133.092,
+            "p": 0.1022,
+            "beats": false,
+            "excess_pct": 93.099
+          },
+          "compound_membership_null": {
+            "p50": 107.571,
+            "p95": 358.778,
+            "p": 0.5711,
+            "beats": false,
+            "excess_pct": -13.112
+          }
+        },
+        {
+          "asset": "DOGEUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 14,
+          "real_compound_pct": 6.619,
+          "capture": {
+            "n_windows_held": 6,
+            "mean_capture_held": 0.3803,
+            "null_p50_held": 0.5171,
+            "null_p95_held": 0.5806,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5184,
+            "all_windows": {
+              "TRAIN": {
+                "n": 6,
+                "mean_capture": 0.2027,
+                "null_p95": 0.5695,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 2,
+                "mean_capture": 0.3396,
+                "null_p95": 0.5102,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 5,
+                "mean_capture": 0.2563,
+                "null_p95": 0.5214,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 1.0,
+                "null_p95": 0.6874,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -1.241,
+            "p95": 195.496,
+            "p": 0.404,
+            "beats": false,
+            "excess_pct": 7.86
+          },
+          "compound_membership_null": {
+            "p50": 45.686,
+            "p95": 241.272,
+            "p": 0.7332,
+            "beats": false,
+            "excess_pct": -39.067
+          }
+        },
+        {
+          "asset": "ADAUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 18,
+          "real_compound_pct": -17.484,
+          "capture": {
+            "n_windows_held": 6,
+            "mean_capture_held": 0.2456,
+            "null_p50_held": 0.4742,
+            "null_p95_held": 0.5232,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4719,
+            "all_windows": {
+              "TRAIN": {
+                "n": 11,
+                "mean_capture": 0.4092,
+                "null_p95": 0.5328,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 1,
+                "mean_capture": 1.0,
+                "null_p95": 0.7014,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 6,
+                "mean_capture": 0.2456,
+                "null_p95": 0.5232,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -0.317,
+            "p95": 130.203,
+            "p": 0.6708,
+            "beats": false,
+            "excess_pct": -17.167
+          },
+          "compound_membership_null": {
+            "p50": 45.023,
+            "p95": 202.241,
+            "p": 0.9352,
+            "beats": false,
+            "excess_pct": -62.507
+          }
+        },
+        {
+          "asset": "AVAXUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 11,
+          "real_compound_pct": 110.29,
+          "capture": {
+            "n_windows_held": 2,
+            "mean_capture_held": 0.3728,
+            "null_p50_held": 0.4899,
+            "null_p95_held": 0.5917,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4899,
+            "all_windows": {
+              "TRAIN": {
+                "n": 5,
+                "mean_capture": 0.6616,
+                "null_p95": 0.4865,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 4,
+                "mean_capture": 0.3006,
+                "null_p95": 0.5375,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 2,
+                "mean_capture": 0.3728,
+                "null_p95": 0.5917,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -2.577,
+            "p95": 110.276,
+            "p": 0.0524,
+            "beats": true,
+            "excess_pct": 112.867
+          },
+          "compound_membership_null": {
+            "p50": 154.191,
+            "p95": 376.797,
+            "p": 0.6509,
+            "beats": false,
+            "excess_pct": -43.901
+          }
+        },
+        {
+          "asset": "LINKUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 18,
+          "real_compound_pct": 77.379,
+          "capture": {
+            "n_windows_held": 5,
+            "mean_capture_held": 0.5111,
+            "null_p50_held": 0.5222,
+            "null_p95_held": 0.5599,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5222,
+            "all_windows": {
+              "TRAIN": {
+                "n": 10,
+                "mean_capture": 0.5767,
+                "null_p95": 0.5522,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 3,
+                "mean_capture": 0.1273,
+                "null_p95": 0.5669,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 4,
+                "mean_capture": 0.6388,
+                "null_p95": 0.5743,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.0,
+                "null_p95": 0.4856,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -0.206,
+            "p95": 141.77,
+            "p": 0.1446,
+            "beats": false,
+            "excess_pct": 77.586
+          },
+          "compound_membership_null": {
+            "p50": 65.156,
+            "p95": 219.256,
+            "p": 0.4389,
+            "beats": false,
+            "excess_pct": 12.223
+          }
+        },
+        {
+          "asset": "LTCUSDT",
+          "cadence": "1d",
+          "mode": "taker",
+          "n_trades": 17,
+          "real_compound_pct": -33.657,
+          "capture": {
+            "n_windows_held": 4,
+            "mean_capture_held": 0.4943,
+            "null_p50_held": 0.5046,
+            "null_p95_held": 0.5824,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5046,
+            "all_windows": {
+              "TRAIN": {
+                "n": 11,
+                "mean_capture": 0.565,
+                "null_p95": 0.5752,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 2,
+                "mean_capture": 0.6935,
+                "null_p95": 0.6842,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 4,
+                "mean_capture": 0.4943,
+                "null_p95": 0.5982,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -1.783,
+            "p95": 94.669,
+            "p": 0.803,
+            "beats": false,
+            "excess_pct": -31.874
+          },
+          "compound_membership_null": {
+            "p50": -19.633,
+            "p95": 78.672,
+            "p": 0.6783,
+            "beats": false,
+            "excess_pct": -14.024
+          }
+        }
+      ],
+      "verdict": {
+        "verdict": "NO EDGE -- causal wavelet energy-expansion does NOT beat the null on capture-rate (and/or compound) after costs",
+        "edge": false,
+        "capture_edge": false,
+        "compound_edge": false,
+        "mode": "taker",
+        "n_assets": 10,
+        "n_assets_capture": 10,
+        "assets_beating_capture_null": 2,
+        "assets_beating_compound_random_null": 2,
+        "assets_beating_compound_membership_null": 0,
+        "median_excess_capture_vs_null": -0.0398,
+        "bootstrap_p_median_excess_capture_gt0": 0.8781,
+        "median_excess_compound_pct_vs_random": 9.699
+      }
+    },
+    "1d__maker_pessimistic": {
+      "per_asset": [
+        {
+          "asset": "BTCUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 25,
+          "real_compound_pct": -83.29,
+          "capture": {
+            "n_windows_held": 6,
+            "mean_capture_held": 0.3891,
+            "null_p50_held": 0.4575,
+            "null_p95_held": 0.5084,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4575,
+            "all_windows": {
+              "TRAIN": {
+                "n": 16,
+                "mean_capture": 0.6464,
+                "null_p95": 0.5563,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 3,
+                "mean_capture": 0.6061,
+                "null_p95": 0.5772,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 4,
+                "mean_capture": 0.4745,
+                "null_p95": 0.5484,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 2,
+                "mean_capture": 0.2183,
+                "null_p95": 0.3884,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -64.504,
+            "p95": -38.484,
+            "p": 0.9027,
+            "beats": false,
+            "excess_pct": -18.786
+          },
+          "compound_membership_null": {
+            "p50": -80.27,
+            "p95": -41.96,
+            "p": 0.6234,
+            "beats": false,
+            "excess_pct": -3.02
+          }
+        },
+        {
+          "asset": "ETHUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 17,
+          "real_compound_pct": -28.845,
+          "capture": {
+            "n_windows_held": 4,
+            "mean_capture_held": 0.6432,
+            "null_p50_held": 0.4713,
+            "null_p95_held": 0.5427,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.4713,
+            "all_windows": {
+              "TRAIN": {
+                "n": 8,
+                "mean_capture": 0.5625,
+                "null_p95": 0.543,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 5,
+                "mean_capture": 0.6236,
+                "null_p95": 0.6149,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 3,
+                "mean_capture": 0.5982,
+                "null_p95": 0.53,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.7782,
+                "null_p95": 0.5089,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -61.766,
+            "p95": -28.986,
+            "p": 0.0499,
+            "beats": true,
+            "excess_pct": 32.92
+          },
+          "compound_membership_null": {
+            "p50": -51.226,
+            "p95": -18.714,
+            "p": 0.1546,
+            "beats": false,
+            "excess_pct": 22.381
+          }
+        },
+        {
+          "asset": "SOLUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 8,
+          "real_compound_pct": -68.684,
+          "capture": {
+            "n_windows_held": 3,
+            "mean_capture_held": 0.5905,
+            "null_p50_held": 0.5599,
+            "null_p95_held": 0.6005,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5599,
+            "all_windows": {
+              "TRAIN": {
+                "n": 5,
+                "mean_capture": 0.3368,
+                "null_p95": 0.4669,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              },
+              "OOS": {
+                "n": 2,
+                "mean_capture": 0.6592,
+                "null_p95": 0.6341,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.4529,
+                "null_p95": 0.5333,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -47.492,
+            "p95": -11.248,
+            "p": 0.8404,
+            "beats": false,
+            "excess_pct": -21.191
+          },
+          "compound_membership_null": {
+            "p50": -58.931,
+            "p95": -27.308,
+            "p": 0.6309,
+            "beats": false,
+            "excess_pct": -9.752
+          }
+        },
+        {
+          "asset": "BNBUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 20,
+          "real_compound_pct": -65.798,
+          "capture": {
+            "n_windows_held": 4,
+            "mean_capture_held": 0.4584,
+            "null_p50_held": 0.546,
+            "null_p95_held": 0.642,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.546,
+            "all_windows": {
+              "TRAIN": {
+                "n": 13,
+                "mean_capture": 0.5279,
+                "null_p95": 0.5088,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 3,
+                "mean_capture": 0.3825,
+                "null_p95": 0.5903,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 3,
+                "mean_capture": 0.3744,
+                "null_p95": 0.5582,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.7101,
+                "null_p95": 0.7253,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -60.62,
+            "p95": -32.848,
+            "p": 0.6209,
+            "beats": false,
+            "excess_pct": -5.178
+          },
+          "compound_membership_null": {
+            "p50": -64.943,
+            "p95": -34.303,
+            "p": 0.5337,
+            "beats": false,
+            "excess_pct": -0.855
+          }
+        },
+        {
+          "asset": "XRPUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 17,
+          "real_compound_pct": -21.49,
+          "capture": {
+            "n_windows_held": 1,
+            "mean_capture_held": 0.8086,
+            "null_p50_held": 0.5807,
+            "null_p95_held": 0.5807,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.5807,
+            "all_windows": {
+              "TRAIN": {
+                "n": 14,
+                "mean_capture": 0.4682,
+                "null_p95": 0.5685,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 2,
+                "mean_capture": 0.7836,
+                "null_p95": 0.5224,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.8086,
+                "null_p95": 0.5807,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -66.166,
+            "p95": -34.408,
+            "p": 0.01,
+            "beats": true,
+            "excess_pct": 44.676
+          },
+          "compound_membership_null": {
+            "p50": -56.857,
+            "p95": -31.626,
+            "p": 0.0075,
+            "beats": true,
+            "excess_pct": 35.367
+          }
+        },
+        {
+          "asset": "DOGEUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 14,
+          "real_compound_pct": -76.011,
+          "capture": {
+            "n_windows_held": 6,
+            "mean_capture_held": 0.3803,
+            "null_p50_held": 0.5171,
+            "null_p95_held": 0.5806,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5184,
+            "all_windows": {
+              "TRAIN": {
+                "n": 6,
+                "mean_capture": 0.2027,
+                "null_p95": 0.5695,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 2,
+                "mean_capture": 0.3396,
+                "null_p95": 0.5102,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 5,
+                "mean_capture": 0.2563,
+                "null_p95": 0.5214,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 1.0,
+                "null_p95": 0.6874,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -67.511,
+            "p95": -33.56,
+            "p": 0.7057,
+            "beats": false,
+            "excess_pct": -8.5
+          },
+          "compound_membership_null": {
+            "p50": -67.765,
+            "p95": -34.601,
+            "p": 0.7032,
+            "beats": false,
+            "excess_pct": -8.246
+          }
+        },
+        {
+          "asset": "ADAUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 18,
+          "real_compound_pct": -85.013,
+          "capture": {
+            "n_windows_held": 6,
+            "mean_capture_held": 0.2456,
+            "null_p50_held": 0.4742,
+            "null_p95_held": 0.5232,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4719,
+            "all_windows": {
+              "TRAIN": {
+                "n": 11,
+                "mean_capture": 0.4092,
+                "null_p95": 0.5328,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 1,
+                "mean_capture": 1.0,
+                "null_p95": 0.7014,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 6,
+                "mean_capture": 0.2456,
+                "null_p95": 0.5232,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -74.449,
+            "p95": -45.002,
+            "p": 0.8279,
+            "beats": false,
+            "excess_pct": -10.563
+          },
+          "compound_membership_null": {
+            "p50": -70.131,
+            "p95": -42.07,
+            "p": 0.9202,
+            "beats": false,
+            "excess_pct": -14.882
+          }
+        },
+        {
+          "asset": "AVAXUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 11,
+          "real_compound_pct": -53.196,
+          "capture": {
+            "n_windows_held": 2,
+            "mean_capture_held": 0.3728,
+            "null_p50_held": 0.4899,
+            "null_p95_held": 0.5917,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4899,
+            "all_windows": {
+              "TRAIN": {
+                "n": 5,
+                "mean_capture": 0.6616,
+                "null_p95": 0.4865,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 4,
+                "mean_capture": 0.3006,
+                "null_p95": 0.5375,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 2,
+                "mean_capture": 0.3728,
+                "null_p95": 0.5917,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -63.184,
+            "p95": -29.447,
+            "p": 0.3092,
+            "beats": false,
+            "excess_pct": 9.988
+          },
+          "compound_membership_null": {
+            "p50": -45.611,
+            "p95": -17.454,
+            "p": 0.7032,
+            "beats": false,
+            "excess_pct": -7.585
+          }
+        },
+        {
+          "asset": "LINKUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 18,
+          "real_compound_pct": -66.528,
+          "capture": {
+            "n_windows_held": 5,
+            "mean_capture_held": 0.5111,
+            "null_p50_held": 0.5222,
+            "null_p95_held": 0.5599,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5222,
+            "all_windows": {
+              "TRAIN": {
+                "n": 10,
+                "mean_capture": 0.5767,
+                "null_p95": 0.5522,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 3,
+                "mean_capture": 0.1273,
+                "null_p95": 0.5669,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 4,
+                "mean_capture": 0.6388,
+                "null_p95": 0.5743,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 1,
+                "mean_capture": 0.0,
+                "null_p95": 0.4856,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -76.305,
+            "p95": -44.162,
+            "p": 0.2993,
+            "beats": false,
+            "excess_pct": 9.777
+          },
+          "compound_membership_null": {
+            "p50": -64.33,
+            "p95": -33.161,
+            "p": 0.5786,
+            "beats": false,
+            "excess_pct": -2.198
+          }
+        },
+        {
+          "asset": "LTCUSDT",
+          "cadence": "1d",
+          "mode": "maker_pessimistic",
+          "n_trades": 17,
+          "real_compound_pct": -84.23,
+          "capture": {
+            "n_windows_held": 4,
+            "mean_capture_held": 0.4943,
+            "null_p50_held": 0.5046,
+            "null_p95_held": 0.5824,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5046,
+            "all_windows": {
+              "TRAIN": {
+                "n": 11,
+                "mean_capture": 0.565,
+                "null_p95": 0.5752,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 2,
+                "mean_capture": 0.6935,
+                "null_p95": 0.6842,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 4,
+                "mean_capture": 0.4943,
+                "null_p95": 0.5982,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -67.442,
+            "p95": -33.958,
+            "p": 0.8354,
+            "beats": false,
+            "excess_pct": -16.788
+          },
+          "compound_membership_null": {
+            "p50": -83.959,
+            "p95": -54.227,
+            "p": 0.5137,
+            "beats": false,
+            "excess_pct": -0.27
+          }
+        }
+      ],
+      "verdict": {
+        "verdict": "NO EDGE -- causal wavelet energy-expansion does NOT beat the null on capture-rate (and/or compound) after costs",
+        "edge": false,
+        "capture_edge": false,
+        "compound_edge": false,
+        "mode": "maker_pessimistic",
+        "n_assets": 10,
+        "n_assets_capture": 10,
+        "assets_beating_capture_null": 2,
+        "assets_beating_compound_random_null": 2,
+        "assets_beating_compound_membership_null": 1,
+        "median_excess_capture_vs_null": -0.0398,
+        "bootstrap_p_median_excess_capture_gt0": 0.8781,
+        "median_excess_compound_pct_vs_random": -6.839
+      }
+    },
+    "4h__taker": {
+      "per_asset": [
+        {
+          "asset": "BTCUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 118,
+          "real_compound_pct": -46.983,
+          "capture": {
+            "n_windows_held": 30,
+            "mean_capture_held": 0.4788,
+            "null_p50_held": 0.5152,
+            "null_p95_held": 0.5482,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5163,
+            "all_windows": {
+              "TRAIN": {
+                "n": 73,
+                "mean_capture": 0.4808,
+                "null_p95": 0.4993,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 12,
+                "mean_capture": 0.4149,
+                "null_p95": 0.5567,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 16,
+                "mean_capture": 0.4915,
+                "null_p95": 0.5459,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 14,
+                "mean_capture": 0.4643,
+                "null_p95": 0.5801,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -19.735,
+            "p95": 35.588,
+            "p": 0.9077,
+            "beats": false,
+            "excess_pct": -27.248
+          },
+          "compound_membership_null": {
+            "p50": -24.229,
+            "p95": 14.202,
+            "p": 0.8928,
+            "beats": false,
+            "excess_pct": -22.754
+          }
+        },
+        {
+          "asset": "ETHUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 133,
+          "real_compound_pct": -12.126,
+          "capture": {
+            "n_windows_held": 30,
+            "mean_capture_held": 0.4691,
+            "null_p50_held": 0.5092,
+            "null_p95_held": 0.5474,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5097,
+            "all_windows": {
+              "TRAIN": {
+                "n": 75,
+                "mean_capture": 0.4544,
+                "null_p95": 0.5114,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 25,
+                "mean_capture": 0.516,
+                "null_p95": 0.5393,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 20,
+                "mean_capture": 0.3981,
+                "null_p95": 0.5291,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 10,
+                "mean_capture": 0.6111,
+                "null_p95": 0.6221,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -21.851,
+            "p95": 67.514,
+            "p": 0.4389,
+            "beats": false,
+            "excess_pct": 9.725
+          },
+          "compound_membership_null": {
+            "p50": -19.973,
+            "p95": 37.798,
+            "p": 0.3815,
+            "beats": false,
+            "excess_pct": 7.847
+          }
+        },
+        {
+          "asset": "SOLUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 56,
+          "real_compound_pct": 26.928,
+          "capture": {
+            "n_windows_held": 21,
+            "mean_capture_held": 0.5267,
+            "null_p50_held": 0.4542,
+            "null_p95_held": 0.4819,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.453,
+            "all_windows": {
+              "TRAIN": {
+                "n": 28,
+                "mean_capture": 0.4725,
+                "null_p95": 0.5484,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 7,
+                "mean_capture": 0.5326,
+                "null_p95": 0.6163,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 17,
+                "mean_capture": 0.5654,
+                "null_p95": 0.4916,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 4,
+                "mean_capture": 0.3623,
+                "null_p95": 0.4849,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -7.481,
+            "p95": 87.068,
+            "p": 0.2494,
+            "beats": false,
+            "excess_pct": 34.409
+          },
+          "compound_membership_null": {
+            "p50": 26.469,
+            "p95": 133.916,
+            "p": 0.4913,
+            "beats": false,
+            "excess_pct": 0.459
+          }
+        },
+        {
+          "asset": "BNBUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 131,
+          "real_compound_pct": 8.543,
+          "capture": {
+            "n_windows_held": 28,
+            "mean_capture_held": 0.53,
+            "null_p50_held": 0.4785,
+            "null_p95_held": 0.51,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.4791,
+            "all_windows": {
+              "TRAIN": {
+                "n": 78,
+                "mean_capture": 0.5099,
+                "null_p95": 0.5036,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 24,
+                "mean_capture": 0.4761,
+                "null_p95": 0.53,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 15,
+                "mean_capture": 0.5484,
+                "null_p95": 0.5488,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 13,
+                "mean_capture": 0.5087,
+                "null_p95": 0.493,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -16.621,
+            "p95": 74.449,
+            "p": 0.2743,
+            "beats": false,
+            "excess_pct": 25.164
+          },
+          "compound_membership_null": {
+            "p50": -11.061,
+            "p95": 50.959,
+            "p": 0.2693,
+            "beats": false,
+            "excess_pct": 19.604
+          }
+        },
+        {
+          "asset": "XRPUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 84,
+          "real_compound_pct": -58.603,
+          "capture": {
+            "n_windows_held": 11,
+            "mean_capture_held": 0.5212,
+            "null_p50_held": 0.5041,
+            "null_p95_held": 0.5439,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5049,
+            "all_windows": {
+              "TRAIN": {
+                "n": 66,
+                "mean_capture": 0.4629,
+                "null_p95": 0.49,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 7,
+                "mean_capture": 0.5671,
+                "null_p95": 0.5016,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 3,
+                "mean_capture": 0.7412,
+                "null_p95": 0.562,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 8,
+                "mean_capture": 0.4387,
+                "null_p95": 0.5417,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -15.462,
+            "p95": 82.912,
+            "p": 0.9601,
+            "beats": false,
+            "excess_pct": -43.141
+          },
+          "compound_membership_null": {
+            "p50": -21.402,
+            "p95": 66.948,
+            "p": 0.9451,
+            "beats": false,
+            "excess_pct": -37.202
+          }
+        },
+        {
+          "asset": "DOGEUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 86,
+          "real_compound_pct": -20.079,
+          "capture": {
+            "n_windows_held": 26,
+            "mean_capture_held": 0.5436,
+            "null_p50_held": 0.5422,
+            "null_p95_held": 0.5762,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5425,
+            "all_windows": {
+              "TRAIN": {
+                "n": 44,
+                "mean_capture": 0.4871,
+                "null_p95": 0.5529,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 16,
+                "mean_capture": 0.5708,
+                "null_p95": 0.6062,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 19,
+                "mean_capture": 0.5627,
+                "null_p95": 0.5913,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 7,
+                "mean_capture": 0.492,
+                "null_p95": 0.5737,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -10.667,
+            "p95": 163.411,
+            "p": 0.5835,
+            "beats": false,
+            "excess_pct": -9.412
+          },
+          "compound_membership_null": {
+            "p50": -24.421,
+            "p95": 43.016,
+            "p": 0.4464,
+            "beats": false,
+            "excess_pct": 4.343
+          }
+        },
+        {
+          "asset": "ADAUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 95,
+          "real_compound_pct": 18.841,
+          "capture": {
+            "n_windows_held": 32,
+            "mean_capture_held": 0.5482,
+            "null_p50_held": 0.4779,
+            "null_p95_held": 0.5098,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.478,
+            "all_windows": {
+              "TRAIN": {
+                "n": 48,
+                "mean_capture": 0.5112,
+                "null_p95": 0.5044,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 11,
+                "mean_capture": 0.6176,
+                "null_p95": 0.6087,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 29,
+                "mean_capture": 0.5409,
+                "null_p95": 0.5095,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 3,
+                "mean_capture": 0.6192,
+                "null_p95": 0.5851,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -20.406,
+            "p95": 72.893,
+            "p": 0.217,
+            "beats": false,
+            "excess_pct": 39.247
+          },
+          "compound_membership_null": {
+            "p50": -23.703,
+            "p95": 44.927,
+            "p": 0.1746,
+            "beats": false,
+            "excess_pct": 42.544
+          }
+        },
+        {
+          "asset": "AVAXUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 69,
+          "real_compound_pct": 7.716,
+          "capture": {
+            "n_windows_held": 11,
+            "mean_capture_held": 0.6812,
+            "null_p50_held": 0.5243,
+            "null_p95_held": 0.5735,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.5251,
+            "all_windows": {
+              "TRAIN": {
+                "n": 34,
+                "mean_capture": 0.5104,
+                "null_p95": 0.5488,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 24,
+                "mean_capture": 0.4764,
+                "null_p95": 0.5202,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 11,
+                "mean_capture": 0.6812,
+                "null_p95": 0.5701,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -12.083,
+            "p95": 83.406,
+            "p": 0.3292,
+            "beats": false,
+            "excess_pct": 19.799
+          },
+          "compound_membership_null": {
+            "p50": -1.884,
+            "p95": 100.076,
+            "p": 0.414,
+            "beats": false,
+            "excess_pct": 9.6
+          }
+        },
+        {
+          "asset": "LINKUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 103,
+          "real_compound_pct": 18.644,
+          "capture": {
+            "n_windows_held": 28,
+            "mean_capture_held": 0.4417,
+            "null_p50_held": 0.4719,
+            "null_p95_held": 0.502,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4725,
+            "all_windows": {
+              "TRAIN": {
+                "n": 56,
+                "mean_capture": 0.4524,
+                "null_p95": 0.5031,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 18,
+                "mean_capture": 0.5495,
+                "null_p95": 0.518,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 24,
+                "mean_capture": 0.4991,
+                "null_p95": 0.5123,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 4,
+                "mean_capture": 0.0977,
+                "null_p95": 0.4947,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -19.917,
+            "p95": 90.608,
+            "p": 0.2444,
+            "beats": false,
+            "excess_pct": 38.561
+          },
+          "compound_membership_null": {
+            "p50": 41.487,
+            "p95": 199.227,
+            "p": 0.6808,
+            "beats": false,
+            "excess_pct": -22.843
+          }
+        },
+        {
+          "asset": "LTCUSDT",
+          "cadence": "4h",
+          "mode": "taker",
+          "n_trades": 98,
+          "real_compound_pct": -18.433,
+          "capture": {
+            "n_windows_held": 20,
+            "mean_capture_held": 0.4383,
+            "null_p50_held": 0.4629,
+            "null_p95_held": 0.5015,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4635,
+            "all_windows": {
+              "TRAIN": {
+                "n": 67,
+                "mean_capture": 0.4275,
+                "null_p95": 0.5026,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 11,
+                "mean_capture": 0.6102,
+                "null_p95": 0.5131,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 18,
+                "mean_capture": 0.4437,
+                "null_p95": 0.5056,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 2,
+                "mean_capture": 0.3893,
+                "null_p95": 0.5302,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -16.496,
+            "p95": 58.208,
+            "p": 0.5137,
+            "beats": false,
+            "excess_pct": -1.937
+          },
+          "compound_membership_null": {
+            "p50": -5.581,
+            "p95": 77.969,
+            "p": 0.6434,
+            "beats": false,
+            "excess_pct": -12.851
+          }
+        }
+      ],
+      "verdict": {
+        "verdict": "NO EDGE -- causal wavelet energy-expansion does NOT beat the null on capture-rate (and/or compound) after costs",
+        "edge": false,
+        "capture_edge": false,
+        "compound_edge": false,
+        "mode": "taker",
+        "n_assets": 10,
+        "n_assets_capture": 10,
+        "assets_beating_capture_null": 4,
+        "assets_beating_compound_random_null": 0,
+        "assets_beating_compound_membership_null": 0,
+        "median_excess_capture_vs_null": 0.0087,
+        "bootstrap_p_median_excess_capture_gt0": 0.3473,
+        "median_excess_compound_pct_vs_random": 14.762
+      }
+    },
+    "4h__maker_pessimistic": {
+      "per_asset": [
+        {
+          "asset": "BTCUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 118,
+          "real_compound_pct": -92.226,
+          "capture": {
+            "n_windows_held": 30,
+            "mean_capture_held": 0.4788,
+            "null_p50_held": 0.5152,
+            "null_p95_held": 0.5482,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5163,
+            "all_windows": {
+              "TRAIN": {
+                "n": 73,
+                "mean_capture": 0.4808,
+                "null_p95": 0.4993,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 12,
+                "mean_capture": 0.4149,
+                "null_p95": 0.5567,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 16,
+                "mean_capture": 0.4915,
+                "null_p95": 0.5459,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 14,
+                "mean_capture": 0.4643,
+                "null_p95": 0.5801,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -89.477,
+            "p95": -80.618,
+            "p": 0.7506,
+            "beats": false,
+            "excess_pct": -2.748
+          },
+          "compound_membership_null": {
+            "p50": -92.349,
+            "p95": -86.759,
+            "p": 0.4763,
+            "beats": false,
+            "excess_pct": 0.124
+          }
+        },
+        {
+          "asset": "ETHUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 133,
+          "real_compound_pct": -95.956,
+          "capture": {
+            "n_windows_held": 30,
+            "mean_capture_held": 0.4691,
+            "null_p50_held": 0.5092,
+            "null_p95_held": 0.5474,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5097,
+            "all_windows": {
+              "TRAIN": {
+                "n": 75,
+                "mean_capture": 0.4544,
+                "null_p95": 0.5114,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 25,
+                "mean_capture": 0.516,
+                "null_p95": 0.5393,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 20,
+                "mean_capture": 0.3981,
+                "null_p95": 0.5291,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 10,
+                "mean_capture": 0.6111,
+                "null_p95": 0.6221,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -96.699,
+            "p95": -92.24,
+            "p": 0.3641,
+            "beats": false,
+            "excess_pct": 0.742
+          },
+          "compound_membership_null": {
+            "p50": -97.484,
+            "p95": -94.779,
+            "p": 0.1421,
+            "beats": false,
+            "excess_pct": 1.527
+          }
+        },
+        {
+          "asset": "SOLUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 56,
+          "real_compound_pct": -87.01,
+          "capture": {
+            "n_windows_held": 21,
+            "mean_capture_held": 0.5267,
+            "null_p50_held": 0.4542,
+            "null_p95_held": 0.4819,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.453,
+            "all_windows": {
+              "TRAIN": {
+                "n": 28,
+                "mean_capture": 0.4725,
+                "null_p95": 0.5484,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 7,
+                "mean_capture": 0.5326,
+                "null_p95": 0.6163,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 17,
+                "mean_capture": 0.5654,
+                "null_p95": 0.4916,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 4,
+                "mean_capture": 0.3623,
+                "null_p95": 0.4849,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -87.15,
+            "p95": -73.08,
+            "p": 0.4913,
+            "beats": false,
+            "excess_pct": 0.14
+          },
+          "compound_membership_null": {
+            "p50": -85.825,
+            "p95": -70.003,
+            "p": 0.5711,
+            "beats": false,
+            "excess_pct": -1.185
+          }
+        },
+        {
+          "asset": "BNBUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 131,
+          "real_compound_pct": -92.225,
+          "capture": {
+            "n_windows_held": 28,
+            "mean_capture_held": 0.53,
+            "null_p50_held": 0.4785,
+            "null_p95_held": 0.51,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.4791,
+            "all_windows": {
+              "TRAIN": {
+                "n": 78,
+                "mean_capture": 0.5099,
+                "null_p95": 0.5036,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 24,
+                "mean_capture": 0.4761,
+                "null_p95": 0.53,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 15,
+                "mean_capture": 0.5484,
+                "null_p95": 0.5488,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 13,
+                "mean_capture": 0.5087,
+                "null_p95": 0.493,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -95.32,
+            "p95": -89.304,
+            "p": 0.1696,
+            "beats": false,
+            "excess_pct": 3.095
+          },
+          "compound_membership_null": {
+            "p50": -95.237,
+            "p95": -90.557,
+            "p": 0.1247,
+            "beats": false,
+            "excess_pct": 3.011
+          }
+        },
+        {
+          "asset": "XRPUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 84,
+          "real_compound_pct": -95.711,
+          "capture": {
+            "n_windows_held": 11,
+            "mean_capture_held": 0.5212,
+            "null_p50_held": 0.5041,
+            "null_p95_held": 0.5439,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5049,
+            "all_windows": {
+              "TRAIN": {
+                "n": 66,
+                "mean_capture": 0.4629,
+                "null_p95": 0.49,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 7,
+                "mean_capture": 0.5671,
+                "null_p95": 0.5016,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 3,
+                "mean_capture": 0.7412,
+                "null_p95": 0.562,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 8,
+                "mean_capture": 0.4387,
+                "null_p95": 0.5417,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -90.837,
+            "p95": -79.431,
+            "p": 0.8628,
+            "beats": false,
+            "excess_pct": -4.874
+          },
+          "compound_membership_null": {
+            "p50": -94.319,
+            "p95": -88.759,
+            "p": 0.7157,
+            "beats": false,
+            "excess_pct": -1.392
+          }
+        },
+        {
+          "asset": "DOGEUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 86,
+          "real_compound_pct": -96.903,
+          "capture": {
+            "n_windows_held": 26,
+            "mean_capture_held": 0.5436,
+            "null_p50_held": 0.5422,
+            "null_p95_held": 0.5762,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.5425,
+            "all_windows": {
+              "TRAIN": {
+                "n": 44,
+                "mean_capture": 0.4871,
+                "null_p95": 0.5529,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 16,
+                "mean_capture": 0.5708,
+                "null_p95": 0.6062,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 19,
+                "mean_capture": 0.5627,
+                "null_p95": 0.5913,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 7,
+                "mean_capture": 0.492,
+                "null_p95": 0.5737,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -94.681,
+            "p95": -87.412,
+            "p": 0.7805,
+            "beats": false,
+            "excess_pct": -2.221
+          },
+          "compound_membership_null": {
+            "p50": -97.257,
+            "p95": -93.87,
+            "p": 0.404,
+            "beats": false,
+            "excess_pct": 0.354
+          }
+        },
+        {
+          "asset": "ADAUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 95,
+          "real_compound_pct": -90.502,
+          "capture": {
+            "n_windows_held": 32,
+            "mean_capture_held": 0.5482,
+            "null_p50_held": 0.4779,
+            "null_p95_held": 0.5098,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.478,
+            "all_windows": {
+              "TRAIN": {
+                "n": 48,
+                "mean_capture": 0.5112,
+                "null_p95": 0.5044,
+                "beats_null": true
+              },
+              "VAL": {
+                "n": 11,
+                "mean_capture": 0.6176,
+                "null_p95": 0.6087,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 29,
+                "mean_capture": 0.5409,
+                "null_p95": 0.5095,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 3,
+                "mean_capture": 0.6192,
+                "null_p95": 0.5851,
+                "beats_null": true
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -95.284,
+            "p95": -88.604,
+            "p": 0.0998,
+            "beats": false,
+            "excess_pct": 4.782
+          },
+          "compound_membership_null": {
+            "p50": -96.865,
+            "p95": -93.239,
+            "p": 0.015,
+            "beats": true,
+            "excess_pct": 6.363
+          }
+        },
+        {
+          "asset": "AVAXUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 69,
+          "real_compound_pct": -89.985,
+          "capture": {
+            "n_windows_held": 11,
+            "mean_capture_held": 0.6812,
+            "null_p50_held": 0.5243,
+            "null_p95_held": 0.5735,
+            "beats_null_held": true,
+            "null_analytic_mean_held": 0.5251,
+            "all_windows": {
+              "TRAIN": {
+                "n": 34,
+                "mean_capture": 0.5104,
+                "null_p95": 0.5488,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 24,
+                "mean_capture": 0.4764,
+                "null_p95": 0.5202,
+                "beats_null": false
+              },
+              "OOS": {
+                "n": 11,
+                "mean_capture": 0.6812,
+                "null_p95": 0.5701,
+                "beats_null": true
+              },
+              "UNSEEN": {
+                "n": 0,
+                "mean_capture": null,
+                "null_p95": null,
+                "beats_null": null
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -92.449,
+            "p95": -81.864,
+            "p": 0.3117,
+            "beats": false,
+            "excess_pct": 2.464
+          },
+          "compound_membership_null": {
+            "p50": -95.129,
+            "p95": -88.44,
+            "p": 0.0948,
+            "beats": false,
+            "excess_pct": 5.144
+          }
+        },
+        {
+          "asset": "LINKUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 103,
+          "real_compound_pct": -97.1,
+          "capture": {
+            "n_windows_held": 28,
+            "mean_capture_held": 0.4417,
+            "null_p50_held": 0.4719,
+            "null_p95_held": 0.502,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4725,
+            "all_windows": {
+              "TRAIN": {
+                "n": 56,
+                "mean_capture": 0.4524,
+                "null_p95": 0.5031,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 18,
+                "mean_capture": 0.5495,
+                "null_p95": 0.518,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 24,
+                "mean_capture": 0.4991,
+                "null_p95": 0.5123,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 4,
+                "mean_capture": 0.0977,
+                "null_p95": 0.4947,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -97.332,
+            "p95": -93.039,
+            "p": 0.4589,
+            "beats": false,
+            "excess_pct": 0.233
+          },
+          "compound_membership_null": {
+            "p50": -97.081,
+            "p95": -92.486,
+            "p": 0.5137,
+            "beats": false,
+            "excess_pct": -0.019
+          }
+        },
+        {
+          "asset": "LTCUSDT",
+          "cadence": "4h",
+          "mode": "maker_pessimistic",
+          "n_trades": 98,
+          "real_compound_pct": -95.102,
+          "capture": {
+            "n_windows_held": 20,
+            "mean_capture_held": 0.4383,
+            "null_p50_held": 0.4629,
+            "null_p95_held": 0.5015,
+            "beats_null_held": false,
+            "null_analytic_mean_held": 0.4635,
+            "all_windows": {
+              "TRAIN": {
+                "n": 67,
+                "mean_capture": 0.4275,
+                "null_p95": 0.5026,
+                "beats_null": false
+              },
+              "VAL": {
+                "n": 11,
+                "mean_capture": 0.6102,
+                "null_p95": 0.5131,
+                "beats_null": true
+              },
+              "OOS": {
+                "n": 18,
+                "mean_capture": 0.4437,
+                "null_p95": 0.5056,
+                "beats_null": false
+              },
+              "UNSEEN": {
+                "n": 2,
+                "mean_capture": 0.3893,
+                "null_p95": 0.5302,
+                "beats_null": false
+              }
+            }
+          },
+          "compound_random_entry_null": {
+            "p50": -93.906,
+            "p95": -85.055,
+            "p": 0.6234,
+            "beats": false,
+            "excess_pct": -1.195
+          },
+          "compound_membership_null": {
+            "p50": -96.781,
+            "p95": -92.437,
+            "p": 0.2369,
+            "beats": false,
+            "excess_pct": 1.679
+          }
+        }
+      ],
+      "verdict": {
+        "verdict": "NO EDGE -- causal wavelet energy-expansion does NOT beat the null on capture-rate (and/or compound) after costs",
+        "edge": false,
+        "capture_edge": false,
+        "compound_edge": false,
+        "mode": "maker_pessimistic",
+        "n_assets": 10,
+        "n_assets_capture": 10,
+        "assets_beating_capture_null": 4,
+        "assets_beating_compound_random_null": 0,
+        "assets_beating_compound_membership_null": 1,
+        "median_excess_capture_vs_null": 0.0087,
+        "bootstrap_p_median_excess_capture_gt0": 0.3473,
+        "median_excess_compound_pct_vs_random": 0.186
+      }
+    }
+  }
+}

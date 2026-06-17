@@ -1,0 +1,46 @@
+{
+  "repro": {
+    "command": "python src/strat/tsmom_ensemble.py --universe u50 --cadence 1d --battery --book BLEND_50r --maker --json",
+    "git_sha": "5e638c6"
+  },
+  "battery": {
+    "book": "BLEND_50r",
+    "n_perturb": 30,
+    "param_robustness": {
+      "full_ann": {
+        "min": 43.3,
+        "med": 47.400000000000006,
+        "max": 51.0
+      },
+      "full_calmar": {
+        "min": 18.9,
+        "med": 22.5,
+        "max": 27.8
+      },
+      "oos_ann": {
+        "min": -13.2,
+        "med": -8.9,
+        "max": -5.9,
+        "pct_positive": 0.0
+      },
+      "unseen_ann": {
+        "min": -10.6,
+        "med": -4.75,
+        "max": 1.5,
+        "pct_positive": 0.03
+      }
+    },
+    "bootstrap_full": {
+      "p05": 7.6,
+      "p50": 48.9,
+      "p95": 112.9,
+      "prob_positive": 0.98
+    },
+    "bootstrap_held_out": {
+      "p05": -28.3,
+      "p50": -5.3,
+      "p95": 32.1,
+      "prob_positive": 0.39
+    }
+  }
+}

@@ -1,0 +1,668 @@
+{
+  "run_date": "2026-06-10",
+  "buy_and_hold": {
+    "unseen_cagr_pct_yr": -54.71,
+    "oos_cagr_pct_yr": -7.51
+  },
+  "honest_summary": {
+    "verdict_lines": [
+      "Best bar type (UNSEEN): renko -> CAGR -20%/yr",
+      "  max_DD (worst asset): -12.6%  n_trades_UNSEEN: 47",
+      "  B&H UNSEEN: -55%/yr | beats_BH: True",
+      "  Bands cleared: []",
+      "  Bands missed:  ['1pct_per_day_250pct_yr', '2pct_per_3d_~150pct_yr', '3pct_per_week_~100pct_yr', 'relaxed_floor_2x_yr_100pct', '2x_yr_100pct']",
+      "  Gaps: {'gap_to_250pct_yr_pp': 270.0, 'gap_to_150pct_yr_pp': 170.0, 'gap_to_100pct_yr_pp': 120.0}",
+      "  firewall_beats_null: False",
+      "  beats_beta: True",
+      "  10-seed positive frac: 0.0",
+      "  p05_bootstrap: -73.36",
+      "  jk3: -43.04",
+      "  heikin_ashi: UNSEEN -53%/yr  OOS -28%/yr  lift-vs-1d-daily: -46pp",
+      "  renko: UNSEEN -20%/yr  OOS -7%/yr  lift-vs-1d-daily: -12pp",
+      "  range: UNSEEN -24%/yr  OOS +4%/yr  lift-vs-1d-daily: -17pp"
+    ],
+    "best_bar_type": "renko",
+    "best_unseen_cagr_pct_yr": -19.99
+  },
+  "bar_types": {
+    "heikin_ashi": {
+      "best_config": "atr15_gate1",
+      "atr_mult": 15.0,
+      "regime_gate": true,
+      "extra_params": {},
+      "taker": {
+        "train_compound_pct": 829.0,
+        "train_cagr_pct_yr": 66.87,
+        "val_compound_pct": 7.42,
+        "val_cagr_pct_yr": 8.98,
+        "oos_compound_pct": -22.79,
+        "oos_cagr_pct_yr": -27.72,
+        "oos_max_dd_pct": -49.56,
+        "oos_n_trades": 257,
+        "unseen_compound_pct": -26.49,
+        "unseen_cagr_pct_yr": -53.21,
+        "unseen_max_dd_pct": -43.39,
+        "unseen_n_trades": 140,
+        "unseen_asset_compounds": {
+          "BTCUSDT": -10.37,
+          "ETHUSDT": -23.9,
+          "SOLUSDT": -28.22,
+          "BNBUSDT": -10.7,
+          "XRPUSDT": -16.0,
+          "DOGEUSDT": -29.96,
+          "ADAUSDT": -34.09,
+          "AVAXUSDT": -34.04,
+          "LINKUSDT": -39.14,
+          "LTCUSDT": -32.29
+        },
+        "oos_asset_compounds": {
+          "BTCUSDT": 10.64,
+          "ETHUSDT": 40.58,
+          "SOLUSDT": 3.18,
+          "BNBUSDT": -18.12,
+          "XRPUSDT": -45.78,
+          "DOGEUSDT": -9.26,
+          "ADAUSDT": -36.6,
+          "AVAXUSDT": -36.6,
+          "LINKUSDT": -43.01,
+          "LTCUSDT": -49.14
+        }
+      },
+      "maker": {
+        "unseen_compound_pct": -25.0,
+        "unseen_cagr_pct_yr": -50.83,
+        "unseen_max_dd_pct": -42.22
+      },
+      "bh_unseen_cagr_pct_yr": -54.71,
+      "bh_oos_cagr_pct_yr": -7.51,
+      "unseen_beats_bh": true,
+      "unseen_bands_taker": {
+        "clears": [],
+        "misses": [
+          "1pct_per_day_250pct_yr",
+          "2pct_per_3d_~150pct_yr",
+          "3pct_per_week_~100pct_yr",
+          "relaxed_floor_2x_yr_100pct",
+          "2x_yr_100pct"
+        ],
+        "gaps": {
+          "gap_to_250pct_yr_pp": 303.2,
+          "gap_to_150pct_yr_pp": 203.2,
+          "gap_to_100pct_yr_pp": 153.2
+        }
+      },
+      "unseen_bands_maker": {
+        "clears": [],
+        "misses": [
+          "1pct_per_day_250pct_yr",
+          "2pct_per_3d_~150pct_yr",
+          "3pct_per_week_~100pct_yr",
+          "relaxed_floor_2x_yr_100pct",
+          "2x_yr_100pct"
+        ],
+        "gaps": {
+          "gap_to_250pct_yr_pp": 300.8,
+          "gap_to_150pct_yr_pp": 200.8,
+          "gap_to_100pct_yr_pp": 150.8
+        }
+      },
+      "candidate_gate_proxies": {
+        "firewall_beats_null": true,
+        "null_median_compound_pct": -26.49,
+        "beats_beta": true,
+        "bh_unseen_cagr_pct": -54.71,
+        "strategy_unseen_cagr_pct": -53.21,
+        "battery_10seeds_frac_positive": 0.0,
+        "p05_bootstrap": -98.24,
+        "jk3_compound_pct": -94.89,
+        "unseen_n_trades": 140
+      },
+      "all_configs_summary": {
+        "atr3_gate1": {
+          "atr_mult": 3.0,
+          "regime_gate": true,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -34.27,
+          "unseen_cagr_pct_yr": -50.7,
+          "train_val_compound_pct": -68.87
+        },
+        "atr6_gate1": {
+          "atr_mult": 6.0,
+          "regime_gate": true,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -14.63,
+          "unseen_cagr_pct_yr": -42.09,
+          "train_val_compound_pct": 265.66200000000003
+        },
+        "atr10_gate1": {
+          "atr_mult": 10.0,
+          "regime_gate": true,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -8.11,
+          "unseen_cagr_pct_yr": -44.79,
+          "train_val_compound_pct": 505.341
+        },
+        "atr15_gate1": {
+          "atr_mult": 15.0,
+          "regime_gate": true,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -27.72,
+          "unseen_cagr_pct_yr": -53.21,
+          "train_val_compound_pct": 836.417
+        },
+        "atr3_gate0": {
+          "atr_mult": 3.0,
+          "regime_gate": false,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -34.27,
+          "unseen_cagr_pct_yr": -50.7,
+          "train_val_compound_pct": -68.87
+        },
+        "atr6_gate0": {
+          "atr_mult": 6.0,
+          "regime_gate": false,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -14.63,
+          "unseen_cagr_pct_yr": -42.09,
+          "train_val_compound_pct": 265.66200000000003
+        },
+        "atr10_gate0": {
+          "atr_mult": 10.0,
+          "regime_gate": false,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -8.11,
+          "unseen_cagr_pct_yr": -44.79,
+          "train_val_compound_pct": 505.341
+        },
+        "atr15_gate0": {
+          "atr_mult": 15.0,
+          "regime_gate": false,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -27.72,
+          "unseen_cagr_pct_yr": -53.21,
+          "train_val_compound_pct": 836.417
+        }
+      }
+    },
+    "renko": {
+      "best_config": "brick1.0_atr15_gate1",
+      "atr_mult": 15.0,
+      "regime_gate": true,
+      "extra_params": {
+        "renko_brick_atr": 1.0
+      },
+      "taker": {
+        "train_compound_pct": 778.94,
+        "train_cagr_pct_yr": 64.76,
+        "val_compound_pct": 12.41,
+        "val_cagr_pct_yr": 15.09,
+        "oos_compound_pct": -5.88,
+        "oos_cagr_pct_yr": -7.33,
+        "oos_max_dd_pct": -48.33,
+        "oos_n_trades": 93,
+        "unseen_compound_pct": -8.64,
+        "unseen_cagr_pct_yr": -19.99,
+        "unseen_max_dd_pct": -12.56,
+        "unseen_n_trades": 47,
+        "unseen_asset_compounds": {
+          "BTCUSDT": -7.14,
+          "ETHUSDT": -12.86,
+          "SOLUSDT": -8.59,
+          "BNBUSDT": -6.13,
+          "XRPUSDT": -4.17,
+          "DOGEUSDT": -13.26,
+          "ADAUSDT": -15.12,
+          "AVAXUSDT": -1.85,
+          "LINKUSDT": -9.68,
+          "LTCUSDT": -6.72
+        },
+        "oos_asset_compounds": {
+          "BTCUSDT": -4.88,
+          "ETHUSDT": 30.11,
+          "SOLUSDT": 5.44,
+          "BNBUSDT": 17.14,
+          "XRPUSDT": 5.57,
+          "DOGEUSDT": 15.42,
+          "ADAUSDT": -33.36,
+          "AVAXUSDT": -12.23,
+          "LINKUSDT": -32.38,
+          "LTCUSDT": -25.97
+        }
+      },
+      "maker": {
+        "unseen_compound_pct": -8.03,
+        "unseen_cagr_pct_yr": -18.66,
+        "unseen_max_dd_pct": -12.21
+      },
+      "bh_unseen_cagr_pct_yr": -54.71,
+      "bh_oos_cagr_pct_yr": -7.51,
+      "unseen_beats_bh": true,
+      "unseen_bands_taker": {
+        "clears": [],
+        "misses": [
+          "1pct_per_day_250pct_yr",
+          "2pct_per_3d_~150pct_yr",
+          "3pct_per_week_~100pct_yr",
+          "relaxed_floor_2x_yr_100pct",
+          "2x_yr_100pct"
+        ],
+        "gaps": {
+          "gap_to_250pct_yr_pp": 270.0,
+          "gap_to_150pct_yr_pp": 170.0,
+          "gap_to_100pct_yr_pp": 120.0
+        }
+      },
+      "unseen_bands_maker": {
+        "clears": [],
+        "misses": [
+          "1pct_per_day_250pct_yr",
+          "2pct_per_3d_~150pct_yr",
+          "3pct_per_week_~100pct_yr",
+          "relaxed_floor_2x_yr_100pct",
+          "2x_yr_100pct"
+        ],
+        "gaps": {
+          "gap_to_250pct_yr_pp": 268.7,
+          "gap_to_150pct_yr_pp": 168.7,
+          "gap_to_100pct_yr_pp": 118.7
+        }
+      },
+      "candidate_gate_proxies": {
+        "firewall_beats_null": false,
+        "null_median_compound_pct": -8.64,
+        "beats_beta": true,
+        "bh_unseen_cagr_pct": -54.71,
+        "strategy_unseen_cagr_pct": -19.99,
+        "battery_10seeds_frac_positive": 0.0,
+        "p05_bootstrap": -73.36,
+        "jk3_compound_pct": -43.04,
+        "unseen_n_trades": 47
+      },
+      "all_configs_summary": {
+        "brick0.5_atr3_gate1": {
+          "atr_mult": 3.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 0.5
+          },
+          "oos_cagr_pct_yr": -63.62,
+          "unseen_cagr_pct_yr": -63.97,
+          "train_val_compound_pct": -160.766
+        },
+        "brick0.5_atr6_gate1": {
+          "atr_mult": 6.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 0.5
+          },
+          "oos_cagr_pct_yr": -35.77,
+          "unseen_cagr_pct_yr": -46.96,
+          "train_val_compound_pct": -95.523
+        },
+        "brick0.5_atr10_gate1": {
+          "atr_mult": 10.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 0.5
+          },
+          "oos_cagr_pct_yr": -18.97,
+          "unseen_cagr_pct_yr": -40.39,
+          "train_val_compound_pct": 139.55700000000002
+        },
+        "brick0.5_atr15_gate1": {
+          "atr_mult": 15.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 0.5
+          },
+          "oos_cagr_pct_yr": -15.27,
+          "unseen_cagr_pct_yr": -44.98,
+          "train_val_compound_pct": 403.073
+        },
+        "brick0.5_atr3_gate0": {
+          "atr_mult": 3.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 0.5
+          },
+          "oos_cagr_pct_yr": -63.62,
+          "unseen_cagr_pct_yr": -63.97,
+          "train_val_compound_pct": -160.766
+        },
+        "brick0.5_atr6_gate0": {
+          "atr_mult": 6.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 0.5
+          },
+          "oos_cagr_pct_yr": -35.77,
+          "unseen_cagr_pct_yr": -46.96,
+          "train_val_compound_pct": -95.523
+        },
+        "brick0.5_atr10_gate0": {
+          "atr_mult": 10.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 0.5
+          },
+          "oos_cagr_pct_yr": -18.97,
+          "unseen_cagr_pct_yr": -40.39,
+          "train_val_compound_pct": 139.55700000000002
+        },
+        "brick0.5_atr15_gate0": {
+          "atr_mult": 15.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 0.5
+          },
+          "oos_cagr_pct_yr": -15.27,
+          "unseen_cagr_pct_yr": -44.98,
+          "train_val_compound_pct": 403.073
+        },
+        "brick1.0_atr3_gate1": {
+          "atr_mult": 3.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 1.0
+          },
+          "oos_cagr_pct_yr": 1.61,
+          "unseen_cagr_pct_yr": -37.96,
+          "train_val_compound_pct": -48.788
+        },
+        "brick1.0_atr6_gate1": {
+          "atr_mult": 6.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 1.0
+          },
+          "oos_cagr_pct_yr": -9.61,
+          "unseen_cagr_pct_yr": -28.53,
+          "train_val_compound_pct": 226.6
+        },
+        "brick1.0_atr10_gate1": {
+          "atr_mult": 10.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 1.0
+          },
+          "oos_cagr_pct_yr": -8.11,
+          "unseen_cagr_pct_yr": -21.46,
+          "train_val_compound_pct": 454.377
+        },
+        "brick1.0_atr15_gate1": {
+          "atr_mult": 15.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 1.0
+          },
+          "oos_cagr_pct_yr": -7.33,
+          "unseen_cagr_pct_yr": -19.99,
+          "train_val_compound_pct": 791.348
+        },
+        "brick1.0_atr3_gate0": {
+          "atr_mult": 3.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 1.0
+          },
+          "oos_cagr_pct_yr": 1.61,
+          "unseen_cagr_pct_yr": -37.96,
+          "train_val_compound_pct": -48.788
+        },
+        "brick1.0_atr6_gate0": {
+          "atr_mult": 6.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 1.0
+          },
+          "oos_cagr_pct_yr": -9.61,
+          "unseen_cagr_pct_yr": -28.53,
+          "train_val_compound_pct": 226.6
+        },
+        "brick1.0_atr10_gate0": {
+          "atr_mult": 10.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 1.0
+          },
+          "oos_cagr_pct_yr": -8.11,
+          "unseen_cagr_pct_yr": -21.46,
+          "train_val_compound_pct": 454.377
+        },
+        "brick1.0_atr15_gate0": {
+          "atr_mult": 15.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 1.0
+          },
+          "oos_cagr_pct_yr": -7.33,
+          "unseen_cagr_pct_yr": -19.99,
+          "train_val_compound_pct": 791.348
+        },
+        "brick1.5_atr3_gate1": {
+          "atr_mult": 3.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 1.5
+          },
+          "oos_cagr_pct_yr": -6.26,
+          "unseen_cagr_pct_yr": -22.62,
+          "train_val_compound_pct": 131.92499999999998
+        },
+        "brick1.5_atr6_gate1": {
+          "atr_mult": 6.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 1.5
+          },
+          "oos_cagr_pct_yr": -0.25,
+          "unseen_cagr_pct_yr": -21.51,
+          "train_val_compound_pct": 368.249
+        },
+        "brick1.5_atr10_gate1": {
+          "atr_mult": 10.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 1.5
+          },
+          "oos_cagr_pct_yr": 1.73,
+          "unseen_cagr_pct_yr": -25.88,
+          "train_val_compound_pct": 728.497
+        },
+        "brick1.5_atr15_gate1": {
+          "atr_mult": 15.0,
+          "regime_gate": true,
+          "extra_params": {
+            "renko_brick_atr": 1.5
+          },
+          "oos_cagr_pct_yr": 3.87,
+          "unseen_cagr_pct_yr": -28.23,
+          "train_val_compound_pct": 524.495
+        },
+        "brick1.5_atr3_gate0": {
+          "atr_mult": 3.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 1.5
+          },
+          "oos_cagr_pct_yr": -6.26,
+          "unseen_cagr_pct_yr": -22.62,
+          "train_val_compound_pct": 131.92499999999998
+        },
+        "brick1.5_atr6_gate0": {
+          "atr_mult": 6.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 1.5
+          },
+          "oos_cagr_pct_yr": -0.25,
+          "unseen_cagr_pct_yr": -21.51,
+          "train_val_compound_pct": 368.249
+        },
+        "brick1.5_atr10_gate0": {
+          "atr_mult": 10.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 1.5
+          },
+          "oos_cagr_pct_yr": 1.73,
+          "unseen_cagr_pct_yr": -25.88,
+          "train_val_compound_pct": 728.497
+        },
+        "brick1.5_atr15_gate0": {
+          "atr_mult": 15.0,
+          "regime_gate": false,
+          "extra_params": {
+            "renko_brick_atr": 1.5
+          },
+          "oos_cagr_pct_yr": 3.87,
+          "unseen_cagr_pct_yr": -28.23,
+          "train_val_compound_pct": 524.495
+        }
+      }
+    },
+    "range": {
+      "best_config": "atr15_gate1",
+      "atr_mult": 15.0,
+      "regime_gate": true,
+      "extra_params": {},
+      "taker": {
+        "train_compound_pct": 410.4,
+        "train_cagr_pct_yr": 45.42,
+        "val_compound_pct": -6.6,
+        "val_cagr_pct_yr": -7.88,
+        "oos_compound_pct": 3.06,
+        "oos_cagr_pct_yr": 3.85,
+        "oos_max_dd_pct": -41.66,
+        "oos_n_trades": 23,
+        "unseen_compound_pct": -10.63,
+        "unseen_cagr_pct_yr": -24.23,
+        "unseen_max_dd_pct": -25.05,
+        "unseen_n_trades": 11,
+        "unseen_asset_compounds": {
+          "BTCUSDT": -20.18,
+          "ETHUSDT": 0.06
+        },
+        "oos_asset_compounds": {
+          "BTCUSDT": -2.25,
+          "ETHUSDT": 8.65
+        }
+      },
+      "maker": {
+        "unseen_compound_pct": -9.93,
+        "unseen_cagr_pct_yr": -22.74,
+        "unseen_max_dd_pct": -24.49
+      },
+      "bh_unseen_cagr_pct_yr": -54.71,
+      "bh_oos_cagr_pct_yr": -7.51,
+      "unseen_beats_bh": true,
+      "unseen_bands_taker": {
+        "clears": [],
+        "misses": [
+          "1pct_per_day_250pct_yr",
+          "2pct_per_3d_~150pct_yr",
+          "3pct_per_week_~100pct_yr",
+          "relaxed_floor_2x_yr_100pct",
+          "2x_yr_100pct"
+        ],
+        "gaps": {
+          "gap_to_250pct_yr_pp": 274.2,
+          "gap_to_150pct_yr_pp": 174.2,
+          "gap_to_100pct_yr_pp": 124.2
+        }
+      },
+      "unseen_bands_maker": {
+        "clears": [],
+        "misses": [
+          "1pct_per_day_250pct_yr",
+          "2pct_per_3d_~150pct_yr",
+          "3pct_per_week_~100pct_yr",
+          "relaxed_floor_2x_yr_100pct",
+          "2x_yr_100pct"
+        ],
+        "gaps": {
+          "gap_to_250pct_yr_pp": 272.7,
+          "gap_to_150pct_yr_pp": 172.7,
+          "gap_to_100pct_yr_pp": 122.7
+        }
+      },
+      "candidate_gate_proxies": {
+        "firewall_beats_null": false,
+        "null_median_compound_pct": -10.63,
+        "beats_beta": true,
+        "bh_unseen_cagr_pct": -54.71,
+        "strategy_unseen_cagr_pct": -24.23,
+        "battery_10seeds_frac_positive": 0.0,
+        "p05_bootstrap": -43.26,
+        "jk3_compound_pct": -16.76,
+        "unseen_n_trades": 11
+      },
+      "all_configs_summary": {
+        "atr3_gate1": {
+          "atr_mult": 3.0,
+          "regime_gate": true,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -32.31,
+          "unseen_cagr_pct_yr": -41.05,
+          "train_val_compound_pct": -120.043
+        },
+        "atr6_gate1": {
+          "atr_mult": 6.0,
+          "regime_gate": true,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -1.93,
+          "unseen_cagr_pct_yr": 3.08,
+          "train_val_compound_pct": -76.75
+        },
+        "atr10_gate1": {
+          "atr_mult": 10.0,
+          "regime_gate": true,
+          "extra_params": {},
+          "oos_cagr_pct_yr": 21.55,
+          "unseen_cagr_pct_yr": -3.97,
+          "train_val_compound_pct": 90.877
+        },
+        "atr15_gate1": {
+          "atr_mult": 15.0,
+          "regime_gate": true,
+          "extra_params": {},
+          "oos_cagr_pct_yr": 3.85,
+          "unseen_cagr_pct_yr": -24.23,
+          "train_val_compound_pct": 403.801
+        },
+        "atr3_gate0": {
+          "atr_mult": 3.0,
+          "regime_gate": false,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -32.31,
+          "unseen_cagr_pct_yr": -41.05,
+          "train_val_compound_pct": -120.043
+        },
+        "atr6_gate0": {
+          "atr_mult": 6.0,
+          "regime_gate": false,
+          "extra_params": {},
+          "oos_cagr_pct_yr": -1.93,
+          "unseen_cagr_pct_yr": 3.08,
+          "train_val_compound_pct": -76.75
+        },
+        "atr10_gate0": {
+          "atr_mult": 10.0,
+          "regime_gate": false,
+          "extra_params": {},
+          "oos_cagr_pct_yr": 21.55,
+          "unseen_cagr_pct_yr": -3.97,
+          "train_val_compound_pct": 90.877
+        },
+        "atr15_gate0": {
+          "atr_mult": 15.0,
+          "regime_gate": false,
+          "extra_params": {},
+          "oos_cagr_pct_yr": 3.85,
+          "unseen_cagr_pct_yr": -24.23,
+          "train_val_compound_pct": 403.801
+        }
+      }
+    }
+  }
+}

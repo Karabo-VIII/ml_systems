@@ -1,0 +1,336 @@
+{
+  "repro": {
+    "command": "python src/strat/oracle_config_adapt.py --assets BTC,ETH,SOL,DOGE --cadence 1d --window-days 7 --json",
+    "git_sha": "d074eed",
+    "note": "deterministic; re-run to regenerate"
+  },
+  "results": {
+    "BTC": {
+      "n_weeks": 258,
+      "n_test_steps": 103,
+      "persistence": {
+        "er_autocorr": -0.09374156355670563,
+        "vol_autocorr": 0.3356035644446243
+      },
+      "fixed_best": "cross_ema10_30",
+      "baseline_mean_roi": {
+        "naive": 1.19,
+        "fixed": 1.453,
+        "random": 0.969,
+        "oracle": 4.156
+      },
+      "adaptive_by_state": {
+        "er": {
+          "mean_roi": 1.492,
+          "beats_fixed_frac": 0.3,
+          "mean_edge_vs_fixed": 0.039,
+          "map": {
+            "lo": "cross_ema10_30",
+            "mid": "fastMA_hma5",
+            "hi": "fastMA_sma8"
+          }
+        },
+        "vol": {
+          "mean_roi": 1.393,
+          "beats_fixed_frac": 0.04,
+          "mean_edge_vs_fixed": -0.061,
+          "map": {
+            "lo": "cross_ema10_30",
+            "mid": "slowMA_sma50",
+            "hi": "slowMA_sma50"
+          }
+        },
+        "n_swings": {
+          "mean_roi": 1.453,
+          "beats_fixed_frac": 0.0,
+          "mean_edge_vs_fixed": 0.0,
+          "map": {
+            "hi": "cross_ema10_30"
+          }
+        },
+        "autocorr": {
+          "mean_roi": 1.454,
+          "beats_fixed_frac": 0.4,
+          "mean_edge_vs_fixed": 0.001,
+          "map": {
+            "lo": "fastMA_sma8",
+            "mid": "crossT_hma5_20",
+            "hi": "fastMA_hma5"
+          }
+        }
+      },
+      "week_selection": {
+        "er": {
+          "corr_state_vs_next_best": -0.034,
+          "corr_state_vs_next_fixedroi": -0.035,
+          "next_fixedroi_hiState": 1.548,
+          "next_fixedroi_loState": 2.251
+        },
+        "vol": {
+          "corr_state_vs_next_best": 0.173,
+          "corr_state_vs_next_fixedroi": 0.019,
+          "next_fixedroi_hiState": 2.354,
+          "next_fixedroi_loState": 1.691
+        },
+        "n_swings": {
+          "corr_state_vs_next_best": 0.026,
+          "corr_state_vs_next_fixedroi": 0.017,
+          "next_fixedroi_hiState": 1.937,
+          "next_fixedroi_loState": null
+        },
+        "autocorr": {
+          "corr_state_vs_next_best": 0.052,
+          "corr_state_vs_next_fixedroi": 0.06,
+          "next_fixedroi_hiState": 2.134,
+          "next_fixedroi_loState": 1.361
+        }
+      }
+    },
+    "ETH": {
+      "n_weeks": 290,
+      "n_test_steps": 115,
+      "persistence": {
+        "er_autocorr": -0.06813117557125244,
+        "vol_autocorr": 0.32299385336927394
+      },
+      "fixed_best": "crossT_hma5_20",
+      "baseline_mean_roi": {
+        "naive": 1.223,
+        "fixed": 0.383,
+        "random": 0.721,
+        "oracle": 5.15
+      },
+      "adaptive_by_state": {
+        "er": {
+          "mean_roi": 1.132,
+          "beats_fixed_frac": 0.36,
+          "mean_edge_vs_fixed": 0.749,
+          "map": {
+            "lo": "fastMA_hma5",
+            "mid": "crossT_hma5_20",
+            "hi": "slowMA_sma20"
+          }
+        },
+        "vol": {
+          "mean_roi": 0.932,
+          "beats_fixed_frac": 0.23,
+          "mean_edge_vs_fixed": 0.55,
+          "map": {
+            "lo": "crossT_hma5_20",
+            "mid": "cross_ema10_30",
+            "hi": "slowMA_sma20"
+          }
+        },
+        "n_swings": {
+          "mean_roi": 0.251,
+          "beats_fixed_frac": 0.05,
+          "mean_edge_vs_fixed": -0.131,
+          "map": {
+            "mid": "crossT_hma5_20",
+            "hi": "slowMA_sma50"
+          }
+        },
+        "autocorr": {
+          "mean_roi": 0.183,
+          "beats_fixed_frac": 0.18,
+          "mean_edge_vs_fixed": -0.199,
+          "map": {
+            "lo": "crossT_hma5_20",
+            "mid": "crossT_hma5_20",
+            "hi": "fastMA_hma5"
+          }
+        }
+      },
+      "week_selection": {
+        "er": {
+          "corr_state_vs_next_best": 0.053,
+          "corr_state_vs_next_fixedroi": 0.058,
+          "next_fixedroi_hiState": 2.688,
+          "next_fixedroi_loState": 0.27
+        },
+        "vol": {
+          "corr_state_vs_next_best": 0.081,
+          "corr_state_vs_next_fixedroi": 0.053,
+          "next_fixedroi_hiState": 2.129,
+          "next_fixedroi_loState": 1.316
+        },
+        "n_swings": {
+          "corr_state_vs_next_best": 0.101,
+          "corr_state_vs_next_fixedroi": 0.136,
+          "next_fixedroi_hiState": 1.596,
+          "next_fixedroi_loState": null
+        },
+        "autocorr": {
+          "corr_state_vs_next_best": -0.042,
+          "corr_state_vs_next_fixedroi": -0.012,
+          "next_fixedroi_hiState": 2.102,
+          "next_fixedroi_loState": 0.865
+        }
+      }
+    },
+    "SOL": {
+      "n_weeks": 270,
+      "n_test_steps": 107,
+      "persistence": {
+        "er_autocorr": -0.10409612490103859,
+        "vol_autocorr": 0.37010909734587427
+      },
+      "fixed_best": "slowMA_sma50",
+      "baseline_mean_roi": {
+        "naive": 0.99,
+        "fixed": 0.981,
+        "random": 0.945,
+        "oracle": 6.725
+      },
+      "adaptive_by_state": {
+        "er": {
+          "mean_roi": 1.288,
+          "beats_fixed_frac": 0.24,
+          "mean_edge_vs_fixed": 0.306,
+          "map": {
+            "lo": "crossT_sma8_21",
+            "mid": "slowMA_sma50",
+            "hi": "fastMA_sma8"
+          }
+        },
+        "vol": {
+          "mean_roi": 1.464,
+          "beats_fixed_frac": 0.32,
+          "mean_edge_vs_fixed": 0.482,
+          "map": {
+            "lo": "crossT_hma5_20",
+            "mid": "slowMA_sma50",
+            "hi": "slowMA_sma20"
+          }
+        },
+        "n_swings": {
+          "mean_roi": 1.602,
+          "beats_fixed_frac": 0.2,
+          "mean_edge_vs_fixed": 0.62,
+          "map": {
+            "mid": "slowMA_sma50",
+            "hi": "crossT_hma5_20"
+          }
+        },
+        "autocorr": {
+          "mean_roi": 1.184,
+          "beats_fixed_frac": 0.26,
+          "mean_edge_vs_fixed": 0.202,
+          "map": {
+            "lo": "crossT_hma5_20",
+            "mid": "fastMA_hma5",
+            "hi": "slowMA_sma50"
+          }
+        }
+      },
+      "week_selection": {
+        "er": {
+          "corr_state_vs_next_best": 0.033,
+          "corr_state_vs_next_fixedroi": 0.066,
+          "next_fixedroi_hiState": 4.315,
+          "next_fixedroi_loState": 1.323
+        },
+        "vol": {
+          "corr_state_vs_next_best": 0.251,
+          "corr_state_vs_next_fixedroi": 0.138,
+          "next_fixedroi_hiState": 4.617,
+          "next_fixedroi_loState": 1.413
+        },
+        "n_swings": {
+          "corr_state_vs_next_best": 0.027,
+          "corr_state_vs_next_fixedroi": -0.011,
+          "next_fixedroi_hiState": 2.546,
+          "next_fixedroi_loState": null
+        },
+        "autocorr": {
+          "corr_state_vs_next_best": 0.032,
+          "corr_state_vs_next_fixedroi": 0.063,
+          "next_fixedroi_hiState": 3.942,
+          "next_fixedroi_loState": 2.301
+        }
+      }
+    },
+    "DOGE": {
+      "n_weeks": 261,
+      "n_test_steps": 104,
+      "persistence": {
+        "er_autocorr": -0.045996042882063486,
+        "vol_autocorr": 0.13387171547461252
+      },
+      "fixed_best": "slowMA_sma50",
+      "baseline_mean_roi": {
+        "naive": 1.419,
+        "fixed": 1.253,
+        "random": 1.064,
+        "oracle": 7.426
+      },
+      "adaptive_by_state": {
+        "er": {
+          "mean_roi": -0.104,
+          "beats_fixed_frac": 0.27,
+          "mean_edge_vs_fixed": -1.357,
+          "map": {
+            "lo": "crossT_sma8_21",
+            "mid": "cross_ema10_30",
+            "hi": "slowMA_sma20"
+          }
+        },
+        "vol": {
+          "mean_roi": 1.225,
+          "beats_fixed_frac": 0.24,
+          "mean_edge_vs_fixed": -0.028,
+          "map": {
+            "lo": "crossT_hma5_20",
+            "mid": "crossT_sma8_21",
+            "hi": "slowMA_sma50"
+          }
+        },
+        "n_swings": {
+          "mean_roi": 0.967,
+          "beats_fixed_frac": 0.33,
+          "mean_edge_vs_fixed": -0.287,
+          "map": {
+            "mid": "crossT_hma5_20",
+            "hi": "slowMA_sma50"
+          }
+        },
+        "autocorr": {
+          "mean_roi": 1.847,
+          "beats_fixed_frac": 0.23,
+          "mean_edge_vs_fixed": 0.594,
+          "map": {
+            "lo": "slowMA_sma20",
+            "mid": "slowMA_sma20",
+            "hi": "cross_ema10_30"
+          }
+        }
+      },
+      "week_selection": {
+        "er": {
+          "corr_state_vs_next_best": 0.12,
+          "corr_state_vs_next_fixedroi": 0.071,
+          "next_fixedroi_hiState": 8.899,
+          "next_fixedroi_loState": 1.944
+        },
+        "vol": {
+          "corr_state_vs_next_best": 0.282,
+          "corr_state_vs_next_fixedroi": 0.214,
+          "next_fixedroi_hiState": 5.132,
+          "next_fixedroi_loState": 3.268
+        },
+        "n_swings": {
+          "corr_state_vs_next_best": -0.008,
+          "corr_state_vs_next_fixedroi": -0.018,
+          "next_fixedroi_hiState": 4.508,
+          "next_fixedroi_loState": null
+        },
+        "autocorr": {
+          "corr_state_vs_next_best": -0.001,
+          "corr_state_vs_next_fixedroi": 0.026,
+          "next_fixedroi_hiState": 5.818,
+          "next_fixedroi_loState": 3.967
+        }
+      }
+    }
+  }
+}

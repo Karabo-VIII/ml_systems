@@ -1,0 +1,65 @@
+V1.1 World Model -- Usage Guide
+=================================
+
+V1.1 extends V1 with label smoothing + XD anti-memorization.
+RevIN disabled by default (causes temporal memorization); opt-in via --revin.
+Supports --features 14 (base only) or 19 (full, default).
+
+When using 19 features:
+  - Posterior and decoder only use 14 base features (anti-memorization)
+  - XD features get 70% per-timestep dropout + 0.3 noise during training
+  - Encoder still sees all 19 features
+
+When using 14 features:
+  - Identical behavior to V1 (base_dim == input_dim, no XD paths)
+
+TRAINING:
+
+  # Default: 19 features, no RevIN
+  python train_world_model.py
+
+  # 14 base features only (recommended if ShIC fails with 19)
+  python train_world_model.py --features 14
+
+  # Enable RevIN (opt-in, causes memorization -- use for A/B testing only)
+  python train_world_model.py --revin
+
+  # Combined flags
+  python train_world_model.py --features 14 --revin --seed 42
+
+VALIDATION:
+
+  # Validate 19-feature model (default, no RevIN)
+  python validate_world.py
+  python validate_world.py --latest
+  python validate_world.py --both
+
+  # Validate 14-feature model
+  python validate_world.py --features 14
+  python validate_world.py --features 14 --latest
+
+  # Validate a RevIN model (must match training config)
+  python validate_world.py --revin
+  python validate_world.py --features 14 --revin
+
+  # Robust validation (ShIC, walk-forward)
+  python validate_world.py --robust
+  python validate_world.py --features 14 --robust
+
+CHECKPOINTS (saved to models/v1/v1_1/base/):
+
+  v1_1_f19_wm_best_ema.pt         19-feature best EMA (default, no RevIN)
+  v1_1_f19_wm_latest.pt           19-feature latest (resumable)
+  v1_1_f14_wm_best_ema.pt         14-feature best EMA (no RevIN)
+  v1_1_f14_wm_latest.pt           14-feature latest (resumable)
+  v1_1_f19_revin_wm_best_ema.pt   19-feature with RevIN best EMA
+  v1_1_f14_revin_wm_best_ema.pt   14-feature with RevIN best EMA
+
+NAMING CONVENTION:
+  v1_1_{feat_tag}{revin_tag}_wm_{type}.pt
+  feat_tag: f14 or f19
+  revin_tag: "" (default, no RevIN) or "_revin" (RevIN enabled)
+  type: best_ema, latest, weights, epoch_N
+
+NOTE: Old checkpoints with "_norevin" suffix are from the previous convention
+where RevIN was on by default. validate_v1_all.py handles both conventions.

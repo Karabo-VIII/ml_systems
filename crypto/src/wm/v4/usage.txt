@@ -1,0 +1,100 @@
+V4 Model Family -- Combined Usage Guide
+========================================
+
+Architecture: Mamba SSM + RSSM
+  2x MambaBlock (d=384, d_state=16, expand=2)
+  RSSM latent (32x32 categorical)
+  Selective state space model (linear-time sequence modeling)
+  RMSNorm, AdamW betas=(0.9, 0.95)
+  First run JIT-compiles selective scan kernel (~30s)
+
+Variants:
+  V4    Base Mamba-RSSM, 18 features (fixed)
+  V4.1  Anti-memorization (XD dropout/noise), 13/18 features
+  V4.2  d_state=32 (doubled SSM state, vs 16), 13/18 features
+  V4.3  expand=1 (narrow, d_inner=384 vs 768), 13/18 features
+
+All variants: RevIN DISABLED by default. Opt-in via --revin.
+
+================================================================================
+V4 BASE (src/wm/v4/v4_training/)
+================================================================================
+
+Features: 19 (fixed, no --features flag)
+
+  Training:
+    python src/wm/v4/v4_training/train_world_model.py
+    python src/wm/v4/v4_training/train_world_model.py --seed 42
+
+  Validation:
+    python src/wm/v4/v4_training/validate_world.py
+    python src/wm/v4/v4_training/validate_world.py --latest
+    python src/wm/v4/v4_training/validate_world.py --both
+    python src/wm/v4/v4_training/validate_world.py --robust
+
+  Checkpoints (models/v4/v4/base/):
+    v4_wm_best_ema.pt       Best EMA (selected by ShIC)
+    v4_wm_latest.pt         Latest (resumable)
+
+================================================================================
+V4.1 ANTI-MEMORIZATION (src/wm/v4/v4_1_training/)
+================================================================================
+
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v4/v4_1_training/train_world_model.py
+    python src/wm/v4/v4_1_training/train_world_model.py --features 13
+    python src/wm/v4/v4_1_training/train_world_model.py --seed 42
+
+  Validation:
+    python src/wm/v4/v4_1_training/validate_world.py
+    python src/wm/v4/v4_1_training/validate_world.py --features 13
+    python src/wm/v4/v4_1_training/validate_world.py --robust
+
+  Checkpoints (models/v4/v4_1/base/):
+    v4_1_f19_wm_best_ema.pt     19-feature best EMA
+    v4_1_f14_wm_best_ema.pt     14-feature best EMA
+
+================================================================================
+V4.2 LARGE STATE d_state=32 (src/wm/v4/v4_2_training/)
+================================================================================
+
+Ablation: Doubled SSM state dimension (32 vs 16)
+  Larger state space for more complex temporal dynamics (~2x SSM VRAM)
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v4/v4_2_training/train_world_model.py
+    python src/wm/v4/v4_2_training/train_world_model.py --features 13
+
+  Validation:
+    python src/wm/v4/v4_2_training/validate_world.py
+    python src/wm/v4/v4_2_training/validate_world.py --robust
+
+  Checkpoints (models/v4/v4_2/base/):
+    v4_2_f19_wm_best_ema.pt     19-feature best EMA
+
+================================================================================
+V4.3 NARROW expand=1 (src/wm/v4/v4_3_training/)
+================================================================================
+
+Ablation: Halved expansion factor (d_inner=384 vs 768)
+  Tests if compact SSM inner dimension is sufficient
+Features: 14 or 19, default=19
+
+  Training:
+    python src/wm/v4/v4_3_training/train_world_model.py
+    python src/wm/v4/v4_3_training/train_world_model.py --features 13
+
+  Validation:
+    python src/wm/v4/v4_3_training/validate_world.py
+    python src/wm/v4/v4_3_training/validate_world.py --robust
+
+  Checkpoints (models/v4/v4_3/base/):
+    v4_3_f19_wm_best_ema.pt     19-feature best EMA
+
+================================================================================
+CHECKPOINT NAMING: v4_{variant}_f{features}_wm_{type}.pt
+VALIDATION GATES: MSE<0.10, IC>0.015, KL 0.01-15.0, ShIC/IC>0.3, Val/Train<2.0
+================================================================================

@@ -1,0 +1,106 @@
+asset: PEPE
+cadence: 4h
+indicator_family: EMA_SMA_mix
+n_seeds: 10
+fwd_bars: 7
+chimera_lag_bars: 6
+windows:
+  use_canonical: legacy
+  train_start: '2023-05-06'
+  unseen_end: '2026-05-22'
+chimera_features:
+- wh_whale_net_usd
+- rv_rv_5m
+- hbr_eta_imbalance
+- hbr_n_trades
+- bs_basis_z30
+- liq_short_z30
+- liq_long_z30
+- te_btc_imb
+strategies:
+- ma_type: EMA_dist
+  fast: 0
+  slow: 30
+  filter_kind: whale_net>0
+  threshold_pct: 1.0
+model:
+  n_estimators: 100
+  max_depth: 3
+  num_leaves: 7
+  min_child_samples: 10
+  learning_rate: 0.05
+  reg_alpha: 0.3
+  reg_lambda: 0.3
+  bagging_fraction: 0.8
+  feature_fraction: 0.8
+  wf_train_window: 1500
+  wf_step: 200
+  min_signal_count_per_refit: 30
+upgrades:
+  u1_seed_ensemble: true
+  u2_threshold_calibration: true
+  u3_regime_conditional: false
+  u4_synthetic_augmentation: false
+  u1_n_seeds: 10
+  u2_threshold_grid:
+  - -0.005
+  - 0.0
+  - 0.005
+  - 0.01
+  - 0.015
+  - 0.02
+risk:
+  starting_capital_usd: 5000.0
+  max_position_pct: 1.0
+  kelly_fraction: 0.25
+  max_drawdown_pct: 25.0  # v8.1 SM8: 4h cadence TRAIN n estimated >= 20 -> 25% applies. NOTE: if LGBM abstains aggressively and effective n < 20 in any walk-forward window, re-apply 40% for that window.
+  max_consecutive_losses: 10
+  cost_per_side_pct: 0.22
+  whale_freshness_max_hours: 28.0
+  # v8.1 SM9 MAX-HOLD GUARD (3-day sweet-spot mandate)
+  # MEASURED 2026-05-26: avg_hold_bars = 8.0, median = 8.0, max = 8 (n=210 trades, all segments).
+  # R23a is a FIXED-7-bar-hold strategy. Bar-idx delta = 8 due to next_bar_close fill convention.
+  # avg_hold_bars (8) is well BELOW the 18-bar cap => NO override needed. Documentation-only.
+  max_hold_bars: 18          # 4h cadence: 3 calendar days = 18 bars (v8.1 default) -- NON-BINDING for R23a
+  max_hold_override_rationale: "NO OVERRIDE NEEDED. avg_hold_bars=8 (bar-idx delta) well below 18-bar cap. R23a is fixed-7-bar-hold by design; cap is documentation-only dead code. Measured 2026-05-26 from n=210 trades (TRAIN+VAL+OOS+UNSEEN)."
+  # v8.2 SM9.1 CONDITIONAL MAX-HOLD EXTENSION (PRE-REGISTERED, 2026-05-26 ~09:30 SAST)
+  # MEASURED 2026-05-26: extension rule STRUCTURALLY INACTIVE. All trades exit at bar 8 (fixed-hold).
+  # No trade ever reaches bar 18 where extension would be evaluated.
+  # extension_fires_pct_estimate = 0.0%. Rule is future-design scaffolding, not active logic.
+  max_hold_extension_bars: 42        # 4h cadence: 7 calendar days = 42 bars (HARD CAP, scaffolding only)
+  extension_continuation_rule:
+    condition_1_signal_still_active: true   # EMA_dist: close still > slow_ma x (1 + threshold_pct) at bar 18
+    condition_2_winner_gate_pct: 0.005      # close > entry_price x 1.005 required (+0.5%)
+    condition_3_no_opposite_signal: true    # no distance-drop exit AND no whale_net flip
+    losers_cut_at_3d: true                  # BINDING: losers always exit at bar 18 (3d cap)
+  median_hold_winning_trades_bars: 8        # MEASURED 2026-05-26: all 104 winners exit at bar-delta=8 (fixed-hold)
+  extension_fires_pct_estimate: 0.0         # MEASURED 2026-05-26: 0% -- no trade reaches bar 18
+output_dir: runs/audit/AUTONOMOUS_MAXX_PEPE_BOT_2026_05_24/data/static_rule_1strat_dist30_lgbm
+
+# Q-DIAGNOSTIC score-card (r7 framework, scored 2026-05-26 by Validation Expert)
+# Candidate: R23a EMA30_dist>1% + whale_net>0 (INST-A fdbdb2bb)
+# Status: PARTIALLY_PASS -- deploy at SMALL_POSITION_ONLY (quarter-Kelly max per closure doc)
+# Artifact: runs/audit/AUTONOMOUS_MAXX_PEPE_FINAL_2026_05_25/data/q_diagnostic_score_cards_2026_05_26.json
+quality_diagnostic_score_card:
+  framework_version: "Q-DIAGNOSTIC r7"
+  scored_date: "2026-05-26"
+  deploy_quality_tier: "SMALL_POSITION_ONLY"
+  honest_unseen_pct: 60.31  # PATCHED sim (next_bar_close, cost_per_side=0.22 spot taker)
+  q_scores:
+    Q1_edge_provenance: 2  # EMA30_dist>1% momentum continuation + whale flow alignment documented
+    Q2_robustness: 1       # 72-config within-family sweep; NO cadence sweep; no depth testing beyond family
+    Q3_capacity_scaling: 1  # MEASURED 2026-05-26 Q3 sweep: at quarter-Kelly, $250k wallet=$62.5k effective=$50k-tier=81.4% edge retained VIABLE; $1M wallet=$250k effective=77.8% edge retained MARGINAL (G3 FAIL makes this shaky); $5M wallet=spot taker 0.96% RT prohibitive. Score 1/3 = stable to $250k wallet at quarter-Kelly; binding constraint is spot 0.44% RT taker, not market depth. Upgrade path: migrate to perp 0.10% RT -> Q3 becomes 2/3. Artifact: runs/audit/AUTONOMOUS_MAXX_PEPE_FINAL_2026_05_25/data/r12_r23a_q3_capacity_sweep.json
+    Q4_look_ahead_integrity: 3  # PATCHED simulator; chimera_lag_bars=6 applied; Pattern S not applicable
+    Q5_statistical_confidence: 1  # G3 FAIL (p05=-9.51%); K=2=+1.54%; K=2+S9=-32.54%; top_3=52.7%
+    Q6_peer_comparison_within_TI: 2  # MEASURED 2026-05-26 via L1 sweep (Worker C, commit 7be97c6). UNSEEN L1 median = 0.66 → BEST-IN-FAMILY threshold (L1≥0.50). 6.6× better than R12's UNSEEN L1=0.10 on recent data. EMA30+dist filter captures more of within-TI-best alpha than R12's WMA(10,30)+whale alone.
+    Q7_oracle_comparison: NOT_YET_MEASURED  # Oracle pass not run
+    Q8_failure_mode_predictability: 1  # No F.6 block; failures in audit trail (fat-tail, L2 truncation, spot cost)
+    Q9_reproducibility: 2   # Repro block present but no git_sha; YAML has LGBM fields (inconsistent with pure static run)
+    Q10_operational_maturity: 2  # v1.1 ship_claim populated (retrofit); sibling paper-trade journal (2026-05-24); hold-time measured 2026-05-26 (SM9 queue closed). DD_UNSEEN still INFERRED; LGBM field inconsistency with pure static run still unresolved. Q10 stays at 2.
+  q_total_scored_dims: "12 / 21 on 7 measurable dims (Q3/Q6/Q7 pending)"
+  fat_tail_warning: "top_3_trades = 52.7% of absolute compound contribution. K=2 jackknife collapses to +1.54%. Deploy ONLY with quarter-Kelly or lower. Jagged equity curve expected."
+  minimum_actions_before_capital_allocation:
+    - "Verify DD_UNSEEN from per-trade log (currently INFERRED <25% -- NOT measured)"
+    - "Confirm this YAML static config is aligned with the pure static bootstrap run (r23a_bootstrap_dist30.py) vs LGBM model fields"
+    - "Use kelly_fraction: 0.25 (quarter-Kelly) -- do not override to 1.0"
+    - "Consider perp equivalent run (0.10% RT) before scaling -- spot 0.44% RT is structural cost handicap"

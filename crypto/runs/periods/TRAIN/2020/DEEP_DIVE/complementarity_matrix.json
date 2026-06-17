@@ -1,0 +1,450 @@
+{
+ "_meta": {
+  "window": [
+   "2020-07-01",
+   "2021-01-01"
+  ],
+  "oos_split": "2020-10-01",
+  "universe": "u10",
+  "cost": "maker",
+  "constraint": "2020 BAND ONLY",
+  "exp_flat_threshold": 0.1,
+  "claim_tag": "in-sample 2020-OOS, bull-only; MR standalone WEAK (D37) -- value is the COMBINATION"
+ },
+ "1d": {
+  "corr_trend_mr": 0.315,
+  "trend": {
+   "net": 20.6,
+   "sharpe": 2.67,
+   "maxdd": -10.9,
+   "p05": -3.5
+  },
+  "mr": {
+   "net": 11.9,
+   "sharpe": 1.95,
+   "maxdd": -5.6,
+   "p05": -3.2
+  },
+  "blends": {
+   "50_50": {
+    "net": 16.6,
+    "sharpe": 2.89,
+    "maxdd": -5.8,
+    "p05": 0.2
+   },
+   "min_var": {
+    "net": 15.3,
+    "sharpe": 2.75,
+    "maxdd": -4.6,
+    "p05": 0.5
+   },
+   "risk_parity": {
+    "net": 16.1,
+    "sharpe": 2.85,
+    "maxdd": -5.4,
+    "p05": 0.5
+   }
+  },
+  "blend_weights": {
+   "50_50": 0.5,
+   "min_var": 0.364,
+   "risk_parity": 0.453
+  },
+  "gap_fill_mr_fills_trend": {
+   "n_gap_days": 45,
+   "gap_fill_rate": 0.222,
+   "gap_fill_mean_ret_pct": -0.389,
+   "gap_frac_of_oos": 0.489
+  },
+  "gap_fill_trend_fills_mr": {
+   "n_gap_days": 57,
+   "gap_fill_rate": 0.421,
+   "gap_fill_mean_ret_pct": 0.006,
+   "gap_frac_of_oos": 0.62
+  },
+  "coverage": {
+   "coverage_union": 0.967,
+   "only_trend": 0.163,
+   "only_mr": 0.152,
+   "both": 0.652,
+   "neither": 0.033,
+   "n_days": 92
+  },
+  "complementarity_score": 0.22,
+  "sym_gap_fill_rate": 0.322,
+  "best_single": "trend",
+  "best_blend": "50_50",
+  "combining_helps": true,
+  "combining_helps_dd_only": true,
+  "verdict": "COMBINING HELPS (Sharpe up, DD not worse)",
+  "n_oos_days": 92
+ },
+ "4h": {
+  "corr_trend_mr": 0.299,
+  "trend": {
+   "net": 30.2,
+   "sharpe": 2.86,
+   "maxdd": -10.8,
+   "p05": -5.5
+  },
+  "mr": {
+   "net": 9.7,
+   "sharpe": 1.26,
+   "maxdd": -11.0,
+   "p05": -8.6
+  },
+  "blends": {
+   "50_50": {
+    "net": 20.2,
+    "sharpe": 2.63,
+    "maxdd": -7.5,
+    "p05": -2.2
+   },
+   "min_var": {
+    "net": 18.0,
+    "sharpe": 2.4,
+    "maxdd": -8.1,
+    "p05": -2.5
+   },
+   "risk_parity": {
+    "net": 19.4,
+    "sharpe": 2.56,
+    "maxdd": -7.6,
+    "p05": -2.3
+   }
+  },
+  "blend_weights": {
+   "50_50": 0.5,
+   "min_var": 0.391,
+   "risk_parity": 0.462
+  },
+  "gap_fill_mr_fills_trend": {
+   "n_gap_days": 40,
+   "gap_fill_rate": 0.325,
+   "gap_fill_mean_ret_pct": -0.726,
+   "gap_frac_of_oos": 0.435
+  },
+  "gap_fill_trend_fills_mr": {
+   "n_gap_days": 46,
+   "gap_fill_rate": 0.348,
+   "gap_fill_mean_ret_pct": -0.125,
+   "gap_frac_of_oos": 0.5
+  },
+  "coverage": {
+   "coverage_union": 1.0,
+   "only_trend": 0.152,
+   "only_mr": 0.065,
+   "both": 0.783,
+   "neither": 0.0,
+   "n_days": 92
+  },
+  "complementarity_score": 0.236,
+  "sym_gap_fill_rate": 0.337,
+  "best_single": "trend",
+  "best_blend": "50_50",
+  "combining_helps": false,
+  "combining_helps_dd_only": false,
+  "verdict": "combining does NOT improve risk-adjusted return",
+  "n_oos_days": 92
+ },
+ "2h": {
+  "corr_trend_mr": 0.241,
+  "trend": {
+   "net": 24.9,
+   "sharpe": 1.93,
+   "maxdd": -10.3,
+   "p05": -16.0
+  },
+  "mr": {
+   "net": 42.9,
+   "sharpe": 3.03,
+   "maxdd": -15.6,
+   "p05": 5.0
+  },
+  "blends": {
+   "50_50": {
+    "net": 35.3,
+    "sharpe": 3.13,
+    "maxdd": -11.9,
+    "p05": 1.5
+   },
+   "min_var": {
+    "net": 35.7,
+    "sharpe": 3.17,
+    "maxdd": -12.1,
+    "p05": 1.9
+   },
+   "risk_parity": {
+    "net": 35.5,
+    "sharpe": 3.15,
+    "maxdd": -12.0,
+    "p05": 1.7
+   }
+  },
+  "blend_weights": {
+   "50_50": 0.5,
+   "min_var": 0.477,
+   "risk_parity": 0.491
+  },
+  "gap_fill_mr_fills_trend": {
+   "n_gap_days": 42,
+   "gap_fill_rate": 0.452,
+   "gap_fill_mean_ret_pct": -0.489,
+   "gap_frac_of_oos": 0.457
+  },
+  "gap_fill_trend_fills_mr": {
+   "n_gap_days": 38,
+   "gap_fill_rate": 0.342,
+   "gap_fill_mean_ret_pct": -0.848,
+   "gap_frac_of_oos": 0.413
+  },
+  "coverage": {
+   "coverage_union": 1.0,
+   "only_trend": 0.054,
+   "only_mr": 0.043,
+   "both": 0.902,
+   "neither": 0.0,
+   "n_days": 92
+  },
+  "complementarity_score": 0.301,
+  "sym_gap_fill_rate": 0.397,
+  "best_single": "mr",
+  "best_blend": "min_var",
+  "combining_helps": true,
+  "combining_helps_dd_only": true,
+  "verdict": "COMBINING HELPS (Sharpe up, DD not worse)",
+  "n_oos_days": 92
+ },
+ "1h": {
+  "corr_trend_mr": 0.277,
+  "trend": {
+   "net": 50.5,
+   "sharpe": 3.6,
+   "maxdd": -9.6,
+   "p05": 2.9
+  },
+  "mr": {
+   "net": 25.4,
+   "sharpe": 2.51,
+   "maxdd": -11.3,
+   "p05": -2.6
+  },
+  "blends": {
+   "50_50": {
+    "net": 38.6,
+    "sharpe": 3.89,
+    "maxdd": -7.3,
+    "p05": 4.6
+   },
+   "min_var": {
+    "net": 34.8,
+    "sharpe": 3.66,
+    "maxdd": -8.4,
+    "p05": 3.4
+   },
+   "risk_parity": {
+    "net": 37.2,
+    "sharpe": 3.83,
+    "maxdd": -7.7,
+    "p05": 4.3
+   }
+  },
+  "blend_weights": {
+   "50_50": 0.5,
+   "min_var": 0.353,
+   "risk_parity": 0.446
+  },
+  "gap_fill_mr_fills_trend": {
+   "n_gap_days": 44,
+   "gap_fill_rate": 0.523,
+   "gap_fill_mean_ret_pct": -0.535,
+   "gap_frac_of_oos": 0.478
+  },
+  "gap_fill_trend_fills_mr": {
+   "n_gap_days": 24,
+   "gap_fill_rate": 0.125,
+   "gap_fill_mean_ret_pct": -1.215,
+   "gap_frac_of_oos": 0.261
+  },
+  "coverage": {
+   "coverage_union": 1.0,
+   "only_trend": 0.0,
+   "only_mr": 0.054,
+   "both": 0.946,
+   "neither": 0.0,
+   "n_days": 92
+  },
+  "complementarity_score": 0.234,
+  "sym_gap_fill_rate": 0.324,
+  "best_single": "trend",
+  "best_blend": "50_50",
+  "combining_helps": true,
+  "combining_helps_dd_only": true,
+  "verdict": "COMBINING HELPS (Sharpe up, DD not worse)",
+  "n_oos_days": 92
+ },
+ "30m": {
+  "corr_trend_mr": 0.213,
+  "trend": {
+   "net": 39.7,
+   "sharpe": 2.86,
+   "maxdd": -13.1,
+   "p05": -3.1
+  },
+  "mr": {
+   "net": 52.4,
+   "sharpe": 4.52,
+   "maxdd": -10.4,
+   "p05": 18.7
+  },
+  "blends": {
+   "50_50": {
+    "net": 47.4,
+    "sharpe": 4.57,
+    "maxdd": -6.9,
+    "p05": 12.7
+   },
+   "min_var": {
+    "net": 49.4,
+    "sharpe": 4.89,
+    "maxdd": -8.1,
+    "p05": 15.6
+   },
+   "risk_parity": {
+    "net": 48.3,
+    "sharpe": 4.74,
+    "maxdd": -7.4,
+    "p05": 14.3
+   }
+  },
+  "blend_weights": {
+   "50_50": 0.5,
+   "min_var": 0.333,
+   "risk_parity": 0.433
+  },
+  "gap_fill_mr_fills_trend": {
+   "n_gap_days": 47,
+   "gap_fill_rate": 0.617,
+   "gap_fill_mean_ret_pct": -0.261,
+   "gap_frac_of_oos": 0.511
+  },
+  "gap_fill_trend_fills_mr": {
+   "n_gap_days": 20,
+   "gap_fill_rate": 0.1,
+   "gap_fill_mean_ret_pct": -1.269,
+   "gap_frac_of_oos": 0.217
+  },
+  "coverage": {
+   "coverage_union": 1.0,
+   "only_trend": 0.0,
+   "only_mr": 0.033,
+   "both": 0.967,
+   "neither": 0.0,
+   "n_days": 92
+  },
+  "complementarity_score": 0.282,
+  "sym_gap_fill_rate": 0.358,
+  "best_single": "mr",
+  "best_blend": "min_var",
+  "combining_helps": true,
+  "combining_helps_dd_only": true,
+  "verdict": "COMBINING HELPS (Sharpe up, DD not worse)",
+  "n_oos_days": 92
+ },
+ "15m": {
+  "corr_trend_mr": 0.31,
+  "trend": {
+   "net": 31.3,
+   "sharpe": 2.26,
+   "maxdd": -15.8,
+   "p05": -11.5
+  },
+  "mr": {
+   "net": 82.7,
+   "sharpe": 6.39,
+   "maxdd": -8.6,
+   "p05": 37.5
+  },
+  "blends": {
+   "50_50": {
+    "net": 56.4,
+    "sharpe": 4.89,
+    "maxdd": -6.9,
+    "p05": 16.3
+   },
+   "min_var": {
+    "net": 68.3,
+    "sharpe": 6.0,
+    "maxdd": -7.3,
+    "p05": 29.2
+   },
+   "risk_parity": {
+    "net": 60.7,
+    "sharpe": 5.35,
+    "maxdd": -7.0,
+    "p05": 21.9
+   }
+  },
+  "blend_weights": {
+   "50_50": 0.5,
+   "min_var": 0.271,
+   "risk_parity": 0.417
+  },
+  "gap_fill_mr_fills_trend": {
+   "n_gap_days": 52,
+   "gap_fill_rate": 0.596,
+   "gap_fill_mean_ret_pct": -0.01,
+   "gap_frac_of_oos": 0.565
+  },
+  "gap_fill_trend_fills_mr": {
+   "n_gap_days": 24,
+   "gap_fill_rate": 0.125,
+   "gap_fill_mean_ret_pct": -1.134,
+   "gap_frac_of_oos": 0.261
+  },
+  "coverage": {
+   "coverage_union": 1.0,
+   "only_trend": 0.0,
+   "only_mr": 0.011,
+   "both": 0.989,
+   "neither": 0.0,
+   "n_days": 92
+  },
+  "complementarity_score": 0.249,
+  "sym_gap_fill_rate": 0.36,
+  "best_single": "mr",
+  "best_blend": "min_var",
+  "combining_helps": false,
+  "combining_helps_dd_only": false,
+  "verdict": "combining does NOT improve risk-adjusted return",
+  "n_oos_days": 92
+ },
+ "_ranking": {
+  "by_complementarity_score": [
+   [
+    "2h",
+    0.301
+   ],
+   [
+    "30m",
+    0.282
+   ],
+   [
+    "15m",
+    0.249
+   ],
+   [
+    "4h",
+    0.236
+   ],
+   [
+    "1h",
+    0.234
+   ],
+   [
+    "1d",
+    0.22
+   ]
+  ]
+ }
+}

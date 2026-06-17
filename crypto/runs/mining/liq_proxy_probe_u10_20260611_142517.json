@@ -1,0 +1,40 @@
+{
+ "base_feats": [
+  "t2trig",
+  "overshoot",
+  "pre_vol",
+  "oi_d1h",
+  "oi_d4h",
+  "oi_d24h",
+  "funding",
+  "liq_ratio",
+  "regime"
+ ],
+ "proxy_feats": [
+  "lsr",
+  "lsr_z",
+  "oi_z",
+  "squeeze_up",
+  "liq_below",
+  "magnet_prox"
+ ],
+ "n_events": 12267,
+ "baseline": {
+  "train": 0.99,
+  "oos": 0.491,
+  "n_tr": 7054,
+  "n_oo": 3369
+ },
+ "base_plus_proxy": {
+  "train": 0.994,
+  "oos": 0.491,
+  "n_tr": 7054,
+  "n_oo": 3369
+ },
+ "proxy_only": {
+  "train": 0.803,
+  "oos": 0.501,
+  "n_tr": 7054,
+  "n_oo": 3369
+ }
+}

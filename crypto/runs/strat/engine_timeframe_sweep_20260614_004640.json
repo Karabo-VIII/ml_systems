@@ -1,0 +1,684 @@
+{
+ "repro": {
+  "command": "python -m strat.engine_timeframe_sweep ",
+  "git_sha": "9b02bc3",
+  "cost_rt": 0.0024,
+  "cost_name": "taker",
+  "cadences": [
+   "1d",
+   "4h",
+   "1h",
+   "30m",
+   "15m"
+  ],
+  "universe": "u10",
+  "scaling": "windows in BARS = daily_bars * bars_per_day; ANN = 365 * bars_per_day",
+  "base_daily_params": {
+   "vol_window": 30,
+   "regime_lookback": 60,
+   "min_dwell": 5,
+   "ann": 365.0
+  }
+ },
+ "results": {
+  "1d": {
+   "cadence": "1d",
+   "panel_shape": [
+    2335,
+    10
+   ],
+   "span": [
+    "2020-01-06",
+    "2026-05-28"
+   ],
+   "scaled_params": {
+    "cadence": "1d",
+    "bars_per_day": 1,
+    "vol_window_bars": 30,
+    "regime_lookback_bars": 60,
+    "min_dwell_bars": 5,
+    "ann_bars": 365.0
+   },
+   "regime_share_full": {
+    "trend": 0.108,
+    "chop": 0.663,
+    "down": 0.229
+   },
+   "full_cycle": {
+    "ENGINE": {
+     "n_days": 2335,
+     "compound_pct": 2656.32,
+     "cagr_pct": 67.94,
+     "sharpe": 1.37,
+     "maxdd_pct": -48.16,
+     "daily_pos_rate_pct": 53.0,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.458,
+     "coverage_pct": 99.4
+    },
+    "CORE_ALONE": {
+     "n_days": 2335,
+     "compound_pct": 2767.39,
+     "cagr_pct": 68.98,
+     "sharpe": 1.07,
+     "maxdd_pct": -79.36,
+     "daily_pos_rate_pct": 53.1,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.991,
+     "coverage_pct": 99.4
+    },
+    "BUYHOLD": {
+     "n_days": 2335,
+     "compound_pct": 3405.4,
+     "cagr_pct": 74.37,
+     "sharpe": 1.1,
+     "maxdd_pct": -79.36,
+     "daily_pos_rate_pct": 53.3,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 1.0,
+     "coverage_pct": 100.0
+    }
+   },
+   "recent_slice": {
+    "window": [
+     "2024-01-01",
+     "2026-06-01"
+    ],
+    "stats": {
+     "ENGINE": {
+      "n_days": 879,
+      "compound_pct": 41.21,
+      "cagr_pct": 15.41,
+      "sharpe": 0.61,
+      "maxdd_pct": -27.66,
+      "daily_pos_rate_pct": 50.1,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 0.435,
+      "coverage_pct": 100.0
+     },
+     "CORE_ALONE": {
+      "n_days": 879,
+      "compound_pct": 7.3,
+      "cagr_pct": 2.97,
+      "sharpe": 0.37,
+      "maxdd_pct": -62.45,
+      "daily_pos_rate_pct": 50.2,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     },
+     "BUYHOLD": {
+      "n_days": 879,
+      "compound_pct": 7.08,
+      "cagr_pct": 2.88,
+      "sharpe": 0.37,
+      "maxdd_pct": -62.45,
+      "daily_pos_rate_pct": 50.2,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     }
+    }
+   },
+   "diagnostics": {
+    "avg_turnover_per_bar": 0.00729,
+    "ann_cost_drag_taker_pct": 0.32,
+    "overlay_dd_saved_pp_full": 31.2,
+    "core_positive_full": true,
+    "engine_positive_full": true
+   }
+  },
+  "4h": {
+   "cadence": "4h",
+   "panel_shape": [
+    14007,
+    10
+   ],
+   "span": [
+    "2020-01-06",
+    "2026-05-28"
+   ],
+   "scaled_params": {
+    "cadence": "4h",
+    "bars_per_day": 6,
+    "vol_window_bars": 180,
+    "regime_lookback_bars": 360,
+    "min_dwell_bars": 30,
+    "ann_bars": 2190.0
+   },
+   "regime_share_full": {
+    "trend": 0.158,
+    "chop": 0.625,
+    "down": 0.217
+   },
+   "full_cycle": {
+    "ENGINE": {
+     "n_days": 14007,
+     "compound_pct": 1095.84,
+     "cagr_pct": 47.4,
+     "sharpe": 1.06,
+     "maxdd_pct": -63.74,
+     "daily_pos_rate_pct": 52.2,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.488,
+     "coverage_pct": 99.4
+    },
+    "CORE_ALONE": {
+     "n_days": 14007,
+     "compound_pct": 2402.04,
+     "cagr_pct": 65.43,
+     "sharpe": 1.04,
+     "maxdd_pct": -80.21,
+     "daily_pos_rate_pct": 52.3,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.991,
+     "coverage_pct": 99.4
+    },
+    "BUYHOLD": {
+     "n_days": 14007,
+     "compound_pct": 2631.49,
+     "cagr_pct": 67.72,
+     "sharpe": 1.06,
+     "maxdd_pct": -80.21,
+     "daily_pos_rate_pct": 52.6,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 1.0,
+     "coverage_pct": 100.0
+    }
+   },
+   "recent_slice": {
+    "window": [
+     "2024-01-01",
+     "2026-06-01"
+    ],
+    "stats": {
+     "ENGINE": {
+      "n_days": 5274,
+      "compound_pct": 43.01,
+      "cagr_pct": 16.01,
+      "sharpe": 0.59,
+      "maxdd_pct": -35.34,
+      "daily_pos_rate_pct": 51.9,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 0.476,
+      "coverage_pct": 100.0
+     },
+     "CORE_ALONE": {
+      "n_days": 5274,
+      "compound_pct": 6.74,
+      "cagr_pct": 2.74,
+      "sharpe": 0.38,
+      "maxdd_pct": -62.5,
+      "daily_pos_rate_pct": 52.0,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     },
+     "BUYHOLD": {
+      "n_days": 5274,
+      "compound_pct": 6.65,
+      "cagr_pct": 2.71,
+      "sharpe": 0.38,
+      "maxdd_pct": -62.5,
+      "daily_pos_rate_pct": 52.0,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     }
+    }
+   },
+   "diagnostics": {
+    "avg_turnover_per_bar": 0.00549,
+    "ann_cost_drag_taker_pct": 1.44,
+    "overlay_dd_saved_pp_full": 16.47,
+    "core_positive_full": true,
+    "engine_positive_full": true
+   }
+  },
+  "1h": {
+   "cadence": "1h",
+   "panel_shape": [
+    55994,
+    10
+   ],
+   "span": [
+    "2020-01-06",
+    "2026-05-28"
+   ],
+   "scaled_params": {
+    "cadence": "1h",
+    "bars_per_day": 24,
+    "vol_window_bars": 720,
+    "regime_lookback_bars": 1440,
+    "min_dwell_bars": 120,
+    "ann_bars": 8760.0
+   },
+   "regime_share_full": {
+    "trend": 0.003,
+    "chop": 0.946,
+    "down": 0.052
+   },
+   "full_cycle": {
+    "ENGINE": {
+     "n_days": 55994,
+     "compound_pct": 360.68,
+     "cagr_pct": 26.99,
+     "sharpe": 0.81,
+     "maxdd_pct": -61.82,
+     "daily_pos_rate_pct": 51.8,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.476,
+     "coverage_pct": 99.4
+    },
+    "CORE_ALONE": {
+     "n_days": 55994,
+     "compound_pct": 2227.97,
+     "cagr_pct": 63.63,
+     "sharpe": 1.02,
+     "maxdd_pct": -80.43,
+     "daily_pos_rate_pct": 51.8,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.991,
+     "coverage_pct": 99.4
+    },
+    "BUYHOLD": {
+     "n_days": 55994,
+     "compound_pct": 1166.73,
+     "cagr_pct": 48.77,
+     "sharpe": 0.9,
+     "maxdd_pct": -80.43,
+     "daily_pos_rate_pct": 52.0,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 1.0,
+     "coverage_pct": 100.0
+    }
+   },
+   "recent_slice": {
+    "window": [
+     "2024-01-01",
+     "2026-06-01"
+    ],
+    "stats": {
+     "ENGINE": {
+      "n_days": 21094,
+      "compound_pct": 23.39,
+      "cagr_pct": 9.12,
+      "sharpe": 0.42,
+      "maxdd_pct": -37.63,
+      "daily_pos_rate_pct": 51.4,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 0.503,
+      "coverage_pct": 100.0
+     },
+     "CORE_ALONE": {
+      "n_days": 21094,
+      "compound_pct": 8.1,
+      "cagr_pct": 3.29,
+      "sharpe": 0.39,
+      "maxdd_pct": -62.7,
+      "daily_pos_rate_pct": 51.4,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     },
+     "BUYHOLD": {
+      "n_days": 21094,
+      "compound_pct": 7.81,
+      "cagr_pct": 3.17,
+      "sharpe": 0.39,
+      "maxdd_pct": -62.7,
+      "daily_pos_rate_pct": 51.4,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     }
+    }
+   },
+   "diagnostics": {
+    "avg_turnover_per_bar": 0.00188,
+    "ann_cost_drag_taker_pct": 1.97,
+    "overlay_dd_saved_pp_full": 18.61,
+    "core_positive_full": true,
+    "engine_positive_full": true
+   }
+  },
+  "30m": {
+   "cadence": "30m",
+   "panel_shape": [
+    111975,
+    10
+   ],
+   "span": [
+    "2020-01-06",
+    "2026-05-28"
+   ],
+   "scaled_params": {
+    "cadence": "30m",
+    "bars_per_day": 48,
+    "vol_window_bars": 1440,
+    "regime_lookback_bars": 2880,
+    "min_dwell_bars": 240,
+    "ann_bars": 17520.0
+   },
+   "regime_share_full": {
+    "trend": 0.0,
+    "chop": 1.0,
+    "down": 0.0
+   },
+   "full_cycle": {
+    "ENGINE": {
+     "n_days": 111975,
+     "compound_pct": 236.73,
+     "cagr_pct": 20.92,
+     "sharpe": 0.67,
+     "maxdd_pct": -64.58,
+     "daily_pos_rate_pct": 51.0,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.494,
+     "coverage_pct": 99.4
+    },
+    "CORE_ALONE": {
+     "n_days": 111975,
+     "compound_pct": 276.77,
+     "cagr_pct": 23.07,
+     "sharpe": 0.67,
+     "maxdd_pct": -90.42,
+     "daily_pos_rate_pct": 51.0,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.988,
+     "coverage_pct": 99.4
+    },
+    "BUYHOLD": {
+     "n_days": 111975,
+     "compound_pct": -46.18,
+     "cagr_pct": -9.24,
+     "sharpe": 0.3,
+     "maxdd_pct": -90.86,
+     "daily_pos_rate_pct": 51.2,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 1.0,
+     "coverage_pct": 100.0
+    }
+   },
+   "recent_slice": {
+    "window": [
+     "2024-01-01",
+     "2026-06-01"
+    ],
+    "stats": {
+     "ENGINE": {
+      "n_days": 42187,
+      "compound_pct": 10.75,
+      "cagr_pct": 4.33,
+      "sharpe": 0.3,
+      "maxdd_pct": -39.04,
+      "daily_pos_rate_pct": 50.9,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 0.5,
+      "coverage_pct": 100.0
+     },
+     "CORE_ALONE": {
+      "n_days": 42187,
+      "compound_pct": -9.5,
+      "cagr_pct": -4.06,
+      "sharpe": 0.3,
+      "maxdd_pct": -65.06,
+      "daily_pos_rate_pct": 50.9,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     },
+     "BUYHOLD": {
+      "n_days": 42187,
+      "compound_pct": -9.67,
+      "cagr_pct": -4.14,
+      "sharpe": 0.3,
+      "maxdd_pct": -65.06,
+      "daily_pos_rate_pct": 50.9,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     }
+    }
+   },
+   "diagnostics": {
+    "avg_turnover_per_bar": 0.0073,
+    "ann_cost_drag_taker_pct": 15.34,
+    "overlay_dd_saved_pp_full": 25.84,
+    "core_positive_full": true,
+    "engine_positive_full": true
+   }
+  },
+  "15m": {
+   "cadence": "15m",
+   "panel_shape": [
+    223942,
+    10
+   ],
+   "span": [
+    "2020-01-06",
+    "2026-05-28"
+   ],
+   "scaled_params": {
+    "cadence": "15m",
+    "bars_per_day": 96,
+    "vol_window_bars": 2880,
+    "regime_lookback_bars": 5760,
+    "min_dwell_bars": 480,
+    "ann_bars": 35040.0
+   },
+   "regime_share_full": {
+    "trend": 0.0,
+    "chop": 1.0,
+    "down": 0.0
+   },
+   "full_cycle": {
+    "ENGINE": {
+     "n_days": 223942,
+     "compound_pct": -99.71,
+     "cagr_pct": -59.88,
+     "sharpe": -2.0,
+     "maxdd_pct": -99.74,
+     "daily_pos_rate_pct": 48.8,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.487,
+     "coverage_pct": 99.3
+    },
+    "CORE_ALONE": {
+     "n_days": 223942,
+     "compound_pct": -100.0,
+     "cagr_pct": -86.44,
+     "sharpe": -2.0,
+     "maxdd_pct": -100.0,
+     "daily_pos_rate_pct": 48.8,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 0.974,
+     "coverage_pct": 99.3
+    },
+    "BUYHOLD": {
+     "n_days": 223942,
+     "compound_pct": -100.0,
+     "cagr_pct": -97.03,
+     "sharpe": -3.79,
+     "maxdd_pct": -100.0,
+     "daily_pos_rate_pct": 48.4,
+     "first_day": "2020-01-06",
+     "last_day": "2026-05-28",
+     "avg_gross_exposure": 1.0,
+     "coverage_pct": 100.0
+    }
+   },
+   "recent_slice": {
+    "window": [
+     "2024-01-01",
+     "2026-06-01"
+    ],
+    "stats": {
+     "ENGINE": {
+      "n_days": 84373,
+      "compound_pct": -85.5,
+      "cagr_pct": -55.15,
+      "sharpe": -2.1,
+      "maxdd_pct": -86.41,
+      "daily_pos_rate_pct": 49.1,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 0.5,
+      "coverage_pct": 100.0
+     },
+     "CORE_ALONE": {
+      "n_days": 84373,
+      "compound_pct": -98.44,
+      "cagr_pct": -82.24,
+      "sharpe": -2.1,
+      "maxdd_pct": -98.6,
+      "daily_pos_rate_pct": 49.1,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     },
+     "BUYHOLD": {
+      "n_days": 84373,
+      "compound_pct": -98.51,
+      "cagr_pct": -82.56,
+      "sharpe": -2.13,
+      "maxdd_pct": -98.66,
+      "daily_pos_rate_pct": 49.1,
+      "first_day": "2024-01-01",
+      "last_day": "2026-05-28",
+      "avg_gross_exposure": 1.0,
+      "coverage_pct": 100.0
+     }
+    }
+   },
+   "diagnostics": {
+    "avg_turnover_per_bar": 0.02867,
+    "ann_cost_drag_taker_pct": 120.55,
+    "overlay_dd_saved_pp_full": 0.26,
+    "core_positive_full": false,
+    "engine_positive_full": false
+   }
+  }
+ },
+ "verdict": {
+  "headline": "METHODOLOGY IS COARSE-CADENCE-SPECIFIC: it holds at ['1d', '4h', '1h', '30m'] but FAILS at ['15m']. As the cadence finers, turnover-driven cost drag (and/or regime-classifier resolution) erodes the core -- the expected coarse-cadence-best result. Deploy on the coarse cadence(s); the fine cadences add cost without adding edge.",
+  "replicates_cadences": [
+   "1d",
+   "4h",
+   "1h",
+   "30m"
+  ],
+  "failed_cadences": [
+   "15m"
+  ],
+  "rows": [
+   {
+    "cadence": "1d",
+    "engine_compound_pct": 2656.32,
+    "engine_sharpe": 1.37,
+    "engine_maxdd_pct": -48.16,
+    "core_compound_pct": 2767.39,
+    "core_sharpe": 1.07,
+    "bh_compound_pct": 3405.4,
+    "ann_cost_drag_pct": 0.32,
+    "overlay_dd_saved_pp": 31.2,
+    "core_positive": true
+   },
+   {
+    "cadence": "4h",
+    "engine_compound_pct": 1095.84,
+    "engine_sharpe": 1.06,
+    "engine_maxdd_pct": -63.74,
+    "core_compound_pct": 2402.04,
+    "core_sharpe": 1.04,
+    "bh_compound_pct": 2631.49,
+    "ann_cost_drag_pct": 1.44,
+    "overlay_dd_saved_pp": 16.47,
+    "core_positive": true
+   },
+   {
+    "cadence": "1h",
+    "engine_compound_pct": 360.68,
+    "engine_sharpe": 0.81,
+    "engine_maxdd_pct": -61.82,
+    "core_compound_pct": 2227.97,
+    "core_sharpe": 1.02,
+    "bh_compound_pct": 1166.73,
+    "ann_cost_drag_pct": 1.97,
+    "overlay_dd_saved_pp": 18.61,
+    "core_positive": true
+   },
+   {
+    "cadence": "30m",
+    "engine_compound_pct": 236.73,
+    "engine_sharpe": 0.67,
+    "engine_maxdd_pct": -64.58,
+    "core_compound_pct": 276.77,
+    "core_sharpe": 0.67,
+    "bh_compound_pct": -46.18,
+    "ann_cost_drag_pct": 15.34,
+    "overlay_dd_saved_pp": 25.84,
+    "core_positive": true
+   },
+   {
+    "cadence": "15m",
+    "engine_compound_pct": -99.71,
+    "engine_sharpe": -2.0,
+    "engine_maxdd_pct": -99.74,
+    "core_compound_pct": -100.0,
+    "core_sharpe": -2.0,
+    "bh_compound_pct": -100.0,
+    "ann_cost_drag_pct": 120.55,
+    "overlay_dd_saved_pp": 0.26,
+    "core_positive": false
+   }
+  ],
+  "cost_drag_by_cadence": {
+   "1d": 0.32,
+   "4h": 1.44,
+   "1h": 1.97,
+   "30m": 15.34,
+   "15m": 120.55
+  },
+  "lines": [
+   "KEY QUESTION: does the core+overlay methodology REPLICATE across cadences, or does cost eat it as the cadence finers (coarse-cadence-best)?",
+   "HEADLINE: METHODOLOGY IS COARSE-CADENCE-SPECIFIC: it holds at ['1d', '4h', '1h', '30m'] but FAILS at ['15m']. As the cadence finers, turnover-driven cost drag (and/or regime-classifier resolution) erodes the core -- the expected coarse-cadence-best result. Deploy on the coarse cadence(s); the fine cadences add cost without adding edge.",
+   "",
+   "[ 1d] ENGINE comp 2656.32% Sh 1.37 DD -48.16% | CORE comp 2767.39% Sh 1.07 | BH comp 3405.4% | cost-drag 0.32%/yr | overlay saved 31.2pp DD | core+:True",
+   "[ 4h] ENGINE comp 1095.84% Sh 1.06 DD -63.74% | CORE comp 2402.04% Sh 1.04 | BH comp 2631.49% | cost-drag 1.44%/yr | overlay saved 16.47pp DD | core+:True",
+   "[ 1h] ENGINE comp 360.68% Sh 0.81 DD -61.82% | CORE comp 2227.97% Sh 1.02 | BH comp 1166.73% | cost-drag 1.97%/yr | overlay saved 18.61pp DD | core+:True",
+   "[30m] ENGINE comp 236.73% Sh 0.67 DD -64.58% | CORE comp 276.77% Sh 0.67 | BH comp -46.18% | cost-drag 15.34%/yr | overlay saved 25.84pp DD | core+:True",
+   "[15m] ENGINE comp -99.71% Sh -2.0 DD -99.74% | CORE comp -100.0% Sh -2.0 | BH comp -100.0% | cost-drag 120.55%/yr | overlay saved 0.26pp DD | core+:False",
+   "",
+   "",
+   "COST TREND: annualized taker cost-drag rises from 0.32%/yr (1d) to 120.55%/yr (15m) -- the turnover tax compounds as the cadence finers, the mechanism behind coarse-cadence-best."
+  ]
+ }
+}

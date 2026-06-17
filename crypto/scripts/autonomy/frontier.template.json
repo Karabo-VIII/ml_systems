@@ -1,0 +1,28 @@
+{
+  "_doc": "The autonomy framework's EXTERNAL STATE (Lilian Weng 'long-term memory' + 'planning'). The Stop hook (.claude/hooks/autonomy_loop.py) and the driver (scripts/autonomy/autonomy_driver.py) read this. Copy to runs/autonomy/frontier.json and ARM via the AUTHORITATIVE source -- set .claude/autonomous_mode.json autonomous=true (+ envelope_end for a timed run). (Legacy AUTONOMY_ON still works ONLY when autonomous_mode.json is absent.) The OVERSEER (Tier-0, see .claude/skills/_common/OVERSEER.md) owns this file; Tier-1 workers report up but do not own it. The MODEL updates this file each cycle; the LOOP just re-reads it.",
+  "objective": "<the problem as a verifiable goal, e.g. 'develop a SOL spot system aiming for 1-5% ROI per fire, proven robust (10/10 seeds positive UNSEEN, p05>0, maxDD<30%, beats a cost-matched random-entry null)'>",
+  "success_criteria": "<how the loop KNOWS it is solved -- the verifiable stop condition, e.g. 'a ship-tier candidate passes the full robustness battery on UNSEEN'>",
+  "overseer": {
+    "_doc": "Tier-0 user-proxy CONTRACT + judgment ledger -- the 'stand in for the user' record. Filled in cycle 1 (ADOPT + FORM THE FULFILLMENT CONTRACT). Tier-1 workers never write here; the Overseer does.",
+    "adopted_command": "<the user's raw command, verbatim -- what was adopted>",
+    "acceptance_test": "<the SINGLE command/check that, if it passes, means DONE -- e.g. 'python src/strat/selftest_all.py green AND candidate beats the random-entry null on EVERY window, net of taker cost'>",
+    "stop_conditions": [
+      "SOLVED (acceptance_test VERIFIED by the Overseer, not asserted by a worker)",
+      "BUDGET_SPENT",
+      "STRUCTURALLY_IMPOSSIBLE (objective shown infeasible, with the falsifier)",
+      "NEEDS_IRREVERSIBLE_OK (deploy real capital / external send / shared-history rewrite -- the only things that escalate to the real user)"
+    ],
+    "fulfillment_ledger": [],
+    "drift_checks": [],
+    "user_proxy_notes": "<decisions the Overseer made AS the user, with reasoning -- so the real user can audit/override; the Overseer does NOT block waiting on the user for anything git can revert>"
+  },
+  "value_floor": 0.2,
+  "budget": { "spent": 0, "max_cycles": 40, "note": "spent increments each cycle; loop releases at max_cycles" },
+  "nodes": [
+    { "id": "n1", "task": "<concrete next build step>", "ev": 0.9, "status": "open", "valence": "+", "kind": "build", "evidence": "" },
+    { "id": "n2", "task": "RED-TEAM n1: is the method/data/apparatus sound? (-k falsifier -- highest-value breadth node)", "ev": 0.7, "status": "open", "valence": "-", "kind": "verify", "evidence": "" },
+    { "id": "n3", "task": "GENERALIZE: is there a higher-leverage framing / the general class this belongs to? (+k -- anti-narrow-mindedness)", "ev": 0.4, "status": "open", "valence": "+", "kind": "diverge", "evidence": "" }
+  ],
+  "log": [],
+  "status_legend": "node.status in {open, done, refuted, blocked, parked}; kind in {build, verify, diverge, decide}; valence + = opportunity, - = falsifier"
+}

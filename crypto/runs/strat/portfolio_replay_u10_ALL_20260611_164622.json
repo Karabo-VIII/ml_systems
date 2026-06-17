@@ -1,0 +1,52 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\portfolio_replay.py --universe u10 --window ALL --strategies ema_50_100,ema_10_50_100 --trail-stop 0.05",
+  "git_sha": "89e7cc7"
+ },
+ "spec": {
+  "strategies": [
+   "ema_50_100",
+   "ema_10_50_100"
+  ],
+  "universe": "u10",
+  "cadence": "1d",
+  "window": "ALL",
+  "sizing": "inverse-vol",
+  "vol_target": 0.02,
+  "max_per_name": 0.15,
+  "cost_rt": 0.0024
+ },
+ "result": {
+  "window": "ALL",
+  "n_bars": 2335,
+  "n_assets": 10,
+  "final_equity": 1.3895844839136717,
+  "final_pct": 38.95844839136717,
+  "ann_pct": 5.3,
+  "maxdd_pct": -11.1,
+  "sharpe": 0.61,
+  "avg_gross": 0.039,
+  "avg_daily_turnover": 0.0114,
+  "trail_stop": 0.05,
+  "n_stop_exits": 87,
+  "win_bar_rate": 0.095,
+  "roll3d_pos_rate": 0.108,
+  "roll3d_median_pct": 0.0,
+  "per_strat_hold_bars": {
+   "ema_50_100": 10736,
+   "ema_10_50_100": 8073
+  },
+  "equity_curve_tail": [
+   1.3896,
+   1.3896,
+   1.3896,
+   1.3896,
+   1.3896,
+   1.3896,
+   1.3896,
+   1.3896,
+   1.3896,
+   1.3896
+  ]
+ }
+}

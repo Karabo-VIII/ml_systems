@@ -1,0 +1,1239 @@
+meta:
+  generated: '2026-05-18T13:53:34.871053+00:00'
+  source_parquet: data\processed\chimera\dollar\btcusdt_v51_chimera_20260515.parquet
+  total_features: 215
+  n_prefixes: 22
+  invariant: Single source of truth for chimera v51 feature metadata. Auto-regenerate
+    via scripts/audit/build_feature_registry.py.
+prefix_families:
+  (base):
+    description: Bar timestamp (13-digit ms)
+    source_producer: src/pipeline/dollar_bars_v51.py (base OHLCV)
+    is_z_scored: false
+    preserves_magnitude: false
+    lookahead_safe: true
+    features:
+    - name: timestamp
+      base_type: raw
+      semantic_class: reference
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: bar_id
+      base_type: raw
+      semantic_class: reference
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: open
+      base_type: raw
+      semantic_class: reference
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: high
+      base_type: raw
+      semantic_class: reference
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: low
+      base_type: raw
+      semantic_class: reference
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: close
+      base_type: raw
+      semantic_class: reference
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: volume
+      base_type: raw
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: volume_usd
+      base_type: raw
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: buy_vol
+      base_type: raw
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: sell_vol
+      base_type: raw
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: hurst_regime
+      base_type: vol_metric
+      semantic_class: regime
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: regime_label
+      base_type: categorical
+      semantic_class: regime
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: date
+      base_type: raw
+      semantic_class: reference
+      expected_range: varies
+      non_null_pct: 100.0
+  unknown:
+    description: Unclassified -- review manually
+    source_producer: unknown
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: tick_count
+      base_type: raw
+      semantic_class: derived
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: tick_seq
+      base_type: raw
+      semantic_class: derived
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: returns_clean
+      base_type: raw
+      semantic_class: derived
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: soc_wiki_views
+      base_type: raw
+      semantic_class: derived
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: fp_fund_panel
+      base_type: raw
+      semantic_class: derived
+      expected_range: varies
+      non_null_pct: 100.0
+  norm_:
+    description: Per-asset rolling z-score; preserves cross-sectional ranking but
+      destroys absolute magnitude
+    source_producer: src/pipeline/make_dataset_v51.py (feature normalization step)
+    is_z_scored: true
+    preserves_magnitude: false
+    lookahead_safe: true
+    features:
+    - name: norm_deviation
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_fd_close
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_vpin
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_flow_imbalance
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_vol_cluster
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_funding
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_tick_count
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_log_volume
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_hl_spread
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_oi_change
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_return_1
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_spread_bps
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_ma_distance
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_whale
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_efficiency
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_return_4
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_return_16
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_return_kurtosis
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_bar_duration
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_funding_momentum
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_hawkes_intensity
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_hawkes_buy_intensity
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_hawkes_sell_intensity
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_hawkes_imbalance
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_momentum_accel
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_vol_price_corr
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_vol_ratio
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_flow_persistence
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_oi_price_divergence
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_yz_volatility
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_cs_spread
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_perm_entropy
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+    - name: norm_kyle_lambda
+      base_type: normalized
+      semantic_class: microstructure
+      expected_range: '[-3,+3]'
+      non_null_pct: 100.0
+  target_:
+    description: Target columns (forward returns); NEVER use as feature
+    source_producer: src/pipeline/make_dataset_v51.py (target construction)
+    is_z_scored: false
+    preserves_magnitude: false
+    lookahead_safe: true
+    features:
+    - name: target_return_1
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_return_4
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_return_16
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_return_64
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_voladj_1
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_voladj_4
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_voladj_16
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_voladj_64
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_return_50
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_vol_20
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_return_1_raw
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_return_4_raw
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_return_16_raw
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: target_return_64_raw
+      base_type: target
+      semantic_class: target
+      expected_range: varies
+      non_null_pct: 100.0
+  xd_:
+    description: Cross-asset BTC-relative or cohort metric (e.g., xd_btc_return)
+    source_producer: src/pipeline/make_dataset_legacy.py phase 2 (cross-asset enrichment)
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: xd_btc_return
+      base_type: cross_asset
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: xd_btc_volatility
+      base_type: cross_asset
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: xd_funding_spread
+      base_type: cross_asset
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: xd_cross_return_mean
+      base_type: cross_asset
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: xd_cross_vol_mean
+      base_type: cross_asset
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: xd_ma_distance
+      base_type: cross_asset
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: xd_momentum_rank
+      base_type: cross_asset
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+  is_:
+    description: Universe membership flags (is_u10/u50/u100)
+    source_producer: unknown
+    is_z_scored: false
+    preserves_magnitude: false
+    lookahead_safe: true
+    features:
+    - name: is_u10
+      base_type: binary
+      semantic_class: reference
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+    - name: is_u50
+      base_type: binary
+      semantic_class: reference
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+    - name: is_u100
+      base_type: binary
+      semantic_class: reference
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+  asset_:
+    description: Asset DNA / classification metadata
+    source_producer: unknown
+    is_z_scored: false
+    preserves_magnitude: false
+    lookahead_safe: true
+    features:
+    - name: asset_dna
+      base_type: categorical
+      semantic_class: reference
+      expected_range: varies
+      non_null_pct: 100.0
+  hbr_:
+    description: "Hawkes branching panel: self-excitation \u03B7, n_trades, intensity"
+    source_producer: src/pipeline/features/hawkes_branching_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: hbr_eta_total
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: hbr_eta_buy
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: hbr_eta_sell
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: hbr_eta_imbalance
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: hbr_n_trades
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 100.0
+  s3_:
+    description: s3 features
+    source_producer: src/pipeline/features/s3_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: s3_oi_usd
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_top_acct_lsr
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_top_pos_lsr
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_global_lsr
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_taker_lsr
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_top_pos_lsr_z
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_top_pos_lsr_xsec_z
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_global_lsr_z
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_smart_vs_retail
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_smart_vs_retail_z
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_smart_bullish
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_smart_bearish
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_smart_extreme_long
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: s3_smart_extreme_short
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+  bs_:
+    description: Basis-signals (perp vs spot premium)
+    source_producer: src/pipeline/features/basis_signals.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: bs_basis_pct
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: bs_basis_z30
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 73.0
+    - name: bs_basis_delta_1d
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 99.6
+    - name: bs_basis_delta_3d
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 92.4
+    - name: bs_basis_xsec_z
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: bs_basis_bull_shock
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: bs_basis_bear_shock
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: bs_basis_panic
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: bs_basis_frenzy
+      base_type: derived
+      semantic_class: basis
+      expected_range: varies
+      non_null_pct: 100.0
+  liq_:
+    description: Liquidation panel features (BinanceVision liquidations); raw USD
+    source_producer: src/pipeline/features/liq_features_long.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: liq_long_usd
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: liq_short_usd
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: liq_delta_usd
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: liq_total_usd
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: liq_long_z30
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 89.1
+    - name: liq_short_z30
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 89.1
+    - name: liq_delta_z30
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 89.1
+    - name: liq_long_xsec_z
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: liq_short_xsec_z
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: liq_long_spike
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 89.1
+    - name: liq_short_spike
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 89.1
+    - name: liq_capitulation
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 89.1
+    - name: liq_short_panic
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 89.1
+  wh_:
+    description: Whale flow features (wh_whale_net_usd raw signed)
+    source_producer: src/pipeline/features/whale_flow_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: wh_whale_trade_count
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: wh_whale_trade_count_500k
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: wh_whale_buy_usd
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: wh_whale_sell_usd
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: wh_whale_net_usd
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+  xex_:
+    description: Cross-exchange spread/anomaly features
+    source_producer: src/pipeline/features/cross_exchange.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: xex_cb_bn_spread_bps
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: xex_by_bn_spread_bps
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: xex_ok_bn_spread_bps
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+  dv_:
+    description: DVol features (implied/realized vol panel)
+    source_producer: src/pipeline/features/dvol_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: dv_dvol_close
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: dv_dvol_high
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: dv_dvol_low
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+  stbl_:
+    description: Stablecoin supply features
+    source_producer: src/pipeline/features/stablecoin_supply_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: stbl_total_zscore_30d
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_total_delta_7d_pct
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_total_delta_30d_pct
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_usdt_zscore_30d
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_usdt_delta_7d_pct
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_usdc_zscore_30d
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_usde_zscore_30d
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: stbl_dai_zscore_30d
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_stable_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_stable_crash
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_stable_shock_strong
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_usdt_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: stbl_compound_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+  etf_:
+    description: ETF flow features (BTC/ETH ETF panel)
+    source_producer: src/pipeline/features/etf_flows_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: etf_btc_etf_total_usdm
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_btc_etf_total_z30
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_btc_etf_total_7d_z
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_btc_etf_inflow_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_btc_etf_outflow_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_btc_etf_mega_inflow
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_btc_etf_mega_outflow
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_eth_etf_total_usdm
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_eth_etf_total_z30
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_eth_etf_inflow_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_eth_etf_outflow_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_any_inflow_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: etf_both_inflow_shock
+      base_type: signed_flow
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+  rv_:
+    description: Realized vol / bipower variation; RAW (proven KS=0.25 baseline)
+    source_producer: src/pipeline/features/realized_vol_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: rv_rv_5m
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: rv_bpv_5m
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: rv_jv_5m
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: rv_jump_frac
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: rv_jump_count
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+    - name: rv_jump_signed_var
+      base_type: vol_metric
+      semantic_class: vol
+      expected_range: '[0, inf)'
+      non_null_pct: 100.0
+  te_:
+    description: Transfer entropy / cluster co-movement
+    source_producer: src/pipeline/features/transfer_entropy_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: te_in
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: te_out
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: te_in_btc
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: te_out_btc
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: te_imb
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+    - name: te_btc_imb
+      base_type: vol_metric
+      semantic_class: flow
+      expected_range: '[0, inf)'
+      non_null_pct: 0.0
+  mv_:
+    description: Multi-venue listing indicators (n venues, is_multi_venue)
+    source_producer: src/pipeline/features/multi_venue_listing.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: mv_days_since_listed_binance
+      base_type: categorical
+      semantic_class: listing
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: mv_days_since_listed_bybit
+      base_type: categorical
+      semantic_class: listing
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: mv_days_since_listed_okx
+      base_type: categorical
+      semantic_class: listing
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: mv_n_venues_listed
+      base_type: categorical
+      semantic_class: listing
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: mv_is_multi_venue
+      base_type: categorical
+      semantic_class: listing
+      expected_range: varies
+      non_null_pct: 0.0
+  lob_:
+    description: LOB proxy panel; raw values
+    source_producer: src/pipeline/features/lob_proxy_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: lob_l1_imb_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_l1_imb_std
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_l5_imb_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_l5_imb_std
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_spread_bps_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_spread_bps_p90
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_top_pressure_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_count_imb_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_run_length_p50
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_kyle_lambda_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_kyle_lambda_abs_max
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: lob_n_bars
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+  bd_:
+    description: Book depth panel (bd_*); 30s snapshot snapshots
+    source_producer: src/pipeline/features/book_depth_panel.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: bd_depth_l1pct_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_depth_l1pct_p90
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_notional_l1pct_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_imbalance_l1
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_imbalance_l5
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_notional_skew
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_total_depth_l5_mean
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_total_depth_l5_p10
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_thin_book_frac
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_depth_at_02pct
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+    - name: bd_n_snapshots
+      base_type: vol_metric
+      semantic_class: microstructure
+      expected_range: varies
+      non_null_pct: 0.0
+  xrel_:
+    description: 'ADD 2026-05-18: cross-asset relative features (xrank/xpct10/xratio);
+      fixes norm_* z-score wall'
+    source_producer: src/pipeline/add_xrel_features.py
+    is_z_scored: false
+    preserves_magnitude: true
+    lookahead_safe: true
+    features:
+    - name: xrel_rv_bpv_5m_xrank
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '[0,1]'
+      non_null_pct: 100.0
+    - name: xrel_rv_bpv_5m_xpct10
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+    - name: xrel_rv_bpv_5m_xratio
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: xrel_rv_rv_5m_xrank
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '[0,1]'
+      non_null_pct: 100.0
+    - name: xrel_rv_rv_5m_xpct10
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+    - name: xrel_rv_rv_5m_xratio
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: xrel_hbr_eta_total_xrank
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '[0,1]'
+      non_null_pct: 100.0
+    - name: xrel_hbr_eta_total_xpct10
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+    - name: xrel_hbr_eta_total_xratio
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: xrel_hbr_n_trades_xrank
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '[0,1]'
+      non_null_pct: 100.0
+    - name: xrel_hbr_n_trades_xpct10
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+    - name: xrel_hbr_n_trades_xratio
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: varies
+      non_null_pct: 100.0
+    - name: xrel_liq_long_usd_xrank
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '[0,1]'
+      non_null_pct: 100.0
+    - name: xrel_liq_long_usd_xpct10
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+    - name: xrel_liq_long_usd_xratio
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: varies
+      non_null_pct: 50.1
+    - name: xrel_wh_whale_net_usd_xrank
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '[0,1]'
+      non_null_pct: 100.0
+    - name: xrel_wh_whale_net_usd_xpct10
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '{0,1}'
+      non_null_pct: 100.0
+    - name: xrel_wh_whale_net_usd_xratio
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: varies
+      non_null_pct: 11.6
+    - name: xrel_lob_kyle_lambda_mean_xrank
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '[0,1]'
+      non_null_pct: 0.0
+    - name: xrel_lob_kyle_lambda_mean_xpct10
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: '{0,1}'
+      non_null_pct: 0.0
+    - name: xrel_lob_kyle_lambda_mean_xratio
+      base_type: xsec_rank_or_ratio
+      semantic_class: cross_asset
+      expected_range: varies
+      non_null_pct: 0.0

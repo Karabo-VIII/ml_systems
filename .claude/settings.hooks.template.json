@@ -1,0 +1,49 @@
+{
+  "_doc": "TRACKED template of the load-bearing settings.json WIRING. settings.json itself is gitignored (per-machine), which means a fresh clone has every hook/gate FILE but NO wiring -> the agent system is inert (weak point W1 in docs/SYSTEM_TOPOLOGY.md). scripts/autonomy/bootstrap.py merges this into .claude/settings.json so a clone wires up. NOTE: runtime permissions are AUTHORITATIVE in runs/autonomy/permission_policy.json (the PreToolUse gate); the permissions block here is the BOOTSTRAP BASELINE only (defaultMode + the hardcoded-protected + catastrophic denies the harness enforces pre-gate).",
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "deny": [
+      "Edit(.claude/settings.json)",
+      "Write(.claude/settings.json)",
+      "Edit(.claude/settings.local.json)",
+      "Write(.claude/settings.local.json)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf ~/*)",
+      "Bash(rm -rf .git*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push --force-with-lease*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -fd*)",
+      "Bash(sudo *)",
+      "Bash(dd if=*)",
+      "Bash(mkfs*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          { "type": "command", "command": "python .claude/hooks/permission_gate.py", "timeout": 10 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit|Update",
+        "hooks": [
+          { "type": "command", "command": "python .claude/hooks/meta_change_guard.py", "timeout": 120 }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      { "hooks": [ { "type": "command", "command": "python scripts/hooks/user_prompt_router.py", "timeout": 10 } ] },
+      { "hooks": [ { "type": "command", "command": "python scripts/autonomous_mode_check.py", "timeout": 10 } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "python .claude/hooks/autonomy_loop.py", "timeout": 10 } ] }
+    ]
+  }
+}

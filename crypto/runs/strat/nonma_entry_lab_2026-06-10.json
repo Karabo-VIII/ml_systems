@@ -1,0 +1,739 @@
+{
+  "run_date": "2026-06-10",
+  "families_tested": [
+    "donchian",
+    "vol_squeeze",
+    "rsi_pullback",
+    "new_high_52w"
+  ],
+  "atr_mults_swept": [
+    3.0,
+    6.0,
+    10.0,
+    15.0
+  ],
+  "bh_benchmarks": {
+    "OOS": -11.05,
+    "UNSEEN": -54.19,
+    "FULL": 49.42
+  },
+  "ma_benchmark": {
+    "oos_cagr_pct_yr": -7.5,
+    "unseen_cagr_pct_yr": 0.0
+  },
+  "family_results": {
+    "donchian": {
+      "best_config": "atr10",
+      "atr_mult": 10.0,
+      "oos_compound_pct": -8.25,
+      "oos_cagr_pct_yr": -10.24,
+      "oos_worst_dd_pct": -33.76,
+      "oos_n_trades": 15,
+      "unseen_compound_pct": 0.0,
+      "unseen_cagr_pct_yr": 0.0,
+      "unseen_worst_dd_pct": 0.0,
+      "unseen_n_trades": 0,
+      "bh_oos_cagr_pct_yr": -11.05,
+      "beats_bh_oos": true,
+      "beats_bh_unseen": true,
+      "beats_ma_oos": false,
+      "ma_oos_cagr_pct_yr": -7.5,
+      "band_checks": {
+        "2x_yr_FLOOR_100pct": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 110.2,
+          "unseen_gap": 100.0
+        },
+        "3pct_wk_150pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 160.2,
+          "unseen_gap": 150.0
+        },
+        "2pct_3d_110pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 120.2,
+          "unseen_gap": 110.0
+        },
+        "1pct_d_250pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 260.2,
+          "unseen_gap": 250.0
+        }
+      },
+      "battery": {
+        "verdict": "FAIL",
+        "n": 0,
+        "n_eff": 0.0,
+        "jk3": 0.0,
+        "p05": null,
+        "all_4_positive": false,
+        "lens_A_strict": false,
+        "lens_B_pragmatic": false,
+        "lens_C_temporal": false
+      },
+      "firewall": {
+        "beats_held": false,
+        "per_window": {
+          "OOS": {
+            "real": -8.25,
+            "null_p50": -4.76,
+            "null_p95": 8.58,
+            "beats_null": false
+          },
+          "UNSEEN": {
+            "real": 0.0,
+            "null_p50": 0.0,
+            "null_p95": 0.0,
+            "beats_null": false
+          }
+        }
+      },
+      "consolidated_gate": "FAIL",
+      "window_book": {
+        "TRAIN": {
+          "compound_pct": 331.465,
+          "cagr_pct_yr": 39.91,
+          "max_dd_pct": -62.93,
+          "n_trades": 75,
+          "asset_compounds": {
+            "BTCUSDT": 383.09,
+            "ETHUSDT": 1078.77,
+            "SOLUSDT": 1266.15,
+            "BNBUSDT": 1872.9,
+            "XRPUSDT": -43.6,
+            "DOGEUSDT": 450.12,
+            "ADAUSDT": 1340.33,
+            "AVAXUSDT": -16.6,
+            "LINKUSDT": 127.29,
+            "LTCUSDT": 71.97
+          }
+        },
+        "VAL": {
+          "compound_pct": -12.858,
+          "cagr_pct_yr": -15.24,
+          "max_dd_pct": -34.37,
+          "n_trades": 30,
+          "asset_compounds": {
+            "BTCUSDT": 6.41,
+            "ETHUSDT": -40.92,
+            "SOLUSDT": -31.85,
+            "BNBUSDT": -39.23,
+            "XRPUSDT": 239.39,
+            "DOGEUSDT": -6.1,
+            "ADAUSDT": -28.77,
+            "AVAXUSDT": -26.4,
+            "LINKUSDT": -19.62,
+            "LTCUSDT": -27.8
+          }
+        },
+        "OOS": {
+          "compound_pct": -8.249,
+          "cagr_pct_yr": -10.24,
+          "max_dd_pct": -33.76,
+          "n_trades": 15,
+          "asset_compounds": {
+            "BTCUSDT": -4.91,
+            "ETHUSDT": 34.94,
+            "SOLUSDT": -3.81,
+            "BNBUSDT": 64.88,
+            "XRPUSDT": -14.02,
+            "DOGEUSDT": -13.71,
+            "ADAUSDT": -31.54,
+            "AVAXUSDT": -20.12,
+            "LINKUSDT": -9.29,
+            "LTCUSDT": -43.55
+          }
+        },
+        "UNSEEN": {
+          "compound_pct": 0.0,
+          "cagr_pct_yr": 0.0,
+          "max_dd_pct": 0.0,
+          "n_trades": 0,
+          "asset_compounds": {
+            "BTCUSDT": 0.0,
+            "ETHUSDT": 0.0,
+            "SOLUSDT": 0.0,
+            "BNBUSDT": 0.0,
+            "XRPUSDT": 0.0,
+            "DOGEUSDT": 0.0,
+            "ADAUSDT": 0.0,
+            "AVAXUSDT": 0.0,
+            "LINKUSDT": 0.0,
+            "LTCUSDT": 0.0
+          }
+        }
+      },
+      "all_configs_summary": {
+        "atr3": {
+          "atr_mult": 3.0,
+          "oos_compound_pct": -6.286,
+          "oos_cagr_pct_yr": -7.83,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 174.43
+        },
+        "atr6": {
+          "atr_mult": 6.0,
+          "oos_compound_pct": -5.785,
+          "oos_cagr_pct_yr": -7.21,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 264.144
+        },
+        "atr10": {
+          "atr_mult": 10.0,
+          "oos_compound_pct": -8.249,
+          "oos_cagr_pct_yr": -10.24,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 318.60699999999997
+        },
+        "atr15": {
+          "atr_mult": 15.0,
+          "oos_compound_pct": -7.826,
+          "oos_cagr_pct_yr": -9.72,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 309.74100000000004
+        }
+      }
+    },
+    "vol_squeeze": {
+      "best_config": "atr10",
+      "atr_mult": 10.0,
+      "oos_compound_pct": -4.54,
+      "oos_cagr_pct_yr": -5.66,
+      "oos_worst_dd_pct": -23.19,
+      "oos_n_trades": 10,
+      "unseen_compound_pct": 0.0,
+      "unseen_cagr_pct_yr": 0.0,
+      "unseen_worst_dd_pct": 0.0,
+      "unseen_n_trades": 0,
+      "bh_oos_cagr_pct_yr": -11.05,
+      "beats_bh_oos": true,
+      "beats_bh_unseen": true,
+      "beats_ma_oos": true,
+      "ma_oos_cagr_pct_yr": -7.5,
+      "band_checks": {
+        "2x_yr_FLOOR_100pct": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 105.7,
+          "unseen_gap": 100.0
+        },
+        "3pct_wk_150pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 155.7,
+          "unseen_gap": 150.0
+        },
+        "2pct_3d_110pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 115.7,
+          "unseen_gap": 110.0
+        },
+        "1pct_d_250pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 255.7,
+          "unseen_gap": 250.0
+        }
+      },
+      "battery": {
+        "verdict": "FAIL",
+        "n": 0,
+        "n_eff": 0.0,
+        "jk3": 0.0,
+        "p05": null,
+        "all_4_positive": false,
+        "lens_A_strict": false,
+        "lens_B_pragmatic": false,
+        "lens_C_temporal": false
+      },
+      "firewall": {
+        "beats_held": false,
+        "per_window": {
+          "OOS": {
+            "real": -4.54,
+            "null_p50": -1.09,
+            "null_p95": 11.1,
+            "beats_null": false
+          },
+          "UNSEEN": {
+            "real": 0.0,
+            "null_p50": 0.0,
+            "null_p95": 0.0,
+            "beats_null": false
+          }
+        }
+      },
+      "consolidated_gate": "FAIL",
+      "window_book": {
+        "TRAIN": {
+          "compound_pct": 255.287,
+          "cagr_pct_yr": 33.81,
+          "max_dd_pct": -60.94,
+          "n_trades": 51,
+          "asset_compounds": {
+            "BTCUSDT": 483.61,
+            "ETHUSDT": 713.48,
+            "SOLUSDT": 1983.99,
+            "BNBUSDT": 1780.8,
+            "XRPUSDT": 12.13,
+            "DOGEUSDT": 311.71,
+            "ADAUSDT": 526.92,
+            "AVAXUSDT": -69.89,
+            "LINKUSDT": 68.75,
+            "LTCUSDT": 17.11
+          }
+        },
+        "VAL": {
+          "compound_pct": -11.154,
+          "cagr_pct_yr": -13.25,
+          "max_dd_pct": -34.76,
+          "n_trades": 24,
+          "asset_compounds": {
+            "BTCUSDT": -4.86,
+            "ETHUSDT": -29.91,
+            "SOLUSDT": -53.04,
+            "BNBUSDT": -29.68,
+            "XRPUSDT": 267.04,
+            "DOGEUSDT": 16.42,
+            "ADAUSDT": -12.71,
+            "AVAXUSDT": -26.4,
+            "LINKUSDT": -18.7,
+            "LTCUSDT": -37.64
+          }
+        },
+        "OOS": {
+          "compound_pct": -4.536,
+          "cagr_pct_yr": -5.66,
+          "max_dd_pct": -23.19,
+          "n_trades": 10,
+          "asset_compounds": {
+            "BTCUSDT": -16.46,
+            "ETHUSDT": 24.26,
+            "SOLUSDT": -5.82,
+            "BNBUSDT": 42.56,
+            "XRPUSDT": -19.54,
+            "DOGEUSDT": 0.0,
+            "ADAUSDT": 0.0,
+            "AVAXUSDT": 0.0,
+            "LINKUSDT": -9.29,
+            "LTCUSDT": -38.2
+          }
+        },
+        "UNSEEN": {
+          "compound_pct": 0.0,
+          "cagr_pct_yr": 0.0,
+          "max_dd_pct": 0.0,
+          "n_trades": 0,
+          "asset_compounds": {
+            "BTCUSDT": 0.0,
+            "ETHUSDT": 0.0,
+            "SOLUSDT": 0.0,
+            "BNBUSDT": 0.0,
+            "XRPUSDT": 0.0,
+            "DOGEUSDT": 0.0,
+            "ADAUSDT": 0.0,
+            "AVAXUSDT": 0.0,
+            "LINKUSDT": 0.0,
+            "LTCUSDT": 0.0
+          }
+        }
+      },
+      "all_configs_summary": {
+        "atr3": {
+          "atr_mult": 3.0,
+          "oos_compound_pct": -2.584,
+          "oos_cagr_pct_yr": -3.23,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 154.745
+        },
+        "atr6": {
+          "atr_mult": 6.0,
+          "oos_compound_pct": -4.352,
+          "oos_cagr_pct_yr": -5.43,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 180.67
+        },
+        "atr10": {
+          "atr_mult": 10.0,
+          "oos_compound_pct": -4.536,
+          "oos_cagr_pct_yr": -5.66,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 244.133
+        },
+        "atr15": {
+          "atr_mult": 15.0,
+          "oos_compound_pct": -8.121,
+          "oos_cagr_pct_yr": -10.09,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 230.621
+        }
+      }
+    },
+    "rsi_pullback": {
+      "best_config": "atr10",
+      "atr_mult": 10.0,
+      "oos_compound_pct": -11.17,
+      "oos_cagr_pct_yr": -13.81,
+      "oos_worst_dd_pct": -36.16,
+      "oos_n_trades": 14,
+      "unseen_compound_pct": 0.0,
+      "unseen_cagr_pct_yr": 0.0,
+      "unseen_worst_dd_pct": 0.0,
+      "unseen_n_trades": 0,
+      "bh_oos_cagr_pct_yr": -11.05,
+      "beats_bh_oos": false,
+      "beats_bh_unseen": true,
+      "beats_ma_oos": false,
+      "ma_oos_cagr_pct_yr": -7.5,
+      "band_checks": {
+        "2x_yr_FLOOR_100pct": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 113.8,
+          "unseen_gap": 100.0
+        },
+        "3pct_wk_150pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 163.8,
+          "unseen_gap": 150.0
+        },
+        "2pct_3d_110pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 123.8,
+          "unseen_gap": 110.0
+        },
+        "1pct_d_250pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 263.8,
+          "unseen_gap": 250.0
+        }
+      },
+      "battery": {
+        "verdict": "FAIL",
+        "n": 0,
+        "n_eff": 0.0,
+        "jk3": 0.0,
+        "p05": null,
+        "all_4_positive": false,
+        "lens_A_strict": false,
+        "lens_B_pragmatic": false,
+        "lens_C_temporal": false
+      },
+      "firewall": {
+        "beats_held": false,
+        "per_window": {
+          "OOS": {
+            "real": -11.17,
+            "null_p50": -1.36,
+            "null_p95": 10.4,
+            "beats_null": false
+          },
+          "UNSEEN": {
+            "real": 0.0,
+            "null_p50": 0.0,
+            "null_p95": 0.0,
+            "beats_null": false
+          }
+        }
+      },
+      "consolidated_gate": "FAIL",
+      "window_book": {
+        "TRAIN": {
+          "compound_pct": 246.944,
+          "cagr_pct_yr": 33.08,
+          "max_dd_pct": -63.91,
+          "n_trades": 66,
+          "asset_compounds": {
+            "BTCUSDT": 574.58,
+            "ETHUSDT": 1494.95,
+            "SOLUSDT": 1125.01,
+            "BNBUSDT": 431.08,
+            "XRPUSDT": -19.51,
+            "DOGEUSDT": 13.12,
+            "ADAUSDT": 836.2,
+            "AVAXUSDT": -33.0,
+            "LINKUSDT": 30.92,
+            "LTCUSDT": 382.8
+          }
+        },
+        "VAL": {
+          "compound_pct": -10.6,
+          "cagr_pct_yr": -12.6,
+          "max_dd_pct": -22.28,
+          "n_trades": 18,
+          "asset_compounds": {
+            "BTCUSDT": -24.74,
+            "ETHUSDT": -37.15,
+            "SOLUSDT": 0.3,
+            "BNBUSDT": -25.28,
+            "XRPUSDT": 246.87,
+            "DOGEUSDT": -29.82,
+            "ADAUSDT": -12.1,
+            "AVAXUSDT": -31.74,
+            "LINKUSDT": -37.02,
+            "LTCUSDT": 0.0
+          }
+        },
+        "OOS": {
+          "compound_pct": -11.169,
+          "cagr_pct_yr": -13.81,
+          "max_dd_pct": -36.16,
+          "n_trades": 14,
+          "asset_compounds": {
+            "BTCUSDT": -2.37,
+            "ETHUSDT": -8.46,
+            "SOLUSDT": 10.57,
+            "BNBUSDT": 47.5,
+            "XRPUSDT": -30.72,
+            "DOGEUSDT": -14.88,
+            "ADAUSDT": -27.11,
+            "AVAXUSDT": 0.0,
+            "LINKUSDT": -21.43,
+            "LTCUSDT": -37.84
+          }
+        },
+        "UNSEEN": {
+          "compound_pct": 0.0,
+          "cagr_pct_yr": 0.0,
+          "max_dd_pct": 0.0,
+          "n_trades": 0,
+          "asset_compounds": {
+            "BTCUSDT": 0.0,
+            "ETHUSDT": 0.0,
+            "SOLUSDT": 0.0,
+            "BNBUSDT": 0.0,
+            "XRPUSDT": 0.0,
+            "DOGEUSDT": 0.0,
+            "ADAUSDT": 0.0,
+            "AVAXUSDT": 0.0,
+            "LINKUSDT": 0.0,
+            "LTCUSDT": 0.0
+          }
+        }
+      },
+      "all_configs_summary": {
+        "atr3": {
+          "atr_mult": 3.0,
+          "oos_compound_pct": -13.485,
+          "oos_cagr_pct_yr": -16.62,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 44.815000000000005
+        },
+        "atr6": {
+          "atr_mult": 6.0,
+          "oos_compound_pct": -18.35,
+          "oos_cagr_pct_yr": -22.47,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 38.802
+        },
+        "atr10": {
+          "atr_mult": 10.0,
+          "oos_compound_pct": -11.169,
+          "oos_cagr_pct_yr": -13.81,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 236.344
+        },
+        "atr15": {
+          "atr_mult": 15.0,
+          "oos_compound_pct": -13.093,
+          "oos_cagr_pct_yr": -16.15,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 221.97899999999998
+        }
+      }
+    },
+    "new_high_52w": {
+      "best_config": "atr10",
+      "atr_mult": 10.0,
+      "oos_compound_pct": 1.0,
+      "oos_cagr_pct_yr": 1.26,
+      "oos_worst_dd_pct": -14.83,
+      "oos_n_trades": 5,
+      "unseen_compound_pct": 0.0,
+      "unseen_cagr_pct_yr": 0.0,
+      "unseen_worst_dd_pct": 0.0,
+      "unseen_n_trades": 0,
+      "bh_oos_cagr_pct_yr": -11.05,
+      "beats_bh_oos": true,
+      "beats_bh_unseen": true,
+      "beats_ma_oos": true,
+      "ma_oos_cagr_pct_yr": -7.5,
+      "band_checks": {
+        "2x_yr_FLOOR_100pct": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 98.7,
+          "unseen_gap": 100.0
+        },
+        "3pct_wk_150pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 148.7,
+          "unseen_gap": 150.0
+        },
+        "2pct_3d_110pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 108.7,
+          "unseen_gap": 110.0
+        },
+        "1pct_d_250pct_yr": {
+          "oos": false,
+          "unseen": false,
+          "oos_gap": 248.7,
+          "unseen_gap": 250.0
+        }
+      },
+      "battery": {
+        "verdict": "FAIL",
+        "n": 0,
+        "n_eff": 0.0,
+        "jk3": 0.0,
+        "p05": null,
+        "all_4_positive": false,
+        "lens_A_strict": false,
+        "lens_B_pragmatic": false,
+        "lens_C_temporal": false
+      },
+      "firewall": {
+        "beats_held": false,
+        "per_window": {
+          "OOS": {
+            "real": 1.0,
+            "null_p50": -1.3,
+            "null_p95": 10.8,
+            "beats_null": false
+          },
+          "UNSEEN": {
+            "real": 0.0,
+            "null_p50": 0.0,
+            "null_p95": 0.0,
+            "beats_null": false
+          }
+        }
+      },
+      "consolidated_gate": "FAIL",
+      "window_book": {
+        "TRAIN": {
+          "compound_pct": 198.614,
+          "cagr_pct_yr": 28.57,
+          "max_dd_pct": -49.0,
+          "n_trades": 41,
+          "asset_compounds": {
+            "BTCUSDT": 248.63,
+            "ETHUSDT": 429.83,
+            "SOLUSDT": 1298.56,
+            "BNBUSDT": 1219.36,
+            "XRPUSDT": -53.87,
+            "DOGEUSDT": 159.65,
+            "ADAUSDT": 376.73,
+            "AVAXUSDT": 13.3,
+            "LINKUSDT": 117.41,
+            "LTCUSDT": 17.62
+          }
+        },
+        "VAL": {
+          "compound_pct": -4.011,
+          "cagr_pct_yr": -4.8,
+          "max_dd_pct": -30.11,
+          "n_trades": 11,
+          "asset_compounds": {
+            "BTCUSDT": 25.85,
+            "ETHUSDT": -15.7,
+            "SOLUSDT": -39.53,
+            "BNBUSDT": -16.64,
+            "XRPUSDT": 183.33,
+            "DOGEUSDT": -5.0,
+            "ADAUSDT": 2.81,
+            "AVAXUSDT": 0.0,
+            "LINKUSDT": -18.7,
+            "LTCUSDT": -44.8
+          }
+        },
+        "OOS": {
+          "compound_pct": 1.002,
+          "cagr_pct_yr": 1.26,
+          "max_dd_pct": -14.83,
+          "n_trades": 5,
+          "asset_compounds": {
+            "BTCUSDT": -11.65,
+            "ETHUSDT": -1.78,
+            "SOLUSDT": 0.0,
+            "BNBUSDT": 42.56,
+            "XRPUSDT": -10.7,
+            "DOGEUSDT": 0.0,
+            "ADAUSDT": 0.0,
+            "AVAXUSDT": 0.0,
+            "LINKUSDT": 0.0,
+            "LTCUSDT": 0.0
+          }
+        },
+        "UNSEEN": {
+          "compound_pct": 0.0,
+          "cagr_pct_yr": 0.0,
+          "max_dd_pct": 0.0,
+          "n_trades": 0,
+          "asset_compounds": {
+            "BTCUSDT": 0.0,
+            "ETHUSDT": 0.0,
+            "SOLUSDT": 0.0,
+            "BNBUSDT": 0.0,
+            "XRPUSDT": 0.0,
+            "DOGEUSDT": 0.0,
+            "ADAUSDT": 0.0,
+            "AVAXUSDT": 0.0,
+            "LINKUSDT": 0.0,
+            "LTCUSDT": 0.0
+          }
+        }
+      },
+      "all_configs_summary": {
+        "atr3": {
+          "atr_mult": 3.0,
+          "oos_compound_pct": -3.427,
+          "oos_cagr_pct_yr": -4.28,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 127.66600000000001
+        },
+        "atr6": {
+          "atr_mult": 6.0,
+          "oos_compound_pct": -1.95,
+          "oos_cagr_pct_yr": -2.44,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 156.038
+        },
+        "atr10": {
+          "atr_mult": 10.0,
+          "oos_compound_pct": 1.002,
+          "oos_cagr_pct_yr": 1.26,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 194.603
+        },
+        "atr15": {
+          "atr_mult": 15.0,
+          "oos_compound_pct": -4.986,
+          "oos_cagr_pct_yr": -6.22,
+          "unseen_compound_pct": 0.0,
+          "train_val_sum": 188.806
+        }
+      }
+    }
+  },
+  "pre_delivery_self_audit": {
+    "look_ahead": "PASS -- all indicators use shift(1) before rolling; entry fill=opens[i+1]; ATR trailing stop uses atr[j-1]",
+    "oos_touched_once": "PASS -- sweep selects best_key on TRAIN+VAL tune_score only; OOS/UNSEEN printed after",
+    "cost_applied": "PASS -- COST_RT=0.0024 (taker 0.24% round-trip) deducted per trade",
+    "real_data": "PASS -- ChimeraLoader real chimera 1d bars",
+    "no_leverage": "PASS -- book compound is geometric mean of per-asset compounds; no single weight > 1.0",
+    "regime_gate": "PASS -- both families use price > SMA-200 AND sma50 > sma200 (same gate as trend_book_lab best config)",
+    "concentration_caveat": "NOTED -- n_eff in battery may be low for sparse families; jackknife + p05 guard it"
+  }
+}

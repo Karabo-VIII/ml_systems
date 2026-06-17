@@ -1,0 +1,555 @@
+{
+ "repro": {
+  "command": "python C:/Users/karab/Documents/coding/v4_crypto_stystem/src/strat/config_selector_features.py",
+  "git_sha": "2b139d1",
+  "train_window": [
+   "2020-01-07",
+   "2020-02-07"
+  ],
+  "eval_window": [
+   "2020-02-07",
+   "2020-03-07"
+  ],
+  "cost_rt": 0.0024,
+  "universe": "u10"
+ },
+ "result": {
+  "universe": "u10",
+  "cadences": [
+   "4h",
+   "1h",
+   "30m",
+   "15m"
+  ],
+  "cost_rt": 0.0024,
+  "weights": {
+   "w1_slowness": 1.0,
+   "w2_stability": 1.0,
+   "w3_whipsaw": 1.0,
+   "K_blocks": 3,
+   "whipsaw_hi_trades": 4.0,
+   "f4_trail_penalty": 1.0
+  },
+  "config_space": {
+   "n_entry_specs": 8,
+   "n_configs": 48,
+   "exit_menu": [
+    "signalflip",
+    "trail5",
+    "trail10",
+    "atr3",
+    "time24",
+    "tp8"
+   ]
+  },
+  "look_ahead_audit": {
+   "features_jan_only": "F1/F2/F3 read ONLY the JAN window bars; F2 sub-blocks are inside JAN; F4 threshold is a JAN statistic. No Feb bar enters any feature.",
+   "weights_preregistered": "w1=w2=w3=1.0, K=3, whipsaw_hi=4.0 trades/asset, trail_penalty=1.0 -- all constants set before any Feb number; NOT tuned on Feb.",
+   "feb_touched_once": "Feb is read only in the final book_feb eval of the SELECTED config + the references."
+  },
+  "per_cadence": {
+   "4h": {
+    "cadence": "4h",
+    "n_assets": 7,
+    "assets": [
+     "BTC",
+     "ETH",
+     "BNB",
+     "XRP",
+     "ADA",
+     "LINK",
+     "LTC"
+    ],
+    "f4_regime": {
+     "high_whipsaw_jan": true,
+     "jan_avg_trades": 4.929,
+     "whipsaw_threshold": 4.0
+    },
+    "baseline": {
+     "pick": "ema_22_33|trail10",
+     "jan_pct": 31.26,
+     "feb_pct": -3.38,
+     "slowness": 33.0,
+     "whipsaw": 1.571,
+     "stability": 0.761
+    },
+    "enriched": {
+     "pick": "ema_102_237|signalflip",
+     "jan_pct": 0.0,
+     "feb_pct": -8.02,
+     "slowness": 237.0,
+     "whipsaw": 0.0,
+     "stability": 1.0,
+     "feb_delta_vs_baseline": -4.64,
+     "picked_slower": true,
+     "picked_lower_whipsaw": true,
+     "picked_more_stable": true
+    },
+    "ablation": {
+     "F1_slowness": {
+      "pick": "ema_22_33|trail10",
+      "feb_pct": -3.38,
+      "jan_pct": 31.26,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 33.0
+     },
+     "F2_stability": {
+      "pick": "ema_10_43_75|signalflip",
+      "feb_pct": -2.69,
+      "jan_pct": 26.02,
+      "feb_delta_vs_baseline": 0.69,
+      "slowness": 75.0
+     },
+     "F3_whipsaw": {
+      "pick": "ema_22_33|trail10",
+      "feb_pct": -3.38,
+      "jan_pct": 31.26,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 33.0
+     },
+     "F4_exit_rule": {
+      "pick": "ema_22_33|signalflip",
+      "feb_pct": -0.73,
+      "jan_pct": 30.73,
+      "feb_delta_vs_baseline": 2.65,
+      "slowness": 33.0
+     }
+    },
+    "slow_family_ceiling": {
+     "jan_pct": 4.92,
+     "feb_pct": -6.2,
+     "configs": [
+      "ema_60_120",
+      "ema_75_150",
+      "ema_100_150",
+      "ema_62_172"
+     ],
+     "exit": "signalflip",
+     "per_asset": [
+      {
+       "asset": "BTC",
+       "jan_pct": -5.58,
+       "feb_pct": 0.0
+      },
+      {
+       "asset": "ETH",
+       "jan_pct": 3.62,
+       "feb_pct": 1.84
+      },
+      {
+       "asset": "BNB",
+       "jan_pct": -0.16,
+       "feb_pct": -16.9
+      },
+      {
+       "asset": "XRP",
+       "jan_pct": -3.31,
+       "feb_pct": -13.36
+      },
+      {
+       "asset": "ADA",
+       "jan_pct": 0.0,
+       "feb_pct": -24.26
+      },
+      {
+       "asset": "LINK",
+       "jan_pct": 47.64,
+       "feb_pct": 9.27
+      },
+      {
+       "asset": "LTC",
+       "jan_pct": -7.75,
+       "feb_pct": 0.0
+      }
+     ]
+    },
+    "reference": {
+     "oracle_jan_pct": 37.36,
+     "oracle_feb_pct": 10.31,
+     "buyhold_jan_pct": 32.93,
+     "buyhold_feb_pct": 2.46
+    }
+   },
+   "1h": {
+    "cadence": "1h",
+    "n_assets": 7,
+    "assets": [
+     "BTC",
+     "ETH",
+     "BNB",
+     "XRP",
+     "ADA",
+     "LINK",
+     "LTC"
+    ],
+    "f4_regime": {
+     "high_whipsaw_jan": true,
+     "jan_avg_trades": 23.125,
+     "whipsaw_threshold": 4.0
+    },
+    "baseline": {
+     "pick": "ema_6_65|trail10",
+     "jan_pct": 32.9,
+     "feb_pct": -1.08,
+     "slowness": 65.0,
+     "whipsaw": 7.286,
+     "stability": 0.817
+    },
+    "enriched": {
+     "pick": "ema_186_208_233|signalflip",
+     "jan_pct": 19.48,
+     "feb_pct": -1.08,
+     "slowness": 233.0,
+     "whipsaw": 1.0,
+     "stability": 0.9082,
+     "feb_delta_vs_baseline": 0.0,
+     "picked_slower": true,
+     "picked_lower_whipsaw": true,
+     "picked_more_stable": true
+    },
+    "ablation": {
+     "F1_slowness": {
+      "pick": "ema_102_237|signalflip",
+      "feb_pct": -2.82,
+      "jan_pct": 21.31,
+      "feb_delta_vs_baseline": -1.74,
+      "slowness": 237.0
+     },
+     "F2_stability": {
+      "pick": "ema_6_65|trail10",
+      "feb_pct": -1.08,
+      "jan_pct": 32.9,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 65.0
+     },
+     "F3_whipsaw": {
+      "pick": "ema_6_65|trail10",
+      "feb_pct": -1.08,
+      "jan_pct": 32.9,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 65.0
+     },
+     "F4_exit_rule": {
+      "pick": "ema_6_65|signalflip",
+      "feb_pct": -1.08,
+      "jan_pct": 31.89,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 65.0
+     }
+    },
+    "slow_family_ceiling": {
+     "jan_pct": 28.55,
+     "feb_pct": 0.51,
+     "configs": [
+      "ema_60_120",
+      "ema_75_150",
+      "ema_100_150",
+      "ema_62_172"
+     ],
+     "exit": "signalflip",
+     "per_asset": [
+      {
+       "asset": "BTC",
+       "jan_pct": 11.07,
+       "feb_pct": -3.06
+      },
+      {
+       "asset": "ETH",
+       "jan_pct": 45.0,
+       "feb_pct": 2.14
+      },
+      {
+       "asset": "BNB",
+       "jan_pct": 19.64,
+       "feb_pct": 2.6
+      },
+      {
+       "asset": "XRP",
+       "jan_pct": 20.24,
+       "feb_pct": 0.38
+      },
+      {
+       "asset": "ADA",
+       "jan_pct": 26.39,
+       "feb_pct": 0.16
+      },
+      {
+       "asset": "LINK",
+       "jan_pct": 41.04,
+       "feb_pct": 10.24
+      },
+      {
+       "asset": "LTC",
+       "jan_pct": 36.46,
+       "feb_pct": -8.9
+      }
+     ]
+    },
+    "reference": {
+     "oracle_jan_pct": 41.98,
+     "oracle_feb_pct": 11.83,
+     "buyhold_jan_pct": 31.94,
+     "buyhold_feb_pct": 3.68
+    }
+   },
+   "30m": {
+    "cadence": "30m",
+    "n_assets": 7,
+    "assets": [
+     "BTC",
+     "ETH",
+     "BNB",
+     "XRP",
+     "ADA",
+     "LINK",
+     "LTC"
+    ],
+    "f4_regime": {
+     "high_whipsaw_jan": true,
+     "jan_avg_trades": 44.357,
+     "whipsaw_threshold": 4.0
+    },
+    "baseline": {
+     "pick": "ema_186_208_233|trail10",
+     "jan_pct": 38.39,
+     "feb_pct": -3.38,
+     "slowness": 233.0,
+     "whipsaw": 1.714,
+     "stability": 0.7904
+    },
+    "enriched": {
+     "pick": "ema_102_237|signalflip",
+     "jan_pct": 32.08,
+     "feb_pct": 0.95,
+     "slowness": 237.0,
+     "whipsaw": 2.143,
+     "stability": 0.8298,
+     "feb_delta_vs_baseline": 4.33,
+     "picked_slower": true,
+     "picked_lower_whipsaw": false,
+     "picked_more_stable": true
+    },
+    "ablation": {
+     "F1_slowness": {
+      "pick": "ema_186_208_233|trail10",
+      "feb_pct": -3.38,
+      "jan_pct": 38.39,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 233.0
+     },
+     "F2_stability": {
+      "pick": "ema_102_237|trail10",
+      "feb_pct": -1.13,
+      "jan_pct": 36.97,
+      "feb_delta_vs_baseline": 2.25,
+      "slowness": 237.0
+     },
+     "F3_whipsaw": {
+      "pick": "ema_186_208_233|trail10",
+      "feb_pct": -3.38,
+      "jan_pct": 38.39,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 233.0
+     },
+     "F4_exit_rule": {
+      "pick": "ema_186_208_233|signalflip",
+      "feb_pct": -0.53,
+      "jan_pct": 33.29,
+      "feb_delta_vs_baseline": 2.85,
+      "slowness": 233.0
+     }
+    },
+    "slow_family_ceiling": {
+     "jan_pct": 31.46,
+     "feb_pct": -0.55,
+     "configs": [
+      "ema_60_120",
+      "ema_75_150",
+      "ema_100_150",
+      "ema_62_172"
+     ],
+     "exit": "signalflip",
+     "per_asset": [
+      {
+       "asset": "BTC",
+       "jan_pct": 17.89,
+       "feb_pct": -9.32
+      },
+      {
+       "asset": "ETH",
+       "jan_pct": 34.92,
+       "feb_pct": -3.52
+      },
+      {
+       "asset": "BNB",
+       "jan_pct": 23.62,
+       "feb_pct": -0.26
+      },
+      {
+       "asset": "XRP",
+       "jan_pct": 13.16,
+       "feb_pct": 2.01
+      },
+      {
+       "asset": "ADA",
+       "jan_pct": 26.37,
+       "feb_pct": 4.61
+      },
+      {
+       "asset": "LINK",
+       "jan_pct": 63.62,
+       "feb_pct": 8.84
+      },
+      {
+       "asset": "LTC",
+       "jan_pct": 40.62,
+       "feb_pct": -6.21
+      }
+     ]
+    },
+    "reference": {
+     "oracle_jan_pct": 41.89,
+     "oracle_feb_pct": 15.57,
+     "buyhold_jan_pct": 31.4,
+     "buyhold_feb_pct": 3.93
+    }
+   },
+   "15m": {
+    "cadence": "15m",
+    "n_assets": 7,
+    "assets": [
+     "BTC",
+     "ETH",
+     "BNB",
+     "XRP",
+     "ADA",
+     "LINK",
+     "LTC"
+    ],
+    "f4_regime": {
+     "high_whipsaw_jan": true,
+     "jan_avg_trades": 75.679,
+     "whipsaw_threshold": 4.0
+    },
+    "baseline": {
+     "pick": "ema_186_208_233|signalflip",
+     "jan_pct": 32.4,
+     "feb_pct": -0.34,
+     "slowness": 233.0,
+     "whipsaw": 2.571,
+     "stability": 0.8382
+    },
+    "enriched": {
+     "pick": "ema_186_208_233|signalflip",
+     "jan_pct": 32.4,
+     "feb_pct": -0.34,
+     "slowness": 233.0,
+     "whipsaw": 2.571,
+     "stability": 0.8382,
+     "feb_delta_vs_baseline": 0.0,
+     "picked_slower": false,
+     "picked_lower_whipsaw": false,
+     "picked_more_stable": false
+    },
+    "ablation": {
+     "F1_slowness": {
+      "pick": "ema_186_208_233|signalflip",
+      "feb_pct": -0.34,
+      "jan_pct": 32.4,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 233.0
+     },
+     "F2_stability": {
+      "pick": "ema_186_208_233|signalflip",
+      "feb_pct": -0.34,
+      "jan_pct": 32.4,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 233.0
+     },
+     "F3_whipsaw": {
+      "pick": "ema_186_208_233|signalflip",
+      "feb_pct": -0.34,
+      "jan_pct": 32.4,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 233.0
+     },
+     "F4_exit_rule": {
+      "pick": "ema_186_208_233|signalflip",
+      "feb_pct": -0.34,
+      "jan_pct": 32.4,
+      "feb_delta_vs_baseline": 0.0,
+      "slowness": 233.0
+     }
+    },
+    "slow_family_ceiling": {
+     "jan_pct": 23.27,
+     "feb_pct": -1.59,
+     "configs": [
+      "ema_60_120",
+      "ema_75_150",
+      "ema_100_150",
+      "ema_62_172"
+     ],
+     "exit": "signalflip",
+     "per_asset": [
+      {
+       "asset": "BTC",
+       "jan_pct": 13.41,
+       "feb_pct": -4.99
+      },
+      {
+       "asset": "ETH",
+       "jan_pct": 24.52,
+       "feb_pct": 9.8
+      },
+      {
+       "asset": "BNB",
+       "jan_pct": 27.72,
+       "feb_pct": -15.52
+      },
+      {
+       "asset": "XRP",
+       "jan_pct": 9.25,
+       "feb_pct": -6.34
+      },
+      {
+       "asset": "ADA",
+       "jan_pct": 7.77,
+       "feb_pct": -5.81
+      },
+      {
+       "asset": "LINK",
+       "jan_pct": 45.3,
+       "feb_pct": 11.49
+      },
+      {
+       "asset": "LTC",
+       "jan_pct": 34.93,
+       "feb_pct": 0.26
+      }
+     ]
+    },
+    "reference": {
+     "oracle_jan_pct": 35.43,
+     "oracle_feb_pct": 10.58,
+     "buyhold_jan_pct": 31.54,
+     "buyhold_feb_pct": 4.06
+    }
+   }
+  },
+  "verdict": {
+   "headline": "MIXED: enriched helped on 1/4 cadences (mean delta -0.08pts) but not robustly. The regime change is only partly anticipable from Jan-only structure.",
+   "mean_feb_delta_pts": -0.08,
+   "cadences_improved": 1,
+   "cadences_with_data": 4,
+   "f2_stability_top_on_n_cadences": 0,
+   "f1_slowness_top_on_n_cadences": 0,
+   "lines": [
+    "[4h] baseline ema_22_33|trail10 Feb -3.38% (slow=33) | ENRICHED ema_102_237|signalflip Feb -8.02% (slow=237) | delta -4.64pts | slow-fam ceiling -6.20% | oracle +10.31% | BH +2.46% | top-feat=F4_exit_rule(+2.65)",
+    "[1h] baseline ema_6_65|trail10 Feb -1.08% (slow=65) | ENRICHED ema_186_208_233|signalflip Feb -1.08% (slow=233) | delta +0.00pts | slow-fam ceiling +0.51% | oracle +11.83% | BH +3.68% | top-feat=F2_stability(+0.00)",
+    "[30m] baseline ema_186_208_233|trail10 Feb -3.38% (slow=233) | ENRICHED ema_102_237|signalflip Feb +0.95% (slow=237) | delta +4.33pts | slow-fam ceiling -0.55% | oracle +15.57% | BH +3.93% | top-feat=F4_exit_rule(+2.85)",
+    "[15m] baseline ema_186_208_233|signalflip Feb -0.34% (slow=233) | ENRICHED ema_186_208_233|signalflip Feb -0.34% (slow=233) | delta +0.00pts | slow-fam ceiling -1.59% | oracle +10.58% | BH +4.06% | top-feat=F1_slowness(+0.00)"
+   ]
+  }
+ }
+}

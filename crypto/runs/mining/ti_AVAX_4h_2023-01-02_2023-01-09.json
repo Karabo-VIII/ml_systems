@@ -1,0 +1,121 @@
+{
+  "asset": "AVAXUSDT",
+  "cadence": "4h",
+  "start": "2023-01-02",
+  "end": "2023-01-09",
+  "n_window_bars": 48,
+  "warmup_bars_loaded": 63,
+  "config_preset_or_path": "preset:fast",
+  "config": [
+    {
+      "family": "rsi",
+      "params": {
+        "length": 7
+      },
+      "thresholds": {
+        "oversold": 25,
+        "overbought": 75
+      }
+    },
+    {
+      "family": "ma",
+      "params": {
+        "kind": "ema",
+        "fast": 9,
+        "slow": 21
+      },
+      "thresholds": {}
+    },
+    {
+      "family": "macd",
+      "params": {
+        "fast": 6,
+        "slow": 13,
+        "signal": 5
+      },
+      "thresholds": {}
+    },
+    {
+      "family": "bollinger",
+      "params": {
+        "length": 10,
+        "std": 2.0
+      },
+      "thresholds": {}
+    },
+    {
+      "family": "adx",
+      "params": {
+        "length": 7
+      },
+      "thresholds": {
+        "trend": 25
+      }
+    }
+  ],
+  "indicators": [
+    {
+      "name": "RSI-7",
+      "value": 52.9,
+      "zone": "neutral",
+      "thresholds": [
+        25,
+        75
+      ],
+      "frac_overbought": 0.25,
+      "frac_oversold": 0.0,
+      "crossed_into_overbought": 4,
+      "crossed_into_oversold": 0,
+      "summary": "RSI-7 52.9 (neutral)",
+      "family": "rsi"
+    },
+    {
+      "name": "EMA-9/21",
+      "fast_vs_slow": "ABOVE (golden)",
+      "fast_minus_slow_pct": 1.61,
+      "golden_crosses": [
+        "2023-01-02"
+      ],
+      "death_crosses": [],
+      "summary": "EMA9/21 ABOVE (golden) +1gold",
+      "family": "ma"
+    },
+    {
+      "name": "MACD-6/13/5",
+      "histogram": -0.02232,
+      "histogram_sign": "negative (bearish)",
+      "bull_crosses": [
+        "2023-01-06",
+        "2023-01-08"
+      ],
+      "bear_crosses": [
+        "2023-01-05",
+        "2023-01-07",
+        "2023-01-09"
+      ],
+      "summary": "MACD hist negative (bearish) +2bull +3bear",
+      "family": "macd"
+    },
+    {
+      "name": "BB-10/2.0sd",
+      "pct_b": 0.488,
+      "position": "lower-half",
+      "frac_rode_upper": 0.125,
+      "frac_rode_lower": 0.0,
+      "mean_bandwidth": 0.0605,
+      "summary": "BB %B 0.49 (lower-half)",
+      "family": "bollinger"
+    },
+    {
+      "name": "ADX-7",
+      "value": 35.3,
+      "verdict": "TRENDING",
+      "di_direction": "-DI>+DI (down)",
+      "trend_threshold": 25,
+      "summary": "ADX-7 35.3 (TRENDING, -DI>+DI (down))",
+      "family": "adx"
+    }
+  ],
+  "window_price_move_pct": 12.53,
+  "ti_consensus": "RSI-7 52.9 (neutral)  |  EMA9/21 ABOVE (golden) +1gold  |  MACD hist negative (bearish) +2bull +3bear  |  BB %B 0.49 (lower-half)  |  ADX-7 35.3 (TRENDING, -DI>+DI (down))"
+}

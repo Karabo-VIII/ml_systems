@@ -1,0 +1,1243 @@
+{
+  "tool": "vol_config_ml",
+  "question": "does volatility map to config PROFITABLY, and is it learnable?",
+  "assets": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "cadences": [
+    "1d",
+    "4h",
+    "1h"
+  ],
+  "model": "random_forest",
+  "sklearn": true,
+  "spec": {
+    "vol_lookbacks": {
+      "short": 10,
+      "med": 30,
+      "long": 90
+    },
+    "pre_window": 120,
+    "regime_cuts": [
+      0.3333333333333333,
+      0.6666666666666666
+    ],
+    "feature_names": [
+      "vol_short",
+      "vol_med",
+      "vol_long",
+      "vol_pctile",
+      "vol_regime",
+      "vol_of_vol",
+      "vol_trend"
+    ],
+    "target_full": "winning config-CLASS = formulation-family x MA-type",
+    "target_formulation": "winning formulation-family (ride/cross/TP-exit/stack)",
+    "fixed_class_by_kind": {
+      "full": "F2_CROSS|SMA",
+      "formulation": "F2_CROSS"
+    },
+    "train_frac": 0.6,
+    "causal": "vol pre-move/past-only; ML fit on TRAIN only; in-class config chosen on TRAIN; TEST untouched for fitting; OOS-once"
+  },
+  "by_target_kind": {
+    "full": {
+      "fixed_class": "F2_CROSS|SMA",
+      "per_slice": [
+        {
+          "tag": "BTC/1d",
+          "model": "random_forest",
+          "n_train": 145,
+          "n_test": 97,
+          "learnability": {
+            "base_rate": 0.16494845360824742,
+            "accuracy": 0.17525773195876287,
+            "margin": 0.010309278350515455,
+            "feature_importance": {
+              "vol_short": 0.14908498690436375,
+              "vol_med": 0.16932198329170814,
+              "vol_long": 0.1617776515353053,
+              "vol_pctile": 0.14931786849336084,
+              "vol_regime": 0.02643561165888727,
+              "vol_of_vol": 0.1686745330886116,
+              "vol_trend": 0.17538736502776311
+            }
+          },
+          "profitability": {
+            "ml_capture": 0.0012097441915080878,
+            "fixed_capture": -0.00021157246380342515,
+            "rolled_capture": 0.0020077873738957655,
+            "ceiling_capture": 0.033726591264700775,
+            "random_capture": -0.005364624149806444,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": true
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|SMA": 33,
+            "F1_PRICE_MA|SMA": 21,
+            "F1_PRICE_MA|HMA": 15,
+            "F4_STACK|HMA": 11,
+            "F2_CROSS|SMA": 10,
+            "F2_CROSS|HMA": 10,
+            "F3_CROSS_MECH|HMA": 10,
+            "F5_PRICE_MA_MECH|SMA": 5,
+            "F4_STACK|SMA": 5,
+            "F5_PRICE_MA_MECH|HMA": 4,
+            "F2_CROSS|WMA": 4,
+            "F1_PRICE_MA|WMA": 3,
+            "F4_STACK|DEMA": 3,
+            "F4_STACK|WMA": 2,
+            "F3_CROSS_MECH|WMA": 2,
+            "F1_PRICE_MA|EMA": 2,
+            "F5_PRICE_MA_MECH|WMA": 2,
+            "F2_CROSS|DEMA": 1,
+            "F1_PRICE_MA|DEMA": 1,
+            "F5_PRICE_MA_MECH|EMA": 1
+          },
+          "test_class_dist": {
+            "F1_PRICE_MA|SMA": 16,
+            "F3_CROSS_MECH|SMA": 13,
+            "F2_CROSS|HMA": 11,
+            "F2_CROSS|SMA": 11,
+            "F4_STACK|HMA": 10,
+            "F3_CROSS_MECH|HMA": 7,
+            "F5_PRICE_MA_MECH|WMA": 5,
+            "F5_PRICE_MA_MECH|HMA": 4,
+            "F1_PRICE_MA|HMA": 4,
+            "F4_STACK|WMA": 2,
+            "F2_CROSS|WMA": 2,
+            "F4_STACK|SMA": 2,
+            "F5_PRICE_MA_MECH|EMA": 2,
+            "F2_CROSS|EMA": 2,
+            "F5_PRICE_MA_MECH|SMA": 2,
+            "F4_STACK|DEMA": 1,
+            "F2_CROSS|DEMA": 1,
+            "F1_PRICE_MA|EMA": 1,
+            "F3_CROSS_MECH|DEMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- LEARNABLE-BUT-UNPROFITABLE (MARGIN TRAP). Vol predicts the class above base-rate (acc 0.175 > 0.165, +0.010) but acting on it does NOT beat fixed/last-week's-best (ml 0.0012 vs fixed -0.0002 / rolled 0.0020) -- the per-move capture margin between classes is too small to bank."
+        },
+        {
+          "tag": "BTC/4h",
+          "model": "random_forest",
+          "n_train": 159,
+          "n_test": 106,
+          "learnability": {
+            "base_rate": 0.1792452830188679,
+            "accuracy": 0.1509433962264151,
+            "margin": -0.028301886792452824,
+            "feature_importance": {
+              "vol_short": 0.1483796493396103,
+              "vol_med": 0.17869348996584158,
+              "vol_long": 0.1814085588252456,
+              "vol_pctile": 0.16175847535795454,
+              "vol_regime": 0.022908978806469783,
+              "vol_of_vol": 0.18460106383170968,
+              "vol_trend": 0.12224978387316851
+            }
+          },
+          "profitability": {
+            "ml_capture": 0.00026640924508092106,
+            "fixed_capture": -0.0008506900427851715,
+            "rolled_capture": -0.005909889704111898,
+            "ceiling_capture": 0.05060365081836149,
+            "random_capture": -0.0053992580428678634,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": true,
+            "ml_positive": true
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|SMA": 32,
+            "F3_CROSS_MECH|HMA": 28,
+            "F5_PRICE_MA_MECH|HMA": 15,
+            "F4_STACK|HMA": 9,
+            "F2_CROSS|SMA": 9,
+            "F3_CROSS_MECH|WMA": 9,
+            "F5_PRICE_MA_MECH|WMA": 7,
+            "F5_PRICE_MA_MECH|EMA": 7,
+            "F5_PRICE_MA_MECH|SMA": 7,
+            "F2_CROSS|HMA": 7,
+            "F5_PRICE_MA_MECH|DEMA": 6,
+            "F1_PRICE_MA|HMA": 5,
+            "F3_CROSS_MECH|EMA": 4,
+            "F3_CROSS_MECH|DEMA": 4,
+            "F2_CROSS|DEMA": 3,
+            "F1_PRICE_MA|SMA": 2,
+            "F2_CROSS|WMA": 1,
+            "F4_STACK|EMA": 1,
+            "F4_STACK|SMA": 1,
+            "F4_STACK|DEMA": 1,
+            "F1_PRICE_MA|WMA": 1
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH|HMA": 19,
+            "F2_CROSS|HMA": 16,
+            "F3_CROSS_MECH|SMA": 15,
+            "F5_PRICE_MA_MECH|WMA": 6,
+            "F5_PRICE_MA_MECH|HMA": 6,
+            "F2_CROSS|SMA": 6,
+            "F5_PRICE_MA_MECH|SMA": 6,
+            "F4_STACK|HMA": 5,
+            "F5_PRICE_MA_MECH|DEMA": 5,
+            "F5_PRICE_MA_MECH|EMA": 5,
+            "F3_CROSS_MECH|DEMA": 4,
+            "F3_CROSS_MECH|WMA": 3,
+            "F1_PRICE_MA|SMA": 2,
+            "F4_STACK|DEMA": 2,
+            "F1_PRICE_MA|DEMA": 1,
+            "F1_PRICE_MA|HMA": 1,
+            "F4_STACK|EMA": 1,
+            "F2_CROSS|DEMA": 1,
+            "F3_CROSS_MECH|EMA": 1,
+            "F2_CROSS|WMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: WEAK/INCIDENTAL -- not learnable above base-rate (acc 0.151 vs 0.179) yet ml capture 0.0003 edged fixed -0.0009; treat as noise, not a vol-edge."
+        },
+        {
+          "tag": "BTC/1h",
+          "model": "random_forest",
+          "n_train": 154,
+          "n_test": 103,
+          "learnability": {
+            "base_rate": 0.21359223300970873,
+            "accuracy": 0.17475728155339806,
+            "margin": -0.03883495145631066,
+            "feature_importance": {
+              "vol_short": 0.17714837646336068,
+              "vol_med": 0.1695402038419233,
+              "vol_long": 0.15055673296698374,
+              "vol_pctile": 0.15769865827294186,
+              "vol_regime": 0.021042368741398747,
+              "vol_of_vol": 0.14529498262987584,
+              "vol_trend": 0.1787186770835159
+            }
+          },
+          "profitability": {
+            "ml_capture": 0.001082897011528152,
+            "fixed_capture": -0.0001332528061169539,
+            "rolled_capture": 0.0011748380008407505,
+            "ceiling_capture": 0.053754124072581615,
+            "random_capture": -0.00988833243298562,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": true
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|HMA": 43,
+            "F3_CROSS_MECH|SMA": 27,
+            "F3_CROSS_MECH|DEMA": 17,
+            "F3_CROSS_MECH|EMA": 11,
+            "F5_PRICE_MA_MECH|EMA": 9,
+            "F3_CROSS_MECH|WMA": 9,
+            "F5_PRICE_MA_MECH|SMA": 7,
+            "F2_CROSS|SMA": 5,
+            "F5_PRICE_MA_MECH|WMA": 4,
+            "F5_PRICE_MA_MECH|DEMA": 4,
+            "F4_STACK|HMA": 3,
+            "F2_CROSS|HMA": 3,
+            "F2_CROSS|WMA": 3,
+            "F5_PRICE_MA_MECH|HMA": 3,
+            "F2_CROSS|DEMA": 2,
+            "F4_STACK|SMA": 2,
+            "F4_STACK|WMA": 1,
+            "F2_CROSS|EMA": 1
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH|SMA": 22,
+            "F3_CROSS_MECH|DEMA": 17,
+            "F3_CROSS_MECH|HMA": 15,
+            "F5_PRICE_MA_MECH|EMA": 9,
+            "F3_CROSS_MECH|EMA": 5,
+            "F5_PRICE_MA_MECH|HMA": 5,
+            "F5_PRICE_MA_MECH|SMA": 5,
+            "F3_CROSS_MECH|WMA": 4,
+            "F2_CROSS|DEMA": 4,
+            "F2_CROSS|SMA": 4,
+            "F4_STACK|DEMA": 4,
+            "F2_CROSS|HMA": 3,
+            "F5_PRICE_MA_MECH|DEMA": 2,
+            "F4_STACK|HMA": 2,
+            "F4_STACK|WMA": 1,
+            "F5_PRICE_MA_MECH|WMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.175 vs 0.214) and acting on the prediction does not beat fixed (ml 0.0011 vs fixed -0.0001)."
+        },
+        {
+          "tag": "ETH/1d",
+          "model": "random_forest",
+          "n_train": 137,
+          "n_test": 91,
+          "learnability": {
+            "base_rate": 0.17582417582417584,
+            "accuracy": 0.15384615384615385,
+            "margin": -0.021978021978021983,
+            "feature_importance": {
+              "vol_short": 0.1404363970335539,
+              "vol_med": 0.19777249911246086,
+              "vol_long": 0.1709922446708832,
+              "vol_pctile": 0.18605314910145848,
+              "vol_regime": 0.01953095327990164,
+              "vol_of_vol": 0.11917399882517304,
+              "vol_trend": 0.1660407579765691
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.0033571091936241185,
+            "fixed_capture": -0.0058230666814494,
+            "rolled_capture": -0.0033697989756786514,
+            "ceiling_capture": 0.04469761676721934,
+            "random_capture": -0.010570822189222942,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": true,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|SMA": 34,
+            "F1_PRICE_MA|SMA": 17,
+            "F4_STACK|HMA": 16,
+            "F1_PRICE_MA|HMA": 14,
+            "F2_CROSS|HMA": 10,
+            "F2_CROSS|SMA": 10,
+            "F3_CROSS_MECH|HMA": 6,
+            "F5_PRICE_MA_MECH|HMA": 5,
+            "F5_PRICE_MA_MECH|SMA": 4,
+            "F1_PRICE_MA|DEMA": 3,
+            "F2_CROSS|WMA": 3,
+            "F4_STACK|DEMA": 2,
+            "F4_STACK|SMA": 2,
+            "F2_CROSS|DEMA": 2,
+            "F3_CROSS_MECH|WMA": 2,
+            "F5_PRICE_MA_MECH|DEMA": 2,
+            "F5_PRICE_MA_MECH|EMA": 1,
+            "F1_PRICE_MA|WMA": 1,
+            "F3_CROSS_MECH|EMA": 1,
+            "F2_CROSS|EMA": 1,
+            "F5_PRICE_MA_MECH|WMA": 1
+          },
+          "test_class_dist": {
+            "F1_PRICE_MA|SMA": 16,
+            "F3_CROSS_MECH|SMA": 15,
+            "F2_CROSS|SMA": 11,
+            "F3_CROSS_MECH|HMA": 9,
+            "F4_STACK|HMA": 8,
+            "F5_PRICE_MA_MECH|HMA": 5,
+            "F2_CROSS|HMA": 5,
+            "F1_PRICE_MA|HMA": 4,
+            "F5_PRICE_MA_MECH|SMA": 4,
+            "F5_PRICE_MA_MECH|WMA": 3,
+            "F4_STACK|DEMA": 2,
+            "F1_PRICE_MA|DEMA": 2,
+            "F2_CROSS|DEMA": 2,
+            "F4_STACK|WMA": 1,
+            "F3_CROSS_MECH|WMA": 1,
+            "F3_CROSS_MECH|EMA": 1,
+            "F5_PRICE_MA_MECH|EMA": 1,
+            "F2_CROSS|WMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.154 vs 0.176) and acting on the prediction does not beat fixed (ml -0.0034 vs fixed -0.0058)."
+        },
+        {
+          "tag": "ETH/4h",
+          "model": "random_forest",
+          "n_train": 142,
+          "n_test": 94,
+          "learnability": {
+            "base_rate": 0.24468085106382978,
+            "accuracy": 0.1276595744680851,
+            "margin": -0.11702127659574468,
+            "feature_importance": {
+              "vol_short": 0.1567996246582034,
+              "vol_med": 0.15834947807416228,
+              "vol_long": 0.15145583265802898,
+              "vol_pctile": 0.16793013209845667,
+              "vol_regime": 0.012611191584723567,
+              "vol_of_vol": 0.15357435142955161,
+              "vol_trend": 0.1992793894968735
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.010182435140052317,
+            "fixed_capture": -0.006473835786324548,
+            "rolled_capture": -0.014357766297924204,
+            "ceiling_capture": 0.07157391942590441,
+            "random_capture": -0.008019692682579458,
+            "ml_beats_fixed": false,
+            "ml_beats_rolled": true,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|HMA": 21,
+            "F3_CROSS_MECH|SMA": 18,
+            "F5_PRICE_MA_MECH|HMA": 12,
+            "F2_CROSS|HMA": 11,
+            "F5_PRICE_MA_MECH|DEMA": 11,
+            "F5_PRICE_MA_MECH|SMA": 9,
+            "F5_PRICE_MA_MECH|EMA": 9,
+            "F3_CROSS_MECH|DEMA": 8,
+            "F5_PRICE_MA_MECH|WMA": 6,
+            "F1_PRICE_MA|HMA": 6,
+            "F4_STACK|HMA": 5,
+            "F2_CROSS|SMA": 5,
+            "F3_CROSS_MECH|EMA": 4,
+            "F2_CROSS|DEMA": 4,
+            "F3_CROSS_MECH|WMA": 4,
+            "F1_PRICE_MA|DEMA": 3,
+            "F2_CROSS|WMA": 2,
+            "F4_STACK|SMA": 1,
+            "F1_PRICE_MA|SMA": 1,
+            "F4_STACK|WMA": 1,
+            "F4_STACK|DEMA": 1
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH|HMA": 23,
+            "F3_CROSS_MECH|SMA": 13,
+            "F2_CROSS|HMA": 9,
+            "F5_PRICE_MA_MECH|SMA": 8,
+            "F5_PRICE_MA_MECH|DEMA": 8,
+            "F2_CROSS|SMA": 6,
+            "F4_STACK|HMA": 5,
+            "F3_CROSS_MECH|DEMA": 3,
+            "F5_PRICE_MA_MECH|HMA": 3,
+            "F5_PRICE_MA_MECH|EMA": 3,
+            "F5_PRICE_MA_MECH|WMA": 3,
+            "F3_CROSS_MECH|EMA": 3,
+            "F3_CROSS_MECH|WMA": 2,
+            "F2_CROSS|EMA": 1,
+            "F1_PRICE_MA|WMA": 1,
+            "F1_PRICE_MA|HMA": 1,
+            "F2_CROSS|DEMA": 1,
+            "F2_CROSS|WMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.128 vs 0.245) and acting on the prediction does not beat fixed (ml -0.0102 vs fixed -0.0065)."
+        },
+        {
+          "tag": "ETH/1h",
+          "model": "random_forest",
+          "n_train": 134,
+          "n_test": 90,
+          "learnability": {
+            "base_rate": 0.23333333333333334,
+            "accuracy": 0.17777777777777778,
+            "margin": -0.05555555555555555,
+            "feature_importance": {
+              "vol_short": 0.13879555688682751,
+              "vol_med": 0.17198282093947048,
+              "vol_long": 0.1630041043271806,
+              "vol_pctile": 0.15997095512463771,
+              "vol_regime": 0.02812659771521859,
+              "vol_of_vol": 0.17072180169764484,
+              "vol_trend": 0.16739816330902024
+            }
+          },
+          "profitability": {
+            "ml_capture": 0.002107421132035881,
+            "fixed_capture": -0.02105247471318494,
+            "rolled_capture": -0.003472774573688214,
+            "ceiling_capture": 0.0765141121946187,
+            "random_capture": -0.01852702707661956,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": true,
+            "ml_positive": true
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|SMA": 26,
+            "F3_CROSS_MECH|HMA": 20,
+            "F3_CROSS_MECH|DEMA": 17,
+            "F3_CROSS_MECH|WMA": 10,
+            "F3_CROSS_MECH|EMA": 9,
+            "F2_CROSS|HMA": 9,
+            "F5_PRICE_MA_MECH|EMA": 8,
+            "F2_CROSS|DEMA": 7,
+            "F5_PRICE_MA_MECH|WMA": 6,
+            "F2_CROSS|WMA": 4,
+            "F5_PRICE_MA_MECH|DEMA": 4,
+            "F5_PRICE_MA_MECH|HMA": 3,
+            "F4_STACK|HMA": 3,
+            "F2_CROSS|SMA": 2,
+            "F5_PRICE_MA_MECH|SMA": 2,
+            "F4_STACK|SMA": 1,
+            "F1_PRICE_MA|SMA": 1,
+            "F1_PRICE_MA|HMA": 1,
+            "F4_STACK|DEMA": 1
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH|HMA": 21,
+            "F3_CROSS_MECH|SMA": 16,
+            "F3_CROSS_MECH|WMA": 11,
+            "F3_CROSS_MECH|DEMA": 11,
+            "F5_PRICE_MA_MECH|EMA": 5,
+            "F3_CROSS_MECH|EMA": 5,
+            "F2_CROSS|HMA": 4,
+            "F5_PRICE_MA_MECH|HMA": 3,
+            "F5_PRICE_MA_MECH|SMA": 3,
+            "F2_CROSS|DEMA": 3,
+            "F2_CROSS|SMA": 2,
+            "F4_STACK|EMA": 1,
+            "F5_PRICE_MA_MECH|DEMA": 1,
+            "F1_PRICE_MA|DEMA": 1,
+            "F4_STACK|HMA": 1,
+            "F2_CROSS|EMA": 1,
+            "F5_PRICE_MA_MECH|WMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: WEAK/INCIDENTAL -- not learnable above base-rate (acc 0.178 vs 0.233) yet ml capture 0.0021 edged fixed -0.0211; treat as noise, not a vol-edge."
+        },
+        {
+          "tag": "SOL/1d",
+          "model": "random_forest",
+          "n_train": 107,
+          "n_test": 71,
+          "learnability": {
+            "base_rate": 0.30985915492957744,
+            "accuracy": 0.2535211267605634,
+            "margin": -0.056338028169014065,
+            "feature_importance": {
+              "vol_short": 0.1281870460959428,
+              "vol_med": 0.14745490598641456,
+              "vol_long": 0.1628903553694478,
+              "vol_pctile": 0.1770139491263189,
+              "vol_regime": 0.03334061638357711,
+              "vol_of_vol": 0.16763468196350043,
+              "vol_trend": 0.18347844507479846
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.009439140370209069,
+            "fixed_capture": -0.01881128861079283,
+            "rolled_capture": -0.0012704001997965548,
+            "ceiling_capture": 0.05467376261868452,
+            "random_capture": -0.014325135745768445,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|SMA": 33,
+            "F1_PRICE_MA|SMA": 14,
+            "F4_STACK|HMA": 11,
+            "F2_CROSS|SMA": 6,
+            "F2_CROSS|HMA": 5,
+            "F1_PRICE_MA|HMA": 5,
+            "F3_CROSS_MECH|HMA": 4,
+            "F5_PRICE_MA_MECH|DEMA": 4,
+            "F5_PRICE_MA_MECH|SMA": 4,
+            "F3_CROSS_MECH|EMA": 3,
+            "F5_PRICE_MA_MECH|HMA": 3,
+            "F2_CROSS|WMA": 3,
+            "F1_PRICE_MA|DEMA": 2,
+            "F4_STACK|WMA": 2,
+            "F4_STACK|SMA": 2,
+            "F4_STACK|DEMA": 2,
+            "F5_PRICE_MA_MECH|EMA": 1,
+            "F3_CROSS_MECH|WMA": 1,
+            "F3_CROSS_MECH|DEMA": 1,
+            "F5_PRICE_MA_MECH|WMA": 1
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH|SMA": 22,
+            "F2_CROSS|SMA": 8,
+            "F4_STACK|HMA": 7,
+            "F2_CROSS|HMA": 5,
+            "F3_CROSS_MECH|HMA": 5,
+            "F1_PRICE_MA|SMA": 5,
+            "F5_PRICE_MA_MECH|HMA": 4,
+            "F1_PRICE_MA|HMA": 2,
+            "F4_STACK|SMA": 2,
+            "F2_CROSS|WMA": 2,
+            "F5_PRICE_MA_MECH|SMA": 1,
+            "F4_STACK|WMA": 1,
+            "F4_STACK|DEMA": 1,
+            "F5_PRICE_MA_MECH|WMA": 1,
+            "F2_CROSS|EMA": 1,
+            "F1_PRICE_MA|WMA": 1,
+            "F1_PRICE_MA|EMA": 1,
+            "F5_PRICE_MA_MECH|DEMA": 1,
+            "F3_CROSS_MECH|WMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.254 vs 0.310) and acting on the prediction does not beat fixed (ml -0.0094 vs fixed -0.0188)."
+        },
+        {
+          "tag": "SOL/4h",
+          "model": "random_forest",
+          "n_train": 104,
+          "n_test": 70,
+          "learnability": {
+            "base_rate": 0.2714285714285714,
+            "accuracy": 0.2,
+            "margin": -0.0714285714285714,
+            "feature_importance": {
+              "vol_short": 0.16608240681247366,
+              "vol_med": 0.14826120686193608,
+              "vol_long": 0.19096507213497982,
+              "vol_pctile": 0.14045475537491633,
+              "vol_regime": 0.02281969598147887,
+              "vol_of_vol": 0.13888296696217056,
+              "vol_trend": 0.1925338958720446
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.0034126089113808997,
+            "fixed_capture": -0.010832780822025162,
+            "rolled_capture": -0.0013788579888301038,
+            "ceiling_capture": 0.0875255342878225,
+            "random_capture": -0.008523714272843503,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|HMA": 20,
+            "F5_PRICE_MA_MECH|HMA": 10,
+            "F2_CROSS|HMA": 10,
+            "F4_STACK|HMA": 10,
+            "F5_PRICE_MA_MECH|SMA": 9,
+            "F3_CROSS_MECH|SMA": 7,
+            "F5_PRICE_MA_MECH|EMA": 7,
+            "F5_PRICE_MA_MECH|WMA": 7,
+            "F3_CROSS_MECH|WMA": 6,
+            "F5_PRICE_MA_MECH|DEMA": 5,
+            "F2_CROSS|WMA": 2,
+            "F2_CROSS|DEMA": 2,
+            "F2_CROSS|SMA": 2,
+            "F1_PRICE_MA|HMA": 1,
+            "F3_CROSS_MECH|EMA": 1,
+            "F3_CROSS_MECH|DEMA": 1,
+            "F1_PRICE_MA|DEMA": 1,
+            "F2_CROSS|EMA": 1,
+            "F4_STACK|DEMA": 1,
+            "F1_PRICE_MA|SMA": 1
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH|HMA": 19,
+            "F3_CROSS_MECH|SMA": 11,
+            "F5_PRICE_MA_MECH|HMA": 6,
+            "F5_PRICE_MA_MECH|SMA": 5,
+            "F2_CROSS|HMA": 4,
+            "F3_CROSS_MECH|WMA": 4,
+            "F5_PRICE_MA_MECH|EMA": 3,
+            "F3_CROSS_MECH|DEMA": 3,
+            "F5_PRICE_MA_MECH|DEMA": 3,
+            "F5_PRICE_MA_MECH|WMA": 3,
+            "F4_STACK|DEMA": 2,
+            "F2_CROSS|SMA": 2,
+            "F1_PRICE_MA|HMA": 1,
+            "F4_STACK|SMA": 1,
+            "F3_CROSS_MECH|EMA": 1,
+            "F1_PRICE_MA|DEMA": 1,
+            "F4_STACK|HMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.200 vs 0.271) and acting on the prediction does not beat fixed (ml -0.0034 vs fixed -0.0108)."
+        },
+        {
+          "tag": "SOL/1h",
+          "model": "random_forest",
+          "n_train": 98,
+          "n_test": 66,
+          "learnability": {
+            "base_rate": 0.19696969696969696,
+            "accuracy": 0.10606060606060606,
+            "margin": -0.0909090909090909,
+            "feature_importance": {
+              "vol_short": 0.1347351094796663,
+              "vol_med": 0.14746120904090693,
+              "vol_long": 0.17969910963799535,
+              "vol_pctile": 0.16226592717232305,
+              "vol_regime": 0.027589011091616863,
+              "vol_of_vol": 0.13631497174703,
+              "vol_trend": 0.2119346618304616
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.005258923628771771,
+            "fixed_capture": -0.00926669908377804,
+            "rolled_capture": -0.00616301508321147,
+            "ceiling_capture": 0.09739226605762283,
+            "random_capture": -0.028928505214639723,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": true,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH|HMA": 18,
+            "F3_CROSS_MECH|SMA": 18,
+            "F3_CROSS_MECH|DEMA": 14,
+            "F2_CROSS|HMA": 9,
+            "F3_CROSS_MECH|EMA": 7,
+            "F3_CROSS_MECH|WMA": 7,
+            "F5_PRICE_MA_MECH|HMA": 4,
+            "F5_PRICE_MA_MECH|SMA": 4,
+            "F5_PRICE_MA_MECH|EMA": 3,
+            "F5_PRICE_MA_MECH|WMA": 2,
+            "F2_CROSS|DEMA": 2,
+            "F4_STACK|HMA": 2,
+            "F5_PRICE_MA_MECH|DEMA": 2,
+            "F1_PRICE_MA|DEMA": 1,
+            "F1_PRICE_MA|HMA": 1,
+            "F2_CROSS|SMA": 1,
+            "F1_PRICE_MA|SMA": 1,
+            "F2_CROSS|WMA": 1,
+            "F4_STACK|DEMA": 1
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH|SMA": 13,
+            "F3_CROSS_MECH|HMA": 12,
+            "F3_CROSS_MECH|WMA": 9,
+            "F3_CROSS_MECH|DEMA": 7,
+            "F2_CROSS|DEMA": 5,
+            "F5_PRICE_MA_MECH|SMA": 4,
+            "F5_PRICE_MA_MECH|EMA": 3,
+            "F3_CROSS_MECH|EMA": 3,
+            "F5_PRICE_MA_MECH|HMA": 3,
+            "F2_CROSS|SMA": 2,
+            "F2_CROSS|HMA": 1,
+            "F1_PRICE_MA|SMA": 1,
+            "F4_STACK|HMA": 1,
+            "F5_PRICE_MA_MECH|WMA": 1,
+            "F5_PRICE_MA_MECH|DEMA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.106 vs 0.197) and acting on the prediction does not beat fixed (ml -0.0053 vs fixed -0.0093)."
+        }
+      ],
+      "pooled": {
+        "tag": "POOLED(all)",
+        "model": "random_forest",
+        "n_train": 1181,
+        "n_test": 787,
+        "learnability": {
+          "base_rate": 0.19440914866581957,
+          "accuracy": 0.19949174078780177,
+          "margin": 0.005082592121982199,
+          "feature_importance": {
+            "vol_short": 0.1485687158972002,
+            "vol_med": 0.18457745784557997,
+            "vol_long": 0.17704724925320914,
+            "vol_pctile": 0.16698409318778892,
+            "vol_regime": 0.025987703726453662,
+            "vol_of_vol": 0.15028455789250303,
+            "vol_trend": 0.14655022219726516
+          }
+        },
+        "profitability": {
+          "ml_capture": -0.002391807560747675,
+          "fixed_capture": -0.014335892108770853,
+          "rolled_capture": -0.006292867906286866,
+          "ceiling_capture": 0.09384699939674986,
+          "random_capture": -0.016105917245962508,
+          "ml_beats_fixed": true,
+          "ml_beats_rolled": true,
+          "ml_positive": false
+        },
+        "train_class_dist": {
+          "F3_CROSS_MECH|SMA": 215,
+          "F3_CROSS_MECH|HMA": 167,
+          "F2_CROSS|HMA": 80,
+          "F2_CROSS|SMA": 75,
+          "F1_PRICE_MA|SMA": 75,
+          "F4_STACK|HMA": 71,
+          "F5_PRICE_MA_MECH|HMA": 62,
+          "F5_PRICE_MA_MECH|SMA": 54,
+          "F3_CROSS_MECH|DEMA": 52,
+          "F1_PRICE_MA|HMA": 49,
+          "F5_PRICE_MA_MECH|EMA": 46,
+          "F5_PRICE_MA_MECH|WMA": 37,
+          "F5_PRICE_MA_MECH|DEMA": 36,
+          "F3_CROSS_MECH|WMA": 34,
+          "F3_CROSS_MECH|EMA": 28,
+          "F2_CROSS|DEMA": 20,
+          "F2_CROSS|WMA": 17,
+          "F4_STACK|DEMA": 16,
+          "F4_STACK|SMA": 13,
+          "F1_PRICE_MA|DEMA": 10,
+          "F4_STACK|WMA": 8,
+          "F1_PRICE_MA|WMA": 6,
+          "F2_CROSS|EMA": 5,
+          "F1_PRICE_MA|EMA": 3,
+          "F4_STACK|EMA": 2
+        },
+        "test_class_dist": {
+          "F3_CROSS_MECH|SMA": 153,
+          "F3_CROSS_MECH|HMA": 133,
+          "F3_CROSS_MECH|DEMA": 56,
+          "F2_CROSS|HMA": 52,
+          "F3_CROSS_MECH|WMA": 51,
+          "F4_STACK|HMA": 39,
+          "F5_PRICE_MA_MECH|HMA": 36,
+          "F5_PRICE_MA_MECH|SMA": 35,
+          "F3_CROSS_MECH|EMA": 31,
+          "F5_PRICE_MA_MECH|EMA": 31,
+          "F2_CROSS|SMA": 27,
+          "F5_PRICE_MA_MECH|WMA": 23,
+          "F5_PRICE_MA_MECH|DEMA": 23,
+          "F1_PRICE_MA|SMA": 23,
+          "F2_CROSS|DEMA": 20,
+          "F2_CROSS|WMA": 13,
+          "F1_PRICE_MA|HMA": 12,
+          "F4_STACK|DEMA": 8,
+          "F4_STACK|SMA": 6,
+          "F1_PRICE_MA|DEMA": 6,
+          "F2_CROSS|EMA": 3,
+          "F4_STACK|WMA": 3,
+          "F4_STACK|EMA": 1,
+          "F1_PRICE_MA|WMA": 1,
+          "F1_PRICE_MA|EMA": 1
+        },
+        "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- LEARNABLE-BUT-UNPROFITABLE (MARGIN TRAP). Vol predicts the class above base-rate (acc 0.199 > 0.194, +0.005) but acting on it does NOT beat fixed/last-week's-best (ml -0.0024 vs fixed -0.0143 / rolled -0.0063) -- the per-move capture margin between classes is too small to bank."
+      }
+    },
+    "formulation": {
+      "fixed_class": "F2_CROSS",
+      "per_slice": [
+        {
+          "tag": "BTC/1d",
+          "model": "random_forest",
+          "n_train": 145,
+          "n_test": 97,
+          "learnability": {
+            "base_rate": 0.25773195876288657,
+            "accuracy": 0.29896907216494845,
+            "margin": 0.041237113402061876,
+            "feature_importance": {
+              "vol_short": 0.14396136625528053,
+              "vol_med": 0.19409740817784407,
+              "vol_long": 0.17355760800954056,
+              "vol_pctile": 0.11692565690094986,
+              "vol_regime": 0.01582695239402322,
+              "vol_of_vol": 0.17956423559318863,
+              "vol_trend": 0.17606677266917323
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.0021410061696039997,
+            "fixed_capture": 0.00010969412170120033,
+            "rolled_capture": -0.001605909096525172,
+            "ceiling_capture": 0.033726591264700775,
+            "random_capture": -0.005364624149806444,
+            "ml_beats_fixed": false,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F1_PRICE_MA": 51,
+            "F3_CROSS_MECH": 43,
+            "F2_CROSS": 25,
+            "F4_STACK": 20,
+            "F5_PRICE_MA_MECH": 6
+          },
+          "test_class_dist": {
+            "F1_PRICE_MA": 25,
+            "F2_CROSS": 24,
+            "F3_CROSS_MECH": 23,
+            "F4_STACK": 16,
+            "F5_PRICE_MA_MECH": 9
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- LEARNABLE-BUT-UNPROFITABLE (MARGIN TRAP). Vol predicts the class above base-rate (acc 0.299 > 0.258, +0.041) but acting on it does NOT beat fixed/last-week's-best (ml -0.0021 vs fixed 0.0001 / rolled -0.0016) -- the per-move capture margin between classes is too small to bank."
+        },
+        {
+          "tag": "BTC/4h",
+          "model": "random_forest",
+          "n_train": 159,
+          "n_test": 106,
+          "learnability": {
+            "base_rate": 0.39622641509433965,
+            "accuracy": 0.3490566037735849,
+            "margin": -0.04716981132075476,
+            "feature_importance": {
+              "vol_short": 0.1885881062571447,
+              "vol_med": 0.193285766349839,
+              "vol_long": 0.16870768793653185,
+              "vol_pctile": 0.13168669899111635,
+              "vol_regime": 0.010067990843820677,
+              "vol_of_vol": 0.18749691074157962,
+              "vol_trend": 0.1201668388799678
+            }
+          },
+          "profitability": {
+            "ml_capture": 0.0015659468909517966,
+            "fixed_capture": -0.0008506900427851715,
+            "rolled_capture": 0.0022724529250509624,
+            "ceiling_capture": 0.05060365081836149,
+            "random_capture": -0.0053992580428678634,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": true
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH": 78,
+            "F5_PRICE_MA_MECH": 40,
+            "F2_CROSS": 21,
+            "F4_STACK": 12,
+            "F1_PRICE_MA": 8
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH": 42,
+            "F5_PRICE_MA_MECH": 27,
+            "F2_CROSS": 25,
+            "F4_STACK": 8,
+            "F1_PRICE_MA": 4
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.349 vs 0.396) and acting on the prediction does not beat fixed (ml 0.0016 vs fixed -0.0009)."
+        },
+        {
+          "tag": "BTC/1h",
+          "model": "random_forest",
+          "n_train": 154,
+          "n_test": 103,
+          "learnability": {
+            "base_rate": 0.6213592233009708,
+            "accuracy": 0.6213592233009708,
+            "margin": 0.0,
+            "feature_importance": {
+              "vol_short": 0.15228912799858396,
+              "vol_med": 0.1795878241612419,
+              "vol_long": 0.16525439626695052,
+              "vol_pctile": 0.16460209534092182,
+              "vol_regime": 0.01939209440584625,
+              "vol_of_vol": 0.15170975176062826,
+              "vol_trend": 0.16716471006582745
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.0024394777659884383,
+            "fixed_capture": 0.0017046405961248976,
+            "rolled_capture": -0.0024394777659884383,
+            "ceiling_capture": 0.053754124072581615,
+            "random_capture": -0.00988833243298562,
+            "ml_beats_fixed": false,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH": 109,
+            "F5_PRICE_MA_MECH": 25,
+            "F2_CROSS": 14,
+            "F4_STACK": 6
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH": 64,
+            "F5_PRICE_MA_MECH": 21,
+            "F2_CROSS": 11,
+            "F4_STACK": 7
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.621 vs 0.621) and acting on the prediction does not beat fixed (ml -0.0024 vs fixed 0.0017)."
+        },
+        {
+          "tag": "ETH/1d",
+          "model": "random_forest",
+          "n_train": 137,
+          "n_test": 91,
+          "learnability": {
+            "base_rate": 0.2857142857142857,
+            "accuracy": 0.38461538461538464,
+            "margin": 0.09890109890109894,
+            "feature_importance": {
+              "vol_short": 0.16552679185050814,
+              "vol_med": 0.18851264082858868,
+              "vol_long": 0.14468932145957467,
+              "vol_pctile": 0.17304053632069982,
+              "vol_regime": 0.012571328123095417,
+              "vol_of_vol": 0.16218779522878862,
+              "vol_trend": 0.15347158618874482
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.003420747644339355,
+            "fixed_capture": -0.006973585073360517,
+            "rolled_capture": -0.00011754568592343819,
+            "ceiling_capture": 0.04469761676721934,
+            "random_capture": -0.010570822189222942,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F1_PRICE_MA": 41,
+            "F3_CROSS_MECH": 39,
+            "F2_CROSS": 26,
+            "F4_STACK": 22,
+            "F5_PRICE_MA_MECH": 9
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH": 26,
+            "F1_PRICE_MA": 24,
+            "F2_CROSS": 22,
+            "F4_STACK": 11,
+            "F5_PRICE_MA_MECH": 8
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- LEARNABLE-BUT-UNPROFITABLE (MARGIN TRAP). Vol predicts the class above base-rate (acc 0.385 > 0.286, +0.099) but acting on it does NOT beat fixed/last-week's-best (ml -0.0034 vs fixed -0.0070 / rolled -0.0001) -- the per-move capture margin between classes is too small to bank."
+        },
+        {
+          "tag": "ETH/4h",
+          "model": "random_forest",
+          "n_train": 142,
+          "n_test": 94,
+          "learnability": {
+            "base_rate": 0.46808510638297873,
+            "accuracy": 0.3829787234042553,
+            "margin": -0.08510638297872342,
+            "feature_importance": {
+              "vol_short": 0.15212425851348088,
+              "vol_med": 0.16764437873710192,
+              "vol_long": 0.2143919992534754,
+              "vol_pctile": 0.19696765220842974,
+              "vol_regime": 0.012276209957022182,
+              "vol_of_vol": 0.11410531948694581,
+              "vol_trend": 0.14249018184354414
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.0024008000328208036,
+            "fixed_capture": -0.006473835786324548,
+            "rolled_capture": 0.0017749188425810168,
+            "ceiling_capture": 0.07157391942590441,
+            "random_capture": -0.008019692682579458,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH": 56,
+            "F5_PRICE_MA_MECH": 46,
+            "F2_CROSS": 22,
+            "F1_PRICE_MA": 10,
+            "F4_STACK": 8
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH": 44,
+            "F5_PRICE_MA_MECH": 25,
+            "F2_CROSS": 17,
+            "F4_STACK": 5,
+            "F1_PRICE_MA": 3
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.383 vs 0.468) and acting on the prediction does not beat fixed (ml -0.0024 vs fixed -0.0065)."
+        },
+        {
+          "tag": "ETH/1h",
+          "model": "random_forest",
+          "n_train": 134,
+          "n_test": 90,
+          "learnability": {
+            "base_rate": 0.7333333333333333,
+            "accuracy": 0.7222222222222222,
+            "margin": -0.011111111111111072,
+            "feature_importance": {
+              "vol_short": 0.13241107032293942,
+              "vol_med": 0.1772594548915589,
+              "vol_long": 0.22926658322505553,
+              "vol_pctile": 0.12146917314424104,
+              "vol_regime": 0.0165559826579127,
+              "vol_of_vol": 0.13872123029724961,
+              "vol_trend": 0.18431650546104286
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.005012502297064177,
+            "fixed_capture": -0.011160750447963469,
+            "rolled_capture": -0.004136985160189501,
+            "ceiling_capture": 0.0765141121946187,
+            "random_capture": -0.01852702707661956,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH": 83,
+            "F5_PRICE_MA_MECH": 22,
+            "F2_CROSS": 22,
+            "F4_STACK": 5,
+            "F1_PRICE_MA": 2
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH": 66,
+            "F5_PRICE_MA_MECH": 11,
+            "F2_CROSS": 10,
+            "F4_STACK": 2,
+            "F1_PRICE_MA": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.722 vs 0.733) and acting on the prediction does not beat fixed (ml -0.0050 vs fixed -0.0112)."
+        },
+        {
+          "tag": "SOL/1d",
+          "model": "random_forest",
+          "n_train": 107,
+          "n_test": 71,
+          "learnability": {
+            "base_rate": 0.39436619718309857,
+            "accuracy": 0.29577464788732394,
+            "margin": -0.09859154929577463,
+            "feature_importance": {
+              "vol_short": 0.12928843587860103,
+              "vol_med": 0.15340528123653357,
+              "vol_long": 0.1668151494117019,
+              "vol_pctile": 0.1792733881341651,
+              "vol_regime": 0.028422525514487346,
+              "vol_of_vol": 0.13262048253636338,
+              "vol_trend": 0.21017473728814776
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.013502312241185113,
+            "fixed_capture": -0.019143126637094252,
+            "rolled_capture": 0.0015276882619644837,
+            "ceiling_capture": 0.05467376261868452,
+            "random_capture": -0.014325135745768445,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH": 36,
+            "F1_PRICE_MA": 27,
+            "F2_CROSS": 17,
+            "F4_STACK": 16,
+            "F5_PRICE_MA_MECH": 11
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH": 28,
+            "F2_CROSS": 14,
+            "F4_STACK": 12,
+            "F1_PRICE_MA": 11,
+            "F5_PRICE_MA_MECH": 6
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.296 vs 0.394) and acting on the prediction does not beat fixed (ml -0.0135 vs fixed -0.0191)."
+        },
+        {
+          "tag": "SOL/4h",
+          "model": "random_forest",
+          "n_train": 104,
+          "n_test": 70,
+          "learnability": {
+            "base_rate": 0.5571428571428572,
+            "accuracy": 0.4714285714285714,
+            "margin": -0.08571428571428574,
+            "feature_importance": {
+              "vol_short": 0.1509215292795884,
+              "vol_med": 0.19226092000160697,
+              "vol_long": 0.18044621285723828,
+              "vol_pctile": 0.1320933125145455,
+              "vol_regime": 0.028289815250188956,
+              "vol_of_vol": 0.15798556805970868,
+              "vol_trend": 0.15800264203712328
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.0008748980387448315,
+            "fixed_capture": -0.01006333633599354,
+            "rolled_capture": -0.0026814788518953,
+            "ceiling_capture": 0.0875255342878225,
+            "random_capture": -0.008523714272843503,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": true,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH": 38,
+            "F5_PRICE_MA_MECH": 35,
+            "F2_CROSS": 17,
+            "F4_STACK": 11,
+            "F1_PRICE_MA": 3
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH": 39,
+            "F5_PRICE_MA_MECH": 19,
+            "F2_CROSS": 6,
+            "F4_STACK": 4,
+            "F1_PRICE_MA": 2
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.471 vs 0.557) and acting on the prediction does not beat fixed (ml -0.0009 vs fixed -0.0101)."
+        },
+        {
+          "tag": "SOL/1h",
+          "model": "random_forest",
+          "n_train": 98,
+          "n_test": 66,
+          "learnability": {
+            "base_rate": 0.6818181818181818,
+            "accuracy": 0.6818181818181818,
+            "margin": 0.0,
+            "feature_importance": {
+              "vol_short": 0.1319908197764983,
+              "vol_med": 0.13961822094223547,
+              "vol_long": 0.19437521865848867,
+              "vol_pctile": 0.21086158558049412,
+              "vol_regime": 0.014877162995673173,
+              "vol_of_vol": 0.14598287760779718,
+              "vol_trend": 0.162294114438813
+            }
+          },
+          "profitability": {
+            "ml_capture": -0.00045537976911051145,
+            "fixed_capture": -0.026766720060627455,
+            "rolled_capture": -0.00045537976911051145,
+            "ceiling_capture": 0.09739226605762283,
+            "random_capture": -0.028928505214639723,
+            "ml_beats_fixed": true,
+            "ml_beats_rolled": false,
+            "ml_positive": false
+          },
+          "train_class_dist": {
+            "F3_CROSS_MECH": 65,
+            "F5_PRICE_MA_MECH": 14,
+            "F2_CROSS": 13,
+            "F1_PRICE_MA": 3,
+            "F4_STACK": 3
+          },
+          "test_class_dist": {
+            "F3_CROSS_MECH": 45,
+            "F5_PRICE_MA_MECH": 11,
+            "F2_CROSS": 8,
+            "F1_PRICE_MA": 1,
+            "F4_STACK": 1
+          },
+          "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.682 vs 0.682) and acting on the prediction does not beat fixed (ml -0.0005 vs fixed -0.0268)."
+        }
+      ],
+      "pooled": {
+        "tag": "POOLED(all)",
+        "model": "random_forest",
+        "n_train": 1181,
+        "n_test": 787,
+        "learnability": {
+          "base_rate": 0.542566709021601,
+          "accuracy": 0.5273189326556544,
+          "margin": -0.015247776365946542,
+          "feature_importance": {
+            "vol_short": 0.15554251929001772,
+            "vol_med": 0.202611271026863,
+            "vol_long": 0.19747461254013524,
+            "vol_pctile": 0.15820993270383596,
+            "vol_regime": 0.032227882326283236,
+            "vol_of_vol": 0.1580418531490217,
+            "vol_trend": 0.09589192896384317
+          }
+        },
+        "profitability": {
+          "ml_capture": -0.0014051038785032398,
+          "fixed_capture": -0.012930021306256437,
+          "rolled_capture": 0.0015040904482526013,
+          "ceiling_capture": 0.09384699939674986,
+          "random_capture": -0.016105917245962508,
+          "ml_beats_fixed": true,
+          "ml_beats_rolled": false,
+          "ml_positive": false
+        },
+        "train_class_dist": {
+          "F3_CROSS_MECH": 497,
+          "F5_PRICE_MA_MECH": 209,
+          "F2_CROSS": 199,
+          "F1_PRICE_MA": 164,
+          "F4_STACK": 112
+        },
+        "test_class_dist": {
+          "F3_CROSS_MECH": 427,
+          "F5_PRICE_MA_MECH": 136,
+          "F2_CROSS": 115,
+          "F4_STACK": 57,
+          "F1_PRICE_MA": 52
+        },
+        "verdict": "VOL -> CONFIG MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the config-class above base-rate (acc 0.527 vs 0.543) and acting on the prediction does not beat fixed (ml -0.0014 vs fixed -0.0129)."
+      }
+    }
+  }
+}

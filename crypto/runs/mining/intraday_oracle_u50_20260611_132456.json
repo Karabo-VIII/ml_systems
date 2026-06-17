@@ -1,0 +1,177 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\mining\\intraday_oracle.py --universe u50 --cadences 15m,30m,2h",
+  "git_sha": "f731b58"
+ },
+ "cost_rt": 0.0024,
+ "report": {
+  "15m": {
+   "n_events": 52816,
+   "scorecard": {
+    "SEL": {
+     "n": 40142,
+     "mean_pct": -0.355,
+     "se_pct": 0.016,
+     "median_pct": -0.871,
+     "win": 0.309,
+     "pf": 0.7,
+     "jk_drop_top5pct_mean_pct": -0.848,
+     "n_eff": 17055.7,
+     "breadth_pos": 1,
+     "breadth_tot": 47,
+     "bootstrap_p05_pct": -100.0
+    },
+    "OOS": {
+     "n": 9198,
+     "mean_pct": -0.214,
+     "se_pct": 0.031,
+     "median_pct": -0.774,
+     "win": 0.31,
+     "pf": 0.79,
+     "jk_drop_top5pct_mean_pct": -0.705,
+     "n_eff": 3527.9,
+     "breadth_pos": 8,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    },
+    "UNSEEN": {
+     "n": 3476,
+     "mean_pct": -0.248,
+     "se_pct": 0.056,
+     "median_pct": -0.791,
+     "win": 0.299,
+     "pf": 0.78,
+     "jk_drop_top5pct_mean_pct": -0.782,
+     "n_eff": 1213.5,
+     "breadth_pos": 6,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    }
+   },
+   "SEL_oracle_mean_pct": 8.31,
+   "SEL_capture_median": -0.104,
+   "SEL_causal_vs_null_pp": -0.167,
+   "SEL_median_hold_bars": 15,
+   "OOS_oracle_mean_pct": 6.89,
+   "OOS_capture_median": -0.099,
+   "OOS_causal_vs_null_pp": 0.006,
+   "OOS_median_hold_bars": 16,
+   "UNSEEN_oracle_mean_pct": 6.81,
+   "UNSEEN_capture_median": -0.122,
+   "UNSEEN_causal_vs_null_pp": -0.048,
+   "UNSEEN_median_hold_bars": 17
+  },
+  "30m": {
+   "n_events": 43172,
+   "scorecard": {
+    "SEL": {
+     "n": 32639,
+     "mean_pct": -0.297,
+     "se_pct": 0.024,
+     "median_pct": -0.995,
+     "win": 0.325,
+     "pf": 0.79,
+     "jk_drop_top5pct_mean_pct": -0.945,
+     "n_eff": 11872.3,
+     "breadth_pos": 4,
+     "breadth_tot": 47,
+     "bootstrap_p05_pct": -100.0
+    },
+    "OOS": {
+     "n": 7455,
+     "mean_pct": -0.167,
+     "se_pct": 0.045,
+     "median_pct": -0.885,
+     "win": 0.329,
+     "pf": 0.87,
+     "jk_drop_top5pct_mean_pct": -0.796,
+     "n_eff": 2771.9,
+     "breadth_pos": 10,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    },
+    "UNSEEN": {
+     "n": 3078,
+     "mean_pct": -0.074,
+     "se_pct": 0.094,
+     "median_pct": -0.91,
+     "win": 0.321,
+     "pf": 0.94,
+     "jk_drop_top5pct_mean_pct": -0.786,
+     "n_eff": 677.0,
+     "breadth_pos": 19,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -99.99
+    }
+   },
+   "SEL_oracle_mean_pct": 7.73,
+   "SEL_capture_median": -0.117,
+   "SEL_causal_vs_null_pp": -0.107,
+   "SEL_median_hold_bars": 15,
+   "OOS_oracle_mean_pct": 6.51,
+   "OOS_capture_median": -0.114,
+   "OOS_causal_vs_null_pp": 0.038,
+   "OOS_median_hold_bars": 16,
+   "UNSEEN_oracle_mean_pct": 6.12,
+   "UNSEEN_capture_median": -0.144,
+   "UNSEEN_causal_vs_null_pp": 0.13,
+   "UNSEEN_median_hold_bars": 17
+  },
+  "2h": {
+   "n_events": 22576,
+   "scorecard": {
+    "SEL": {
+     "n": 16876,
+     "mean_pct": 0.067,
+     "se_pct": 0.067,
+     "median_pct": -1.646,
+     "win": 0.364,
+     "pf": 1.03,
+     "jk_drop_top5pct_mean_pct": -1.275,
+     "n_eff": 6103.4,
+     "breadth_pos": 24,
+     "breadth_tot": 47,
+     "bootstrap_p05_pct": -100.0
+    },
+    "OOS": {
+     "n": 3831,
+     "mean_pct": 0.03,
+     "se_pct": 0.125,
+     "median_pct": -1.641,
+     "win": 0.352,
+     "pf": 1.01,
+     "jk_drop_top5pct_mean_pct": -1.227,
+     "n_eff": 1447.7,
+     "breadth_pos": 26,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    },
+    "UNSEEN": {
+     "n": 1869,
+     "mean_pct": -0.331,
+     "se_pct": 0.211,
+     "median_pct": -1.771,
+     "win": 0.325,
+     "pf": 0.86,
+     "jk_drop_top5pct_mean_pct": -1.553,
+     "n_eff": 427.4,
+     "breadth_pos": 17,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    }
+   },
+   "SEL_oracle_mean_pct": 7.19,
+   "SEL_capture_median": -0.169,
+   "SEL_causal_vs_null_pp": 0.1,
+   "SEL_median_hold_bars": 18,
+   "OOS_oracle_mean_pct": 6.2,
+   "OOS_capture_median": -0.181,
+   "OOS_causal_vs_null_pp": 0.187,
+   "OOS_median_hold_bars": 18,
+   "UNSEEN_oracle_mean_pct": 5.64,
+   "UNSEEN_capture_median": -0.248,
+   "UNSEEN_causal_vs_null_pp": 0.277,
+   "UNSEEN_median_hold_bars": 17
+  }
+ }
+}

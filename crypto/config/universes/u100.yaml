@@ -1,0 +1,91 @@
+# U100 — extended universe (target 100 assets)
+# Source: src/strategy/universe.py UNIVERSE_100_TARGET (partial, pending fetches).
+# Composition: U50 (50 audited) + 20 pending high-liquidity expansions
+# Used for: research universe, breadth scans, top-mover capture (per memory/movers_analysis_2026_04_22.md).
+name: u100
+description: "Extended 100-asset target universe (currently 70 with data; 30 pending fetch)."
+n_assets_target: 100
+n_assets_current: 70
+liquidity_floor_usd_per_day: 1_000_000
+history_floor_days: 90
+parent: u50
+inherit_from: u50
+extra_assets:
+  # === Expected Tier A (>$30M/d) -- post fetch, audit ===
+  - { symbol: POLUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4561607 }
+  - { symbol: TIAUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2173615 }
+  - { symbol: XLMUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 6888234 }
+  - { symbol: EIGENUSDT,  dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2159230 }
+  - { symbol: ONDOUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4890762 }
+  - { symbol: DYDXUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2586188 }
+  # === Expected Tier B ($10-30M/d) ===
+  - { symbol: FLOKIUSDT,  dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2183637 }
+  - { symbol: CHZUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4707512 }
+  - { symbol: ARUSDT,     dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2221464 }
+  - { symbol: ZROUSDT,    dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3956173 }
+  - { symbol: ARKMUSDT,   dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 1489318 }
+  # SAGAUSDT, AUDIOUSDT, MOVEUSDT, RSRUSDT removed 2026-04-28 (liquidity_tier DROP).
+  # === Expected Tier C ($3-10M/d) — verify post-fetch ===
+  # RAREUSDT, ALICEUSDT, PHBUSDT removed 2026-04-28 (liquidity_tier DROP).
+  - { symbol: DEXEUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3009668 }
+
+  # === 2026-05-14 promotion batch (volume-verified via runs/audit/u100_candidates_liquidity.json) ===
+  # All 18 entries below: liquidity > $1M/d floor AND history > 90 days floor.
+  # Reverified median_dollar_vol_30d from most-recent 30 days of aggTrades.
+  # Existing user-decision: assets in `excluded_assets` below stay excluded; these are NEW additions.
+  - { symbol: ATOMUSDT,     dna: STEADY,   pos_cap: 0.05, kelly_frac: 0.35, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 1866307 }
+  - { symbol: INJUSDT,      dna: STEADY,   pos_cap: 0.05, kelly_frac: 0.35, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2437820 }
+  - { symbol: ZENUSDT,      dna: STEADY,   pos_cap: 0.04, kelly_frac: 0.30, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3265961 }
+  - { symbol: MOVRUSDT,     dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 1156109 }
+  - { symbol: PROMUSDT,     dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 1154118 }
+  - { symbol: VIRTUALUSDT,  dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4917082 }
+  - { symbol: NEIROUSDT,    dna: DEGEN,    pos_cap: 0.025, kelly_frac: 0.25, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2945590 }
+  - { symbol: PNUTUSDT,     dna: DEGEN,    pos_cap: 0.025, kelly_frac: 0.25, tier: C, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 1541875 }
+  - { symbol: BIOUSDT,      dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3665798 }
+  - { symbol: DUSDT,        dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4825388 }
+  - { symbol: XPLUSDT,      dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 8253865 }
+  - { symbol: XUSDUSDT,     dna: STEADY,   pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 6201320 }
+  - { symbol: WLFIUSDT,     dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 5607432 }
+  - { symbol: ASTERUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 8294986 }
+  - { symbol: GIGGLEUSDT,   dna: DEGEN,    pos_cap: 0.025, kelly_frac: 0.25, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 9231561 }
+  - { symbol: PLUMEUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4556477 }
+  - { symbol: ZBTUSDT,      dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, status: ready, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4151874 }
+  # XAUTUSDT, ZAMAUSDT, CFGUSDT failed 90-day history floor; revisit in 60 days.
+
+# Excluded (in registry but failed liquidity / history audit 2026-04-23)
+excluded_assets:
+  - NOMUSDT      # broken data
+  - ONTUSDT      # broken data
+  - STOUSDT      # broken data
+  - GUSDT        # too new (<180d)
+  - UUSDT        # too new
+  - KITEUSDT     # too new
+  - KATUSDT      # too new
+  - BARDUSDT     # too new
+  - NIGHTUSDT    # too new
+  - SKYUSDT      # too new
+  - TWTUSDT      # too new
+  - KERNELUSDT   # too new
+  - SPKUSDT      # too thin (<$3M/d)
+  - SAPIENUSDT   # too thin
+  - GUNUSDT      # too thin
+  - GTCUSDT      # too thin
+  - QIUSDT       # too thin
+  - API3USDT     # too thin
+  - WUSDT        # too thin
+  # 2026-04-28 cleanup: PURGED FROM DISK (raw + processed). See
+  # docs/UNIVERSE_CLEANUP_2026_04_28.md and logs/cleanup_drop_assets_20260428.json.
+  # Liquidity floor: 30-day median Binance volume < $1M/day.
+  - 1000SATSUSDT  # purged 2026-04-28: $685K/day, 2.9 GB reclaimed (was in u50)
+  - HIGHUSDT      # purged 2026-04-28: $433K/day, 506 MB reclaimed (was in u50)
+  - ALICEUSDT     # purged 2026-04-28: $979K/day, 2.2 GB reclaimed
+  - RSRUSDT       # purged 2026-04-28: $783K/day, 1.9 GB reclaimed
+  - SAGAUSDT      # purged 2026-04-28: $664K/day, 1.0 GB reclaimed
+  - BOMEUSDT      # purged 2026-04-28: $660K/day, 943 MB reclaimed
+  - PHBUSDT       # purged 2026-04-28: $587K/day, 490 MB reclaimed
+  - AUDIOUSDT     # purged 2026-04-28: $543K/day, 882 MB reclaimed
+  - MOVEUSDT      # purged 2026-04-28: $526K/day, 639 MB reclaimed
+  - MEMEUSDT      # purged 2026-04-28: $513K/day, 874 MB reclaimed
+  - RAREUSDT      # purged 2026-04-28: $443K/day, 724 MB reclaimed
+  - DOGSUSDT      # purged 2026-04-28: $384K/day, 491 MB reclaimed
+  - UTKUSDT       # purged 2026-04-28: $315K/day, 334 MB reclaimed

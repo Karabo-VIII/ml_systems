@@ -1,0 +1,110 @@
+market: crypto
+instrument: BTCUSDT
+created: unstamped
+current_stage: 03_strat
+scope_note: stages 00-02 market-scoped (shared via the _market workspace); 03-06 instrument-scoped
+stages:
+  00_research:
+    status: done
+    scope: market
+    purpose: Decompose the market to its fundamental constituents
+    gate:
+      name: research_complete
+      passed: true
+      evidence: inherited from crypto/_market
+    artifacts:
+    - path: workspaces/crypto/_market
+      kind: ref
+      note: market-scoped, shared from _market
+    gate_spec:
+      manual: true
+  01_mining:
+    status: done
+    scope: market
+    purpose: Mine the data for structure (regime/cluster/trend/predictability)
+    gate:
+      name: mining_complete
+      passed: true
+      evidence: inherited from crypto/_market
+    artifacts:
+    - path: workspaces/crypto/_market
+      kind: ref
+      note: market-scoped, shared from _market
+    gate_spec:
+      manual: true
+  02_engine:
+    status: done
+    scope: market
+    purpose: Build reusable engines + validation apparatus (oracle/decomposer/gate)
+    gate:
+      name: engine_ready
+      passed: true
+      evidence: inherited from crypto/_market
+    artifacts:
+    - path: workspaces/crypto/_market
+      kind: ref
+      note: market-scoped, shared from _market
+    gate_spec:
+      cmd: python src/audit/check_invariants.py
+      pass_exit:
+      - 0
+      - 1
+  03_strat:
+    status: in_progress
+    scope: instrument
+    purpose: Build + GATE-validate strategy candidates
+    gate:
+      name: strat_gated
+      passed: false
+      evidence: ''
+    artifacts:
+    - path: docs/STRATEGY_PLAYBOOK.md
+      kind: ref
+      note: 'NEXT: first build = B(x-sectional) or A3(vol-target) per playbook; not
+        started'
+    - path: config/books/regime_gated_trend_v1.yaml
+      kind: config
+      note: 'FROZEN deploy candidate: regime-gated trend book (survivor of full re-grade);
+        3 risk points; long-only spot; paper-trade ready'
+      lineage:
+        git_sha: 87933db2a401
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T13:07:54'
+        artifact_sha256: c8bedf42db04a95d
+    gate_spec:
+      checker: ship_run_exists
+  04_bot:
+    status: todo
+    scope: instrument
+    purpose: Wrap a validated strat into a bot (sizing/risk/lifecycle)
+    gate:
+      name: bot_built
+      passed: false
+      evidence: ''
+    artifacts: []
+    gate_spec:
+      manual: true
+  05_execution:
+    status: todo
+    scope: instrument
+    purpose: Execution model (fills/costs) + paper-trade
+    gate:
+      name: execution_validated
+      passed: false
+      evidence: ''
+    artifacts: []
+    gate_spec:
+      manual: true
+  06_deployment:
+    status: todo
+    scope: instrument
+    purpose: Deploy live (monitoring/decay/kill-switch)
+    gate:
+      name: deployed
+      passed: false
+      evidence: ''
+    artifacts: []
+    gate_spec:
+      manual: true
+schema: 2

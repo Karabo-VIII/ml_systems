@@ -1,0 +1,4367 @@
+{
+  "meta": {
+    "assets": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP",
+      "BNB",
+      "DOGE",
+      "ZEC",
+      "TRX",
+      "PEPE",
+      "ADA",
+      "LINK",
+      "SUI",
+      "AVAX",
+      "TAO",
+      "FET",
+      "ENJ",
+      "ORDI",
+      "NEAR",
+      "WLD",
+      "ENA"
+    ],
+    "cadences": [
+      "15m",
+      "30m",
+      "1h",
+      "4h",
+      "1d",
+      "range",
+      "dib",
+      "runs_volume",
+      "adaptive_vol"
+    ],
+    "cost_rt": 0.0024,
+    "ma_fast_lag_bars": 4.5,
+    "metric": "oracle perfect-foresight high-capture hold distribution (bars & hours)",
+    "reused": "runs/research/oracle_ceiling_builder.py::oracle_high_capture (audited DP)",
+    "dollar_note": "excluded from exact DP: 2.7M bars x ~48k-bar/7d window = ~130B ops/asset infeasible; project docs flag dollar as granularity-degenerate for high-capture",
+    "elapsed_secs": 163.9
+  },
+  "rank_by_hold_bars": [
+    {
+      "cadence": "adaptive_vol",
+      "median_hold_bars": 10.5,
+      "bars_per_MA_lag": 2.33,
+      "median_hold_hours": 1.2493106944444445,
+      "MA_can_time": "YES"
+    },
+    {
+      "cadence": "dib",
+      "median_hold_bars": 6.0,
+      "bars_per_MA_lag": 1.33,
+      "median_hold_hours": 1.4446590277777778,
+      "MA_can_time": "MARGINAL"
+    },
+    {
+      "cadence": "15m",
+      "median_hold_bars": 5.0,
+      "bars_per_MA_lag": 1.11,
+      "median_hold_hours": 1.326216111111111,
+      "MA_can_time": "MARGINAL"
+    },
+    {
+      "cadence": "range",
+      "median_hold_bars": 4.0,
+      "bars_per_MA_lag": 0.89,
+      "median_hold_hours": 1.6278066666666668,
+      "MA_can_time": "NO (too sharp)"
+    },
+    {
+      "cadence": "30m",
+      "median_hold_bars": 3.0,
+      "bars_per_MA_lag": 0.67,
+      "median_hold_hours": 1.5169336111111111,
+      "MA_can_time": "NO (too sharp)"
+    },
+    {
+      "cadence": "1h",
+      "median_hold_bars": 2.0,
+      "bars_per_MA_lag": 0.44,
+      "median_hold_hours": 2.0080388888888887,
+      "MA_can_time": "NO (too sharp)"
+    },
+    {
+      "cadence": "4h",
+      "median_hold_bars": 1.0,
+      "bars_per_MA_lag": 0.22,
+      "median_hold_hours": 5.627865694444445,
+      "MA_can_time": "NO (too sharp)"
+    },
+    {
+      "cadence": "1d",
+      "median_hold_bars": 1.0,
+      "bars_per_MA_lag": 0.22,
+      "median_hold_hours": 24.648604097222222,
+      "MA_can_time": "NO (too sharp)"
+    },
+    {
+      "cadence": "runs_volume",
+      "median_hold_bars": 1.0,
+      "bars_per_MA_lag": 0.22,
+      "median_hold_hours": 12.098300625,
+      "MA_can_time": "NO (too sharp)"
+    }
+  ],
+  "per_cadence": {
+    "15m": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 5.0,
+          "mean": 5.15,
+          "p25": 5.0,
+          "p75": 5.0,
+          "min": 4.0,
+          "max": 6.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 1.326216111111111,
+          "mean": 1.371009375,
+          "p25": 1.3045386805555554,
+          "p75": 1.4627072222222222,
+          "min": 1.253900138888889,
+          "max": 1.5114716666666668
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 91.09,
+          "mean": 87.6195,
+          "p25": 86.525,
+          "p75": 93.66749999999999,
+          "min": 51.91,
+          "max": 95.63
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 17532.5,
+          "mean": 15437.3,
+          "p25": 10482.5,
+          "p75": 18635.75,
+          "min": 7188.0,
+          "max": 20607.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 178949.5,
+          "mean": 161958.1,
+          "p25": 99722.25,
+          "p75": 215395.0,
+          "min": 73869.0,
+          "max": 223098.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 223098,
+          "span_days": 2332.9,
+          "bars_per_day": 95.63,
+          "n_trades": 16061,
+          "hold_bars": {
+            "median": 6.0,
+            "mean": 7.663159205528921,
+            "p25": 5.0,
+            "p75": 9.0,
+            "min": 1,
+            "max": 110
+          },
+          "hold_hours": {
+            "median": 1.5114716666666668,
+            "p25": 1.2436241666666668,
+            "p75": 2.2421213888888887
+          },
+          "secs": 0.7
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 221277,
+          "span_days": 2325.3,
+          "bars_per_day": 95.16,
+          "n_trades": 17924,
+          "hold_bars": {
+            "median": 6.0,
+            "mean": 6.948895335862531,
+            "p25": 5.0,
+            "p75": 8.0,
+            "min": 1,
+            "max": 56
+          },
+          "hold_hours": {
+            "median": 1.4977677777777778,
+            "p25": 1.2405585416666667,
+            "p75": 2.002447222222222
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 188060,
+          "span_days": 2082.3,
+          "bars_per_day": 90.31,
+          "n_trades": 17608,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 6.055258973194003,
+            "p25": 5.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 32
+          },
+          "hold_hours": {
+            "median": 1.4620705555555555,
+            "p25": 1.2247618055555556,
+            "p75": 1.772347986111111
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 213509,
+          "span_days": 2324.0,
+          "bars_per_day": 91.87,
+          "n_trades": 19349,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 6.25613726807587,
+            "p25": 5.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 38
+          },
+          "hold_hours": {
+            "median": 1.4646172222222222,
+            "p25": 1.2201491666666666,
+            "p75": 1.8944736111111111
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 217213,
+          "span_days": 2324.6,
+          "bars_per_day": 93.44,
+          "n_trades": 17958,
+          "hold_bars": {
+            "median": 6.0,
+            "mean": 6.794297805991759,
+            "p25": 5.0,
+            "p75": 8.0,
+            "min": 1,
+            "max": 55
+          },
+          "hold_hours": {
+            "median": 1.4907977777777779,
+            "p25": 1.2247225,
+            "p75": 1.999865
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 171371,
+          "span_days": 2108.2,
+          "bars_per_day": 81.29,
+          "n_trades": 17457,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.570831185197915,
+            "p25": 4.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 21
+          },
+          "hold_hours": {
+            "median": 1.3799686111111111,
+            "p25": 1.1829697222222222,
+            "p75": 1.7799761111111112
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 181133,
+          "span_days": 2327.3,
+          "bars_per_day": 77.83,
+          "n_trades": 20214,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.0392797071336695,
+            "p25": 4.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 28
+          },
+          "hold_hours": {
+            "median": 1.3378656944444445,
+            "p25": 1.1680854861111112,
+            "p75": 1.7517553472222223
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 215716,
+          "span_days": 2333.9,
+          "bars_per_day": 92.43,
+          "n_trades": 15436,
+          "hold_bars": {
+            "median": 6.0,
+            "mean": 7.831692148224929,
+            "p25": 5.0,
+            "p75": 9.0,
+            "min": 1,
+            "max": 117
+          },
+          "hold_hours": {
+            "median": 1.5096079166666667,
+            "p25": 1.2359322222222222,
+            "p75": 2.248911736111111
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 96456,
+          "span_days": 1118.4,
+          "bars_per_day": 86.24,
+          "n_trades": 10592,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.068447885196375,
+            "p25": 4.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 17
+          },
+          "hold_hours": {
+            "median": 1.253900138888889,
+            "p25": 1.0959552083333333,
+            "p75": 1.5275948611111112
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 215288,
+          "span_days": 2320.9,
+          "bars_per_day": 92.76,
+          "n_trades": 20102,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 6.037160481544125,
+            "p25": 5.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 25
+          },
+          "hold_hours": {
+            "median": 1.3842173611111113,
+            "p25": 1.2009272916666667,
+            "p75": 1.7609466666666667
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 219775,
+          "span_days": 2329.3,
+          "bars_per_day": 94.35,
+          "n_trades": 20607,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 6.037754161207356,
+            "p25": 5.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 28
+          },
+          "hold_hours": {
+            "median": 1.3048591666666667,
+            "p25": 1.190915,
+            "p75": 1.7536256944444444
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 100811,
+          "span_days": 1121.2,
+          "bars_per_day": 89.91,
+          "n_trades": 10154,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.662694504628718,
+            "p25": 4.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 19
+          },
+          "hold_hours": {
+            "median": 1.3145665277777776,
+            "p25": 1.17560375,
+            "p75": 1.747644861111111
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 185865,
+          "span_days": 2074.2,
+          "bars_per_day": 89.61,
+          "n_trades": 17967,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.795513997885012,
+            "p25": 4.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 22
+          },
+          "hold_hours": {
+            "median": 1.3095122222222222,
+            "p25": 1.1814031944444445,
+            "p75": 1.7542033333333333
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 73869,
+          "span_days": 777.3,
+          "bars_per_day": 95.04,
+          "n_trades": 7188,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.870895937673901,
+            "p25": 5.0,
+            "p75": 7.0,
+            "min": 2,
+            "max": 21
+          },
+          "hold_hours": {
+            "median": 1.2873772222222222,
+            "p25": 1.1680742361111112,
+            "p75": 1.7389884722222222
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "FET",
+          "n_bars": 167900,
+          "span_days": 2295.3,
+          "bars_per_day": 73.15,
+          "n_trades": 19619,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 4.788572302359957,
+            "p25": 4.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 20
+          },
+          "hold_hours": {
+            "median": 1.3142066666666667,
+            "p25": 1.1517806944444444,
+            "p75": 1.7466855555555556
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 118599,
+          "span_days": 2284.6,
+          "bars_per_day": 51.91,
+          "n_trades": 16506,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 3.959408699866715,
+            "p25": 2.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 17
+          },
+          "hold_hours": {
+            "median": 1.461081111111111,
+            "p25": 1.197606875,
+            "p75": 1.9566961805555556
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 81868,
+          "span_days": 933.0,
+          "bars_per_day": 87.74,
+          "n_trades": 8548,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.498479176415536,
+            "p25": 4.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 20
+          },
+          "hold_hours": {
+            "median": 1.305646388888889,
+            "p25": 1.16911,
+            "p75": 1.7460378472222222
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 176766,
+          "span_days": 2040.8,
+          "bars_per_day": 86.62,
+          "n_trades": 18398,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.422056745298402,
+            "p25": 4.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 21
+          },
+          "hold_hours": {
+            "median": 1.3035772222222222,
+            "p25": 1.1508852083333334,
+            "p75": 1.732192847222222
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 96329,
+          "span_days": 1039.5,
+          "bars_per_day": 92.67,
+          "n_trades": 9772,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.5898485468686046,
+            "p25": 4.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 18
+          },
+          "hold_hours": {
+            "median": 1.2685113888888888,
+            "p25": 1.1384462499999999,
+            "p75": 1.6749793055555555
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 74259,
+          "span_days": 786.4,
+          "bars_per_day": 94.43,
+          "n_trades": 7286,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 5.669640406258578,
+            "p25": 4.0,
+            "p75": 6.0,
+            "min": 2,
+            "max": 21
+          },
+          "hold_hours": {
+            "median": 1.258564861111111,
+            "p25": 1.109543611111111,
+            "p75": 1.6854375
+          },
+          "secs": 0.2
+        }
+      ]
+    },
+    "30m": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 3.0,
+          "mean": 3.15,
+          "p25": 3.0,
+          "p75": 3.0,
+          "min": 3.0,
+          "max": 4.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 1.5169336111111111,
+          "mean": 1.5933724652777779,
+          "p25": 1.5113077430555555,
+          "p75": 1.5537630555555557,
+          "min": 1.4941547222222222,
+          "max": 1.9914122222222224
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 47.405,
+          "mean": 46.056000000000004,
+          "p25": 46.215,
+          "p75": 47.845,
+          "min": 33.7,
+          "max": 47.99
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 13992.5,
+          "mean": 12314.3,
+          "p25": 8369.0,
+          "p75": 14916.25,
+          "min": 5595.0,
+          "max": 16481.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 95873.0,
+          "mean": 85368.85,
+          "p25": 52625.0,
+          "p75": 110827.75,
+          "min": 37298.0,
+          "max": 111900.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 111900,
+          "span_days": 2332.9,
+          "bars_per_day": 47.97,
+          "n_trades": 12458,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 4.825895007224274,
+            "p25": 3.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 55
+          },
+          "hold_hours": {
+            "median": 1.9914122222222224,
+            "p25": 1.488119861111111,
+            "p75": 2.989207638888889
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 111443,
+          "span_days": 2325.3,
+          "bars_per_day": 47.93,
+          "n_trades": 13824,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 4.372612847222222,
+            "p25": 3.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 36
+          },
+          "hold_hours": {
+            "median": 1.9590134722222223,
+            "p25": 1.4818055555555556,
+            "p75": 2.5121643055555554
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 96379,
+          "span_days": 2082.3,
+          "bars_per_day": 46.29,
+          "n_trades": 13858,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.7580458940684083,
+            "p25": 3.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 28
+          },
+          "hold_hours": {
+            "median": 1.5219130555555556,
+            "p25": 1.438865138888889,
+            "p75": 2.4705094444444446
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 110431,
+          "span_days": 2324.0,
+          "bars_per_day": 47.52,
+          "n_trades": 15205,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.9455442288720817,
+            "p25": 3.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 26
+          },
+          "hold_hours": {
+            "median": 1.547058888888889,
+            "p25": 1.4372269444444445,
+            "p75": 2.484065
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 111160,
+          "span_days": 2324.6,
+          "bars_per_day": 47.82,
+          "n_trades": 14131,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 4.281225674049961,
+            "p25": 3.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 34
+          },
+          "hold_hours": {
+            "median": 1.650083888888889,
+            "p25": 1.4454381944444443,
+            "p75": 2.5095306944444444
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 93052,
+          "span_days": 2108.2,
+          "bars_per_day": 44.14,
+          "n_trades": 14127,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.5668577900474268,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 17
+          },
+          "hold_hours": {
+            "median": 1.5365422222222223,
+            "p25": 1.3200809722222222,
+            "p75": 2.1825666666666663
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 103150,
+          "span_days": 2327.3,
+          "bars_per_day": 44.32,
+          "n_trades": 16481,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.3413627813846247,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 20
+          },
+          "hold_hours": {
+            "median": 1.5174283333333334,
+            "p25": 1.24909,
+            "p75": 2.0572091666666665
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 111289,
+          "span_days": 2333.8,
+          "bars_per_day": 47.68,
+          "n_trades": 12208,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 4.983699213630406,
+            "p25": 3.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 65
+          },
+          "hold_hours": {
+            "median": 1.9684884722222222,
+            "p25": 1.4627947916666666,
+            "p75": 2.9751415972222226
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 51440,
+          "span_days": 1118.4,
+          "bars_per_day": 45.99,
+          "n_trades": 8474,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.188930847297616,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 14
+          },
+          "hold_hours": {
+            "median": 1.4941547222222222,
+            "p25": 1.1188636805555556,
+            "p75": 1.9906083333333333
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 110717,
+          "span_days": 2320.9,
+          "bars_per_day": 47.7,
+          "n_trades": 15806,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.756105276477287,
+            "p25": 3.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 22
+          },
+          "hold_hours": {
+            "median": 1.5174349999999999,
+            "p25": 1.373981875,
+            "p75": 2.2718645833333335
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 111550,
+          "span_days": 2329.3,
+          "bars_per_day": 47.89,
+          "n_trades": 16102,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.7232641907837536,
+            "p25": 3.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 21
+          },
+          "hold_hours": {
+            "median": 1.5131990277777776,
+            "p25": 1.3639021527777777,
+            "p75": 2.109459513888889
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 53020,
+          "span_days": 1121.2,
+          "bars_per_day": 47.29,
+          "n_trades": 8054,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.560963496399305,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 18
+          },
+          "hold_hours": {
+            "median": 1.516438888888889,
+            "p25": 1.2724836111111113,
+            "p75": 2.0643535416666667
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 96540,
+          "span_days": 2074.2,
+          "bars_per_day": 46.54,
+          "n_trades": 14232,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.613265879707701,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 22
+          },
+          "hold_hours": {
+            "median": 1.5121638888888889,
+            "p25": 1.250001736111111,
+            "p75": 2.1097440277777775
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 37298,
+          "span_days": 777.3,
+          "bars_per_day": 47.99,
+          "n_trades": 5595,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.5658623771224307,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 2,
+            "max": 21
+          },
+          "hold_hours": {
+            "median": 1.5109980555555556,
+            "p25": 1.1540466666666667,
+            "p75": 2.030056527777778
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "FET",
+          "n_bars": 95367,
+          "span_days": 2295.3,
+          "bars_per_day": 41.55,
+          "n_trades": 16288,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.086321218074656,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 14
+          },
+          "hold_hours": {
+            "median": 1.5114109722222222,
+            "p25": 1.1906884722222222,
+            "p75": 2.0274575694444446
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 76983,
+          "span_days": 2284.6,
+          "bars_per_day": 33.7,
+          "n_trades": 14459,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 2.784978214261014,
+            "p25": 2.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 14
+          },
+          "hold_hours": {
+            "median": 1.5738755555555555,
+            "p25": 1.2761918055555554,
+            "p75": 2.2370668055555556
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 43466,
+          "span_days": 933.0,
+          "bars_per_day": 46.59,
+          "n_trades": 6805,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.4442321822189568,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 17
+          },
+          "hold_hours": {
+            "median": 1.5080119444444444,
+            "p25": 1.2178483333333334,
+            "p75": 2.018153888888889
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 94781,
+          "span_days": 2040.8,
+          "bars_per_day": 46.44,
+          "n_trades": 14820,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.4229419703103914,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 15
+          },
+          "hold_hours": {
+            "median": 1.5115352777777777,
+            "p25": 1.205770972222222,
+            "p75": 2.0308696527777776
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 49714,
+          "span_days": 1039.5,
+          "bars_per_day": 47.83,
+          "n_trades": 7698,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.4572616263964666,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 15
+          },
+          "hold_hours": {
+            "median": 1.5040223611111112,
+            "p25": 1.131234375,
+            "p75": 2.0100284722222224
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 37697,
+          "span_days": 786.4,
+          "bars_per_day": 47.94,
+          "n_trades": 5661,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.476240946829182,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 2,
+            "max": 14
+          },
+          "hold_hours": {
+            "median": 1.5022630555555556,
+            "p25": 1.095306388888889,
+            "p75": 2.0057816666666666
+          },
+          "secs": 0.1
+        }
+      ]
+    },
+    "1h": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 2.0,
+          "mean": 2.1,
+          "p25": 2.0,
+          "p75": 2.0,
+          "min": 2.0,
+          "max": 3.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 2.0080388888888887,
+          "mean": 2.1073209305555562,
+          "p25": 2.0037271527777776,
+          "p75": 2.0220833680555557,
+          "min": 1.9922894444444443,
+          "max": 2.9757386111111113
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 23.97,
+          "mean": 23.589999999999996,
+          "p25": 23.652500000000003,
+          "p75": 23.9825,
+          "min": 20.48,
+          "max": 24.0
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 9604.0,
+          "mean": 8617.95,
+          "p25": 5823.25,
+          "p75": 10561.25,
+          "min": 3878.0,
+          "max": 11934.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 49011.0,
+          "mean": 43846.1,
+          "p25": 26771.5,
+          "p75": 55726.0,
+          "min": 18655.0,
+          "max": 55965.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 55956,
+          "span_days": 2332.9,
+          "bars_per_day": 23.99,
+          "n_trades": 8613,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.409148960873099,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 26
+          },
+          "hold_hours": {
+            "median": 2.9757386111111113,
+            "p25": 1.9858772222222223,
+            "p75": 4.016333611111111
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 55771,
+          "span_days": 2325.3,
+          "bars_per_day": 23.98,
+          "n_trades": 9534,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 3.076358296622614,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 22
+          },
+          "hold_hours": {
+            "median": 2.0669444444444443,
+            "p25": 1.9809106944444443,
+            "p75": 3.9956965277777776
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 48926,
+          "span_days": 2082.3,
+          "bars_per_day": 23.5,
+          "n_trades": 9520,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.6308823529411764,
+            "p25": 2.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 16
+          },
+          "hold_hours": {
+            "median": 2.0122156944444445,
+            "p25": 1.8875724305555557,
+            "p75": 3.031517361111111
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 55718,
+          "span_days": 2324.0,
+          "bars_per_day": 23.98,
+          "n_trades": 10479,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.7704933676877563,
+            "p25": 2.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 23
+          },
+          "hold_hours": {
+            "median": 2.0314305555555556,
+            "p25": 1.9225451388888888,
+            "p75": 3.1472675
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 55750,
+          "span_days": 2324.6,
+          "bars_per_day": 23.98,
+          "n_trades": 9674,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 3.0485838329543107,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 19
+          },
+          "hold_hours": {
+            "median": 2.0974,
+            "p25": 1.9412025694444446,
+            "p75": 3.991767361111111
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 47950,
+          "span_days": 2108.2,
+          "bars_per_day": 22.74,
+          "n_trades": 9956,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.4731820008035355,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 2.018967638888889,
+            "p25": 1.5292297222222224,
+            "p75": 3.039331944444444
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 54915,
+          "span_days": 2327.3,
+          "bars_per_day": 23.6,
+          "n_trades": 11723,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.3680798430435894,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 14
+          },
+          "hold_hours": {
+            "median": 2.0033994444444443,
+            "p25": 1.3415691666666667,
+            "p75": 3.002696805555556
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 55965,
+          "span_days": 2333.8,
+          "bars_per_day": 23.98,
+          "n_trades": 8471,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.5367725180025973,
+            "p25": 2.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 39
+          },
+          "hold_hours": {
+            "median": 2.893104166666667,
+            "p25": 1.9535322222222222,
+            "p75": 4.047535138888889
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 26497,
+          "span_days": 1118.4,
+          "bars_per_day": 23.69,
+          "n_trades": 5908,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.203791469194313,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 14
+          },
+          "hold_hours": {
+            "median": 1.9922894444444443,
+            "p25": 1.1560402083333332,
+            "p75": 2.9829494444444444
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 55652,
+          "span_days": 2320.9,
+          "bars_per_day": 23.98,
+          "n_trades": 10808,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.618338267949667,
+            "p25": 2.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 18
+          },
+          "hold_hours": {
+            "median": 2.0129727777777777,
+            "p25": 1.787833125,
+            "p75": 3.0310341666666667
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 55869,
+          "span_days": 2329.3,
+          "bars_per_day": 23.99,
+          "n_trades": 10950,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.6046575342465754,
+            "p25": 2.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 18
+          },
+          "hold_hours": {
+            "median": 2.013032638888889,
+            "p25": 1.8426128472222223,
+            "p75": 3.022046041666667
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 26863,
+          "span_days": 1121.2,
+          "bars_per_day": 23.96,
+          "n_trades": 5569,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.4402944873406356,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 15
+          },
+          "hold_hours": {
+            "median": 2.0069525,
+            "p25": 1.2320872222222221,
+            "p75": 3.0114475
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 49096,
+          "span_days": 2074.2,
+          "bars_per_day": 23.67,
+          "n_trades": 9839,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.520276450858827,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 2.0091252777777777,
+            "p25": 1.428301111111111,
+            "p75": 3.0202423611111113
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 18655,
+          "span_days": 777.2,
+          "bars_per_day": 24.0,
+          "n_trades": 3878,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.429860752965446,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 2.0054406944444443,
+            "p25": 1.1171506944444445,
+            "p75": 3.0052968055555556
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "FET",
+          "n_bars": 51802,
+          "span_days": 2295.3,
+          "bars_per_day": 22.57,
+          "n_trades": 11934,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.146137087313558,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 11
+          },
+          "hold_hours": {
+            "median": 1.9948129166666666,
+            "p25": 1.2396655555555556,
+            "p75": 2.9705560416666668
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 46795,
+          "span_days": 2284.6,
+          "bars_per_day": 20.48,
+          "n_trades": 11300,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.04858407079646,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 1.9992202777777779,
+            "p25": 1.3946824305555556,
+            "p75": 2.9899
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 22267,
+          "span_days": 933.0,
+          "bars_per_day": 23.87,
+          "n_trades": 4717,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.420182319270723,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 14
+          },
+          "hold_hours": {
+            "median": 2.0038844444444446,
+            "p25": 1.2408416666666666,
+            "p75": 3.0050447222222223
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 48653,
+          "span_days": 2040.8,
+          "bars_per_day": 23.84,
+          "n_trades": 10363,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.3687156228891246,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 16
+          },
+          "hold_hours": {
+            "median": 2.0046919444444447,
+            "p25": 1.2186255555555556,
+            "p75": 2.9995708333333333
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 24948,
+          "span_days": 1039.4,
+          "bars_per_day": 24.0,
+          "n_trades": 5243,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.3909975205035283,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 11
+          },
+          "hold_hours": {
+            "median": 2.003836388888889,
+            "p25": 1.1557491666666666,
+            "p75": 3.0030531944444445
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 18874,
+          "span_days": 786.4,
+          "bars_per_day": 24.0,
+          "n_trades": 3880,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.3742268041237113,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 23
+          },
+          "hold_hours": {
+            "median": 2.0009587499999997,
+            "p25": 1.1138500694444444,
+            "p75": 2.9998341666666666
+          },
+          "secs": 0.1
+        }
+      ]
+    },
+    "4h": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 1.0,
+          "mean": 1.45,
+          "p25": 1.0,
+          "p75": 2.0,
+          "min": 1.0,
+          "max": 2.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 5.627865694444445,
+          "mean": 6.057860347222222,
+          "p25": 4.306737048611112,
+          "p75": 7.9413065625,
+          "min": 4.147894166666667,
+          "max": 7.995401388888889
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 6.0,
+          "mean": 5.9895,
+          "p25": 6.0,
+          "p75": 6.0,
+          "min": 5.87,
+          "max": 6.0
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 3103.5,
+          "mean": 2732.55,
+          "p25": 1726.25,
+          "p75": 3347.75,
+          "min": 1123.0,
+          "max": 3838.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 13024.0,
+          "mean": 11161.05,
+          "p25": 6723.75,
+          "p75": 13948.0,
+          "min": 4664.0,
+          "max": 14003.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 13996,
+          "span_days": 2332.8,
+          "bars_per_day": 6.0,
+          "n_trades": 2984,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.420911528150134,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 7.993290694444445,
+            "p25": 4.004259375,
+            "p75": 12.007082222222223
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 13951,
+          "span_days": 2325.2,
+          "bars_per_day": 6.0,
+          "n_trades": 3105,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.322061191626409,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 14
+          },
+          "hold_hours": {
+            "median": 7.991314166666666,
+            "p25": 4.001989166666666,
+            "p75": 12.003822222222222
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 12482,
+          "span_days": 2082.2,
+          "bars_per_day": 5.99,
+          "n_trades": 3049,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.0462446703837323,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 7.819320833333333,
+            "p25": 4.000088888888889,
+            "p75": 11.966179444444444
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 13944,
+          "span_days": 2323.9,
+          "bars_per_day": 6.0,
+          "n_trades": 3350,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.0791044776119403,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 7.945551249999999,
+            "p25": 4.000540902777778,
+            "p75": 11.969453125
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 13947,
+          "span_days": 2324.5,
+          "bars_per_day": 6.0,
+          "n_trades": 3175,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.287244094488189,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 7.976873888888889,
+            "p25": 4.003422361111111,
+            "p75": 12.000082222222222
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 12368,
+          "span_days": 2108.2,
+          "bars_per_day": 5.87,
+          "n_trades": 3181,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9283244262810437,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 11
+          },
+          "hold_hours": {
+            "median": 5.887655555555556,
+            "p25": 3.999922777777778,
+            "p75": 9.303333055555555
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 13963,
+          "span_days": 2327.1,
+          "bars_per_day": 6.0,
+          "n_trades": 3598,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9294052251250695,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 4.629905416666666,
+            "p25": 3.998920902777778,
+            "p75": 8.398110694444444
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 14003,
+          "span_days": 2333.8,
+          "bars_per_day": 6.0,
+          "n_trades": 2941,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.5396123767426046,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 21
+          },
+          "hold_hours": {
+            "median": 7.995401388888889,
+            "p25": 4.009959722222222,
+            "p75": 12.025875555555556
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 6711,
+          "span_days": 1118.3,
+          "bars_per_day": 6.0,
+          "n_trades": 1744,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.8371559633027523,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 9
+          },
+          "hold_hours": {
+            "median": 4.15332,
+            "p25": 3.996081597222222,
+            "p75": 8.054392083333333
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 13926,
+          "span_days": 2320.9,
+          "bars_per_day": 6.0,
+          "n_trades": 3376,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.042654028436019,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 7.898557916666666,
+            "p25": 4.000136250000001,
+            "p75": 11.94171263888889
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 13976,
+          "span_days": 2329.2,
+          "bars_per_day": 6.0,
+          "n_trades": 3347,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.080968031072602,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 7.939891666666667,
+            "p25": 4.000886111111111,
+            "p75": 11.962254722222223
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 6728,
+          "span_days": 1121.1,
+          "bars_per_day": 6.0,
+          "n_trades": 1673,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 1.9689181111775254,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 7.438958055555555,
+            "p25": 3.999451111111111,
+            "p75": 8.3322775
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 12444,
+          "span_days": 2074.2,
+          "bars_per_day": 6.0,
+          "n_trades": 3102,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9545454545454546,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 11
+          },
+          "hold_hours": {
+            "median": 5.368075833333334,
+            "p25": 3.9992299305555554,
+            "p75": 8.386985208333334
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 4664,
+          "span_days": 777.1,
+          "bars_per_day": 6.0,
+          "n_trades": 1123,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9697239536954585,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 9
+          },
+          "hold_hours": {
+            "median": 4.213649444444444,
+            "p25": 3.9985463888888892,
+            "p75": 8.145995138888889
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "FET",
+          "n_bars": 13751,
+          "span_days": 2295.2,
+          "bars_per_day": 5.99,
+          "n_trades": 3767,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.7563047517918768,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 4.320239166666667,
+            "p25": 3.992170277777778,
+            "p75": 8.08003625
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 13566,
+          "span_days": 2284.6,
+          "bars_per_day": 5.94,
+          "n_trades": 3838,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.733715476810839,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 4.659386111111111,
+            "p25": 3.975669861111111,
+            "p75": 8.211072013888888
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 5599,
+          "span_days": 932.9,
+          "bars_per_day": 6.0,
+          "n_trades": 1418,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9478138222849084,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 4.266230694444444,
+            "p25": 3.997442847222222,
+            "p75": 8.224763263888889
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 12245,
+          "span_days": 2040.8,
+          "bars_per_day": 6.0,
+          "n_trades": 3148,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9167725540025413,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 4.362595972222222,
+            "p25": 3.9985774999999997,
+            "p75": 8.186007152777778
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 6238,
+          "span_days": 1039.4,
+          "bars_per_day": 6.0,
+          "n_trades": 1575,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9022222222222223,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 12
+          },
+          "hold_hours": {
+            "median": 4.147894166666667,
+            "p25": 3.996761666666667,
+            "p75": 8.114145694444444
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 4719,
+          "span_days": 786.2,
+          "bars_per_day": 6.0,
+          "n_trades": 1157,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.912705272255834,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 9
+          },
+          "hold_hours": {
+            "median": 4.149094722222222,
+            "p25": 3.9990194444444445,
+            "p75": 8.083872777777778
+          },
+          "secs": 0.1
+        }
+      ]
+    },
+    "1d": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 1.0,
+          "mean": 1.3,
+          "p25": 1.0,
+          "p75": 2.0,
+          "min": 1.0,
+          "max": 2.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 24.648604097222222,
+          "mean": 31.55001451388889,
+          "p25": 24.184250833333333,
+          "p75": 47.63860736111111,
+          "min": 24.08553,
+          "max": 47.97394444444444
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 1.0,
+          "mean": 1.0,
+          "p25": 1.0,
+          "p75": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 575.0,
+          "mean": 483.65,
+          "p25": 303.5,
+          "p75": 600.5,
+          "min": 189.0,
+          "max": 639.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 2197.5,
+          "mean": 1864.75,
+          "p25": 1121.25,
+          "p75": 2325.25,
+          "min": 778.0,
+          "max": 2335.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 2334,
+          "span_days": 2332.8,
+          "bars_per_day": 1.0,
+          "n_trades": 590,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 1.9864406779661017,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 47.94746652777778,
+            "p25": 23.99980173611111,
+            "p75": 71.93193041666666
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 2326,
+          "span_days": 2324.9,
+          "bars_per_day": 1.0,
+          "n_trades": 602,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 1.9833887043189369,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 47.91055388888889,
+            "p25": 24.000554444444447,
+            "p75": 71.90822729166666
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 2083,
+          "span_days": 2081.9,
+          "bars_per_day": 1.0,
+          "n_trades": 520,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9865384615384616,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 24.704555416666665,
+            "p25": 23.998480416666666,
+            "p75": 71.96803666666666
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 2325,
+          "span_days": 2323.8,
+          "bars_per_day": 1.0,
+          "n_trades": 613,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.871125611745514,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 24.209170277777776,
+            "p25": 23.998292222222222,
+            "p75": 48.10254
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 2325,
+          "span_days": 2323.7,
+          "bars_per_day": 1.0,
+          "n_trades": 595,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.048739495798319,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 47.97394444444444,
+            "p25": 24.004705416666667,
+            "p75": 71.99614652777777
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 2109,
+          "span_days": 2107.7,
+          "bars_per_day": 1.0,
+          "n_trades": 560,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.8017857142857143,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 24.324053055555552,
+            "p25": 23.989655208333332,
+            "p75": 48.13335993055556
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 2328,
+          "span_days": 2327.0,
+          "bars_per_day": 1.0,
+          "n_trades": 603,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.9303482587064678,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 25.03744138888889,
+            "p25": 24.00237125,
+            "p75": 48.42718708333334
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 2335,
+          "span_days": 2333.8,
+          "bars_per_day": 1.0,
+          "n_trades": 590,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.140677966101695,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 47.9711025,
+            "p25": 24.00463625,
+            "p75": 71.99142194444444
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 1119,
+          "span_days": 1117.5,
+          "bars_per_day": 1.0,
+          "n_trades": 305,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.7344262295081967,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 24.106773055555557,
+            "p25": 23.993622777777777,
+            "p75": 48.03365055555555
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 2322,
+          "span_days": 2320.7,
+          "bars_per_day": 1.0,
+          "n_trades": 590,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.923728813559322,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 24.261104583333335,
+            "p25": 23.999993402777775,
+            "p75": 48.17364888888889
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 2330,
+          "span_days": 2328.7,
+          "bars_per_day": 1.0,
+          "n_trades": 600,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 1.9616666666666667,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 47.73097111111111,
+            "p25": 23.99993576388889,
+            "p75": 71.9324907638889
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 1122,
+          "span_days": 1120.8,
+          "bars_per_day": 1.0,
+          "n_trades": 299,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.7357859531772575,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 24.10134138888889,
+            "p25": 23.988244305555554,
+            "p75": 48.05275805555556
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 2075,
+          "span_days": 2073.7,
+          "bars_per_day": 1.0,
+          "n_trades": 528,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 1.941287878787879,
+            "p25": 1.0,
+            "p75": 2.25,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 47.607819444444445,
+            "p25": 24.00156722222222,
+            "p75": 54.06432958333333
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 778,
+          "span_days": 776.8,
+          "bars_per_day": 1.0,
+          "n_trades": 189,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.8465608465608465,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 24.08553,
+            "p25": 23.994340277777777,
+            "p75": 48.13916722222222
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "FET",
+          "n_bars": 2296,
+          "span_days": 2294.7,
+          "bars_per_day": 1.0,
+          "n_trades": 630,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.7380952380952381,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 24.361741944444447,
+            "p25": 23.99610034722222,
+            "p75": 48.07625229166667
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 2286,
+          "span_days": 2284.3,
+          "bars_per_day": 1.0,
+          "n_trades": 639,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.8043818466353678,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 25.48151361111111,
+            "p25": 23.998104583333333,
+            "p75": 48.51660222222222
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 934,
+          "span_days": 932.6,
+          "bars_per_day": 1.0,
+          "n_trades": 238,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.8739495798319328,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 24.59265277777778,
+            "p25": 24.000008194444444,
+            "p75": 48.160208611111116
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 2041,
+          "span_days": 2040.0,
+          "bars_per_day": 1.0,
+          "n_trades": 525,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.8952380952380952,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 7
+          },
+          "hold_hours": {
+            "median": 26.39454027777778,
+            "p25": 24.000179166666666,
+            "p75": 48.493918055555554
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 1040,
+          "span_days": 1038.9,
+          "bars_per_day": 1.0,
+          "n_trades": 260,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.773076923076923,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 24.08852208333333,
+            "p25": 23.99509666666667,
+            "p75": 48.051969444444445
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 787,
+          "span_days": 785.7,
+          "bars_per_day": 1.0,
+          "n_trades": 197,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.7969543147208122,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 24.1094925,
+            "p25": 24.004053333333335,
+            "p75": 48.03991083333333
+          },
+          "secs": 0.1
+        }
+      ]
+    },
+    "range": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 4.0,
+          "mean": 3.8,
+          "p25": 3.0,
+          "p75": 4.0,
+          "min": 2.0,
+          "max": 7.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 1.6278066666666668,
+          "mean": 1.713579986111111,
+          "p25": 1.4962075694444446,
+          "p75": 1.8907271180555556,
+          "min": 1.1853641666666666,
+          "max": 2.351137638888889
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 69.44,
+          "mean": 111.079,
+          "p25": 48.214999999999996,
+          "p75": 93.9025,
+          "min": 23.02,
+          "max": 663.07
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 10940.5,
+          "mean": 11083.65,
+          "p25": 7282.5,
+          "p75": 13512.0,
+          "min": 3369.0,
+          "max": 21080.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 127122.5,
+          "mean": 193963.1,
+          "p25": 70099.0,
+          "p75": 213485.0,
+          "min": 24497.0,
+          "max": 742104.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 138673,
+          "span_days": 2339.8,
+          "bars_per_day": 59.27,
+          "n_trades": 11109,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 6.981906562246827,
+            "p25": 2.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 4238
+          },
+          "hold_hours": {
+            "median": 1.8479580555555555,
+            "p25": 1.2871511111111111,
+            "p75": 3.216987777777778
+          },
+          "secs": 0.6
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 78168,
+          "span_days": 2339.9,
+          "bars_per_day": 33.41,
+          "n_trades": 8951,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 5.044799463747068,
+            "p25": 2.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 2524
+          },
+          "hold_hours": {
+            "median": 2.1395013888888887,
+            "p25": 1.38557,
+            "p75": 4.042877916666667
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 66340,
+          "span_days": 2116.5,
+          "bars_per_day": 31.34,
+          "n_trades": 8240,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 4.681917475728155,
+            "p25": 2.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 809
+          },
+          "hold_hours": {
+            "median": 2.0190343055555555,
+            "p25": 1.3511786805555555,
+            "p75": 3.7896081944444444
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 345696,
+          "span_days": 2339.9,
+          "bars_per_day": 147.74,
+          "n_trades": 16330,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 12.327189222290263,
+            "p25": 2.0,
+            "p75": 9.0,
+            "min": 1,
+            "max": 14100
+          },
+          "hold_hours": {
+            "median": 1.5138908333333334,
+            "p25": 1.1795511805555556,
+            "p75": 2.278454722222222
+          },
+          "secs": 2.3
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 203936,
+          "span_days": 2339.6,
+          "bars_per_day": 87.17,
+          "n_trades": 13473,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 8.703481036146366,
+            "p25": 2.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 5028
+          },
+          "hold_hours": {
+            "median": 1.6533625,
+            "p25": 1.2278316666666667,
+            "p75": 2.703669166666667
+          },
+          "secs": 1.1
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 719770,
+          "span_days": 2339.9,
+          "bars_per_day": 307.61,
+          "n_trades": 18225,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 24.0960768175583,
+            "p25": 3.0,
+            "p75": 10.0,
+            "min": 1,
+            "max": 28451
+          },
+          "hold_hours": {
+            "median": 1.4431577777777778,
+            "p25": 1.1513030555555555,
+            "p75": 2.0768191666666667
+          },
+          "secs": 34.0
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 379621,
+          "span_days": 2339.9,
+          "bars_per_day": 162.24,
+          "n_trades": 21080,
+          "hold_bars": {
+            "median": 6.0,
+            "mean": 10.975806451612904,
+            "p25": 3.0,
+            "p75": 11.0,
+            "min": 1,
+            "max": 6790
+          },
+          "hold_hours": {
+            "median": 1.3564761111111112,
+            "p25": 1.1309038194444443,
+            "p75": 1.8322176388888889
+          },
+          "secs": 2.9
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 61223,
+          "span_days": 2339.6,
+          "bars_per_day": 26.17,
+          "n_trades": 6478,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 5.457702994751466,
+            "p25": 2.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 1141
+          },
+          "hold_hours": {
+            "median": 2.1656352777777776,
+            "p25": 1.3355599305555557,
+            "p75": 4.664190347222222
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 742104,
+          "span_days": 1119.2,
+          "bars_per_day": 663.07,
+          "n_trades": 10772,
+          "hold_bars": {
+            "median": 7.0,
+            "mean": 48.89964723356851,
+            "p25": 3.0,
+            "p75": 70.0,
+            "min": 1,
+            "max": 2628
+          },
+          "hold_hours": {
+            "median": 1.1853641666666666,
+            "p25": 1.0140040277777778,
+            "p75": 1.692814375
+          },
+          "secs": 25.7
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 124357,
+          "span_days": 2339.7,
+          "bars_per_day": 53.15,
+          "n_trades": 12137,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 6.119469391118069,
+            "p25": 2.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 7404
+          },
+          "hold_hours": {
+            "median": 1.7989266666666666,
+            "p25": 1.2735883333333333,
+            "p75": 2.9976680555555557
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 129888,
+          "span_days": 2339.9,
+          "bars_per_day": 55.51,
+          "n_trades": 13475,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 5.659294990723562,
+            "p25": 2.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 3552
+          },
+          "hold_hours": {
+            "median": 1.685466111111111,
+            "p25": 1.2491197222222223,
+            "p75": 2.719377777777778
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 72062,
+          "span_days": 1121.4,
+          "bars_per_day": 64.26,
+          "n_trades": 6768,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 6.955082742316785,
+            "p25": 2.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 7528
+          },
+          "hold_hours": {
+            "median": 1.6776813888888888,
+            "p25": 1.2589155555555556,
+            "p75": 2.582979375
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 146054,
+          "span_days": 2074.6,
+          "bars_per_day": 70.4,
+          "n_trades": 12551,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 6.908931559238308,
+            "p25": 2.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 2611
+          },
+          "hold_hours": {
+            "median": 1.6022508333333334,
+            "p25": 1.2144202777777777,
+            "p75": 2.51992625
+          },
+          "secs": 0.5
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 53237,
+          "span_days": 777.4,
+          "bars_per_day": 68.48,
+          "n_trades": 5509,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 5.81303321836994,
+            "p25": 2.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 1888
+          },
+          "hold_hours": {
+            "median": 1.5495036111111111,
+            "p25": 1.2140716666666667,
+            "p75": 2.231951388888889
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "FET",
+          "n_bars": 242132,
+          "span_days": 2339.9,
+          "bars_per_day": 103.48,
+          "n_trades": 18321,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 8.123683205065225,
+            "p25": 3.0,
+            "p75": 9.0,
+            "min": 1,
+            "max": 4184
+          },
+          "hold_hours": {
+            "median": 1.4387305555555556,
+            "p25": 1.1583466666666666,
+            "p75": 2.013735
+          },
+          "secs": 0.8
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 53855,
+          "span_days": 2339.5,
+          "bars_per_day": 23.02,
+          "n_trades": 7454,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 4.105446740005366,
+            "p25": 1.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 688
+          },
+          "hold_hours": {
+            "median": 2.351137638888889,
+            "p25": 1.4424875694444443,
+            "p75": 4.754782361111111
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 24497,
+          "span_days": 933.4,
+          "bars_per_day": 26.24,
+          "n_trades": 3369,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 4.200949836746809,
+            "p25": 1.0,
+            "p75": 4.0,
+            "min": 1,
+            "max": 1549
+          },
+          "hold_hours": {
+            "median": 2.3391030555555554,
+            "p25": 1.417896111111111,
+            "p75": 4.366134166666667
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 146098,
+          "span_days": 2052.8,
+          "bars_per_day": 71.17,
+          "n_trades": 13623,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 6.338618512809219,
+            "p25": 2.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 1315
+          },
+          "hold_hours": {
+            "median": 1.5513794444444444,
+            "p25": 1.1977751388888889,
+            "p75": 2.355154166666667
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 80199,
+          "span_days": 1039.6,
+          "bars_per_day": 77.14,
+          "n_trades": 7618,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 6.211866631661853,
+            "p25": 2.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 2777
+          },
+          "hold_hours": {
+            "median": 1.5200309722222223,
+            "p25": 1.1898977083333333,
+            "p75": 2.184108541666667
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 71352,
+          "span_days": 786.6,
+          "bars_per_day": 90.71,
+          "n_trades": 6190,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 7.033441033925687,
+            "p25": 3.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 2582
+          },
+          "hold_hours": {
+            "median": 1.4330090277777778,
+            "p25": 1.1591259722222222,
+            "p75": 1.9703284722222223
+          },
+          "secs": 0.2
+        }
+      ]
+    },
+    "dib": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 6.0,
+          "mean": 5.85,
+          "p25": 3.0,
+          "p75": 8.0,
+          "min": 2.0,
+          "max": 10.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 1.4446590277777778,
+          "mean": 1.5836562152777778,
+          "p25": 1.337294236111111,
+          "p75": 1.6706050000000001,
+          "min": 1.2143158333333333,
+          "max": 2.80431875
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 122.645,
+          "mean": 141.53049999999996,
+          "p25": 61.262499999999996,
+          "p75": 186.89249999999998,
+          "min": 16.45,
+          "max": 349.93
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 12260.0,
+          "mean": 12106.75,
+          "p25": 10434.75,
+          "p75": 14874.5,
+          "min": 4899.0,
+          "max": 17243.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 244390.0,
+          "mean": 225148.5,
+          "p25": 143345.75,
+          "p75": 312876.25,
+          "min": 32861.0,
+          "max": 415221.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 327459,
+          "span_days": 2339.9,
+          "bars_per_day": 139.94,
+          "n_trades": 16248,
+          "hold_bars": {
+            "median": 7.0,
+            "mean": 11.985413589364844,
+            "p25": 3.0,
+            "p75": 15.0,
+            "min": 1,
+            "max": 318
+          },
+          "hold_hours": {
+            "median": 1.4572825,
+            "p25": 1.1395577777777777,
+            "p75": 2.225905902777778
+          },
+          "secs": 1.0
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 399930,
+          "span_days": 2339.1,
+          "bars_per_day": 170.98,
+          "n_trades": 17243,
+          "hold_bars": {
+            "median": 8.0,
+            "mean": 14.727251638345995,
+            "p25": 4.0,
+            "p75": 18.0,
+            "min": 1,
+            "max": 483
+          },
+          "hold_hours": {
+            "median": 1.40545,
+            "p25": 1.1227972222222222,
+            "p75": 2.078482638888889
+          },
+          "secs": 1.9
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 308387,
+          "span_days": 2116.7,
+          "bars_per_day": 145.69,
+          "n_trades": 14853,
+          "hold_bars": {
+            "median": 8.0,
+            "mean": 13.59227092169932,
+            "p25": 3.0,
+            "p75": 17.0,
+            "min": 1,
+            "max": 365
+          },
+          "hold_hours": {
+            "median": 1.3505625,
+            "p25": 1.1115872222222223,
+            "p75": 1.9513933333333333
+          },
+          "secs": 1.5
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 326344,
+          "span_days": 2339.9,
+          "bars_per_day": 139.47,
+          "n_trades": 16844,
+          "hold_bars": {
+            "median": 6.0,
+            "mean": 12.557587271431965,
+            "p25": 3.0,
+            "p75": 13.0,
+            "min": 1,
+            "max": 700
+          },
+          "hold_hours": {
+            "median": 1.4138918055555556,
+            "p25": 1.1316625694444444,
+            "p75": 2.1098710416666666
+          },
+          "secs": 2.0
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 132563,
+          "span_days": 2340.0,
+          "bars_per_day": 56.65,
+          "n_trades": 12491,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 6.4004483227924105,
+            "p25": 2.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 186
+          },
+          "hold_hours": {
+            "median": 1.7414486111111112,
+            "p25": 1.2490966666666667,
+            "p75": 3.069835277777778
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 415221,
+          "span_days": 2339.3,
+          "bars_per_day": 177.5,
+          "n_trades": 15905,
+          "hold_bars": {
+            "median": 7.0,
+            "mean": 17.46249607041811,
+            "p25": 3.0,
+            "p75": 17.0,
+            "min": 1,
+            "max": 687
+          },
+          "hold_hours": {
+            "median": 1.3834208333333333,
+            "p25": 1.1182530555555557,
+            "p75": 2.0532897222222224
+          },
+          "secs": 4.4
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 41531,
+          "span_days": 2339.9,
+          "bars_per_day": 17.75,
+          "n_trades": 4899,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 5.422739334558073,
+            "p25": 1.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 341
+          },
+          "hold_hours": {
+            "median": 2.6210775,
+            "p25": 1.3639593055555554,
+            "p75": 8.688561805555555
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 247574,
+          "span_days": 2339.5,
+          "bars_per_day": 105.82,
+          "n_trades": 10850,
+          "hold_bars": {
+            "median": 6.0,
+            "mean": 12.881290322580645,
+            "p25": 2.0,
+            "p75": 15.0,
+            "min": 1,
+            "max": 417
+          },
+          "hold_hours": {
+            "median": 1.8007316666666666,
+            "p25": 1.2218343055555556,
+            "p75": 3.4304550694444442
+          },
+          "secs": 1.2
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 369235,
+          "span_days": 1119.2,
+          "bars_per_day": 329.9,
+          "n_trades": 12029,
+          "hold_bars": {
+            "median": 10.0,
+            "mean": 20.61900407348907,
+            "p25": 4.0,
+            "p75": 24.0,
+            "min": 1,
+            "max": 1163
+          },
+          "hold_hours": {
+            "median": 1.2182180555555555,
+            "p25": 1.0682094444444445,
+            "p75": 1.561348611111111
+          },
+          "secs": 3.0
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 152227,
+          "span_days": 2339.1,
+          "bars_per_day": 65.08,
+          "n_trades": 13486,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 6.683597805131247,
+            "p25": 2.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 607
+          },
+          "hold_hours": {
+            "median": 1.6292219444444445,
+            "p25": 1.1925675694444444,
+            "p75": 2.802068333333333
+          },
+          "secs": 0.5
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 146940,
+          "span_days": 2339.9,
+          "bars_per_day": 62.8,
+          "n_trades": 14671,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 5.983913843637107,
+            "p25": 2.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 183
+          },
+          "hold_hours": {
+            "median": 1.5565122222222223,
+            "p25": 1.180746111111111,
+            "p75": 2.593613472222222
+          },
+          "secs": 0.4
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 241206,
+          "span_days": 1121.5,
+          "bars_per_day": 215.07,
+          "n_trades": 10964,
+          "hold_bars": {
+            "median": 8.0,
+            "mean": 15.109540313754104,
+            "p25": 4.0,
+            "p75": 18.0,
+            "min": 1,
+            "max": 595
+          },
+          "hold_hours": {
+            "median": 1.2974894444444445,
+            "p25": 1.0996495833333333,
+            "p75": 1.7291982638888888
+          },
+          "secs": 1.2
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 100353,
+          "span_days": 2074.7,
+          "bars_per_day": 48.37,
+          "n_trades": 11389,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 5.285626481692861,
+            "p25": 2.0,
+            "p75": 6.0,
+            "min": 1,
+            "max": 207
+          },
+          "hold_hours": {
+            "median": 1.6648752777777778,
+            "p25": 1.2225416666666666,
+            "p75": 2.7662738888888887
+          },
+          "secs": 0.3
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 32861,
+          "span_days": 777.5,
+          "bars_per_day": 42.26,
+          "n_trades": 5039,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.845207382417146,
+            "p25": 1.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 207
+          },
+          "hold_hours": {
+            "median": 1.6877941666666667,
+            "p25": 1.2410925,
+            "p75": 2.659771111111111
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "FET",
+          "n_bars": 173155,
+          "span_days": 2339.7,
+          "bars_per_day": 74.01,
+          "n_trades": 13951,
+          "hold_bars": {
+            "median": 4.0,
+            "mean": 7.749552003440614,
+            "p25": 2.0,
+            "p75": 9.0,
+            "min": 1,
+            "max": 187
+          },
+          "hold_hours": {
+            "median": 1.4745816666666667,
+            "p25": 1.1504261111111111,
+            "p75": 2.3107379166666666
+          },
+          "secs": 0.6
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 38482,
+          "span_days": 2339.0,
+          "bars_per_day": 16.45,
+          "n_trades": 6798,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 3.2599293909973523,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 97
+          },
+          "hold_hours": {
+            "median": 2.80431875,
+            "p25": 1.4972118055555557,
+            "p75": 6.193664652777778
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 265108,
+          "span_days": 933.5,
+          "bars_per_day": 283.99,
+          "n_trades": 8734,
+          "hold_bars": {
+            "median": 9.0,
+            "mean": 20.191550263338677,
+            "p25": 3.0,
+            "p75": 22.0,
+            "min": 1,
+            "max": 732
+          },
+          "hold_hours": {
+            "median": 1.2892143055555556,
+            "p25": 1.091910763888889,
+            "p75": 1.7232963888888888
+          },
+          "secs": 2.3
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 212266,
+          "span_days": 2052.8,
+          "bars_per_day": 103.41,
+          "n_trades": 14939,
+          "hold_bars": {
+            "median": 5.0,
+            "mean": 8.948256242051007,
+            "p25": 2.0,
+            "p75": 10.0,
+            "min": 1,
+            "max": 237
+          },
+          "hold_hours": {
+            "median": 1.4320355555555555,
+            "p25": 1.1414845833333334,
+            "p75": 2.1358152777777777
+          },
+          "secs": 0.8
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 296852,
+          "span_days": 1039.6,
+          "bars_per_day": 285.54,
+          "n_trades": 11613,
+          "hold_bars": {
+            "median": 9.0,
+            "mean": 16.985361233100836,
+            "p25": 4.0,
+            "p75": 19.0,
+            "min": 1,
+            "max": 479
+          },
+          "hold_hours": {
+            "median": 1.2306816666666667,
+            "p25": 1.0783169444444445,
+            "p75": 1.5840363888888889
+          },
+          "secs": 2.0
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 275276,
+          "span_days": 786.7,
+          "bars_per_day": 349.93,
+          "n_trades": 9189,
+          "hold_bars": {
+            "median": 10.0,
+            "mean": 20.275764501033844,
+            "p25": 5.0,
+            "p75": 23.0,
+            "min": 1,
+            "max": 1041
+          },
+          "hold_hours": {
+            "median": 1.2143158333333333,
+            "p25": 1.0724305555555556,
+            "p75": 1.5327025
+          },
+          "secs": 2.3
+        }
+      ]
+    },
+    "runs_volume": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 1.0,
+          "mean": 1.2,
+          "p25": 1.0,
+          "p75": 1.0,
+          "min": 1.0,
+          "max": 3.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 12.098300625,
+          "mean": 12.326092562500003,
+          "p25": 5.263117083333333,
+          "p75": 17.439243923611112,
+          "min": 2.9597877777777777,
+          "max": 24.000448333333335
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 2.49,
+          "mean": 5.1145,
+          "p25": 1.9024999999999999,
+          "p75": 6.35,
+          "min": 1.0,
+          "max": 20.65
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 981.5,
+          "mean": 1402.75,
+          "p25": 640.0,
+          "p75": 2130.5,
+          "min": 329.0,
+          "max": 3659.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 2946.5,
+          "mean": 6131.6,
+          "p25": 1929.0,
+          "p75": 7895.5,
+          "min": 934.0,
+          "max": 25688.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 20195,
+          "span_days": 1243.9,
+          "bars_per_day": 16.24,
+          "n_trades": 3659,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.6925389450669583,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 35
+          },
+          "hold_hours": {
+            "median": 2.9597877777777777,
+            "p25": 1.7334661111111112,
+            "p75": 5.411295
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 8116,
+          "span_days": 1243.0,
+          "bars_per_day": 6.53,
+          "n_trades": 2115,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.7754137115839244,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 13
+          },
+          "hold_hours": {
+            "median": 5.2394066666666665,
+            "p25": 2.6291691666666663,
+            "p75": 9.335694583333332
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 7822,
+          "span_days": 1243.8,
+          "bars_per_day": 6.29,
+          "n_trades": 2177,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.7096922370234267,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 10
+          },
+          "hold_hours": {
+            "median": 5.271020555555555,
+            "p25": 2.671714722222222,
+            "p75": 9.501011666666667
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 4620,
+          "span_days": 1243.3,
+          "bars_per_day": 3.72,
+          "n_trades": 1449,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.416839199447895,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 10
+          },
+          "hold_hours": {
+            "median": 7.169905833333333,
+            "p25": 3.6532655555555555,
+            "p75": 14.196486666666667
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 16109,
+          "span_days": 1243.8,
+          "bars_per_day": 12.95,
+          "n_trades": 3157,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.5989863794741845,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 25
+          },
+          "hold_hours": {
+            "median": 3.2753472222222224,
+            "p25": 1.8061177777777777,
+            "p75": 6.451385277777778
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 2193,
+          "span_days": 1243.0,
+          "bars_per_day": 1.76,
+          "n_trades": 747,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.2771084337349397,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 4
+          },
+          "hold_hours": {
+            "median": 20.44780777777778,
+            "p25": 9.81587888888889,
+            "p75": 24.00013777777778
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 3816,
+          "span_days": 1243.0,
+          "bars_per_day": 3.07,
+          "n_trades": 1174,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.5357751277683134,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 21
+          },
+          "hold_hours": {
+            "median": 9.145119305555555,
+            "p25": 3.8651323611111112,
+            "p75": 19.55271875
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 25688,
+          "span_days": 1243.9,
+          "bars_per_day": 20.65,
+          "n_trades": 3295,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 3.9414264036418816,
+            "p25": 1.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 36
+          },
+          "hold_hours": {
+            "median": 3.059747777777778,
+            "p25": 1.7030812499999999,
+            "p75": 6.159173611111111
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 9935,
+          "span_days": 1119.2,
+          "bars_per_day": 8.88,
+          "n_trades": 2266,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 2.1637246248896735,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 19
+          },
+          "hold_hours": {
+            "median": 3.475170138888889,
+            "p25": 1.8157432638888888,
+            "p75": 7.359353194444445
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 1553,
+          "span_days": 1243.0,
+          "bars_per_day": 1.25,
+          "n_trades": 546,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.216117216117216,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 4
+          },
+          "hold_hours": {
+            "median": 23.999925277777777,
+            "p25": 23.996288611111112,
+            "p75": 24.00145138888889
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 1384,
+          "span_days": 1243.0,
+          "bars_per_day": 1.11,
+          "n_trades": 486,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.1934156378600822,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 3
+          },
+          "hold_hours": {
+            "median": 24.000085277777778,
+            "p25": 23.99812395833333,
+            "p75": 24.002807708333336
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 4590,
+          "span_days": 1121.5,
+          "bars_per_day": 4.09,
+          "n_trades": 1416,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.4477401129943503,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 24
+          },
+          "hold_hours": {
+            "median": 7.239561944444445,
+            "p25": 3.5425169444444444,
+            "p75": 12.610358402777777
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 2468,
+          "span_days": 1243.8,
+          "bars_per_day": 1.98,
+          "n_trades": 834,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.3057553956834533,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 16.436389305555558,
+            "p25": 8.579736666666667,
+            "p75": 23.999495694444445
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 1902,
+          "span_days": 777.5,
+          "bars_per_day": 2.45,
+          "n_trades": 634,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.2839116719242902,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 9
+          },
+          "hold_hours": {
+            "median": 12.481420972222221,
+            "p25": 6.368634444444444,
+            "p75": 23.7441775
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "FET",
+          "n_bars": 2759,
+          "span_days": 1243.0,
+          "bars_per_day": 2.22,
+          "n_trades": 949,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.2845100105374079,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 13.505550555555555,
+            "p25": 6.807094722222222,
+            "p75": 23.997335
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 1451,
+          "span_days": 1243.0,
+          "bars_per_day": 1.17,
+          "n_trades": 491,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.244399185336049,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 24.00007972222222,
+            "p25": 23.98722027777778,
+            "p75": 24.012947222222223
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 934,
+          "span_days": 933.0,
+          "bars_per_day": 1.0,
+          "n_trades": 329,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.1671732522796352,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 3
+          },
+          "hold_hours": {
+            "median": 24.000448333333335,
+            "p25": 23.999233333333333,
+            "p75": 24.005660833333334
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 3134,
+          "span_days": 1243.0,
+          "bars_per_day": 2.52,
+          "n_trades": 1014,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.368836291913215,
+            "p25": 1.0,
+            "p75": 2.0,
+            "min": 1,
+            "max": 8
+          },
+          "hold_hours": {
+            "median": 11.715180277777778,
+            "p25": 5.625202916666667,
+            "p75": 23.892680972222223
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 2025,
+          "span_days": 1039.6,
+          "bars_per_day": 1.95,
+          "n_trades": 675,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.2474074074074073,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 16.3303625,
+            "p25": 8.29803888888889,
+            "p75": 23.99991027777778
+          },
+          "secs": 0.0
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 1938,
+          "span_days": 786.7,
+          "bars_per_day": 2.46,
+          "n_trades": 642,
+          "hold_bars": {
+            "median": 1.0,
+            "mean": 1.2757009345794392,
+            "p25": 1.0,
+            "p75": 1.0,
+            "min": 1,
+            "max": 6
+          },
+          "hold_hours": {
+            "median": 12.769534027777777,
+            "p25": 6.373766874999999,
+            "p75": 23.120764444444443
+          },
+          "secs": 0.0
+        }
+      ]
+    },
+    "adaptive_vol": {
+      "aggregate": {
+        "n_ok": 20,
+        "n_err": 0,
+        "median_hold_bars_acrossassets": {
+          "n": 20,
+          "median": 10.5,
+          "mean": 10.4,
+          "p25": 7.75,
+          "p75": 12.0,
+          "min": 2.0,
+          "max": 26.0
+        },
+        "median_hold_hours_acrossassets": {
+          "n": 20,
+          "median": 1.2493106944444445,
+          "mean": 1.3344883055555556,
+          "p25": 1.2280199305555555,
+          "p75": 1.3628865277777777,
+          "min": 1.1844424999999998,
+          "max": 1.9569788888888888
+        },
+        "bars_per_day": {
+          "n": 20,
+          "median": 242.175,
+          "mean": 262.84,
+          "p25": 170.905,
+          "p75": 304.2775,
+          "min": 19.46,
+          "max": 703.7
+        },
+        "n_trades": {
+          "n": 20,
+          "median": 11177.0,
+          "mean": 10080.65,
+          "p25": 8616.0,
+          "p75": 12080.25,
+          "min": 3683.0,
+          "max": 13197.0
+        },
+        "n_bars": {
+          "n": 20,
+          "median": 289972.5,
+          "mean": 306049.1,
+          "p25": 212601.75,
+          "p75": 324729.0,
+          "min": 24207.0,
+          "max": 875406.0
+        }
+      },
+      "per_asset": [
+        {
+          "asset": "BTC",
+          "n_bars": 284252,
+          "span_days": 1244.0,
+          "bars_per_day": 228.5,
+          "n_trades": 9545,
+          "hold_bars": {
+            "median": 12.0,
+            "mean": 16.706338397066528,
+            "p25": 8.0,
+            "p75": 20.0,
+            "min": 1,
+            "max": 340
+          },
+          "hold_hours": {
+            "median": 1.3846019444444444,
+            "p25": 1.1220727777777777,
+            "p75": 1.9401658333333334
+          },
+          "secs": 1.1
+        },
+        {
+          "asset": "ETH",
+          "n_bars": 306826,
+          "span_days": 1244.0,
+          "bars_per_day": 246.65,
+          "n_trades": 11060,
+          "hold_bars": {
+            "median": 12.0,
+            "mean": 15.878300180831827,
+            "p25": 8.0,
+            "p75": 20.0,
+            "min": 1,
+            "max": 150
+          },
+          "hold_hours": {
+            "median": 1.3147477777777778,
+            "p25": 1.1034820833333334,
+            "p75": 1.756190486111111
+          },
+          "secs": 1.3
+        },
+        {
+          "asset": "SOL",
+          "n_bars": 644543,
+          "span_days": 1244.0,
+          "bars_per_day": 518.12,
+          "n_trades": 13197,
+          "hold_bars": {
+            "median": 22.0,
+            "mean": 29.35674774569978,
+            "p25": 11.0,
+            "p75": 39.0,
+            "min": 1,
+            "max": 331
+          },
+          "hold_hours": {
+            "median": 1.208161388888889,
+            "p25": 1.0626605555555555,
+            "p75": 1.5093169444444445
+          },
+          "secs": 5.0
+        },
+        {
+          "asset": "XRP",
+          "n_bars": 875406,
+          "span_days": 1244.0,
+          "bars_per_day": 703.7,
+          "n_trades": 12828,
+          "hold_bars": {
+            "median": 26.0,
+            "mean": 40.8122076707203,
+            "p25": 15.0,
+            "p75": 47.0,
+            "min": 2,
+            "max": 939
+          },
+          "hold_hours": {
+            "median": 1.224303888888889,
+            "p25": 1.063740486111111,
+            "p75": 1.5607319444444445
+          },
+          "secs": 12.3
+        },
+        {
+          "asset": "BNB",
+          "n_bars": 266707,
+          "span_days": 1244.0,
+          "bars_per_day": 214.4,
+          "n_trades": 10127,
+          "hold_bars": {
+            "median": 11.0,
+            "mean": 14.816233830354498,
+            "p25": 6.0,
+            "p75": 18.0,
+            "min": 1,
+            "max": 243
+          },
+          "hold_hours": {
+            "median": 1.3556480555555555,
+            "p25": 1.1162379166666667,
+            "p75": 1.8441030555555558
+          },
+          "secs": 1.1
+        },
+        {
+          "asset": "DOGE",
+          "n_bars": 619890,
+          "span_days": 1244.0,
+          "bars_per_day": 498.31,
+          "n_trades": 12669,
+          "hold_bars": {
+            "median": 15.0,
+            "mean": 29.5141684426553,
+            "p25": 8.0,
+            "p75": 31.0,
+            "min": 1,
+            "max": 700
+          },
+          "hold_hours": {
+            "median": 1.229258611111111,
+            "p25": 1.0721125,
+            "p75": 1.5616366666666666
+          },
+          "secs": 11.1
+        },
+        {
+          "asset": "ZEC",
+          "n_bars": 41254,
+          "span_days": 1243.4,
+          "bars_per_day": 33.18,
+          "n_trades": 3683,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 6.669019820798263,
+            "p25": 1.0,
+            "p75": 7.0,
+            "min": 1,
+            "max": 189
+          },
+          "hold_hours": {
+            "median": 1.5969572222222221,
+            "p25": 1.172081388888889,
+            "p75": 4.564926944444444
+          },
+          "secs": 0.2
+        },
+        {
+          "asset": "TRX",
+          "n_bars": 142196,
+          "span_days": 1244.0,
+          "bars_per_day": 114.31,
+          "n_trades": 6625,
+          "hold_bars": {
+            "median": 8.0,
+            "mean": 11.24166037735849,
+            "p25": 4.0,
+            "p75": 14.0,
+            "min": 1,
+            "max": 204
+          },
+          "hold_hours": {
+            "median": 1.696771111111111,
+            "p25": 1.2204947222222222,
+            "p75": 2.7344083333333336
+          },
+          "secs": 0.5
+        },
+        {
+          "asset": "PEPE",
+          "n_bars": 354249,
+          "span_days": 1119.2,
+          "bars_per_day": 316.51,
+          "n_trades": 11540,
+          "hold_bars": {
+            "median": 11.0,
+            "mean": 18.40675909878683,
+            "p25": 4.0,
+            "p75": 23.0,
+            "min": 1,
+            "max": 397
+          },
+          "hold_hours": {
+            "median": 1.1844424999999998,
+            "p25": 1.0594656944444445,
+            "p75": 1.4418807638888889
+          },
+          "secs": 2.8
+        },
+        {
+          "asset": "ADA",
+          "n_bars": 373449,
+          "span_days": 1244.0,
+          "bars_per_day": 300.2,
+          "n_trades": 12205,
+          "hold_bars": {
+            "median": 11.0,
+            "mean": 17.984760344121263,
+            "p25": 6.0,
+            "p75": 21.0,
+            "min": 1,
+            "max": 573
+          },
+          "hold_hours": {
+            "median": 1.2473661111111112,
+            "p25": 1.0863380555555555,
+            "p75": 1.5820683333333334
+          },
+          "secs": 2.6
+        },
+        {
+          "asset": "LINK",
+          "n_bars": 279033,
+          "span_days": 1244.0,
+          "bars_per_day": 224.31,
+          "n_trades": 12141,
+          "hold_bars": {
+            "median": 9.0,
+            "mean": 13.449056914586937,
+            "p25": 5.0,
+            "p75": 16.0,
+            "min": 1,
+            "max": 260
+          },
+          "hold_hours": {
+            "median": 1.2415658333333333,
+            "p25": 1.0841894444444444,
+            "p75": 1.5675625
+          },
+          "secs": 2.0
+        },
+        {
+          "asset": "SUI",
+          "n_bars": 314889,
+          "span_days": 1121.5,
+          "bars_per_day": 280.77,
+          "n_trades": 11294,
+          "hold_bars": {
+            "median": 11.0,
+            "mean": 16.635115990791572,
+            "p25": 5.0,
+            "p75": 22.0,
+            "min": 1,
+            "max": 258
+          },
+          "hold_hours": {
+            "median": 1.2303918055555556,
+            "p25": 1.0790663194444445,
+            "p75": 1.5331472916666669
+          },
+          "secs": 1.9
+        },
+        {
+          "asset": "AVAX",
+          "n_bars": 295693,
+          "span_days": 1244.0,
+          "bars_per_day": 237.7,
+          "n_trades": 12060,
+          "hold_bars": {
+            "median": 9.0,
+            "mean": 14.312520729684909,
+            "p25": 5.0,
+            "p75": 17.0,
+            "min": 1,
+            "max": 188
+          },
+          "hold_hours": {
+            "median": 1.237278472222222,
+            "p25": 1.0809661805555555,
+            "p75": 1.5621109722222222
+          },
+          "secs": 1.4
+        },
+        {
+          "asset": "TAO",
+          "n_bars": 44915,
+          "span_days": 777.5,
+          "bars_per_day": 57.77,
+          "n_trades": 5954,
+          "hold_bars": {
+            "median": 3.0,
+            "mean": 4.11353711790393,
+            "p25": 2.0,
+            "p75": 5.0,
+            "min": 1,
+            "max": 65
+          },
+          "hold_hours": {
+            "median": 1.422222222222222,
+            "p25": 1.1689309722222223,
+            "p75": 1.8905607638888888
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "FET",
+          "n_bars": 184428,
+          "span_days": 1243.8,
+          "bars_per_day": 148.27,
+          "n_trades": 11674,
+          "hold_bars": {
+            "median": 6.0,
+            "mean": 9.24293301353435,
+            "p25": 3.0,
+            "p75": 11.0,
+            "min": 1,
+            "max": 180
+          },
+          "hold_hours": {
+            "median": 1.2519331944444445,
+            "p25": 1.0933268749999998,
+            "p75": 1.5739164583333334
+          },
+          "secs": 0.8
+        },
+        {
+          "asset": "ENJ",
+          "n_bars": 24207,
+          "span_days": 1243.9,
+          "bars_per_day": 19.46,
+          "n_trades": 5125,
+          "hold_bars": {
+            "median": 2.0,
+            "mean": 2.337170731707317,
+            "p25": 1.0,
+            "p75": 3.0,
+            "min": 1,
+            "max": 46
+          },
+          "hold_hours": {
+            "median": 1.9569788888888888,
+            "p25": 1.377295,
+            "p75": 3.1118280555555557
+          },
+          "secs": 0.1
+        },
+        {
+          "asset": "ORDI",
+          "n_bars": 241786,
+          "span_days": 933.5,
+          "bars_per_day": 259.01,
+          "n_trades": 8674,
+          "hold_bars": {
+            "median": 8.0,
+            "mean": 17.0571823841365,
+            "p25": 3.0,
+            "p75": 20.0,
+            "min": 1,
+            "max": 292
+          },
+          "hold_hours": {
+            "median": 1.268764722222222,
+            "p25": 1.0870246527777778,
+            "p75": 1.6149821527777777
+          },
+          "secs": 2.3
+        },
+        {
+          "asset": "NEAR",
+          "n_bars": 221993,
+          "span_days": 1244.0,
+          "bars_per_day": 178.45,
+          "n_trades": 11762,
+          "hold_bars": {
+            "median": 7.0,
+            "mean": 11.028226492093182,
+            "p25": 4.0,
+            "p75": 13.0,
+            "min": 1,
+            "max": 117
+          },
+          "hold_hours": {
+            "median": 1.2512552777777777,
+            "p25": 1.0897766666666666,
+            "p75": 1.5797092361111111
+          },
+          "secs": 1.3
+        },
+        {
+          "asset": "WLD",
+          "n_bars": 298184,
+          "span_days": 1039.6,
+          "bars_per_day": 286.82,
+          "n_trades": 11008,
+          "hold_bars": {
+            "median": 10.0,
+            "mean": 16.096021075581394,
+            "p25": 5.0,
+            "p75": 19.0,
+            "min": 1,
+            "max": 277
+          },
+          "hold_hours": {
+            "median": 1.1995783333333332,
+            "p25": 1.0705938194444444,
+            "p75": 1.4696995833333333
+          },
+          "secs": 1.9
+        },
+        {
+          "asset": "ENA",
+          "n_bars": 307082,
+          "span_days": 786.7,
+          "bars_per_day": 390.36,
+          "n_trades": 8442,
+          "hold_bars": {
+            "median": 12.0,
+            "mean": 22.11750769959725,
+            "p25": 6.0,
+            "p75": 25.0,
+            "min": 1,
+            "max": 613
+          },
+          "hold_hours": {
+            "median": 1.1875387499999999,
+            "p25": 1.0605493055555555,
+            "p75": 1.4394325
+          },
+          "secs": 3.3
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "champions": [],
+  "_note": "A1 / A2 / A1H (acting) agent champions. Keyed by held-out COMPOUND return (the MONEY axis) PLUS a required 'class' field in {A1, A2, A1H}. Physically separate from forecasters.json (which ranks by IC) so an agent's compound number can never launder a memorized forecaster into 'good'. A champion record schema: {agent_id, class, source_forecaster_id (null for A2), held_out_compound, n_seeds_positive, bootstrap_p05, max_dd, beats_b0_margin, a2_ablation_margin (A1H only), git_sha, ts}. Untagged (no class) writes are REJECTED by CDAP agent_class_declared."
+}

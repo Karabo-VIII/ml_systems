@@ -1,0 +1,154 @@
+# Long-Running Job Registry (2026-04-22)
+#
+# Jobs that exceed single-session capacity. Each instance picks up a PENDING
+# job, advances one step, updates state, then hands off.
+#
+# Usage:
+#   python scripts/long_running_jobs.py --list                # show all jobs
+#   python scripts/long_running_jobs.py --pick                # pick next job
+#   python scripts/long_running_jobs.py --update <id> <field> <value>
+#
+# Fields:
+#   id            stable unique identifier
+#   title         human-readable
+#   purpose       why this matters for the bottom line
+#   priority      P0 (blocking) | P1 (important) | P2 (nice)
+#   status        PENDING | IN_PROGRESS | BLOCKED | COMPLETE | CANCELLED
+#   owner_sid     session-id of current owner (if IN_PROGRESS)
+#   next_step     what the next instance should do first
+#   artifacts     files/directories this job produces/consumes
+#   eta_sessions  rough estimate of sessions needed to finish
+
+jobs:
+  - id: J1_refit_32_genuine_profiles
+    title: "Re-run all 32 GENUINE profiles under the fixed simulator"
+    purpose: |
+      MtM double-count was fixed 2026-04-22. Champion de-rated 501%->94%.
+      All other 31 GENUINE profiles need the same re-run to produce an
+      honest deployment ranking (currently the v2 ranking is inflated).
+    priority: P0
+    status: PENDING
+    next_step: |
+      1. Read memory/paranoid_final_gate_2026_04_21.md for the 32-profile list.
+      2. For each, run:
+         python src/analysis/paper_trader_v2.py --init \
+             --seed fix_v3_<profile> --profile <profile> \
+             --cost-mode maker --capital 10000 \
+             --from-date 2025-03-16 --skip-refresh
+      3. Collect --report stats into logs/post_fix_ranking_v3.csv.
+      4. Rank by honest composite. Update config/deployment_ranking.yaml v3.
+    artifacts:
+      - logs/paper_trader_v2/seeds/fix_v3_*/
+      - logs/post_fix_ranking_v3.csv
+      - config/deployment_ranking.yaml
+    eta_sessions: 1
+    estimated_wall_clock_min: 120  # 32 profiles × ~2-4 min each = ~120 min
+
+  - id: J2_walkforward_nonchampion
+    title: "Walk-forward 3-4 windows on prod_meta_full, regime_routed_full, perp_dna"
+    purpose: |
+      Only champion has walk-forward validation. Other blend books need
+      3-window regime stability check before capital allocation.
+    priority: P1
+    status: PENDING
+    next_step: |
+      For each profile in [prod_meta_full, regime_routed_full, perp_dna_long_short]:
+        For each start in [2024-10-01, 2025-01-01, 2025-03-16, 2025-07-01]:
+          Run paper_trader_v2 --init --seed wf_<profile>_<start> --profile <profile>
+               --cost-mode maker --capital 10000 --from-date <start>
+      Record Sharpe/DD/return stability across windows.
+    artifacts:
+      - logs/paper_trader_v2/seeds/wf_*/
+      - logs/walkforward_nonchampion_v3.csv
+    eta_sessions: 1
+    estimated_wall_clock_min: 60  # 3 profiles × 4 windows × ~5 min
+
+  - id: J3_live_testnet_paper
+    title: "14-day Binance testnet paper run of 3-book blend"
+    purpose: |
+      Validate OHLC p_fill calibration (20-40% empirical) in real
+      market conditions. If real p_fill < 0.40, halt scaling.
+    priority: P1
+    status: BLOCKED
+    blocker: "Requires Binance testnet API key + live signal generator wiring"
+    next_step: |
+      1. Wire src/growth/executors/maker_spot.py to Binance testnet endpoints.
+      2. Deploy prod_meta_combined live via paper_trader_v2 --update daily.
+      3. Log real fills, compare to backtest-predicted fills.
+      4. After 14 days, compute real p_fill per bucket, compare to config/maker_cost_calibration.yaml.
+    artifacts:
+      - logs/paper_trader_v2/seeds/live_testnet/
+      - docs/live_testnet_report_v1.md
+    eta_sessions: 14  # daily cadence over 2 weeks
+
+  - id: J4_unseen_segment_hold_out
+    title: "Final backtest on held-out UNSEEN segment (10% of data)"
+    purpose: |
+      UNSEEN is the last 10% of the chimera data. NEVER touched during
+      development. Run champion ONCE there to get final bias-free estimate.
+    priority: P1
+    status: PENDING
+    next_step: |
+      1. Identify UNSEEN start bar in anti_fragile split_four_way() output.
+      2. Run paper_trader_v2 with --from-date corresponding to UNSEEN start.
+      3. Report: this is the single most trustworthy out-of-sample number.
+      WARNING: touching UNSEEN again = burns it. Do NOT iterate here.
+    artifacts:
+      - logs/paper_trader_v2/seeds/unseen_final/
+      - memory/unseen_final_result_2026_XX.md
+    eta_sessions: 1
+    estimated_wall_clock_min: 30
+
+  - id: J5_p_fill_genetic_sweep
+    title: "Genetic sweep over xsec × meta × regime stack (100-200 configs)"
+    purpose: |
+      xsec_stack.py tested 11 configs. A genetic sweep over
+      K × pwin_threshold × stop_loss × regime_thresh × vol_target
+      could find 0.1-0.2%/day lift beyond current best config.
+    priority: P2
+    status: PENDING
+    next_step: |
+      1. Parametrize xsec_stack.backtest_stack to accept config dict.
+      2. Generate 100-200 configs via grid or random search.
+      3. Run in parallel (ThreadPool or joblib).
+      4. Rank by Sharpe * (1 + sqrt(n_active_days/250)).
+    artifacts:
+      - logs/xsec_stack_sweep_v1.csv
+    eta_sessions: 1
+    estimated_wall_clock_min: 90
+
+  - id: J6_meta_labeler_inference_audit
+    title: "Belt-and-suspenders feature leakage check on meta_labeler inference path"
+    purpose: |
+      Feature list used at TRAIN time was audited clean. Need to verify
+      INFERENCE path (paper_trader_v2 production) uses the same feature
+      extraction — any bar-of-entry feature that reads forward data
+      is live leakage.
+    priority: P2
+    status: PENDING
+    next_step: |
+      1. grep for meta_labeler.predict_proba / meta_labeler score calls.
+      2. For each call site, verify features are computed from bars <= t.
+      3. Write unit test in tests/test_meta_labeler_causality.py.
+    artifacts:
+      - tests/test_meta_labeler_causality.py
+      - memory/meta_labeler_inference_audit.md
+    eta_sessions: 1
+
+  - id: J7_correlated_crash_production_risk_limits
+    title: "Operationalize P(ruin)=15% tail finding as hard deployment limits"
+    purpose: |
+      Pre-capital validation found P(ruin)=15% under extreme correlated
+      crash. This MUST translate to live sizing rules before real capital.
+    priority: P1
+    status: PENDING
+    next_step: |
+      1. Add to src/growth/risk_ledger.py:
+         - corr_30d_monitor that flags when cross-asset corr > 0.85
+         - auto-halve position size if corr > 0.85
+         - hard stop trading if portfolio DD > 20%
+      2. Write tests for each rule.
+    artifacts:
+      - src/growth/risk_ledger.py
+      - tests/test_risk_ledger_corr.py
+    eta_sessions: 1

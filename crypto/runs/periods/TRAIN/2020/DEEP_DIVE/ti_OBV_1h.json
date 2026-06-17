@@ -1,0 +1,116 @@
+{
+ "1h": {
+  "buyhold": {
+   "net": 60.7,
+   "sharpe": 2.79,
+   "maxdd": -17.9
+  },
+  "voltgt_bh": {
+   "net": 58.9,
+   "sharpe": 3.55,
+   "maxdd": -12.1
+  },
+  "rows": [
+   {
+    "cfg": "OBV(100)",
+    "base": {
+     "val_net": 22.8,
+     "net": 28.9,
+     "worst": 22.8,
+     "sharpe": 2.28,
+     "maxdd": -9.4,
+     "drift": 6.1,
+     "robust": true,
+     "time_in": 0.63,
+     "n_trades": 72.5
+    },
+    "iron": {
+     "val_net": 17.8,
+     "net": 31.6,
+     "worst": 17.8,
+     "sharpe": 3.28,
+     "maxdd": -7.2,
+     "drift": 13.8,
+     "robust": false,
+     "time_in": 0.4,
+     "n_trades": 66.5
+    }
+   },
+   {
+    "cfg": "OBV(50)",
+    "base": {
+     "val_net": 15.2,
+     "net": 16.8,
+     "worst": 15.2,
+     "sharpe": 1.46,
+     "maxdd": -12.0,
+     "drift": 1.6,
+     "robust": true,
+     "time_in": 0.67,
+     "n_trades": 106.0
+    },
+    "iron": {
+     "val_net": 15.5,
+     "net": 29.8,
+     "worst": 15.5,
+     "sharpe": 3.12,
+     "maxdd": -6.6,
+     "drift": 14.3,
+     "robust": false,
+     "time_in": 0.4,
+     "n_trades": 83.5
+    }
+   },
+   {
+    "cfg": "OBV(10)",
+    "base": {
+     "val_net": 5.7,
+     "net": 19.9,
+     "worst": 5.7,
+     "sharpe": 1.47,
+     "maxdd": -15.7,
+     "drift": 14.2,
+     "robust": false,
+     "time_in": 0.78,
+     "n_trades": 186.7
+    },
+    "iron": {
+     "val_net": 13.9,
+     "net": 25.2,
+     "worst": 13.9,
+     "sharpe": 2.67,
+     "maxdd": -9.5,
+     "drift": 11.4,
+     "robust": false,
+     "time_in": 0.42,
+     "n_trades": 129.7
+    }
+   },
+   {
+    "cfg": "OBV(20)",
+    "base": {
+     "val_net": 13.2,
+     "net": 13.6,
+     "worst": 13.2,
+     "sharpe": 1.16,
+     "maxdd": -17.7,
+     "drift": 0.3,
+     "robust": true,
+     "time_in": 0.74,
+     "n_trades": 152.6
+    },
+    "iron": {
+     "val_net": 13.2,
+     "net": 23.0,
+     "worst": 13.2,
+     "sharpe": 2.47,
+     "maxdd": -9.7,
+     "drift": 9.8,
+     "robust": true,
+     "time_in": 0.41,
+     "n_trades": 109.8
+    }
+   }
+  ]
+ }
+}

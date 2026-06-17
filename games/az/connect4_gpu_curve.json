@@ -1,0 +1,46 @@
+{
+  "curve": [
+    {
+      "iter": 3,
+      "vs_random": "W39D0L1",
+      "vs_heuristic": "W29D2L9",
+      "rand_nonloss": 0.975,
+      "heur_nonloss": 0.775
+    },
+    {
+      "iter": 6,
+      "vs_random": "W40D0L0",
+      "vs_heuristic": "W32D4L4",
+      "rand_nonloss": 1.0,
+      "heur_nonloss": 0.9
+    },
+    {
+      "iter": 9,
+      "vs_random": "W40D0L0",
+      "vs_heuristic": "W34D3L3",
+      "rand_nonloss": 1.0,
+      "heur_nonloss": 0.925
+    }
+  ],
+  "champion": {
+    "vs_random": "W40D0L0",
+    "vs_heuristic": "W34D3L3",
+    "rand_nonloss": 1.0,
+    "heur_nonloss": 0.925,
+    "iters": 9,
+    "eval_games": 40,
+    "eval_sims": 128,
+    "train_sims": 128,
+    "games_per_iter": 320,
+    "parallel_games": 320,
+    "arch": {
+      "channels": 64,
+      "n_blocks": 5,
+      "n_input_planes": 3,
+      "n_policy": 7,
+      "rows": 6,
+      "cols": 7
+    },
+    "device": "cuda"
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "timestamp": "2026-02-21T20:57:50Z",
+  "file_count": 220,
+  "checkpoints": {
+    "v1": {
+      "count": 6,
+      "latest": "v1_wm_weights.pt",
+      "latest_size_mb": 18.2,
+      "latest_date": "2026-02-21 20:38",
+      "has_best_ema": true
+    },
+    "v2": {
+      "count": 3,
+      "latest": "v2_wm_weights.pt",
+      "latest_size_mb": 7.1,
+      "latest_date": "2026-02-16 03:35",
+      "has_best_ema": false
+    }
+  },
+  "datasets": {
+    "ADAUSDT": {
+      "file": "adausdt_v50_chimera.parquet",
+      "size_mb": 700.3,
+      "date": "2026-02-21 13:33"
+    },
+    "AVAXUSDT": {
+      "file": "avaxusdt_v50_chimera.parquet",
+      "size_mb": 442.7,
+      "date": "2026-02-21 13:33"
+    },
+    "BNBUSDT": {
+      "file": "bnbusdt_v50_chimera.parquet",
+      "size_mb": 444.0,
+      "date": "2026-02-21 13:33"
+    },
+    "BTCUSDT": {
+      "file": "btcusdt_v50_chimera.parquet",
+      "size_mb": 577.6,
+      "date": "2026-02-21 13:33"
+    },
+    "DOGEUSDT": {
+      "file": "dogeusdt_v50_chimera.parquet",
+      "size_mb": 346.3,
+      "date": "2026-02-21 13:33"
+    },
+    "ETHUSDT": {
+      "file": "ethusdt_v50_chimera.parquet",
+      "size_mb": 797.7,
+      "date": "2026-02-21 13:33"
+    },
+    "LINKUSDT": {
+      "file": "linkusdt_v50_chimera.parquet",
+      "size_mb": 567.9,
+      "date": "2026-02-21 13:33"
+    },
+    "LTCUSDT": {
+      "file": "ltcusdt_v50_chimera.parquet",
+      "size_mb": 736.9,
+      "date": "2026-02-21 13:33"
+    },
+    "SOLUSDT": {
+      "file": "solusdt_v50_chimera.parquet",
+      "size_mb": 757.0,
+      "date": "2026-02-21 13:34"
+    },
+    "XRPUSDT": {
+      "file": "xrpusdt_v50_chimera.parquet",
+      "size_mb": 435.8,
+      "date": "2026-02-21 13:34"
+    }
+  },
+  "source_stats": {
+    "v1": {
+      "files": [
+        "adapter.py (633L)",
+        "components.py (347L)",
+        "ncl_model.py (513L)",
+        "settings.py (403L)",
+        "snapshot_ensemble.py (199L)",
+        "train_adapter.py (542L)",
+        "train_ncl.py (679L)",
+        "train_snapshot.py (576L)",
+        "train_world_model.py (641L)",
+        "validate_world.py (1023L)",
+        "world_model.py (503L)"
+      ],
+      "total_lines": 6059
+    },
+    "v2": {
+      "files": [
+        "adapter.py (633L)",
+        "components.py (332L)",
+        "settings.py (276L)",
+        "train_adapter.py (537L)",
+        "train_world_model.py (669L)",
+        "validate_world.py (878L)",
+        "world_model.py (486L)"
+      ],
+      "total_lines": 3811
+    },
+    "v3": {
+      "files": [
+        "adapter.py (643L)",
+        "components.py (430L)",
+        "settings.py (256L)",
+        "train_adapter.py (539L)",
+        "train_world_model.py (653L)",
+        "validate_world.py (874L)",
+        "world_model.py (542L)"
+      ],
+      "total_lines": 3937
+    },
+    "v4": {
+      "files": [
+        "adapter.py (643L)",
+        "agent.py (199L)",
+        "components.py (272L)",
+        "settings.py (297L)",
+        "train_adapter.py (539L)",
+        "train_agent.py (440L)",
+        "train_world_model.py (568L)",
+        "validate_world.py (873L)",
+        "world_model.py (410L)"
+      ],
+      "total_lines": 4241
+    },
+    "v5": {
+      "files": [
+        "adapter.py (643L)",
+        "components.py (499L)",
+        "settings.py (235L)",
+        "train_adapter.py (539L)",
+        "train_world_model.py (657L)",
+        "validate_world.py (875L)",
+        "world_model.py (469L)"
+      ],
+      "total_lines": 3917
+    },
+    "v6": {
+      "files": [
+        "adapter.py (656L)",
+        "components.py (411L)",
+        "settings.py (234L)",
+        "train_adapter.py (547L)",
+        "train_world_model.py (726L)",
+        "validate_world.py (972L)",
+        "world_model.py (543L)"
+      ],
+      "total_lines": 4089
+    },
+    "v7": {
+      "files": [
+        "adapter.py (654L)",
+        "components.py (403L)",
+        "settings.py (242L)",
+        "train_adapter.py (547L)",
+        "train_world_model.py (658L)",
+        "validate_world.py (847L)",
+        "world_model.py (449L)"
+      ],
+      "total_lines": 3800
+    },
+    "v8": {
+      "files": [
+        "adapter.py (643L)",
+        "components.py (343L)",
+        "settings.py (234L)",
+        "train_adapter.py (539L)",
+        "train_world_model.py (662L)",
+        "validate_world.py (862L)",
+        "world_model.py (447L)"
+      ],
+      "total_lines": 3730
+    },
+    "v9": {
+      "files": [
+        "adapter.py (643L)",
+        "components.py (611L)",
+        "settings.py (247L)",
+        "train_adapter.py (539L)",
+        "train_world_model.py (694L)",
+        "validate_world.py (965L)",
+        "world_model.py (613L)"
+      ],
+      "total_lines": 4312
+    }
+  },
+  "shared_modules": {
+    "anti_fragile.py": {
+      "lines": 1015,
+      "size_kb": 38.8
+    },
+    "validation_utils.py": {
+      "lines": 549,
+      "size_kb": 20.2
+    },
+    "log_utils.py": {
+      "lines": 82,
+      "size_kb": 2.4
+    },
+    "preflight_checks.py": {
+      "lines": 762,
+      "size_kb": 35.3
+    }
+  },
+  "training_logs": {
+    "v1": {
+      "count": 25,
+      "latest": "v1x_adapter_train_20260218_184016.log",
+      "latest_date": "2026-02-18 16:54"
+    },
+    "v2": {
+      "count": 1,
+      "latest": "v2_train_20260216_053339.log",
+      "latest_date": "2026-02-16 03:37"
+    }
+  }
+}

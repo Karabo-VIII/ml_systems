@@ -1,0 +1,13 @@
+# Pip CONSTRAINTS to keep the env coherent (added 2026-06-08 after installing dspy for the compiled planner).
+# Use:  .venv/Scripts/python.exe -m pip install -c pip_constraints.txt <package>
+#
+# WHY these pins (a real conflict surfaced when dspy was installed):
+#   - numba (the pipeline's JIT core; dollar-bars / chimera) requires numpy < 2.3. dspy/litellm pull a newer numpy
+#     but work fine with 2.2.x -> pin numpy < 2.3 so a future install can't silently break numba.
+#   - litellm (the LiteLLM brain layer) requires tokenizers >= 0.21. transformers 4.33.3 (used ONLY by one
+#     non-critical install-check, kronos_baseline/install_check.py) wanted tokenizers < 0.14 -- mutually exclusive,
+#     and this conflict PRE-DATES dspy. litellm (critical) wins; transformers' install-check is the acceptable loser.
+#
+# Verified coexisting after these pins: numba, dspy, torch, litellm + the LiteLLM brain all import + work.
+numpy<2.3
+tokenizers>=0.21,<1.0

@@ -1,0 +1,4 @@
+{
+  "champions": [],
+  "_note": "The SINGLE deployable champion. Reads ONLY from agents.json (the MONEY leaderboard) -- a forecaster (forecasters.json, ranked by IC) is NEVER directly deployable; only an acting agent that wraps it is. This file is a thin pointer: {agent_id, class, source_registry: 'agents.json', held_out_compound, deployed_ts}. Deploying straight from forecasters.json is forbidden by construction (IC is banned as a deploy objective)."
+}

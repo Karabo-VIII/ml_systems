@@ -1,0 +1,1072 @@
+Trends Everywhere 
+
+Working paper – forthcoming Journal of Investment Management 
+
+Abhilash Babu, Ari Levine, Yao Hua Ooi, Lasse Heje Pedersen, and Erik Stamelos* 
+
+Abstract 
+
+We provide  new out-of-sample  evidence  on  trend-following investing by studying  its  performance  for 82 
+
+securities not previously examined and 16 long-short equity factors. Specifically, we study the performance 
+
+of time series momentum for emerging market equity index futures, fixed income swaps, emerging market 
+
+currencies, exotic commodity futures, credit default swap indices, volatility futures, and long-short equity 
+
+factors. We find that time series momentum has worked across these asset classes and across several trend 
+
+horizons. We examine the co-movement of trends across asset classes and factors, the performance during 
+
+different market environments, and discuss the implications for investors. 
+
+* Abhilash Babu, Ari Levine, Yao Hua Ooi, and Erik Stamelos are at AQR Capital Management. Lasse Heje Pedersen is at 
+AQR Capital Management, Copenhagen Business School, and New York University. We thank Benjamin Hood and Antti 
+Ilmanen  and  for  helpful  comments  and  suggestions.  AQR  Capital  Management  is  a  global  investment  management 
+firm, which may or may not apply similar investment techniques or methods of analysis as described herein. The views 
+expressed here are those of the authors and not necessarily those of AQR. 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                                                           
+Introduction 
+
+Trend  following  investing  has  attracted  a  lot  of  attention  over  the  past  decade  due  to  its  strong 
+
+performance  during  the  global  financial  crisis  and  the  fact  that  the  recent  literature  has  demystified  the 
+
+strategy.  Indeed,  the  recent  literature  shows  that  trend  following  can  be  captured  using  a  simple  time 
+
+series momentum strategy, which estimates an “up trend” based on observed positive excess returns over 
+
+the past year, and a “down trend” when the past return is negative (Moskowitz et al. (2012)). Further, this 
+
+time  series  momentum  strategy  can  explain  most  of  the  performance  of  real-world  CTAs  and  managed 
+
+futures funds (Hurst et. al (2013)).1 
+
+Nevertheless, time series momentum has been challenged by some researchers. Indeed, Kim et al. (2016) 
+
+and Huang et al. (2018) argue that the returns to time series momentum may be partly due to static bets 
+
+and the benefits of volatility scaling. We perform tests designed to address these challenges and consider 
+
+out-of-sample  evidence  on  trend-following  investing  based  on  the  idea  that  the  best  way  to  test  the 
+
+robustness and efficacy of a trading strategy is to consider whether it works across many different assets, 
+
+especially assets that were not part of the original study where the strategy was uncovered.  
+
+To pursue such an out-of-sample test, we collect data for a host of new test assets. Our full data contains 
+
+156 assets, of which 58 are the “traditional assets” studied in the literature cited above, 82 are “alternative 
+
+assets,” meaning futures, forwards, and swaps not previously studied, and 16 are “factors” constructed as 
+
+long-short equity portfolios. In other words, we collect so much new data that the number of new assets 
+
+outnumbers  the  “traditional  assets”  studied  in  the  literature.  While  we  broaden  the  universe,  we  only 
+
+consider investable liquid assets or strategies. While many private alternative assets would appear in paper 
+
+backtests to be good candidates for trend following, their apparent autocorrelation is exaggerated by lack 
+
+of regular mark-to-market pricing or even active secondary markets. Since paper gains in such illiquid assets 
+
+would not translate into actual trading profits, we do not include private assets. 
+
+We find strong evidence for time series momentum across the assets and factors that we study. Over our 
+
+sample period, the gross Sharpe ratio of 12-month time series momentum for traditional assets is 1.17, and 
+
+1 Research on time series momentum includes Moskowitz et al. (2012), Baltas and Kosowski (2013, 2015), Hurst et al. 
+(2013,  2017),  Georgopoulou  and  Wang  (2016),  and  Gupta  and  Kelly  2019;  other  research  on  price  trends  includes 
+Cutler, Poterba and Summers (1991), Silber (1994), Erb and Harvey (2006), Menkhoff, Sarno, Schmeling, and Schrimpf 
+(2012);  Levine  and  Pedersen  (2016)  provide  a  unified  framework  for  all  trend-following  strategies.  Fung  and  Hsieh 
+(1997, 2001) show that trend-following can help explain managed futures hedge fund returns. Time series momentum 
+is related to cross-sectional momentum, which is seen in equities (Jegadeesh and Titman, 1993, Asness 1994), global 
+asset  classes  (Asness,  Moskowitz,  and  Pedersen  2013),  U.S.  equity  factors  (Arnott  et  al.  2018),  and  a  wide  range  of 
+global equity factors (Gupta and Kelly 2019, Ilmanen et al. 2018). 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+                                                           
+the  strategy  delivers  an  even  higher  Sharpe  ratio  of  1.34  for  the  alternative  assets.  The  Sharpe  ratio  for 
+
+long-short equity factors is 0.95, and, when we diversify across all three asset groups, the combined trend-
+
+following strategy yields a gross Sharpe ratio of 1.60.  
+
+We also test for  the existence  of trends using regression analysis, and find strong statistical evidence  for 
+
+time  series  predictability  across  these  assets  and  factors.  Lastly,  we  examine  the  correlation  structure 
+
+across traditional assets, alternative assets, and factors, and the potential diversification benefits of these 
+
+strategies relative to standard long-only investments.  
+
+In  summary,  we  provide  new  out-of-sample  evidence  on  the  efficacy,  robustness,  and  drivers  of  trend-
+
+following investing across numerous asset classes. We therefore complement the studies that extend the 
+
+evidence on trend following investing using long time periods for a more limited set of assets (Greyserman 
+
+and Kaminski (2014), Hurst et al. (2017)) by instead studying a broader set of assets for a more limited time 
+
+period.  
+
+Data and Test Instruments: Traditional assets, Alternative assets, and Factors  
+
+We classify the test assets into three categories: “traditional assets” consists of the forwards and futures 
+
+studied in the literature following Moskowitz et al. (2012), “alternative assets” consists of other forwards 
+
+and  futures  not  studied  in  this  literature,  and  “factors”  consists  of  long-short  equity  factors.  Table  1 
+
+provides details on the specific instruments that we use and Appendix A reports the data sources. 
+
+Traditional  assets.  Our  data  for  traditional  assets  are  the  prices  of  58  liquid  futures  and  forwards, 
+
+consisting of 9 developed equity index futures, 13 developed bond futures, 12 cross-currency forward pairs 
+
+(from nine underlying currencies), and 24 commodity futures as described in Moskowitz et al. (2012). We 
+
+update  this  data  through  December  2017.  For  each  instrument,  we  construct  a  return  series  as  follows. 
+
+Each day, we compute the daily excess return of the current contract of interest (a liquid contract based on 
+
+the roll schedule, typically the nearest or next nearest-to-delivery contract), and then compound the daily 
+
+returns to a cumulative return index from which we can compute returns at any horizon. 
+
+Alternative  assets.  As  seen  in  Table  1,  our  data  for  alternative  assets  consist  of  prices  for  7  emerging 
+
+market  equity  index  futures,  17  fixed  income  swaps,  24  emerging  market  cross  currency  pairs,  21 
+
+commodity futures, 5 credit default swap indices, and 8 volatility futures. We compute cumulative return 
+
+indices as above. 
+
+Equity  factors.  For  equity  factors,  our  data  consist  of  16  of  the  most  well-cited  and  robust  single-name 
+
+stock selection factors as seen in Table 1. These factors are based on different characteristics that capture 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+valuation,  size,  investment,  profitability,  and  market  beta.  We  construct  long-short  equity  factors  as 
+
+follows. We start with our universe of over 4000 US common stocks, sourced from the union of the CRSP 
+
+tape and the Xpressfeed database.  At the end of each month, we first classify each stock  as large-cap or 
+
+small-cap based on whether its market capitalization is above or below the NYSE median. Within each of 
+
+these cap-based groups, we form long-short portfolios, which are long a value-weighted average of the top 
+
+30% stocks based on the relevant characteristic (e.g., the top 30% cheapest stocks) and short stocks with 
+
+the bottom 30% of the characteristics (e.g., the bottom 30% most expensive stocks), rebalanced monthly. 
+
+To  construct  the  final  long-short  factor  portfolio,  we  take  an  equal-weighted  average  of  large-cap  and 
+
+small-cap long-short portfolio returns.  
+
+All equity factor data begins in 1968, but alternative assets have varying data start dates ranging from 1973 
+
+to 2008. For the evaluation of time series momentum strategies, we rely on a sample starting in 1985 to 
+
+ensure that a comprehensive set of instruments have data, unless otherwise noted. 
+
+Asset pricing benchmarks. We evaluate returns of our strategies relative to the S&P 500 Index, the MSCI 
+
+World Index, the Barclays Aggregate Bond Index, and the S&P GSCI Index. 
+
+Methodology: Time Series Momentum Portfolio Construction 
+
+We  construct  time  series  momentum  strategies  as  follows.2  The  position  taken  in  each  instrument  is 
+
+determined by assessing its excess return over a recent time period. For example, the 12-month time series 
+
+momentum  signal for “EU Emissions” considers the past  12 month return on the  futures contract  for EU 
+
+Emissions. A positive past excess return is considered an “up” trend, leading to a long position. A negative 
+
+past excess return signals a “down” trend, leading to a short position.  
+
+Since  volatility varies  dramatically across assets  and factors as seen in Table 1, we size  positions by their 
+
+volatilities  in  order  to  make  meaningful  comparisons  across  assets.  For  each  position,  long  or  short,  we 
+
+scale the position so that it has an ex-ante annualized volatility of 40%. Specifically, we choose the position 
+
+size as 40%
+𝑠  for any instrument s that has an annualized volatility of 𝜎𝑡
+𝜎𝑡
+
+𝑠 at time t. This means, for example, that 
+
+we invest $1 if the instrument has a volatility of exactly 40%, we invest less than $1 if the volatility is higher 
+
+than  40%,  and  we  invest  more  than  $1  if  the  volatility  is  lower  than  40%.  The  choice  of  40%  is 
+
+inconsequential for most of the statistics that we report (e.g., Sharpe ratios, t-statistics of alphas, etc.), but 
+
+2 We use the methodology of Moskowitz et al. (2012) to construct time series momentum strategies, including their 
+method for estimating volatilities.  
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+                                                           
+it  is  a  natural  choice  because  it  makes  it  easy  to  compare  our  portfolios  to  those  in  the  literature3  and 
+
+because a diversified portfolio of such strategies  has a realistic  volatility of 10-15%  (due  to the  power of 
+
+diversification).  The  resulting  excess  return  of  the  monthly-rebalanced  trend-following  strategy  in  this 
+
+instrument is: 
+
+𝑇𝑆𝑀𝑂𝑀,𝑠 = 𝑠𝑖𝑔𝑛(𝑟𝑡−12,𝑡
+𝑟𝑡,𝑡+1
+
+𝑠
+
+)
+
+40%
+𝜎𝑡
+
+𝑠
+𝑠 𝑟𝑡,𝑡+1
+
+where  𝑠𝑖𝑔𝑛(𝑟𝑡−12,𝑡
+
+𝑠
+
+)  is  +1  or  -1  depending  on  whether  the  estimated  trend  is  up  or  down,  and  𝑟𝑡,𝑡+1
+
+𝑠
+
+  is  the 
+
+instrument’s  excess  return  next  month.  We  compute  this  excess  return  of  12-month  time  series 
+
+momentum  for  each  instrument  and  each  available  month  from  January  1985  to  December  2017,  and 
+
+similarly for other trend horizons. We report strategy returns gross of transaction costs.4 
+
+We estimate each instrument’s ex ante volatility using exponentially-weighted squared daily returns: 
+
+∞
+
+(𝜎𝑡
+
+𝑠)2 = 261 ∑(1 − 𝛿)𝛿𝑖(𝑟𝑡−𝑖−1,𝑡−𝑖
+
+𝑠
+
+2
+𝑠)
+
+− 𝑟̅𝑡
+
+𝑖=0
+
+where  the  scalar  261  annualizes  the  volatility,  𝑟̅𝑡
+
+𝑠  is  the  exponentially-weighted  average  return,  and  the 
+
+parameter 𝛿 = 0.98 is chosen so that the center of mass of the weights is 60 days. The volatility model is the 
+
+same for all assets and factors at all times. 
+
+We  construct  diversified  time  series  momentum  strategies  simply  by  averaging  the  individual  trend 
+
+strategies  across  instruments  in  each  asset  group  (e.g.,  across  traditional  assets,  alternative  assets,  or 
+
+equity factors). The diversified time series momentum return in an asset group with 𝑆𝑡 instruments at time 𝑡 
+
+is: 
+
+𝑇𝑆𝑀𝑂𝑀 =
+𝑟𝑡,𝑡+1
+
+1
+𝑆𝑡
+
+𝑆𝑡
+∑ 𝑟𝑡,𝑡+1
+𝑠=1
+
+𝑇𝑆𝑀𝑂𝑀,𝑠
+
+3  Moskowitz  et  al.  (2012)  scale  each  position  to  an  annualized  ex  ante  volatility  of  40%,  implying  that,  once  they 
+average the return across all securities, the resulting portfolio has an annualized volatility of 11%, which is roughly the 
+level of volatility exhibited real-world CTAs and by other factors in the academic literature. 
+4 While a study of transaction costs is beyond the scope of our analysis, we note that trading costs are likely higher for 
+alternative assets and factors than for traditional assets. To ensure implementability, we primarily focus on 12-month 
+time series momentum, which has the lowest turnover among any of the lookback horizons we consider. Indeed, the 
+strong  gross  performance  and  low  turnover  of  12-month  time  series  momentum  demonstrate  that  the  strategy  is 
+implementable even across alternative assets and factors.  
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+ 
+ 
+                                                           
+Trends Everywhere: Out-of-Sample Performance  
+
+We  first  consider  the  performance  of  12-month  time  series  momentum  strategies  across  each  individual 
+
+instrument in our sample. As described above, this strategy goes long if the past 12-month excess return is 
+
+positive,  short  if  the  return  is  negative,  and  scales  the  position  to  target  a  constant  risk  level.  Later,  we 
+
+consider the results for other trend horizons (Table 3, discussed below, presents results for short, medium, 
+
+and long-term trends). 
+
+For  the  traditional  and  alternative  assets,  each  trend  strategy  is  very  simple  since  it  only  trades  a  single 
+
+index  on  each rebalance  date. For the factors, the strategy is more  involved as we must  first construct  a 
+
+factor based on thousands of stocks – e.g., a value factor that goes long cheap stocks and shorts expensive 
+
+stocks  –  and then decide whether to go long or short the factor based on its recent  performance. Going 
+
+long  a  factor  means  to  hold  all  the  underlying  stocks,  long  and  short,  based  on  the  factor  construction, 
+
+while going short a factor means doing the reverse. For example, if the value factor is  trending down, the 
+
+trend-following  strategy  shorts  this  factor  by  shorting  the  cheap  stocks  and  buying  the  expensive  ones, 
+
+betting that the factor will continue to lose for the next month such that expensive stocks will beat cheap 
+
+ones (even though the reverse generally happens more often).   
+
+Figure  2  reports  the  Sharpe  ratios of  12-month  time  series  momentum  for  each  of  the  traditional  assets 
+
+(Panel A), alternative assets (Panel B), and equity factors (Panel C). Recall that the Sharpe ratio (SR) is the 
+
+average excess return divided by the standard deviation of excess returns, so a positive SR means that the 
+
+strategy  is  making money,  and,  the  higher  the  SR,  the  more money  it  makes  relative  to  its  risk.    We  see 
+
+remarkably consistent performance across assets and factors. Panel A is in line with the literature, it simply 
+
+extends the analysis of Moskowitz et al. (2012) that ended in 2009 to include the most recent data up until 
+
+the  end  of  2017.  Panels  B  and  C  serve  as  out-of-sample  evidence  relative  to  the  traditional  markets, 
+
+showing the efficacy of trend following in new places. 
+
+Table  2  provides  further  evidence  on  the  strong  performance  of  time  series  momentum  across markets. 
+
+Indeed, this table both shows how the performance of individual instruments aggregates at the portfolio 
+
+level and it also considers higher order statistics, such as skewness and kurtosis.  Once again, we see robust 
+
+performance  across  assets  and  factors.  Notably,  the  median  Sharpe  ratio  per  asset  is  positive  for  every 
+
+group we consider. Further, we see similarly strong results for the Sortino ratio, which is the average excess 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+return in relation to the downside risk.5 We also observe that portfolio Sharpe ratios are considerably larger 
+
+than  median  asset  Sharpe  ratios,  indicative  of  strong  diversification  benefits  across  all  groups.  Similarly, 
+
+kurtosis  statistics  also  reveal  large  diversification  benefits.  In  particular,  we  note  that  the  maximum 
+
+portfolio kurtosis across all groups is 1.38, which is only half the kurtosis of the U.S. equity market portfolio 
+
+during  the  same  time  period.  Furthermore,  we  observe  that  portfolio  skewness  is  more  positive  than 
+
+median asset skewness for every group considered. 
+
+We note that there exist two ways to detect trends in markets: by considering trend-following strategies 
+
+and  through  regression  analysis.  Having  already  studied  trend  strategies,  we  next  consider  a  regression 
+
+analysis  that  further  highlights  trend  dynamics  across  time  horizons,  ranging  from  short-term  trends  to 
+
+long-run trends. For each group of instruments  (traditional assets, alternative  assets, and equity factors), 
+
+we  run  the  following  pooled  panel  regressions  of  volatility-scaled  excess  returns  on  the  sign  of  excess 
+
+return lagged h months: 
+
+𝑠
+𝑟𝑡
+𝑠 =  𝛼 +   𝛽ℎ𝑠𝑖𝑔𝑛(𝑟𝑡−ℎ
+𝜎𝑡−1
+
+𝑠
+
+𝑠 
+) +   𝜖𝑡
+
+Figure 1 reports the t-statistics from the regression above, using lags ranging from 1 month to 60 months.6 
+
+Panel  A  reports  the  results  for  traditional  assets.  The  positive  t-statistics  for the  first  12 months  indicate 
+
+return continuation – that is, trends – and t-statistics larger than 2 in magnitude are statistically significant, 
+
+consistent  with  earlier  findings.  For  lags  above  12  months,  we  see  some  negative  coefficients,  indicating 
+
+trend  reversals,  although  these  tend  to  be  statistically  insignificant.  Panel  B  extends  the  analysis  to 
+
+alternative assets, which also display strong return continuation for the first 12 months, and more mixed 
+
+returns  beyond  12  months.  Panel  C  extends  the  analysis  to  equity  factor  portfolios,  showing  that  time 
+
+series predictability is feature of more than just traditional and alternative assets, but also of equity factors, 
+
+with  positive  t-statistics  across  the  most  recent  12  months.  These  results  demonstrate  the  remarkable 
+
+pervasiveness  of  return  continuation  for  the  most  recent  12  months,  but  not  for  returns  beyond  12 
+
+months, across a range of assets and equity factors. 
+
+5 We calculate the Sortino ratio as 𝑆 = (
+𝑇
+
+1
+
+∑
+
+𝑡=1,…,𝑇
+
+𝑇𝑆𝑀𝑂𝑀
+𝑟𝑡,𝑡+1
+
+)/𝜎downside, where 𝜎downside is kind of a standard deviation 
+
+of the time series of returns focused on the downside: √1
+∑
+𝑇
+6 t-statistics are computed using standard errors that account for group-wise clustering by time (at the monthly level).  
+
+min(𝑟𝑡,𝑡+1
+
+2
+𝑇𝑆𝑀𝑂𝑀, 0)
+
+𝑡=1,…,𝑇
+
+.  
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+                                                           
+Trend Alpha: Controlling for Static Market Exposures and Other Factors 
+
+We  next  consider  the  alpha  of  time  series  momentum,  that  is,  the  performance  when  we  control  for 
+
+passive market exposures and other known factors. At the same time, we test the hypothesis of Kim et al. 
+
+(2016) and Huang et al. (2018) that time series momentum profits are primarily driven by volatility scaling 
+
+and static bets on differences in mean returns.7 To control for the effects of volatility scaling and static bets, 
+
+we compute time series momentum alphas from the following regression: 
+
+𝑇𝑆𝑀𝑂𝑀 =  𝛼 + 𝑏 𝑟𝑡
+𝑟𝑡
+
+𝑃𝑎𝑠𝑠𝑖𝑣𝑒−𝑉𝑜𝑙 𝑆𝑐𝑎𝑙𝑒𝑑 +   𝜖𝑡 
+
+In each regression, we include  a passive  volatility-scaled portfolio,  𝑟𝑡
+
+𝑃𝑎𝑠𝑠𝑖𝑣𝑒−𝑉𝑜𝑙 𝑆𝑐𝑎𝑙𝑒𝑑, which  contains all assets 
+
+and factors used in the corresponding time series momentum strategy.  We form this passive portfolio by 
+
+holding a long position in each asset or factor, sized to have equal ex-ante volatility (i.e., exactly in the same 
+
+construction as the time series momentum factor above, except that 𝑠𝑖𝑔𝑛 is replaced by +1)  
+
+Panel  A  of  Table  3  shows  the  t-statistics  of  the  estimated  alphas  for  each  of  the  traditional  assets, 
+
+alternative  assets,  and  equity  factors  for  several  time  series  momentum  strategies,  varying  the  lookback 
+
+period  from  1  month  (short-term  trend)  to  12  months  (long-term  trend).  We  see  that  time  series 
+
+momentum has a significant alpha even after controlling for these factors. This finding of a significant alpha 
+
+is robust across trend horizons and asset classes.  
+
+Additionally,  we  consider  the  alphas  of  various  individual  alternative  asset  classes,  ranging  from  exotic 
+
+commodity futures  to emerging market currencies.  Panel B of Table 3 shows the regression of 12-month 
+
+time  series  momentum  strategies  on  passive  volatility-scaled  portfolios  for  individual  alternative  asset 
+
+classes and other asset groupings. Every alternative asset class has positive alpha over its passive volatility-
+
+scaled counterpart, with 4 out of 6 alternative asset classes exhibiting statistically significant levels of alpha. 
+
+In  aggregate,  traditional  assets,  factors,  and  alternative  assets  also  exhibit  statistically  significant  alphas 
+
+over passive volatility-scaled portfolios.  
+
+Thus,  volatility  scaling  and  static  exposures  do  not  fully  explain  the  strong  performance  of  time  series 
+
+momentum  strategies  as  suggested  by  Kim  et  al.  (2016)  and  Huang  et  al.  (2018).  These  papers  do  not 
+
+7 We note that Moskowitz et al. (2012) analyze time series momentum without volatility scaling, and find that most of 
+its  profits  can  be  attributed  to  serial  correlations  in  futures  returns.  Following  the  framework  of  Lo  and  Mackinlay 
+(1990) and Lewellen (2002), they decompose  TSMOM profits into autocovariance and  squared mean excess returns 
+components.  Indeed,  even  without  volatility  scaling,  they  find  that  autocovariances  in  returns  are  primarily 
+responsible for TSMOM profits. Conversely, mean returns comprise a much smaller portion of profits. 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+                                                           
+themselves  directly  test  whether  a  time  series  momentum  portfolio  has  alpha  over  its  long-only 
+
+counterpart.8  Instead,  we  directly  test  whether  time  series  momentum  is  valuable  controlling  for  other 
+
+effects  by  including  volatility-scaled  long-only  strategies  on  the  right-hand  side  and  by  considering  asset-
+
+fixed effects9  
+
+Correlations within and across Asset Classes 
+
+We next examine the co-movement of different trend-following strategies across asset classes. Panel A of 
+
+Table 4 reports the average  pairwise  correlations of the returns of the  12-month  time  series momentum 
+
+strategy  for  each  instrument,  within  and  across  the  three  asset  groups.  We  see  that  all  these  average 
+
+pairwise correlations are small and positive, indicating a mild tendency for these strategies to perform well 
+
+at similar times. However, the  small magnitudes  imply  significant  diversification benefits  from combining 
+
+time  series  momentum  strategies  within  and  across  traditional  assets,  alternative  assets,  and  equity 
+
+factors. These strong diversification benefits are also clear from Table 2, where we see that the portfolio 
+
+Sharpe ratios are far above the median individual Sharpe ratios. 
+
+Panel  B  of  Table  4  reports  the  realized  correlations  of  diversified  12-month  time  series  momentum 
+
+strategies  for  each  of  these  groups.  Here,  we  first  compute  the  return  of  a  diversified  portfolio  of  time 
+
+series  momentum  strategies  within  each  group,  and  then  estimate  the  correlations  of  monthly  portfolio 
+
+returns  across  groups.  Notably,  all  portfolio  correlations  are  moderate.  In  particular,  a  portfolio  of 
+
+traditional  assets  only  has  a  correlation  of  0.30  to  a  portfolio  of  factors,  and  0.49  to  a  portfolio  of 
+
+alternative  assets,  another  sign  of  the  diversification  benefits  from  combining  time  series  momentum 
+
+strategies across these groups. 
+
+Performance in Relation to Standard Long-Only Investments 
+
+We next consider the relation to standard long-only investments. Table 5 shows that diversified 12-month 
+
+time series momentum strategies have low correlations to standard long-only exposures to equities (S&P 
+
+500  and  MSCI  World),  bonds  (Barclays  U.S.  Aggregate  Bond  Index),  and  commodities  (GSCI).  These  low 
+
+8  Kim  et  al.  (2016)  and  Huang  et  al.  (2018)  examine  whether  time  series  momentum  strategies  and  various  passive 
+portfolios exhibit different levels of alpha relative to a common set of factors. We note that this test is insufficient in 
+determining whether volatility scaling or static exposures explain time series momentum performance, because two 
+portfolios may exhibit similar levels of alpha relative to a common set of factors, yet still have alpha relative to each 
+other.  
+9  In  order  to  rule  out  that  prior  pooled  panel  regression  results  are  driven  by  different  mean  returns  across 
+instruments, we also confirm that adding entity fixed effects does not significantly change the reported t-statistics in 
+Figure 1. Similarly, demeaning asset returns by their lagged expanding means – which avoids any potential look-ahead 
+bias introduced by including full-sample fixed effects – also yields similar t-statistics. 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+                                                           
+correlations imply significant diversification benefits for an investor who has large parts of his assets in the 
+
+standard long-only investments. 
+
+While the low correlations of the standard factors echo earlier results in the literature, the low correlations 
+
+for  alternative  assets  and  equity  factors  can  be  seen  as  out-of-sample  evidence  of  the  diversification 
+
+benefits of trend-following investing. Hence, in the context of an overall portfolio, time series momentum 
+
+on a range of assets displays an overall diversifying profile relative to traditional assets.  
+
+Figure  3  presents  another  way  to  consider  how  trend-following  investing  diversifies  standard  long-only 
+
+investments.  In  particular,  this  figure  plots  the  quarterly  returns  of  12-month  time  series  momentum  in 
+
+each asset group against the quarterly returns of the MSCI World Index. Let us first consider Panel A with 
+
+traditional  assets.  We  see  what  Hurst  et.  al  (2013)  call  the  “time  series  momentum  smile”,    with  the 
+
+strategy  performing especially well during periods of sustained bear markets (to the left  in the plot) and 
+
+sustained bull markets (to the right in the plot), while performing less well in flat markets (in the middle). 
+
+We estimate a quadratic function to fit the relation between time series momentum returns and market 
+
+returns, giving rise to the “smile” curve. We see a similar smile in Panel B for alternative assets. One reason 
+
+it  may  not  be  as  pronounced  is  mechanical  –  in  that  the  set  of  alternative  assets  may  have  smaller 
+
+conditional correlation to equities during significant bull and bear market environments. Panel C shows that 
+
+time series momentum for equity factors shows a less pronounced smile , but at least the smile still does 
+
+not  invert  into  a  “frown”.  Still,  in  combination,  an  overall  time  series  momentum  portfolio  that  includes 
+
+alternative  assets  and  factor  portfolios  alongside  traditional  assets  would  be  expected  to  display  the 
+
+“smile” property, as shown in Panel D.  
+
+Conclusion 
+
+Our analysis demonstrates that trends are a pervasive feature of markets and even factors, providing the 
+
+broadest cross-section of evidence of time series momentum to date. We document significant time series 
+
+momentum across nearly seven dozen instruments not previously studied in the literature. A diversified 12-
+
+month  time  series momentum  strategy that holds these instruments alongside  trend-following strategies 
+
+for  traditional  assets  and  equity  factors  yields  an  impressive  gross  Sharpe  ratio  of  1.60,  with  strong 
+
+performance  across  equity  bull  and  bear  markets.  Notably,  alternative  asset  and  equity  factor  trend-
+
+following  strategies  provide  meaningful  diversification  benefits  to  various  passive  benchmarks  as  well  as 
+
+traditional trend-following programs. 
+
+We also examine the effects of volatility scaling and static bets on trend-following performance. Controlling 
+
+for  these  phenomena,  we  find  that  trend-following  strategies  exhibit  significant  alpha  over  long  only 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+investments and other known risk factors. In fact, these alphas are robust across both trend horizons and 
+
+asset classes.  
+
+We therefore conclude that the strong historical performance of trend-following strategies is robust across 
+
+a  large  number  of  instruments,  and  this  strong  performance  is  neither explained  by  volatility  scaling  nor 
+
+static exposures, but, rather, out-of-sample evidence of the trending nature of capital markets around the 
+
+world.  
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+ 
+References 
+
+Arnott,  Robert  D.,  Mark  Clements,  Vitali  Kalesnik,  and  Juhani  T.  Linnainmaa.  “Factor  momentum.”  Working 
+
+paper, 2018. 
+
+Asness, C. “Variables that Explain Stock Returns.” Ph.D. dissertation, University of Chicago, 1994. 
+
+Asness, C., T. Moskowitz and L.H. Pedersen. “Value and Momentum Everywhere.” The Journal of Finance, Vol. 
+
+68, No. 3 (2013), pp. 929–985.  
+
+Baltas,  A.N.  and  R.  Kosowski.  “Momentum  strategies  in  futures  markets  and  trend-following  funds.”  Working 
+
+paper, Imperial College Business School, 2013. 
+
+Baltas, A.N. and R. Kosowski. “Demystifying time-series momentum strategies: volatility estimators, trading rules 
+
+and pairwise correlations.” Working paper, Imperial College Business School, 2015. 
+
+Chabot, B., E. Ghysels and R. Jagannathan. “Momentum Cycles and Limits to Arbitrage: Evidence from Victorian 
+
+England and Post-Depression U.S. Stock Markets.” Working paper, Yale University, 2009. 
+
+Cutler, D.M., J.M. Poterba and L.H. Summers. “Speculative dynamics.” The Review of Economic Studies, Vol. 58, 
+
+No. 3 (1991), pp. 529–546. 
+
+Erb, C.B., and C.R. Harvey. “The tactical and strategic value of commodity futures.” Financial Analysts Journal, 
+
+Vol. 62, No. 2 (2006), pp. 69–97. 
+
+Fung, W., and D.A. Hsieh. “Empirical Characteristics of Dynamic Trading Strategies: The Case of Hedge Funds.” 
+
+Review of Financial Studies, Vol. 10, No. 2 (1997), pp. 275-302. 
+
+–  –.  “The  Risk  in  Hedge  Fund  Strategies:  Theory  and  Evidence  From  Trend  Followers.”  Review  of  Financial 
+
+Studies, Vol. 14, No. 2 (2001), pp. 313–341. 
+
+Georgopoulou, A., and J. Wang. “The Trend is Your Friend: Time-series Momentum Strategies across Equity and 
+
+Commodity Markets.” Review of Finance, forthcoming, 2016. 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+Goetzmann,  W.,  R.G.  Ibbotson  and  L.  Peng.  “A  New  Historical  Database  for  the  NYSE  1815  to  1925: 
+
+Performance and Predictability.” Working paper, Yale University, 2000. 
+
+Gorton, G.B., F. Hayashi and K.G. Rouwenhorst. “The Fundamentals of Commodity Futures Returns.” Working 
+
+paper, Yale University, 2008. 
+
+Goyal, Amit, and Narasimhan Jegadeesh. "Cross-Sectional and Time-Series Tests of Return Predictability: What Is 
+
+the Difference?." The Review of Financial Studies 31.5 (2017): 1784-1824. 
+
+Greyserman, A. and K. Kaminski. Trend Following with Managed Futures. Hoboken, NJ: Wiley , 2014. 
+
+Gupta, T. and B. Kelly.  “Factor Momentum Everywhere.” Journal of Portfolio Management, forthcoming, 2019. 
+
+Huang, Dashan and Li, Jiangyuan and Wang, Liyao and Zhou, Guofu, Time-Series Momentum: Is It There? (June 
+
+10, 2018). Available at SSRN: https://ssrn.com/abstract=3165284 or http://dx.doi.org/10.2139/ssrn.3165284 
+
+Hurst, B., Y.H. Ooi and L.H. Pedersen. “Demystifying Managed Futures.”  Journal of Investment Management, 
+
+Vol. 11, No. 3 (2013), pp. 42-58. 
+
+Hurst, B., Y.H. Ooi and L.H. Pedersen. “A Century of Evidence on Trend-Following Investing.” The Journal of 
+
+Portfolio Management, 44 (1), 15-29, 2017. 
+
+Ilmanen, A., R. Israel, T. Moskowitz, A. Thapar, and F. Wang. 2018. “A Century of Evidence: Value, Momentum, 
+
+Carry, and Defensive.” Working paper. 
+
+Jegadeesh, Narasimhan, and Sheridan Titman, 1993, “Returns to Buying Winners and Selling Losers: Implications 
+
+for Stock Market Efficiency,” The Journal of Finance 48(1), 65–91. 
+
+Kim, A., Tse, Y.,Wald, J., 2016. “Time Series Momentum and Volatility Scaling”. Journal of Financial Markets 
+
+30, 102–124. 
+
+Lewellen, J., 2002. Momentum and autocorrelation in stock returns. The Review of Financial Studies 15, 533–564. 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+Levine, A. and L.H. Pedersen. “Which Trend is Your Friend?” Financial Analysts Journal, Vol. 72, No. 3 (2016), 
+
+pp. 51-66. 
+
+Lo, A., Mackinlay, C., 1988. Stock prices do not follow random walks: evidence from a simple specification test. 
+
+Review of Financial Studies 1, 41–66. 
+
+Menkhoff, L., L. Sarno, M. Schmeling, and A. Schrimpf. “Currency momentum strategies,” Journal of Financial 
+
+Economics, Vol. 106, No. 3 (2012), pp. 620-684. 
+
+Moskowitz, T., Y.H. Ooi and L.H. Pedersen. “Time Series Momentum.”  Journal of Financial Economics, Vol. 
+
+104, No. 2 (2012), pp. 228–250. 
+
+Rouwenhorst, K.G. “International Momentum Strategies,” The Journal of Finance, Vol. 53, No. 1 (1998), pp. 267–
+
+284. 
+
+Silber, W.L. “Technical trading: when it works and when it doesn't.” The Journal of Derivatives, Vol. 1, No. 3 
+
+(1994), pp. 39-44. 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+Tables and Figures  
+
+Table 1. Summary Statistics on Alternative Assets and Factors.   
+
+This  table  reports  the  instruments  used,  the  start  date  of  the  data,  and  the  annualized  volatility  of  the 
+
+alternative assets and factors in our sample. The traditional assets are seen in Moskowitz et al. (2012). 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+AssetDateStdAssetDateStdAssetDateStdCommoditiesVol FuturesFixed income swapsS. African WheatAug-0021.0%VSTOXX 1Jun-0956.9%Australia 2 Yr FI SwapOct-942.2%S. African White MaizeNov-9634.4%VSTOXX 2Jun-0942.5%Germany 2 Yr FI SwapJan-942.7%S. African Yellow MaizeFeb-9728.0%VSTOXX 3Jun-0934.1%Canada 2 Yr FI SwapJun-932.2%CanolaJan-8520.1%VIX 1Mar-0781.9%Japan 2 Yr FI SwapSep-891.3%EU EmissionsApr-0557.6%VIX 2Mar-0752.6%Norway 2 Yr FI SwapJul-922.0%Feeder CattleJan-8414.3%VIX 3Mar-0743.4%New Zealand 2 Yr FI SwapOct-942.0%German PowerDec-0218.8%VIX 4Mar-0738.0%Sweden 2 Yr FI SwapJan-922.1%Iron OreApr-1337.0%VIX 5Mar-0734.4%Switzerland 2 Yr FI SwapJan-881.8%LeadJan-9528.3%United Kingdom 2 Yr FI SwapOct-872.4%LumberJan-7930.5%United States  2 Yr FI SwapJan-943.5%MilkJan-9826.8%Emerging FXCzech Republic 2 Yr FI SwapFeb-972.9%Orange JuiceJan-7930.9%BRL vs. USDApr-9917.1%Hong Kong 2 Yr FI SwapOct-933.4%Palm OilJan-9729.9%COP vs. USDFeb-9812.4%Hungary 2 Yr FI SwapJul-013.7%Milling WheatFeb-9922.2%CLP vs. USDApr-9911.2%Mexico 2 Yr FI SwapNov-013.1%RapeseedJan-9917.9%HUN vs. EURJan-977.6%Poland 2 Yr FI SwapMar-983.9%Rough RiceJan-9327.0%IDR vs. USDSep-9724.8%South Africa 2 Yr FI SwapApr-993.2%Robusta CoffeeOct-0825.8%INR vs. GBPJan-979.4%Singapore 2 Yr FI SwapJan-001.4%RubberJan-9431.1%INR vs. USDJan-977.3%TOCOM CrudeSep-0132.4%ILS vs. USDJan-978.0%FactorsUK Natural GasFeb-9745.4%KRW vs. JPYAug-9717.1%SMBJan-6510.6%White SugarJan-8923.5%KRW vs. USDAug-9715.3%HMLJan-659.8%CreditMXN vs. USDJan-9710.4%CMAJan-657.1%Emerging CreditMar-045.1%PHP vs. USDJan-978.7%RMWJan-657.7%European HY CreditJun-044.7%PLN vs. EURJan-979.1%UMDJan-6514.6%European IG CreditJun-045.5%PLN vs. USDJan-9713.4%Industry MOMJan-6814.4%N. American HY CreditMar-043.9%ZAR vs. AUDJan-9713.0%Industry Neutral MOMJan-6813.0%N. American IG CreditOct-034.4%ZAR vs. EURJan-9714.8%BABJan-6811.3%Emerging equitiesZAR vs. GBPJan-9716.1%Cash Flow to PriceJan-688.2%South Africa All Share IndexFeb-7323.1%ZAR vs. USDJan-9715.9%Dividend to PriceJan-6814.3%MSCI Taiwan IndexOct-8733.0%SGD vs. JPYApr-8610.0%Earnings to PriceJan-6812.4%SGX CNX Nifty IndexJan-9325.9%SGD vs. USDApr-865.4%ProfitJan-686.6%China A-SharesAug-0331.0%TWD vs. JPYJan-9710.3%GrowthJan-686.4%Ibovespa IndexMay-9431.0%TWD vs. USDJan-975.8%SafetyJan-6810.9%KOSPI 200 IndexSep-8730.3%TRY vs. EURJan-9715.7%PayoutJan-687.5%HSCEI China IndexFeb-9634.8%TRY vs. USDJan-9715.5%SeasonalityJan-685.9%  
+ 
+ 
+Table 2. Risk-Adjusted Performance and Higher Order Moments of 12-Month Time Series Momentum. 
+
+This  table  both  shows  how  the  performance,  skewness,  and  kurtosis  of  individual  instruments  aggregate  at  the 
+
+portfolio level. To evaluate performance, we report Sharpe ratios and Sortino ratios of diversified portfolios, and 
+
+median  Sharpe  ratios  and  median  Sortino  ratios  across  assets  and  factors.  Sharpe  ratios  and  Sortino  ratios  are 
+
+reported gross of transaction costs.  
+
+Table 3. Alphas of Time Series Momentum.  
+
+Panel  A  reports  the  t-statistics  of  the  estimated  alphas  of  TSMOM  strategies  over  equal  volatility  scaled 
+
+passive portfolios, for various TSMOM lookback periods. Panel B shows the regression of 12-month TSMOM 
+
+strategies  on  equal  volatility  scaled  passive  portfolios,  for  individual  alternative  asset  classes  and  other 
+
+asset groupings. T-statistics are reported in parentheses.  
+
+Panel A: Time Series Momentum Alpha t-Statistics across Trend Horizons 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+Median Across Individual Assets0.340.340.390.35Diversified Portfolio 1.171.340.951.60Sortino RatioMedian Across Individual Assets0.540.520.610.56Diversified Portfolio 2.252.631.753.35SkewnessMedian Across Individual Assets0.02-0.120.09-0.02Diversified Portfolio 0.180.180.32-0.01Excess KurtosisMedian Across Individual Assets1.222.101.091.43Diversified Portfolio 0.561.371.380.35FactorsSharpe RatioAll Assets  and FactorsTraditional AssetsAlternative Assets TSMOM Lookback (Months)Traditional AssetsAlternative AssetsFactorsAll Assets and Factors14.128.173.757.6134.658.373.427.6064.346.172.315.3395.156.952.006.01125.726.782.056.27  
+ 
+ 
+ 
+ 
+Panel B: 12-Month Time Series Momentum Loadings across Asset Classes 
+
+Table 4. Correlations of 12-Month Time Series Momentum within and across Asset Classes. 
+
+Panel  A  reports  the  average  pairwise  correlations  of  each  instrument’s  trend  strategy  return  within  and 
+
+across asset groups (traditional assets, alternative assets, and factors). Panel B reports realized correlations 
+
+of  diversified  time  series  momentum  strategies  across  groups.  Correlations  are  calculated  using  monthly 
+
+returns from January 1985 to December 2017.  
+
+Panel A: Average Asset-Level TSMOM Correlations, Within and Across Groups 
+
+Panel B: Diversified TSMOM Strategy Correlations 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+Asset ClassR-SquaredAll Assets and Factors12.3%(6.27)0.34(6.58)10%Traditional Assets12.4%(5.72)0.21(3.82)4%Factors8.4%(2.05)0.50(9.85)20%Alternative Assets15.9%(6.78)0.14(3.50)3%Exotic Commodities13.6%(4.44)0.10(2.30)1%Credit Indices4.4%(0.49)0.52(8.84)33%Emerging Equities10.3%(2.01)0.29(6.70)10%FI Swaps19.6%(4.13)0.29(6.62)11%Emerging FX9.6%(2.29)0.20(4.21)5%Vol Futures23.6%(1.92)0.24(2.91)7%Alpha (Annualized)Equal Volatility Passive Portfolio BetaTraditional AssetsAlternative AssetsFactorsTraditional Assets0.07Alternative Assets0.060.06Factors0.040.040.17Traditional AssetsAlternative AssetsFactorsTraditional Assets1.00Alternative Assets0.491.00Factors0.300.111.00 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Table 5.  Correlations of 12-Month Time Series Momentum to Passive Benchmarks. 
+
+This  table  reports  realized  correlations  of  diversified  time  series  momentum  strategies  to  passive 
+
+benchmarks. We calculate correlations using monthly returns, from January 1985 to December 2017. 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ S&P 500 MSCI World Barclays U.S. Agg GSCI IndexTraditional Assets-0.03-0.030.24-0.02Alternative Assets0.000.010.11-0.04Factors-0.12-0.060.130.05All Assets and Factors-0.04-0.010.250.02 
+ 
+ 
+ 
+Figure 1. Time Series Predictability across Assets and Factors. 
+
+We regress the monthly excess return of each instrument on the sign of its own lagged excess returns. We 
+
+report the t-statistics from the following pooled regression: 𝑟𝑡
+
+𝑠/𝜎𝑡−1
+
+𝑠 =  𝛼 +   𝛽ℎ𝑠𝑖𝑔𝑛(𝑟𝑡−ℎ
+
+𝑠 ) +   𝜖𝑡
+
+𝑠.  Standard errors are 
+
+clustered  by  time  (i.e.,  month).  Panel  A  reports  results  for  Traditional  Assets,  Panel  B  reports  results  for 
+
+Alternative  Assets,  and  Panel  C  reports  results  for  Factors.  The  sample  period  is  from  January  1965  to 
+
+December 2017. 
+
+        Fig. 1 Panel A: Traditional Assets, T-Statistic by Month 
+
+       Fig. 1 Panel B: Alternative Assets, T-Statistic by Month 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+ 
+       
+ 
+ 
+ 
+        Fig. 1 Panel C: Factors, T-Statistic by Month 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+  
+ 
+ 
+ 
+Figure 2. 12-Month Time Series Momentum Sharpe Ratios by Individual Assets and Factors. 
+
+This figure shows the gross Sharpe ratio of time series momentum by asset and factor, from 1985 to 2017. 
+
+For each asset or factor, the trend strategy goes long (short) if the excess return over the past 12 months is 
+
+positive (negative), and scales the size of the bet to be inversely proportional to the ex-ante volatility. Panel 
+
+A reports results for Traditional Assets, Panel B reports results for Alternative Assets, and Panel C reports 
+
+results for Factors. 
+
+       Fig. 2 Panel A: Traditional Assets TSMOM Gross Sharpe Ratios 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+ 
+ 
+         
+ 
+ 
+ 
+ 
+ 
+ Fig. 2 Panel B: Alternative Assets TSMOM Gross Sharpe Ratios 
+
+          Fig. 2 Panel C: Factor TSMOM Gross Sharpe Ratios 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+ 
+ 
+ 
+Figure 3. Time Series Momentum Smile. 
+
+This  figure  shows  the  non-overlapping  quarterly  returns  of  diversified  12-month  time  series  momentum 
+
+strategies  plotted  against  contemporaneous  MSCI  World  returns.  Panel  A  reports  results  for  Traditional 
+
+Assets, Panel B for Alternative Assets, Panel C for Factors, and Panel D for All Assets. The sample period is 
+
+January  1985  to December  2017  and  TSMOM  returns  are  scaled  to  10%  annualized  volatility  ex  post  for 
+
+comparability across panels. 
+
+Fig. 3 Panel A: Traditional Assets TSMOM Smile Graph 
+
+Fig. 3 Panel B: Alternative Assets TSMOM Smile Graph 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig. 3 Panel C: Factors TSMOM Smile Graph 
+
+Fig. 3 Panel D: All Assets and Factors TSMOM Smile Graph 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+ 
+ 
+ 
+ 
+Appendix  
+
+Appendix A: Data Sources 
+
+Traditional Assets 
+
+These are the same as described in Moskowitz et al. (2012) updated through 2017. 
+
+Alternative Assets 
+
+Equity Indices 
+
+The universe of equity index futures consists of the following seven emerging equity markets: South Africa 
+
+All  Share  Index,  MSCI Taiwan  Index,  SGX  CNX  Nifty Index  (India),  China  A-Shares,  Ibovespa  Index (Brazil), 
+
+KOSPI 200 Index (South Korea), HSCEI China Index. Returns are obtained from Datastream and Bloomberg. 
+
+We use MSCI country-level index returns prior to the availability of futures returns.  
+
+Fixed Income Swaps 
+
+We cover 17 developed and emerging market 2-Year fixed income swaps, across the following countries: 
+
+Australia, Germany, Canada, Japan, Norway, New  Zealand, Sweden, Switzerland, United Kingdom, United 
+
+States, Czech Republic, Hong Kong, Hungary, Mexico, Poland, South Africa and Singapore. Swaps are priced 
+
+using  curves  from  Bloomberg.  We  scale  daily  returns  to  a  constant  duration  of  2  years  for  2-Year  fixed 
+
+income swaps. 
+
+Currencies 
+
+The universe of currency forwards covers the following 14 countries: Australia, Germany spliced with the 
+
+Euro, Hungary, Indonesia, India, Israel, Mexico, Philippines, Poland, Singapore, South Africa, South Korea, 
+
+Taiwan and Turkey. From these, we  construct 24 cross currency pairs.  We use  spot  and forward interest 
+
+rates from Citigroup to calculate currency returns. Prior to the availability of data from Citigroup, we use 
+
+spot  exchange  rates  from  Datastream  and  Interbank  Offered  Rate  (IBOR)  short  rates  from  Bloomberg  to 
+
+calculate returns. 
+
+Commodities 
+
+We  cover  21  different  commodity  futures,  including:  South  African  Wheat,  South  African  White  Maize, 
+
+South African Yellow Maize, Canola, EU Emissions, German Power, Feeder Cattle, Iron Ore, Lead, Lumber, 
+
+Milk, Orange Juice, Palm Oil, Milling Wheat, Rapeseed, Rough Rice, Robusta Coffee, Rubber, TOCOM Crude, 
+
+UK Natural Gas, and White Sugar. Returns are sourced from Bloomberg.  
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+Credit Default Swap Indices 
+
+We  cover  5  credit  default  swap  indices,  including:  North  American  High  Yield  Credit,  North  American 
+
+Investment  Grade  Credit,  European  Investment  Grade  Credit,  European  High  Yield  Credit,  and  Emerging 
+
+Markets Credit. Returns are obtained from Markit, and scaled to maintain a constant duration times spread 
+
+exposure of 1000 bps.  
+
+Volatility Futures 
+
+We cover 8 VIX and VSTOXX futures across various maturities. Maturities range from 1 to 5 months for VIX 
+
+futures, and 1 to 3 month for VSTOXX futures. Returns are obtained from Bloomberg.  
+
+Equity Factors 
+
+We  cover  16  long-short  US  equity  factor  portfolios.  Our  sample  of  equity  data  includes  all  available  US 
+
+common stocks from the union of the Center for Research in Security Prices (CRSP) tape and the Xpressfeed 
+
+Global database. Exhibit A1 reports the list of factors used in our sample.  
+
+Exhibit A1: List of Equity Factors 
+
+Electronic copy available at: https://ssrn.com/abstract=3386035
+
+Equity FactorDescriptionAuthorsSourceYearBABMarket betaFrazzini and PedersenJournal of Financial Economics2014Cash Flow to PriceCash flow to priceLakonishok, Shliefer, and VishnyJournal of Finance1994CMAInvestmentFama and FrenchJournal of Financial Economics2015Dividend to PriceDividend yieldLitzenberger and RamaswamyJournal of Finance1982Earnings to PriceEarnings yieldBasuJournal of Financial Economics1983GrowthGrowth in profitsFrazzini and PedersenAQR Working Paper2014HMLBook valueFama and FrenchJournal of Finance1992Industry MOMIndustry momentumMoskowitz and GrinblattJournal of Finance1999Industry Neutral MOMIndustry neutral momentumMoskowitz and GrinblattJournal of Finance1999PayoutFraction of profits paid out to shareholdersFrazzini and PedersenAQR Working Paper2014ProfitProfit per unit of book valueFrazzini and PedersenAQR Working Paper2014RMWOperating profitabilityFama and FrenchJournal of Financial Economics2015SafetyReturn-based and fundamental-based measures of safetyFrazzini and PedersenAQR Working Paper2014SeasonalityReturn seasonalitiesHeston and SadkaJournal of Financial Economics2008SMBMarket equityBanzJournal of Financial Economics1981UMDMomentumJegadeesh and TitmanJournal of Finance1993 
+

@@ -1,0 +1,77 @@
+{
+  "curve": [
+    {
+      "iter": 5,
+      "trained_return": -0.1,
+      "trained_min_seed": -0.2,
+      "margin": 0.517
+    },
+    {
+      "iter": 10,
+      "trained_return": 0.5,
+      "trained_min_seed": 0.35,
+      "margin": 1.117
+    },
+    {
+      "iter": 15,
+      "trained_return": 0.817,
+      "trained_min_seed": 0.75,
+      "margin": 1.433
+    },
+    {
+      "iter": 20,
+      "trained_return": 0.8,
+      "trained_min_seed": 0.75,
+      "margin": 1.417
+    },
+    {
+      "iter": 25,
+      "trained_return": 0.733,
+      "trained_min_seed": 0.65,
+      "margin": 1.35
+    },
+    {
+      "iter": 30,
+      "trained_return": 0.917,
+      "trained_min_seed": 0.85,
+      "margin": 1.533
+    },
+    {
+      "iter": 35,
+      "trained_return": 1.0,
+      "trained_min_seed": 1.0,
+      "margin": 1.617
+    },
+    {
+      "iter": 40,
+      "trained_return": 1.0,
+      "trained_min_seed": 1.0,
+      "margin": 1.617
+    }
+  ],
+  "champion": {
+    "trained_return": 1.0,
+    "trained_return_min_seed": 1.0,
+    "random_return": -0.6167,
+    "margin": 1.6167,
+    "n_eval": 40,
+    "eval_seeds": 3,
+    "env": "catch",
+    "iters": 35,
+    "sims": 24,
+    "max_steps": 10,
+    "arch": {
+      "obs_shape": [
+        5,
+        5,
+        2
+      ],
+      "num_actions": 3,
+      "latent_dim": 64,
+      "channels": 32,
+      "hidden": 128
+    },
+    "device": "cuda"
+  },
+  "random_return": -0.6166666666666667
+}

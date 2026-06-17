@@ -1,0 +1,389 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\wave1_book.py --universe u50",
+  "git_sha": "e2de303"
+ },
+ "preregistration": {
+  "target_vol": 0.3,
+  "age_grid": [
+   90,
+   180
+  ],
+  "vt_grid": [
+   20,
+   60
+  ],
+  "n_variants": 4,
+  "selection": "max OOS Calmar with OOS maxDD shallower than control"
+ },
+ "out": {
+  "results": {
+   "BLEND_50r_control": {
+    "full": {
+     "ann_pct": 47.1,
+     "comp_pct": 1082.2,
+     "maxdd_pct": -49.2,
+     "sharpe": 1.14,
+     "calmar": 22.0
+    },
+    "OOS": {
+     "ann_pct": -8.5,
+     "comp_pct": -6.9,
+     "maxdd_pct": -20.2,
+     "sharpe": -0.17,
+     "calmar": -0.3
+    },
+    "UNSEEN": {
+     "ann_pct": -6.6,
+     "comp_pct": -2.8,
+     "maxdd_pct": -8.0,
+     "sharpe": -0.57,
+     "calmar": -0.3
+    },
+    "per_year": {
+     "2020": 54.9,
+     "2021": 499.7,
+     "2022": -31.6,
+     "2023": 52.0,
+     "2024": 56.6,
+     "2025": -19.7,
+     "2026": -2.7
+    },
+    "avg_exposure": 0.41,
+    "avg_daily_turnover_pct": 4.69
+   },
+   "buy_hold": {
+    "full": {
+     "ann_pct": 44.3,
+     "comp_pct": 946.5,
+     "maxdd_pct": -82.4,
+     "sharpe": 0.87,
+     "calmar": 11.5
+    },
+    "OOS": {
+     "ann_pct": -23.4,
+     "comp_pct": -19.1,
+     "maxdd_pct": -51.6,
+     "sharpe": 0.05,
+     "calmar": -0.4
+    },
+    "UNSEEN": {
+     "ann_pct": -39.1,
+     "comp_pct": -18.3,
+     "maxdd_pct": -42.7,
+     "sharpe": -0.44,
+     "calmar": -0.4
+    },
+    "per_year": {
+     "2020": 177.4,
+     "2021": 795.2,
+     "2022": -75.1,
+     "2023": 148.2,
+     "2024": 84.6,
+     "2025": -55.8,
+     "2026": -16.6
+    },
+    "avg_exposure": 1.0,
+    "avg_daily_turnover_pct": 0.28
+   },
+   "RANDOM_null": {
+    "full": {
+     "ann_pct": 20.8,
+     "comp_pct": 236.3,
+     "maxdd_pct": -60.2,
+     "sharpe": 0.68,
+     "calmar": 3.9
+    },
+    "OOS": {
+     "ann_pct": -18.4,
+     "comp_pct": -14.9,
+     "maxdd_pct": -26.6,
+     "sharpe": -0.6,
+     "calmar": -0.6
+    },
+    "UNSEEN": {
+     "ann_pct": -14.9,
+     "comp_pct": -6.4,
+     "maxdd_pct": -9.2,
+     "sharpe": -1.26,
+     "calmar": -0.7
+    },
+    "per_year": {
+     "2020": 36.2,
+     "2021": 293.7,
+     "2022": -35.6,
+     "2023": 23.9,
+     "2024": 25.5,
+     "2025": -33.2,
+     "2026": -6.2
+    },
+    "avg_exposure": 0.42,
+    "avg_daily_turnover_pct": 28.13
+   },
+   "regime_beta_CORE": {
+    "full": {
+     "ann_pct": 52.4,
+     "comp_pct": 1386.9,
+     "maxdd_pct": -54.9,
+     "sharpe": 1.15,
+     "calmar": 25.3
+    },
+    "OOS": {
+     "ann_pct": -14.6,
+     "comp_pct": -11.8,
+     "maxdd_pct": -23.1,
+     "sharpe": -0.31,
+     "calmar": -0.5
+    },
+    "UNSEEN": {
+     "ann_pct": -8.3,
+     "comp_pct": -3.5,
+     "maxdd_pct": -10.7,
+     "sharpe": -0.6,
+     "calmar": -0.3
+    },
+    "per_year": {
+     "2020": 52.7,
+     "2021": 586.8,
+     "2022": -31.4,
+     "2023": 65.7,
+     "2024": 66.9,
+     "2025": -22.6,
+     "2026": -3.5
+    },
+    "avg_exposure": 0.41,
+    "avg_daily_turnover_pct": 3.8
+   },
+   "WAVE1_age90_vt20": {
+    "full": {
+     "ann_pct": 26.9,
+     "comp_pct": 359.8,
+     "maxdd_pct": -41.3,
+     "sharpe": 1.07,
+     "calmar": 8.7
+    },
+    "OOS": {
+     "ann_pct": -5.1,
+     "comp_pct": -4.1,
+     "maxdd_pct": -19.4,
+     "sharpe": -0.09,
+     "calmar": -0.2
+    },
+    "UNSEEN": {
+     "ann_pct": -6.6,
+     "comp_pct": -2.8,
+     "maxdd_pct": -8.0,
+     "sharpe": -0.57,
+     "calmar": -0.3
+    },
+    "per_year": {
+     "2020": 66.6,
+     "2021": 125.4,
+     "2022": -32.3,
+     "2023": 43.4,
+     "2024": 50.5,
+     "2025": -13.8,
+     "2026": -2.7
+    },
+    "avg_exposure": 0.35,
+    "avg_daily_turnover_pct": 4.8
+   },
+   "WAVE1_age90_vt60": {
+    "full": {
+     "ann_pct": 29.9,
+     "comp_pct": 434.1,
+     "maxdd_pct": -40.4,
+     "sharpe": 1.11,
+     "calmar": 10.7
+    },
+    "OOS": {
+     "ann_pct": -5.2,
+     "comp_pct": -4.2,
+     "maxdd_pct": -17.9,
+     "sharpe": -0.08,
+     "calmar": -0.2
+    },
+    "UNSEEN": {
+     "ann_pct": -6.6,
+     "comp_pct": -2.8,
+     "maxdd_pct": -8.0,
+     "sharpe": -0.57,
+     "calmar": -0.3
+    },
+    "per_year": {
+     "2020": 67.1,
+     "2021": 141.0,
+     "2022": -32.2,
+     "2023": 52.6,
+     "2024": 49.4,
+     "2025": -11.8,
+     "2026": -2.7
+    },
+    "avg_exposure": 0.35,
+    "avg_daily_turnover_pct": 4.8
+   },
+   "WAVE1_age180_vt20": {
+    "full": {
+     "ann_pct": 23.1,
+     "comp_pct": 277.7,
+     "maxdd_pct": -41.1,
+     "sharpe": 0.97,
+     "calmar": 6.8
+    },
+    "OOS": {
+     "ann_pct": -4.4,
+     "comp_pct": -3.5,
+     "maxdd_pct": -19.5,
+     "sharpe": -0.07,
+     "calmar": -0.2
+    },
+    "UNSEEN": {
+     "ann_pct": -6.7,
+     "comp_pct": -2.8,
+     "maxdd_pct": -8.0,
+     "sharpe": -0.57,
+     "calmar": -0.3
+    },
+    "per_year": {
+     "2020": 48.3,
+     "2021": 108.6,
+     "2022": -31.7,
+     "2023": 39.2,
+     "2024": 52.2,
+     "2025": -13.2,
+     "2026": -2.7
+    },
+    "avg_exposure": 0.34,
+    "avg_daily_turnover_pct": 4.7
+   },
+   "WAVE1_age180_vt60": {
+    "full": {
+     "ann_pct": 26.0,
+     "comp_pct": 339.5,
+     "maxdd_pct": -40.1,
+     "sharpe": 1.01,
+     "calmar": 8.5
+    },
+    "OOS": {
+     "ann_pct": -4.4,
+     "comp_pct": -3.6,
+     "maxdd_pct": -18.0,
+     "sharpe": -0.05,
+     "calmar": -0.2
+    },
+    "UNSEEN": {
+     "ann_pct": -6.7,
+     "comp_pct": -2.8,
+     "maxdd_pct": -8.0,
+     "sharpe": -0.57,
+     "calmar": -0.3
+    },
+    "per_year": {
+     "2020": 51.8,
+     "2021": 119.3,
+     "2022": -31.5,
+     "2023": 47.0,
+     "2024": 51.6,
+     "2025": -11.1,
+     "2026": -2.7
+    },
+    "avg_exposure": 0.34,
+    "avg_daily_turnover_pct": 4.7
+   },
+   "WAVE1_age90_vt20_GOLD50": {
+    "full": {
+     "ann_pct": 28.2,
+     "comp_pct": 390.6,
+     "maxdd_pct": -41.3,
+     "sharpe": 1.1,
+     "calmar": 9.5
+    },
+    "OOS": {
+     "ann_pct": 3.3,
+     "comp_pct": 2.6,
+     "maxdd_pct": -14.8,
+     "sharpe": 0.26,
+     "calmar": 0.2
+    },
+    "UNSEEN": {
+     "ann_pct": -7.3,
+     "comp_pct": -3.1,
+     "maxdd_pct": -10.7,
+     "sharpe": -0.32,
+     "calmar": -0.3
+    },
+    "per_year": {
+     "2020": 66.6,
+     "2021": 125.4,
+     "2022": -32.3,
+     "2023": 43.4,
+     "2024": 50.5,
+     "2025": -8.0,
+     "2026": -2.8
+    },
+    "avg_exposure": 0.35,
+    "avg_daily_turnover_pct": null
+   },
+   "WAVE1_age90_vt20_GOLD100": {
+    "full": {
+     "ann_pct": 29.2,
+     "comp_pct": 416.8,
+     "maxdd_pct": -41.3,
+     "sharpe": 1.1,
+     "calmar": 10.1
+    },
+    "OOS": {
+     "ann_pct": 11.9,
+     "comp_pct": 9.4,
+     "maxdd_pct": -14.9,
+     "sharpe": 0.55,
+     "calmar": 0.6
+    },
+    "UNSEEN": {
+     "ann_pct": -9.9,
+     "comp_pct": -4.2,
+     "maxdd_pct": -20.2,
+     "sharpe": -0.18,
+     "calmar": -0.2
+    },
+    "per_year": {
+     "2020": 66.6,
+     "2021": 125.4,
+     "2022": -32.3,
+     "2023": 43.4,
+     "2024": 50.5,
+     "2025": -2.2,
+     "2026": -3.7
+    },
+    "avg_exposure": 0.39,
+    "avg_daily_turnover_pct": null
+   }
+  },
+  "selection": {
+   "best": "WAVE1_age90_vt20_GOLD100",
+   "oos_calmar": -0.2
+  },
+  "gates": {
+   "selected": "WAVE1_age90_vt20_GOLD100",
+   "unseen_ann_pos": false,
+   "unseen_preserves_vs_buyhold": true,
+   "fullcycle_calmar_gt_control": false,
+   "beats_random_null_unseen": true,
+   "bootstrap_heldout_p05_pos": false,
+   "bootstrap_full_p05_pos": true,
+   "bootstrap_heldout": {
+    "p05": -23.8,
+    "p50": 7.8,
+    "p95": 52.4,
+    "prob_positive": 0.63
+   },
+   "bootstrap_full": {
+    "p05": 7.1,
+    "p50": 30.0,
+    "p95": 60.7,
+    "prob_positive": 0.98
+   },
+   "ship": false
+  }
+ }
+}

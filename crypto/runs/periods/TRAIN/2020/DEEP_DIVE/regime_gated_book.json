@@ -1,0 +1,4579 @@
+{
+ "repro": {
+  "command": "python -m strat.regime_gated_longshort --seeds 20 --cadences 1d,4h,2h,1h,30m,15m",
+  "git_sha": "2cd1329",
+  "cost_maker": 0.0006,
+  "borrow_bps_base": 20.0,
+  "insurance_w": 0.5,
+  "phase1a_winners": {
+   "1d": {
+    "ma_type": "KAMA",
+    "confirm_k": 0,
+    "exit": "none"
+   },
+   "4h": {
+    "ma_type": "VIDYA",
+    "confirm_k": 0,
+    "exit": "none"
+   },
+   "2h": {
+    "ma_type": "VIDYA",
+    "confirm_k": 2,
+    "exit": "none"
+   },
+   "1h": {
+    "ma_type": "VIDYA",
+    "confirm_k": 2,
+    "exit": "minhold"
+   },
+   "30m": {
+    "ma_type": "VIDYA",
+    "confirm_k": 3,
+    "exit": "minhold"
+   },
+   "15m": {
+    "ma_type": "VIDYA",
+    "confirm_k": 3,
+    "exit": "minhold"
+   }
+  },
+  "detector_grid": {
+   "sma": [
+    20,
+    30,
+    50
+   ],
+   "k_on": [
+    3,
+    5
+   ],
+   "k_off": [
+    3,
+    5
+   ]
+  },
+  "detector_frozen": {
+   "sma": 20,
+   "k_on": 5,
+   "k_off": 3
+  },
+  "calib_window": [
+   "2020-01-01",
+   "2021-01-01"
+  ],
+  "regime_periods": {
+   "bear": [
+    "2020-02-15",
+    "2020-03-25"
+   ],
+   "chop": [
+    "2020-04-01",
+    "2020-07-15"
+   ],
+   "bull": [
+    "2020-10-01",
+    "2021-01-01"
+   ]
+  },
+  "n_seeds": 20,
+  "cadences": [
+   "1d",
+   "4h",
+   "2h",
+   "1h",
+   "30m",
+   "15m"
+  ],
+  "constraint": "SYNTHETIC (PHASE 3/6 validated generator) + 2020 calibration/OOS ONLY; never 2026/other; longshort INSURANCE = RESEARCH (deploy needs LO-exception sign-off); detector PRE-REGISTERED on TRAIN then FROZEN; SHUFFLE control mandatory"
+ },
+ "generator_validation": {
+  "bear": {
+   "real": {
+    "mean": -0.0109,
+    "std": 0.0948,
+    "kurt": 7.9289,
+    "skew": -1.716,
+    "ar1": -0.3092,
+    "vol_cluster": 0.2349
+   },
+   "synth": {
+    "mean": -0.0123,
+    "std": 0.1018,
+    "kurt": 5.8497,
+    "skew": 0.3422,
+    "ar1": -0.3309,
+    "vol_cluster": 0.2323
+   },
+   "match": {
+    "mean_sign": true,
+    "std_within_40pct": true,
+    "kurt_both_fat": true,
+    "vol_cluster_sign": true
+   },
+   "all_match": true,
+   "n_real": 266,
+   "n_synth": 27300
+  },
+  "chop": {
+   "real": {
+    "mean": 0.0066,
+    "std": 0.0398,
+    "kurt": 3.5477,
+    "skew": 1.0333,
+    "ar1": -0.1399,
+    "vol_cluster": 0.0384
+   },
+   "synth": {
+    "mean": 0.005,
+    "std": 0.0396,
+    "kurt": 1.8226,
+    "skew": 0.0332,
+    "ar1": -0.1623,
+    "vol_cluster": 0.0354
+   },
+   "match": {
+    "mean_sign": true,
+    "std_within_40pct": true,
+    "kurt_both_fat": true,
+    "vol_cluster_sign": true
+   },
+   "all_match": true,
+   "n_real": 728,
+   "n_synth": 27300
+  },
+  "bull": {
+   "real": {
+    "mean": 0.0054,
+    "std": 0.0575,
+    "kurt": 10.136,
+    "skew": 0.6921,
+    "ar1": -0.0129,
+    "vol_cluster": 0.2553
+   },
+   "synth": {
+    "mean": 0.0027,
+    "std": 0.055,
+    "kurt": 1.8771,
+    "skew": 0.0505,
+    "ar1": -0.0131,
+    "vol_cluster": 0.088
+   },
+   "match": {
+    "mean_sign": true,
+    "std_within_40pct": true,
+    "kurt_both_fat": true,
+    "vol_cluster_sign": true
+   },
+   "all_match": true,
+   "n_real": 910,
+   "n_synth": 27300
+  },
+  "_summary": {
+   "regimes_validated": 3,
+   "regimes_all_match": 3,
+   "verdict": "VALIDATED (synthetic brackets real 2020 stylized facts)"
+  }
+ },
+ "detector_pre_registration": {
+  "frozen": {
+   "sma": 20,
+   "k_on": 5,
+   "k_off": 3
+  },
+  "train_grid_log": [
+   {
+    "sma": 20,
+    "k_on": 3,
+    "k_off": 3,
+    "on_frac": 0.316,
+    "sep": 0.00466,
+    "usable": true
+   },
+   {
+    "sma": 20,
+    "k_on": 3,
+    "k_off": 5,
+    "on_frac": 0.401,
+    "sep": 0.00494,
+    "usable": true
+   },
+   {
+    "sma": 20,
+    "k_on": 5,
+    "k_off": 3,
+    "on_frac": 0.226,
+    "sep": 0.00956,
+    "usable": true
+   },
+   {
+    "sma": 20,
+    "k_on": 5,
+    "k_off": 5,
+    "on_frac": 0.271,
+    "sep": 0.00928,
+    "usable": true
+   },
+   {
+    "sma": 30,
+    "k_on": 3,
+    "k_off": 3,
+    "on_frac": 0.266,
+    "sep": 0.00366,
+    "usable": true
+   },
+   {
+    "sma": 30,
+    "k_on": 3,
+    "k_off": 5,
+    "on_frac": 0.311,
+    "sep": 0.00177,
+    "usable": true
+   },
+   {
+    "sma": 30,
+    "k_on": 5,
+    "k_off": 3,
+    "on_frac": 0.209,
+    "sep": 0.00578,
+    "usable": true
+   },
+   {
+    "sma": 30,
+    "k_on": 5,
+    "k_off": 5,
+    "on_frac": 0.22,
+    "sep": 0.00379,
+    "usable": true
+   },
+   {
+    "sma": 50,
+    "k_on": 3,
+    "k_off": 3,
+    "on_frac": 0.22,
+    "sep": 0.00024,
+    "usable": true
+   },
+   {
+    "sma": 50,
+    "k_on": 3,
+    "k_off": 5,
+    "on_frac": 0.232,
+    "sep": 0.00174,
+    "usable": true
+   },
+   {
+    "sma": 50,
+    "k_on": 5,
+    "k_off": 3,
+    "on_frac": 0.209,
+    "sep": -0.0074,
+    "usable": true
+   },
+   {
+    "sma": 50,
+    "k_on": 5,
+    "k_off": 5,
+    "on_frac": 0.22,
+    "sep": -0.00556,
+    "usable": true
+   }
+  ]
+ },
+ "detector_skill_stitched": {
+  "precision": {
+   "mean": 0.36,
+   "std": 0.16,
+   "worst": 0.06,
+   "median": 0.36,
+   "p25": 0.26,
+   "n": 20
+  },
+  "recall": {
+   "mean": 0.74,
+   "std": 0.26,
+   "worst": 0.15,
+   "median": 0.82,
+   "p25": 0.56,
+   "n": 20
+  },
+  "base_rate": {
+   "mean": 0.12,
+   "std": 0.0,
+   "worst": 0.12,
+   "median": 0.12,
+   "p25": 0.12,
+   "n": 20
+  },
+  "on_frac": {
+   "mean": 0.26,
+   "std": 0.06,
+   "worst": 0.15,
+   "median": 0.25,
+   "p25": 0.21,
+   "n": 20
+  },
+  "precision_minus_shuffle": {
+   "mean": 0.24,
+   "std": 0.16,
+   "worst": -0.06,
+   "median": 0.24,
+   "p25": 0.14,
+   "n": 20
+  },
+  "frac_seeds_beats_shuffle95": 0.9,
+  "n_seeds": 20
+ },
+ "mechanism_segment_decomposition_1d": {
+  "bull0": {
+   "regime": "bull",
+   "gated_minus_trend_cum_pp": {
+    "mean": -0.53,
+    "std": 0.85,
+    "worst": -2.12,
+    "median": -0.45,
+    "p25": -0.99,
+    "n": 20
+   },
+   "gate_on_frac": {
+    "mean": 0.18,
+    "std": 0.13,
+    "worst": 0.0,
+    "median": 0.16,
+    "p25": 0.06,
+    "n": 20
+   }
+  },
+  "bear1": {
+   "regime": "bear",
+   "gated_minus_trend_cum_pp": {
+    "mean": 0.11,
+    "std": 1.13,
+    "worst": -1.76,
+    "median": -0.08,
+    "p25": -0.61,
+    "n": 20
+   },
+   "gate_on_frac": {
+    "mean": 0.74,
+    "std": 0.26,
+    "worst": 0.15,
+    "median": 0.82,
+    "p25": 0.56,
+    "n": 20
+   }
+  },
+  "chop2": {
+   "regime": "chop",
+   "gated_minus_trend_cum_pp": {
+    "mean": -0.41,
+    "std": 0.33,
+    "worst": -1.15,
+    "median": -0.35,
+    "p25": -0.43,
+    "n": 20
+   },
+   "gate_on_frac": {
+    "mean": 0.18,
+    "std": 0.09,
+    "worst": 0.05,
+    "median": 0.18,
+    "p25": 0.1,
+    "n": 20
+   }
+  },
+  "bull3": {
+   "regime": "bull",
+   "gated_minus_trend_cum_pp": {
+    "mean": -0.71,
+    "std": 0.87,
+    "worst": -2.35,
+    "median": -0.62,
+    "p25": -1.36,
+    "n": 20
+   },
+   "gate_on_frac": {
+    "mean": 0.22,
+    "std": 0.17,
+    "worst": 0.0,
+    "median": 0.2,
+    "p25": 0.12,
+    "n": 20
+   }
+  }
+ },
+ "stress": {
+  "1d": {
+   "detector": {
+    "sma": 20,
+    "k_on": 5,
+    "k_off": 3
+   },
+   "bull": {
+    "TREND": {
+     "net": {
+      "mean": 1.06,
+      "std": 4.69,
+      "worst": -6.0,
+      "median": 1.65,
+      "p25": -3.43,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.29,
+      "std": 1.64,
+      "worst": -8.4,
+      "median": -5.1,
+      "p25": -6.65,
+      "n": 20
+     },
+     "p05": {
+      "mean": -7.97,
+      "std": 3.81,
+      "worst": -15.8,
+      "median": -7.95,
+      "p25": -10.75,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.05,
+      "std": 3.44,
+      "worst": -5.7,
+      "median": 0.05,
+      "p25": -2.42,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.44,
+      "std": 1.53,
+      "worst": -6.9,
+      "median": -4.15,
+      "p25": -5.6,
+      "n": 20
+     },
+     "p05": {
+      "mean": -6.53,
+      "std": 2.75,
+      "worst": -11.9,
+      "median": -6.85,
+      "p25": -7.95,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 0.49,
+      "std": 4.64,
+      "worst": -6.4,
+      "median": 0.8,
+      "p25": -3.12,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.48,
+      "std": 1.79,
+      "worst": -8.6,
+      "median": -5.4,
+      "p25": -7.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": -8.34,
+      "std": 3.75,
+      "worst": -15.7,
+      "median": -8.75,
+      "p25": -10.62,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 0.72,
+      "std": 4.34,
+      "worst": -6.8,
+      "median": 1.45,
+      "p25": -3.0,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.25,
+      "std": 1.8,
+      "worst": -9.2,
+      "median": -5.2,
+      "p25": -6.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": -7.83,
+      "std": 3.46,
+      "worst": -13.0,
+      "median": -7.85,
+      "p25": -10.45,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.25,
+     "std": 0.13,
+     "worst": 0.0,
+     "median": 0.24,
+     "p25": 0.15,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.18,
+     "std": 0.37,
+     "worst": -1.0,
+     "median": -0.2,
+     "p25": -0.43,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.57,
+     "std": 0.73,
+     "worst": -1.7,
+     "median": -0.65,
+     "p25": -1.05,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.85,
+     "std": 0.52,
+     "worst": -0.5,
+     "median": 0.9,
+     "p25": 0.67,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -1.0,
+     "std": 1.51,
+     "worst": -3.9,
+     "median": -1.15,
+     "p25": -1.95,
+     "n": 20
+    }
+   },
+   "bear": {
+    "TREND": {
+     "net": {
+      "mean": -4.24,
+      "std": 2.62,
+      "worst": -10.5,
+      "median": -4.1,
+      "p25": -5.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.02,
+      "std": 2.63,
+      "worst": -11.8,
+      "median": -5.0,
+      "p25": -5.88,
+      "n": 20
+     },
+     "p05": {
+      "mean": -9.91,
+      "std": 5.57,
+      "worst": -28.2,
+      "median": -8.7,
+      "p25": -10.93,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": -2.39,
+      "std": 3.7,
+      "worst": -12.8,
+      "median": -1.2,
+      "p25": -4.35,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.47,
+      "std": 2.65,
+      "worst": -13.9,
+      "median": -3.85,
+      "p25": -5.12,
+      "n": 20
+     },
+     "p05": {
+      "mean": -7.47,
+      "std": 5.41,
+      "worst": -26.2,
+      "median": -6.0,
+      "p25": -7.45,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": -3.42,
+      "std": 3.37,
+      "worst": -10.5,
+      "median": -2.85,
+      "p25": -5.5,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -5.22,
+      "std": 2.51,
+      "worst": -11.8,
+      "median": -4.95,
+      "p25": -5.98,
+      "n": 20
+     },
+     "p05": {
+      "mean": -9.48,
+      "std": 5.84,
+      "worst": -28.2,
+      "median": -8.45,
+      "p25": -10.93,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": -2.76,
+      "std": 2.92,
+      "worst": -10.5,
+      "median": -2.5,
+      "p25": -4.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.42,
+      "std": 2.53,
+      "worst": -11.8,
+      "median": -3.75,
+      "p25": -5.93,
+      "n": 20
+     },
+     "p05": {
+      "mean": -7.96,
+      "std": 5.64,
+      "worst": -28.2,
+      "median": -7.05,
+      "p25": -9.45,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.33,
+     "std": 0.11,
+     "worst": 0.0,
+     "median": 0.39,
+     "p25": 0.36,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.21,
+     "std": 0.38,
+     "worst": -1.5,
+     "median": -0.1,
+     "p25": -0.2,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": 0.82,
+     "std": 1.54,
+     "worst": -1.5,
+     "median": 0.25,
+     "p25": -0.03,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.55,
+     "std": 1.13,
+     "worst": -2.1,
+     "median": 0.7,
+     "p25": 0.03,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": 1.85,
+     "std": 1.9,
+     "worst": -2.3,
+     "median": 2.0,
+     "p25": 0.4,
+     "n": 20
+    }
+   },
+   "chop": {
+    "TREND": {
+     "net": {
+      "mean": 10.34,
+      "std": 7.83,
+      "worst": -4.0,
+      "median": 11.15,
+      "p25": 5.53,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.32,
+      "std": 0.99,
+      "worst": -5.8,
+      "median": -4.4,
+      "p25": -5.1,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.39,
+      "std": 5.31,
+      "worst": -10.4,
+      "median": -1.25,
+      "p25": -4.5,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 6.72,
+      "std": 5.79,
+      "worst": -3.9,
+      "median": 7.7,
+      "p25": 2.85,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.36,
+      "std": 0.84,
+      "worst": -4.8,
+      "median": -3.3,
+      "p25": -4.05,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.67,
+      "std": 4.02,
+      "worst": -9.3,
+      "median": -1.2,
+      "p25": -3.52,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 9.72,
+      "std": 7.79,
+      "worst": -4.6,
+      "median": 11.1,
+      "p25": 5.03,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.4,
+      "std": 1.04,
+      "worst": -6.2,
+      "median": -4.4,
+      "p25": -5.12,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.89,
+      "std": 5.37,
+      "worst": -12.1,
+      "median": -1.0,
+      "p25": -4.62,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 10.11,
+      "std": 7.54,
+      "worst": -3.8,
+      "median": 11.15,
+      "p25": 5.15,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.19,
+      "std": 0.99,
+      "worst": -5.7,
+      "median": -4.3,
+      "p25": -4.85,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.34,
+      "std": 5.16,
+      "worst": -10.4,
+      "median": -1.2,
+      "p25": -4.33,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.11,
+     "std": 0.09,
+     "worst": 0.0,
+     "median": 0.12,
+     "p25": 0.04,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.08,
+     "std": 0.2,
+     "worst": -0.7,
+     "median": 0.0,
+     "p25": 0.0,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.61,
+     "std": 0.68,
+     "worst": -2.2,
+     "median": -0.65,
+     "p25": -0.95,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.96,
+     "std": 0.27,
+     "worst": 0.3,
+     "median": 1.0,
+     "p25": 0.87,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -3.61,
+     "std": 2.1,
+     "worst": -7.5,
+     "median": -3.45,
+     "p25": -5.4,
+     "n": 20
+    }
+   },
+   "stitched": {
+    "TREND": {
+     "net": {
+      "mean": 38.52,
+      "std": 24.82,
+      "worst": 11.1,
+      "median": 32.6,
+      "p25": 19.57,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -7.68,
+      "std": 1.94,
+      "worst": -11.6,
+      "median": -7.1,
+      "p25": -8.93,
+      "n": 20
+     },
+     "p05": {
+      "mean": 7.78,
+      "std": 13.87,
+      "worst": -9.7,
+      "median": 5.2,
+      "p25": -2.48,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 24.41,
+      "std": 16.32,
+      "worst": 4.3,
+      "median": 22.25,
+      "p25": 10.97,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -6.57,
+      "std": 1.86,
+      "worst": -9.5,
+      "median": -6.15,
+      "p25": -8.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": 3.36,
+      "std": 10.13,
+      "worst": -9.3,
+      "median": 2.3,
+      "p25": -3.5,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 36.49,
+      "std": 24.93,
+      "worst": 7.8,
+      "median": 32.75,
+      "p25": 17.27,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -8.39,
+      "std": 2.42,
+      "worst": -12.9,
+      "median": -8.1,
+      "p25": -10.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": 6.19,
+      "std": 14.3,
+      "worst": -11.9,
+      "median": 5.6,
+      "p25": -3.75,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 35.06,
+      "std": 23.87,
+      "worst": 6.5,
+      "median": 27.6,
+      "p25": 20.98,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -7.68,
+      "std": 2.07,
+      "worst": -13.4,
+      "median": -7.3,
+      "p25": -9.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": 6.18,
+      "std": 13.47,
+      "worst": -12.8,
+      "median": 4.8,
+      "p25": -2.92,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.26,
+     "std": 0.06,
+     "worst": 0.15,
+     "median": 0.25,
+     "p25": 0.21,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.72,
+     "std": 0.78,
+     "worst": -2.2,
+     "median": -0.7,
+     "p25": -1.23,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -2.03,
+     "std": 2.19,
+     "worst": -7.9,
+     "median": -1.85,
+     "p25": -3.12,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 1.11,
+     "std": 0.78,
+     "worst": -0.7,
+     "median": 1.2,
+     "p25": 0.58,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -14.1,
+     "std": 8.88,
+     "worst": -40.2,
+     "median": -10.8,
+     "p25": -17.93,
+     "n": 20
+    }
+   },
+   "_ratios": {
+    "bear_protection_captured_pct": -64.9,
+    "always_on_bear_protection_pp": 1.11,
+    "gated_bear_protection_pp": -0.72,
+    "drag_paid_pct": 14.4,
+    "always_on_drag_pp": -14.1,
+    "gated_drag_pp": -2.03,
+    "standalone_bear_always_prot_pp": 0.55,
+    "standalone_bear_gated_prot_pp": -0.21,
+    "_basis": "stitched full-cycle path (the gate fires during the embedded bear; standalone regimes are too short for a slow gate to warm up -> standalone capture is structurally ~0 and not used)"
+   },
+   "_robustness": {
+    "TREND": {
+     "worst_regime_net": -4.24,
+     "full_mix_worst_maxdd": -11.8,
+     "worst_regime_p05": -9.91,
+     "mean_mix_net": 11.42
+    },
+    "ALWAYS_ON": {
+     "worst_regime_net": -2.39,
+     "full_mix_worst_maxdd": -13.9,
+     "worst_regime_p05": -7.47,
+     "mean_mix_net": 7.2
+    },
+    "GATED": {
+     "worst_regime_net": -3.42,
+     "full_mix_worst_maxdd": -12.9,
+     "worst_regime_p05": -9.48,
+     "mean_mix_net": 10.82
+    },
+    "SHUFFLE": {
+     "worst_regime_net": -2.76,
+     "full_mix_worst_maxdd": -13.4,
+     "worst_regime_p05": -7.96,
+     "mean_mix_net": 10.78
+    },
+    "_note": "worst-regime net across standalone regimes is dominated by the standalone bear where the gate is ~off (gated==trend==shuffle); the DECISIVE comparison is on the stitched path (_controls), not the standalone worst-regime."
+   },
+   "_controls": {
+    "basis": "stitched full-cycle path (bull->bear->chop->bull) -- the surface with regime TRANSITIONS",
+    "gated_vs_trend": {
+     "beats_on_net": false,
+     "beats_on_maxdd": false,
+     "beats_on_p05": false,
+     "net_gain_pp": -2.03,
+     "dd_gain_pp": -0.71,
+     "worst_seed_net_gain_pp": -3.3
+    },
+    "gated_vs_shuffle": {
+     "beats_on_net": true,
+     "beats_on_maxdd": false,
+     "net_gain_vs_shuffle_pp": 1.43,
+     "dd_gain_vs_shuffle_pp": -0.71,
+     "worst_seed_net_gain_vs_shuffle_pp": 1.3
+    }
+   }
+  },
+  "4h": {
+   "detector": {
+    "sma": 20,
+    "k_on": 5,
+    "k_off": 3
+   },
+   "bull": {
+    "TREND": {
+     "net": {
+      "mean": 0.8,
+      "std": 3.66,
+      "worst": -5.8,
+      "median": 0.1,
+      "p25": -1.1,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.67,
+      "std": 1.91,
+      "worst": -7.4,
+      "median": -2.15,
+      "p25": -3.23,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.8,
+      "std": 3.02,
+      "worst": -10.2,
+      "median": -2.7,
+      "p25": -5.08,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.34,
+      "std": 2.87,
+      "worst": -5.5,
+      "median": 0.0,
+      "p25": -1.18,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.19,
+      "std": 1.57,
+      "worst": -6.3,
+      "median": -1.85,
+      "p25": -2.62,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.12,
+      "std": 2.43,
+      "worst": -8.9,
+      "median": -2.2,
+      "p25": -4.05,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 0.55,
+      "std": 3.64,
+      "worst": -6.0,
+      "median": 0.0,
+      "p25": -1.4,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.77,
+      "std": 1.91,
+      "worst": -7.3,
+      "median": -2.35,
+      "p25": -3.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.0,
+      "std": 2.96,
+      "worst": -10.1,
+      "median": -3.0,
+      "p25": -5.53,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 0.57,
+      "std": 3.37,
+      "worst": -6.6,
+      "median": 0.0,
+      "p25": -1.07,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.69,
+      "std": 1.97,
+      "worst": -7.6,
+      "median": -2.1,
+      "p25": -3.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.83,
+      "std": 2.96,
+      "worst": -10.8,
+      "median": -2.8,
+      "p25": -5.2,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.25,
+     "std": 0.13,
+     "worst": 0.0,
+     "median": 0.24,
+     "p25": 0.15,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.1,
+     "std": 0.2,
+     "worst": -0.8,
+     "median": 0.0,
+     "p25": -0.12,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.25,
+     "std": 0.26,
+     "worst": -0.8,
+     "median": -0.25,
+     "p25": -0.33,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.48,
+     "std": 0.52,
+     "worst": -0.7,
+     "median": 0.4,
+     "p25": 0.28,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.45,
+     "std": 0.89,
+     "worst": -3.3,
+     "median": -0.2,
+     "p25": -0.7,
+     "n": 20
+    }
+   },
+   "bear": {
+    "TREND": {
+     "net": {
+      "mean": -0.92,
+      "std": 1.2,
+      "worst": -3.7,
+      "median": -0.55,
+      "p25": -1.35,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.45,
+      "std": 1.87,
+      "worst": -8.4,
+      "median": -0.6,
+      "p25": -1.62,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.01,
+      "std": 3.17,
+      "worst": -10.6,
+      "median": -1.35,
+      "p25": -4.1,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": -0.01,
+      "std": 1.8,
+      "worst": -3.2,
+      "median": -0.5,
+      "p25": -0.7,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.35,
+      "std": 1.36,
+      "worst": -6.4,
+      "median": -0.8,
+      "p25": -1.5,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.29,
+      "std": 2.36,
+      "worst": -8.3,
+      "median": -1.7,
+      "p25": -2.52,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": -0.33,
+      "std": 1.78,
+      "worst": -3.7,
+      "median": -0.6,
+      "p25": -1.02,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.59,
+      "std": 1.81,
+      "worst": -8.3,
+      "median": -0.85,
+      "p25": -2.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.95,
+      "std": 3.06,
+      "worst": -10.6,
+      "median": -1.95,
+      "p25": -3.3,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": -0.34,
+      "std": 1.34,
+      "worst": -3.7,
+      "median": -0.4,
+      "p25": -0.8,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.33,
+      "std": 1.66,
+      "worst": -7.5,
+      "median": -0.5,
+      "p25": -1.52,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.49,
+      "std": 2.78,
+      "worst": -10.6,
+      "median": -1.3,
+      "p25": -3.38,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.33,
+     "std": 0.11,
+     "worst": 0.0,
+     "median": 0.39,
+     "p25": 0.36,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.15,
+     "std": 0.22,
+     "worst": -0.8,
+     "median": -0.1,
+     "p25": -0.23,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": 0.59,
+     "std": 1.32,
+     "worst": -0.7,
+     "median": 0.0,
+     "p25": -0.1,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.09,
+     "std": 0.55,
+     "worst": -0.6,
+     "median": 0.0,
+     "p25": -0.22,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": 0.91,
+     "std": 1.63,
+     "worst": -0.4,
+     "median": 0.15,
+     "p25": -0.02,
+     "n": 20
+    }
+   },
+   "chop": {
+    "TREND": {
+     "net": {
+      "mean": 3.0,
+      "std": 5.3,
+      "worst": -2.4,
+      "median": 1.5,
+      "p25": 0.5,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.71,
+      "std": 1.51,
+      "worst": -6.4,
+      "median": -1.35,
+      "p25": -2.08,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.0,
+      "std": 2.41,
+      "worst": -6.3,
+      "median": -0.5,
+      "p25": -2.25,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 2.11,
+      "std": 3.99,
+      "worst": -2.4,
+      "median": 0.95,
+      "p25": 0.35,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.35,
+      "std": 1.18,
+      "worst": -4.8,
+      "median": -1.05,
+      "p25": -1.6,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.86,
+      "std": 1.95,
+      "worst": -5.3,
+      "median": -0.4,
+      "p25": -1.75,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 2.85,
+      "std": 5.24,
+      "worst": -2.8,
+      "median": 1.25,
+      "p25": 0.52,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.74,
+      "std": 1.53,
+      "worst": -6.4,
+      "median": -1.35,
+      "p25": -2.08,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.13,
+      "std": 2.38,
+      "worst": -6.3,
+      "median": -0.5,
+      "p25": -2.23,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 2.82,
+      "std": 4.96,
+      "worst": -2.5,
+      "median": 1.3,
+      "p25": 0.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.68,
+      "std": 1.49,
+      "worst": -6.4,
+      "median": -1.35,
+      "p25": -2.02,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.05,
+      "std": 2.2,
+      "worst": -5.8,
+      "median": -0.5,
+      "p25": -2.42,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.11,
+     "std": 0.09,
+     "worst": 0.0,
+     "median": 0.12,
+     "p25": 0.04,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.02,
+     "std": 0.05,
+     "worst": -0.2,
+     "median": 0.0,
+     "p25": 0.0,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.15,
+     "std": 0.27,
+     "worst": -1.0,
+     "median": -0.05,
+     "p25": -0.15,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.36,
+     "std": 0.34,
+     "worst": 0.1,
+     "median": 0.3,
+     "p25": 0.1,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.89,
+     "std": 1.32,
+     "worst": -5.5,
+     "median": -0.5,
+     "p25": -0.82,
+     "n": 20
+    }
+   },
+   "stitched": {
+    "TREND": {
+     "net": {
+      "mean": 15.65,
+      "std": 12.73,
+      "worst": 2.8,
+      "median": 12.8,
+      "p25": 6.78,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.27,
+      "std": 1.59,
+      "worst": -8.0,
+      "median": -3.95,
+      "p25": -5.08,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.52,
+      "std": 8.47,
+      "worst": -10.3,
+      "median": 0.05,
+      "p25": -1.75,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 10.65,
+      "std": 9.27,
+      "worst": 0.1,
+      "median": 8.85,
+      "p25": 4.33,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.43,
+      "std": 1.44,
+      "worst": -7.0,
+      "median": -3.15,
+      "p25": -3.9,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.2,
+      "std": 6.66,
+      "worst": -9.5,
+      "median": -0.25,
+      "p25": -2.23,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 15.12,
+      "std": 13.04,
+      "worst": 0.4,
+      "median": 12.35,
+      "p25": 6.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.4,
+      "std": 1.85,
+      "worst": -8.9,
+      "median": -3.9,
+      "p25": -5.05,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.21,
+      "std": 9.02,
+      "worst": -12.5,
+      "median": -0.1,
+      "p25": -2.2,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 14.36,
+      "std": 12.2,
+      "worst": -0.2,
+      "median": 12.4,
+      "p25": 6.6,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.17,
+      "std": 1.68,
+      "worst": -8.2,
+      "median": -3.85,
+      "p25": -5.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.06,
+      "std": 8.26,
+      "worst": -12.4,
+      "median": -0.5,
+      "p25": -1.73,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.26,
+     "std": 0.06,
+     "worst": 0.15,
+     "median": 0.25,
+     "p25": 0.21,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.13,
+     "std": 0.42,
+     "worst": -1.2,
+     "median": 0.0,
+     "p25": -0.02,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.53,
+     "std": 0.86,
+     "worst": -2.4,
+     "median": -0.4,
+     "p25": -1.13,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.84,
+     "std": 0.37,
+     "worst": -0.1,
+     "median": 0.9,
+     "p25": 0.6,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -5.0,
+     "std": 3.57,
+     "worst": -16.4,
+     "median": -3.85,
+     "p25": -5.3,
+     "n": 20
+    }
+   },
+   "_ratios": {
+    "bear_protection_captured_pct": -15.5,
+    "always_on_bear_protection_pp": 0.84,
+    "gated_bear_protection_pp": -0.13,
+    "drag_paid_pct": 10.6,
+    "always_on_drag_pp": -5.0,
+    "gated_drag_pp": -0.53,
+    "standalone_bear_always_prot_pp": 0.09,
+    "standalone_bear_gated_prot_pp": -0.15,
+    "_basis": "stitched full-cycle path (the gate fires during the embedded bear; standalone regimes are too short for a slow gate to warm up -> standalone capture is structurally ~0 and not used)"
+   },
+   "_robustness": {
+    "TREND": {
+     "worst_regime_net": -0.92,
+     "full_mix_worst_maxdd": -8.4,
+     "worst_regime_p05": -3.8,
+     "mean_mix_net": 4.63
+    },
+    "ALWAYS_ON": {
+     "worst_regime_net": -0.01,
+     "full_mix_worst_maxdd": -7.0,
+     "worst_regime_p05": -3.12,
+     "mean_mix_net": 3.27
+    },
+    "GATED": {
+     "worst_regime_net": -0.33,
+     "full_mix_worst_maxdd": -8.9,
+     "worst_regime_p05": -4.0,
+     "mean_mix_net": 4.55
+    },
+    "SHUFFLE": {
+     "worst_regime_net": -0.34,
+     "full_mix_worst_maxdd": -8.2,
+     "worst_regime_p05": -3.83,
+     "mean_mix_net": 4.35
+    },
+    "_note": "worst-regime net across standalone regimes is dominated by the standalone bear where the gate is ~off (gated==trend==shuffle); the DECISIVE comparison is on the stitched path (_controls), not the standalone worst-regime."
+   },
+   "_controls": {
+    "basis": "stitched full-cycle path (bull->bear->chop->bull) -- the surface with regime TRANSITIONS",
+    "gated_vs_trend": {
+     "beats_on_net": false,
+     "beats_on_maxdd": false,
+     "beats_on_p05": false,
+     "net_gain_pp": -0.53,
+     "dd_gain_pp": -0.13,
+     "worst_seed_net_gain_pp": -2.4
+    },
+    "gated_vs_shuffle": {
+     "beats_on_net": true,
+     "beats_on_maxdd": false,
+     "net_gain_vs_shuffle_pp": 0.76,
+     "dd_gain_vs_shuffle_pp": -0.23,
+     "worst_seed_net_gain_vs_shuffle_pp": 0.6
+    }
+   }
+  },
+  "2h": {
+   "detector": {
+    "sma": 20,
+    "k_on": 5,
+    "k_off": 3
+   },
+   "bull": {
+    "TREND": {
+     "net": {
+      "mean": 0.66,
+      "std": 3.5,
+      "worst": -5.3,
+      "median": 0.15,
+      "p25": -1.25,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.63,
+      "std": 1.96,
+      "worst": -7.5,
+      "median": -2.2,
+      "p25": -3.12,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.74,
+      "std": 3.08,
+      "worst": -9.7,
+      "median": -2.7,
+      "p25": -5.47,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.26,
+      "std": 2.73,
+      "worst": -5.0,
+      "median": 0.0,
+      "p25": -1.2,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.13,
+      "std": 1.59,
+      "worst": -5.8,
+      "median": -1.7,
+      "p25": -2.55,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.04,
+      "std": 2.42,
+      "worst": -8.2,
+      "median": -2.35,
+      "p25": -4.17,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 0.41,
+      "std": 3.5,
+      "worst": -5.5,
+      "median": 0.15,
+      "p25": -1.52,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.73,
+      "std": 1.98,
+      "worst": -7.3,
+      "median": -2.25,
+      "p25": -3.52,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.94,
+      "std": 3.05,
+      "worst": -9.7,
+      "median": -2.95,
+      "p25": -5.65,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 0.5,
+      "std": 3.2,
+      "worst": -5.8,
+      "median": 0.2,
+      "p25": -1.15,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.61,
+      "std": 1.99,
+      "worst": -7.6,
+      "median": -2.1,
+      "p25": -3.02,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.67,
+      "std": 2.96,
+      "worst": -9.9,
+      "median": -2.45,
+      "p25": -5.42,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.25,
+     "std": 0.13,
+     "worst": 0.0,
+     "median": 0.24,
+     "p25": 0.15,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.1,
+     "std": 0.21,
+     "worst": -0.8,
+     "median": 0.0,
+     "p25": -0.12,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.24,
+     "std": 0.27,
+     "worst": -0.9,
+     "median": -0.2,
+     "p25": -0.33,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.5,
+     "std": 0.48,
+     "worst": -0.2,
+     "median": 0.4,
+     "p25": 0.2,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.4,
+     "std": 0.85,
+     "worst": -3.0,
+     "median": -0.2,
+     "p25": -0.72,
+     "n": 20
+    }
+   },
+   "bear": {
+    "TREND": {
+     "net": {
+      "mean": -0.82,
+      "std": 1.24,
+      "worst": -3.8,
+      "median": -0.45,
+      "p25": -1.15,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.34,
+      "std": 1.86,
+      "worst": -8.2,
+      "median": -0.55,
+      "p25": -1.38,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.9,
+      "std": 3.18,
+      "worst": -10.5,
+      "median": -1.25,
+      "p25": -4.2,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.18,
+      "std": 1.85,
+      "worst": -3.0,
+      "median": -0.15,
+      "p25": -0.72,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.23,
+      "std": 1.33,
+      "worst": -6.0,
+      "median": -0.7,
+      "p25": -1.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.04,
+      "std": 2.39,
+      "worst": -8.0,
+      "median": -1.55,
+      "p25": -2.2,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": -0.16,
+      "std": 1.81,
+      "worst": -3.8,
+      "median": -0.3,
+      "p25": -0.88,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.48,
+      "std": 1.8,
+      "worst": -8.0,
+      "median": -0.7,
+      "p25": -1.9,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.77,
+      "std": 3.1,
+      "worst": -10.5,
+      "median": -1.9,
+      "p25": -3.35,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": -0.25,
+      "std": 1.34,
+      "worst": -3.8,
+      "median": -0.35,
+      "p25": -0.8,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.25,
+      "std": 1.64,
+      "worst": -7.3,
+      "median": -0.5,
+      "p25": -1.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.37,
+      "std": 2.82,
+      "worst": -10.5,
+      "median": -1.25,
+      "p25": -3.35,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.33,
+     "std": 0.11,
+     "worst": 0.0,
+     "median": 0.39,
+     "p25": 0.36,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.14,
+     "std": 0.18,
+     "worst": -0.6,
+     "median": -0.1,
+     "p25": -0.23,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": 0.65,
+     "std": 1.3,
+     "worst": -0.5,
+     "median": 0.1,
+     "p25": -0.1,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.11,
+     "std": 0.59,
+     "worst": -0.7,
+     "median": 0.0,
+     "p25": -0.15,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": 0.99,
+     "std": 1.64,
+     "worst": -0.3,
+     "median": 0.25,
+     "p25": 0.0,
+     "n": 20
+    }
+   },
+   "chop": {
+    "TREND": {
+     "net": {
+      "mean": 3.11,
+      "std": 5.27,
+      "worst": -2.4,
+      "median": 1.65,
+      "p25": 0.57,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.69,
+      "std": 1.51,
+      "worst": -6.4,
+      "median": -1.35,
+      "p25": -2.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.89,
+      "std": 2.4,
+      "worst": -6.3,
+      "median": -0.4,
+      "p25": -2.1,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 2.2,
+      "std": 3.94,
+      "worst": -2.3,
+      "median": 1.15,
+      "p25": 0.38,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.32,
+      "std": 1.16,
+      "worst": -4.8,
+      "median": -1.05,
+      "p25": -1.52,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.77,
+      "std": 1.92,
+      "worst": -5.2,
+      "median": -0.35,
+      "p25": -1.65,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 2.95,
+      "std": 5.19,
+      "worst": -2.8,
+      "median": 1.6,
+      "p25": 0.6,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.72,
+      "std": 1.53,
+      "worst": -6.4,
+      "median": -1.35,
+      "p25": -2.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": -1.02,
+      "std": 2.4,
+      "worst": -6.5,
+      "median": -0.4,
+      "p25": -2.02,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 2.94,
+      "std": 4.91,
+      "worst": -2.5,
+      "median": 1.75,
+      "p25": 0.52,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.65,
+      "std": 1.49,
+      "worst": -6.4,
+      "median": -1.35,
+      "p25": -1.93,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.91,
+      "std": 2.17,
+      "worst": -6.0,
+      "median": -0.4,
+      "p25": -2.23,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.11,
+     "std": 0.09,
+     "worst": 0.0,
+     "median": 0.12,
+     "p25": 0.04,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.02,
+     "std": 0.07,
+     "worst": -0.3,
+     "median": 0.0,
+     "p25": 0.0,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.16,
+     "std": 0.27,
+     "worst": -1.0,
+     "median": -0.05,
+     "p25": -0.15,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.38,
+     "std": 0.35,
+     "worst": 0.1,
+     "median": 0.3,
+     "p25": 0.1,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.91,
+     "std": 1.34,
+     "worst": -5.5,
+     "median": -0.5,
+     "p25": -1.12,
+     "n": 20
+    }
+   },
+   "stitched": {
+    "TREND": {
+     "net": {
+      "mean": 15.98,
+      "std": 12.72,
+      "worst": 2.8,
+      "median": 12.75,
+      "p25": 6.83,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.0,
+      "std": 1.45,
+      "worst": -7.6,
+      "median": -3.75,
+      "p25": -5.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": 3.11,
+      "std": 8.44,
+      "worst": -9.4,
+      "median": 1.5,
+      "p25": -1.9,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 10.96,
+      "std": 9.29,
+      "worst": 0.0,
+      "median": 9.05,
+      "p25": 4.72,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.2,
+      "std": 1.32,
+      "worst": -6.4,
+      "median": -2.8,
+      "p25": -3.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": 1.69,
+      "std": 6.58,
+      "worst": -9.1,
+      "median": 0.15,
+      "p25": -1.82,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 15.46,
+      "std": 13.11,
+      "worst": 0.4,
+      "median": 12.5,
+      "p25": 5.72,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.16,
+      "std": 1.68,
+      "worst": -8.5,
+      "median": -3.7,
+      "p25": -5.0,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.7,
+      "std": 8.89,
+      "worst": -12.1,
+      "median": 1.05,
+      "p25": -2.42,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 14.66,
+      "std": 12.28,
+      "worst": -0.2,
+      "median": 11.85,
+      "p25": 6.8,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.92,
+      "std": 1.59,
+      "worst": -7.9,
+      "median": -3.5,
+      "p25": -4.55,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.61,
+      "std": 8.27,
+      "worst": -11.8,
+      "median": 0.8,
+      "p25": -1.88,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.26,
+     "std": 0.06,
+     "worst": 0.15,
+     "median": 0.25,
+     "p25": 0.21,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.16,
+     "std": 0.39,
+     "worst": -1.2,
+     "median": 0.0,
+     "p25": -0.1,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.52,
+     "std": 0.87,
+     "worst": -2.4,
+     "median": -0.45,
+     "p25": -1.13,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.79,
+     "std": 0.37,
+     "worst": 0.0,
+     "median": 0.8,
+     "p25": 0.57,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -5.03,
+     "std": 3.55,
+     "worst": -16.5,
+     "median": -3.8,
+     "p25": -6.0,
+     "n": 20
+    }
+   },
+   "_ratios": {
+    "bear_protection_captured_pct": -20.3,
+    "always_on_bear_protection_pp": 0.79,
+    "gated_bear_protection_pp": -0.16,
+    "drag_paid_pct": 10.3,
+    "always_on_drag_pp": -5.03,
+    "gated_drag_pp": -0.52,
+    "standalone_bear_always_prot_pp": 0.11,
+    "standalone_bear_gated_prot_pp": -0.14,
+    "_basis": "stitched full-cycle path (the gate fires during the embedded bear; standalone regimes are too short for a slow gate to warm up -> standalone capture is structurally ~0 and not used)"
+   },
+   "_robustness": {
+    "TREND": {
+     "worst_regime_net": -0.82,
+     "full_mix_worst_maxdd": -8.2,
+     "worst_regime_p05": -3.74,
+     "mean_mix_net": 4.73
+    },
+    "ALWAYS_ON": {
+     "worst_regime_net": 0.18,
+     "full_mix_worst_maxdd": -6.4,
+     "worst_regime_p05": -3.04,
+     "mean_mix_net": 3.4
+    },
+    "GATED": {
+     "worst_regime_net": -0.16,
+     "full_mix_worst_maxdd": -8.5,
+     "worst_regime_p05": -3.94,
+     "mean_mix_net": 4.67
+    },
+    "SHUFFLE": {
+     "worst_regime_net": -0.25,
+     "full_mix_worst_maxdd": -7.9,
+     "worst_regime_p05": -3.67,
+     "mean_mix_net": 4.46
+    },
+    "_note": "worst-regime net across standalone regimes is dominated by the standalone bear where the gate is ~off (gated==trend==shuffle); the DECISIVE comparison is on the stitched path (_controls), not the standalone worst-regime."
+   },
+   "_controls": {
+    "basis": "stitched full-cycle path (bull->bear->chop->bull) -- the surface with regime TRANSITIONS",
+    "gated_vs_trend": {
+     "beats_on_net": false,
+     "beats_on_maxdd": false,
+     "beats_on_p05": false,
+     "net_gain_pp": -0.52,
+     "dd_gain_pp": -0.16,
+     "worst_seed_net_gain_pp": -2.4
+    },
+    "gated_vs_shuffle": {
+     "beats_on_net": true,
+     "beats_on_maxdd": false,
+     "net_gain_vs_shuffle_pp": 0.8,
+     "dd_gain_vs_shuffle_pp": -0.24,
+     "worst_seed_net_gain_vs_shuffle_pp": 0.6
+    }
+   }
+  },
+  "1h": {
+   "detector": {
+    "sma": 20,
+    "k_on": 5,
+    "k_off": 3
+   },
+   "bull": {
+    "TREND": {
+     "net": {
+      "mean": 0.93,
+      "std": 3.94,
+      "worst": -6.3,
+      "median": 0.55,
+      "p25": -0.53,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.07,
+      "std": 2.47,
+      "worst": -8.9,
+      "median": -2.45,
+      "p25": -3.95,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.11,
+      "std": 3.84,
+      "worst": -12.0,
+      "median": -2.95,
+      "p25": -6.22,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.34,
+      "std": 2.98,
+      "worst": -5.4,
+      "median": 0.25,
+      "p25": -0.55,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.42,
+      "std": 1.93,
+      "worst": -6.8,
+      "median": -1.8,
+      "p25": -3.15,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.35,
+      "std": 3.02,
+      "worst": -9.9,
+      "median": -2.9,
+      "p25": -5.3,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 0.56,
+      "std": 3.88,
+      "worst": -6.4,
+      "median": 0.35,
+      "p25": -0.83,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.13,
+      "std": 2.46,
+      "worst": -9.1,
+      "median": -2.45,
+      "p25": -4.05,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.42,
+      "std": 3.91,
+      "worst": -12.5,
+      "median": -3.5,
+      "p25": -6.95,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 0.74,
+      "std": 3.51,
+      "worst": -6.2,
+      "median": 0.55,
+      "p25": -0.82,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.01,
+      "std": 2.39,
+      "worst": -8.2,
+      "median": -2.25,
+      "p25": -3.82,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.01,
+      "std": 3.65,
+      "worst": -11.7,
+      "median": -3.05,
+      "p25": -5.9,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.25,
+     "std": 0.13,
+     "worst": 0.0,
+     "median": 0.24,
+     "p25": 0.15,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.07,
+     "std": 0.21,
+     "worst": -0.6,
+     "median": 0.0,
+     "p25": -0.12,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.37,
+     "std": 0.35,
+     "worst": -1.4,
+     "median": -0.35,
+     "p25": -0.53,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.65,
+     "std": 0.6,
+     "worst": 0.1,
+     "median": 0.45,
+     "p25": 0.2,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.59,
+     "std": 1.11,
+     "worst": -4.1,
+     "median": -0.35,
+     "p25": -0.85,
+     "n": 20
+    }
+   },
+   "bear": {
+    "TREND": {
+     "net": {
+      "mean": -1.46,
+      "std": 1.96,
+      "worst": -7.6,
+      "median": -0.85,
+      "p25": -1.82,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.12,
+      "std": 2.43,
+      "worst": -8.8,
+      "median": -1.15,
+      "p25": -2.42,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.06,
+      "std": 4.03,
+      "worst": -15.3,
+      "median": -2.65,
+      "p25": -5.43,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.51,
+      "std": 2.23,
+      "worst": -4.1,
+      "median": 0.25,
+      "p25": -0.7,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.75,
+      "std": 1.82,
+      "worst": -6.6,
+      "median": -1.0,
+      "p25": -1.92,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.4,
+      "std": 3.0,
+      "worst": -9.2,
+      "median": -1.7,
+      "p25": -2.7,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": -0.38,
+      "std": 2.47,
+      "worst": -6.9,
+      "median": -0.25,
+      "p25": -1.0,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.19,
+      "std": 2.4,
+      "worst": -8.8,
+      "median": -1.1,
+      "p25": -2.55,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.61,
+      "std": 4.0,
+      "worst": -14.7,
+      "median": -2.55,
+      "p25": -4.15,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": -0.46,
+      "std": 1.71,
+      "worst": -5.2,
+      "median": -0.55,
+      "p25": -1.05,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.86,
+      "std": 2.05,
+      "worst": -7.7,
+      "median": -0.95,
+      "p25": -2.2,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.21,
+      "std": 3.44,
+      "worst": -11.9,
+      "median": -2.0,
+      "p25": -4.03,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.33,
+     "std": 0.11,
+     "worst": 0.0,
+     "median": 0.39,
+     "p25": 0.36,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.06,
+     "std": 0.31,
+     "worst": -0.8,
+     "median": -0.05,
+     "p25": -0.2,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": 1.08,
+     "std": 1.41,
+     "worst": -0.2,
+     "median": 0.7,
+     "p25": 0.07,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.38,
+     "std": 0.72,
+     "worst": -0.7,
+     "median": 0.1,
+     "p25": -0.1,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": 1.97,
+     "std": 2.23,
+     "worst": 0.0,
+     "median": 1.1,
+     "p25": 0.4,
+     "n": 20
+    }
+   },
+   "chop": {
+    "TREND": {
+     "net": {
+      "mean": 3.35,
+      "std": 5.43,
+      "worst": -2.6,
+      "median": 1.75,
+      "p25": 0.57,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.79,
+      "std": 1.56,
+      "worst": -6.3,
+      "median": -1.3,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.8,
+      "std": 2.67,
+      "worst": -7.0,
+      "median": -0.45,
+      "p25": -2.4,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 2.37,
+      "std": 4.04,
+      "worst": -2.2,
+      "median": 1.25,
+      "p25": 0.38,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.37,
+      "std": 1.21,
+      "worst": -4.8,
+      "median": -1.0,
+      "p25": -1.8,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.71,
+      "std": 2.03,
+      "worst": -5.2,
+      "median": -0.4,
+      "p25": -1.9,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 3.19,
+      "std": 5.35,
+      "worst": -2.9,
+      "median": 1.6,
+      "p25": 0.6,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.81,
+      "std": 1.56,
+      "worst": -6.3,
+      "median": -1.3,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.93,
+      "std": 2.63,
+      "worst": -7.1,
+      "median": -0.5,
+      "p25": -2.62,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 3.17,
+      "std": 5.08,
+      "worst": -2.7,
+      "median": 1.7,
+      "p25": 0.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.74,
+      "std": 1.54,
+      "worst": -6.3,
+      "median": -1.3,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.85,
+      "std": 2.44,
+      "worst": -7.0,
+      "median": -0.4,
+      "p25": -2.12,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.11,
+     "std": 0.09,
+     "worst": 0.0,
+     "median": 0.12,
+     "p25": 0.04,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.02,
+     "std": 0.06,
+     "worst": -0.2,
+     "median": 0.0,
+     "p25": 0.0,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.16,
+     "std": 0.27,
+     "worst": -1.0,
+     "median": -0.05,
+     "p25": -0.22,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.42,
+     "std": 0.35,
+     "worst": 0.1,
+     "median": 0.3,
+     "p25": 0.1,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.98,
+     "std": 1.41,
+     "worst": -5.7,
+     "median": -0.5,
+     "p25": -1.08,
+     "n": 20
+    }
+   },
+   "stitched": {
+    "TREND": {
+     "net": {
+      "mean": 18.83,
+      "std": 14.09,
+      "worst": 2.7,
+      "median": 15.65,
+      "p25": 10.0,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.3,
+      "std": 1.86,
+      "worst": -9.8,
+      "median": -3.95,
+      "p25": -4.93,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.46,
+      "std": 9.49,
+      "worst": -11.1,
+      "median": 3.15,
+      "p25": -0.17,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 12.93,
+      "std": 10.21,
+      "worst": 0.4,
+      "median": 10.95,
+      "p25": 6.85,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.31,
+      "std": 1.44,
+      "worst": -7.4,
+      "median": -2.9,
+      "p25": -3.92,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.71,
+      "std": 7.29,
+      "worst": -10.5,
+      "median": 1.85,
+      "p25": -0.45,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 18.5,
+      "std": 14.77,
+      "worst": 0.9,
+      "median": 15.0,
+      "p25": 9.5,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.41,
+      "std": 1.97,
+      "worst": -10.2,
+      "median": -3.8,
+      "p25": -5.03,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.23,
+      "std": 10.25,
+      "worst": -13.7,
+      "median": 3.35,
+      "p25": -0.53,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 17.42,
+      "std": 13.58,
+      "worst": 1.4,
+      "median": 14.2,
+      "p25": 8.93,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.16,
+      "std": 1.65,
+      "worst": -7.6,
+      "median": -3.7,
+      "p25": -5.03,
+      "n": 20
+     },
+     "p05": {
+      "mean": 3.83,
+      "std": 9.17,
+      "worst": -11.9,
+      "median": 3.35,
+      "p25": -0.8,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.26,
+     "std": 0.06,
+     "worst": 0.15,
+     "median": 0.25,
+     "p25": 0.21,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.11,
+     "std": 0.3,
+     "worst": -1.2,
+     "median": -0.05,
+     "p25": -0.2,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.33,
+     "std": 1.34,
+     "worst": -4.0,
+     "median": -0.55,
+     "p25": -0.7,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.98,
+     "std": 0.51,
+     "worst": 0.4,
+     "median": 0.9,
+     "p25": 0.58,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -5.9,
+     "std": 4.07,
+     "worst": -19.7,
+     "median": -4.5,
+     "p25": -7.05,
+     "n": 20
+    }
+   },
+   "_ratios": {
+    "bear_protection_captured_pct": -11.2,
+    "always_on_bear_protection_pp": 0.98,
+    "gated_bear_protection_pp": -0.11,
+    "drag_paid_pct": 5.6,
+    "always_on_drag_pp": -5.9,
+    "gated_drag_pp": -0.33,
+    "standalone_bear_always_prot_pp": 0.38,
+    "standalone_bear_gated_prot_pp": -0.06,
+    "_basis": "stitched full-cycle path (the gate fires during the embedded bear; standalone regimes are too short for a slow gate to warm up -> standalone capture is structurally ~0 and not used)"
+   },
+   "_robustness": {
+    "TREND": {
+     "worst_regime_net": -1.46,
+     "full_mix_worst_maxdd": -9.8,
+     "worst_regime_p05": -4.11,
+     "mean_mix_net": 5.41
+    },
+    "ALWAYS_ON": {
+     "worst_regime_net": 0.34,
+     "full_mix_worst_maxdd": -7.4,
+     "worst_regime_p05": -3.35,
+     "mean_mix_net": 4.04
+    },
+    "GATED": {
+     "worst_regime_net": -0.38,
+     "full_mix_worst_maxdd": -10.2,
+     "worst_regime_p05": -4.42,
+     "mean_mix_net": 5.47
+    },
+    "SHUFFLE": {
+     "worst_regime_net": -0.46,
+     "full_mix_worst_maxdd": -8.2,
+     "worst_regime_p05": -4.01,
+     "mean_mix_net": 5.22
+    },
+    "_note": "worst-regime net across standalone regimes is dominated by the standalone bear where the gate is ~off (gated==trend==shuffle); the DECISIVE comparison is on the stitched path (_controls), not the standalone worst-regime."
+   },
+   "_controls": {
+    "basis": "stitched full-cycle path (bull->bear->chop->bull) -- the surface with regime TRANSITIONS",
+    "gated_vs_trend": {
+     "beats_on_net": false,
+     "beats_on_maxdd": false,
+     "beats_on_p05": false,
+     "net_gain_pp": -0.33,
+     "dd_gain_pp": -0.11,
+     "worst_seed_net_gain_pp": -1.8
+    },
+    "gated_vs_shuffle": {
+     "beats_on_net": true,
+     "beats_on_maxdd": false,
+     "net_gain_vs_shuffle_pp": 1.08,
+     "dd_gain_vs_shuffle_pp": -0.25,
+     "worst_seed_net_gain_vs_shuffle_pp": -0.5
+    }
+   }
+  },
+  "30m": {
+   "detector": {
+    "sma": 20,
+    "k_on": 5,
+    "k_off": 3
+   },
+   "bull": {
+    "TREND": {
+     "net": {
+      "mean": 0.77,
+      "std": 3.71,
+      "worst": -6.2,
+      "median": 0.75,
+      "p25": -0.4,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.1,
+      "std": 2.54,
+      "worst": -8.9,
+      "median": -2.45,
+      "p25": -4.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.2,
+      "std": 3.93,
+      "worst": -12.4,
+      "median": -3.2,
+      "p25": -6.4,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.23,
+      "std": 2.85,
+      "worst": -5.3,
+      "median": 0.3,
+      "p25": -0.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.47,
+      "std": 2.02,
+      "worst": -6.8,
+      "median": -1.85,
+      "p25": -3.62,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.4,
+      "std": 3.08,
+      "worst": -9.8,
+      "median": -2.8,
+      "p25": -5.3,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 0.44,
+      "std": 3.69,
+      "worst": -6.4,
+      "median": 0.4,
+      "p25": -0.72,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.17,
+      "std": 2.53,
+      "worst": -9.0,
+      "median": -2.45,
+      "p25": -4.5,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.46,
+      "std": 4.0,
+      "worst": -12.9,
+      "median": -3.75,
+      "p25": -6.92,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 0.62,
+      "std": 3.32,
+      "worst": -6.0,
+      "median": 0.7,
+      "p25": -0.78,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.02,
+      "std": 2.49,
+      "worst": -8.1,
+      "median": -2.2,
+      "p25": -4.12,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.05,
+      "std": 3.76,
+      "worst": -11.6,
+      "median": -2.85,
+      "p25": -6.25,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.25,
+     "std": 0.13,
+     "worst": 0.0,
+     "median": 0.24,
+     "p25": 0.15,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.06,
+     "std": 0.22,
+     "worst": -0.7,
+     "median": 0.0,
+     "p25": -0.1,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.34,
+     "std": 0.35,
+     "worst": -1.4,
+     "median": -0.4,
+     "p25": -0.52,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.63,
+     "std": 0.62,
+     "worst": -0.1,
+     "median": 0.45,
+     "p25": 0.2,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.54,
+     "std": 1.03,
+     "worst": -3.6,
+     "median": -0.4,
+     "p25": -0.8,
+     "n": 20
+    }
+   },
+   "bear": {
+    "TREND": {
+     "net": {
+      "mean": -1.62,
+      "std": 2.25,
+      "worst": -8.9,
+      "median": -1.0,
+      "p25": -1.98,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.27,
+      "std": 2.68,
+      "worst": -9.4,
+      "median": -1.15,
+      "p25": -2.48,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.27,
+      "std": 4.49,
+      "worst": -17.7,
+      "median": -2.75,
+      "p25": -5.43,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.29,
+      "std": 2.26,
+      "worst": -4.7,
+      "median": 0.0,
+      "p25": -0.68,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.8,
+      "std": 2.04,
+      "worst": -7.7,
+      "median": -1.0,
+      "p25": -1.82,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.56,
+      "std": 3.28,
+      "worst": -11.0,
+      "median": -1.75,
+      "p25": -2.9,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": -0.58,
+      "std": 2.67,
+      "worst": -8.1,
+      "median": -0.4,
+      "p25": -0.9,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.31,
+      "std": 2.65,
+      "worst": -9.4,
+      "median": -1.15,
+      "p25": -2.7,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.82,
+      "std": 4.45,
+      "worst": -17.1,
+      "median": -2.55,
+      "p25": -4.42,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": -0.66,
+      "std": 1.96,
+      "worst": -6.2,
+      "median": -0.65,
+      "p25": -1.2,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.01,
+      "std": 2.34,
+      "worst": -8.0,
+      "median": -1.1,
+      "p25": -2.35,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.39,
+      "std": 3.84,
+      "worst": -12.7,
+      "median": -2.25,
+      "p25": -4.12,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.33,
+     "std": 0.11,
+     "worst": 0.0,
+     "median": 0.39,
+     "p25": 0.36,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.04,
+     "std": 0.32,
+     "worst": -0.6,
+     "median": -0.05,
+     "p25": -0.2,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": 1.04,
+     "std": 1.3,
+     "worst": -0.1,
+     "median": 0.7,
+     "p25": 0.07,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.47,
+     "std": 0.77,
+     "worst": -0.6,
+     "median": 0.3,
+     "p25": -0.1,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": 1.91,
+     "std": 2.13,
+     "worst": 0.1,
+     "median": 1.15,
+     "p25": 0.4,
+     "n": 20
+    }
+   },
+   "chop": {
+    "TREND": {
+     "net": {
+      "mean": 3.35,
+      "std": 5.38,
+      "worst": -2.9,
+      "median": 1.8,
+      "p25": 0.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.79,
+      "std": 1.58,
+      "worst": -6.3,
+      "median": -1.35,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.79,
+      "std": 2.67,
+      "worst": -7.4,
+      "median": -0.35,
+      "p25": -2.08,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 2.38,
+      "std": 3.98,
+      "worst": -2.4,
+      "median": 1.3,
+      "p25": 0.42,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.35,
+      "std": 1.2,
+      "worst": -4.7,
+      "median": -1.0,
+      "p25": -1.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.68,
+      "std": 2.04,
+      "worst": -5.6,
+      "median": -0.3,
+      "p25": -1.75,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 3.19,
+      "std": 5.3,
+      "worst": -3.1,
+      "median": 1.75,
+      "p25": 0.65,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.81,
+      "std": 1.59,
+      "worst": -6.3,
+      "median": -1.35,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.92,
+      "std": 2.62,
+      "worst": -7.6,
+      "median": -0.45,
+      "p25": -2.23,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 3.17,
+      "std": 5.03,
+      "worst": -3.0,
+      "median": 1.9,
+      "p25": 0.67,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.76,
+      "std": 1.56,
+      "worst": -6.3,
+      "median": -1.35,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.83,
+      "std": 2.45,
+      "worst": -7.6,
+      "median": -0.25,
+      "p25": -1.93,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.11,
+     "std": 0.09,
+     "worst": 0.0,
+     "median": 0.12,
+     "p25": 0.04,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.02,
+     "std": 0.06,
+     "worst": -0.2,
+     "median": 0.0,
+     "p25": 0.0,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.15,
+     "std": 0.26,
+     "worst": -1.0,
+     "median": -0.05,
+     "p25": -0.2,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.44,
+     "std": 0.38,
+     "worst": 0.1,
+     "median": 0.35,
+     "p25": 0.1,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.97,
+     "std": 1.41,
+     "worst": -5.7,
+     "median": -0.55,
+     "p25": -1.12,
+     "n": 20
+    }
+   },
+   "stitched": {
+    "TREND": {
+     "net": {
+      "mean": 18.7,
+      "std": 13.72,
+      "worst": 3.4,
+      "median": 15.45,
+      "p25": 9.88,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.12,
+      "std": 1.57,
+      "worst": -7.8,
+      "median": -3.8,
+      "p25": -4.83,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.7,
+      "std": 8.97,
+      "worst": -10.8,
+      "median": 4.2,
+      "p25": -0.68,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 12.72,
+      "std": 9.94,
+      "worst": 0.1,
+      "median": 10.45,
+      "p25": 6.78,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.19,
+      "std": 1.25,
+      "worst": -5.9,
+      "median": -2.9,
+      "p25": -3.85,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.7,
+      "std": 6.89,
+      "worst": -10.6,
+      "median": 2.3,
+      "p25": -1.0,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 18.26,
+      "std": 14.37,
+      "worst": 0.2,
+      "median": 14.6,
+      "p25": 9.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.18,
+      "std": 1.68,
+      "worst": -7.9,
+      "median": -3.75,
+      "p25": -4.67,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.26,
+      "std": 9.64,
+      "worst": -14.3,
+      "median": 3.7,
+      "p25": -1.1,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 17.26,
+      "std": 13.33,
+      "worst": 0.9,
+      "median": 13.95,
+      "p25": 8.97,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.0,
+      "std": 1.57,
+      "worst": -7.9,
+      "median": -3.75,
+      "p25": -4.93,
+      "n": 20
+     },
+     "p05": {
+      "mean": 3.93,
+      "std": 8.79,
+      "worst": -11.9,
+      "median": 2.95,
+      "p25": -0.68,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.26,
+     "std": 0.06,
+     "worst": 0.15,
+     "median": 0.25,
+     "p25": 0.21,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.06,
+     "std": 0.28,
+     "worst": -1.1,
+     "median": 0.0,
+     "p25": -0.02,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.43,
+     "std": 1.25,
+     "worst": -4.1,
+     "median": -0.55,
+     "p25": -0.72,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.93,
+     "std": 0.41,
+     "worst": 0.3,
+     "median": 0.85,
+     "p25": 0.57,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -5.98,
+     "std": 3.94,
+     "worst": -19.2,
+     "median": -4.5,
+     "p25": -7.3,
+     "n": 20
+    }
+   },
+   "_ratios": {
+    "bear_protection_captured_pct": -6.5,
+    "always_on_bear_protection_pp": 0.93,
+    "gated_bear_protection_pp": -0.06,
+    "drag_paid_pct": 7.2,
+    "always_on_drag_pp": -5.98,
+    "gated_drag_pp": -0.43,
+    "standalone_bear_always_prot_pp": 0.47,
+    "standalone_bear_gated_prot_pp": -0.04,
+    "_basis": "stitched full-cycle path (the gate fires during the embedded bear; standalone regimes are too short for a slow gate to warm up -> standalone capture is structurally ~0 and not used)"
+   },
+   "_robustness": {
+    "TREND": {
+     "worst_regime_net": -1.62,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -4.27,
+     "mean_mix_net": 5.3
+    },
+    "ALWAYS_ON": {
+     "worst_regime_net": 0.23,
+     "full_mix_worst_maxdd": -7.7,
+     "worst_regime_p05": -3.4,
+     "mean_mix_net": 3.91
+    },
+    "GATED": {
+     "worst_regime_net": -0.58,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -4.46,
+     "mean_mix_net": 5.33
+    },
+    "SHUFFLE": {
+     "worst_regime_net": -0.66,
+     "full_mix_worst_maxdd": -8.1,
+     "worst_regime_p05": -4.05,
+     "mean_mix_net": 5.1
+    },
+    "_note": "worst-regime net across standalone regimes is dominated by the standalone bear where the gate is ~off (gated==trend==shuffle); the DECISIVE comparison is on the stitched path (_controls), not the standalone worst-regime."
+   },
+   "_controls": {
+    "basis": "stitched full-cycle path (bull->bear->chop->bull) -- the surface with regime TRANSITIONS",
+    "gated_vs_trend": {
+     "beats_on_net": false,
+     "beats_on_maxdd": false,
+     "beats_on_p05": false,
+     "net_gain_pp": -0.44,
+     "dd_gain_pp": -0.06,
+     "worst_seed_net_gain_pp": -3.2
+    },
+    "gated_vs_shuffle": {
+     "beats_on_net": true,
+     "beats_on_maxdd": false,
+     "net_gain_vs_shuffle_pp": 1.0,
+     "dd_gain_vs_shuffle_pp": -0.18,
+     "worst_seed_net_gain_vs_shuffle_pp": -0.7
+    }
+   }
+  },
+  "15m": {
+   "detector": {
+    "sma": 20,
+    "k_on": 5,
+    "k_off": 3
+   },
+   "bull": {
+    "TREND": {
+     "net": {
+      "mean": 0.77,
+      "std": 3.71,
+      "worst": -6.2,
+      "median": 0.75,
+      "p25": -0.4,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.1,
+      "std": 2.54,
+      "worst": -8.9,
+      "median": -2.45,
+      "p25": -4.3,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.2,
+      "std": 3.93,
+      "worst": -12.4,
+      "median": -3.2,
+      "p25": -6.4,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.23,
+      "std": 2.85,
+      "worst": -5.3,
+      "median": 0.3,
+      "p25": -0.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.47,
+      "std": 2.02,
+      "worst": -6.8,
+      "median": -1.85,
+      "p25": -3.62,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.4,
+      "std": 3.08,
+      "worst": -9.8,
+      "median": -2.8,
+      "p25": -5.3,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 0.44,
+      "std": 3.69,
+      "worst": -6.4,
+      "median": 0.4,
+      "p25": -0.72,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.17,
+      "std": 2.53,
+      "worst": -9.0,
+      "median": -2.45,
+      "p25": -4.5,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.46,
+      "std": 4.0,
+      "worst": -12.9,
+      "median": -3.75,
+      "p25": -6.92,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 0.62,
+      "std": 3.32,
+      "worst": -6.0,
+      "median": 0.7,
+      "p25": -0.78,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.02,
+      "std": 2.49,
+      "worst": -8.1,
+      "median": -2.2,
+      "p25": -4.12,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.05,
+      "std": 3.76,
+      "worst": -11.6,
+      "median": -2.85,
+      "p25": -6.25,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.25,
+     "std": 0.13,
+     "worst": 0.0,
+     "median": 0.24,
+     "p25": 0.15,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.06,
+     "std": 0.22,
+     "worst": -0.7,
+     "median": 0.0,
+     "p25": -0.1,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.34,
+     "std": 0.35,
+     "worst": -1.4,
+     "median": -0.4,
+     "p25": -0.52,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.63,
+     "std": 0.62,
+     "worst": -0.1,
+     "median": 0.45,
+     "p25": 0.2,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.54,
+     "std": 1.03,
+     "worst": -3.6,
+     "median": -0.4,
+     "p25": -0.8,
+     "n": 20
+    }
+   },
+   "bear": {
+    "TREND": {
+     "net": {
+      "mean": -1.62,
+      "std": 2.25,
+      "worst": -8.9,
+      "median": -1.0,
+      "p25": -1.98,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.27,
+      "std": 2.68,
+      "worst": -9.4,
+      "median": -1.15,
+      "p25": -2.48,
+      "n": 20
+     },
+     "p05": {
+      "mean": -4.27,
+      "std": 4.49,
+      "worst": -17.7,
+      "median": -2.75,
+      "p25": -5.43,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 0.29,
+      "std": 2.26,
+      "worst": -4.7,
+      "median": 0.0,
+      "p25": -0.68,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.8,
+      "std": 2.04,
+      "worst": -7.7,
+      "median": -1.0,
+      "p25": -1.82,
+      "n": 20
+     },
+     "p05": {
+      "mean": -2.56,
+      "std": 3.28,
+      "worst": -11.0,
+      "median": -1.75,
+      "p25": -2.9,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": -0.58,
+      "std": 2.67,
+      "worst": -8.1,
+      "median": -0.4,
+      "p25": -0.9,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.31,
+      "std": 2.65,
+      "worst": -9.4,
+      "median": -1.15,
+      "p25": -2.7,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.82,
+      "std": 4.45,
+      "worst": -17.1,
+      "median": -2.55,
+      "p25": -4.42,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": -0.66,
+      "std": 1.96,
+      "worst": -6.2,
+      "median": -0.65,
+      "p25": -1.2,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -2.01,
+      "std": 2.34,
+      "worst": -8.0,
+      "median": -1.1,
+      "p25": -2.35,
+      "n": 20
+     },
+     "p05": {
+      "mean": -3.39,
+      "std": 3.84,
+      "worst": -12.7,
+      "median": -2.25,
+      "p25": -4.12,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.33,
+     "std": 0.11,
+     "worst": 0.0,
+     "median": 0.39,
+     "p25": 0.36,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.04,
+     "std": 0.32,
+     "worst": -0.6,
+     "median": -0.05,
+     "p25": -0.2,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": 1.04,
+     "std": 1.3,
+     "worst": -0.1,
+     "median": 0.7,
+     "p25": 0.07,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.47,
+     "std": 0.77,
+     "worst": -0.6,
+     "median": 0.3,
+     "p25": -0.1,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": 1.91,
+     "std": 2.13,
+     "worst": 0.1,
+     "median": 1.15,
+     "p25": 0.4,
+     "n": 20
+    }
+   },
+   "chop": {
+    "TREND": {
+     "net": {
+      "mean": 3.35,
+      "std": 5.38,
+      "worst": -2.9,
+      "median": 1.8,
+      "p25": 0.62,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.79,
+      "std": 1.58,
+      "worst": -6.3,
+      "median": -1.35,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.79,
+      "std": 2.67,
+      "worst": -7.4,
+      "median": -0.35,
+      "p25": -2.08,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 2.38,
+      "std": 3.98,
+      "worst": -2.4,
+      "median": 1.3,
+      "p25": 0.42,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.35,
+      "std": 1.2,
+      "worst": -4.7,
+      "median": -1.0,
+      "p25": -1.73,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.68,
+      "std": 2.04,
+      "worst": -5.6,
+      "median": -0.3,
+      "p25": -1.75,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 3.19,
+      "std": 5.3,
+      "worst": -3.1,
+      "median": 1.75,
+      "p25": 0.65,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.81,
+      "std": 1.59,
+      "worst": -6.3,
+      "median": -1.35,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.92,
+      "std": 2.62,
+      "worst": -7.6,
+      "median": -0.45,
+      "p25": -2.23,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 3.17,
+      "std": 5.03,
+      "worst": -3.0,
+      "median": 1.9,
+      "p25": 0.67,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -1.76,
+      "std": 1.56,
+      "worst": -6.3,
+      "median": -1.35,
+      "p25": -2.32,
+      "n": 20
+     },
+     "p05": {
+      "mean": -0.83,
+      "std": 2.45,
+      "worst": -7.6,
+      "median": -0.25,
+      "p25": -1.93,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.11,
+     "std": 0.09,
+     "worst": 0.0,
+     "median": 0.12,
+     "p25": 0.04,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.02,
+     "std": 0.06,
+     "worst": -0.2,
+     "median": 0.0,
+     "p25": 0.0,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.15,
+     "std": 0.26,
+     "worst": -1.0,
+     "median": -0.05,
+     "p25": -0.2,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.44,
+     "std": 0.38,
+     "worst": 0.1,
+     "median": 0.35,
+     "p25": 0.1,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -0.97,
+     "std": 1.41,
+     "worst": -5.7,
+     "median": -0.55,
+     "p25": -1.12,
+     "n": 20
+    }
+   },
+   "stitched": {
+    "TREND": {
+     "net": {
+      "mean": 18.7,
+      "std": 13.72,
+      "worst": 3.4,
+      "median": 15.45,
+      "p25": 9.88,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.12,
+      "std": 1.57,
+      "worst": -7.8,
+      "median": -3.8,
+      "p25": -4.83,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.7,
+      "std": 8.97,
+      "worst": -10.8,
+      "median": 4.2,
+      "p25": -0.68,
+      "n": 20
+     }
+    },
+    "ALWAYS_ON": {
+     "net": {
+      "mean": 12.72,
+      "std": 9.94,
+      "worst": 0.1,
+      "median": 10.45,
+      "p25": 6.78,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -3.19,
+      "std": 1.25,
+      "worst": -5.9,
+      "median": -2.9,
+      "p25": -3.85,
+      "n": 20
+     },
+     "p05": {
+      "mean": 2.7,
+      "std": 6.89,
+      "worst": -10.6,
+      "median": 2.3,
+      "p25": -1.0,
+      "n": 20
+     }
+    },
+    "GATED": {
+     "net": {
+      "mean": 18.26,
+      "std": 14.37,
+      "worst": 0.2,
+      "median": 14.6,
+      "p25": 9.45,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.18,
+      "std": 1.68,
+      "worst": -7.9,
+      "median": -3.75,
+      "p25": -4.67,
+      "n": 20
+     },
+     "p05": {
+      "mean": 4.26,
+      "std": 9.64,
+      "worst": -14.3,
+      "median": 3.7,
+      "p25": -1.1,
+      "n": 20
+     }
+    },
+    "SHUFFLE": {
+     "net": {
+      "mean": 17.26,
+      "std": 13.33,
+      "worst": 0.9,
+      "median": 13.95,
+      "p25": 8.97,
+      "n": 20
+     },
+     "maxdd": {
+      "mean": -4.0,
+      "std": 1.57,
+      "worst": -7.9,
+      "median": -3.75,
+      "p25": -4.93,
+      "n": 20
+     },
+     "p05": {
+      "mean": 3.93,
+      "std": 8.79,
+      "worst": -11.9,
+      "median": 2.95,
+      "p25": -0.68,
+      "n": 20
+     }
+    },
+    "on_frac": {
+     "mean": 0.26,
+     "std": 0.06,
+     "worst": 0.15,
+     "median": 0.25,
+     "p25": 0.21,
+     "n": 20
+    },
+    "gated_minus_trend_dd": {
+     "mean": -0.06,
+     "std": 0.28,
+     "worst": -1.1,
+     "median": 0.0,
+     "p25": -0.02,
+     "n": 20
+    },
+    "gated_minus_trend_net": {
+     "mean": -0.43,
+     "std": 1.25,
+     "worst": -4.1,
+     "median": -0.55,
+     "p25": -0.72,
+     "n": 20
+    },
+    "always_minus_trend_dd": {
+     "mean": 0.93,
+     "std": 0.41,
+     "worst": 0.3,
+     "median": 0.85,
+     "p25": 0.57,
+     "n": 20
+    },
+    "always_minus_trend_net": {
+     "mean": -5.98,
+     "std": 3.94,
+     "worst": -19.2,
+     "median": -4.5,
+     "p25": -7.3,
+     "n": 20
+    }
+   },
+   "_ratios": {
+    "bear_protection_captured_pct": -6.5,
+    "always_on_bear_protection_pp": 0.93,
+    "gated_bear_protection_pp": -0.06,
+    "drag_paid_pct": 7.2,
+    "always_on_drag_pp": -5.98,
+    "gated_drag_pp": -0.43,
+    "standalone_bear_always_prot_pp": 0.47,
+    "standalone_bear_gated_prot_pp": -0.04,
+    "_basis": "stitched full-cycle path (the gate fires during the embedded bear; standalone regimes are too short for a slow gate to warm up -> standalone capture is structurally ~0 and not used)"
+   },
+   "_robustness": {
+    "TREND": {
+     "worst_regime_net": -1.62,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -4.27,
+     "mean_mix_net": 5.3
+    },
+    "ALWAYS_ON": {
+     "worst_regime_net": 0.23,
+     "full_mix_worst_maxdd": -7.7,
+     "worst_regime_p05": -3.4,
+     "mean_mix_net": 3.91
+    },
+    "GATED": {
+     "worst_regime_net": -0.58,
+     "full_mix_worst_maxdd": -9.4,
+     "worst_regime_p05": -4.46,
+     "mean_mix_net": 5.33
+    },
+    "SHUFFLE": {
+     "worst_regime_net": -0.66,
+     "full_mix_worst_maxdd": -8.1,
+     "worst_regime_p05": -4.05,
+     "mean_mix_net": 5.1
+    },
+    "_note": "worst-regime net across standalone regimes is dominated by the standalone bear where the gate is ~off (gated==trend==shuffle); the DECISIVE comparison is on the stitched path (_controls), not the standalone worst-regime."
+   },
+   "_controls": {
+    "basis": "stitched full-cycle path (bull->bear->chop->bull) -- the surface with regime TRANSITIONS",
+    "gated_vs_trend": {
+     "beats_on_net": false,
+     "beats_on_maxdd": false,
+     "beats_on_p05": false,
+     "net_gain_pp": -0.44,
+     "dd_gain_pp": -0.06,
+     "worst_seed_net_gain_pp": -3.2
+    },
+    "gated_vs_shuffle": {
+     "beats_on_net": true,
+     "beats_on_maxdd": false,
+     "net_gain_vs_shuffle_pp": 1.0,
+     "dd_gain_vs_shuffle_pp": -0.18,
+     "worst_seed_net_gain_vs_shuffle_pp": -0.7
+    }
+   }
+  }
+ },
+ "real_2020_oos": {
+  "1d": {
+   "TREND": {
+    "net": 13.6,
+    "sharpe": 2.05,
+    "maxdd": -11.0,
+    "p05": -6.8
+   },
+   "ALWAYS_ON": {
+    "net": 9.5,
+    "sharpe": 1.94,
+    "maxdd": -8.4,
+    "p05": -5.8
+   },
+   "GATED": {
+    "net": 12.3,
+    "sharpe": 1.89,
+    "maxdd": -11.2,
+    "p05": -8.0
+   },
+   "SHUFFLE": {
+    "net": 10.5,
+    "sharpe": 1.81,
+    "maxdd": -9.9,
+    "p05": -8.1
+   },
+   "oos_gate_on_frac": 0.25,
+   "full_gate_on_frac": 0.321
+  },
+  "4h": {
+   "TREND": {
+    "net": 19.3,
+    "sharpe": 3.02,
+    "maxdd": -6.2,
+    "p05": -1.0
+   },
+   "ALWAYS_ON": {
+    "net": 11.9,
+    "sharpe": 2.58,
+    "maxdd": -5.0,
+    "p05": -2.7
+   },
+   "GATED": {
+    "net": 17.9,
+    "sharpe": 2.84,
+    "maxdd": -6.5,
+    "p05": -1.9
+   },
+   "SHUFFLE": {
+    "net": 13.4,
+    "sharpe": 2.44,
+    "maxdd": -5.6,
+    "p05": -4.3
+   },
+   "oos_gate_on_frac": 0.152,
+   "full_gate_on_frac": 0.283
+  },
+  "2h": {
+   "TREND": {
+    "net": 34.6,
+    "sharpe": 3.84,
+    "maxdd": -5.6,
+    "p05": 4.6
+   },
+   "ALWAYS_ON": {
+    "net": 20.5,
+    "sharpe": 3.17,
+    "maxdd": -6.7,
+    "p05": 0.4
+   },
+   "GATED": {
+    "net": 31.7,
+    "sharpe": 3.64,
+    "maxdd": -6.2,
+    "p05": 3.8
+   },
+   "SHUFFLE": {
+    "net": 30.4,
+    "sharpe": 3.64,
+    "maxdd": -4.4,
+    "p05": 2.9
+   },
+   "oos_gate_on_frac": 0.12,
+   "full_gate_on_frac": 0.245
+  },
+  "1h": {
+   "TREND": {
+    "net": 50.4,
+    "sharpe": 4.49,
+    "maxdd": -5.8,
+    "p05": 9.1
+   },
+   "ALWAYS_ON": {
+    "net": 33.1,
+    "sharpe": 4.28,
+    "maxdd": -4.5,
+    "p05": 5.7
+   },
+   "GATED": {
+    "net": 47.6,
+    "sharpe": 4.42,
+    "maxdd": -6.0,
+    "p05": 8.9
+   },
+   "SHUFFLE": {
+    "net": 44.7,
+    "sharpe": 4.24,
+    "maxdd": -5.6,
+    "p05": 5.7
+   },
+   "oos_gate_on_frac": 0.12,
+   "full_gate_on_frac": 0.245
+  },
+  "30m": {
+   "TREND": {
+    "net": 46.6,
+    "sharpe": 3.78,
+    "maxdd": -7.9,
+    "p05": 6.3
+   },
+   "ALWAYS_ON": {
+    "net": 28.9,
+    "sharpe": 3.41,
+    "maxdd": -5.8,
+    "p05": 1.2
+   },
+   "GATED": {
+    "net": 43.0,
+    "sharpe": 3.61,
+    "maxdd": -7.9,
+    "p05": 4.8
+   },
+   "SHUFFLE": {
+    "net": 41.2,
+    "sharpe": 3.59,
+    "maxdd": -7.5,
+    "p05": 3.6
+   },
+   "oos_gate_on_frac": 0.076,
+   "full_gate_on_frac": 0.223
+  },
+  "15m": {
+   "TREND": {
+    "net": 54.6,
+    "sharpe": 3.7,
+    "maxdd": -11.5,
+    "p05": 5.8
+   },
+   "ALWAYS_ON": {
+    "net": 33.1,
+    "sharpe": 3.3,
+    "maxdd": -8.7,
+    "p05": 1.5
+   },
+   "GATED": {
+    "net": 47.9,
+    "sharpe": 3.43,
+    "maxdd": -11.5,
+    "p05": 3.3
+   },
+   "SHUFFLE": {
+    "net": 49.1,
+    "sharpe": 3.56,
+    "maxdd": -11.0,
+    "p05": 3.8
+   },
+   "oos_gate_on_frac": 0.087,
+   "full_gate_on_frac": 0.228
+  }
+ },
+ "verdict": {
+  "headline": "DETECTOR HAS TIMING SKILL, BUT THE BOOK DOES NOT DEPLOY: the bear DETECTOR genuinely concentrates its ON-time in the true bear window (stitched precision 0.36 vs base-rate 0.12, recall 0.74, beats shuffle-95 in 0.9 of seeds; the GATED book beats the equal-freq SHUFFLE on net at every TF) -- so this is NOT the dynamic-engine null, the detector WORKS. BUT the gated longshort BOOK still loses ~0.3-2.0pp net vs trend-alone on the full cycle and does not reduce DD. MECHANISM (per-segment decomposition, verified): the conditional BEAR gain is TINY (~+0.1pp -- the synthetic bear is only ~12% of the cycle and mild in NET terms), while the gate's residual FALSE-ALARM firings in the bull/chop segments (~18-22% on-time even there, each shorting a RISING market) plus borrow sum to ~-1.6pp. On a bull-dominated cycle, even a precise gate's small false-alarm rate costs more than the short bear earns. Honest answer: TREND-ALONE+trail is the deployable long-only book; the detector is real but binary longshort insurance is -EV here. The open door (untestable on 2020): a DEEPER/LONGER bear (e.g. 2022 grind-down) where the bear is a larger NET share of the cycle -- the detector machinery is built + validated to test it the moment such a band is in scope.",
+  "works_cadences": [],
+  "beats_trend_cadences": [],
+  "beats_shuffle_cadences": [
+   "1d",
+   "4h",
+   "2h",
+   "1h",
+   "30m",
+   "15m"
+  ],
+  "detector": {
+   "sma": 20,
+   "k_on": 5,
+   "k_off": 3
+  },
+  "detector_has_timing_skill": true,
+  "detector_skill": {
+   "precision": {
+    "mean": 0.36,
+    "std": 0.16,
+    "worst": 0.06,
+    "median": 0.36,
+    "p25": 0.26,
+    "n": 20
+   },
+   "recall": {
+    "mean": 0.74,
+    "std": 0.26,
+    "worst": 0.15,
+    "median": 0.82,
+    "p25": 0.56,
+    "n": 20
+   },
+   "base_rate": {
+    "mean": 0.12,
+    "std": 0.0,
+    "worst": 0.12,
+    "median": 0.12,
+    "p25": 0.12,
+    "n": 20
+   },
+   "on_frac": {
+    "mean": 0.26,
+    "std": 0.06,
+    "worst": 0.15,
+    "median": 0.25,
+    "p25": 0.21,
+    "n": 20
+   },
+   "precision_minus_shuffle": {
+    "mean": 0.24,
+    "std": 0.16,
+    "worst": -0.06,
+    "median": 0.24,
+    "p25": 0.14,
+    "n": 20
+   },
+   "frac_seeds_beats_shuffle95": 0.9,
+   "n_seeds": 20
+  },
+  "lines": [
+   "HEADLINE: DETECTOR HAS TIMING SKILL, BUT THE BOOK DOES NOT DEPLOY: the bear DETECTOR genuinely concentrates its ON-time in the true bear window (stitched precision 0.36 vs base-rate 0.12, recall 0.74, beats shuffle-95 in 0.9 of seeds; the GATED book beats the equal-freq SHUFFLE on net at every TF) -- so this is NOT the dynamic-engine null, the detector WORKS. BUT the gated longshort BOOK still loses ~0.3-2.0pp net vs trend-alone on the full cycle and does not reduce DD. MECHANISM (per-segment decomposition, verified): the conditional BEAR gain is TINY (~+0.1pp -- the synthetic bear is only ~12% of the cycle and mild in NET terms), while the gate's residual FALSE-ALARM firings in the bull/chop segments (~18-22% on-time even there, each shorting a RISING market) plus borrow sum to ~-1.6pp. On a bull-dominated cycle, even a precise gate's small false-alarm rate costs more than the short bear earns. Honest answer: TREND-ALONE+trail is the deployable long-only book; the detector is real but binary longshort insurance is -EV here. The open door (untestable on 2020): a DEEPER/LONGER bear (e.g. 2022 grind-down) where the bear is a larger NET share of the cycle -- the detector machinery is built + validated to test it the moment such a band is in scope.",
+   "",
+   "DETECTOR (pre-registered on 2020 TRAIN, FROZEN): close < SMA(20), arm after 5 bars, disarm after 3 bars (causal, 1-bar-shifted).",
+   "",
+   "Q0 (THE SKILL TEST, decisive): on the STITCHED full-cycle path -- where regime TRANSITIONS exist --",
+   "    does the detector concentrate its ON-time in the TRUE bear window better than a random toggle?",
+   "    detector precision 0.36 (on-day is true-bear) vs base-rate 0.12 and recall 0.74; precision-minus-shuffle 0.24pp; beats shuffle-95 in 0.9 of seeds -> DETECTOR HAS REAL TIMING SKILL",
+   "    (NOTE: standalone single-regime panels are too short for a slow gate to warm up -- the gate is",
+   "     ~always-off there, so the standalone shuffle is DEGENERATE; the stitched path is the proper test.)",
+   "",
+   "Q1 (THE SYNTHESIS, stitched full-cycle path): does GATING capture MOST of the always-on's bear",
+   "    DD-protection while paying LITTLE of its full-cycle net-drag? (CAPTURED = gated's stitched",
+   "    DD-protection / always-on's; PAID = gated's stitched net-drag / always-on's. Ideal=high cap, low drag.)",
+   "    1d   : bear-protection CAPTURED -64.9% (gated -0.72pp DD vs always-on 1.11pp); full-cycle drag PAID 14.4% (gated -2.03pp vs always-on -14.1pp) -> no clean capture/drag separation",
+   "    4h   : bear-protection CAPTURED -15.5% (gated -0.13pp DD vs always-on 0.84pp); full-cycle drag PAID 10.6% (gated -0.53pp vs always-on -5.0pp) -> no clean capture/drag separation",
+   "    2h   : bear-protection CAPTURED -20.3% (gated -0.16pp DD vs always-on 0.79pp); full-cycle drag PAID 10.3% (gated -0.52pp vs always-on -5.03pp) -> no clean capture/drag separation",
+   "    1h   : bear-protection CAPTURED -11.2% (gated -0.11pp DD vs always-on 0.98pp); full-cycle drag PAID 5.6% (gated -0.33pp vs always-on -5.9pp) -> no clean capture/drag separation",
+   "    30m  : bear-protection CAPTURED -6.5% (gated -0.06pp DD vs always-on 0.93pp); full-cycle drag PAID 7.2% (gated -0.43pp vs always-on -5.98pp) -> no clean capture/drag separation",
+   "    15m  : bear-protection CAPTURED -6.5% (gated -0.06pp DD vs always-on 0.93pp); full-cycle drag PAID 7.2% (gated -0.43pp vs always-on -5.98pp) -> no clean capture/drag separation",
+   "",
+   "Q2 (CONTROL b, stitched path): does the GATED book beat TREND-ALONE on net AND maxDD?",
+   "    (PHASE 6's STATIC always-on book FAILED this -- the conditional book must clear trend to be worth it)",
+   "    1d   : vs trend -- net -2.03pp (beats=False), maxDD -0.71pp (beats=False), worst-seed net -3.3pp -> does NOT clear trend",
+   "    4h   : vs trend -- net -0.53pp (beats=False), maxDD -0.13pp (beats=False), worst-seed net -2.4pp -> does NOT clear trend",
+   "    2h   : vs trend -- net -0.52pp (beats=False), maxDD -0.16pp (beats=False), worst-seed net -2.4pp -> does NOT clear trend",
+   "    1h   : vs trend -- net -0.33pp (beats=False), maxDD -0.11pp (beats=False), worst-seed net -1.8pp -> does NOT clear trend",
+   "    30m  : vs trend -- net -0.44pp (beats=False), maxDD -0.06pp (beats=False), worst-seed net -3.2pp -> does NOT clear trend",
+   "    15m  : vs trend -- net -0.44pp (beats=False), maxDD -0.06pp (beats=False), worst-seed net -3.2pp -> does NOT clear trend",
+   "",
+   "Q3 (CONTROL c, MANDATORY -- the skill test, stitched path + gate-precision): does the DETECTOR's",
+   "    TIMING beat a RANDOM-TIMED toggle of EQUAL on-frequency? (the shuffle that killed the dynamic",
+   "    engine. Both books carry the SAME longshort exposure; only the timing differs.)",
+   "    1d   : vs shuffle -- net +1.43pp (beats=True), maxDD -0.71pp (beats=False) -> detector TIMING adds value over random",
+   "    4h   : vs shuffle -- net +0.76pp (beats=True), maxDD -0.23pp (beats=False) -> detector TIMING adds value over random",
+   "    2h   : vs shuffle -- net +0.8pp (beats=True), maxDD -0.24pp (beats=False) -> detector TIMING adds value over random",
+   "    1h   : vs shuffle -- net +1.08pp (beats=True), maxDD -0.25pp (beats=False) -> detector TIMING adds value over random",
+   "    30m  : vs shuffle -- net +1.0pp (beats=True), maxDD -0.18pp (beats=False) -> detector TIMING adds value over random",
+   "    15m  : vs shuffle -- net +1.0pp (beats=True), maxDD -0.18pp (beats=False) -> detector TIMING adds value over random",
+   "    (gate-precision skill, stitched: precision 0.36 vs base-rate 0.12, beats shuffle-95 in 0.9 of seeds -> the gate's ON-time IS concentrated in the true bear, even if the BOOK payoff is a wash.)",
+   "",
+   "Q3b (MECHANISM, why a SKILLED detector still does not deploy): per-segment gated-minus-trend (1d):",
+   "    bull0    (bull ): gated-minus-trend -0.53pp | gate on-frac 0.18",
+   "    bear1    (bear ): gated-minus-trend +0.11pp | gate on-frac 0.74",
+   "    chop2    (chop ): gated-minus-trend -0.41pp | gate on-frac 0.18",
+   "    bull3    (bull ): gated-minus-trend -0.71pp | gate on-frac 0.22",
+   "    -> the conditional BEAR gain is TINY; the gate's residual FALSE-ALARM firings in bull/chop (short into a rising market) + borrow OUTWEIGH it. A precise gate still loses on a bull-dominated cycle.",
+   "",
+   "Q4: 2020-REAL OOS (Oct-Dec BULL) anchor -- on a real bull the gate SHOULD be ~off (gated ~= trend):",
+   "    1d   : TREND net 13.6% (DD -11.0) vs GATED net 12.3% (DD -11.2); OOS gate on-frac 0.25 (near 0 = correctly OFF in the bull)",
+   "    4h   : TREND net 19.3% (DD -6.2) vs GATED net 17.9% (DD -6.5); OOS gate on-frac 0.152 (near 0 = correctly OFF in the bull)",
+   "    2h   : TREND net 34.6% (DD -5.6) vs GATED net 31.7% (DD -6.2); OOS gate on-frac 0.12 (near 0 = correctly OFF in the bull)",
+   "    1h   : TREND net 50.4% (DD -5.8) vs GATED net 47.6% (DD -6.0); OOS gate on-frac 0.12 (near 0 = correctly OFF in the bull)",
+   "    30m  : TREND net 46.6% (DD -7.9) vs GATED net 43.0% (DD -7.9); OOS gate on-frac 0.076 (near 0 = correctly OFF in the bull)",
+   "    15m  : TREND net 54.6% (DD -11.5) vs GATED net 47.9% (DD -11.5); OOS gate on-frac 0.087 (near 0 = correctly OFF in the bull)",
+   "",
+   "CAVEATS (binding): (1) SYNTHETIC stress surface from PHASE 3/6's VALIDATED generator (2020-calibrated stylized facts ONLY) + the 2020 real OOS -- NOT real future data. (2) The longshort INSURANCE leg VIOLATES long-only+spot -> the gated book is RESEARCH; deploy needs the user's explicit LO-exception sign-off. (3) DETECTOR pre-registered on the 2020 TRAIN band ONLY then FROZEN -- never fit on OOS/the synthetic test paths. (4) The SHUFFLE control is a random-timed toggle of EQUAL on-frequency -- the detector must beat it to claim TIMING skill (not just exposure). (5) Short-borrow MODELLED at 20.0bps/yr (prorated per-bar). (6) maker cost, no MtM double-count, lag-1 causal. (7) >=20 seeds; distributions (mean +- spread + WORST seed). (8) The 2020-calibrated synthetic bear is SHORT (~12% of the stitched cycle) and mild in NET terms; the verified mechanism (Q3b) is that the gate's FALSE-ALARM cost in the 88% non-bear time outweighs the small bear gain -- so the NULL is specific to a SHORT/MILD bear. A DEEPER or LONGER bear (a larger NET share of the cycle, e.g. a 2022-style grind-down) is the regime where binary insurance could flip +EV; it is NOT testable on the 2020 band and is the explicit open door (the detector + book are BUILT and VALIDATED to run on such a band on request)."
+  ]
+ }
+}

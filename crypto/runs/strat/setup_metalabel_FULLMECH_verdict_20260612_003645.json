@@ -1,0 +1,453 @@
+{
+ "tool": "setup_meta_labeler_FULLMECH",
+ "git_sha": "2bebedb370760d132664c0c43f3586797e3cf0c1",
+ "stamp": "20260612_003645",
+ "objective": "held-out COMPOUND of the selected subset (taker 0.0024, LONG-only spot lev=1); AUC is a within-model diagnostic ONLY",
+ "mechanism": "config-navigation (MA-config grid pooled, config params as features) + conditional-entry meta-labeler + the USER'S 5%-trailing-stop risk exit, tested as ONE joint thing",
+ "pre_registration": {
+  "config_grid": {
+   "fast": [
+    5,
+    8,
+    10,
+    12,
+    20
+   ],
+   "slow": [
+    20,
+    26,
+    50,
+    100,
+    200
+   ],
+   "types": [
+    "SMA",
+    "EMA"
+   ],
+   "n_configs": 48,
+   "rule": "fast<slow; each (fast,slow,type) a past-only cross trigger; ALL POOLED"
+  },
+  "config_features": [
+   "cfg_fast_len",
+   "cfg_slow_len",
+   "cfg_fast_slow_ratio",
+   "cfg_is_ema",
+   "cfg_past_hitrate"
+  ],
+  "cadences": [
+   "15m"
+  ],
+  "cadence_note": "15m/30m/1h/4h per the standing HARD RULE; 1d on demand; sub-15m needs the 1m dataset (SEPARATE effort -- out of scope here)",
+  "universe": "u10 (survivorship FLAGGED)",
+  "exit": "USER RISK 5%-trailing-stop (initial stop entry-5%, trail 5% below running high) + time-stop per cadence",
+  "label": "y = net_pnl > 0 (taker 0.0024 RT); also reported at net>cost-band (D09)",
+  "features": [
+   "cfg_fast_len",
+   "cfg_slow_len",
+   "cfg_fast_slow_ratio",
+   "cfg_is_ema",
+   "cfg_past_hitrate",
+   "ema_fast_slope",
+   "ema_slow_slope",
+   "ma_spread",
+   "price_to_fast",
+   "price_to_slow",
+   "ma_stack",
+   "bars_since_cross",
+   "norm_funding",
+   "fund_rate_mean",
+   "norm_oi_change",
+   "liq_long_z30",
+   "liq_short_z30",
+   "wh_whale_net_usd",
+   "norm_whale",
+   "norm_flow_imbalance",
+   "norm_vpin",
+   "norm_kyle_lambda",
+   "regime_label",
+   "above_sma200",
+   "vol_tercile",
+   "btc_r24h",
+   "btc_vs_sma50"
+  ],
+  "wm_feature": "DEFERRED (V1.1 retraining; clean hook left)",
+  "model": "LogisticRegression -> HistGradientBoosting; binary entry gate at tau=67th TRAIN pctile",
+  "asymmetric_loss": "false-LONG penalty 1.5x (class_weight on y=1)",
+  "split": "chronological 50/20/20/10 (canonical WindowSpec dates) + 400-bar purge; UNSEEN once"
+ },
+ "two_sided_controls": {
+  "positive_ships": true,
+  "no_skill_fails": true,
+  "config_only_fails": true,
+  "regime_only_fails": true,
+  "positive_oos_auc": 0.9904517362500556,
+  "all_pass": true
+ },
+ "per_cadence": {
+  "15m": {
+   "cadence": "15m",
+   "n_firings": 706764,
+   "n_assets": 10,
+   "config_navigation": {
+    "n_configs_in_grid": 48,
+    "n_configs_fired": 48,
+    "config_params_as_features": [
+     "cfg_fast_len",
+     "cfg_slow_len",
+     "cfg_fast_slow_ratio",
+     "cfg_is_ema",
+     "cfg_past_hitrate"
+    ],
+    "firings_per_config_top10": {
+     "5x20_SMA": 21601,
+     "8x20_SMA": 21163,
+     "12x20_SMA": 21074,
+     "10x20_SMA": 21051,
+     "5x20_EMA": 20503,
+     "5x26_SMA": 20375,
+     "20x26_SMA": 19948,
+     "8x26_SMA": 19891,
+     "10x26_SMA": 19679,
+     "12x26_SMA": 19560
+    },
+    "note": "ALL firings across ALL configs POOLED into one dataset; config params enter as features"
+   },
+   "policy": {
+    "exit": "USER RISK 5%-trailing-stop",
+    "sl_pct": 0.05,
+    "trail_pct": 0.05,
+    "max_hold_bars": 96
+   },
+   "unconditional_trigger": {
+    "TRAIN": {
+     "n": 250155,
+     "compound": -100.0,
+     "n_pooled": 479064,
+     "compound_pooled": -100.0
+    },
+    "VAL": {
+     "n": 51051,
+     "compound": -100.0,
+     "n_pooled": 95806,
+     "compound_pooled": -100.0
+    },
+    "OOS": {
+     "n": 48618,
+     "compound": -100.0,
+     "n_pooled": 89041,
+     "compound_pooled": -100.0
+    },
+    "UNSEEN": {
+     "n": 23564,
+     "compound": -100.0,
+     "n_pooled": 42853,
+     "compound_pooled": -100.0
+    }
+   },
+   "selected_compound": {
+    "TRAIN": -100.0,
+    "VAL": -100.0,
+    "OOS": -100.0,
+    "UNSEEN": -99.99999999999999
+   },
+   "selected_n_trades_dedup": {
+    "TRAIN": 104788,
+    "VAL": 19388,
+    "OOS": 19277,
+    "UNSEEN": 10726
+   },
+   "selected_n_firings_pooled": {
+    "TRAIN": 157744,
+    "VAL": 28420,
+    "OOS": 28507,
+    "UNSEEN": 16425
+   },
+   "selected_beats_unconditional_held": {
+    "OOS": false,
+    "UNSEEN": true
+   },
+   "aucs": {
+    "hgb_train": 0.8549494316248133,
+    "hgb_val": 0.5182085769638031,
+    "hgb_oos": 0.5162997863944687,
+    "logit_train": 0.5191896366986958,
+    "logit_val": 0.5213782427920743,
+    "logit_oos": 0.5180034416446833
+   },
+   "operating_model": "logit",
+   "tau": 0.5348282828274882,
+   "decile_lift": [
+    {
+     "decile": 1,
+     "mean_net": -0.005623625111119273,
+     "win": 0.3644744025870396
+    },
+    {
+     "decile": 2,
+     "mean_net": -0.0016755429625398008,
+     "win": 0.4150812649615724
+    },
+    {
+     "decile": 3,
+     "mean_net": -0.0012343590394546706,
+     "win": 0.41999496031246064
+    },
+    {
+     "decile": 4,
+     "mean_net": -0.0020596619404717226,
+     "win": 0.4226197975725505
+    },
+    {
+     "decile": 5,
+     "mean_net": -0.0015527467526584072,
+     "win": 0.4328881609340221
+    },
+    {
+     "decile": 6,
+     "mean_net": -0.0014042013471159479,
+     "win": 0.43419008021502664
+    },
+    {
+     "decile": 7,
+     "mean_net": -0.0013314782904129375,
+     "win": 0.44101465709126036
+    },
+    {
+     "decile": 8,
+     "mean_net": -0.0019544070007079177,
+     "win": 0.43595397085380705
+    },
+    {
+     "decile": 9,
+     "mean_net": -0.0021413192357217533,
+     "win": 0.43939775733904496
+    },
+    {
+     "decile": 10,
+     "mean_net": -0.002321049995611477,
+     "win": 0.43215320650119693
+    }
+   ],
+   "decile_monotone_frac": 0.5555555555555556,
+   "label_stability_D09": {
+    "net_gt_0_unseen": -99.99999999999999,
+    "net_gt_costband_unseen": -99.99999999999577
+   },
+   "config_overfit_flag": false,
+   "gauntlet": {
+    "1_auc_floor": {
+     "operating_model": "logit",
+     "operating_oos_auc": 0.5180034416446833,
+     "hgb_oos": 0.5162997863944687,
+     "logit_oos": 0.5180034416446833,
+     "floor": 0.55,
+     "pass": false,
+     "decile_monotone_frac": 0.5555555555555556
+    },
+    "2_firewall": {
+     "verdict": "NO TIMING EDGE (selected does not beat the random-entry null on held-out)",
+     "held_summary": {
+      "OOS": {
+       "beats_frac": 0.8,
+       "pos_frac": 0.1,
+       "n_assets_fired": 10
+      },
+      "UNSEEN": {
+       "beats_frac": 0.8,
+       "pos_frac": 0.0,
+       "n_assets_fired": 10
+      }
+     },
+     "per_asset": {
+      "BTCUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "ETHUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "SOLUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "BNBUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "XRPUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "DOGEUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "ADAUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "AVAXUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "LINKUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "LTCUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+     },
+     "pass": false
+    },
+    "3_shuffled_control": {
+     "verdict": "OVERFIT",
+     "overfit_fraction": 1.0,
+     "pass": false
+    },
+    "4_pbo": {
+     "pbo": 0.0,
+     "ship_thr": 0.1,
+     "verdict": "PASS",
+     "config_overfit": false,
+     "detail": {
+      "pbo": 0.0,
+      "prob_oos_loss": 0.9266511266511267,
+      "perf_degradation_slope": -1.0481445419388742,
+      "median_logit": 2.4849066497880012,
+      "n_combinations": 12870,
+      "S": 16,
+      "T_used": 227696,
+      "N": 12,
+      "verdict": "PASS",
+      "ship": true
+     },
+     "pass": true
+    },
+    "5_seed_robustness": {
+     "oos_positive_seeds": 0,
+     "floor": 8,
+     "bootstrap_p05": -100.0,
+     "per_seed": [
+      {
+       "seed": 0,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 1,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 2,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 3,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 4,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 5,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 6,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 7,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 8,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      },
+      {
+       "seed": 9,
+       "oos_compound": -100.0,
+       "unseen_compound": -99.99999999999999,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 19277,
+       "n_uns": 10726
+      }
+     ],
+     "pass": false
+    },
+    "6_battery": {
+     "verdict": "FAIL",
+     "jk2": -100.0,
+     "jk3": -100.0,
+     "p05": -100.0,
+     "n_eff": 5911.6,
+     "maxdd": -100.0,
+     "pass": false
+    },
+    "8_per_regime": {
+     "OOS": {
+      "bull_n": 7618,
+      "bull_compound": -99.99999825250589,
+      "bear_n": 11659,
+      "bear_compound": -99.9999999999989
+     },
+     "UNSEEN": {
+      "bull_n": 3825,
+      "bull_compound": -99.99999897324038,
+      "bear_n": 6901,
+      "bear_compound": -99.99999853923093
+     }
+    }
+   },
+   "SHIP": false,
+   "verdict": "NO CONDITIONAL EDGE with internal features (the EXPECTED, high-value null -- the JOINT mechanism (config-nav + conditional-entry + 5%-trail risk-exit) is refuted at this cadence with internal features, re-confirming the separate component nulls jointly)"
+  }
+ },
+ "RWYB": {
+  "gauntlet_gates_ran": [
+   "auc_floor",
+   "firewall(regime+membership)",
+   "shuffled_control(perm/block)",
+   "pbo_cscv(CENTRAL-config-overfit gate)",
+   "seed_robustness(10)",
+   "battery(A/B/C)",
+   "two_sided_controls",
+   "per_regime"
+  ],
+  "two_sided": "no-skill (random + CONFIG-ONLY + regime-only) must FAIL; positive (synthetic) must SHIP",
+  "config_nav_proof": "see per_cadence[*].config_navigation: n_configs_fired + firings POOLED",
+  "objective": "held-out compound, never AUC/IC"
+ },
+ "honest_framing": [
+  "each COMPONENT is already null SEPARATELY: config-nav (MA-oracle/verify_dna_finding -- no learnable per-move config at 30m-1d, regime-driven), conditional-entry (EMA12x26 slice + mover_metalabel OOS AUC 0.51-0.52), exit-timing (exit_capture_proxy/D61).",
+  "this run tests the JOINT mechanism + config-navigation + the user's risk-exit + the 15m cadence.",
+  "an honest NULL is the EXPECTED, high-value answer -- it means the JOINT mechanism is genuinely refuted at 15m-4h with INTERNAL features, not just its parts.",
+  "a non-null at ANY cadence = the first measured edge -> champion-gate it."
+ ],
+ "caveats": [
+  "u10 CURRENT membership -> survivorship on absolute-level features (FLAGGED, not corrected)",
+  "WM-as-feature DEFERRED (V1.1 retraining) -- v1 verdict is INTERNAL-features-only by design",
+  "THE CONFIG GRID IS A BIG MULTIPLE-COMPARISONS SURFACE: PBO is the CENTRAL gate. If PBO>=0.10 (config_overfit_flag=True) the apparent edge is CONFIG-SEARCH OVERFIT, NOT a real edge.",
+  "shuffled control runs on the realized held-out net stream (necessary-not-sufficient; composes with firewall+PBO+seeds)",
+  "sub-15m (1m) MA-cross pooling is a SEPARATE effort -- NOT run here (stated, not silently skipped)"
+ ]
+}

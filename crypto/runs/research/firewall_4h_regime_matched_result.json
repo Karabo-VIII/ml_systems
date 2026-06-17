@@ -1,0 +1,176 @@
+{
+  "positive_control_4h_power": true,
+  "btc": {
+    "pte_pass": false,
+    "combined_held_out": {
+      "real_exp_pct": 0.1082,
+      "n_trades": 48,
+      "null_mean_pct": 0.0681,
+      "null_p5_pct": -0.4079,
+      "null_p50_pct": 0.0588,
+      "null_p95_pct": 0.5779,
+      "pctile_rank": 0.566,
+      "beats_null_p95": false
+    },
+    "per_window": {
+      "TRAIN": {
+        "real_exp_pct": 0.3634,
+        "n_trades": 224,
+        "null_mean_pct": -0.0485,
+        "null_p5_pct": -0.458,
+        "null_p50_pct": -0.0344,
+        "null_p95_pct": 0.3589,
+        "pctile_rank": 0.952
+      },
+      "VAL": {
+        "real_exp_pct": -0.1054,
+        "n_trades": 41,
+        "null_mean_pct": -0.1366,
+        "null_p5_pct": -0.8163,
+        "null_p50_pct": -0.1488,
+        "null_p95_pct": 0.583,
+        "pctile_rank": 0.54
+      },
+      "OOS": {
+        "real_exp_pct": 0.0858,
+        "n_trades": 32,
+        "null_mean_pct": 0.0994,
+        "null_p5_pct": -0.4473,
+        "null_p50_pct": 0.1001,
+        "null_p95_pct": 0.6477,
+        "pctile_rank": 0.488
+      },
+      "UNSEEN": {
+        "real_exp_pct": 0.1529,
+        "n_trades": 16,
+        "null_mean_pct": 0.008,
+        "null_p5_pct": -0.8903,
+        "null_p50_pct": 0.0066,
+        "null_p95_pct": 0.9115,
+        "pctile_rank": 0.612
+      }
+    },
+    "compound_firewall_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+    "compound_beats_held": false
+  },
+  "breadth": {
+    "n_pass": 0,
+    "n_ok": 12,
+    "rows": [
+      {
+        "sym": "BTCUSDT",
+        "pass": false,
+        "held_real_exp_pct": 0.1082,
+        "held_null_mean_pct": 0.0681,
+        "held_pctile_rank": 0.566,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "ETHUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.0449,
+        "held_null_mean_pct": 0.1458,
+        "held_pctile_rank": 0.352,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "SOLUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.6841,
+        "held_null_mean_pct": -0.2094,
+        "held_pctile_rank": 0.121,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "BNBUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.376,
+        "held_null_mean_pct": -0.038,
+        "held_pctile_rank": 0.17,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "XRPUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.179,
+        "held_null_mean_pct": 0.0696,
+        "held_pctile_rank": 0.326,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "ADAUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.9697,
+        "held_null_mean_pct": -0.0254,
+        "held_pctile_rank": 0.044,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "DOGEUSDT",
+        "pass": false,
+        "held_real_exp_pct": 0.0853,
+        "held_null_mean_pct": 0.4297,
+        "held_pctile_rank": 0.313,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "AVAXUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.7715,
+        "held_null_mean_pct": -0.1495,
+        "held_pctile_rank": 0.151,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "LINKUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.7513,
+        "held_null_mean_pct": 0.2235,
+        "held_pctile_rank": 0.028,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "LTCUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.8769,
+        "held_null_mean_pct": -0.0966,
+        "held_pctile_rank": 0.055,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "DOTUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.8409,
+        "held_null_mean_pct": -0.0621,
+        "held_pctile_rank": 0.073,
+        "compound_beats_held": false
+      },
+      {
+        "sym": "TRXUSDT",
+        "pass": false,
+        "held_real_exp_pct": -0.1628,
+        "held_null_mean_pct": -0.156,
+        "held_pctile_rank": 0.506,
+        "compound_beats_held": false
+      }
+    ]
+  },
+  "config": {
+    "er_win": 20,
+    "er_thr": 0.4,
+    "ema": [
+      8,
+      21
+    ],
+    "max_hold": 42,
+    "cost_rt": 0.0024,
+    "n_books": 1000,
+    "windows": {
+      "train_end": "2024-05-15",
+      "val_end": "2025-03-15",
+      "oos_end": "2025-12-31",
+      "unseen_end": "2026-05-22",
+      "train_start": null
+    }
+  }
+}

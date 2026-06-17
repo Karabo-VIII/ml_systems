@@ -1,0 +1,113 @@
+{
+  "cadence": "1h",
+  "n_features": 40,
+  "regime_counts": {
+    "0": 412939,
+    "1": 285452,
+    "2": 332297
+  },
+  "regime0_signature": [
+    {
+      "feat": "norm_ma_distance",
+      "z": -0.59
+    },
+    {
+      "feat": "norm_fd_close",
+      "z": -0.56
+    },
+    {
+      "feat": "norm_log_volume",
+      "z": 0.27
+    },
+    {
+      "feat": "norm_deviation",
+      "z": -0.24
+    },
+    {
+      "feat": "xd_ma_distance",
+      "z": -0.14
+    },
+    {
+      "feat": "norm_yz_volatility",
+      "z": 0.14
+    },
+    {
+      "feat": "norm_return_16",
+      "z": -0.12
+    },
+    {
+      "feat": "xd_cross_vol_mean",
+      "z": 0.09
+    }
+  ],
+  "regime1_signature": [
+    {
+      "feat": "norm_bar_duration",
+      "z": 0.12
+    },
+    {
+      "feat": "norm_ma_distance",
+      "z": 0.07
+    },
+    {
+      "feat": "norm_oi_price_divergence",
+      "z": 0.07
+    },
+    {
+      "feat": "norm_fd_close",
+      "z": 0.06
+    },
+    {
+      "feat": "norm_cs_spread",
+      "z": 0.05
+    },
+    {
+      "feat": "norm_log_volume",
+      "z": -0.05
+    },
+    {
+      "feat": "xd_cross_vol_mean",
+      "z": -0.03
+    },
+    {
+      "feat": "norm_deviation",
+      "z": 0.03
+    }
+  ],
+  "regime2_signature": [
+    {
+      "feat": "norm_ma_distance",
+      "z": 0.67
+    },
+    {
+      "feat": "norm_fd_close",
+      "z": 0.64
+    },
+    {
+      "feat": "norm_log_volume",
+      "z": -0.29
+    },
+    {
+      "feat": "norm_deviation",
+      "z": 0.27
+    },
+    {
+      "feat": "norm_yz_volatility",
+      "z": -0.17
+    },
+    {
+      "feat": "xd_ma_distance",
+      "z": 0.16
+    },
+    {
+      "feat": "norm_return_16",
+      "z": 0.14
+    },
+    {
+      "feat": "norm_bar_duration",
+      "z": -0.12
+    }
+  ],
+  "note": "z = (regime-mean - global-mean)/global-std per dense feature. Which microstructure features characterize each existing regime_label state. Descriptive.",
+  "_elapsed_s": 5.6
+}

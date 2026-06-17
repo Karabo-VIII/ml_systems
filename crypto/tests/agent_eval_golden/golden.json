@@ -1,0 +1,84 @@
+{
+  "_doc": "golden bands DERIVED from real metaop traces; regenerate via `agent_eval.py --regression --update`. Each fixture pins the metrics in PINNED_METRICS with the per-metric tolerance band. A harness change that moves any metric outside its band is a trajectory-quality REGRESSION (exit 2).",
+  "weights": {
+    "convergence": 0.3,
+    "calibration": 0.25,
+    "harvest": 0.2,
+    "solved": 0.25
+  },
+  "stall_penalty": 0.3,
+  "tolerances": {
+    "trajectory_quality": 0.02,
+    "judge_calibration": 0.001,
+    "n_calibratable": 0,
+    "n_judge": 0,
+    "n_cycles": 0,
+    "final_open_left": 0,
+    "open_left_monotone_frac": 0.001,
+    "n_harvest": 0,
+    "n_replan": 0,
+    "solved": 0
+  },
+  "fixtures": {
+    "chess_validate-1780780054.jsonl": {
+      "trajectory_quality": 0.3521,
+      "judge_calibration": 0.3333,
+      "n_calibratable": 3,
+      "n_judge": 3,
+      "n_cycles": 3,
+      "final_open_left": 7,
+      "open_left_monotone_frac": 1.0,
+      "n_harvest": 0,
+      "n_replan": 0,
+      "solved": false
+    },
+    "proofdeliver-1780878429.jsonl": {
+      "trajectory_quality": 0.105,
+      "judge_calibration": 1.0,
+      "n_calibratable": 3,
+      "n_judge": 4,
+      "n_cycles": 4,
+      "final_open_left": 4,
+      "open_left_monotone_frac": 0.3333,
+      "n_harvest": 0,
+      "n_replan": 2,
+      "solved": false
+    },
+    "meta-ma-1780698974.jsonl": {
+      "trajectory_quality": 0.3858,
+      "judge_calibration": 1.0,
+      "n_calibratable": 13,
+      "n_judge": 13,
+      "n_cycles": 11,
+      "final_open_left": 25,
+      "open_left_monotone_frac": 0.2,
+      "n_harvest": 0,
+      "n_replan": 0,
+      "solved": false
+    },
+    "ama2-expert-1780695470.jsonl": {
+      "trajectory_quality": 0.3714,
+      "judge_calibration": 1.0,
+      "n_calibratable": 2,
+      "n_judge": 2,
+      "n_cycles": 2,
+      "final_open_left": 6,
+      "open_left_monotone_frac": 0.0,
+      "n_harvest": 0,
+      "n_replan": 0,
+      "solved": false
+    },
+    "dr-1780685625.jsonl": {
+      "trajectory_quality": 0.9,
+      "judge_calibration": 1.0,
+      "n_calibratable": 6,
+      "n_judge": 6,
+      "n_cycles": 5,
+      "final_open_left": 0,
+      "open_left_monotone_frac": 1.0,
+      "n_harvest": 0,
+      "n_replan": 0,
+      "solved": true
+    }
+  }
+}

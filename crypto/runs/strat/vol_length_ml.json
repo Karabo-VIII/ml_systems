@@ -1,0 +1,587 @@
+{
+  "tool": "vol_length_ml",
+  "question": "does volatility map to the right MA-LENGTH PROFITABLY (matched filter), and is it learnable?",
+  "assets": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "SOLUSDT"
+  ],
+  "cadences": [
+    "1d",
+    "4h",
+    "1h"
+  ],
+  "model": "knn",
+  "sklearn": true,
+  "spec": {
+    "ma_lengths": [
+      5,
+      10,
+      20,
+      50,
+      100,
+      200
+    ],
+    "ma_kind": "SMA",
+    "ext_mult": 2.5,
+    "taker_rt": 0.0024,
+    "feature_names": [
+      "vol_short",
+      "vol_med",
+      "vol_long",
+      "vol_pctile",
+      "vol_regime",
+      "vol_of_vol",
+      "vol_trend"
+    ],
+    "target": "optimal single-MA LENGTH bin maximizing price>MA(L) capture over the EXTENDED window",
+    "formulation": "price>MA(L) long/flat, next-bar-open fills, net taker 0.24%",
+    "eval_window": "[ev.start, ev.start + EXT_MULT*dur) -- extended past the move's high (length-discriminating)",
+    "train_frac": 0.6,
+    "causal": "vol pre-move/past-only; ML fit on TRAIN only; FIXED/rolled L on TRAIN; TEST untouched; OOS-once"
+  },
+  "per_slice": [
+    {
+      "tag": "BTC/1d",
+      "model": "knn",
+      "n_train": 145,
+      "n_test": 97,
+      "learnability": {
+        "base_rate": 0.30927835051546393,
+        "accuracy": 0.18556701030927836,
+        "margin": -0.12371134020618557,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": -0.07047083715715328,
+          "mean_optL_low_vol": 59.183673469387756,
+          "mean_optL_high_vol": 53.06122448979592,
+          "matched_filter_dir_holds": true
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.0027019436937399405,
+        "fixed_capture": 0.002656935373109437,
+        "rolled_capture": 0.002656935373109437,
+        "ceiling_capture": 0.031748221738060675,
+        "random_capture": 0.0037235248764646654,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 50,
+        "rolled_L": 50
+      },
+      "train_len_dist": {
+        "50": 38,
+        "10": 26,
+        "20": 25,
+        "5": 21,
+        "100": 19,
+        "200": 16
+      },
+      "test_len_dist": {
+        "20": 30,
+        "10": 19,
+        "5": 16,
+        "100": 15,
+        "50": 13,
+        "200": 4
+      },
+      "pred_len_dist": {
+        "10": 31,
+        "20": 20,
+        "100": 18,
+        "50": 16,
+        "5": 12
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the optimal MA-length above base-rate (acc 0.186 vs 0.309) and acting on the prediction does not beat fixed-L (ml -0.0027 vs fixed 0.0027). [dir: corr(vol,optL)=-0.070, supports matched-filter (high-vol->short-L)]"
+    },
+    {
+      "tag": "BTC/4h",
+      "model": "knn",
+      "n_train": 159,
+      "n_test": 106,
+      "learnability": {
+        "base_rate": 0.2830188679245283,
+        "accuracy": 0.32075471698113206,
+        "margin": 0.037735849056603765,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": -0.08770271794263804,
+          "mean_optL_low_vol": 93.20754716981132,
+          "mean_optL_high_vol": 94.43396226415095,
+          "matched_filter_dir_holds": false
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.0009391728070383394,
+        "fixed_capture": 0.0013366889912215826,
+        "rolled_capture": 0.0013366889912215826,
+        "ceiling_capture": 0.03235152844388224,
+        "random_capture": -0.011332720245812935,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 200,
+        "rolled_L": 200
+      },
+      "train_len_dist": {
+        "200": 49,
+        "20": 31,
+        "100": 29,
+        "50": 22,
+        "5": 16,
+        "10": 12
+      },
+      "test_len_dist": {
+        "100": 30,
+        "200": 30,
+        "20": 17,
+        "50": 13,
+        "10": 13,
+        "5": 3
+      },
+      "pred_len_dist": {
+        "200": 40,
+        "100": 36,
+        "50": 13,
+        "10": 8,
+        "20": 6,
+        "5": 3
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- LEARNABLE-BUT-UNPROFITABLE (MARGIN TRAP). Vol predicts the optimal-L-bin above base-rate (acc 0.321 > 0.283, +0.038) but acting on it does NOT beat fixed-L/last-week's-best (ml -0.0009 vs fixed 0.0013 / rolled 0.0013) -- the per-move capture margin between lengths is too small to bank. [dir: corr(vol,optL)=-0.088, does NOT support matched-filter (high-vol->short-L)]"
+    },
+    {
+      "tag": "BTC/1h",
+      "model": "knn",
+      "n_train": 154,
+      "n_test": 103,
+      "learnability": {
+        "base_rate": 0.44660194174757284,
+        "accuracy": 0.32038834951456313,
+        "margin": -0.1262135922330097,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": 0.07760039675845029,
+          "mean_optL_low_vol": 119.42307692307692,
+          "mean_optL_high_vol": 134.6153846153846,
+          "matched_filter_dir_holds": false
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.026003923304975647,
+        "fixed_capture": -0.014299175166514652,
+        "rolled_capture": -0.014299175166514652,
+        "ceiling_capture": 0.00887717608525955,
+        "random_capture": -0.054108057882646096,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 200,
+        "rolled_L": 200
+      },
+      "train_len_dist": {
+        "200": 71,
+        "100": 36,
+        "50": 25,
+        "20": 19,
+        "10": 2,
+        "5": 1
+      },
+      "test_len_dist": {
+        "200": 46,
+        "100": 26,
+        "50": 16,
+        "20": 9,
+        "10": 6
+      },
+      "pred_len_dist": {
+        "200": 65,
+        "100": 23,
+        "20": 11,
+        "50": 2,
+        "10": 2
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the optimal MA-length above base-rate (acc 0.320 vs 0.447) and acting on the prediction does not beat fixed-L (ml -0.0260 vs fixed -0.0143). [dir: corr(vol,optL)=0.078, does NOT support matched-filter (high-vol->short-L)]"
+    },
+    {
+      "tag": "ETH/1d",
+      "model": "knn",
+      "n_train": 137,
+      "n_test": 91,
+      "learnability": {
+        "base_rate": 0.27472527472527475,
+        "accuracy": 0.21978021978021978,
+        "margin": -0.05494505494505497,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": 0.07482480383532845,
+          "mean_optL_low_vol": 27.17391304347826,
+          "mean_optL_high_vol": 42.5,
+          "matched_filter_dir_holds": false
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.0027569973652462757,
+        "fixed_capture": 0.005162206454952869,
+        "rolled_capture": 0.005162206454952869,
+        "ceiling_capture": 0.0462674489564689,
+        "random_capture": -0.006909253251479943,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 50,
+        "rolled_L": 50
+      },
+      "train_len_dist": {
+        "50": 37,
+        "10": 30,
+        "5": 29,
+        "20": 24,
+        "200": 10,
+        "100": 7
+      },
+      "test_len_dist": {
+        "50": 25,
+        "20": 22,
+        "5": 15,
+        "100": 12,
+        "10": 10,
+        "200": 7
+      },
+      "pred_len_dist": {
+        "5": 26,
+        "10": 21,
+        "20": 21,
+        "50": 11,
+        "200": 11,
+        "100": 1
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the optimal MA-length above base-rate (acc 0.220 vs 0.275) and acting on the prediction does not beat fixed-L (ml -0.0028 vs fixed 0.0052). [dir: corr(vol,optL)=0.075, does NOT support matched-filter (high-vol->short-L)]"
+    },
+    {
+      "tag": "ETH/4h",
+      "model": "knn",
+      "n_train": 142,
+      "n_test": 94,
+      "learnability": {
+        "base_rate": 0.2765957446808511,
+        "accuracy": 0.30851063829787234,
+        "margin": 0.03191489361702127,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": -0.023967760983938772,
+          "mean_optL_low_vol": 98.95833333333333,
+          "mean_optL_high_vol": 88.64583333333333,
+          "matched_filter_dir_holds": true
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.012642504926269714,
+        "fixed_capture": -0.005210378030616478,
+        "rolled_capture": -0.005210378030616478,
+        "ceiling_capture": 0.040010313400806914,
+        "random_capture": -0.027543106337199207,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 200,
+        "rolled_L": 200
+      },
+      "train_len_dist": {
+        "200": 45,
+        "100": 27,
+        "20": 22,
+        "50": 22,
+        "5": 13,
+        "10": 13
+      },
+      "test_len_dist": {
+        "200": 26,
+        "10": 20,
+        "100": 19,
+        "20": 17,
+        "50": 9,
+        "5": 3
+      },
+      "pred_len_dist": {
+        "200": 29,
+        "10": 20,
+        "100": 20,
+        "5": 10,
+        "20": 9,
+        "50": 6
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- LEARNABLE-BUT-UNPROFITABLE (MARGIN TRAP). Vol predicts the optimal-L-bin above base-rate (acc 0.309 > 0.277, +0.032) but acting on it does NOT beat fixed-L/last-week's-best (ml -0.0126 vs fixed -0.0052 / rolled -0.0052) -- the per-move capture margin between lengths is too small to bank. [dir: corr(vol,optL)=-0.024, supports matched-filter (high-vol->short-L)]"
+    },
+    {
+      "tag": "ETH/1h",
+      "model": "knn",
+      "n_train": 134,
+      "n_test": 90,
+      "learnability": {
+        "base_rate": 0.3,
+        "accuracy": 0.23333333333333334,
+        "margin": -0.06666666666666665,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": -0.04584510888546642,
+          "mean_optL_low_vol": 132.66666666666666,
+          "mean_optL_high_vol": 116.77777777777777,
+          "matched_filter_dir_holds": true
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.039983519633614295,
+        "fixed_capture": -0.032708667398224804,
+        "rolled_capture": -0.032708667398224804,
+        "ceiling_capture": 0.012732273912089953,
+        "random_capture": -0.0717418737869418,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 100,
+        "rolled_L": 100
+      },
+      "train_len_dist": {
+        "200": 54,
+        "100": 37,
+        "50": 23,
+        "20": 18,
+        "5": 1,
+        "10": 1
+      },
+      "test_len_dist": {
+        "100": 27,
+        "200": 25,
+        "50": 17,
+        "10": 13,
+        "20": 6,
+        "5": 2
+      },
+      "pred_len_dist": {
+        "200": 41,
+        "100": 34,
+        "20": 10,
+        "50": 5
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the optimal MA-length above base-rate (acc 0.233 vs 0.300) and acting on the prediction does not beat fixed-L (ml -0.0400 vs fixed -0.0327). [dir: corr(vol,optL)=-0.046, supports matched-filter (high-vol->short-L)]"
+    },
+    {
+      "tag": "SOL/1d",
+      "model": "knn",
+      "n_train": 107,
+      "n_test": 71,
+      "learnability": {
+        "base_rate": 0.28169014084507044,
+        "accuracy": 0.19718309859154928,
+        "margin": -0.08450704225352115,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": -0.0051695946938966324,
+          "mean_optL_low_vol": 42.22222222222222,
+          "mean_optL_high_vol": 29.72222222222222,
+          "matched_filter_dir_holds": true
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.028570532054012304,
+        "fixed_capture": -0.024464746375491012,
+        "rolled_capture": -0.024464746375491012,
+        "ceiling_capture": 0.037180472637052826,
+        "random_capture": -0.02631975367131593,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 10,
+        "rolled_L": 10
+      },
+      "train_len_dist": {
+        "10": 25,
+        "50": 25,
+        "20": 23,
+        "5": 19,
+        "100": 9,
+        "200": 6
+      },
+      "test_len_dist": {
+        "20": 20,
+        "50": 15,
+        "10": 14,
+        "5": 10,
+        "200": 6,
+        "100": 6
+      },
+      "pred_len_dist": {
+        "10": 32,
+        "20": 22,
+        "50": 8,
+        "5": 6,
+        "100": 3
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the optimal MA-length above base-rate (acc 0.197 vs 0.282) and acting on the prediction does not beat fixed-L (ml -0.0286 vs fixed -0.0245). [dir: corr(vol,optL)=-0.005, supports matched-filter (high-vol->short-L)]"
+    },
+    {
+      "tag": "SOL/4h",
+      "model": "knn",
+      "n_train": 104,
+      "n_test": 70,
+      "learnability": {
+        "base_rate": 0.2714285714285714,
+        "accuracy": 0.1,
+        "margin": -0.1714285714285714,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": 0.04993485170290407,
+          "mean_optL_low_vol": 57.857142857142854,
+          "mean_optL_high_vol": 69.42857142857143,
+          "matched_filter_dir_holds": false
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.025461671940199607,
+        "fixed_capture": -0.012460882128238102,
+        "rolled_capture": -0.012460882128238102,
+        "ceiling_capture": 0.045544334775526836,
+        "random_capture": -0.04034957474504512,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 100,
+        "rolled_L": 100
+      },
+      "train_len_dist": {
+        "100": 27,
+        "50": 21,
+        "20": 19,
+        "5": 19,
+        "200": 12,
+        "10": 6
+      },
+      "test_len_dist": {
+        "200": 19,
+        "100": 16,
+        "10": 11,
+        "5": 10,
+        "20": 9,
+        "50": 5
+      },
+      "pred_len_dist": {
+        "100": 22,
+        "50": 22,
+        "20": 11,
+        "10": 7,
+        "200": 5,
+        "5": 3
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the optimal MA-length above base-rate (acc 0.100 vs 0.271) and acting on the prediction does not beat fixed-L (ml -0.0255 vs fixed -0.0125). [dir: corr(vol,optL)=0.050, does NOT support matched-filter (high-vol->short-L)]"
+    },
+    {
+      "tag": "SOL/1h",
+      "model": "knn",
+      "n_train": 98,
+      "n_test": 66,
+      "learnability": {
+        "base_rate": 0.3484848484848485,
+        "accuracy": 0.21212121212121213,
+        "margin": -0.13636363636363638,
+        "feature_importance": {},
+        "direction": {
+          "corr_volshort_optL": -0.07011173282092069,
+          "mean_optL_low_vol": 125.75757575757575,
+          "mean_optL_high_vol": 107.42424242424242,
+          "matched_filter_dir_holds": true
+        }
+      },
+      "profitability": {
+        "ml_capture": -0.04293728150601859,
+        "fixed_capture": -0.04288997888452091,
+        "rolled_capture": -0.04288997888452091,
+        "ceiling_capture": 0.020322134827993135,
+        "random_capture": -0.07405761445305294,
+        "ml_beats_fixed": false,
+        "ml_beats_rolled": false,
+        "ml_positive": false,
+        "fixed_L": 100,
+        "rolled_L": 100
+      },
+      "train_len_dist": {
+        "200": 35,
+        "100": 33,
+        "20": 13,
+        "50": 10,
+        "10": 5,
+        "5": 2
+      },
+      "test_len_dist": {
+        "200": 23,
+        "50": 12,
+        "100": 12,
+        "20": 10,
+        "10": 8,
+        "5": 1
+      },
+      "pred_len_dist": {
+        "100": 38,
+        "200": 18,
+        "50": 6,
+        "20": 4
+      },
+      "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- GENUINELY-NOT-LEARNABLE (NULL). Vol does not predict the optimal MA-length above base-rate (acc 0.212 vs 0.348) and acting on the prediction does not beat fixed-L (ml -0.0429 vs fixed -0.0429). [dir: corr(vol,optL)=-0.070, supports matched-filter (high-vol->short-L)]"
+    }
+  ],
+  "pooled": {
+    "tag": "POOLED(all)",
+    "model": "knn",
+    "n_train": 1181,
+    "n_test": 787,
+    "learnability": {
+      "base_rate": 0.241423125794155,
+      "accuracy": 0.26429479034307496,
+      "margin": 0.02287166454891995,
+      "feature_importance": {},
+      "direction": {
+        "corr_volshort_optL": -0.29736554293439643,
+        "mean_optL_low_vol": 110.35532994923858,
+        "mean_optL_high_vol": 52.82994923857868,
+        "matched_filter_dir_holds": true
+      }
+    },
+    "profitability": {
+      "ml_capture": -0.005539968594465016,
+      "fixed_capture": 0.000533179573686906,
+      "rolled_capture": 0.000533179573686906,
+      "ceiling_capture": 0.06694431298245833,
+      "random_capture": -0.033607871643986605,
+      "ml_beats_fixed": false,
+      "ml_beats_rolled": false,
+      "ml_positive": false,
+      "fixed_L": 200,
+      "rolled_L": 200
+    },
+    "train_len_dist": {
+      "200": 294,
+      "50": 216,
+      "20": 209,
+      "100": 206,
+      "10": 140,
+      "5": 116
+    },
+    "test_len_dist": {
+      "200": 190,
+      "100": 181,
+      "50": 132,
+      "20": 125,
+      "10": 94,
+      "5": 65
+    },
+    "pred_len_dist": {
+      "200": 219,
+      "100": 164,
+      "20": 132,
+      "10": 129,
+      "50": 104,
+      "5": 39
+    },
+    "verdict": "VOL -> MA-LENGTH MAPS PROFITABLY: NO -- LEARNABLE-BUT-UNPROFITABLE (MARGIN TRAP). Vol predicts the optimal-L-bin above base-rate (acc 0.264 > 0.241, +0.023) but acting on it does NOT beat fixed-L/last-week's-best (ml -0.0055 vs fixed 0.0005 / rolled 0.0005) -- the per-move capture margin between lengths is too small to bank. [dir: corr(vol,optL)=-0.297, supports matched-filter (high-vol->short-L)]"
+  }
+}

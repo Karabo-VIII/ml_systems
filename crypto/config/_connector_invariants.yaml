@@ -1,0 +1,187 @@
+# Connector-Integrity Invariants Registry
+# =========================================
+# Catches the bug class that CDAP's existing checkers miss:
+#   - Canonical-class drift (e.g., v50 default glob in anti_fragile)
+#   - Cost-model bypass (e.g., RealisticCostModel where MakerCostModel mandated)
+#   - Constraint-propagation gaps (LO + lev=1 only at blend layer, not sim layer)
+#   - Claim-vs-reality drift (yaml aggregate_metrics_* inflated vs v3 reality)
+#
+# Provenance: 2026-05-17 session — paper_trade_replay_v3 audit found 5 connector
+# gaps that escaped CDAP. User mandate: "crawlers too primitive to catch real errors".
+# This file declares the higher-order canonical-class + constraint invariants
+# that the connector_integrity_crawler.py enforces.
+#
+# Schema:
+#   data_source_canonical: declares the CANONICAL data source per consumer kind
+#   cost_model_canonical:  declares the CANONICAL cost-model class per simulator kind
+#   constraint_propagation: declares constraints that must be enforced at EVERY layer
+#   yaml_vs_v3_drift_threshold: max acceptable inflation ratio of yaml vs v3
+#
+# Severity:
+#   critical -> halt commit (exit 2)
+#   warn     -> stderr WARN (exit 1, doesn't halt)
+#   info     -> tracked but non-blocking
+
+version: 1
+provenance: "2026-05-17 connector-integrity meta-crawler design"
+
+# ─────────────────────────────────────────────────────────────────────
+# 1. DATA SOURCE CANONICAL — what's the canonical data source for each consumer?
+# ─────────────────────────────────────────────────────────────────────
+# Detects: any module that reads a NON-CANONICAL data source. Specifically,
+# the trainer drift where anti_fragile.load_full_data defaulted to
+# `*_v50_chimera*.parquet` (legacy) instead of v51 chimera.
+data_source_canonical:
+
+  - name: trainer_data_source_v51_default
+    description: |
+      WM trainers must default to v51 chimera, not v50 legacy.
+      anti_fragile.load_full_data, data_api.load_v51, etc. must hit v51 first.
+    canonical_pattern: 'v51_chimera|chimera/dollar|chimera/(1d|4h|1h|15m)|ChimeraLoader\.|load_v51\('
+    forbidden_pattern: 'file_glob\s*=\s*"\*_v50_chimera\*\.parquet"|file_glob\s*=\s*"\*v50_chimera\*"'
+    # Forbidden = hardcoded default of v50 glob (intentional EXPLICIT v50 reads are OK)
+    files:
+      - "src/anti_fragile.py"
+      - "src/data_api/__init__.py"
+    severity: critical
+    rationale: |
+      anti_fragile.load_full_data:366 had hardcoded default `*_v50_chimera*.parquet`.
+      WM trainers calling load_full_data() without explicit file_glob got v50 data,
+      bypassing the v51 returns_clean fix (no silent fill_null(0)) that the pipeline
+      ships. Resulting model ROI claims inflated. Fix: default to v51 glob.
+
+  - name: no_chimera_legacy_path_in_strategy
+    description: "Strategy modules must NOT reference data/processed/chimera_legacy/dollar/ directly."
+    forbidden_pattern: 'data/processed/chimera_legacy/dollar|chimera_legacy/dollar'
+    files:
+      - "src/strategy/**/*.py"
+      - "src/analysis/**/*.py"
+    exclude_files:
+      # Layer.py is the canonical path resolver; expects to know about both.
+      - "src/pipeline/layout.py"
+      # Comments + legacy fallback acknowledgments OK in these
+      - "src/pipeline/chimera_loader.py"
+      - "src/pipeline/bar_fabric.py"
+      # Officially deprecated 2026-05-15 R32 (file header declares it broken-but-dead).
+      # References to chimera_legacy in deprecation banner are expected.
+      - "src/strategy/cadence_loader.py"
+    severity: warn
+
+# ─────────────────────────────────────────────────────────────────────
+# 2. COST MODEL CANONICAL — which cost-model class for which simulator kind?
+# ─────────────────────────────────────────────────────────────────────
+# Detects: simulator that uses NO cost model at all (silent free-trading)
+# OR uses an inappropriate cost model for its execution mode.
+cost_model_canonical:
+
+  - name: deploy_simulator_must_use_calibrated_cost
+    description: |
+      Any simulator producing deploy-tier ROI claims must use a calibrated cost
+      module (MakerCostModel/RealisticCostModel preferred; SPOT_COST legacy OK
+      for spot taker only). Hardcoded cost literals (round_trip=0.XX inline)
+      violate G-AUDIT-010.
+
+      UPGRADE PATH: multi_engine_v3_backtest.py currently uses legacy flat
+      SPOT_COST (0.24%); RealisticCostModel (asset-aware: BLUE 0.26% / DEGEN 1.20%)
+      is more accurate. Tracked in cycle-2 backlog.
+    required_any_pattern: 'MakerCostModel|RealisticCostModel|maker_cost_model|realistic_cost_model|from cost_model import|SPOT_COST'
+    forbidden_hardcoded_cost_pattern: 'round_trip\s*=\s*0\.\d+|cost_per_side\s*=\s*0\.\d+\s*#\s*hardcoded'
+    files:
+      - "src/analysis/short_term_speculator_v2.py"
+      - "src/analysis/short_term_speculator_v3.py"
+      - "src/analysis/trend_follow_backtest.py"
+      - "src/analysis/multi_engine_v3_backtest.py"
+      - "scripts/strat_audit/paper_trade_replay_v3.py"
+    severity: critical
+    rationale: |
+      G-AUDIT-010 caught hardcoded fees in gen3+ engines. Pattern must include
+      a calibrated cost-model import. paper_trade_replay_v3 is the canonical
+      deploy gate; it MUST use MakerCostModel.
+
+  - name: maker_cost_p_fill_within_calibrated_range
+    description: "When MakerCostModel is used, p_fill must be in calibrated range [0.21, 0.50]."
+    pattern: 'MakerCostConfig\([^)]*p_fill\s*=\s*0\.(2[1-9]|3\d|4\d|50)'
+    # Forbidden: p_fill=0.80 (the optimistic default) is OK as default but explicit set must be calibrated
+    files:
+      - "src/analysis/*.py"
+      - "src/strategy/**/*.py"
+      - "scripts/strat_audit/*.py"
+    severity: warn
+    rationale: |
+      OHLC replay 2026-04-22 found real p_fill 21-40% per bucket. Default 0.30
+      is acceptable; explicit 0.80 is fictional (would over-state fill rate).
+
+# ─────────────────────────────────────────────────────────────────────
+# 3. CONSTRAINT PROPAGATION — LO + leverage=1.0 must hold at EVERY layer
+# ─────────────────────────────────────────────────────────────────────
+# Detects: places where a constraint can be bypassed. E.g., LO enforced
+# at blend yaml but signed signals reach simulator without filter.
+constraint_propagation:
+
+  - name: simulator_long_only_filter_present
+    description: |
+      Any simulator that accepts signed signals (side='long'|'short') must
+      have a LONG-ONLY filter that respects a blend.long_only flag.
+    # The constraint: file references side=="short" AND must reference long_only filter
+    required_pattern_if_present: 'long_only|drop.*short|side\s*!=\s*"short"|side\s*==\s*"long"'
+    presence_triggered_by: 'side\s*==\s*"short"|direction.*short|signed.*signal'
+    files:
+      - "src/analysis/short_term_speculator_v2.py"
+      - "src/analysis/short_term_speculator_v3.py"
+      - "src/analysis/trend_follow_backtest.py"
+      - "scripts/strat_audit/paper_trade_replay_v3.py"
+    severity: critical
+    rationale: |
+      User mandate 2026-05-09: NO LEVERAGE + LONG-ONLY. Currently enforced
+      only at blend layer (run_blend.py:708-726 drops side='short' if blend.long_only).
+      Default blends have long_only:false; standalone sims have no guard.
+
+  - name: blend_validator_rejects_leverage
+    description: |
+      BlendDefinition.validate() must reject leverage>1.0 unless an explicit
+      override flag (--allow-leverage) is passed at runtime.
+    required_pattern: 'leverage\s*>\s*1\.0|leverage\s*>=\s*1\.\d|reject.*leverage|allow_leverage'
+    files:
+      - "src/strategy/gen5_growth/blend_composer.py"
+    severity: warn
+    rationale: |
+      AGGRESSIVE_LEV_*, PRIME_LEV_3X have leverage 1.8/2.5/3.0 in YAML and
+      ARE selectable today. User mandate: NO LEVERAGE. Validator must require
+      explicit override.
+
+# ─────────────────────────────────────────────────────────────────────
+# 4. YAML vs V3 REALITY DRIFT — claim vs measured
+# ─────────────────────────────────────────────────────────────────────
+yaml_vs_v3_drift:
+
+  threshold_inflation_ratio: 2.0
+  threshold_sign_flip: true   # any sign flip = critical
+  v3_log_dir: "logs/strat_audit"
+  v3_window: "20260101_20260430"   # canonical Q1+April 2026
+  blends_yaml: "config/production_blends.yaml"
+  severity: warn
+  rationale: |
+    Audit 2026-05-17: yaml claims for CONSERVATIVE_LO inflated 7.6x vs v3;
+    CROSS_LANE_K5_SHIP yaml WF +1.118%/d but v3 -0.223%/d (sign flip).
+    Anchor: paper_trade_replay_v3 is canonical truth per
+    memory/paper_trade_v3_deploy_gate_2026_05_09.md.
+
+# ─────────────────────────────────────────────────────────────────────
+# 5. WM TRAINER COVERAGE — every active trainer must be in CDAP list
+# ─────────────────────────────────────────────────────────────────────
+wm_trainer_coverage:
+
+  active_trainers_glob: "src/wm/v*/v*_training/train_world_model.py"
+  excluded_archived_glob: "src/wm/v*/archive/**/train_world_model.py"
+  must_be_in_invariants:
+    - "model_no_direct_anti_fragile_load_full_data"
+    - "strict_false_on_load"
+    - "shic_decline_count_persisted"
+    - "n_features_in_checkpoint"
+    - "wm_trainer_features_flag"
+  severity: warn
+  rationale: |
+    Bug class: a new trainer (V22/V25/V20+) ships without being added to the
+    CDAP invariant lists. The invariant exists but doesn't enforce on the new
+    trainer. This crawler diffs active trainers vs invariant lists and flags
+    missing ones.

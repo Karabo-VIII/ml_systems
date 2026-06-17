@@ -1,0 +1,1748 @@
+{
+  "repro": {
+    "command": "python src/strat/oracle_decompose_deep.py --assets BTC,ETH,SOL,BNB,DOGE,XRP --cadences 1d,4h,1h,30m,15m --bars 28 --step 14 --json",
+    "git_sha": "6b12987"
+  },
+  "results": {
+    "BTC_1d": {
+      "decompose": {
+        "n_weeks": 161,
+        "period_mean": 20.7,
+        "period_std": 16.5,
+        "pct_trend_structure": 0.81,
+        "factor_period_corr": {
+          "er": 0.24,
+          "vol": -0.088,
+          "vov": -0.062,
+          "autocorr": -0.321,
+          "hurst": -0.214,
+          "range": 0.023,
+          "dom_cycle": 0.064,
+          "swing_asym": -0.018,
+          "skew": 0.03,
+          "drift": 0.079
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.66,
+          "intercept_period": 14.3,
+          "std_coefs": {
+            "er": 0.362,
+            "vol": 0.109,
+            "vov": -0.161,
+            "autocorr": -0.3,
+            "hurst": -0.147,
+            "range": -0.095,
+            "dom_cycle": 0.031,
+            "swing_asym": -0.25,
+            "skew": -0.046,
+            "drift": 0.258
+          },
+          "R2": 0.258
+        },
+        "structure_separation": {
+          "er": 0.167,
+          "vol": 0.111,
+          "vov": 0.108,
+          "autocorr": 0.362,
+          "hurst": 0.478,
+          "range": 0.292,
+          "dom_cycle": -0.023,
+          "swing_asym": 0.352,
+          "skew": 0.08,
+          "drift": 0.314
+        }
+      },
+      "adaptability": {
+        "n_test": 64,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 2.69,
+        "fixed_mean_roi": 2.292,
+        "oracle_mean_roi": 7.18,
+        "adaptive_beats_fixed_frac": 0.38,
+        "adaptive_edge_vs_fixed_pp": 0.398
+      }
+    },
+    "BTC_4h": {
+      "decompose": {
+        "n_weeks": 808,
+        "period_mean": 18.7,
+        "period_std": 16.8,
+        "pct_trend_structure": 0.76,
+        "factor_period_corr": {
+          "er": 0.146,
+          "vol": 0.065,
+          "vov": 0.055,
+          "autocorr": -0.293,
+          "hurst": -0.212,
+          "range": 0.055,
+          "dom_cycle": 0.025,
+          "swing_asym": 0.058,
+          "skew": 0.064,
+          "drift": 0.074
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.494,
+          "intercept_period": 12.1,
+          "std_coefs": {
+            "er": 0.306,
+            "vol": 0.603,
+            "vov": -0.331,
+            "autocorr": -0.262,
+            "hurst": -0.167,
+            "range": -0.241,
+            "dom_cycle": 0.057,
+            "swing_asym": -0.036,
+            "skew": 0.012,
+            "drift": 0.051
+          },
+          "R2": 0.173
+        },
+        "structure_separation": {
+          "er": -0.006,
+          "vol": 0.124,
+          "vov": 0.112,
+          "autocorr": 0.344,
+          "hurst": 0.308,
+          "range": 0.186,
+          "dom_cycle": -0.119,
+          "swing_asym": 0.117,
+          "skew": 0.004,
+          "drift": 0.071
+        }
+      },
+      "adaptability": {
+        "n_test": 358,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.704,
+        "fixed_mean_roi": 0.409,
+        "oracle_mean_roi": 2.551,
+        "adaptive_beats_fixed_frac": 0.31,
+        "adaptive_edge_vs_fixed_pp": 0.295
+      }
+    },
+    "BTC_1h": {
+      "decompose": {
+        "n_weeks": 609,
+        "period_mean": 19.4,
+        "period_std": 17.6,
+        "pct_trend_structure": 0.73,
+        "factor_period_corr": {
+          "er": 0.128,
+          "vol": -0.032,
+          "vov": -0.016,
+          "autocorr": -0.241,
+          "hurst": -0.16,
+          "range": -0.02,
+          "dom_cycle": 0.086,
+          "swing_asym": 0.045,
+          "skew": 0.012,
+          "drift": 0.031
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.515,
+          "intercept_period": 12.4,
+          "std_coefs": {
+            "er": 0.275,
+            "vol": 0.177,
+            "vov": -0.063,
+            "autocorr": -0.231,
+            "hurst": -0.153,
+            "range": -0.199,
+            "dom_cycle": 0.008,
+            "swing_asym": 0.094,
+            "skew": -0.03,
+            "drift": -0.088
+          },
+          "R2": 0.117
+        },
+        "structure_separation": {
+          "er": 0.19,
+          "vol": -0.085,
+          "vov": -0.108,
+          "autocorr": 0.369,
+          "hurst": 0.246,
+          "range": 0.052,
+          "dom_cycle": 0.035,
+          "swing_asym": 0.18,
+          "skew": -0.074,
+          "drift": 0.118
+        }
+      },
+      "adaptability": {
+        "n_test": 847,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 1.058,
+        "fixed_mean_roi": 1.006,
+        "oracle_mean_roi": 2.075,
+        "adaptive_beats_fixed_frac": 0.27,
+        "adaptive_edge_vs_fixed_pp": 0.052
+      }
+    },
+    "BTC_30m": {
+      "decompose": {
+        "n_weeks": 328,
+        "period_mean": 20.7,
+        "period_std": 17.4,
+        "pct_trend_structure": 0.73,
+        "factor_period_corr": {
+          "er": 0.178,
+          "vol": -0.127,
+          "vov": -0.124,
+          "autocorr": -0.281,
+          "hurst": -0.092,
+          "range": -0.117,
+          "dom_cycle": 0.223,
+          "swing_asym": 0.076,
+          "skew": 0.04,
+          "drift": 0.141
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.623,
+          "intercept_period": 13.8,
+          "std_coefs": {
+            "er": 0.386,
+            "vol": 1.105,
+            "vov": -0.809,
+            "autocorr": -0.306,
+            "hurst": -0.058,
+            "range": -0.395,
+            "dom_cycle": 0.143,
+            "swing_asym": -0.086,
+            "skew": -0.074,
+            "drift": 0.083
+          },
+          "R2": 0.208
+        },
+        "structure_separation": {
+          "er": -0.187,
+          "vol": 0.173,
+          "vov": 0.158,
+          "autocorr": 0.292,
+          "hurst": 0.435,
+          "range": 0.223,
+          "dom_cycle": -0.235,
+          "swing_asym": -0.126,
+          "skew": -0.145,
+          "drift": -0.063
+        }
+      },
+      "adaptability": {
+        "n_test": 1135,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 1.142,
+        "fixed_mean_roi": 1.086,
+        "oracle_mean_roi": 1.957,
+        "adaptive_beats_fixed_frac": 0.31,
+        "adaptive_edge_vs_fixed_pp": 0.056
+      }
+    },
+    "BTC_15m": {
+      "decompose": {
+        "n_weeks": 278,
+        "period_mean": 19.6,
+        "period_std": 16.8,
+        "pct_trend_structure": 0.72,
+        "factor_period_corr": {
+          "er": 0.301,
+          "vol": -0.136,
+          "vov": -0.127,
+          "autocorr": -0.143,
+          "hurst": -0.111,
+          "range": -0.084,
+          "dom_cycle": 0.236,
+          "swing_asym": 0.087,
+          "skew": 0.151,
+          "drift": 0.132
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.557,
+          "intercept_period": 12.9,
+          "std_coefs": {
+            "er": 0.286,
+            "vol": 0.481,
+            "vov": -0.571,
+            "autocorr": -0.179,
+            "hurst": -0.082,
+            "range": 0.064,
+            "dom_cycle": 0.124,
+            "swing_asym": 0.001,
+            "skew": 0.057,
+            "drift": -0.051
+          },
+          "R2": 0.159
+        },
+        "structure_separation": {
+          "er": -0.196,
+          "vol": 0.222,
+          "vov": 0.214,
+          "autocorr": 0.426,
+          "hurst": 0.235,
+          "range": 0.217,
+          "dom_cycle": -0.4,
+          "swing_asym": -0.044,
+          "skew": -0.383,
+          "drift": -0.093
+        }
+      },
+      "adaptability": {
+        "n_test": 1295,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 1.315,
+        "fixed_mean_roi": 1.229,
+        "oracle_mean_roi": 1.97,
+        "adaptive_beats_fixed_frac": 0.28,
+        "adaptive_edge_vs_fixed_pp": 0.087
+      }
+    },
+    "ETH_1d": {
+      "decompose": {
+        "n_weeks": 159,
+        "period_mean": 20.8,
+        "period_std": 17.4,
+        "pct_trend_structure": 0.82,
+        "factor_period_corr": {
+          "er": 0.187,
+          "vol": 0.136,
+          "vov": 0.147,
+          "autocorr": -0.246,
+          "hurst": -0.168,
+          "range": 0.14,
+          "dom_cycle": -0.236,
+          "swing_asym": 0.125,
+          "skew": 0.154,
+          "drift": 0.187
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.594,
+          "intercept_period": 13.4,
+          "std_coefs": {
+            "er": 0.275,
+            "vol": -0.097,
+            "vov": 0.208,
+            "autocorr": -0.162,
+            "hurst": -0.074,
+            "range": -0.155,
+            "dom_cycle": -0.247,
+            "swing_asym": -0.169,
+            "skew": 0.054,
+            "drift": 0.265
+          },
+          "R2": 0.192
+        },
+        "structure_separation": {
+          "er": 0.216,
+          "vol": -0.039,
+          "vov": -0.099,
+          "autocorr": 0.414,
+          "hurst": 0.173,
+          "range": 0.156,
+          "dom_cycle": 0.182,
+          "swing_asym": 0.287,
+          "skew": -0.37,
+          "drift": 0.4
+        }
+      },
+      "adaptability": {
+        "n_test": 63,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 1.29,
+        "fixed_mean_roi": 0.669,
+        "oracle_mean_roi": 9.292,
+        "adaptive_beats_fixed_frac": 0.19,
+        "adaptive_edge_vs_fixed_pp": 0.622
+      }
+    },
+    "ETH_4h": {
+      "decompose": {
+        "n_weeks": 856,
+        "period_mean": 17.2,
+        "period_std": 16.0,
+        "pct_trend_structure": 0.78,
+        "factor_period_corr": {
+          "er": 0.204,
+          "vol": 0.037,
+          "vov": 0.043,
+          "autocorr": -0.234,
+          "hurst": -0.117,
+          "range": 0.07,
+          "dom_cycle": -0.028,
+          "swing_asym": 0.052,
+          "skew": 0.022,
+          "drift": 0.07
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.397,
+          "intercept_period": 11.0,
+          "std_coefs": {
+            "er": 0.335,
+            "vol": 0.255,
+            "vov": -0.161,
+            "autocorr": -0.22,
+            "hurst": -0.074,
+            "range": -0.161,
+            "dom_cycle": -0.045,
+            "swing_asym": 0.003,
+            "skew": -0.023,
+            "drift": 0.019
+          },
+          "R2": 0.126
+        },
+        "structure_separation": {
+          "er": 0.139,
+          "vol": 0.141,
+          "vov": 0.138,
+          "autocorr": 0.423,
+          "hurst": 0.455,
+          "range": 0.284,
+          "dom_cycle": 0.015,
+          "swing_asym": 0.01,
+          "skew": 0.099,
+          "drift": 0.035
+        }
+      },
+      "adaptability": {
+        "n_test": 377,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.743,
+        "fixed_mean_roi": 0.486,
+        "oracle_mean_roi": 3.268,
+        "adaptive_beats_fixed_frac": 0.34,
+        "adaptive_edge_vs_fixed_pp": 0.257
+      }
+    },
+    "ETH_1h": {
+      "decompose": {
+        "n_weeks": 768,
+        "period_mean": 19.8,
+        "period_std": 17.4,
+        "pct_trend_structure": 0.72,
+        "factor_period_corr": {
+          "er": 0.087,
+          "vol": -0.092,
+          "vov": -0.081,
+          "autocorr": -0.239,
+          "hurst": -0.159,
+          "range": -0.094,
+          "dom_cycle": 0.121,
+          "swing_asym": 0.07,
+          "skew": 0.068,
+          "drift": 0.069
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.558,
+          "intercept_period": 12.9,
+          "std_coefs": {
+            "er": 0.204,
+            "vol": 0.264,
+            "vov": -0.098,
+            "autocorr": -0.21,
+            "hurst": -0.101,
+            "range": -0.258,
+            "dom_cycle": 0.042,
+            "swing_asym": 0.048,
+            "skew": -0.0,
+            "drift": -0.025
+          },
+          "R2": 0.101
+        },
+        "structure_separation": {
+          "er": 0.028,
+          "vol": 0.199,
+          "vov": 0.138,
+          "autocorr": 0.401,
+          "hurst": 0.457,
+          "range": 0.276,
+          "dom_cycle": -0.178,
+          "swing_asym": 0.047,
+          "skew": -0.013,
+          "drift": 0.041
+        }
+      },
+      "adaptability": {
+        "n_test": 1107,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.809,
+        "fixed_mean_roi": 0.728,
+        "oracle_mean_roi": 2.162,
+        "adaptive_beats_fixed_frac": 0.31,
+        "adaptive_edge_vs_fixed_pp": 0.081
+      }
+    },
+    "ETH_30m": {
+      "decompose": {
+        "n_weeks": 571,
+        "period_mean": 20.8,
+        "period_std": 17.3,
+        "pct_trend_structure": 0.73,
+        "factor_period_corr": {
+          "er": 0.146,
+          "vol": 0.016,
+          "vov": 0.012,
+          "autocorr": -0.135,
+          "hurst": -0.079,
+          "range": 0.027,
+          "dom_cycle": 0.13,
+          "swing_asym": 0.115,
+          "skew": 0.117,
+          "drift": 0.049
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.625,
+          "intercept_period": 13.8,
+          "std_coefs": {
+            "er": 0.278,
+            "vol": 1.101,
+            "vov": -0.768,
+            "autocorr": -0.141,
+            "hurst": -0.052,
+            "range": -0.309,
+            "dom_cycle": 0.144,
+            "swing_asym": 0.139,
+            "skew": 0.07,
+            "drift": -0.19
+          },
+          "R2": 0.101
+        },
+        "structure_separation": {
+          "er": 0.116,
+          "vol": 0.152,
+          "vov": 0.158,
+          "autocorr": 0.427,
+          "hurst": 0.189,
+          "range": 0.211,
+          "dom_cycle": -0.197,
+          "swing_asym": -0.085,
+          "skew": -0.024,
+          "drift": -0.066
+        }
+      },
+      "adaptability": {
+        "n_test": 1619,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.994,
+        "fixed_mean_roi": 0.907,
+        "oracle_mean_roi": 2.01,
+        "adaptive_beats_fixed_frac": 0.3,
+        "adaptive_edge_vs_fixed_pp": 0.087
+      }
+    },
+    "ETH_15m": {
+      "decompose": {
+        "n_weeks": 476,
+        "period_mean": 18.6,
+        "period_std": 16.6,
+        "pct_trend_structure": 0.74,
+        "factor_period_corr": {
+          "er": 0.191,
+          "vol": -0.088,
+          "vov": -0.085,
+          "autocorr": -0.218,
+          "hurst": -0.058,
+          "range": -0.071,
+          "dom_cycle": 0.171,
+          "swing_asym": 0.122,
+          "skew": 0.039,
+          "drift": 0.062
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.493,
+          "intercept_period": 12.1,
+          "std_coefs": {
+            "er": 0.346,
+            "vol": 0.748,
+            "vov": -0.486,
+            "autocorr": -0.185,
+            "hurst": -0.063,
+            "range": -0.346,
+            "dom_cycle": 0.044,
+            "swing_asym": 0.133,
+            "skew": -0.058,
+            "drift": -0.143
+          },
+          "R2": 0.126
+        },
+        "structure_separation": {
+          "er": 0.005,
+          "vol": 0.13,
+          "vov": 0.127,
+          "autocorr": 0.022,
+          "hurst": 0.227,
+          "range": 0.156,
+          "dom_cycle": -0.111,
+          "swing_asym": 0.092,
+          "skew": -0.07,
+          "drift": 0.094
+        }
+      },
+      "adaptability": {
+        "n_test": 2060,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 1.146,
+        "fixed_mean_roi": 1.101,
+        "oracle_mean_roi": 1.976,
+        "adaptive_beats_fixed_frac": 0.28,
+        "adaptive_edge_vs_fixed_pp": 0.044
+      }
+    },
+    "SOL_1d": {
+      "decompose": {
+        "n_weeks": 143,
+        "period_mean": 20.0,
+        "period_std": 18.0,
+        "pct_trend_structure": 0.81,
+        "factor_period_corr": {
+          "er": 0.194,
+          "vol": -0.023,
+          "vov": -0.01,
+          "autocorr": -0.287,
+          "hurst": -0.091,
+          "range": 0.015,
+          "dom_cycle": -0.202,
+          "swing_asym": 0.045,
+          "skew": 0.054,
+          "drift": 0.103
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.55,
+          "intercept_period": 12.8,
+          "std_coefs": {
+            "er": 0.315,
+            "vol": -0.071,
+            "vov": 0.079,
+            "autocorr": -0.22,
+            "hurst": -0.057,
+            "range": -0.255,
+            "dom_cycle": -0.194,
+            "swing_asym": -0.033,
+            "skew": 0.068,
+            "drift": 0.171
+          },
+          "R2": 0.186
+        },
+        "structure_separation": {
+          "er": 0.143,
+          "vol": 0.615,
+          "vov": 0.6,
+          "autocorr": 0.263,
+          "hurst": 0.214,
+          "range": 0.575,
+          "dom_cycle": 0.03,
+          "swing_asym": 0.218,
+          "skew": -0.056,
+          "drift": 0.24
+        }
+      },
+      "adaptability": {
+        "n_test": 57,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.722,
+        "fixed_mean_roi": -0.058,
+        "oracle_mean_roi": 8.732,
+        "adaptive_beats_fixed_frac": 0.37,
+        "adaptive_edge_vs_fixed_pp": 0.779
+      }
+    },
+    "SOL_4h": {
+      "decompose": {
+        "n_weeks": 880,
+        "period_mean": 19.5,
+        "period_std": 17.5,
+        "pct_trend_structure": 0.79,
+        "factor_period_corr": {
+          "er": 0.168,
+          "vol": 0.029,
+          "vov": 0.04,
+          "autocorr": -0.331,
+          "hurst": -0.104,
+          "range": 0.028,
+          "dom_cycle": -0.045,
+          "swing_asym": 0.012,
+          "skew": -0.003,
+          "drift": 0.059
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.509,
+          "intercept_period": 12.3,
+          "std_coefs": {
+            "er": 0.262,
+            "vol": 0.132,
+            "vov": -0.026,
+            "autocorr": -0.324,
+            "hurst": -0.064,
+            "range": -0.143,
+            "dom_cycle": -0.003,
+            "swing_asym": -0.07,
+            "skew": 0.018,
+            "drift": 0.08
+          },
+          "R2": 0.159
+        },
+        "structure_separation": {
+          "er": 0.049,
+          "vol": 0.169,
+          "vov": 0.145,
+          "autocorr": 0.336,
+          "hurst": 0.192,
+          "range": 0.236,
+          "dom_cycle": 0.046,
+          "swing_asym": 0.001,
+          "skew": 0.091,
+          "drift": 0.006
+        }
+      },
+      "adaptability": {
+        "n_test": 351,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.577,
+        "fixed_mean_roi": 0.114,
+        "oracle_mean_roi": 3.877,
+        "adaptive_beats_fixed_frac": 0.35,
+        "adaptive_edge_vs_fixed_pp": 0.463
+      }
+    },
+    "SOL_1h": {
+      "decompose": {
+        "n_weeks": 875,
+        "period_mean": 18.3,
+        "period_std": 16.7,
+        "pct_trend_structure": 0.77,
+        "factor_period_corr": {
+          "er": 0.071,
+          "vol": 0.004,
+          "vov": 0.005,
+          "autocorr": -0.319,
+          "hurst": -0.112,
+          "range": -0.029,
+          "dom_cycle": -0.039,
+          "swing_asym": 0.003,
+          "skew": -0.028,
+          "drift": 0.031
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.458,
+          "intercept_period": 11.7,
+          "std_coefs": {
+            "er": 0.183,
+            "vol": 0.19,
+            "vov": -0.11,
+            "autocorr": -0.306,
+            "hurst": -0.076,
+            "range": -0.176,
+            "dom_cycle": -0.065,
+            "swing_asym": -0.012,
+            "skew": -0.025,
+            "drift": 0.062
+          },
+          "R2": 0.131
+        },
+        "structure_separation": {
+          "er": 0.275,
+          "vol": -0.038,
+          "vov": -0.02,
+          "autocorr": 0.496,
+          "hurst": 0.38,
+          "range": 0.218,
+          "dom_cycle": 0.158,
+          "swing_asym": 0.141,
+          "skew": 0.163,
+          "drift": 0.158
+        }
+      },
+      "adaptability": {
+        "n_test": 1192,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.519,
+        "fixed_mean_roi": 0.334,
+        "oracle_mean_roi": 2.255,
+        "adaptive_beats_fixed_frac": 0.32,
+        "adaptive_edge_vs_fixed_pp": 0.186
+      }
+    },
+    "SOL_30m": {
+      "decompose": {
+        "n_weeks": 861,
+        "period_mean": 19.0,
+        "period_std": 17.4,
+        "pct_trend_structure": 0.78,
+        "factor_period_corr": {
+          "er": 0.116,
+          "vol": 0.06,
+          "vov": 0.05,
+          "autocorr": -0.334,
+          "hurst": -0.144,
+          "range": 0.017,
+          "dom_cycle": -0.046,
+          "swing_asym": -0.01,
+          "skew": 0.012,
+          "drift": 0.015
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.474,
+          "intercept_period": 11.9,
+          "std_coefs": {
+            "er": 0.297,
+            "vol": 0.586,
+            "vov": -0.311,
+            "autocorr": -0.299,
+            "hurst": -0.066,
+            "range": -0.335,
+            "dom_cycle": -0.017,
+            "swing_asym": -0.05,
+            "skew": -0.002,
+            "drift": 0.057
+          },
+          "R2": 0.159
+        },
+        "structure_separation": {
+          "er": 0.198,
+          "vol": 0.04,
+          "vov": 0.032,
+          "autocorr": 0.55,
+          "hurst": 0.315,
+          "range": 0.226,
+          "dom_cycle": 0.013,
+          "swing_asym": 0.046,
+          "skew": -0.057,
+          "drift": 0.07
+        }
+      },
+      "adaptability": {
+        "n_test": 1935,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.668,
+        "fixed_mean_roi": 0.519,
+        "oracle_mean_roi": 2.031,
+        "adaptive_beats_fixed_frac": 0.31,
+        "adaptive_edge_vs_fixed_pp": 0.149
+      }
+    },
+    "SOL_15m": {
+      "decompose": {
+        "n_weeks": 813,
+        "period_mean": 16.6,
+        "period_std": 15.6,
+        "pct_trend_structure": 0.81,
+        "factor_period_corr": {
+          "er": 0.161,
+          "vol": 0.002,
+          "vov": -0.018,
+          "autocorr": -0.32,
+          "hurst": -0.107,
+          "range": -0.006,
+          "dom_cycle": 0.065,
+          "swing_asym": 0.032,
+          "skew": 0.091,
+          "drift": 0.027
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.373,
+          "intercept_period": 10.7,
+          "std_coefs": {
+            "er": 0.3,
+            "vol": 0.737,
+            "vov": -0.509,
+            "autocorr": -0.281,
+            "hurst": -0.032,
+            "range": -0.276,
+            "dom_cycle": 0.06,
+            "swing_asym": 0.014,
+            "skew": 0.082,
+            "drift": -0.038
+          },
+          "R2": 0.173
+        },
+        "structure_separation": {
+          "er": 0.102,
+          "vol": -0.255,
+          "vov": -0.184,
+          "autocorr": 0.548,
+          "hurst": 0.389,
+          "range": -0.038,
+          "dom_cycle": 0.234,
+          "swing_asym": 0.102,
+          "skew": -0.081,
+          "drift": 0.112
+        }
+      },
+      "adaptability": {
+        "n_test": 2799,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.856,
+        "fixed_mean_roi": 0.76,
+        "oracle_mean_roi": 1.94,
+        "adaptive_beats_fixed_frac": 0.3,
+        "adaptive_edge_vs_fixed_pp": 0.096
+      }
+    },
+    "BNB_1d": {
+      "decompose": {
+        "n_weeks": 160,
+        "period_mean": 21.3,
+        "period_std": 18.6,
+        "pct_trend_structure": 0.79,
+        "factor_period_corr": {
+          "er": 0.185,
+          "vol": 0.14,
+          "vov": 0.134,
+          "autocorr": -0.097,
+          "hurst": -0.122,
+          "range": 0.12,
+          "dom_cycle": -0.165,
+          "swing_asym": 0.088,
+          "skew": 0.086,
+          "drift": 0.074
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.591,
+          "intercept_period": 13.3,
+          "std_coefs": {
+            "er": 0.424,
+            "vol": 0.796,
+            "vov": -0.445,
+            "autocorr": -0.028,
+            "hurst": -0.15,
+            "range": -0.439,
+            "dom_cycle": -0.188,
+            "swing_asym": -0.155,
+            "skew": 0.122,
+            "drift": 0.156
+          },
+          "R2": 0.133
+        },
+        "structure_separation": {
+          "er": -0.064,
+          "vol": 0.296,
+          "vov": 0.263,
+          "autocorr": 0.218,
+          "hurst": 0.093,
+          "range": 0.343,
+          "dom_cycle": -0.228,
+          "swing_asym": 0.256,
+          "skew": 0.164,
+          "drift": 0.165
+        }
+      },
+      "adaptability": {
+        "n_test": 63,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 3.728,
+        "fixed_mean_roi": 2.612,
+        "oracle_mean_roi": 8.427,
+        "adaptive_beats_fixed_frac": 0.21,
+        "adaptive_edge_vs_fixed_pp": 1.116
+      }
+    },
+    "BNB_4h": {
+      "decompose": {
+        "n_weeks": 833,
+        "period_mean": 17.9,
+        "period_std": 16.8,
+        "pct_trend_structure": 0.79,
+        "factor_period_corr": {
+          "er": 0.151,
+          "vol": 0.007,
+          "vov": 0.003,
+          "autocorr": -0.291,
+          "hurst": -0.177,
+          "range": 0.006,
+          "dom_cycle": 0.021,
+          "swing_asym": 0.035,
+          "skew": 0.01,
+          "drift": 0.036
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.413,
+          "intercept_period": 11.2,
+          "std_coefs": {
+            "er": 0.264,
+            "vol": 0.614,
+            "vov": -0.51,
+            "autocorr": -0.26,
+            "hurst": -0.145,
+            "range": -0.128,
+            "dom_cycle": 0.036,
+            "swing_asym": 0.002,
+            "skew": -0.045,
+            "drift": 0.023
+          },
+          "R2": 0.143
+        },
+        "structure_separation": {
+          "er": 0.024,
+          "vol": 0.048,
+          "vov": 0.067,
+          "autocorr": 0.535,
+          "hurst": 0.321,
+          "range": 0.182,
+          "dom_cycle": 0.026,
+          "swing_asym": 0.084,
+          "skew": 0.009,
+          "drift": 0.084
+        }
+      },
+      "adaptability": {
+        "n_test": 366,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.762,
+        "fixed_mean_roi": 0.595,
+        "oracle_mean_roi": 2.899,
+        "adaptive_beats_fixed_frac": 0.34,
+        "adaptive_edge_vs_fixed_pp": 0.167
+      }
+    },
+    "BNB_1h": {
+      "decompose": {
+        "n_weeks": 760,
+        "period_mean": 19.3,
+        "period_std": 17.3,
+        "pct_trend_structure": 0.75,
+        "factor_period_corr": {
+          "er": 0.13,
+          "vol": -0.032,
+          "vov": -0.014,
+          "autocorr": -0.269,
+          "hurst": -0.147,
+          "range": -0.028,
+          "dom_cycle": 0.089,
+          "swing_asym": 0.076,
+          "skew": 0.055,
+          "drift": 0.045
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.509,
+          "intercept_period": 12.3,
+          "std_coefs": {
+            "er": 0.204,
+            "vol": -0.006,
+            "vov": 0.179,
+            "autocorr": -0.242,
+            "hurst": -0.122,
+            "range": -0.228,
+            "dom_cycle": 0.011,
+            "swing_asym": 0.055,
+            "skew": 0.01,
+            "drift": 0.003
+          },
+          "R2": 0.121
+        },
+        "structure_separation": {
+          "er": -0.013,
+          "vol": 0.001,
+          "vov": -0.005,
+          "autocorr": 0.317,
+          "hurst": 0.165,
+          "range": 0.107,
+          "dom_cycle": -0.072,
+          "swing_asym": -0.019,
+          "skew": 0.074,
+          "drift": 0.019
+        }
+      },
+      "adaptability": {
+        "n_test": 1028,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.723,
+        "fixed_mean_roi": 0.647,
+        "oracle_mean_roi": 1.919,
+        "adaptive_beats_fixed_frac": 0.28,
+        "adaptive_edge_vs_fixed_pp": 0.076
+      }
+    },
+    "BNB_30m": {
+      "decompose": {
+        "n_weeks": 581,
+        "period_mean": 19.2,
+        "period_std": 16.9,
+        "pct_trend_structure": 0.77,
+        "factor_period_corr": {
+          "er": 0.129,
+          "vol": -0.073,
+          "vov": -0.079,
+          "autocorr": -0.255,
+          "hurst": -0.025,
+          "range": -0.077,
+          "dom_cycle": 0.202,
+          "swing_asym": 0.156,
+          "skew": 0.129,
+          "drift": 0.124
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.513,
+          "intercept_period": 12.3,
+          "std_coefs": {
+            "er": 0.201,
+            "vol": 1.082,
+            "vov": -0.74,
+            "autocorr": -0.232,
+            "hurst": 0.025,
+            "range": -0.332,
+            "dom_cycle": 0.188,
+            "swing_asym": 0.084,
+            "skew": 0.071,
+            "drift": -0.074
+          },
+          "R2": 0.143
+        },
+        "structure_separation": {
+          "er": 0.049,
+          "vol": -0.021,
+          "vov": 0.01,
+          "autocorr": 0.268,
+          "hurst": 0.245,
+          "range": 0.016,
+          "dom_cycle": -0.021,
+          "swing_asym": -0.079,
+          "skew": 0.003,
+          "drift": -0.063
+        }
+      },
+      "adaptability": {
+        "n_test": 1475,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.909,
+        "fixed_mean_roi": 0.854,
+        "oracle_mean_roi": 1.896,
+        "adaptive_beats_fixed_frac": 0.3,
+        "adaptive_edge_vs_fixed_pp": 0.055
+      }
+    },
+    "BNB_15m": {
+      "decompose": {
+        "n_weeks": 442,
+        "period_mean": 19.2,
+        "period_std": 16.5,
+        "pct_trend_structure": 0.74,
+        "factor_period_corr": {
+          "er": 0.165,
+          "vol": -0.071,
+          "vov": -0.078,
+          "autocorr": -0.383,
+          "hurst": -0.192,
+          "range": -0.082,
+          "dom_cycle": 0.165,
+          "swing_asym": 0.009,
+          "skew": -0.046,
+          "drift": 0.053
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.542,
+          "intercept_period": 12.7,
+          "std_coefs": {
+            "er": 0.249,
+            "vol": 1.17,
+            "vov": -1.108,
+            "autocorr": -0.314,
+            "hurst": -0.149,
+            "range": -0.071,
+            "dom_cycle": 0.111,
+            "swing_asym": -0.021,
+            "skew": -0.087,
+            "drift": -0.072
+          },
+          "R2": 0.226
+        },
+        "structure_separation": {
+          "er": 0.041,
+          "vol": 0.109,
+          "vov": 0.107,
+          "autocorr": 0.344,
+          "hurst": 0.443,
+          "range": 0.18,
+          "dom_cycle": -0.219,
+          "swing_asym": -0.204,
+          "skew": -0.131,
+          "drift": -0.103
+        }
+      },
+      "adaptability": {
+        "n_test": 1854,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 1.093,
+        "fixed_mean_roi": 1.038,
+        "oracle_mean_roi": 1.91,
+        "adaptive_beats_fixed_frac": 0.31,
+        "adaptive_edge_vs_fixed_pp": 0.055
+      }
+    },
+    "DOGE_1d": {
+      "decompose": {
+        "n_weeks": 145,
+        "period_mean": 17.7,
+        "period_std": 15.9,
+        "pct_trend_structure": 0.72,
+        "factor_period_corr": {
+          "er": 0.05,
+          "vol": 0.151,
+          "vov": 0.166,
+          "autocorr": -0.297,
+          "hurst": -0.212,
+          "range": 0.019,
+          "dom_cycle": -0.236,
+          "swing_asym": 0.045,
+          "skew": 0.083,
+          "drift": 0.092
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.434,
+          "intercept_period": 11.4,
+          "std_coefs": {
+            "er": 0.071,
+            "vol": -2.399,
+            "vov": 2.578,
+            "autocorr": -0.2,
+            "hurst": -0.165,
+            "range": 0.023,
+            "dom_cycle": -0.188,
+            "swing_asym": -0.378,
+            "skew": -0.036,
+            "drift": 0.307
+          },
+          "R2": 0.223
+        },
+        "structure_separation": {
+          "er": 0.046,
+          "vol": 0.319,
+          "vov": 0.282,
+          "autocorr": 0.244,
+          "hurst": 0.465,
+          "range": 0.417,
+          "dom_cycle": -0.182,
+          "swing_asym": 0.319,
+          "skew": 0.285,
+          "drift": 0.265
+        }
+      },
+      "adaptability": {
+        "n_test": 57,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 3.846,
+        "fixed_mean_roi": 3.471,
+        "oracle_mean_roi": 14.343,
+        "adaptive_beats_fixed_frac": 0.32,
+        "adaptive_edge_vs_fixed_pp": 0.375
+      }
+    },
+    "DOGE_4h": {
+      "decompose": {
+        "n_weeks": 855,
+        "period_mean": 18.7,
+        "period_std": 17.4,
+        "pct_trend_structure": 0.75,
+        "factor_period_corr": {
+          "er": 0.088,
+          "vol": -0.061,
+          "vov": -0.06,
+          "autocorr": -0.262,
+          "hurst": -0.163,
+          "range": -0.078,
+          "dom_cycle": -0.063,
+          "swing_asym": -0.064,
+          "skew": -0.126,
+          "drift": -0.058
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.466,
+          "intercept_period": 11.8,
+          "std_coefs": {
+            "er": 0.222,
+            "vol": 0.124,
+            "vov": 0.037,
+            "autocorr": -0.237,
+            "hurst": -0.09,
+            "range": -0.333,
+            "dom_cycle": -0.09,
+            "swing_asym": 0.084,
+            "skew": -0.137,
+            "drift": 0.038
+          },
+          "R2": 0.128
+        },
+        "structure_separation": {
+          "er": -0.018,
+          "vol": 0.22,
+          "vov": 0.191,
+          "autocorr": 0.409,
+          "hurst": 0.311,
+          "range": 0.228,
+          "dom_cycle": -0.046,
+          "swing_asym": 0.047,
+          "skew": -0.029,
+          "drift": 0.048
+        }
+      },
+      "adaptability": {
+        "n_test": 341,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 1.227,
+        "fixed_mean_roi": 0.798,
+        "oracle_mean_roi": 4.793,
+        "adaptive_beats_fixed_frac": 0.33,
+        "adaptive_edge_vs_fixed_pp": 0.429
+      }
+    },
+    "DOGE_1h": {
+      "decompose": {
+        "n_weeks": 807,
+        "period_mean": 21.1,
+        "period_std": 18.1,
+        "pct_trend_structure": 0.71,
+        "factor_period_corr": {
+          "er": 0.108,
+          "vol": -0.057,
+          "vov": -0.063,
+          "autocorr": -0.258,
+          "hurst": -0.169,
+          "range": -0.026,
+          "dom_cycle": 0.045,
+          "swing_asym": -0.024,
+          "skew": -0.055,
+          "drift": -0.005
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.606,
+          "intercept_period": 13.5,
+          "std_coefs": {
+            "er": 0.209,
+            "vol": 0.487,
+            "vov": -0.576,
+            "autocorr": -0.26,
+            "hurst": -0.154,
+            "range": -0.027,
+            "dom_cycle": 0.001,
+            "swing_asym": -0.005,
+            "skew": -0.036,
+            "drift": 0.092
+          },
+          "R2": 0.126
+        },
+        "structure_separation": {
+          "er": 0.273,
+          "vol": 0.228,
+          "vov": 0.231,
+          "autocorr": 0.437,
+          "hurst": 0.578,
+          "range": 0.237,
+          "dom_cycle": -0.153,
+          "swing_asym": 0.16,
+          "skew": 0.084,
+          "drift": 0.118
+        }
+      },
+      "adaptability": {
+        "n_test": 1094,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.501,
+        "fixed_mean_roi": 0.312,
+        "oracle_mean_roi": 2.356,
+        "adaptive_beats_fixed_frac": 0.29,
+        "adaptive_edge_vs_fixed_pp": 0.189
+      }
+    },
+    "DOGE_30m": {
+      "decompose": {
+        "n_weeks": 793,
+        "period_mean": 19.9,
+        "period_std": 17.8,
+        "pct_trend_structure": 0.69,
+        "factor_period_corr": {
+          "er": 0.129,
+          "vol": -0.034,
+          "vov": -0.033,
+          "autocorr": -0.248,
+          "hurst": -0.16,
+          "range": -0.031,
+          "dom_cycle": -0.01,
+          "swing_asym": 0.011,
+          "skew": -0.066,
+          "drift": 0.001
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.518,
+          "intercept_period": 12.4,
+          "std_coefs": {
+            "er": 0.214,
+            "vol": 0.072,
+            "vov": -0.089,
+            "autocorr": -0.262,
+            "hurst": -0.119,
+            "range": -0.098,
+            "dom_cycle": -0.078,
+            "swing_asym": 0.136,
+            "skew": -0.106,
+            "drift": -0.038
+          },
+          "R2": 0.121
+        },
+        "structure_separation": {
+          "er": 0.199,
+          "vol": 0.261,
+          "vov": 0.261,
+          "autocorr": 0.473,
+          "hurst": 0.4,
+          "range": 0.319,
+          "dom_cycle": -0.119,
+          "swing_asym": 0.142,
+          "skew": 0.038,
+          "drift": 0.112
+        }
+      },
+      "adaptability": {
+        "n_test": 1727,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.547,
+        "fixed_mean_roi": 0.401,
+        "oracle_mean_roi": 1.996,
+        "adaptive_beats_fixed_frac": 0.29,
+        "adaptive_edge_vs_fixed_pp": 0.146
+      }
+    },
+    "DOGE_15m": {
+      "decompose": {
+        "n_weeks": 744,
+        "period_mean": 18.8,
+        "period_std": 18.1,
+        "pct_trend_structure": 0.73,
+        "factor_period_corr": {
+          "er": 0.186,
+          "vol": -0.066,
+          "vov": -0.06,
+          "autocorr": -0.219,
+          "hurst": -0.093,
+          "range": -0.043,
+          "dom_cycle": 0.062,
+          "swing_asym": -0.018,
+          "skew": -0.039,
+          "drift": -0.03
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.434,
+          "intercept_period": 11.4,
+          "std_coefs": {
+            "er": 0.289,
+            "vol": 0.114,
+            "vov": -0.072,
+            "autocorr": -0.241,
+            "hurst": -0.086,
+            "range": -0.108,
+            "dom_cycle": 0.019,
+            "swing_asym": 0.037,
+            "skew": -0.057,
+            "drift": -0.071
+          },
+          "R2": 0.117
+        },
+        "structure_separation": {
+          "er": 0.18,
+          "vol": 0.249,
+          "vov": 0.218,
+          "autocorr": 0.42,
+          "hurst": 0.274,
+          "range": 0.331,
+          "dom_cycle": -0.277,
+          "swing_asym": 0.152,
+          "skew": -0.043,
+          "drift": 0.171
+        }
+      },
+      "adaptability": {
+        "n_test": 2427,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.702,
+        "fixed_mean_roi": 0.617,
+        "oracle_mean_roi": 1.869,
+        "adaptive_beats_fixed_frac": 0.29,
+        "adaptive_edge_vs_fixed_pp": 0.085
+      }
+    },
+    "XRP_1d": {
+      "decompose": {
+        "n_weeks": 160,
+        "period_mean": 19.0,
+        "period_std": 16.9,
+        "pct_trend_structure": 0.74,
+        "factor_period_corr": {
+          "er": -0.017,
+          "vol": 0.011,
+          "vov": -0.044,
+          "autocorr": -0.233,
+          "hurst": -0.125,
+          "range": -0.045,
+          "dom_cycle": -0.239,
+          "swing_asym": -0.149,
+          "skew": -0.102,
+          "drift": -0.103
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.525,
+          "intercept_period": 12.5,
+          "std_coefs": {
+            "er": 0.31,
+            "vol": 2.073,
+            "vov": -1.867,
+            "autocorr": -0.157,
+            "hurst": -0.047,
+            "range": -0.461,
+            "dom_cycle": -0.041,
+            "swing_asym": -0.158,
+            "skew": 0.022,
+            "drift": 0.262
+          },
+          "R2": 0.175
+        },
+        "structure_separation": {
+          "er": 0.303,
+          "vol": -0.22,
+          "vov": -0.209,
+          "autocorr": 0.573,
+          "hurst": 0.279,
+          "range": 0.137,
+          "dom_cycle": 0.469,
+          "swing_asym": 0.109,
+          "skew": -0.469,
+          "drift": -0.02
+        }
+      },
+      "adaptability": {
+        "n_test": 63,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 4.665,
+        "fixed_mean_roi": 5.891,
+        "oracle_mean_roi": 13.612,
+        "adaptive_beats_fixed_frac": 0.29,
+        "adaptive_edge_vs_fixed_pp": -1.226
+      }
+    },
+    "XRP_4h": {
+      "decompose": {
+        "n_weeks": 870,
+        "period_mean": 18.8,
+        "period_std": 17.6,
+        "pct_trend_structure": 0.73,
+        "factor_period_corr": {
+          "er": 0.066,
+          "vol": -0.083,
+          "vov": -0.088,
+          "autocorr": -0.31,
+          "hurst": -0.21,
+          "range": -0.072,
+          "dom_cycle": 0.043,
+          "swing_asym": 0.024,
+          "skew": -0.037,
+          "drift": 0.016
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.463,
+          "intercept_period": 11.7,
+          "std_coefs": {
+            "er": 0.156,
+            "vol": 0.113,
+            "vov": -0.133,
+            "autocorr": -0.298,
+            "hurst": -0.184,
+            "range": -0.045,
+            "dom_cycle": 0.01,
+            "swing_asym": 0.09,
+            "skew": -0.061,
+            "drift": -0.033
+          },
+          "R2": 0.15
+        },
+        "structure_separation": {
+          "er": 0.224,
+          "vol": 0.276,
+          "vov": 0.27,
+          "autocorr": 0.421,
+          "hurst": 0.287,
+          "range": 0.371,
+          "dom_cycle": -0.167,
+          "swing_asym": 0.04,
+          "skew": 0.019,
+          "drift": 0.035
+        }
+      },
+      "adaptability": {
+        "n_test": 382,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 1.136,
+        "fixed_mean_roi": 0.795,
+        "oracle_mean_roi": 3.953,
+        "adaptive_beats_fixed_frac": 0.35,
+        "adaptive_edge_vs_fixed_pp": 0.34
+      }
+    },
+    "XRP_1h": {
+      "decompose": {
+        "n_weeks": 729,
+        "period_mean": 19.3,
+        "period_std": 17.5,
+        "pct_trend_structure": 0.75,
+        "factor_period_corr": {
+          "er": 0.147,
+          "vol": 0.077,
+          "vov": 0.064,
+          "autocorr": -0.248,
+          "hurst": -0.11,
+          "range": 0.06,
+          "dom_cycle": 0.007,
+          "swing_asym": 0.083,
+          "skew": 0.035,
+          "drift": 0.129
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.509,
+          "intercept_period": 12.3,
+          "std_coefs": {
+            "er": 0.271,
+            "vol": 1.123,
+            "vov": -0.78,
+            "autocorr": -0.233,
+            "hurst": -0.103,
+            "range": -0.273,
+            "dom_cycle": 0.143,
+            "swing_asym": -0.082,
+            "skew": -0.023,
+            "drift": 0.162
+          },
+          "R2": 0.144
+        },
+        "structure_separation": {
+          "er": -0.012,
+          "vol": 0.1,
+          "vov": 0.066,
+          "autocorr": 0.439,
+          "hurst": 0.306,
+          "range": 0.167,
+          "dom_cycle": -0.167,
+          "swing_asym": -0.074,
+          "skew": -0.328,
+          "drift": -0.0
+        }
+      },
+      "adaptability": {
+        "n_test": 1146,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.635,
+        "fixed_mean_roi": 0.49,
+        "oracle_mean_roi": 2.315,
+        "adaptive_beats_fixed_frac": 0.34,
+        "adaptive_edge_vs_fixed_pp": 0.145
+      }
+    },
+    "XRP_30m": {
+      "decompose": {
+        "n_weeks": 497,
+        "period_mean": 18.7,
+        "period_std": 16.7,
+        "pct_trend_structure": 0.72,
+        "factor_period_corr": {
+          "er": 0.05,
+          "vol": -0.165,
+          "vov": -0.182,
+          "autocorr": -0.179,
+          "hurst": -0.099,
+          "range": -0.171,
+          "dom_cycle": 0.126,
+          "swing_asym": 0.038,
+          "skew": 0.044,
+          "drift": 0.085
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.493,
+          "intercept_period": 12.1,
+          "std_coefs": {
+            "er": 0.247,
+            "vol": 1.12,
+            "vov": -1.027,
+            "autocorr": -0.146,
+            "hurst": -0.084,
+            "range": -0.3,
+            "dom_cycle": 0.049,
+            "swing_asym": -0.033,
+            "skew": -0.005,
+            "drift": -0.043
+          },
+          "R2": 0.105
+        },
+        "structure_separation": {
+          "er": -0.048,
+          "vol": 0.189,
+          "vov": 0.187,
+          "autocorr": 0.328,
+          "hurst": 0.119,
+          "range": 0.22,
+          "dom_cycle": -0.25,
+          "swing_asym": -0.088,
+          "skew": -0.051,
+          "drift": -0.011
+        }
+      },
+      "adaptability": {
+        "n_test": 1741,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.895,
+        "fixed_mean_roi": 0.728,
+        "oracle_mean_roi": 2.102,
+        "adaptive_beats_fixed_frac": 0.32,
+        "adaptive_edge_vs_fixed_pp": 0.167
+      }
+    },
+    "XRP_15m": {
+      "decompose": {
+        "n_weeks": 467,
+        "period_mean": 17.5,
+        "period_std": 16.7,
+        "pct_trend_structure": 0.77,
+        "factor_period_corr": {
+          "er": 0.128,
+          "vol": -0.077,
+          "vov": -0.077,
+          "autocorr": -0.238,
+          "hurst": -0.117,
+          "range": -0.072,
+          "dom_cycle": 0.218,
+          "swing_asym": 0.135,
+          "skew": 0.092,
+          "drift": 0.125
+        },
+        "pseudo_formula": {
+          "intercept_logp": 2.396,
+          "intercept_period": 11.0,
+          "std_coefs": {
+            "er": 0.228,
+            "vol": 0.919,
+            "vov": -0.72,
+            "autocorr": -0.211,
+            "hurst": -0.085,
+            "range": -0.201,
+            "dom_cycle": 0.167,
+            "swing_asym": 0.09,
+            "skew": 0.051,
+            "drift": -0.104
+          },
+          "R2": 0.13
+        },
+        "structure_separation": {
+          "er": 0.028,
+          "vol": 0.151,
+          "vov": 0.138,
+          "autocorr": 0.497,
+          "hurst": 0.207,
+          "range": 0.266,
+          "dom_cycle": -0.328,
+          "swing_asym": -0.146,
+          "skew": -0.231,
+          "drift": -0.178
+        }
+      },
+      "adaptability": {
+        "n_test": 2359,
+        "fixed_period": 13,
+        "adaptive_mean_roi": 0.982,
+        "fixed_mean_roi": 0.913,
+        "oracle_mean_roi": 1.999,
+        "adaptive_beats_fixed_frac": 0.28,
+        "adaptive_edge_vs_fixed_pp": 0.068
+      }
+    }
+  }
+}

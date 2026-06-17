@@ -1,0 +1,356 @@
+{
+ "tool": "setup_meta_labeler",
+ "git_sha": "cb289e83fabff784c8684b5dde98bb722cbc9157",
+ "stamp": "20260611_152457",
+ "objective": "held-out COMPOUND of the selected subset (taker 0.0024, LONG-only spot lev=1); AUC is a within-model diagnostic ONLY",
+ "pre_registration": {
+  "trigger": "EMA(12) crosses ABOVE EMA(26) (past-only boolean)",
+  "cadences": [
+   "4h"
+  ],
+  "universe": "u10 (survivorship FLAGGED)",
+  "exit": "ATR-trail (mult=3.0, win=14) + time-stop per cadence",
+  "label": "y = net_pnl > 0 (taker 0.0024 RT); also reported at net>cost-band (D09)",
+  "features": [
+   "ema_fast_slope",
+   "ema_slow_slope",
+   "ma_spread",
+   "price_to_fast",
+   "price_to_slow",
+   "ma_stack",
+   "bars_since_cross",
+   "norm_funding",
+   "fund_rate_mean",
+   "norm_oi_change",
+   "liq_long_z30",
+   "liq_short_z30",
+   "wh_whale_net_usd",
+   "norm_whale",
+   "norm_flow_imbalance",
+   "norm_vpin",
+   "norm_kyle_lambda",
+   "regime_label",
+   "above_sma200",
+   "vol_tercile",
+   "btc_r24h",
+   "btc_vs_sma50"
+  ],
+  "wm_feature": "DEFERRED (V1.1 retraining; clean hook left)",
+  "model": "LogisticRegression -> HistGradientBoosting; binary entry gate at tau=67th TRAIN pctile",
+  "asymmetric_loss": "false-LONG penalty 1.5x (class_weight on y=1)",
+  "split": "chronological 50/20/20/10 (canonical WindowSpec dates) + 400-bar purge; UNSEEN once"
+ },
+ "two_sided_controls": {
+  "positive_ships": true,
+  "no_skill_fails": true,
+  "regime_only_fails": true,
+  "positive_oos_auc": 0.9904517362500556,
+  "all_pass": true
+ },
+ "per_cadence": {
+  "4h": {
+   "cadence": "4h",
+   "n_firings": 2195,
+   "n_assets": 10,
+   "policy": {
+    "atr_trail_mult": 3.0,
+    "atr_window": 14,
+    "max_hold_bars": 18
+   },
+   "unconditional_trigger": {
+    "TRAIN": {
+     "n": 1435,
+     "compound": -92.83210053739425
+    },
+    "VAL": {
+     "n": 292,
+     "compound": 23.668962165196696
+    },
+    "OOS": {
+     "n": 313,
+     "compound": -80.71329494383657
+    },
+    "UNSEEN": {
+     "n": 155,
+     "compound": -82.48647872555128
+    }
+   },
+   "selected_compound": {
+    "TRAIN": 61401533209588.97,
+    "VAL": 2.5477774826570876,
+    "OOS": -3.15130670277588,
+    "UNSEEN": -4.480611824688696
+   },
+   "selected_beats_unconditional_held": {
+    "OOS": true,
+    "UNSEEN": true
+   },
+   "aucs": {
+    "hgb_train": 1.0,
+    "hgb_oos": 0.47441436251920127,
+    "logit_train": 0.5848325380938593,
+    "logit_oos": 0.5377784178187404
+   },
+   "tau": 0.9823781642253819,
+   "decile_lift": [
+    {
+     "decile": 1,
+     "mean_net": -0.03244217274653597,
+     "win": 0.0
+    },
+    {
+     "decile": 2,
+     "mean_net": -0.03743019437129316,
+     "win": 0.0
+    },
+    {
+     "decile": 3,
+     "mean_net": -0.03393656597370085,
+     "win": 0.0
+    },
+    {
+     "decile": 4,
+     "mean_net": -0.03304842998943039,
+     "win": 0.0
+    },
+    {
+     "decile": 5,
+     "mean_net": -0.03654050379653262,
+     "win": 0.0
+    },
+    {
+     "decile": 6,
+     "mean_net": -0.03181525778142728,
+     "win": 0.0
+    },
+    {
+     "decile": 7,
+     "mean_net": 0.019369105841201197,
+     "win": 0.6363636363636364
+    },
+    {
+     "decile": 8,
+     "mean_net": 0.05871624619809593,
+     "win": 1.0
+    },
+    {
+     "decile": 9,
+     "mean_net": 0.07176527208179527,
+     "win": 1.0
+    },
+    {
+     "decile": 10,
+     "mean_net": 0.05980419229553069,
+     "win": 1.0
+    }
+   ],
+   "decile_monotone_frac": 0.6666666666666666,
+   "label_stability_D09": {
+    "net_gt_0_unseen": -4.480611824688696,
+    "net_gt_costband_unseen": 0.0
+   },
+   "gauntlet": {
+    "1_auc_floor": {
+     "hgb_oos": 0.47441436251920127,
+     "floor": 0.55,
+     "pass": false,
+     "decile_monotone_frac": 0.6666666666666666
+    },
+    "2_firewall": {
+     "verdict": "NO TIMING EDGE (selected does not beat the random-entry null on held-out)",
+     "held_summary": {
+      "OOS": {
+       "beats_frac": 0.0,
+       "pos_frac": 0.0,
+       "n_assets_fired": 1
+      },
+      "UNSEEN": {
+       "beats_frac": 0.0,
+       "pos_frac": 0.0,
+       "n_assets_fired": 1
+      }
+     },
+     "per_asset": {
+      "BTCUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "ETHUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "SOLUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "BNBUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "XRPUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "DOGEUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "ADAUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "AVAXUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "LINKUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "LTCUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+     },
+     "pass": false
+    },
+    "3_shuffled_control": {
+     "verdict": "INSUFFICIENT",
+     "overfit_fraction": null,
+     "pass": false
+    },
+    "4_pbo": {
+     "pbo": 0.7517482517482518,
+     "ship_thr": 0.1,
+     "verdict": "FAIL",
+     "detail": {
+      "pbo": 0.7517482517482518,
+      "prob_oos_loss": 0.8254856254856255,
+      "perf_degradation_slope": -1.2623811425430669,
+      "median_logit": -0.6931471805599454,
+      "n_combinations": 12870,
+      "S": 16,
+      "T_used": 752,
+      "N": 11,
+      "verdict": "FAIL",
+      "ship": false
+     },
+     "pass": false
+    },
+    "5_seed_robustness": {
+     "oos_positive_seeds": 0,
+     "floor": 8,
+     "bootstrap_p05": null,
+     "per_seed": [
+      {
+       "seed": 0,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 1,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 2,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 3,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 4,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 5,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 6,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 7,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 8,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      },
+      {
+       "seed": 9,
+       "oos_compound": -3.15130670277588,
+       "unseen_compound": -4.480611824688696,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 1,
+       "n_uns": 1
+      }
+     ],
+     "pass": false
+    },
+    "6_battery": {
+     "verdict": "INSUFFICIENT_UNSEEN",
+     "jk2": null,
+     "jk3": null,
+     "p05": null,
+     "n_eff": null,
+     "maxdd": null,
+     "pass": true
+    },
+    "8_per_regime": {
+     "OOS": {
+      "bull_n": 0,
+      "bull_compound": 0.0,
+      "bear_n": 1,
+      "bear_compound": -3.15130670277588
+     },
+     "UNSEEN": {
+      "bull_n": 0,
+      "bull_compound": 0.0,
+      "bear_n": 1,
+      "bear_compound": -4.480611824688696
+     }
+    }
+   },
+   "SHIP": false,
+   "verdict": "NO CONDITIONAL EDGE with internal features (the EXPECTED, high-value null -- re-confirms D72 on the EMA-cross trigger: the constraint is INFORMATION, not method)"
+  }
+ },
+ "RWYB": {
+  "gauntlet_gates_ran": [
+   "auc_floor",
+   "firewall(regime+membership)",
+   "shuffled_control(perm/block)",
+   "pbo_cscv",
+   "seed_robustness(10)",
+   "battery(A/B/C)",
+   "two_sided_controls",
+   "per_regime"
+  ],
+  "two_sided": "no-skill (random + regime-only) must FAIL; positive (synthetic edge) must SHIP",
+  "objective": "held-out compound, never AUC/IC"
+ },
+ "caveats": [
+  "u10 CURRENT membership -> survivorship on absolute-level features (FLAGGED, not corrected)",
+  "WM-as-feature DEFERRED (V1.1 retraining) -- v1 verdict is INTERNAL-features-only by design",
+  "shuffled control runs on the realized held-out net stream (necessary-not-sufficient; composes with firewall+PBO+seeds)",
+  "an INTERNAL-feature NULL is the EXPECTED + HIGH-VALUE result (re-confirms D72), not a failure"
+ ]
+}

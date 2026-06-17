@@ -1,0 +1,572 @@
+{
+  "tool": "ti_oracle_decompose",
+  "anchor_not_gate": true,
+  "decomposition": true,
+  "asset": "BTCUSDT",
+  "cadences": [
+    "1d",
+    "4h",
+    "1h"
+  ],
+  "ma_backend": "pandas_ta",
+  "spec": {
+    "price_roi_band": [
+      0.02,
+      0.1
+    ],
+    "window_bars": {
+      "1d": [
+        7,
+        14
+      ],
+      "4h": [
+        42,
+        84
+      ],
+      "1h": [
+        168,
+        336
+      ]
+    },
+    "formulations": [
+      "F1_PRICE_MA",
+      "F2_CROSS",
+      "F3_CROSS_MECH",
+      "F4_STACK",
+      "F5_PRICE_MA_MECH"
+    ],
+    "ma_types": [
+      "SMA",
+      "EMA",
+      "WMA",
+      "HMA",
+      "DEMA"
+    ],
+    "fast_grid": [
+      5,
+      10,
+      20,
+      50
+    ],
+    "slow_grid": [
+      20,
+      50,
+      100,
+      200
+    ],
+    "single_len_grid": [
+      10,
+      20,
+      50,
+      100
+    ],
+    "mech_exits": {
+      "tp": [
+        0.03,
+        0.05,
+        0.08
+      ],
+      "sl": [
+        0.03,
+        0.05
+      ],
+      "time_stop": "window_end",
+      "atr_trail_mult": 3.0,
+      "atr_len": 14
+    },
+    "taker_rt": 0.0024,
+    "fills": "next_bar_open",
+    "events": "non_overlapping (identical to ti_oracle_anchor)",
+    "hindsight": "formulation/type/param CHOICE only (signals causal)"
+  },
+  "per_cadence": [
+    {
+      "cadence": "1d",
+      "n_events": 250,
+      "price_oracle_mean": 0.04904099223251315,
+      "overall_decomposed": {
+        "ti_mean": 0.0380029648921838,
+        "ti_median": 0.03569254819670649,
+        "capture_ratio_of_means": 0.7749224304435796,
+        "capture_ratio_median_of_per_event": 0.8389101941203961
+      },
+      "overall_cross_only": {
+        "ti_mean": 0.015097039801954133,
+        "ti_median": 0.004985495496870954,
+        "capture_ratio_of_means": 0.30784531704366924,
+        "capture_ratio_median_of_per_event": 0.12017223817391266
+      },
+      "decomposed_minus_cross_capture": 0.4670771133999103,
+      "by_formulation": {
+        "F1_PRICE_MA": {
+          "mean_best_capture": 0.37464159855192225,
+          "mean_best_roi": 0.02216010642151078,
+          "win_share": 0.272,
+          "wins": 68
+        },
+        "F2_CROSS": {
+          "mean_best_capture": 0.4580493662701017,
+          "mean_best_roi": 0.024702195319681455,
+          "win_share": 0.204,
+          "wins": 51
+        },
+        "F3_CROSS_MECH": {
+          "mean_best_capture": 0.6293655984218922,
+          "mean_best_roi": 0.03204994498067233,
+          "win_share": 0.276,
+          "wins": 69
+        },
+        "F4_STACK": {
+          "mean_best_capture": 0.4965920292929681,
+          "mean_best_roi": 0.026794804525222635,
+          "win_share": 0.148,
+          "wins": 37
+        },
+        "F5_PRICE_MA_MECH": {
+          "mean_best_capture": 0.5285197225235948,
+          "mean_best_roi": 0.028149717768486113,
+          "win_share": 0.1,
+          "wins": 25
+        }
+      },
+      "by_ma_type": {
+        "SMA": {
+          "mean_best_capture": 0.5338455158254315,
+          "mean_best_roi": 0.027735849044840676,
+          "win_share": 0.496,
+          "wins": 124
+        },
+        "EMA": {
+          "mean_best_capture": 0.4370977019360874,
+          "mean_best_roi": 0.023786894947686342,
+          "win_share": 0.032,
+          "wins": 8
+        },
+        "WMA": {
+          "mean_best_capture": 0.5230919538785745,
+          "mean_best_roi": 0.02761963794305532,
+          "win_share": 0.088,
+          "wins": 22
+        },
+        "HMA": {
+          "mean_best_capture": 0.7155232190711688,
+          "mean_best_roi": 0.035926787895704734,
+          "win_share": 0.348,
+          "wins": 87
+        },
+        "DEMA": {
+          "mean_best_capture": 0.5938024446686905,
+          "mean_best_roi": 0.030377303160233314,
+          "win_share": 0.036,
+          "wins": 9
+        }
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 69,
+          "F1_PRICE_MA": 68,
+          "F2_CROSS": 51,
+          "F4_STACK": 37,
+          "F5_PRICE_MA_MECH": 25
+        },
+        "ma_type": {
+          "SMA": 124,
+          "HMA": 87,
+          "WMA": 22,
+          "DEMA": 9,
+          "EMA": 8
+        },
+        "form_x_type": {
+          "F3_CROSS_MECH|SMA": 49,
+          "F1_PRICE_MA|SMA": 41,
+          "F2_CROSS|HMA": 21,
+          "F4_STACK|HMA": 21,
+          "F1_PRICE_MA|HMA": 20,
+          "F2_CROSS|SMA": 20,
+          "F3_CROSS_MECH|HMA": 17,
+          "F5_PRICE_MA_MECH|HMA": 8,
+          "F5_PRICE_MA_MECH|SMA": 7,
+          "F4_STACK|SMA": 7
+        },
+        "top_params": {
+          "F1_PRICE_MA|SMA|len10": 23,
+          "F3_CROSS_MECH|SMA|5x20+TP3": 22,
+          "F1_PRICE_MA|SMA|len20": 11,
+          "F1_PRICE_MA|HMA|len10": 11,
+          "F3_CROSS_MECH|SMA|5x20+TP5": 10,
+          "F2_CROSS|HMA|10x20": 8,
+          "F4_STACK|HMA|5x20": 7,
+          "F2_CROSS|SMA|10x20": 6,
+          "F5_PRICE_MA_MECH|SMA|len10+TP3": 6,
+          "F3_CROSS_MECH|HMA|10x20+TP3": 6
+        }
+      }
+    },
+    {
+      "cadence": "4h",
+      "n_events": 267,
+      "price_oracle_mean": 0.053611600084903704,
+      "overall_decomposed": {
+        "ti_mean": 0.057912863041129,
+        "ti_median": 0.05103975903614462,
+        "capture_ratio_of_means": 1.0802300798598337,
+        "capture_ratio_median_of_per_event": 0.8969453975561701
+      },
+      "overall_cross_only": {
+        "ti_mean": 0.021872359979070465,
+        "ti_median": 0.012911430417484174,
+        "capture_ratio_of_means": 0.4079781231008142,
+        "capture_ratio_median_of_per_event": 0.28523614717551576
+      },
+      "decomposed_minus_cross_capture": 0.6722519567590195,
+      "by_formulation": {
+        "F1_PRICE_MA": {
+          "mean_best_capture": 0.5245253163493173,
+          "mean_best_roi": 0.028573763237630296,
+          "win_share": 0.0449438202247191,
+          "wins": 12
+        },
+        "F2_CROSS": {
+          "mean_best_capture": 0.7111508330645344,
+          "mean_best_roi": 0.035538749884237095,
+          "win_share": 0.1647940074906367,
+          "wins": 44
+        },
+        "F3_CROSS_MECH": {
+          "mean_best_capture": 1.0589904519259432,
+          "mean_best_roi": 0.05092531963876441,
+          "win_share": 0.44569288389513106,
+          "wins": 119
+        },
+        "F4_STACK": {
+          "mean_best_capture": 0.67611618876806,
+          "mean_best_roi": 0.03271206975113338,
+          "win_share": 0.07865168539325842,
+          "wins": 21
+        },
+        "F5_PRICE_MA_MECH": {
+          "mean_best_capture": 0.9216827926226293,
+          "mean_best_roi": 0.047161038658992294,
+          "win_share": 0.26591760299625467,
+          "wins": 71
+        }
+      },
+      "by_ma_type": {
+        "SMA": {
+          "mean_best_capture": 0.9110170546003163,
+          "mean_best_roi": 0.04609593628747966,
+          "win_share": 0.299625468164794,
+          "wins": 80
+        },
+        "EMA": {
+          "mean_best_capture": 0.788054799933781,
+          "mean_best_roi": 0.04065523412606118,
+          "win_share": 0.0749063670411985,
+          "wins": 20
+        },
+        "WMA": {
+          "mean_best_capture": 0.8826375280129704,
+          "mean_best_roi": 0.04486235311342434,
+          "win_share": 0.10486891385767791,
+          "wins": 28
+        },
+        "HMA": {
+          "mean_best_capture": 1.0922648246376068,
+          "mean_best_roi": 0.05273911383650265,
+          "win_share": 0.41947565543071164,
+          "wins": 112
+        },
+        "DEMA": {
+          "mean_best_capture": 0.9648123599483965,
+          "mean_best_roi": 0.04748786061796066,
+          "win_share": 0.10112359550561797,
+          "wins": 27
+        }
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 119,
+          "F5_PRICE_MA_MECH": 71,
+          "F2_CROSS": 44,
+          "F4_STACK": 21,
+          "F1_PRICE_MA": 12
+        },
+        "ma_type": {
+          "HMA": 112,
+          "SMA": 80,
+          "WMA": 28,
+          "DEMA": 27,
+          "EMA": 20
+        },
+        "form_x_type": {
+          "F3_CROSS_MECH|SMA": 47,
+          "F3_CROSS_MECH|HMA": 47,
+          "F2_CROSS|HMA": 23,
+          "F5_PRICE_MA_MECH|HMA": 21,
+          "F4_STACK|HMA": 15,
+          "F2_CROSS|SMA": 15,
+          "F5_PRICE_MA_MECH|EMA": 13,
+          "F5_PRICE_MA_MECH|WMA": 13,
+          "F5_PRICE_MA_MECH|SMA": 13,
+          "F3_CROSS_MECH|WMA": 12
+        },
+        "top_params": {
+          "F5_PRICE_MA_MECH|HMA|len10+TP3": 8,
+          "F4_STACK|HMA|20x100": 5,
+          "F3_CROSS_MECH|HMA|5x20+TP3": 5,
+          "F2_CROSS|SMA|10x20": 5,
+          "F3_CROSS_MECH|SMA|5x20+TP3": 5,
+          "F5_PRICE_MA_MECH|EMA|len10+TP3": 4,
+          "F3_CROSS_MECH|HMA|10x20+TP3": 4,
+          "F3_CROSS_MECH|HMA|10x50+TP3": 4,
+          "F5_PRICE_MA_MECH|SMA|len50+TP3": 4,
+          "F3_CROSS_MECH|HMA|20x50+TP3": 4
+        }
+      }
+    },
+    {
+      "cadence": "1h",
+      "n_events": 257,
+      "price_oracle_mean": 0.055759946914581894,
+      "overall_decomposed": {
+        "ti_mean": 0.061979826644176284,
+        "ti_median": 0.055593507235765796,
+        "capture_ratio_of_means": 1.111547447115087,
+        "capture_ratio_median_of_per_event": 0.8766946574516338
+      },
+      "overall_cross_only": {
+        "ti_mean": 0.028641365450774846,
+        "ti_median": 0.021746440857301333,
+        "capture_ratio_of_means": 0.513654819195762,
+        "capture_ratio_median_of_per_event": 0.3647371194371545
+      },
+      "decomposed_minus_cross_capture": 0.5978926279193251,
+      "by_formulation": {
+        "F1_PRICE_MA": {
+          "mean_best_capture": 0.22917733916836922,
+          "mean_best_roi": 0.01577347299415125,
+          "win_share": 0.0,
+          "wins": 0
+        },
+        "F2_CROSS": {
+          "mean_best_capture": 0.8513301857637903,
+          "mean_best_roi": 0.03949400205959877,
+          "win_share": 0.09727626459143969,
+          "wins": 25
+        },
+        "F3_CROSS_MECH": {
+          "mean_best_capture": 1.3028863012503595,
+          "mean_best_roi": 0.05976665471766923,
+          "win_share": 0.6614785992217899,
+          "wins": 170
+        },
+        "F4_STACK": {
+          "mean_best_capture": 0.4729828100518893,
+          "mean_best_roi": 0.023509900023078033,
+          "win_share": 0.05058365758754864,
+          "wins": 13
+        },
+        "F5_PRICE_MA_MECH": {
+          "mean_best_capture": 0.9075891030774423,
+          "mean_best_roi": 0.04712438038173561,
+          "win_share": 0.19066147859922178,
+          "wins": 49
+        }
+      },
+      "by_ma_type": {
+        "SMA": {
+          "mean_best_capture": 1.1240054143627018,
+          "mean_best_roi": 0.052595612221153984,
+          "win_share": 0.2801556420233463,
+          "wins": 72
+        },
+        "EMA": {
+          "mean_best_capture": 1.0344681840387868,
+          "mean_best_roi": 0.04913214930746472,
+          "win_share": 0.13618677042801555,
+          "wins": 35
+        },
+        "WMA": {
+          "mean_best_capture": 1.0894822337635972,
+          "mean_best_roi": 0.051053783009221934,
+          "win_share": 0.08949416342412451,
+          "wins": 23
+        },
+        "HMA": {
+          "mean_best_capture": 1.1279309133390532,
+          "mean_best_roi": 0.05379495301008939,
+          "win_share": 0.29961089494163423,
+          "wins": 77
+        },
+        "DEMA": {
+          "mean_best_capture": 1.1098130510926028,
+          "mean_best_roi": 0.053142484914289356,
+          "win_share": 0.19455252918287938,
+          "wins": 50
+        }
+      },
+      "winning_dna": {
+        "formulation": {
+          "F3_CROSS_MECH": 170,
+          "F5_PRICE_MA_MECH": 49,
+          "F2_CROSS": 25,
+          "F4_STACK": 13
+        },
+        "ma_type": {
+          "HMA": 77,
+          "SMA": 72,
+          "DEMA": 50,
+          "EMA": 35,
+          "WMA": 23
+        },
+        "form_x_type": {
+          "F3_CROSS_MECH|HMA": 58,
+          "F3_CROSS_MECH|SMA": 49,
+          "F3_CROSS_MECH|DEMA": 34,
+          "F5_PRICE_MA_MECH|EMA": 18,
+          "F3_CROSS_MECH|EMA": 16,
+          "F3_CROSS_MECH|WMA": 13,
+          "F5_PRICE_MA_MECH|SMA": 12,
+          "F2_CROSS|SMA": 9,
+          "F5_PRICE_MA_MECH|HMA": 8,
+          "F2_CROSS|HMA": 6
+        },
+        "top_params": {
+          "F3_CROSS_MECH|SMA|5x100+TP8": 5,
+          "F3_CROSS_MECH|HMA|50x200+ATR3x": 5,
+          "F3_CROSS_MECH|SMA|50x200+TP3": 5,
+          "F3_CROSS_MECH|HMA|50x200+TP3": 4,
+          "F3_CROSS_MECH|SMA|50x100+ATR3x": 4,
+          "F3_CROSS_MECH|SMA|5x200+TP5": 4,
+          "F5_PRICE_MA_MECH|SMA|len10+TP3": 3,
+          "F3_CROSS_MECH|HMA|50x100+TP3": 3,
+          "F3_CROSS_MECH|SMA|5x100+TP3": 3,
+          "F3_CROSS_MECH|SMA|5x50+TP8": 3
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "cadence": "AGGREGATE",
+    "n_events": 774,
+    "price_oracle_mean": 0.052848645526931685,
+    "overall_decomposed": {
+      "ti_mean": 0.052832417445194686,
+      "ti_median": 0.046837944111900884,
+      "capture_ratio_of_means": 0.9996929328732043,
+      "capture_ratio_median_of_per_event": 0.8703142476521684
+    },
+    "overall_cross_only": {
+      "ti_mean": 0.021931538741278404,
+      "ti_median": 0.013534725663863337,
+      "capture_ratio_of_means": 0.4149877167637548,
+      "capture_ratio_median_of_per_event": 0.29623848908413275
+    },
+    "decomposed_minus_cross_capture": 0.5847052161094495,
+    "by_formulation": {
+      "F1_PRICE_MA": {
+        "mean_best_capture": 0.37804552360402993,
+        "mean_best_roi": 0.022251943086979142,
+        "win_share": 0.10335917312661498,
+        "wins": 80
+      },
+      "F2_CROSS": {
+        "mean_best_capture": 0.6759450539238374,
+        "mean_best_roi": 0.03335187800817642,
+        "win_share": 0.15503875968992248,
+        "wins": 120
+      },
+      "F3_CROSS_MECH": {
+        "mean_best_capture": 1.0012062399109074,
+        "mean_best_roi": 0.047764311177208224,
+        "win_share": 0.4625322997416021,
+        "wins": 358
+      },
+      "F4_STACK": {
+        "mean_best_capture": 0.5506816691313303,
+        "mean_best_roi": 0.02774530757207923,
+        "win_share": 0.0917312661498708,
+        "wins": 71
+      },
+      "F5_PRICE_MA_MECH": {
+        "mean_best_capture": 0.7900124492920457,
+        "mean_best_roi": 0.041008259072582064,
+        "win_share": 0.18733850129198967,
+        "wins": 145
+      }
+    },
+    "by_ma_type": {
+      "SMA": {
+        "mean_best_capture": 0.8599125633408999,
+        "mean_best_roi": 0.04232383668062508,
+        "win_share": 0.35658914728682173,
+        "wins": 276
+      },
+      "EMA": {
+        "mean_best_capture": 0.7565159953027256,
+        "mean_best_roi": 0.03802149046588934,
+        "win_share": 0.08139534883720931,
+        "wins": 63
+      },
+      "WMA": {
+        "mean_best_capture": 0.8351862306542006,
+        "mean_best_roi": 0.041348811370049296,
+        "win_share": 0.09431524547803617,
+        "wins": 73
+      },
+      "HMA": {
+        "mean_best_capture": 0.9824208755480233,
+        "mean_best_roi": 0.04765935825822398,
+        "win_share": 0.35658914728682173,
+        "wins": 276
+      },
+      "DEMA": {
+        "mean_best_capture": 0.8931233403154953,
+        "mean_best_roi": 0.04383876382173926,
+        "win_share": 0.1111111111111111,
+        "wins": 86
+      }
+    },
+    "winning_dna": {
+      "formulation": {
+        "F3_CROSS_MECH": 358,
+        "F5_PRICE_MA_MECH": 145,
+        "F2_CROSS": 120,
+        "F1_PRICE_MA": 80,
+        "F4_STACK": 71
+      },
+      "ma_type": {
+        "SMA": 276,
+        "HMA": 276,
+        "DEMA": 86,
+        "WMA": 73,
+        "EMA": 63
+      },
+      "form_x_type": {
+        "F3_CROSS_MECH|SMA": 145,
+        "F3_CROSS_MECH|HMA": 122,
+        "F2_CROSS|HMA": 50,
+        "F1_PRICE_MA|SMA": 45,
+        "F2_CROSS|SMA": 44,
+        "F3_CROSS_MECH|DEMA": 43,
+        "F4_STACK|HMA": 41,
+        "F5_PRICE_MA_MECH|HMA": 37,
+        "F5_PRICE_MA_MECH|EMA": 34,
+        "F5_PRICE_MA_MECH|SMA": 32
+      },
+      "top_params": {
+        "F3_CROSS_MECH|SMA|5x20+TP3": 28,
+        "F1_PRICE_MA|SMA|len10": 23,
+        "F3_CROSS_MECH|SMA|5x20+TP5": 17,
+        "F5_PRICE_MA_MECH|HMA|len10+TP3": 15,
+        "F1_PRICE_MA|HMA|len10": 13,
+        "F3_CROSS_MECH|HMA|10x20+TP3": 13,
+        "F2_CROSS|SMA|10x20": 12,
+        "F2_CROSS|HMA|10x20": 12,
+        "F3_CROSS_MECH|HMA|5x20+TP3": 12,
+        "F1_PRICE_MA|SMA|len20": 11
+      }
+    }
+  },
+  "multitude_verdict": "YES -- a multitude. 5/5 formulations and 5/5 MA-types each win >=1 move; top formulation 'F3_CROSS_MECH' wins only 46%, top type 'SMA' 36%. Different moves are best-captured by different (formulation x type)."
+}

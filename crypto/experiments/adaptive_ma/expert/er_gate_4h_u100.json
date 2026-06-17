@@ -1,0 +1,4656 @@
+{
+  "config": {
+    "cadence": "4h",
+    "entry_style": "state",
+    "fast": 8,
+    "slow": 21,
+    "ma": "ema",
+    "er_win": 20,
+    "er_thresh": 0.4,
+    "atr_win": 14,
+    "atr_trail_mult": 3.0,
+    "max_hold": 42,
+    "taker": 0.0024,
+    "null": "regime_matched_ER>0.4",
+    "windows": {
+      "train_end": "2024-05-15",
+      "val_end": "2025-03-15",
+      "oos_end": "2025-12-31",
+      "unseen_end": "2026-05-22",
+      "train_start": null
+    }
+  },
+  "aggregate": {
+    "n_assets_evaluated": 77,
+    "n_beat_regime_null_AND_pos_held": 0,
+    "assets_beat_and_pos": [],
+    "n_pos_held": 13,
+    "n_beats_held_flag": 0,
+    "UNSEEN_real_mean_comp": 6.85,
+    "UNSEEN_real_median_comp": -0.7,
+    "OOS_real_mean_comp": -8.92,
+    "OOS_real_median_comp": -12.99
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "n_entries": 1747,
+      "er_gate_on_bars": 2812,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 137.07,
+          "n": 142,
+          "wr": 0.373
+        },
+        "VAL": {
+          "comp": -10.9,
+          "n": 28,
+          "wr": 0.25
+        },
+        "OOS": {
+          "comp": 1.31,
+          "n": 24,
+          "wr": 0.333
+        },
+        "UNSEEN": {
+          "comp": -3.29,
+          "n": 11,
+          "wr": 0.364
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 137.07,
+          "null_p50": 12.98,
+          "null_p95": 244.55,
+          "beats_null": false,
+          "n": 142
+        },
+        "VAL": {
+          "real": -10.9,
+          "null_p50": 0.46,
+          "null_p95": 37.04,
+          "beats_null": false,
+          "n": 28
+        },
+        "OOS": {
+          "real": 1.31,
+          "null_p50": 5.37,
+          "null_p95": 32.28,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": -3.29,
+          "null_p50": -1.23,
+          "null_p95": 16.61,
+          "beats_null": false,
+          "n": 11
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ETHUSDT": {
+      "n_entries": 1627,
+      "er_gate_on_bars": 2784,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 83.59,
+          "n": 148,
+          "wr": 0.378
+        },
+        "VAL": {
+          "comp": 4.54,
+          "n": 21,
+          "wr": 0.286
+        },
+        "OOS": {
+          "comp": -2.45,
+          "n": 32,
+          "wr": 0.375
+        },
+        "UNSEEN": {
+          "comp": -16.63,
+          "n": 14,
+          "wr": 0.214
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 83.59,
+          "null_p50": 23.27,
+          "null_p95": 258.88,
+          "beats_null": false,
+          "n": 148
+        },
+        "VAL": {
+          "real": 4.54,
+          "null_p50": -2.98,
+          "null_p95": 48.79,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -2.45,
+          "null_p50": 21.42,
+          "null_p95": 98.58,
+          "beats_null": false,
+          "n": 32
+        },
+        "UNSEEN": {
+          "real": -16.63,
+          "null_p50": -9.42,
+          "null_p95": 12.35,
+          "beats_null": false,
+          "n": 14
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "SOLUSDT": {
+      "n_entries": 1111,
+      "er_gate_on_bars": 2119,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -37.53,
+          "n": 103,
+          "wr": 0.369
+        },
+        "VAL": {
+          "comp": -0.35,
+          "n": 24,
+          "wr": 0.375
+        },
+        "OOS": {
+          "comp": -20.96,
+          "n": 28,
+          "wr": 0.321
+        },
+        "UNSEEN": {
+          "comp": -9.36,
+          "n": 9,
+          "wr": 0.222
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -37.53,
+          "null_p50": 60.86,
+          "null_p95": 535.82,
+          "beats_null": false,
+          "n": 103
+        },
+        "VAL": {
+          "real": -0.35,
+          "null_p50": -12.3,
+          "null_p95": 62.32,
+          "beats_null": false,
+          "n": 24
+        },
+        "OOS": {
+          "real": -20.96,
+          "null_p50": -6.81,
+          "null_p95": 36.2,
+          "beats_null": false,
+          "n": 28
+        },
+        "UNSEEN": {
+          "real": -9.36,
+          "null_p50": -3.26,
+          "null_p95": 19.79,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "XRPUSDT": {
+      "n_entries": 1028,
+      "er_gate_on_bars": 2019,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 122.96,
+          "n": 120,
+          "wr": 0.358
+        },
+        "VAL": {
+          "comp": 85.41,
+          "n": 27,
+          "wr": 0.333
+        },
+        "OOS": {
+          "comp": -7.5,
+          "n": 22,
+          "wr": 0.318
+        },
+        "UNSEEN": {
+          "comp": 3.59,
+          "n": 8,
+          "wr": 0.5
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 122.96,
+          "null_p50": 0.72,
+          "null_p95": 493.89,
+          "beats_null": false,
+          "n": 120
+        },
+        "VAL": {
+          "real": 85.41,
+          "null_p50": 34.07,
+          "null_p95": 286.45,
+          "beats_null": false,
+          "n": 27
+        },
+        "OOS": {
+          "real": -7.5,
+          "null_p50": 11.82,
+          "null_p95": 52.25,
+          "beats_null": false,
+          "n": 22
+        },
+        "UNSEEN": {
+          "real": 3.59,
+          "null_p50": -3.7,
+          "null_p95": 26.46,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "BNBUSDT": {
+      "n_entries": 1275,
+      "er_gate_on_bars": 2155,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 262.21,
+          "n": 124,
+          "wr": 0.435
+        },
+        "VAL": {
+          "comp": -22.61,
+          "n": 30,
+          "wr": 0.333
+        },
+        "OOS": {
+          "comp": 4.16,
+          "n": 20,
+          "wr": 0.35
+        },
+        "UNSEEN": {
+          "comp": -17.48,
+          "n": 11,
+          "wr": 0.182
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 262.21,
+          "null_p50": 123.37,
+          "null_p95": 860.51,
+          "beats_null": false,
+          "n": 124
+        },
+        "VAL": {
+          "real": -22.61,
+          "null_p50": -11.04,
+          "null_p95": 29.12,
+          "beats_null": false,
+          "n": 30
+        },
+        "OOS": {
+          "real": 4.16,
+          "null_p50": 13.02,
+          "null_p95": 50.47,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": -17.48,
+          "null_p50": -2.33,
+          "null_p95": 11.6,
+          "beats_null": false,
+          "n": 11
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "DOGEUSDT": {
+      "n_entries": 869,
+      "er_gate_on_bars": 1885,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 14036.22,
+          "n": 92,
+          "wr": 0.457
+        },
+        "VAL": {
+          "comp": 18.46,
+          "n": 22,
+          "wr": 0.409
+        },
+        "OOS": {
+          "comp": -4.31,
+          "n": 24,
+          "wr": 0.333
+        },
+        "UNSEEN": {
+          "comp": 2.86,
+          "n": 7,
+          "wr": 0.571
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 14036.22,
+          "null_p50": 869.48,
+          "null_p95": 24747.1,
+          "beats_null": false,
+          "n": 92
+        },
+        "VAL": {
+          "real": 18.46,
+          "null_p50": -4.07,
+          "null_p95": 92.19,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -4.31,
+          "null_p50": 13.78,
+          "null_p95": 87.19,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": 2.86,
+          "null_p50": -2.94,
+          "null_p95": 21.19,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ZECUSDT": {
+      "n_entries": 1248,
+      "er_gate_on_bars": 2326,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -72.63,
+          "n": 119,
+          "wr": 0.328
+        },
+        "VAL": {
+          "comp": 6.43,
+          "n": 23,
+          "wr": 0.609
+        },
+        "OOS": {
+          "comp": -16.56,
+          "n": 33,
+          "wr": 0.394
+        },
+        "UNSEEN": {
+          "comp": 107.25,
+          "n": 10,
+          "wr": 0.7
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -72.63,
+          "null_p50": -26.11,
+          "null_p95": 253.09,
+          "beats_null": false,
+          "n": 119
+        },
+        "VAL": {
+          "real": 6.43,
+          "null_p50": 5.01,
+          "null_p95": 78.36,
+          "beats_null": false,
+          "n": 23
+        },
+        "OOS": {
+          "real": -16.56,
+          "null_p50": 28.4,
+          "null_p95": 386.02,
+          "beats_null": false,
+          "n": 33
+        },
+        "UNSEEN": {
+          "real": 107.25,
+          "null_p50": 22.69,
+          "null_p95": 110.25,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "TRXUSDT": {
+      "n_entries": 1367,
+      "er_gate_on_bars": 2215,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -39.98,
+          "n": 140,
+          "wr": 0.357
+        },
+        "VAL": {
+          "comp": 39.05,
+          "n": 41,
+          "wr": 0.415
+        },
+        "OOS": {
+          "comp": -5.82,
+          "n": 29,
+          "wr": 0.379
+        },
+        "UNSEEN": {
+          "comp": -4.04,
+          "n": 15,
+          "wr": 0.267
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -39.98,
+          "null_p50": 3.22,
+          "null_p95": 420.41,
+          "beats_null": false,
+          "n": 140
+        },
+        "VAL": {
+          "real": 39.05,
+          "null_p50": -2.06,
+          "null_p95": 67.58,
+          "beats_null": false,
+          "n": 41
+        },
+        "OOS": {
+          "real": -5.82,
+          "null_p50": -9.94,
+          "null_p95": 9.96,
+          "beats_null": false,
+          "n": 29
+        },
+        "UNSEEN": {
+          "real": -4.04,
+          "null_p50": -0.16,
+          "null_p95": 11.37,
+          "beats_null": false,
+          "n": 15
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "PEPEUSDT": {
+      "n_entries": 462,
+      "er_gate_on_bars": 1048,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 12.7,
+          "n": 26,
+          "wr": 0.346
+        },
+        "VAL": {
+          "comp": 20.57,
+          "n": 19,
+          "wr": 0.368
+        },
+        "OOS": {
+          "comp": 10.48,
+          "n": 21,
+          "wr": 0.429
+        },
+        "UNSEEN": {
+          "comp": 7.92,
+          "n": 7,
+          "wr": 0.286
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 12.7,
+          "null_p50": 141.49,
+          "null_p95": 848.31,
+          "beats_null": false,
+          "n": 26
+        },
+        "VAL": {
+          "real": 20.57,
+          "null_p50": 19.31,
+          "null_p95": 241.97,
+          "beats_null": false,
+          "n": 19
+        },
+        "OOS": {
+          "real": 10.48,
+          "null_p50": 14.96,
+          "null_p95": 87.15,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": 7.92,
+          "null_p50": -7.61,
+          "null_p95": 24.04,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ADAUSDT": {
+      "n_entries": 1111,
+      "er_gate_on_bars": 2189,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 89.57,
+          "n": 119,
+          "wr": 0.345
+        },
+        "VAL": {
+          "comp": 2.0,
+          "n": 26,
+          "wr": 0.269
+        },
+        "OOS": {
+          "comp": -27.69,
+          "n": 23,
+          "wr": 0.304
+        },
+        "UNSEEN": {
+          "comp": -16.06,
+          "n": 8,
+          "wr": 0.25
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 89.57,
+          "null_p50": -0.78,
+          "null_p95": 277.26,
+          "beats_null": false,
+          "n": 119
+        },
+        "VAL": {
+          "real": 2.0,
+          "null_p50": 35.26,
+          "null_p95": 216.06,
+          "beats_null": false,
+          "n": 26
+        },
+        "OOS": {
+          "real": -27.69,
+          "null_p50": -6.25,
+          "null_p95": 44.33,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -16.06,
+          "null_p50": 3.66,
+          "null_p95": 35.51,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "LINKUSDT": {
+      "n_entries": 1128,
+      "er_gate_on_bars": 2214,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -14.88,
+          "n": 127,
+          "wr": 0.409
+        },
+        "VAL": {
+          "comp": -20.55,
+          "n": 24,
+          "wr": 0.292
+        },
+        "OOS": {
+          "comp": -9.75,
+          "n": 24,
+          "wr": 0.417
+        },
+        "UNSEEN": {
+          "comp": -12.98,
+          "n": 9,
+          "wr": 0.333
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -14.88,
+          "null_p50": 45.48,
+          "null_p95": 486.99,
+          "beats_null": false,
+          "n": 127
+        },
+        "VAL": {
+          "real": -20.55,
+          "null_p50": 2.15,
+          "null_p95": 72.86,
+          "beats_null": false,
+          "n": 24
+        },
+        "OOS": {
+          "real": -9.75,
+          "null_p50": 34.36,
+          "null_p95": 121.8,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": -12.98,
+          "null_p50": -4.48,
+          "null_p95": 16.27,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "SUIUSDT": {
+      "n_entries": 447,
+      "er_gate_on_bars": 1081,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -2.18,
+          "n": 23,
+          "wr": 0.348
+        },
+        "VAL": {
+          "comp": -7.0,
+          "n": 24,
+          "wr": 0.375
+        },
+        "OOS": {
+          "comp": 22.94,
+          "n": 20,
+          "wr": 0.35
+        },
+        "UNSEEN": {
+          "comp": -15.45,
+          "n": 10,
+          "wr": 0.2
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -2.18,
+          "null_p50": -12.22,
+          "null_p95": 60.16,
+          "beats_null": false,
+          "n": 23
+        },
+        "VAL": {
+          "real": -7.0,
+          "null_p50": 44.24,
+          "null_p95": 196.83,
+          "beats_null": false,
+          "n": 24
+        },
+        "OOS": {
+          "real": 22.94,
+          "null_p50": 22.86,
+          "null_p95": 134.06,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": -15.45,
+          "null_p50": -4.41,
+          "null_p95": 21.71,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "AVAXUSDT": {
+      "n_entries": 1000,
+      "er_gate_on_bars": 2157,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 233.48,
+          "n": 99,
+          "wr": 0.333
+        },
+        "VAL": {
+          "comp": -23.86,
+          "n": 23,
+          "wr": 0.174
+        },
+        "OOS": {
+          "comp": -24.35,
+          "n": 26,
+          "wr": 0.308
+        },
+        "UNSEEN": {
+          "comp": -12.74,
+          "n": 8,
+          "wr": 0.375
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 233.48,
+          "null_p50": 107.68,
+          "null_p95": 1870.43,
+          "beats_null": false,
+          "n": 99
+        },
+        "VAL": {
+          "real": -23.86,
+          "null_p50": -7.86,
+          "null_p95": 53.39,
+          "beats_null": false,
+          "n": 23
+        },
+        "OOS": {
+          "real": -24.35,
+          "null_p50": -7.85,
+          "null_p95": 39.93,
+          "beats_null": false,
+          "n": 26
+        },
+        "UNSEEN": {
+          "real": -12.74,
+          "null_p50": -1.45,
+          "null_p95": 18.95,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "TAOUSDT": {
+      "n_entries": 396,
+      "er_gate_on_bars": 826,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -11.78,
+          "n": 2,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 10.76,
+          "n": 23,
+          "wr": 0.435
+        },
+        "OOS": {
+          "comp": -26.55,
+          "n": 19,
+          "wr": 0.263
+        },
+        "UNSEEN": {
+          "comp": 39.23,
+          "n": 13,
+          "wr": 0.462
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -11.78,
+          "null_p50": -5.03,
+          "null_p95": 13.57,
+          "beats_null": false,
+          "n": 2
+        },
+        "VAL": {
+          "real": 10.76,
+          "null_p50": 4.63,
+          "null_p95": 121.89,
+          "beats_null": false,
+          "n": 23
+        },
+        "OOS": {
+          "real": -26.55,
+          "null_p50": -4.67,
+          "null_p95": 57.77,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": 39.23,
+          "null_p50": 1.1,
+          "null_p95": 59.4,
+          "beats_null": false,
+          "n": 13
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "FETUSDT": {
+      "n_entries": 937,
+      "er_gate_on_bars": 1959,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -45.95,
+          "n": 106,
+          "wr": 0.368
+        },
+        "VAL": {
+          "comp": -10.81,
+          "n": 17,
+          "wr": 0.294
+        },
+        "OOS": {
+          "comp": 5.76,
+          "n": 21,
+          "wr": 0.524
+        },
+        "UNSEEN": {
+          "comp": 6.3,
+          "n": 8,
+          "wr": 0.375
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -45.95,
+          "null_p50": -3.22,
+          "null_p95": 743.97,
+          "beats_null": false,
+          "n": 106
+        },
+        "VAL": {
+          "real": -10.81,
+          "null_p50": 7.74,
+          "null_p95": 92.59,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": 5.76,
+          "null_p50": -0.84,
+          "null_p95": 68.77,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": 6.3,
+          "null_p50": 6.73,
+          "null_p95": 66.31,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ENJUSDT": {
+      "n_entries": 811,
+      "er_gate_on_bars": 1820,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -57.0,
+          "n": 104,
+          "wr": 0.298
+        },
+        "VAL": {
+          "comp": -16.84,
+          "n": 22,
+          "wr": 0.273
+        },
+        "OOS": {
+          "comp": -25.92,
+          "n": 18,
+          "wr": 0.222
+        },
+        "UNSEEN": {
+          "comp": 147.86,
+          "n": 7,
+          "wr": 0.571
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -57.0,
+          "null_p50": -31.7,
+          "null_p95": 231.73,
+          "beats_null": false,
+          "n": 104
+        },
+        "VAL": {
+          "real": -16.84,
+          "null_p50": -8.57,
+          "null_p95": 54.8,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -25.92,
+          "null_p50": 14.03,
+          "null_p95": 81.36,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": 147.86,
+          "null_p50": 0.37,
+          "null_p95": 121.2,
+          "beats_null": true,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ORDIUSDT": {
+      "n_entries": 379,
+      "er_gate_on_bars": 1041,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 39.11,
+          "n": 17,
+          "wr": 0.235
+        },
+        "VAL": {
+          "comp": -49.29,
+          "n": 31,
+          "wr": 0.226
+        },
+        "OOS": {
+          "comp": -23.71,
+          "n": 25,
+          "wr": 0.32
+        },
+        "UNSEEN": {
+          "comp": 43.48,
+          "n": 9,
+          "wr": 0.333
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 39.11,
+          "null_p50": 45.38,
+          "null_p95": 366.13,
+          "beats_null": false,
+          "n": 17
+        },
+        "VAL": {
+          "real": -49.29,
+          "null_p50": -29.34,
+          "null_p95": 49.14,
+          "beats_null": false,
+          "n": 31
+        },
+        "OOS": {
+          "real": -23.71,
+          "null_p50": 19.22,
+          "null_p95": 119.56,
+          "beats_null": false,
+          "n": 25
+        },
+        "UNSEEN": {
+          "real": 43.48,
+          "null_p50": -7.61,
+          "null_p95": 221.53,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "NEARUSDT": {
+      "n_entries": 952,
+      "er_gate_on_bars": 2044,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 116.27,
+          "n": 90,
+          "wr": 0.433
+        },
+        "VAL": {
+          "comp": 42.14,
+          "n": 17,
+          "wr": 0.588
+        },
+        "OOS": {
+          "comp": -6.43,
+          "n": 26,
+          "wr": 0.385
+        },
+        "UNSEEN": {
+          "comp": 0.06,
+          "n": 13,
+          "wr": 0.308
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 116.27,
+          "null_p50": -2.95,
+          "null_p95": 436.52,
+          "beats_null": false,
+          "n": 90
+        },
+        "VAL": {
+          "real": 42.14,
+          "null_p50": 10.48,
+          "null_p95": 95.96,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": -6.43,
+          "null_p50": 14.91,
+          "null_p95": 96.87,
+          "beats_null": false,
+          "n": 26
+        },
+        "UNSEEN": {
+          "real": 0.06,
+          "null_p50": 13.42,
+          "null_p95": 89.24,
+          "beats_null": false,
+          "n": 13
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "WLDUSDT": {
+      "n_entries": 439,
+      "er_gate_on_bars": 1092,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 82.12,
+          "n": 17,
+          "wr": 0.353
+        },
+        "VAL": {
+          "comp": 32.5,
+          "n": 17,
+          "wr": 0.412
+        },
+        "OOS": {
+          "comp": 48.38,
+          "n": 19,
+          "wr": 0.263
+        },
+        "UNSEEN": {
+          "comp": -0.7,
+          "n": 9,
+          "wr": 0.556
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 82.12,
+          "null_p50": 7.87,
+          "null_p95": 233.87,
+          "beats_null": false,
+          "n": 17
+        },
+        "VAL": {
+          "real": 32.5,
+          "null_p50": -20.49,
+          "null_p95": 46.26,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": 48.38,
+          "null_p50": 39.84,
+          "null_p95": 301.51,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -0.7,
+          "null_p50": -7.42,
+          "null_p95": 34.38,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ENAUSDT": {
+      "n_entries": 323,
+      "er_gate_on_bars": 871,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -4.33,
+          "n": 1,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -19.77,
+          "n": 20,
+          "wr": 0.3
+        },
+        "OOS": {
+          "comp": -18.01,
+          "n": 23,
+          "wr": 0.348
+        },
+        "UNSEEN": {
+          "comp": -8.46,
+          "n": 7,
+          "wr": 0.286
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -4.33,
+          "null_p50": -1.84,
+          "null_p95": 6.95,
+          "beats_null": false,
+          "n": 1
+        },
+        "VAL": {
+          "real": -19.77,
+          "null_p50": -33.15,
+          "null_p95": 43.93,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -18.01,
+          "null_p50": 2.06,
+          "null_p95": 111.61,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -8.46,
+          "null_p50": -10.52,
+          "null_p95": 17.86,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "LTCUSDT": {
+      "n_entries": 1113,
+      "er_gate_on_bars": 2128,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -66.64,
+          "n": 143,
+          "wr": 0.322
+        },
+        "VAL": {
+          "comp": 1.54,
+          "n": 31,
+          "wr": 0.452
+        },
+        "OOS": {
+          "comp": -38.95,
+          "n": 26,
+          "wr": 0.308
+        },
+        "UNSEEN": {
+          "comp": -5.04,
+          "n": 6,
+          "wr": 0.333
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -66.64,
+          "null_p50": -55.68,
+          "null_p95": 141.39,
+          "beats_null": false,
+          "n": 143
+        },
+        "VAL": {
+          "real": 1.54,
+          "null_p50": 13.41,
+          "null_p95": 80.63,
+          "beats_null": false,
+          "n": 31
+        },
+        "OOS": {
+          "real": -38.95,
+          "null_p50": -5.42,
+          "null_p95": 33.65,
+          "beats_null": false,
+          "n": 26
+        },
+        "UNSEEN": {
+          "real": -5.04,
+          "null_p50": -2.94,
+          "null_p95": 12.59,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "AAVEUSDT": {
+      "n_entries": 940,
+      "er_gate_on_bars": 1895,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -55.44,
+          "n": 96,
+          "wr": 0.375
+        },
+        "VAL": {
+          "comp": 19.71,
+          "n": 24,
+          "wr": 0.5
+        },
+        "OOS": {
+          "comp": -19.55,
+          "n": 21,
+          "wr": 0.286
+        },
+        "UNSEEN": {
+          "comp": -19.9,
+          "n": 9,
+          "wr": 0.222
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -55.44,
+          "null_p50": -38.13,
+          "null_p95": 248.84,
+          "beats_null": false,
+          "n": 96
+        },
+        "VAL": {
+          "real": 19.71,
+          "null_p50": 22.16,
+          "null_p95": 133.52,
+          "beats_null": false,
+          "n": 24
+        },
+        "OOS": {
+          "real": -19.55,
+          "null_p50": 5.99,
+          "null_p95": 60.78,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": -19.9,
+          "null_p50": -4.24,
+          "null_p95": 21.91,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "DASHUSDT": {
+      "n_entries": 992,
+      "er_gate_on_bars": 2125,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -69.61,
+          "n": 125,
+          "wr": 0.272
+        },
+        "VAL": {
+          "comp": 10.39,
+          "n": 22,
+          "wr": 0.318
+        },
+        "OOS": {
+          "comp": -36.88,
+          "n": 26,
+          "wr": 0.154
+        },
+        "UNSEEN": {
+          "comp": 160.08,
+          "n": 7,
+          "wr": 0.714
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -69.61,
+          "null_p50": -8.44,
+          "null_p95": 396.5,
+          "beats_null": false,
+          "n": 125
+        },
+        "VAL": {
+          "real": 10.39,
+          "null_p50": 2.46,
+          "null_p95": 62.04,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -36.88,
+          "null_p50": 35.74,
+          "null_p95": 258.95,
+          "beats_null": false,
+          "n": 26
+        },
+        "UNSEEN": {
+          "real": 160.08,
+          "null_p50": 3.83,
+          "null_p95": 142.52,
+          "beats_null": true,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "UNIUSDT": {
+      "n_entries": 846,
+      "er_gate_on_bars": 1998,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -67.56,
+          "n": 93,
+          "wr": 0.29
+        },
+        "VAL": {
+          "comp": -33.32,
+          "n": 28,
+          "wr": 0.286
+        },
+        "OOS": {
+          "comp": -7.44,
+          "n": 22,
+          "wr": 0.227
+        },
+        "UNSEEN": {
+          "comp": -16.61,
+          "n": 7,
+          "wr": 0.286
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -67.56,
+          "null_p50": -26.61,
+          "null_p95": 199.31,
+          "beats_null": false,
+          "n": 93
+        },
+        "VAL": {
+          "real": -33.32,
+          "null_p50": 3.02,
+          "null_p95": 129.6,
+          "beats_null": false,
+          "n": 28
+        },
+        "OOS": {
+          "real": -7.44,
+          "null_p50": 23.4,
+          "null_p95": 118.5,
+          "beats_null": false,
+          "n": 22
+        },
+        "UNSEEN": {
+          "real": -16.61,
+          "null_p50": -0.26,
+          "null_p95": 14.76,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "BCHUSDT": {
+      "n_entries": 1058,
+      "er_gate_on_bars": 2174,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -1.95,
+          "n": 119,
+          "wr": 0.319
+        },
+        "VAL": {
+          "comp": -19.54,
+          "n": 23,
+          "wr": 0.348
+        },
+        "OOS": {
+          "comp": -30.21,
+          "n": 23,
+          "wr": 0.261
+        },
+        "UNSEEN": {
+          "comp": -6.53,
+          "n": 6,
+          "wr": 0.167
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -1.95,
+          "null_p50": 10.18,
+          "null_p95": 457.29,
+          "beats_null": false,
+          "n": 119
+        },
+        "VAL": {
+          "real": -19.54,
+          "null_p50": -11.54,
+          "null_p95": 31.95,
+          "beats_null": false,
+          "n": 23
+        },
+        "OOS": {
+          "real": -30.21,
+          "null_p50": -4.42,
+          "null_p95": 26.07,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -6.53,
+          "null_p50": -3.16,
+          "null_p95": 12.11,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "PENGUUSDT": {
+      "n_entries": 213,
+      "er_gate_on_bars": 550,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -16.4,
+          "n": 3,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": 162.96,
+          "n": 21,
+          "wr": 0.381
+        },
+        "UNSEEN": {
+          "comp": 14.4,
+          "n": 9,
+          "wr": 0.556
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -16.4,
+          "null_p50": -6.3,
+          "null_p95": 10.71,
+          "beats_null": false,
+          "n": 3
+        },
+        "OOS": {
+          "real": 162.96,
+          "null_p50": 44.71,
+          "null_p95": 262.79,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": 14.4,
+          "null_p50": -2.79,
+          "null_p95": 38.83,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "DOTUSDT": {
+      "n_entries": 946,
+      "er_gate_on_bars": 2074,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 89.35,
+          "n": 106,
+          "wr": 0.311
+        },
+        "VAL": {
+          "comp": -20.6,
+          "n": 26,
+          "wr": 0.154
+        },
+        "OOS": {
+          "comp": -27.12,
+          "n": 25,
+          "wr": 0.24
+        },
+        "UNSEEN": {
+          "comp": -22.02,
+          "n": 8,
+          "wr": 0.25
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 89.35,
+          "null_p50": -20.57,
+          "null_p95": 242.78,
+          "beats_null": false,
+          "n": 106
+        },
+        "VAL": {
+          "real": -20.6,
+          "null_p50": -9.16,
+          "null_p95": 68.42,
+          "beats_null": false,
+          "n": 26
+        },
+        "OOS": {
+          "real": -27.12,
+          "null_p50": -5.17,
+          "null_p95": 40.1,
+          "beats_null": false,
+          "n": 25
+        },
+        "UNSEEN": {
+          "real": -22.02,
+          "null_p50": -3.7,
+          "null_p95": 30.92,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "TONUSDT": {
+      "n_entries": 245,
+      "er_gate_on_bars": 571,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 6.72,
+          "n": 15,
+          "wr": 0.333
+        },
+        "OOS": {
+          "comp": -43.24,
+          "n": 23,
+          "wr": 0.174
+        },
+        "UNSEEN": {
+          "comp": 73.63,
+          "n": 10,
+          "wr": 0.5
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 6.72,
+          "null_p50": 12.29,
+          "null_p95": 61.0,
+          "beats_null": false,
+          "n": 15
+        },
+        "OOS": {
+          "real": -43.24,
+          "null_p50": -10.63,
+          "null_p95": 25.07,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": 73.63,
+          "null_p50": 12.05,
+          "null_p95": 106.76,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "APTUSDT": {
+      "n_entries": 551,
+      "er_gate_on_bars": 1305,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -22.61,
+          "n": 43,
+          "wr": 0.256
+        },
+        "VAL": {
+          "comp": 30.14,
+          "n": 21,
+          "wr": 0.429
+        },
+        "OOS": {
+          "comp": -23.66,
+          "n": 24,
+          "wr": 0.292
+        },
+        "UNSEEN": {
+          "comp": -21.41,
+          "n": 8,
+          "wr": 0.375
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -22.61,
+          "null_p50": -9.89,
+          "null_p95": 137.41,
+          "beats_null": false,
+          "n": 43
+        },
+        "VAL": {
+          "real": 30.14,
+          "null_p50": 30.28,
+          "null_p95": 136.9,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -23.66,
+          "null_p50": 15.3,
+          "null_p95": 97.77,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": -21.41,
+          "null_p50": -12.56,
+          "null_p95": 2.11,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "FILUSDT": {
+      "n_entries": 832,
+      "er_gate_on_bars": 2060,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 21.08,
+          "n": 91,
+          "wr": 0.33
+        },
+        "VAL": {
+          "comp": -4.09,
+          "n": 27,
+          "wr": 0.37
+        },
+        "OOS": {
+          "comp": -10.14,
+          "n": 23,
+          "wr": 0.391
+        },
+        "UNSEEN": {
+          "comp": -15.08,
+          "n": 7,
+          "wr": 0.143
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 21.08,
+          "null_p50": -42.96,
+          "null_p95": 176.83,
+          "beats_null": false,
+          "n": 91
+        },
+        "VAL": {
+          "real": -4.09,
+          "null_p50": -3.86,
+          "null_p95": 69.27,
+          "beats_null": false,
+          "n": 27
+        },
+        "OOS": {
+          "real": -10.14,
+          "null_p50": 2.17,
+          "null_p95": 94.1,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -15.08,
+          "null_p50": -7.83,
+          "null_p95": 13.77,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "RENDERUSDT": {
+      "n_entries": 300,
+      "er_gate_on_bars": 612,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 18.59,
+          "n": 12,
+          "wr": 0.333
+        },
+        "OOS": {
+          "comp": -33.17,
+          "n": 21,
+          "wr": 0.333
+        },
+        "UNSEEN": {
+          "comp": 40.83,
+          "n": 9,
+          "wr": 0.333
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 18.59,
+          "null_p50": 18.41,
+          "null_p95": 76.83,
+          "beats_null": false,
+          "n": 12
+        },
+        "OOS": {
+          "real": -33.17,
+          "null_p50": 0.34,
+          "null_p95": 69.4,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": 40.83,
+          "null_p50": 28.89,
+          "null_p95": 145.21,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "HBARUSDT": {
+      "n_entries": 761,
+      "er_gate_on_bars": 1721,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 24.76,
+          "n": 100,
+          "wr": 0.31
+        },
+        "VAL": {
+          "comp": 110.83,
+          "n": 20,
+          "wr": 0.3
+        },
+        "OOS": {
+          "comp": -11.35,
+          "n": 23,
+          "wr": 0.217
+        },
+        "UNSEEN": {
+          "comp": -3.6,
+          "n": 7,
+          "wr": 0.286
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 24.76,
+          "null_p50": -37.8,
+          "null_p95": 201.55,
+          "beats_null": false,
+          "n": 100
+        },
+        "VAL": {
+          "real": 110.83,
+          "null_p50": 23.89,
+          "null_p95": 203.71,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -11.35,
+          "null_p50": 12.89,
+          "null_p95": 86.48,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -3.6,
+          "null_p50": -0.4,
+          "null_p95": 21.94,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ARBUSDT": {
+      "n_entries": 460,
+      "er_gate_on_bars": 1170,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -33.98,
+          "n": 29,
+          "wr": 0.345
+        },
+        "VAL": {
+          "comp": -7.22,
+          "n": 23,
+          "wr": 0.348
+        },
+        "OOS": {
+          "comp": -28.06,
+          "n": 25,
+          "wr": 0.32
+        },
+        "UNSEEN": {
+          "comp": 19.02,
+          "n": 6,
+          "wr": 0.667
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -33.98,
+          "null_p50": 2.53,
+          "null_p95": 54.64,
+          "beats_null": false,
+          "n": 29
+        },
+        "VAL": {
+          "real": -7.22,
+          "null_p50": -7.61,
+          "null_p95": 47.85,
+          "beats_null": false,
+          "n": 23
+        },
+        "OOS": {
+          "real": -28.06,
+          "null_p50": -4.76,
+          "null_p95": 65.88,
+          "beats_null": false,
+          "n": 25
+        },
+        "UNSEEN": {
+          "real": 19.02,
+          "null_p50": -9.67,
+          "null_p95": 19.42,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "TRUMPUSDT": {
+      "n_entries": 140,
+      "er_gate_on_bars": 618,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -12.9,
+          "n": 1,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": 14.08,
+          "n": 18,
+          "wr": 0.278
+        },
+        "UNSEEN": {
+          "comp": -33.89,
+          "n": 6,
+          "wr": 0.0
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -12.9,
+          "null_p50": -0.38,
+          "null_p95": 12.82,
+          "beats_null": false,
+          "n": 1
+        },
+        "OOS": {
+          "real": 14.08,
+          "null_p50": 2.4,
+          "null_p95": 76.17,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": -33.89,
+          "null_p50": -7.31,
+          "null_p95": 1.95,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "TREEUSDT": {
+      "n_entries": 71,
+      "er_gate_on_bars": 237,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": -45.73,
+          "n": 8,
+          "wr": 0.0
+        },
+        "UNSEEN": {
+          "comp": -9.43,
+          "n": 10,
+          "wr": 0.4
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -45.73,
+          "null_p50": -7.1,
+          "null_p95": 32.22,
+          "beats_null": false,
+          "n": 8
+        },
+        "UNSEEN": {
+          "real": -9.43,
+          "null_p50": -23.67,
+          "null_p95": 1.62,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "SHIBUSDT": {
+      "n_entries": 626,
+      "er_gate_on_bars": 1470,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 477.67,
+          "n": 78,
+          "wr": 0.346
+        },
+        "VAL": {
+          "comp": 14.67,
+          "n": 18,
+          "wr": 0.389
+        },
+        "OOS": {
+          "comp": -7.88,
+          "n": 23,
+          "wr": 0.304
+        },
+        "UNSEEN": {
+          "comp": 2.84,
+          "n": 6,
+          "wr": 0.667
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 477.67,
+          "null_p50": 304.23,
+          "null_p95": 5433.92,
+          "beats_null": false,
+          "n": 78
+        },
+        "VAL": {
+          "real": 14.67,
+          "null_p50": -3.46,
+          "null_p95": 55.26,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": -7.88,
+          "null_p50": 10.13,
+          "null_p95": 61.25,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": 2.84,
+          "null_p50": 3.77,
+          "null_p95": 34.9,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ALGOUSDT": {
+      "n_entries": 935,
+      "er_gate_on_bars": 2047,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -84.16,
+          "n": 115,
+          "wr": 0.278
+        },
+        "VAL": {
+          "comp": 8.65,
+          "n": 22,
+          "wr": 0.273
+        },
+        "OOS": {
+          "comp": 6.42,
+          "n": 18,
+          "wr": 0.278
+        },
+        "UNSEEN": {
+          "comp": 30.46,
+          "n": 9,
+          "wr": 0.444
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -84.16,
+          "null_p50": -49.59,
+          "null_p95": 99.22,
+          "beats_null": false,
+          "n": 115
+        },
+        "VAL": {
+          "real": 8.65,
+          "null_p50": 18.28,
+          "null_p95": 125.13,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": 6.42,
+          "null_p50": 16.67,
+          "null_p95": 120.39,
+          "beats_null": false,
+          "n": 18
+        },
+        "UNSEEN": {
+          "real": 30.46,
+          "null_p50": 16.87,
+          "null_p95": 65.98,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "BONKUSDT": {
+      "n_entries": 384,
+      "er_gate_on_bars": 900,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 46.09,
+          "n": 9,
+          "wr": 0.556
+        },
+        "VAL": {
+          "comp": 52.44,
+          "n": 18,
+          "wr": 0.278
+        },
+        "OOS": {
+          "comp": -12.02,
+          "n": 27,
+          "wr": 0.296
+        },
+        "UNSEEN": {
+          "comp": 9.01,
+          "n": 7,
+          "wr": 0.429
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 46.09,
+          "null_p50": 22.69,
+          "null_p95": 282.83,
+          "beats_null": false,
+          "n": 9
+        },
+        "VAL": {
+          "real": 52.44,
+          "null_p50": 6.91,
+          "null_p95": 127.39,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": -12.02,
+          "null_p50": 8.36,
+          "null_p95": 120.56,
+          "beats_null": false,
+          "n": 27
+        },
+        "UNSEEN": {
+          "real": 9.01,
+          "null_p50": 3.29,
+          "null_p95": 60.05,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "WIFUSDT": {
+      "n_entries": 358,
+      "er_gate_on_bars": 875,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -33.02,
+          "n": 6,
+          "wr": 0.167
+        },
+        "VAL": {
+          "comp": 27.14,
+          "n": 19,
+          "wr": 0.368
+        },
+        "OOS": {
+          "comp": 37.31,
+          "n": 22,
+          "wr": 0.409
+        },
+        "UNSEEN": {
+          "comp": -22.22,
+          "n": 8,
+          "wr": 0.125
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -33.02,
+          "null_p50": -19.01,
+          "null_p95": 50.71,
+          "beats_null": false,
+          "n": 6
+        },
+        "VAL": {
+          "real": 27.14,
+          "null_p50": -27.92,
+          "null_p95": 62.5,
+          "beats_null": false,
+          "n": 19
+        },
+        "OOS": {
+          "real": 37.31,
+          "null_p50": 45.84,
+          "null_p95": 276.79,
+          "beats_null": false,
+          "n": 22
+        },
+        "UNSEEN": {
+          "real": -22.22,
+          "null_p50": 0.3,
+          "null_p95": 38.06,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ICPUSDT": {
+      "n_entries": 723,
+      "er_gate_on_bars": 1685,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 44.89,
+          "n": 63,
+          "wr": 0.397
+        },
+        "VAL": {
+          "comp": 18.56,
+          "n": 18,
+          "wr": 0.389
+        },
+        "OOS": {
+          "comp": 0.55,
+          "n": 21,
+          "wr": 0.333
+        },
+        "UNSEEN": {
+          "comp": 31.15,
+          "n": 12,
+          "wr": 0.5
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 44.89,
+          "null_p50": -59.0,
+          "null_p95": 58.52,
+          "beats_null": false,
+          "n": 63
+        },
+        "VAL": {
+          "real": 18.56,
+          "null_p50": 10.59,
+          "null_p95": 86.75,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": 0.55,
+          "null_p50": 9.3,
+          "null_p95": 100.61,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": 31.15,
+          "null_p50": -16.67,
+          "null_p95": 32.38,
+          "beats_null": false,
+          "n": 12
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "SEIUSDT": {
+      "n_entries": 446,
+      "er_gate_on_bars": 1141,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -36.28,
+          "n": 25,
+          "wr": 0.32
+        },
+        "VAL": {
+          "comp": 4.98,
+          "n": 21,
+          "wr": 0.286
+        },
+        "OOS": {
+          "comp": -40.57,
+          "n": 26,
+          "wr": 0.308
+        },
+        "UNSEEN": {
+          "comp": 17.16,
+          "n": 6,
+          "wr": 0.667
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -36.28,
+          "null_p50": -16.03,
+          "null_p95": 59.64,
+          "beats_null": false,
+          "n": 25
+        },
+        "VAL": {
+          "real": 4.98,
+          "null_p50": -8.6,
+          "null_p95": 71.1,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -40.57,
+          "null_p50": -7.52,
+          "null_p95": 55.54,
+          "beats_null": false,
+          "n": 26
+        },
+        "UNSEEN": {
+          "real": 17.16,
+          "null_p50": -9.46,
+          "null_p95": 12.32,
+          "beats_null": true,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "JSTUSDT": {
+      "n_entries": 1020,
+      "er_gate_on_bars": 2090,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -78.78,
+          "n": 119,
+          "wr": 0.361
+        },
+        "VAL": {
+          "comp": -31.44,
+          "n": 25,
+          "wr": 0.28
+        },
+        "OOS": {
+          "comp": -5.32,
+          "n": 36,
+          "wr": 0.333
+        },
+        "UNSEEN": {
+          "comp": -11.0,
+          "n": 15,
+          "wr": 0.267
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -78.78,
+          "null_p50": -17.06,
+          "null_p95": 192.41,
+          "beats_null": false,
+          "n": 119
+        },
+        "VAL": {
+          "real": -31.44,
+          "null_p50": -6.05,
+          "null_p95": 33.56,
+          "beats_null": false,
+          "n": 25
+        },
+        "OOS": {
+          "real": -5.32,
+          "null_p50": -0.89,
+          "null_p95": 39.35,
+          "beats_null": false,
+          "n": 36
+        },
+        "UNSEEN": {
+          "real": -11.0,
+          "null_p50": 4.96,
+          "null_p95": 35.2,
+          "beats_null": false,
+          "n": 15
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "CRVUSDT": {
+      "n_entries": 816,
+      "er_gate_on_bars": 2055,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -86.21,
+          "n": 111,
+          "wr": 0.261
+        },
+        "VAL": {
+          "comp": 26.0,
+          "n": 18,
+          "wr": 0.389
+        },
+        "OOS": {
+          "comp": 32.86,
+          "n": 17,
+          "wr": 0.471
+        },
+        "UNSEEN": {
+          "comp": -12.7,
+          "n": 6,
+          "wr": 0.167
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -86.21,
+          "null_p50": -59.21,
+          "null_p95": 107.32,
+          "beats_null": false,
+          "n": 111
+        },
+        "VAL": {
+          "real": 26.0,
+          "null_p50": 16.49,
+          "null_p95": 176.07,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": 32.86,
+          "null_p50": 44.61,
+          "null_p95": 132.74,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -12.7,
+          "null_p50": -4.25,
+          "null_p95": 23.36,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "BLURUSDT": {
+      "n_entries": 263,
+      "er_gate_on_bars": 753,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -28.59,
+          "n": 9,
+          "wr": 0.111
+        },
+        "VAL": {
+          "comp": -43.79,
+          "n": 22,
+          "wr": 0.227
+        },
+        "OOS": {
+          "comp": -30.33,
+          "n": 15,
+          "wr": 0.267
+        },
+        "UNSEEN": {
+          "comp": -44.54,
+          "n": 10,
+          "wr": 0.1
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -28.59,
+          "null_p50": 0.11,
+          "null_p95": 33.86,
+          "beats_null": false,
+          "n": 9
+        },
+        "VAL": {
+          "real": -43.79,
+          "null_p50": -22.27,
+          "null_p95": 32.79,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -30.33,
+          "null_p50": 4.55,
+          "null_p95": 52.38,
+          "beats_null": false,
+          "n": 15
+        },
+        "UNSEEN": {
+          "real": -44.54,
+          "null_p50": -3.66,
+          "null_p95": 80.7,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "LDOUSDT": {
+      "n_entries": 578,
+      "er_gate_on_bars": 1504,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -25.83,
+          "n": 51,
+          "wr": 0.294
+        },
+        "VAL": {
+          "comp": 21.41,
+          "n": 21,
+          "wr": 0.476
+        },
+        "OOS": {
+          "comp": -3.34,
+          "n": 23,
+          "wr": 0.217
+        },
+        "UNSEEN": {
+          "comp": -18.03,
+          "n": 6,
+          "wr": 0.5
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -25.83,
+          "null_p50": -0.0,
+          "null_p95": 212.85,
+          "beats_null": false,
+          "n": 51
+        },
+        "VAL": {
+          "real": 21.41,
+          "null_p50": -18.15,
+          "null_p95": 70.86,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -3.34,
+          "null_p50": 16.33,
+          "null_p95": 101.21,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -18.03,
+          "null_p50": -5.25,
+          "null_p95": 17.45,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "OPUSDT": {
+      "n_entries": 679,
+      "er_gate_on_bars": 1538,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -15.15,
+          "n": 51,
+          "wr": 0.353
+        },
+        "VAL": {
+          "comp": -33.04,
+          "n": 21,
+          "wr": 0.333
+        },
+        "OOS": {
+          "comp": -29.75,
+          "n": 25,
+          "wr": 0.24
+        },
+        "UNSEEN": {
+          "comp": 6.88,
+          "n": 9,
+          "wr": 0.444
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -15.15,
+          "null_p50": 20.13,
+          "null_p95": 180.43,
+          "beats_null": false,
+          "n": 51
+        },
+        "VAL": {
+          "real": -33.04,
+          "null_p50": -9.41,
+          "null_p95": 50.75,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -29.75,
+          "null_p50": -6.6,
+          "null_p95": 60.6,
+          "beats_null": false,
+          "n": 25
+        },
+        "UNSEEN": {
+          "real": 6.88,
+          "null_p50": -20.89,
+          "null_p95": 20.47,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ETCUSDT": {
+      "n_entries": 1045,
+      "er_gate_on_bars": 2131,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 429.38,
+          "n": 119,
+          "wr": 0.345
+        },
+        "VAL": {
+          "comp": -39.85,
+          "n": 24,
+          "wr": 0.167
+        },
+        "OOS": {
+          "comp": -37.08,
+          "n": 21,
+          "wr": 0.19
+        },
+        "UNSEEN": {
+          "comp": -12.1,
+          "n": 6,
+          "wr": 0.167
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 429.38,
+          "null_p50": 180.5,
+          "null_p95": 2298.44,
+          "beats_null": false,
+          "n": 119
+        },
+        "VAL": {
+          "real": -39.85,
+          "null_p50": -5.86,
+          "null_p95": 33.56,
+          "beats_null": false,
+          "n": 24
+        },
+        "OOS": {
+          "real": -37.08,
+          "null_p50": 2.11,
+          "null_p95": 41.68,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": -12.1,
+          "null_p50": 1.0,
+          "null_p95": 19.37,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "SUPERUSDT": {
+      "n_entries": 555,
+      "er_gate_on_bars": 1639,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -2.56,
+          "n": 68,
+          "wr": 0.338
+        },
+        "VAL": {
+          "comp": 0.72,
+          "n": 17,
+          "wr": 0.294
+        },
+        "OOS": {
+          "comp": -31.82,
+          "n": 19,
+          "wr": 0.316
+        },
+        "UNSEEN": {
+          "comp": -45.52,
+          "n": 12,
+          "wr": 0.0
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -2.56,
+          "null_p50": -45.3,
+          "null_p95": 176.34,
+          "beats_null": false,
+          "n": 68
+        },
+        "VAL": {
+          "real": 0.72,
+          "null_p50": -17.74,
+          "null_p95": 71.87,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": -31.82,
+          "null_p50": -18.39,
+          "null_p95": 43.03,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -45.52,
+          "null_p50": -10.91,
+          "null_p95": 18.58,
+          "beats_null": false,
+          "n": 12
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "POLUSDT": {
+      "n_entries": 263,
+      "er_gate_on_bars": 573,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.19,
+          "n": 11,
+          "wr": 0.364
+        },
+        "OOS": {
+          "comp": 34.62,
+          "n": 16,
+          "wr": 0.375
+        },
+        "UNSEEN": {
+          "comp": 30.21,
+          "n": 8,
+          "wr": 0.5
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.19,
+          "null_p50": -2.58,
+          "null_p95": 44.64,
+          "beats_null": false,
+          "n": 11
+        },
+        "OOS": {
+          "real": 34.62,
+          "null_p50": 9.12,
+          "null_p95": 58.73,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": 30.21,
+          "null_p50": 7.74,
+          "null_p95": 67.36,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "TIAUSDT": {
+      "n_entries": 321,
+      "er_gate_on_bars": 905,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 1.58,
+          "n": 11,
+          "wr": 0.273
+        },
+        "VAL": {
+          "comp": -8.09,
+          "n": 18,
+          "wr": 0.333
+        },
+        "OOS": {
+          "comp": -19.23,
+          "n": 20,
+          "wr": 0.35
+        },
+        "UNSEEN": {
+          "comp": -9.72,
+          "n": 7,
+          "wr": 0.286
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 1.58,
+          "null_p50": 42.65,
+          "null_p95": 201.11,
+          "beats_null": false,
+          "n": 11
+        },
+        "VAL": {
+          "real": -8.09,
+          "null_p50": -22.89,
+          "null_p95": 27.49,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": -19.23,
+          "null_p50": -12.44,
+          "null_p95": 36.89,
+          "beats_null": false,
+          "n": 20
+        },
+        "UNSEEN": {
+          "real": -9.72,
+          "null_p50": -1.25,
+          "null_p95": 25.51,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "XLMUSDT": {
+      "n_entries": 978,
+      "er_gate_on_bars": 1957,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -46.81,
+          "n": 121,
+          "wr": 0.281
+        },
+        "VAL": {
+          "comp": 7.5,
+          "n": 24,
+          "wr": 0.292
+        },
+        "OOS": {
+          "comp": 33.14,
+          "n": 19,
+          "wr": 0.211
+        },
+        "UNSEEN": {
+          "comp": 28.73,
+          "n": 9,
+          "wr": 0.556
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -46.81,
+          "null_p50": 41.51,
+          "null_p95": 531.97,
+          "beats_null": false,
+          "n": 121
+        },
+        "VAL": {
+          "real": 7.5,
+          "null_p50": 94.24,
+          "null_p95": 379.63,
+          "beats_null": false,
+          "n": 24
+        },
+        "OOS": {
+          "real": 33.14,
+          "null_p50": 23.43,
+          "null_p95": 122.93,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": 28.73,
+          "null_p50": 2.76,
+          "null_p95": 37.79,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "EIGENUSDT": {
+      "n_entries": 184,
+      "er_gate_on_bars": 569,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -19.47,
+          "n": 11,
+          "wr": 0.364
+        },
+        "OOS": {
+          "comp": -41.09,
+          "n": 21,
+          "wr": 0.286
+        },
+        "UNSEEN": {
+          "comp": -30.9,
+          "n": 12,
+          "wr": 0.25
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -19.47,
+          "null_p50": -15.31,
+          "null_p95": 26.35,
+          "beats_null": false,
+          "n": 11
+        },
+        "OOS": {
+          "real": -41.09,
+          "null_p50": 27.24,
+          "null_p95": 174.07,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": -30.9,
+          "null_p50": -16.82,
+          "null_p95": 12.68,
+          "beats_null": false,
+          "n": 12
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ONDOUSDT": {
+      "n_entries": 141,
+      "er_gate_on_bars": 360,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": 12.12,
+          "n": 16,
+          "wr": 0.438
+        },
+        "UNSEEN": {
+          "comp": 41.44,
+          "n": 7,
+          "wr": 0.286
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": 12.12,
+          "null_p50": 11.59,
+          "null_p95": 51.69,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": 41.44,
+          "null_p50": 8.24,
+          "null_p95": 56.34,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "DYDXUSDT": {
+      "n_entries": 669,
+      "er_gate_on_bars": 1700,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -47.22,
+          "n": 72,
+          "wr": 0.306
+        },
+        "VAL": {
+          "comp": -39.28,
+          "n": 21,
+          "wr": 0.238
+        },
+        "OOS": {
+          "comp": -26.59,
+          "n": 23,
+          "wr": 0.348
+        },
+        "UNSEEN": {
+          "comp": -18.94,
+          "n": 10,
+          "wr": 0.2
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -47.22,
+          "null_p50": 12.99,
+          "null_p95": 206.07,
+          "beats_null": false,
+          "n": 72
+        },
+        "VAL": {
+          "real": -39.28,
+          "null_p50": -23.66,
+          "null_p95": 45.6,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -26.59,
+          "null_p50": 3.19,
+          "null_p95": 69.72,
+          "beats_null": false,
+          "n": 23
+        },
+        "UNSEEN": {
+          "real": -18.94,
+          "null_p50": 3.19,
+          "null_p95": 50.68,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "FLOKIUSDT": {
+      "n_entries": 477,
+      "er_gate_on_bars": 1075,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 297.45,
+          "n": 19,
+          "wr": 0.368
+        },
+        "VAL": {
+          "comp": -31.56,
+          "n": 19,
+          "wr": 0.263
+        },
+        "OOS": {
+          "comp": -28.2,
+          "n": 24,
+          "wr": 0.333
+        },
+        "UNSEEN": {
+          "comp": 8.15,
+          "n": 5,
+          "wr": 0.4
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 297.45,
+          "null_p50": 59.87,
+          "null_p95": 724.16,
+          "beats_null": false,
+          "n": 19
+        },
+        "VAL": {
+          "real": -31.56,
+          "null_p50": -17.17,
+          "null_p95": 42.65,
+          "beats_null": false,
+          "n": 19
+        },
+        "OOS": {
+          "real": -28.2,
+          "null_p50": 12.39,
+          "null_p95": 90.04,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": 8.15,
+          "null_p50": -0.18,
+          "null_p95": 27.14,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "CHZUSDT": {
+      "n_entries": 919,
+      "er_gate_on_bars": 1959,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 612.54,
+          "n": 95,
+          "wr": 0.358
+        },
+        "VAL": {
+          "comp": 15.2,
+          "n": 22,
+          "wr": 0.409
+        },
+        "OOS": {
+          "comp": -20.32,
+          "n": 24,
+          "wr": 0.292
+        },
+        "UNSEEN": {
+          "comp": 0.33,
+          "n": 12,
+          "wr": 0.417
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 612.54,
+          "null_p50": -19.91,
+          "null_p95": 532.57,
+          "beats_null": true,
+          "n": 95
+        },
+        "VAL": {
+          "real": 15.2,
+          "null_p50": -1.25,
+          "null_p95": 69.07,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -20.32,
+          "null_p50": 24.21,
+          "null_p95": 102.73,
+          "beats_null": false,
+          "n": 24
+        },
+        "UNSEEN": {
+          "real": 0.33,
+          "null_p50": -20.17,
+          "null_p95": 12.39,
+          "beats_null": false,
+          "n": 12
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ARUSDT": {
+      "n_entries": 752,
+      "er_gate_on_bars": 1737,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 61.48,
+          "n": 76,
+          "wr": 0.421
+        },
+        "VAL": {
+          "comp": -21.21,
+          "n": 18,
+          "wr": 0.278
+        },
+        "OOS": {
+          "comp": 61.51,
+          "n": 17,
+          "wr": 0.647
+        },
+        "UNSEEN": {
+          "comp": -8.9,
+          "n": 9,
+          "wr": 0.444
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 61.48,
+          "null_p50": -0.55,
+          "null_p95": 411.51,
+          "beats_null": false,
+          "n": 76
+        },
+        "VAL": {
+          "real": -21.21,
+          "null_p50": -19.32,
+          "null_p95": 91.06,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": 61.51,
+          "null_p50": 4.44,
+          "null_p95": 99.78,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -8.9,
+          "null_p50": -13.24,
+          "null_p95": 16.48,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ZROUSDT": {
+      "n_entries": 241,
+      "er_gate_on_bars": 593,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -6.98,
+          "n": 17,
+          "wr": 0.412
+        },
+        "OOS": {
+          "comp": -23.01,
+          "n": 19,
+          "wr": 0.368
+        },
+        "UNSEEN": {
+          "comp": -6.7,
+          "n": 7,
+          "wr": 0.286
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -6.98,
+          "null_p50": -21.04,
+          "null_p95": 42.85,
+          "beats_null": false,
+          "n": 17
+        },
+        "OOS": {
+          "real": -23.01,
+          "null_p50": 21.0,
+          "null_p95": 109.4,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": -6.7,
+          "null_p50": -7.62,
+          "null_p95": 27.86,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ARKMUSDT": {
+      "n_entries": 405,
+      "er_gate_on_bars": 947,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 23.23,
+          "n": 22,
+          "wr": 0.5
+        },
+        "VAL": {
+          "comp": -25.61,
+          "n": 18,
+          "wr": 0.278
+        },
+        "OOS": {
+          "comp": -8.66,
+          "n": 22,
+          "wr": 0.364
+        },
+        "UNSEEN": {
+          "comp": 5.37,
+          "n": 9,
+          "wr": 0.556
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 23.23,
+          "null_p50": 12.14,
+          "null_p95": 151.67,
+          "beats_null": false,
+          "n": 22
+        },
+        "VAL": {
+          "real": -25.61,
+          "null_p50": -9.88,
+          "null_p95": 66.99,
+          "beats_null": false,
+          "n": 18
+        },
+        "OOS": {
+          "real": -8.66,
+          "null_p50": 42.59,
+          "null_p95": 121.33,
+          "beats_null": false,
+          "n": 22
+        },
+        "UNSEEN": {
+          "real": 5.37,
+          "null_p50": 1.66,
+          "null_p95": 38.41,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "DEXEUSDT": {
+      "n_entries": 574,
+      "er_gate_on_bars": 1336,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -84.24,
+          "n": 64,
+          "wr": 0.266
+        },
+        "VAL": {
+          "comp": -22.24,
+          "n": 20,
+          "wr": 0.4
+        },
+        "OOS": {
+          "comp": -58.9,
+          "n": 21,
+          "wr": 0.143
+        },
+        "UNSEEN": {
+          "comp": 16.89,
+          "n": 16,
+          "wr": 0.438
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -84.24,
+          "null_p50": -31.82,
+          "null_p95": 120.52,
+          "beats_null": false,
+          "n": 64
+        },
+        "VAL": {
+          "real": -22.24,
+          "null_p50": -11.31,
+          "null_p95": 54.18,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -58.9,
+          "null_p50": -5.5,
+          "null_p95": 53.41,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": 16.89,
+          "null_p50": 12.49,
+          "null_p95": 137.33,
+          "beats_null": false,
+          "n": 16
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ATOMUSDT": {
+      "n_entries": 963,
+      "er_gate_on_bars": 2038,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -78.08,
+          "n": 115,
+          "wr": 0.322
+        },
+        "VAL": {
+          "comp": -26.25,
+          "n": 22,
+          "wr": 0.227
+        },
+        "OOS": {
+          "comp": -14.73,
+          "n": 16,
+          "wr": 0.25
+        },
+        "UNSEEN": {
+          "comp": 12.72,
+          "n": 9,
+          "wr": 0.556
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -78.08,
+          "null_p50": -44.85,
+          "null_p95": 118.87,
+          "beats_null": false,
+          "n": 115
+        },
+        "VAL": {
+          "real": -26.25,
+          "null_p50": -5.05,
+          "null_p95": 57.02,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": -14.73,
+          "null_p50": 8.51,
+          "null_p95": 48.05,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": 12.72,
+          "null_p50": 7.88,
+          "null_p95": 37.08,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "INJUSDT": {
+      "n_entries": 852,
+      "er_gate_on_bars": 1784,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -28.76,
+          "n": 84,
+          "wr": 0.369
+        },
+        "VAL": {
+          "comp": 0.81,
+          "n": 21,
+          "wr": 0.429
+        },
+        "OOS": {
+          "comp": -35.42,
+          "n": 21,
+          "wr": 0.286
+        },
+        "UNSEEN": {
+          "comp": -0.68,
+          "n": 10,
+          "wr": 0.4
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -28.76,
+          "null_p50": -3.78,
+          "null_p95": 345.63,
+          "beats_null": false,
+          "n": 84
+        },
+        "VAL": {
+          "real": 0.81,
+          "null_p50": -10.79,
+          "null_p95": 85.62,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -35.42,
+          "null_p50": 12.15,
+          "null_p95": 84.11,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": -0.68,
+          "null_p50": 9.04,
+          "null_p95": 47.76,
+          "beats_null": false,
+          "n": 10
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ZENUSDT": {
+      "n_entries": 861,
+      "er_gate_on_bars": 1951,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -91.41,
+          "n": 99,
+          "wr": 0.253
+        },
+        "VAL": {
+          "comp": 2.67,
+          "n": 21,
+          "wr": 0.429
+        },
+        "OOS": {
+          "comp": -57.12,
+          "n": 21,
+          "wr": 0.238
+        },
+        "UNSEEN": {
+          "comp": 25.03,
+          "n": 6,
+          "wr": 0.5
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -91.41,
+          "null_p50": -30.95,
+          "null_p95": 192.44,
+          "beats_null": false,
+          "n": 99
+        },
+        "VAL": {
+          "real": 2.67,
+          "null_p50": 6.41,
+          "null_p95": 117.85,
+          "beats_null": false,
+          "n": 21
+        },
+        "OOS": {
+          "real": -57.12,
+          "null_p50": -12.72,
+          "null_p95": 74.59,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": 25.03,
+          "null_p50": -12.43,
+          "null_p95": 26.05,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "MOVRUSDT": {
+      "n_entries": 440,
+      "er_gate_on_bars": 1444,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -56.89,
+          "n": 55,
+          "wr": 0.255
+        },
+        "VAL": {
+          "comp": -27.82,
+          "n": 20,
+          "wr": 0.35
+        },
+        "OOS": {
+          "comp": -12.99,
+          "n": 14,
+          "wr": 0.357
+        },
+        "UNSEEN": {
+          "comp": 37.31,
+          "n": 8,
+          "wr": 0.375
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -56.89,
+          "null_p50": -30.84,
+          "null_p95": 257.83,
+          "beats_null": false,
+          "n": 55
+        },
+        "VAL": {
+          "real": -27.82,
+          "null_p50": -9.37,
+          "null_p95": 64.04,
+          "beats_null": false,
+          "n": 20
+        },
+        "OOS": {
+          "real": -12.99,
+          "null_p50": 3.96,
+          "null_p95": 45.06,
+          "beats_null": false,
+          "n": 14
+        },
+        "UNSEEN": {
+          "real": 37.31,
+          "null_p50": -9.66,
+          "null_p95": 108.08,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "PROMUSDT": {
+      "n_entries": 388,
+      "er_gate_on_bars": 901,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": -26.66,
+          "n": 23,
+          "wr": 0.217
+        },
+        "VAL": {
+          "comp": -36.4,
+          "n": 22,
+          "wr": 0.182
+        },
+        "OOS": {
+          "comp": 29.89,
+          "n": 16,
+          "wr": 0.375
+        },
+        "UNSEEN": {
+          "comp": 57.93,
+          "n": 7,
+          "wr": 0.714
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": -26.66,
+          "null_p50": -19.2,
+          "null_p95": 99.02,
+          "beats_null": false,
+          "n": 23
+        },
+        "VAL": {
+          "real": -36.4,
+          "null_p50": -6.8,
+          "null_p95": 84.54,
+          "beats_null": false,
+          "n": 22
+        },
+        "OOS": {
+          "real": 29.89,
+          "null_p50": 21.15,
+          "null_p95": 143.82,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": 57.93,
+          "null_p50": -30.24,
+          "null_p95": 26.85,
+          "beats_null": true,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "VIRTUALUSDT": {
+      "n_entries": 179,
+      "er_gate_on_bars": 428,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": 14.6,
+          "n": 17,
+          "wr": 0.353
+        },
+        "UNSEEN": {
+          "comp": -1.13,
+          "n": 11,
+          "wr": 0.182
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": 14.6,
+          "null_p50": 39.45,
+          "null_p95": 192.35,
+          "beats_null": false,
+          "n": 17
+        },
+        "UNSEEN": {
+          "real": -1.13,
+          "null_p50": 1.47,
+          "null_p95": 56.3,
+          "beats_null": false,
+          "n": 11
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "NEIROUSDT": {
+      "n_entries": 251,
+      "er_gate_on_bars": 594,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -1.45,
+          "n": 13,
+          "wr": 0.308
+        },
+        "OOS": {
+          "comp": 15.6,
+          "n": 21,
+          "wr": 0.333
+        },
+        "UNSEEN": {
+          "comp": 24.76,
+          "n": 6,
+          "wr": 0.333
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -1.45,
+          "null_p50": -3.9,
+          "null_p95": 88.62,
+          "beats_null": false,
+          "n": 13
+        },
+        "OOS": {
+          "real": 15.6,
+          "null_p50": 16.37,
+          "null_p95": 219.05,
+          "beats_null": false,
+          "n": 21
+        },
+        "UNSEEN": {
+          "real": 24.76,
+          "null_p50": -2.54,
+          "null_p95": 48.83,
+          "beats_null": false,
+          "n": 6
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "PNUTUSDT": {
+      "n_entries": 151,
+      "er_gate_on_bars": 501,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -38.23,
+          "n": 5,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": 3.3,
+          "n": 19,
+          "wr": 0.316
+        },
+        "UNSEEN": {
+          "comp": 31.08,
+          "n": 5,
+          "wr": 0.4
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -38.23,
+          "null_p50": -6.29,
+          "null_p95": 37.74,
+          "beats_null": false,
+          "n": 5
+        },
+        "OOS": {
+          "real": 3.3,
+          "null_p50": 23.71,
+          "null_p95": 205.93,
+          "beats_null": false,
+          "n": 19
+        },
+        "UNSEEN": {
+          "real": 31.08,
+          "null_p50": 3.66,
+          "null_p95": 38.76,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "BIOUSDT": {
+      "n_entries": 153,
+      "er_gate_on_bars": 596,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -5.3,
+          "n": 2,
+          "wr": 0.5
+        },
+        "OOS": {
+          "comp": 43.48,
+          "n": 16,
+          "wr": 0.25
+        },
+        "UNSEEN": {
+          "comp": 16.82,
+          "n": 8,
+          "wr": 0.375
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -5.3,
+          "null_p50": -6.3,
+          "null_p95": 14.59,
+          "beats_null": false,
+          "n": 2
+        },
+        "OOS": {
+          "real": 43.48,
+          "null_p50": -7.99,
+          "null_p95": 108.71,
+          "beats_null": false,
+          "n": 16
+        },
+        "UNSEEN": {
+          "real": 16.82,
+          "null_p50": -25.03,
+          "null_p95": 19.07,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "DUSDT": {
+      "n_entries": 75,
+      "er_gate_on_bars": 385,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": -24.28,
+          "n": 2,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": -38.38,
+          "n": 14,
+          "wr": 0.143
+        },
+        "UNSEEN": {
+          "comp": -66.01,
+          "n": 8,
+          "wr": 0.125
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": -24.28,
+          "null_p50": 0.34,
+          "null_p95": 17.88,
+          "beats_null": false,
+          "n": 2
+        },
+        "OOS": {
+          "real": -38.38,
+          "null_p50": 9.28,
+          "null_p95": 71.13,
+          "beats_null": false,
+          "n": 14
+        },
+        "UNSEEN": {
+          "real": -66.01,
+          "null_p50": -8.48,
+          "null_p95": 71.84,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "XPLUSDT": {
+      "n_entries": 67,
+      "er_gate_on_bars": 264,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": -11.25,
+          "n": 2,
+          "wr": 0.5
+        },
+        "UNSEEN": {
+          "comp": -14.34,
+          "n": 13,
+          "wr": 0.385
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -11.25,
+          "null_p50": -2.45,
+          "null_p95": 13.42,
+          "beats_null": false,
+          "n": 2
+        },
+        "UNSEEN": {
+          "real": -14.34,
+          "null_p50": -21.89,
+          "null_p95": 12.42,
+          "beats_null": false,
+          "n": 13
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "XUSDUSDT": {
+      "n_entries": 9,
+      "er_gate_on_bars": 32,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": -0.75,
+          "n": 3,
+          "wr": 0.0
+        },
+        "UNSEEN": {
+          "comp": -0.65,
+          "n": 3,
+          "wr": 0.0
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -0.75,
+          "null_p50": -0.75,
+          "null_p95": -0.68,
+          "beats_null": false,
+          "n": 3
+        },
+        "UNSEEN": {
+          "real": -0.65,
+          "null_p50": -0.6,
+          "null_p95": -0.45,
+          "beats_null": false,
+          "n": 3
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "WLFIUSDT": {
+      "n_entries": 85,
+      "er_gate_on_bars": 252,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": -29.7,
+          "n": 7,
+          "wr": 0.286
+        },
+        "UNSEEN": {
+          "comp": -3.1,
+          "n": 7,
+          "wr": 0.429
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -29.7,
+          "null_p50": -11.93,
+          "null_p95": 33.39,
+          "beats_null": false,
+          "n": 7
+        },
+        "UNSEEN": {
+          "real": -3.1,
+          "null_p50": 7.07,
+          "null_p95": 41.76,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ASTERUSDT": {
+      "n_entries": 37,
+      "er_gate_on_bars": 135,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": -33.12,
+          "n": 3,
+          "wr": 0.0
+        },
+        "UNSEEN": {
+          "comp": -6.97,
+          "n": 8,
+          "wr": 0.375
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -33.12,
+          "null_p50": -4.4,
+          "null_p95": 30.36,
+          "beats_null": false,
+          "n": 3
+        },
+        "UNSEEN": {
+          "real": -6.97,
+          "null_p50": 6.28,
+          "null_p95": 35.16,
+          "beats_null": false,
+          "n": 8
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "GIGGLEUSDT": {
+      "n_entries": 46,
+      "er_gate_on_bars": 197,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": -37.55,
+          "n": 2,
+          "wr": 0.0
+        },
+        "UNSEEN": {
+          "comp": -17.97,
+          "n": 7,
+          "wr": 0.286
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -37.55,
+          "null_p50": -8.58,
+          "null_p95": 8.89,
+          "beats_null": false,
+          "n": 2
+        },
+        "UNSEEN": {
+          "real": -17.97,
+          "null_p50": -6.85,
+          "null_p95": 19.16,
+          "beats_null": false,
+          "n": 7
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "PLUMEUSDT": {
+      "n_entries": 76,
+      "er_gate_on_bars": 271,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": -16.83,
+          "n": 5,
+          "wr": 0.2
+        },
+        "UNSEEN": {
+          "comp": 9.87,
+          "n": 9,
+          "wr": 0.333
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": -16.83,
+          "null_p50": -8.94,
+          "null_p95": 25.96,
+          "beats_null": false,
+          "n": 5
+        },
+        "UNSEEN": {
+          "real": 9.87,
+          "null_p50": -5.19,
+          "null_p95": 31.45,
+          "beats_null": false,
+          "n": 9
+        }
+      },
+      "beats_held": false,
+      "pos_held": false,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    },
+    "ZBTUSDT": {
+      "n_entries": 52,
+      "er_gate_on_bars": 206,
+      "regime_mode": "regime_matched_gate_on",
+      "windows": {
+        "TRAIN": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "VAL": {
+          "comp": 0.0,
+          "n": 0,
+          "wr": 0.0
+        },
+        "OOS": {
+          "comp": 5.09,
+          "n": 3,
+          "wr": 0.333
+        },
+        "UNSEEN": {
+          "comp": 39.6,
+          "n": 5,
+          "wr": 0.4
+        }
+      },
+      "firewall": {
+        "TRAIN": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "VAL": {
+          "real": 0.0,
+          "null_p50": null,
+          "null_p95": null,
+          "beats_null": null,
+          "n": 0
+        },
+        "OOS": {
+          "real": 5.09,
+          "null_p50": -6.23,
+          "null_p95": 51.44,
+          "beats_null": false,
+          "n": 3
+        },
+        "UNSEEN": {
+          "real": 39.6,
+          "null_p50": 2.45,
+          "null_p95": 55.14,
+          "beats_null": false,
+          "n": 5
+        }
+      },
+      "beats_held": false,
+      "pos_held": true,
+      "verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+    }
+  }
+}

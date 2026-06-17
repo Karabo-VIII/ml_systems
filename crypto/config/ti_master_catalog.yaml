@@ -1,0 +1,123 @@
+# Master technical-indicator catalog (machine-readable mirror of docs/TI_MASTER_CATALOG_2026_06_11.md)
+# have: C=coded(indicators_ta.py) X=chimera — =dont-have G=crypto-data-gap
+# la:   S=causal-safe R=risky/repaint U=unsafe(centered/future)
+# Built 2026-06-11. Consumable by ti_harness / oracle registry expansion.
+meta:
+  built: 2026-06-11
+  families: 8
+  n_indicators: ~110
+  doc: docs/TI_MASTER_CATALOG_2026_06_11.md
+  backend: pandas_ta
+  note: "NOT a list of edges -- the configurable lens-set; standalone price-TI edge is HARD-refuted (D50/D52/D55/D63/D67/D70)"
+
+trend:
+  - {name: SMA, pandas_ta: sma, have: X, la: S, dead: D63}
+  - {name: EMA, pandas_ta: ema, have: C, la: S, dead: D63}
+  - {name: WMA, pandas_ta: wma, have: "-", la: S}
+  - {name: HMA, pandas_ta: hma, have: "-", la: S}
+  - {name: DEMA, pandas_ta: dema, have: "-", la: S}
+  - {name: TEMA, pandas_ta: tema, have: "-", la: S}
+  - {name: KAMA, pandas_ta: kama, have: "-", la: S}
+  - {name: ZLMA, pandas_ta: zlma, have: "-", la: S}
+  - {name: ALMA, pandas_ta: alma, have: "-", la: S}
+  - {name: MACD, pandas_ta: macd, have: C, la: S, dead: D45}
+  - {name: ADX_DMI, pandas_ta: adx, have: X, la: S}
+  - {name: Aroon, pandas_ta: aroon, have: "-", la: S}
+  - {name: Supertrend, pandas_ta: supertrend, have: "-", la: R}
+  - {name: ParabolicSAR, pandas_ta: psar, have: "-", la: R}
+  - {name: Ichimoku, pandas_ta: ichimoku, have: "-", la: U}
+  - {name: Donchian_mid, pandas_ta: donchian, have: X, la: S}
+  - {name: Vortex, pandas_ta: vortex, have: "-", la: S}
+  - {name: TRIX, pandas_ta: trix, have: "-", la: S}
+  - {name: SchaffTrendCycle, pandas_ta: stc, have: "-", la: R}
+  - {name: LinRegSlope, pandas_ta: linreg, have: X, la: S}
+
+momentum:
+  - {name: RSI, pandas_ta: rsi, have: C, la: S, dead: D50/D51}
+  - {name: Stochastic, pandas_ta: stoch, have: "-", la: S}
+  - {name: StochRSI, pandas_ta: stochrsi, have: "-", la: S}
+  - {name: CCI, pandas_ta: cci, have: "-", la: S}
+  - {name: WilliamsR, pandas_ta: willr, have: "-", la: S}
+  - {name: ROC, pandas_ta: roc, have: X, la: S, dead: D67}
+  - {name: CMO, pandas_ta: cmo, have: "-", la: S}
+  - {name: TSI, pandas_ta: tsi, have: "-", la: S}
+  - {name: UltimateOsc, pandas_ta: uo, have: "-", la: S}
+  - {name: AwesomeOsc, pandas_ta: ao, have: "-", la: S}
+  - {name: FisherTransform, pandas_ta: fisher, have: "-", la: R}
+  - {name: RVI, pandas_ta: rvi, have: "-", la: S}
+  - {name: ConnorsRSI, pandas_ta: "crsi?", have: "-", la: S, dead: "tested-null"}
+  - {name: KST, pandas_ta: kst, have: "-", la: S}
+  - {name: BalanceOfPower, pandas_ta: bop, have: "-", la: S}
+
+volatility:
+  - {name: ATR, pandas_ta: atr, have: X, la: S}
+  - {name: Bollinger, pandas_ta: bbands, have: C, la: S, dead: D70}
+  - {name: Keltner, pandas_ta: kc, have: "-", la: S}
+  - {name: StdDev, pandas_ta: stdev, have: X, la: S}
+  - {name: DonchianWidth, pandas_ta: donchian, have: X, la: S}
+  - {name: RealizedVol, pandas_ta: "-", have: X, la: S}
+  - {name: YangZhang, pandas_ta: "-", have: X, la: S}
+  - {name: GarmanKlass, pandas_ta: "-", have: partial, la: S}
+  - {name: Parkinson, pandas_ta: "-", have: partial, la: S}
+  - {name: ChaikinVol, pandas_ta: "-", have: "-", la: S}
+  - {name: UlcerIndex, pandas_ta: ui, have: "-", la: S}
+  - {name: MassIndex, pandas_ta: massi, have: "-", la: S}
+  - {name: ChoppinessIndex, pandas_ta: chop, have: "-", la: S}
+  - {name: VolOfVol, pandas_ta: "-", have: X, la: S}
+
+volume:
+  - {name: OBV, pandas_ta: obv, have: "-", la: S}
+  - {name: ChaikinMoneyFlow, pandas_ta: cmf, have: "-", la: S}
+  - {name: MFI, pandas_ta: mfi, have: "-", la: S}
+  - {name: VWAP, pandas_ta: vwap, have: X, la: S}
+  - {name: VWMA, pandas_ta: vwma, have: X, la: S}
+  - {name: AccumDist, pandas_ta: ad, have: "-", la: S}
+  - {name: ForceIndex, pandas_ta: efi, have: "-", la: S}
+  - {name: EaseOfMovement, pandas_ta: eom, have: "-", la: S}
+  - {name: Klinger, pandas_ta: kvo, have: "-", la: S}
+  - {name: PVT, pandas_ta: pvt, have: "-", la: S}
+  - {name: VolumeProfilePOC, pandas_ta: "-", have: X, la: S}
+  - {name: Amihud, pandas_ta: "-", have: "-", la: S, note: "06C #3 add"}
+  - {name: KyleLambda, pandas_ta: "-", have: X, la: S}
+  - {name: CVD, pandas_ta: "-", have: X, la: S}
+  - {name: TakerBuySellRatio, pandas_ta: "-", have: X, la: S}
+
+statistical_cycle:
+  - {name: Hurst, pandas_ta: "-", have: X, la: R}
+  - {name: Autocorrelation, pandas_ta: "-", have: X, la: S}
+  - {name: ZScore, pandas_ta: zscore, have: X, la: R, note: "full-sample=UNSAFE G-AUDIT-011"}
+  - {name: KaufmanEfficiencyRatio, pandas_ta: "-", have: X, la: S, dead: "M2-tail-driven"}
+  - {name: HilbertCycle, pandas_ta: "ht_* (talib)", have: "-", la: R}
+  - {name: PermutationEntropy, pandas_ta: "-", have: X, la: S}
+  - {name: FracDiff, pandas_ta: "-", have: X, la: S}
+  - {name: KalmanVelocity, pandas_ta: "-", have: "-", la: S, note: "06C #2 add"}
+  - {name: RealizedSkew_5m, pandas_ta: "-", have: "-", la: S, note: "06C #1 TOP add"}
+  - {name: RealizedKurt_5m, pandas_ta: "-", have: "-", la: S, note: "06C #1 TOP add"}
+  - {name: DFA, pandas_ta: "-", have: "-", la: R}
+
+structure_sr:
+  - {name: PivotPoints, pandas_ta: "pivots?", have: "-", la: S}
+  - {name: Fibonacci, pandas_ta: "-", have: "-", la: R}
+  - {name: SwingHighLow, pandas_ta: "-", have: "-", la: R}
+  - {name: WilliamsFractals, pandas_ta: "-", have: "-", la: R}
+  - {name: ZigZag, pandas_ta: "-", have: "-", la: U, note: "REPAINTS -- never live"}
+  - {name: DonchianLevels, pandas_ta: donchian, have: X, la: S}
+  - {name: PriorPeriodHL, pandas_ta: "-", have: X, la: S}
+
+crypto_derivatives:
+  - {name: FundingRate_z, source: "8h on-disk", have: X, la: S, dead: "D18/D42/D54"}
+  - {name: OpenInterest_delta, source: "5m metrics", have: X, la: S}
+  - {name: LongShortRatio, source: "5m metrics", have: X, la: S, dead: D12}
+  - {name: PerpBasis, source: derived, have: X, la: S}
+  - {name: Liquidations, source: "1m proxy", have: X, la: S, dead: "D47/D48/D52/D71"}
+  - {name: LiqHeatmapProximity, source: "Coinglass(paid)", have: G, la: S, dead: "proxy-NULL 2026-06-11 -> SKIP"}
+  - {name: OptionsDVOL_skew, source: Deribit, have: G, la: S, dead: "D38/D64/D65"}
+
+crypto_onchain_macro:
+  - {name: ExchangeNetflow, source: "Glassnode/CryptoQuant", have: G, la: S}
+  - {name: StablecoinSupply_SSR, source: on-disk, have: X, la: S, dead: D69}
+  - {name: MVRV_SOPR_NUPL, source: Glassnode, have: G, la: S}
+  - {name: ExchangeReserves_WhaleFlows, source: on-disk, have: X, la: S, dead: D69}
+  - {name: ETF_Flows, source: "farside on-disk", have: X, la: S, dead: D69}
+  - {name: BTCDominance_AltSeason, source: derived, have: X, la: S, note: "broke 2024-25"}
+  - {name: FearGreed, source: alternative.me, have: partial, la: S}

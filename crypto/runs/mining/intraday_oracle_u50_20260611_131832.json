@@ -1,0 +1,121 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\mining\\intraday_oracle.py --universe u50 --cadences 1h,4h",
+  "git_sha": "7457bc3"
+ },
+ "cost_rt": 0.0024,
+ "report": {
+  "1h": {
+   "n_events": 33883,
+   "scorecard": {
+    "SEL": {
+     "n": 25482,
+     "mean_pct": -0.151,
+     "se_pct": 0.037,
+     "median_pct": -1.165,
+     "win": 0.338,
+     "pf": 0.91,
+     "jk_drop_top5pct_mean_pct": -1.045,
+     "n_eff": 8431.2,
+     "breadth_pos": 10,
+     "breadth_tot": 47,
+     "bootstrap_p05_pct": -100.0
+    },
+    "OOS": {
+     "n": 5740,
+     "mean_pct": -0.14,
+     "se_pct": 0.07,
+     "median_pct": -1.131,
+     "win": 0.333,
+     "pf": 0.91,
+     "jk_drop_top5pct_mean_pct": -1.009,
+     "n_eff": 1992.5,
+     "breadth_pos": 14,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    },
+    "UNSEEN": {
+     "n": 2661,
+     "mean_pct": -0.226,
+     "se_pct": 0.118,
+     "median_pct": -1.167,
+     "win": 0.318,
+     "pf": 0.86,
+     "jk_drop_top5pct_mean_pct": -1.082,
+     "n_eff": 655.8,
+     "breadth_pos": 15,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    }
+   },
+   "SEL_oracle_mean_pct": 7.23,
+   "SEL_capture_median": -0.129,
+   "SEL_causal_vs_null_pp": -0.036,
+   "SEL_median_hold_bars": 15,
+   "OOS_oracle_mean_pct": 6.13,
+   "OOS_capture_median": -0.135,
+   "OOS_causal_vs_null_pp": 0.045,
+   "OOS_median_hold_bars": 14,
+   "UNSEEN_oracle_mean_pct": 5.57,
+   "UNSEEN_capture_median": -0.177,
+   "UNSEEN_causal_vs_null_pp": 0.016,
+   "UNSEEN_median_hold_bars": 15
+  },
+  "4h": {
+   "n_events": 21336,
+   "scorecard": {
+    "SEL": {
+     "n": 15907,
+     "mean_pct": 0.184,
+     "se_pct": 0.075,
+     "median_pct": -1.523,
+     "win": 0.401,
+     "pf": 1.06,
+     "jk_drop_top5pct_mean_pct": -1.242,
+     "n_eff": 6356.6,
+     "breadth_pos": 34,
+     "breadth_tot": 47,
+     "bootstrap_p05_pct": -100.0
+    },
+    "OOS": {
+     "n": 3682,
+     "mean_pct": -0.181,
+     "se_pct": 0.134,
+     "median_pct": -1.736,
+     "win": 0.381,
+     "pf": 0.93,
+     "jk_drop_top5pct_mean_pct": -1.428,
+     "n_eff": 1599.0,
+     "breadth_pos": 14,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    },
+    "UNSEEN": {
+     "n": 1747,
+     "mean_pct": -0.318,
+     "se_pct": 0.219,
+     "median_pct": -1.903,
+     "win": 0.352,
+     "pf": 0.88,
+     "jk_drop_top5pct_mean_pct": -1.593,
+     "n_eff": 488.6,
+     "breadth_pos": 16,
+     "breadth_tot": 48,
+     "bootstrap_p05_pct": -100.0
+    }
+   },
+   "SEL_oracle_mean_pct": 6.34,
+   "SEL_capture_median": 0.019,
+   "SEL_causal_vs_null_pp": 0.044,
+   "SEL_median_hold_bars": 13,
+   "OOS_oracle_mean_pct": 5.4,
+   "OOS_capture_median": -0.054,
+   "OOS_causal_vs_null_pp": 0.147,
+   "OOS_median_hold_bars": 12,
+   "UNSEEN_oracle_mean_pct": 4.74,
+   "UNSEEN_capture_median": -0.097,
+   "UNSEEN_causal_vs_null_pp": 0.355,
+   "UNSEEN_median_hold_bars": 13
+  }
+ }
+}

@@ -1,0 +1,252 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Data (too large for git) — post-2026-04-26 layout
+data/raw/
+data/raw_external/
+# all gold + silver: chimera/, chimera_legacy/, frontier/, bars/, hawkes/, panels/
+data/processed/
+data/lob/
+
+# Per-build manifests (small JSON; regenerable)
+data/manifests/
+
+# Legacy dirs (deleted in 2026-04-26 migration; kept ignored in case of partial restores)
+data/frontier/
+data/features/
+data/bars/
+data/_manifests/
+data/_config/
+data/universes/
+data/twin_bars/
+data/ml_training/
+
+# TrainingLoader normalization stat cache (regenerable; computed lazily)
+data/_normalizers/
+
+# Pipeline DAG runner state (runtime, regenerable from refresh.py)
+data/_dag_state.json
+data/_dag_state_live.json
+
+# Production / paper-trader runtime state (NOT source; regenerable)
+data/prod/
+data/prod_state/
+
+# (Universe specs moved to config/universes/ in 2026-04-26 layout cleanup)
+
+# Model checkpoints (too large for git)
+models/
+
+# Logs (regenerated)
+logs/
+
+# Plots (regenerated)
+plots/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Backup snapshots & temp archives (contain models, too large for git)
+backups/BKP*/
+backups/TMP/
+backups/TMP_*/
+backups/v4_crypto_system_bkp_*/
+reports/
+
+# Temp files
+_tmp_*
+_b64*
+_decode_helper.py
+_preflight_check.py
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Claude agent state (session-specific)
+.claude/agent_state/briefings/
+
+# Claude Code local settings (per-machine)
+.claude/settings.json
+.claude/settings.json.bak*
+.claude/settings.local.json
+.claude/settings.local.json.bak*
+.claude/scheduled_tasks.lock
+.claude/scheduled_tasks/
+
+# CatBoost training artifacts (regenerated every run — noise)
+catboost_info/
+
+# Oracle analysis outputs (regenerable from scripts/oracle/*.py)
+# Source scripts ARE tracked; outputs are not (they're large/noisy/regenerable).
+data/oracle/*.csv
+data/oracle/*.json
+data/oracle/_BROKEN_CATALOGS_PRE_AUDIT_*/
+
+# Pipeline DAG lock (runtime, regenerable)
+data/_dag_state.lock
+
+# Training log files (regenerable; noisy)
+runs/*_log.txt
+runs/**/*.log
+
+# Local cleanup archive (de-bloat relocation target; on-disk only, never tracked)
+archive/
+
+# ============================================================================
+# Defense-in-depth: catch-all binary patterns (NEVER commit large binaries)
+# These are belt-and-suspenders on top of the path-specific rules above.
+# Added 2026-04-30 after discovering 119GB of historical chimera parquets.
+# ============================================================================
+*.parquet
+*.pt
+*.pth
+*.pkl
+*.pickle
+*.bin
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.feather
+*.arrow
+
+# Allow specific small reference files when explicitly tracked via -f
+# (use `git add -f path/to/keepfile.parquet` if a small reference parquet
+# really needs to be in the repo).
+external/Kronos/
+
+# Large TA-SML training outputs (regenerable from src/strategy/ta_sml/pipeline.py)
+runs/ta_sml/15m_u50/
+runs/ta_sml/1h_u50/
+runs/ta_sml/4h_u10/
+runs/ta_sml/4h_u50/
+runs/ta_sml/4h_u50_resilient/
+runs/ta_sml/live_sim/
+
+# Large oracle-v2 training input (3.6MB; regenerable from chimera + clustering)
+runs/oracle_v2/winner_events.parquet
+runs/oracle_v2/emergent_clusters.parquet
+runs/oracle_v2/strat_fires_*.parquet
+
+# Large winning-formula intermediate (regenerable from step2)
+runs/winning_formula/lane_weighted_fires.parquet
+runs/winning_formula/daily_pnl_by_k.parquet
+
+# Oracle infrastructure -- large parquets (regenerable from chimera via scripts/oracle/build_*.py)
+runs/oracle_2024_val/move_events.parquet
+runs/oracle_2024_val/move_segments_*.parquet
+runs/oracle_layer2/daily_regime_cluster.parquet
+runs/oracle_layer3/**/*.parquet
+runs/oracle_layer3/**/*.csv
+
+# 2026-05-24: T2-A Phase 1 BTC-only experiment artifact (58MB, regenerable)
+runs/oracle/bd_bar_grain_btc_panel.parquet
+
+# 2026-05-28: 8h-autonomous discovery outputs (203MB JSONs + PNGs, regenerable from scripts/wealth_bot/*.py)
+# MD reports + INDEX.html stay tracked; bulky outputs (JSON/CSV/PNG) ignored.
+runs/discovery/**/*.json
+runs/discovery/**/*.csv
+runs/discovery/**/*.png
+runs/discovery/visual_reports*/**/*.png
+
+runs/autonomy/
+
+# --- experiment/session scratch (2026-06-07 git-tree cleanup): preserved on disk, kept OUT of git ---
+experiments/adaptive_ma/_*
+experiments/adaptive_ma/**/_*
+runs/research/_*
+runs/research/**/_*
+scripts/autonomy/metaop/_*
+# ...but DO version-control the metaop verification suite (the loop's trust harness must be reproducible on clone).
+# 2026-06-07 audit G-H: previously `metaop/_*` silently ignored _test_/_proof_/_falsifier_ probes too.
+!scripts/autonomy/metaop/_test_*.py
+!scripts/autonomy/metaop/_proof_*.py
+!scripts/autonomy/metaop/_falsifier_*.py
+runs/staging/directive_proposals/_last_write.txt
+**/*OUT.txt
+**/*.bak
+
+# chess self-play visualizer regenerable outputs
+games/az/selfplay_viz.html
+games/az/selfplay_viz_data.json
+games/az/az_demo_checkpoints/
+# checkpoint dirs (too large for git; ~76GB+ -- regenerable). The previous rule here was a
+# malformed env-var-style assignment (ROBUST_CKPT=...) that matched nothing, leaving these exposed.
+games/az/robust_checkpoints/
+games/az/bootstrap_checkpoints/
+games/az/robust_anchored/
+games/az/robust_fast/
+games/az/robust_from_bootstrap/
+# stale run-state / logs (advertise a dead run as live; regenerable)
+games/az/train_supervisor.pid
+games/az/train_run.log
+games/az/train_run.err
+games/az/_real_boot.log
+
+# ============================================================================
+# 2026-06-09 git-tree cleanup (overseer): transient / large / scratch -> on-disk only, never tracked.
+# (Foundational decomposition EVIDENCE in runs/mining/*.json|csv IS committed; the FINDINGS docs are tracked.)
+# ============================================================================
+# Harness run outputs (regenerable)
+.harness_runs/
+# Root eval-harness cwd-leak artifacts (oracle benchmark task files that escaped the temp build dir;
+# current eval code uses isolated tempfile.mkdtemp -> these are stale leakage, regenerable)
+/compute.py
+/mathlib.py
+/tmp_proto_*.py
+# Oracle analysis raw outputs + scratch probes (regenerable from src/oracle/*.py; runs/oracle/decisions.md stays tracked)
+runs/oracle/_*
+runs/oracle/*.csv
+runs/oracle/*.out
+runs/oracle/*.err
+runs/oracle/leaderboard_partial.txt
+# Strat probe self-test + fixture outputs (regenerable from src/strat/*.py)
+runs/strat/*_selftest_*
+runs/strat/*FIXTURE*
+runs/strat/exit_capture_*
+# Research feature dumps (regenerable; runs/research/*REPORT*.md stays tracked)
+runs/research/*_dump.json
+# Staging = scratch workspace (commit-msg drafts, smoke scripts, .bak backups, one-off experiments)
+runs/staging/
+# Chess side-project run artifacts (the existing rules missed robust_dual/ = 2.3GB of checkpoints)
+runs/autonomy/_proof_fib.py
+games/az/robust_dual/
+games/az/robust_anchored_dual/
+games/az/bootstrap_d4_run.*
+games/az/strength_curve.json
+games/az/*.bak.*
+# chess_zero training run dirs + checkpoints (regenerable, large) -- GLOB so ANY new run-dir
+# name is covered (the per-dir lines above were fragile; a concurrent git-add-A must never
+# sweep GB of checkpoints into a commit)
+games/az/robust_*/
+games/az/*_checkpoints/
+games/az/*/heartbeat.json
+games/az/*/strength_curve.json
+# dualnull scratch experiment
+projects/dualnull/
+
+runs/strat/ma_per_instrument_u10_*.json
+runs/strat/ma_mechanics.json
+runs/strat/ma_mechanics_maker.json
+
+runs/periods/**/raw/
+
+# portable games-engine bundle (build artifact -- on disk, not tracked)
+games-engine.zip

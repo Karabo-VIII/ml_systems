@@ -1,0 +1,163 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\regime_dna_lab.py --universe u10 --cadence 1d --regime trend --seed 99",
+  "git_sha": "6924d09"
+ },
+ "result": {
+  "universe": "u10",
+  "cadence": "1d",
+  "regime_mode": "trend",
+  "n_assets": 10,
+  "regimes": [
+   "DOWN",
+   "UP"
+  ],
+  "selection": {
+   "pooled_cfg": "EMA_20_100/sig",
+   "per_asset_cfg": {
+    "BTCUSDT": "RSI14_30_50/sig",
+    "ETHUSDT": "EMA_20_100/sig",
+    "SOLUSDT": "DONCH_20_10/sig",
+    "BNBUSDT": "EMA_20_100/sig",
+    "XRPUSDT": "EMA_20_100/stop",
+    "DOGEUSDT": "EMA_20_100/sig",
+    "ADAUSDT": "EMA_20_100/sig",
+    "AVAXUSDT": "DONCH_20_10/sig",
+    "LINKUSDT": "EMA_20_100/sig",
+    "LTCUSDT": "EMA_20_100/sig"
+   },
+   "n_regime_cells": 20
+  },
+  "systems": {
+   "SYS_C_pooled": {
+    "TRAIN": {
+     "n": 81,
+     "mean": 1.7539677781533365,
+     "median": -0.08150798122065721,
+     "win": 0.38271604938271603,
+     "pf": 21.58156652926839,
+     "sum": 142.07139003042025,
+     "jk_drop_top3_mean": 0.46976388376119416
+    },
+    "OOS": {
+     "n": 33,
+     "mean": 0.08059277395749485,
+     "median": -0.07731408934707899,
+     "win": 0.36363636363636365,
+     "pf": 1.927195250248914,
+     "sum": 2.65956154059733,
+     "jk_drop_top3_mean": -0.024879996922886997
+    },
+    "UNSEEN": {
+     "n": 10,
+     "mean": -0.06380920997454338,
+     "median": -0.05294718573943118,
+     "win": 0.1,
+     "pf": 0.2059979303742837,
+     "sum": -0.6380920997454338,
+     "jk_drop_top3_mean": -0.11043451315026809
+    },
+    "breadth_OOS": {
+     "pos": 6,
+     "tot": 9
+    },
+    "breadth_UNSEEN": {
+     "pos": 0,
+     "tot": 0
+    }
+   },
+   "SYS_B_per_asset": {
+    "TRAIN": {
+     "n": 115,
+     "mean": 1.2192559177916864,
+     "median": -0.030569014084507004,
+     "win": 0.4260869565217391,
+     "pf": 18.102232642582372,
+     "sum": 140.21443054604393,
+     "jk_drop_top3_mean": 0.31057699508032854
+    },
+    "OOS": {
+     "n": 46,
+     "mean": 0.07706073321083146,
+     "median": -0.049683781838799776,
+     "win": 0.43478260869565216,
+     "pf": 2.1436590468649306,
+     "sum": 3.544793727698247,
+     "jk_drop_top3_mean": -0.0005262363998671914
+    },
+    "UNSEEN": {
+     "n": 24,
+     "mean": -0.033248207710759155,
+     "median": -0.04578033863123475,
+     "win": 0.20833333333333334,
+     "pf": 0.3798225034168434,
+     "sum": -0.7979569850582197,
+     "jk_drop_top3_mean": -0.05641986539009557
+    },
+    "breadth_OOS": {
+     "pos": 7,
+     "tot": 9
+    },
+    "breadth_UNSEEN": {
+     "pos": 0,
+     "tot": 2
+    }
+   },
+   "SYS_A_regime_sw": {
+    "TRAIN": {
+     "n": 244,
+     "mean": 0.272748469571051,
+     "median": 0.0007719090117726669,
+     "win": 0.5,
+     "pf": 7.299437253854302,
+     "sum": 66.55062657533644,
+     "jk_drop_top3_mean": 0.15743947715894616
+    },
+    "OOS": {
+     "n": 100,
+     "mean": 0.0633625688145839,
+     "median": -0.03871221599409573,
+     "win": 0.35,
+     "pf": 2.168551408150548,
+     "sum": 6.3362568814583895,
+     "jk_drop_top3_mean": 0.007834684870690051
+    },
+    "UNSEEN": {
+     "n": 67,
+     "mean": -0.020845911586018517,
+     "median": -0.04390525733259547,
+     "win": 0.29850746268656714,
+     "pf": 0.5642459065410349,
+     "sum": -1.3966760762632406,
+     "jk_drop_top3_mean": -0.033304033186189574
+    },
+    "breadth_OOS": {
+     "pos": 8,
+     "tot": 10
+    },
+    "breadth_UNSEEN": {
+     "pos": 2,
+     "tot": 10
+    }
+   }
+  },
+  "stability_Q3": {
+   "n_cells": 20,
+   "OOS_cells_evaluable": 20,
+   "OOS_frac_positive": 0.8,
+   "UNSEEN_cells_evaluable": 15,
+   "UNSEEN_frac_positive": 0.3333333333333333,
+   "OOS_null_frac_positive_mean": 0.6864341684287504
+  },
+  "firewall": {
+   "SYS_B_per_asset": {
+    "real_mean": 0.07706073321083146,
+    "note": "random-entry firewall deferred to full battery; breadth+jackknife are the in-line guards"
+   },
+   "SYS_A_regime_sw": {
+    "real_mean": 0.0633625688145839,
+    "note": "random-entry firewall deferred to full battery; breadth+jackknife are the in-line guards"
+   }
+  }
+ }
+}

@@ -1,0 +1,791 @@
+{
+ "tool": "setup_meta_labeler_FULLMECH",
+ "git_sha": "7a6ae8902034556321c3b7d6dbbf0ed36f80635d",
+ "stamp": "20260611_172523",
+ "objective": "held-out COMPOUND of the selected subset (taker 0.0024, LONG-only spot lev=1); AUC is a within-model diagnostic ONLY",
+ "mechanism": "config-navigation (MA-config grid pooled, config params as features) + conditional-entry meta-labeler + the USER'S 5%-trailing-stop risk exit, tested as ONE joint thing",
+ "pre_registration": {
+  "config_grid": {
+   "fast": [
+    5,
+    8,
+    10,
+    12,
+    20
+   ],
+   "slow": [
+    20,
+    26,
+    50,
+    100,
+    200
+   ],
+   "types": [
+    "SMA",
+    "EMA"
+   ],
+   "n_configs": 48,
+   "rule": "fast<slow; each (fast,slow,type) a past-only cross trigger; ALL POOLED"
+  },
+  "config_features": [
+   "cfg_fast_len",
+   "cfg_slow_len",
+   "cfg_fast_slow_ratio",
+   "cfg_is_ema",
+   "cfg_past_hitrate"
+  ],
+  "cadences": [
+   "4h",
+   "1h"
+  ],
+  "cadence_note": "15m/30m/1h/4h per the standing HARD RULE; 1d on demand; sub-15m needs the 1m dataset (SEPARATE effort -- out of scope here)",
+  "universe": "u10 (survivorship FLAGGED)",
+  "exit": "USER RISK 5%-trailing-stop (initial stop entry-5%, trail 5% below running high) + time-stop per cadence",
+  "label": "y = net_pnl > 0 (taker 0.0024 RT); also reported at net>cost-band (D09)",
+  "features": [
+   "cfg_fast_len",
+   "cfg_slow_len",
+   "cfg_fast_slow_ratio",
+   "cfg_is_ema",
+   "cfg_past_hitrate",
+   "ema_fast_slope",
+   "ema_slow_slope",
+   "ma_spread",
+   "price_to_fast",
+   "price_to_slow",
+   "ma_stack",
+   "bars_since_cross",
+   "norm_funding",
+   "fund_rate_mean",
+   "norm_oi_change",
+   "liq_long_z30",
+   "liq_short_z30",
+   "wh_whale_net_usd",
+   "norm_whale",
+   "norm_flow_imbalance",
+   "norm_vpin",
+   "norm_kyle_lambda",
+   "regime_label",
+   "above_sma200",
+   "vol_tercile",
+   "btc_r24h",
+   "btc_vs_sma50"
+  ],
+  "wm_feature": "DEFERRED (V1.1 retraining; clean hook left)",
+  "model": "LogisticRegression -> HistGradientBoosting; binary entry gate at tau=67th TRAIN pctile",
+  "asymmetric_loss": "false-LONG penalty 1.5x (class_weight on y=1)",
+  "split": "chronological 50/20/20/10 (canonical WindowSpec dates) + 400-bar purge; UNSEEN once"
+ },
+ "two_sided_controls": {
+  "positive_ships": true,
+  "no_skill_fails": true,
+  "config_only_fails": true,
+  "regime_only_fails": true,
+  "positive_oos_auc": 0.9904517362500556,
+  "all_pass": true
+ },
+ "per_cadence": {
+  "4h": {
+   "cadence": "4h",
+   "n_firings": 82052,
+   "n_assets": 10,
+   "config_navigation": {
+    "n_configs_in_grid": 48,
+    "n_configs_fired": 48,
+    "config_params_as_features": [
+     "cfg_fast_len",
+     "cfg_slow_len",
+     "cfg_fast_slow_ratio",
+     "cfg_is_ema",
+     "cfg_past_hitrate"
+    ],
+    "firings_per_config_top10": {
+     "5x20_SMA": 3394,
+     "8x20_SMA": 3205,
+     "12x20_SMA": 3174,
+     "10x20_SMA": 3156,
+     "5x20_EMA": 2986,
+     "5x26_SMA": 2940,
+     "20x26_SMA": 2782,
+     "8x26_SMA": 2704,
+     "5x26_EMA": 2701,
+     "10x26_SMA": 2622
+    },
+    "note": "ALL firings across ALL configs POOLED into one dataset; config params enter as features"
+   },
+   "policy": {
+    "exit": "USER RISK 5%-trailing-stop",
+    "sl_pct": 0.05,
+    "trail_pct": 0.05,
+    "max_hold_bars": 24
+   },
+   "unconditional_trigger": {
+    "TRAIN": {
+     "n": 23704,
+     "compound": -99.99999999936247,
+     "n_pooled": 54321,
+     "compound_pooled": 3.630016038096021e+16
+    },
+    "VAL": {
+     "n": 4899,
+     "compound": 8155381247.853893,
+     "n_pooled": 11080,
+     "compound_pooled": 1.5325526992197366e+32
+    },
+    "OOS": {
+     "n": 4916,
+     "compound": -99.99999941274717,
+     "n_pooled": 10892,
+     "compound_pooled": -99.99999999999974
+    },
+    "UNSEEN": {
+     "n": 2405,
+     "compound": -99.99999999999997,
+     "n_pooled": 5759,
+     "compound_pooled": -100.0
+    }
+   },
+   "selected_compound": {
+    "TRAIN": 1255498604596.17,
+    "VAL": 83881.94613529736,
+    "OOS": 1291.489533922204,
+    "UNSEEN": -99.99977552954356
+   },
+   "selected_n_trades_dedup": {
+    "TRAIN": 8326,
+    "VAL": 1475,
+    "OOS": 1406,
+    "UNSEEN": 1100
+   },
+   "selected_n_firings_pooled": {
+    "TRAIN": 17716,
+    "VAL": 3133,
+    "OOS": 2609,
+    "UNSEEN": 2420
+   },
+   "selected_beats_unconditional_held": {
+    "OOS": true,
+    "UNSEEN": true
+   },
+   "aucs": {
+    "hgb_train": 0.9813808628851659,
+    "hgb_val": 0.5431341049627545,
+    "hgb_oos": 0.5028252339599731,
+    "logit_train": 0.5415361898189133,
+    "logit_val": 0.5401818500508131,
+    "logit_oos": 0.5360578628918072
+   },
+   "operating_model": "logit",
+   "tau": 0.5170288964074566,
+   "decile_lift": [
+    {
+     "decile": 1,
+     "mean_net": 0.00010486291067276472,
+     "win": 0.3485238755696453
+    },
+    {
+     "decile": 2,
+     "mean_net": -0.0013672435688562455,
+     "win": 0.3586288884485833
+    },
+    {
+     "decile": 3,
+     "mean_net": -0.0014761219851289864,
+     "win": 0.3732910639984149
+    },
+    {
+     "decile": 4,
+     "mean_net": 0.0010085878240439752,
+     "win": 0.38399048939964336
+    },
+    {
+     "decile": 5,
+     "mean_net": 0.001914700780021361,
+     "win": 0.40320982762036855
+    },
+    {
+     "decile": 6,
+     "mean_net": 0.0031990458763263424,
+     "win": 0.40994650287299383
+    },
+    {
+     "decile": 7,
+     "mean_net": 0.0021824819352794403,
+     "win": 0.3984545274420448
+    },
+    {
+     "decile": 8,
+     "mean_net": 0.005961827055868464,
+     "win": 0.4370913413909253
+    },
+    {
+     "decile": 9,
+     "mean_net": 0.006715587705721177,
+     "win": 0.44224291658410936
+    },
+    {
+     "decile": 10,
+     "mean_net": 0.008417184972378474,
+     "win": 0.4615689381933439
+    }
+   ],
+   "decile_monotone_frac": 0.6666666666666666,
+   "label_stability_D09": {
+    "net_gt_0_unseen": -99.99977552954356,
+    "net_gt_costband_unseen": -99.99981573678156
+   },
+   "config_overfit_flag": true,
+   "gauntlet": {
+    "1_auc_floor": {
+     "operating_model": "logit",
+     "operating_oos_auc": 0.5360578628918072,
+     "hgb_oos": 0.5028252339599731,
+     "logit_oos": 0.5360578628918072,
+     "floor": 0.55,
+     "pass": false,
+     "decile_monotone_frac": 0.6666666666666666
+    },
+    "2_firewall": {
+     "verdict": "NO TIMING EDGE (selected does not beat the random-entry null on held-out)",
+     "held_summary": {
+      "OOS": {
+       "beats_frac": 0.5,
+       "pos_frac": 0.4,
+       "n_assets_fired": 10
+      },
+      "UNSEEN": {
+       "beats_frac": 0.3,
+       "pos_frac": 0.1,
+       "n_assets_fired": 10
+      }
+     },
+     "per_asset": {
+      "BTCUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "ETHUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "SOLUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "BNBUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "XRPUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "DOGEUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "ADAUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "AVAXUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "LINKUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "LTCUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+     },
+     "pass": false
+    },
+    "3_shuffled_control": {
+     "verdict": "OVERFIT",
+     "overfit_fraction": 1.0,
+     "pass": false
+    },
+    "4_pbo": {
+     "pbo": 0.7178710178710179,
+     "ship_thr": 0.1,
+     "verdict": "FAIL",
+     "config_overfit": true,
+     "detail": {
+      "pbo": 0.7178710178710179,
+      "prob_oos_loss": 0.3661227661227661,
+      "perf_degradation_slope": -1.1613611502774652,
+      "median_logit": -1.203972804325936,
+      "n_combinations": 12870,
+      "S": 16,
+      "T_used": 27728,
+      "N": 12,
+      "verdict": "FAIL",
+      "ship": false
+     },
+     "pass": false
+    },
+    "5_seed_robustness": {
+     "oos_positive_seeds": 10,
+     "floor": 8,
+     "bootstrap_p05": -100.0,
+     "per_seed": [
+      {
+       "seed": 0,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 1,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 2,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 3,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 4,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 5,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 6,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 7,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 8,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      },
+      {
+       "seed": 9,
+       "oos_compound": 1291.489533922204,
+       "unseen_compound": -99.99977552954356,
+       "oos_pos": true,
+       "unseen_pos": false,
+       "n_oos": 1406,
+       "n_uns": 1100
+      }
+     ],
+     "pass": false
+    },
+    "6_battery": {
+     "verdict": "FAIL",
+     "jk2": -100.0,
+     "jk3": -100.0,
+     "p05": -100.0,
+     "n_eff": 788.7,
+     "maxdd": -100.0,
+     "pass": false
+    },
+    "8_per_regime": {
+     "OOS": {
+      "bull_n": 921,
+      "bull_compound": 2322.1995398308586,
+      "bear_n": 485,
+      "bear_compound": -42.55264642567938
+     },
+     "UNSEEN": {
+      "bull_n": 678,
+      "bull_compound": -98.92786926099824,
+      "bear_n": 422,
+      "bear_compound": -99.97906314516653
+     }
+    }
+   },
+   "SHIP": false,
+   "verdict": "NO CONDITIONAL EDGE with internal features (the EXPECTED, high-value null -- the JOINT mechanism (config-nav + conditional-entry + 5%-trail risk-exit) is refuted at this cadence with internal features, re-confirming the separate component nulls jointly)"
+  },
+  "1h": {
+   "cadence": "1h",
+   "n_firings": 262544,
+   "n_assets": 10,
+   "config_navigation": {
+    "n_configs_in_grid": 48,
+    "n_configs_fired": 48,
+    "config_params_as_features": [
+     "cfg_fast_len",
+     "cfg_slow_len",
+     "cfg_fast_slow_ratio",
+     "cfg_is_ema",
+     "cfg_past_hitrate"
+    ],
+    "firings_per_config_top10": {
+     "5x20_SMA": 9380,
+     "8x20_SMA": 9027,
+     "10x20_SMA": 8965,
+     "12x20_SMA": 8948,
+     "5x20_EMA": 8678,
+     "5x26_SMA": 8546,
+     "8x26_SMA": 8157,
+     "20x26_SMA": 8118,
+     "5x26_EMA": 8055,
+     "10x26_SMA": 8020
+    },
+    "note": "ALL firings across ALL configs POOLED into one dataset; config params enter as features"
+   },
+   "policy": {
+    "exit": "USER RISK 5%-trailing-stop",
+    "sl_pct": 0.05,
+    "trail_pct": 0.05,
+    "max_hold_bars": 48
+   },
+   "unconditional_trigger": {
+    "TRAIN": {
+     "n": 82846,
+     "compound": -100.0,
+     "n_pooled": 177064,
+     "compound_pooled": -100.0
+    },
+    "VAL": {
+     "n": 16789,
+     "compound": -99.99999923341294,
+     "n_pooled": 35257,
+     "compound_pooled": -99.99931112142129
+    },
+    "OOS": {
+     "n": 16055,
+     "compound": -100.0,
+     "n_pooled": 33759,
+     "compound_pooled": -100.0
+    },
+    "UNSEEN": {
+     "n": 7750,
+     "compound": -100.0,
+     "n_pooled": 16464,
+     "compound_pooled": -100.0
+    }
+   },
+   "selected_compound": {
+    "TRAIN": 1.6267277717271662e+20,
+    "VAL": 4774036.502988841,
+    "OOS": -99.98982653141393,
+    "UNSEEN": -99.99999999956374
+   },
+   "selected_n_trades_dedup": {
+    "TRAIN": 30430,
+    "VAL": 5341,
+    "OOS": 4771,
+    "UNSEEN": 2321
+   },
+   "selected_n_firings_pooled": {
+    "TRAIN": 58535,
+    "VAL": 9683,
+    "OOS": 8664,
+    "UNSEEN": 4262
+   },
+   "selected_beats_unconditional_held": {
+    "OOS": true,
+    "UNSEEN": true
+   },
+   "aucs": {
+    "hgb_train": 0.9285521528902183,
+    "hgb_val": 0.5063469328104359,
+    "hgb_oos": 0.49397921162069064,
+    "logit_train": 0.5289725745390662,
+    "logit_val": 0.5227621243893665,
+    "logit_oos": 0.4961027807818996
+   },
+   "operating_model": "logit",
+   "tau": 0.5317903309757629,
+   "decile_lift": [
+    {
+     "decile": 1,
+     "mean_net": -0.0037441146057491915,
+     "win": 0.3758991770731427
+    },
+    {
+     "decile": 2,
+     "mean_net": -0.0020808753502327463,
+     "win": 0.40185302411233237
+    },
+    {
+     "decile": 3,
+     "mean_net": -0.0008249853129744713,
+     "win": 0.41244173332566036
+    },
+    {
+     "decile": 4,
+     "mean_net": -0.0007259762451625444,
+     "win": 0.41226909132761697
+    },
+    {
+     "decile": 5,
+     "mean_net": -0.0007337499509964787,
+     "win": 0.4152952008286339
+    },
+    {
+     "decile": 6,
+     "mean_net": -0.0009850696911209407,
+     "win": 0.41336249064855846
+    },
+    {
+     "decile": 7,
+     "mean_net": 0.0007534126573119466,
+     "win": 0.4243540311906543
+    },
+    {
+     "decile": 8,
+     "mean_net": 0.0016955974240815098,
+     "win": 0.43523047706738793
+    },
+    {
+     "decile": 9,
+     "mean_net": 0.0065569188489820384,
+     "win": 0.4607239454451286
+    },
+    {
+     "decile": 10,
+     "mean_net": 0.008585273948756187,
+     "win": 0.46835078835309013
+    }
+   ],
+   "decile_monotone_frac": 0.7777777777777778,
+   "label_stability_D09": {
+    "net_gt_0_unseen": -99.99999999956374,
+    "net_gt_costband_unseen": -99.99999999985812
+   },
+   "config_overfit_flag": true,
+   "gauntlet": {
+    "1_auc_floor": {
+     "operating_model": "logit",
+     "operating_oos_auc": 0.4961027807818996,
+     "hgb_oos": 0.49397921162069064,
+     "logit_oos": 0.4961027807818996,
+     "floor": 0.55,
+     "pass": false,
+     "decile_monotone_frac": 0.7777777777777778
+    },
+    "2_firewall": {
+     "verdict": "NO TIMING EDGE (selected does not beat the random-entry null on held-out)",
+     "held_summary": {
+      "OOS": {
+       "beats_frac": 0.8,
+       "pos_frac": 0.3,
+       "n_assets_fired": 10
+      },
+      "UNSEEN": {
+       "beats_frac": 0.5,
+       "pos_frac": 0.0,
+       "n_assets_fired": 10
+      }
+     },
+     "per_asset": {
+      "BTCUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "ETHUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "SOLUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "BNBUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "XRPUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "DOGEUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "ADAUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "AVAXUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "LINKUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+      "LTCUSDT": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)"
+     },
+     "pass": false
+    },
+    "3_shuffled_control": {
+     "verdict": "OVERFIT",
+     "overfit_fraction": 1.0,
+     "pass": false
+    },
+    "4_pbo": {
+     "pbo": 0.8073815073815074,
+     "ship_thr": 0.1,
+     "verdict": "FAIL",
+     "config_overfit": true,
+     "detail": {
+      "pbo": 0.8073815073815074,
+      "prob_oos_loss": 0.6436674436674437,
+      "perf_degradation_slope": -1.079006042313332,
+      "median_logit": -1.203972804325936,
+      "n_combinations": 12870,
+      "S": 16,
+      "T_used": 85472,
+      "N": 12,
+      "verdict": "FAIL",
+      "ship": false
+     },
+     "pass": false
+    },
+    "5_seed_robustness": {
+     "oos_positive_seeds": 0,
+     "floor": 8,
+     "bootstrap_p05": -100.0,
+     "per_seed": [
+      {
+       "seed": 0,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 1,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 2,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 3,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 4,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 5,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 6,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 7,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 8,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      },
+      {
+       "seed": 9,
+       "oos_compound": -99.98982653141393,
+       "unseen_compound": -99.99999999956374,
+       "oos_pos": false,
+       "unseen_pos": false,
+       "n_oos": 4771,
+       "n_uns": 2321
+      }
+     ],
+     "pass": false
+    },
+    "6_battery": {
+     "verdict": "FAIL",
+     "jk2": -100.0,
+     "jk3": -100.0,
+     "p05": -100.0,
+     "n_eff": 1522.6,
+     "maxdd": -100.0,
+     "pass": false
+    },
+    "8_per_regime": {
+     "OOS": {
+      "bull_n": 3394,
+      "bull_compound": -98.44152577274711,
+      "bear_n": 1377,
+      "bear_compound": -99.34721611636748
+     },
+     "UNSEEN": {
+      "bull_n": 1655,
+      "bull_compound": -99.99996819834939,
+      "bear_n": 666,
+      "bear_compound": -99.99862819321369
+     }
+    }
+   },
+   "SHIP": false,
+   "verdict": "NO CONDITIONAL EDGE with internal features (the EXPECTED, high-value null -- the JOINT mechanism (config-nav + conditional-entry + 5%-trail risk-exit) is refuted at this cadence with internal features, re-confirming the separate component nulls jointly)"
+  }
+ },
+ "RWYB": {
+  "gauntlet_gates_ran": [
+   "auc_floor",
+   "firewall(regime+membership)",
+   "shuffled_control(perm/block)",
+   "pbo_cscv(CENTRAL-config-overfit gate)",
+   "seed_robustness(10)",
+   "battery(A/B/C)",
+   "two_sided_controls",
+   "per_regime"
+  ],
+  "two_sided": "no-skill (random + CONFIG-ONLY + regime-only) must FAIL; positive (synthetic) must SHIP",
+  "config_nav_proof": "see per_cadence[*].config_navigation: n_configs_fired + firings POOLED",
+  "objective": "held-out compound, never AUC/IC"
+ },
+ "honest_framing": [
+  "each COMPONENT is already null SEPARATELY: config-nav (MA-oracle/verify_dna_finding -- no learnable per-move config at 30m-1d, regime-driven), conditional-entry (EMA12x26 slice + mover_metalabel OOS AUC 0.51-0.52), exit-timing (exit_capture_proxy/D61).",
+  "this run tests the JOINT mechanism + config-navigation + the user's risk-exit + the 15m cadence.",
+  "an honest NULL is the EXPECTED, high-value answer -- it means the JOINT mechanism is genuinely refuted at 15m-4h with INTERNAL features, not just its parts.",
+  "a non-null at ANY cadence = the first measured edge -> champion-gate it."
+ ],
+ "caveats": [
+  "u10 CURRENT membership -> survivorship on absolute-level features (FLAGGED, not corrected)",
+  "WM-as-feature DEFERRED (V1.1 retraining) -- v1 verdict is INTERNAL-features-only by design",
+  "THE CONFIG GRID IS A BIG MULTIPLE-COMPARISONS SURFACE: PBO is the CENTRAL gate. If PBO>=0.10 (config_overfit_flag=True) the apparent edge is CONFIG-SEARCH OVERFIT, NOT a real edge.",
+  "shuffled control runs on the realized held-out net stream (necessary-not-sufficient; composes with firewall+PBO+seeds)",
+  "sub-15m (1m) MA-cross pooling is a SEPARATE effort -- NOT run here (stated, not silently skipped)"
+ ]
+}

@@ -1,0 +1,24 @@
+# config/data_config.yaml
+
+exchange:
+  name: "binance"
+  enable_rate_limit: true
+
+data:
+  raw_dir: "./data/raw"
+  processed_dir: "./data/processed"
+  
+  # How far back do you want to fetch?
+  # SOTA Tip: Start small (e.g., 2 days) to test the pipeline, then expand to "2022-01-01"
+  start_date: "2020-01-01 00:00:00" 
+
+symbols:
+  - "BTC/USDT"
+  #- "ETH/USDT"  # <-- Uncomment to enable multi-asset fetching
+  #- "SOL/USDT"
+
+processing:
+  # BTC: 500,000,000 ($500M) is the "Goldilocks" zone for institutional flow
+  # ETH: 250,000,000 ($250M)
+  # SOL: 50,000,000 ($50M)
+  dollar_bar_size: 500000000

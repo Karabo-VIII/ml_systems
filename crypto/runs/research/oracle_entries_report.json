@@ -1,0 +1,41 @@
+{
+  "cost_rt": 0.0024,
+  "min_hold_hours": 1.0,
+  "max_hold_days": 7,
+  "method": "close-to-close perfect-foresight non-overlap DP (reuses oracle_ceiling_builder DP)",
+  "note": "CLOSE-based (honest/lower) sibling of high-based oracle_ceiling_map.json",
+  "cadences": {
+    "4h": {
+      "n_assets": 87,
+      "total_oracle_moves": 150013,
+      "median_moves_per_year": 500.22,
+      "median_mean_net_per_move_pct": 3.527,
+      "median_oracle_compound_pct": 4.215398402211875e+24,
+      "output": "runs\\research\\oracle_entries_4h.parquet",
+      "magnitude_floors": {
+        "net_ge_2pct": 74323,
+        "net_ge_3pct": 53134,
+        "net_ge_5pct": 29318,
+        "net_ge_10pct": 9056
+      },
+      "unseen_entries": 12716,
+      "compound_note": "clairvoyant-degenerate ceiling (perfect-foresight luck); NOT realizable -- use moves/yr + net/move + capture-rate downstream, not compound"
+    },
+    "daily": {
+      "n_assets": 87,
+      "total_oracle_moves": 27740,
+      "median_moves_per_year": 90.88,
+      "median_mean_net_per_move_pct": 8.731,
+      "median_oracle_compound_pct": 1264795329801.6,
+      "output": "runs\\research\\oracle_entries_daily.parquet",
+      "magnitude_floors": {
+        "net_ge_2pct": 21272,
+        "net_ge_3pct": 18404,
+        "net_ge_5pct": 13958,
+        "net_ge_10pct": 7235
+      },
+      "unseen_entries": 2254,
+      "compound_note": "clairvoyant-degenerate ceiling (perfect-foresight luck); NOT realizable -- use moves/yr + net/move + capture-rate downstream, not compound"
+    }
+  }
+}

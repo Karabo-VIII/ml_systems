@@ -1,0 +1,64 @@
+# U50 — liquidity-audited 50-asset universe
+# Source: src/strategy/universe.py UNIVERSE_50_LIQUID (audited 2026-04-23).
+# Gates: >=$3M/day 30d avg AND >=180 days history.
+# Used for: deployable strategies, xsec ranker, ensemble training.
+name: u50
+description: "50 assets, liquidity-audited. Production deployable universe."
+n_assets: 50
+liquidity_floor_usd_per_day: 3_000_000
+history_floor_days: 180
+parent: u10
+assets:
+  # === Tier A (>$30M/d, 14 assets — incl. all of U10) ===
+  - { symbol: BTCUSDT,    dna: BLUE,     pos_cap: 0.08, kelly_frac: 0.50, tier: A, liquidity_tier: TIER_B, median_dollar_vol_30d: 1184040048 }
+  - { symbol: ETHUSDT,    dna: BLUE,     pos_cap: 0.08, kelly_frac: 0.50, tier: A, liquidity_tier: TIER_B, median_dollar_vol_30d: 617045999 }
+  - { symbol: SOLUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: A, liquidity_tier: TIER_B, median_dollar_vol_30d: 219673349 }
+  - { symbol: XRPUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: A, liquidity_tier: TIER_B, median_dollar_vol_30d: 121449677 }
+  - { symbol: BNBUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: A, liquidity_tier: TIER_B, median_dollar_vol_30d: 64199723 }
+  - { symbol: DOGEUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: A, liquidity_tier: TIER_B, median_dollar_vol_30d: 68003919 }
+  - { symbol: ZECUSDT,    dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: A, liquidity_tier: TIER_B, median_dollar_vol_30d: 68145131 }
+  - { symbol: TRXUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: A, liquidity_tier: TIER_C, median_dollar_vol_30d: 34347273 }
+  - { symbol: PEPEUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: A, liquidity_tier: TIER_C, median_dollar_vol_30d: 32251188 }
+  - { symbol: ADAUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: A, liquidity_tier: TIER_C, median_dollar_vol_30d: 30750828 }
+  - { symbol: LINKUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: A, liquidity_tier: TIER_C, median_dollar_vol_30d: 23064946 }
+  - { symbol: SUIUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: A, liquidity_tier: TIER_C, median_dollar_vol_30d: 23323552 }
+  - { symbol: AVAXUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: A, liquidity_tier: TIER_C, median_dollar_vol_30d: 20448324 }
+  - { symbol: TAOUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: A, liquidity_tier: TIER_C, median_dollar_vol_30d: 39574010 }
+  # === Tier B ($10-30M/d, 20 assets) ===
+  - { symbol: FETUSDT,    dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: B, liquidity_tier: TIER_C, median_dollar_vol_30d: 13589386 }
+  - { symbol: ENJUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 6864047 }
+  - { symbol: ORDIUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 1160122 }
+  - { symbol: NEARUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: TIER_C, median_dollar_vol_30d: 13548135 }
+  - { symbol: WLDUSDT,    dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: B, liquidity_tier: TIER_C, median_dollar_vol_30d: 10829585 }
+  - { symbol: ENAUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: TIER_C, median_dollar_vol_30d: 12528865 }
+  - { symbol: LTCUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: B, liquidity_tier: TIER_C, median_dollar_vol_30d: 13799081 }
+  - { symbol: AAVEUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: TIER_C, median_dollar_vol_30d: 12459938 }
+  - { symbol: DASHUSDT,   dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 7889397 }
+  - { symbol: UNIUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 8552561 }
+  - { symbol: BCHUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 7229481 }
+  - { symbol: PENGUUSDT,  dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 9315674 }
+  - { symbol: DOTUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 6920292 }
+  - { symbol: TONUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: B, liquidity_tier: TIER_C, median_dollar_vol_30d: 10751245 }
+  - { symbol: APTUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 6160614 }
+  - { symbol: FILUSDT,    dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 5604068 }
+  - { symbol: RENDERUSDT, dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 6082809 }
+  - { symbol: HBARUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 6990003 }
+  # HIGHUSDT removed 2026-04-28: liquidity_tier DROP ($433K/day < $1M floor); see docs/UNIVERSE_CLEANUP_2026_04_28.md
+  - { symbol: ARBUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: B, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 5840577 }
+  # === Tier C ($3-10M/d, 16 assets) ===
+  - { symbol: TRUMPUSDT,  dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 8919493 }
+  - { symbol: TREEUSDT,   dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 1874143 }
+  - { symbol: SHIBUSDT,   dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 5412183 }
+  - { symbol: ALGOUSDT,   dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4707376 }
+  - { symbol: BONKUSDT,   dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4960989 }
+  - { symbol: WIFUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 4241411 }
+  - { symbol: ICPUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3974898 }
+  - { symbol: SEIUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3989105 }
+  - { symbol: JSTUSDT,    dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3096838 }
+  - { symbol: CRVUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3845567 }
+  - { symbol: BLURUSDT,   dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2138115 }
+  - { symbol: LDOUSDT,    dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 3365857 }
+  - { symbol: OPUSDT,     dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2969848 }
+  # 1000SATSUSDT removed 2026-04-28: liquidity_tier DROP ($685K/day < $1M floor); see docs/UNIVERSE_CLEANUP_2026_04_28.md
+  - { symbol: ETCUSDT,    dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 2399852 }
+  - { symbol: SUPERUSDT,  dna: DEGEN,    pos_cap: 0.02, kelly_frac: 0.20, tier: C, liquidity_tier: EVENT_ONLY, median_dollar_vol_30d: 1204715 }

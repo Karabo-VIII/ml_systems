@@ -1,0 +1,617 @@
+# Asset DAG -- single source of truth for the data pipeline.
+#
+# This file declares EVERY data product (asset) the pipeline produces:
+# its producer script, its inputs, its canonical output path, and its
+# downstream consumers. The runner (src/pipeline/refresh.py) reads this
+# file, walks the DAG bottom-up from a target, and rebuilds only the
+# minimum set of upstream stages needed to refresh the target.
+#
+# Schema:
+#   assets:
+#     <asset_name>:
+#       producer:       relative path to the script that builds this asset
+#       producer_args:  optional extra CLI args (universe, asset, force are
+#                       injected by the runner)
+#       output:         canonical output file or glob; "{asset}" / "{date}"
+#                       templated where applicable
+#       output_kind:    one of: single_file | per_asset_files | per_asset_per_date_files
+#       deps:           list of upstream asset names this stage requires
+#       per_asset:      true if this stage runs once per asset; false for
+#                       multi-asset blob producers (e.g. ETF panel)
+#       universe_aware: true if the producer accepts --universe
+#       freshness:      one of: daily | weekly | event_driven | static
+#       gate:           optional per-stage validation rule
+#       notes:          free text
+#
+# Runner semantics:
+#   refresh --target X --asset BTC --scope u50:
+#     1) Topo-sort the DAG with X as root.
+#     2) For each upstream asset (bottom-up):
+#        - Compute content hash: (script_mtime, deps' hashes, scope, asset).
+#        - Look up in _dag_state.json. Skip if hash matches & output exists.
+#        - Else invoke producer, materialize, run gate, record hash.
+#     3) Return per-asset status (HIT|REBUILT|FAILED|SKIPPED).
+#   refresh --force --target X: bypass cache; rebuild every upstream.
+#   status --target X: dry-run -- show what would rebuild, no work done.
+
+version: "1.0"
+
+assets:
+  # ============================================================
+  # T0 -- BRONZE (raw ingest)
+  # ============================================================
+
+  raw_aggtrades:
+    producer: "src/pipeline/fetch_all.py"
+    producer_args: ["--workers", "16"]   # threaded HTTP, scales freely
+    output: "data/raw/{asset}USDT/aggTrades/*.parquet"
+    output_kind: per_asset_per_date_files
+    deps: []
+    per_asset: true
+    universe_aware: true
+    asset_arg: "--assets"     # fetch_all uses plural --assets
+    asset_format: "pair"      # ...with BTC/USDT format
+    freshness: daily
+    # 2026-05-15 R31: bumped from 4h to 12h. Hit timeout 14411s on SHIBUSDT
+    # funding catchup (1831 dates via per-date sync after bulk API returned 0
+    # records). 6-asset funding catchup + new-asset history backfill exceeds 4h.
+    timeout_seconds: 43200
+    notes: "Binance Vision aggTrades. T0 bronze."
+
+  raw_funding:
+    producer: "src/pipeline/fetch_all.py"
+    producer_args: ["--workers", "16"]
+    output: "data/raw/{asset}USDT/funding/*.parquet"
+    output_kind: per_asset_per_date_files
+    deps: []
+    per_asset: true
+    universe_aware: true
+    asset_arg: "--assets"
+    # R32 pipeline-audit fix (GAP-2): same fetch_all.py per-date sync code
+    # path as raw_aggtrades; 1831-date funding catchup would also exceed the
+    # default 14400 (4h). Bumped to 12h matching raw_aggtrades.
+    timeout_seconds: 43200
+    asset_format: "pair"
+    freshness: daily
+    notes: "Co-fetched with raw_aggtrades."
+
+  # ============================================================
+  # T1 -- BAR FABRIC
+  # ============================================================
+
+  bar_dib:
+    producer: "src/pipeline/bars/dib_bars_fast.py"
+    producer_args: ["--workers", "8"]
+    output: "data/processed/bars/dib/{asset}USDT_dib_2025.parquet"
+    output_kind: per_asset_files
+    deps: [raw_aggtrades]
+    per_asset: true
+    universe_aware: true     # NEW: --universe added to dib_bars_fast.py
+    asset_arg: "--assets"
+    asset_format: "usdt"     # BTCUSDT format
+    freshness: daily
+    notes: "DIB (Dollar Imbalance Bars). Per-asset, per-day fragments."
+
+  bar_range:
+    producer: "src/pipeline/bars/range_bars_fast.py"
+    producer_args: ["--workers", "8"]
+    max_workers: 2   # OOM ceiling at u50: PEPE only completes at workers=1 (44M+ bars); 2026-05-01 calibration
+    output: "data/processed/bars/range/{asset}USDT_range_2025.parquet"
+    output_kind: per_asset_files
+    deps: [raw_aggtrades]
+    per_asset: true
+    universe_aware: true   # round-1 migration added --universe support
+    freshness: daily
+
+  bar_runs_tick:
+    producer: "src/pipeline/bars/runs_bars.py"
+    producer_args: ["--modes", "tick", "--workers", "8"]
+    max_workers: 2   # OOM ceiling at u50: 2026-05-01 calibration showed workers=2 safe
+    # 2026-05-23 fix: producer writes per-year partitions
+    # (e.g. AAVEUSDT_tick_runs_2024.parquet), not a single asset file.
+    # Pre-fix glob `{asset}USDT_tick_runs.parquet` matched nothing -> STUB false positive.
+    output: "data/processed/bars/runs_tick/{asset}USDT_tick_runs_*.parquet"
+    output_kind: per_asset_files
+    deps: [raw_aggtrades]
+    per_asset: true
+    universe_aware: true   # round-1 migration added --universe support
+    freshness: daily
+
+  bar_runs_volume:
+    producer: "src/pipeline/bars/runs_bars.py"
+    producer_args: ["--modes", "vol", "--workers", "8"]
+    max_workers: 2   # OOM ceiling at u50: 2026-05-01 calibration showed workers=2 safe
+    # 2026-05-23 fix: producer writes per-year partitions
+    # (e.g. AAVEUSDT_vol_runs_2024.parquet), not a single asset file.
+    output: "data/processed/bars/runs_vol/{asset}USDT_vol_runs_*.parquet"
+    output_kind: per_asset_files
+    deps: [raw_aggtrades]
+    per_asset: true
+    universe_aware: true   # round-1 migration added --universe support
+    freshness: daily
+
+  bar_adaptive_vol:
+    producer: "src/pipeline/bars/adaptive_vol_bars.py"
+    producer_args: ["--workers", "8"]
+    max_workers: 2   # OOM ceiling at u50: 2026-05-01 calibration showed workers=2 safe
+    output: "data/processed/bars/adaptive_vol/{asset}USDT_adaptive_vol.parquet"
+    output_kind: per_asset_files
+    deps: [raw_aggtrades]
+    per_asset: true
+    universe_aware: true   # round-1 migration added --universe support
+    freshness: daily
+
+  hawkes_branching_panel:
+    producer: "src/pipeline/features/hawkes_branching_ratio.py"
+    producer_args: ["--workers", "8"]
+    # 2026-05-16: cap user --workers override at 8. With --workers 24 (this
+    # morning's run), Windows heap fragmentation across 24 child processes
+    # caused MemoryError on BTC + ETH (largest aggTrades volumes) at a tiny
+    # 6 MiB allocation. Result: BTC + ETH silently dropped from panel, then
+    # propagated as 100% NaN hbr_* features in chimera_v51 for BTC/ETH,
+    # then tripped pre_train_gate universe_cov.hawkes_branching.u10 HARD
+    # FAIL. Workers=8 is the empirical OOM ceiling on this 32 GB Windows
+    # host; if you need higher, run on Linux or split BTC/ETH into a
+    # separate solo-asset run after the main batch.
+    max_workers: 8
+    # Producer writes a date-suffixed file via _layout.hawkes_panel_path.
+    # Glob is required so refresh.py's output_paths picks up the dated file
+    # (hawkes_branching_daily_YYYYMMDD.parquet); pre-2026-05-01 the missing
+    # glob caused refresh.py to mark hawkes as STUB (rc=0 + no output match)
+    # even though 80K rows were written, halting the rest of the walk.
+    output: "data/processed/hawkes/daily/hawkes_branching_daily_*.parquet"
+    output_kind: single_file
+    deps: [raw_aggtrades]
+    per_asset: false
+    # R32++ pipeline-audit HIGH: ~2h on u50; at u100 (~96 assets) approaches
+    # or exceeds 4h default. Bumped to 6h precaution.
+    timeout_seconds: 21600
+    universe_aware: true
+    asset_arg: "--assets"  # plural; root format
+    freshness: daily
+    notes: "Hawkes branching ratio panel. Multi-asset wide blob."
+
+  # ============================================================
+  # T2 -- PANELS (multi-asset blobs)
+  # ============================================================
+
+  s3_metrics_panel:
+    producer: "src/pipeline/ingest/binance_s3_metrics.py"
+    producer_args: ["--workers", "16"]
+    output: "data/processed/panels/daily/s3_metrics_panel.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: true
+    freshness: daily
+
+  s3_features_long:
+    producer: "src/pipeline/features/top_trader_signals.py"
+    output: "data/processed/panels/daily/s3_features_long.parquet"
+    output_kind: single_file
+    deps: [s3_metrics_panel]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  whale_activity_daily:
+    producer: "src/pipeline/ingest/whale_activity.py"
+    producer_args: ["--workers", "8"]
+    output: "data/processed/panels/daily/whale_activity_daily.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: true
+    freshness: daily
+
+  liq_daily_approx:
+    producer: "src/pipeline/ingest/liquidations_approx.py"
+    producer_args: ["--workers", "8"]
+    output: "data/processed/panels/daily/liq_daily_approx.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: true
+    freshness: daily
+
+  liq_features_long:
+    producer: "src/pipeline/features/liq_features.py"
+    output: "data/processed/panels/daily/liq_features_long.parquet"
+    output_kind: single_file
+    deps: [liq_daily_approx]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  spot_klines_daily:
+    producer: "src/pipeline/ingest/binance_spot_klines.py"
+    producer_args: ["--symbol-workers", "4", "--workers", "8"]
+    output: "data/processed/panels/daily/spot_klines_daily.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: true
+    freshness: daily
+    notes: "Binance Vision spot 1d klines for basis math."
+
+  basis_features_long:
+    producer: "src/pipeline/features/basis_signals.py"
+    output: "data/processed/panels/daily/basis_features_long.parquet"
+    output_kind: single_file
+    deps: [spot_klines_daily, chimera_legacy]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  etf_flows_panel:
+    producer: "src/pipeline/ingest/etf_flows.py"
+    # 2026-05-29: output is the DERIVED feature file the chimera consumes (registry
+    # source `etf_flows`), not the raw btc_etf_flows.parquet -- the derivation step
+    # (etf_flow_signals.py) was orphaned in _archive, so the producer now derives it
+    # in-process and refresh STUB-detection tracks the consumed artifact.
+    output: "data/raw_external/farside/etf_flow_features.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  # ---- External (non-Binance) source fetchers ----
+  # 2026-05-29: restored from src/_archive/frontier/ingest (orphaned when
+  # src/frontier was archived; chimera dv_/stbl_/soc_/fp_ features had gone ~5wk
+  # stale because nothing in this DAG fetched them). Now first-class fetch stages
+  # so `refresh.py --all` refreshes ALL chimera sources consistently.
+  dvol_panel:
+    producer: "src/pipeline/ingest/deribit_dvol.py"
+    output: "data/raw_external/deribit/dvol_daily.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  wiki_pageviews_panel:
+    producer: "src/pipeline/ingest/wikipedia_pageviews.py"
+    output: "data/raw_external/wikipedia/wiki_pageviews_daily.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  stable_flow_panel:
+    producer: "src/pipeline/ingest/defillama_stable_flows.py"
+    output: "data/raw_external/defillama/stable_flow_features.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  funding_wide_panel:
+    producer: "src/pipeline/ingest/binance_funding_panel.py"
+    output: "data/raw_external/binance_futures_panels/funding_panel_daily.parquet"
+    output_kind: single_file
+    deps: [raw_funding]   # aggregates local raw funding (fetched by fetch_all)
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  rv_jump_panel:
+    producer: "src/pipeline/features/realized_volatility.py"
+    producer_args: ["--workers", "4"]
+    output: "data/processed/panels/daily/rv_jump_panel_*.parquet"
+    output_kind: single_file
+    deps: [raw_aggtrades]
+    per_asset: false
+    universe_aware: true
+    freshness: daily
+    # R32++ pipeline-audit HIGH: precaution for u100 rebuild
+    timeout_seconds: 21600
+
+  te_panel:
+    producer: "src/pipeline/features/transfer_entropy_panel.py"
+    producer_args: ["--workers", "8"]
+    output: "data/processed/panels/daily/te_panel_*.parquet"
+    output_kind: single_file
+    deps: [raw_aggtrades]
+    per_asset: false
+    universe_aware: true
+    freshness: weekly
+    # R32++ pipeline-audit HIGH: precaution for u100 rebuild
+    timeout_seconds: 21600
+
+  multi_venue_listings:
+    producer: "src/pipeline/ingest/multi_venue_listings.py"
+    # 2026-05-20 RED-team: --once is the producer's documented one-shot mode.
+    # Default-without-flags also runs one-shot (verified producer line 291-293),
+    # but passing --once explicitly future-proofs against default changes.
+    producer_args: ["--once"]
+    output: "data/processed/panels/daily/multi_venue_listings.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  multi_venue_features:
+    producer: "src/pipeline/features/multi_venue_features.py"
+    output: "data/processed/panels/daily/multi_venue_features.parquet"
+    output_kind: single_file
+    deps: [multi_venue_listings]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  lob_proxy_bars:
+    producer: "src/pipeline/features/lob_proxy_panel.py"
+    producer_args: ["--workers", "4"]
+    output: "data/processed/panels/daily/lob_proxy_*USDT_*.parquet"
+    output_kind: per_asset_per_date_files
+    deps: [raw_aggtrades, bar_dib]
+    per_asset: true
+    universe_aware: true
+    asset_arg: "--symbol"   # singular --symbol (not --asset)
+    asset_format: "usdt"     # BTCUSDT
+    freshness: daily
+    # R32++ pipeline-audit HIGH: ~2h on u50; u100 vulnerable to 4h timeout.
+    timeout_seconds: 21600
+
+  lob_proxy_daily:
+    producer: "src/pipeline/features/lob_proxy_daily.py"
+    output: "data/processed/panels/daily/lob_proxy_daily.parquet"
+    output_kind: single_file
+    deps: [lob_proxy_bars]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+
+  # 2026-05-24: bd_* (real book-depth) raw ingest + daily aggregation. Both
+  # were missing from the DAG pre-2026-05-24 -- the data was only fetched
+  # by manual one-off runs (bd_signal_and_granularity audit). refresh.py
+  # --all now chains them as proper T2 panels.
+  raw_book_depth:
+    producer: "src/pipeline/ingest/binance_vision_book_depth_profile.py"
+    producer_args: ["--workers", "4"]
+    output: "data/raw_external/binance_vision/depth_profile/{asset}USDT/*.parquet"
+    output_kind: per_asset_per_date_files
+    deps: []   # purely external (binance.vision daily zips)
+    per_asset: true
+    universe_aware: true
+    asset_arg: "--symbols"
+    asset_format: "usdt"
+    freshness: daily
+    timeout_seconds: 14400
+    notes: "Binance Vision bookDepth-profile (30s snapshots, ±5% bands, 11 levels). Anchors at 2023-01-01."
+
+  book_depth_profile_daily:
+    producer: "src/pipeline/features/book_depth_profile_daily.py"
+    output: "data/processed/panels/daily/book_depth_profile_daily.parquet"
+    output_kind: single_file
+    deps: [raw_book_depth]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+    gate: "schema must include bd_imbalance_l5, bd_total_depth_l5_mean, bd_thin_book_frac"
+    notes: "Daily aggregator for bd_* features. CRITICAL feeds frontier_silver -> chimera_v51."
+
+  # 2026-05-24: T2-C addition. Per-asset funding-rate features (10 cols).
+  # Reads raw funding settlements (3x/day at 00/08/16 UTC) under
+  # data/raw/<SYM>USDT/funding/. Distinct from the wide-format funding_panel
+  # source which only has 1 feature per asset.
+  funding_panel_daily:
+    producer: "src/pipeline/features/funding_panel_daily.py"
+    output: "data/processed/panels/daily/funding_panel_daily.parquet"
+    output_kind: single_file
+    deps: [raw_funding]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+    gate: "schema must include fund_rate_mean, fund_rate_abs_mean, fund_n_settlements"
+    notes: "Per-asset funding-rate aggregator. T2-C addition 2026-05-24."
+
+  # 2026-05-24: T2-D addition. Premium-derived features (5 cols) layered on
+  # top of existing basis_features_long (which already carries basis_pct,
+  # basis_z30, etc.). NO new ingester required; reads the basis panel.
+  premium_features_daily:
+    producer: "src/pipeline/features/premium_features_daily.py"
+    output: "data/processed/panels/daily/premium_features_daily.parquet"
+    output_kind: single_file
+    deps: [basis_features_long]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+    gate: "schema must include premium_vol30, premium_persistence30, premium_z90"
+    notes: "Premium derived features. T2-D addition 2026-05-24."
+
+  # 2026-05-24: T2-E REST-fetch from Coinbase/Bybit/OKX (top-5 only).
+  # Sparse-by-design: BTC/ETH/SOL/XRP/DOGE only.
+  cross_exchange_panel:
+    producer: "src/pipeline/ingest/cross_exchange_spreads.py"
+    output: "data/processed/panels/daily/cross_exchange_daily.parquet"
+    output_kind: single_file
+    deps: []
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+    notes: "REST fetch from CB/Bybit/OKX. ~2-3h wall-clock; sparse-by-design (top-5)."
+
+  xex_features_daily:
+    producer: "src/pipeline/features/xex_features_daily.py"
+    output: "data/processed/panels/daily/xex_features_daily.parquet"
+    output_kind: single_file
+    deps: [cross_exchange_panel]
+    per_asset: false
+    universe_aware: false
+    freshness: daily
+    gate: "schema must include xex_cb_bn_spread_bps, xex_spread_dispersion"
+    notes: "Derived xex_* features from cross_exchange_daily. T2-E addition 2026-05-24."
+
+  # 2026-05-24: T2-A SURGICAL Phase 2. Per-asset BAR-GRAIN producer
+  # (1 feature: bd_bgf_imbalance_l1). Joined into chimera_v51 via
+  # attach_bargrain() at bar-level (NOT daily). Only this 1 feature
+  # passed the Phase 1 multi-perm gate (3.74x lift); other bd_* features
+  # regressed at bar-grain.
+  bd_bar_grain:
+    producer: "src/pipeline/features/bd_bar_grain.py"
+    producer_args: ["--workers", "2"]
+    output: "data/processed/bar_grain/bd/{asset}USDT_bgf.parquet"
+    output_kind: per_asset_files
+    deps: [raw_book_depth]
+    per_asset: true
+    universe_aware: true
+    asset_arg: "--assets"
+    asset_format: "usdt"
+    freshness: daily
+    timeout_seconds: 14400
+    notes: "Per-snapshot bar-grain bd feature. Surgical Phase 2 (1 feature). Attached at bar-level in chimera_v51."
+
+  # ============================================================
+  # T3 -- SILVER (per-asset frontier daily)
+  # ============================================================
+
+  frontier_silver:
+    producer: "src/pipeline/frontier_consolidator.py"
+    producer_args: ["--workers", "8"]
+    output: "data/processed/frontier/daily/{asset}usdt_frontier_daily*.parquet"
+    output_kind: per_asset_files
+    deps:
+      - hawkes_branching_panel
+      - s3_features_long
+      - basis_features_long
+      - liq_features_long
+      - whale_activity_daily
+      - etf_flows_panel
+      - rv_jump_panel
+      - te_panel
+      - multi_venue_features
+      - lob_proxy_daily
+      - book_depth_profile_daily   # 2026-05-24: bd_* panel; was silent gap
+      - funding_panel_daily        # 2026-05-24: T2-C addition (fund_* features)
+      - premium_features_daily     # 2026-05-24: T2-D addition (premium_* features)
+      - xex_features_daily         # 2026-05-24: T2-E addition (xex_* features; sparse-by-design top-5)
+      - dvol_panel                 # 2026-05-29: dv_* (Deribit DVOL; BTC/ETH) - was orphaned
+      - wiki_pageviews_panel       # 2026-05-29: soc_* (Wikipedia views; u10) - was orphaned
+      - stable_flow_panel          # 2026-05-29: stbl_* (DeFiLlama flows) - was orphaned
+      - funding_wide_panel         # 2026-05-29: fp_* (wide funding panel) - was orphaned
+    per_asset: true
+    universe_aware: true
+    # 2026-05-20 RED-team HIGH C: hash feature_registry.yaml so any
+    # source-spec change invalidates silver cache.
+    config_files:
+      - "config/feature_registry.yaml"
+    freshness: daily
+    gate: "schema must include date + asset; 92+ feature columns"
+
+  # ============================================================
+  # T4 -- GOLD (legacy v50 chimera)
+  # ============================================================
+
+  chimera_legacy:
+    producer: "src/pipeline/make_dataset_legacy.py"
+    producer_args: ["--workers", "2"]   # Phase 1 per-asset PP + Phase 2 ThreadPool
+    max_workers: 2   # OOM ceiling lowered 2026-05-23 after 3 consecutive crashes
+    # 2026-05-16: Windows STATUS_ACCESS_VIOLATION when run concurrently with
+    # hawkes_branching_panel (both heavy + 30-50GB each → OOM on 32GB host).
+    # 2026-05-23: workers=4 still OOMs Phase 2 at u100 (parquet allocation
+    # failure on CRVUSDT/DOTUSDT/EIGENUSDT). At ~11 GB free RAM, 4 workers
+    # × 3-8 GB peak → 12-32 GB instantaneous demand → crash. workers=2 caps
+    # peak at 6-16 GB which fits 11 GB+OS slack. Restore to 4 only when
+    # free RAM ≥ 20 GB OR after migrating to memory-aware throttling.
+    memory_exclusive: true
+    output: "data/processed/chimera_legacy/dollar/{asset}usdt_v50_chimera_*.parquet"
+    output_kind: per_asset_files
+    # 2026-05-20 RED-team: raw_funding was orphaned (no downstream declarer).
+    # make_dataset_legacy.py reads data/raw/<SYM>USDT/funding/*.parquet
+    # (line 301) and emits xd_funding_spread (line 119). Wire dep so the
+    # runner refreshes funding bronze before legacy chimera.
+    deps: [raw_aggtrades, raw_funding]
+    per_asset: true
+    universe_aware: true
+    freshness: daily
+    gate: "must contain xd_btc_return, xd_funding_spread, xd_momentum_rank"
+    # R32+++ pipeline-MEDIUM fix: u100 cold rebuild can exceed 4h default.
+    # Matches chimera_v51 (line ~363) which already bumped.
+    timeout_seconds: 21600
+    notes: "Phase 1 per-asset + Phase 2 cross-asset enrichment."
+
+  # ============================================================
+  # T5 -- GOLD v51 + cadences
+  # ============================================================
+
+  chimera_v51:
+    producer: "src/pipeline/make_dataset.py"
+    # 2026-05-20 RED-team audit fix (CRIT J): pass --skip-silver to avoid
+    # rebuilding frontier_silver inside chimera_v51 (which then gc-deletes the
+    # silver that frontier_silver stage wrote + gated). Cache flow:
+    #   frontier_silver writes silver -> gate passes -> chimera_v51 reads
+    #   that silver via --skip-silver instead of consolidating again.
+    producer_args: ["--workers", "2", "--skip-silver"]
+    max_workers: 2   # OOM ceiling lowered 2026-05-23 after 56/77 ERR run
+    # 2026-05-16: same memory profile as chimera_legacy → solo-only.
+    # 2026-05-23: workers=4 produced only 21/77 OK on u100 (56 OOM ERR).
+    # See chimera_legacy entry for empirical reasoning; same RAM budget.
+    memory_exclusive: true
+    output: "data/processed/chimera/dollar/{asset}usdt_v51_chimera_*.parquet"
+    output_kind: per_asset_files
+    deps: [chimera_legacy, frontier_silver, bd_bar_grain]   # bd_bar_grain attached at bar level
+    per_asset: true
+    universe_aware: true
+    # 2026-05-20 RED-team HIGH C: chimera_v51 reads feature_registry.yaml
+    # via FeatureRegistry.load() for cross-asset feature list + join order.
+    config_files:
+      - "config/feature_registry.yaml"
+    freshness: daily
+    gate: "schema must carry te_*, xd_*, rv_*; 0% NaN on registered features required by FEATURE_LIST"
+    # R32+++ pipeline-crawler MEDIUM: precaution for u100 cold rebuild
+    timeout_seconds: 21600
+
+  # 2026-05-20 RED-team audit fix (CRIT A): xrel_* cross-asset features are
+  # added by an in-place post-processor on chimera dollar parquets.
+  # 2026-05-20 Layer-2 follow-up: changed output_kind from ephemeral to
+  # per_asset_files so STUB / PARTIAL_STUB detection fires if the script
+  # silently fails to write some assets. The script is in-place (reads
+  # chimera file, adds xrel_* cols, atomic-tmp-renames back), so the
+  # "output" path is the same as chimera_v51 -- the runner uses output
+  # mtime > prior_mtime to detect freshness.
+  add_xrel_features:
+    producer: "src/pipeline/add_xrel_features.py"
+    producer_args: ["--force"]   # ensure xrel_* cols are rewritten even if present
+    output: "data/processed/chimera/dollar/{asset}usdt_v51_chimera_*.parquet"
+    output_kind: per_asset_files
+    deps: [chimera_v51]
+    per_asset: false   # cross-section: script processes all assets in one pass
+    universe_aware: false
+    freshness: event_driven
+    gate: "schema must include xrel_ prefix columns (>=10)"
+    notes: "In-place xrel_* enrichment via atomic tmp-rename. Cross-section reads all assets simultaneously; not per_asset. Output globs ALL chimera parquets so per_asset_files coverage check works."
+
+  # ============================================================
+  # T6 -- VALIDATION
+  # ============================================================
+
+  pre_train_gate:
+    producer: "src/pipeline/pre_train_gate.py"
+    output: "logs/pre_train_gate.log"
+    output_kind: ephemeral   # check-only stage; producer doesn't write a parquet
+    deps: [add_xrel_features]
+    per_asset: false
+    universe_aware: false
+    freshness: event_driven
+    accepts_rc1: true   # rc=1 = WARNS (non-blocking); rc=2 = CRITICAL drift
+    notes: "5-validator gate. Required pre-training. Exits rc=0 clean / rc=1 warns / rc=2 critical."
+
+
+# ============================================================
+# DAG ROOTS (default targets for refresh.py)
+# ============================================================
+roots:
+  - chimera_v51         # full pipeline through gold
+  - frontier_silver     # silver-only refresh (skips chimera)
+  - bar_dib             # bar fabric only
+  - hawkes_branching_panel
+  - chimera_legacy      # legacy v50 chimera only
+  - pre_train_gate      # 5-validator gate -- ADDED 2026-05-22 (CRIT-5 fix per Opus DAG audit
+                        # ab3a3e41777c11fde). Was previously only reachable via --target
+                        # pre_train_gate, meaning default `refresh.py --target chimera_v51`
+                        # skipped validation entirely. Now any --all run includes it.

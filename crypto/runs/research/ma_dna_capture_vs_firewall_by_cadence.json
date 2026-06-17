@@ -1,0 +1,682 @@
+{
+  "task": "cadence-as-search-dimension: MA-DNA capture-rate vs regime-matched firewall null",
+  "cost_rt": 0.0024,
+  "ma_configs": [
+    [
+      10,
+      30
+    ],
+    [
+      20,
+      50
+    ]
+  ],
+  "n_books": 300,
+  "hold_constraint": "1h <= hold < 7d (max_hold_bars = floor(7d/median_bar_dur))",
+  "window": {
+    "train_end": "2024-05-15",
+    "val_end": "2025-03-15",
+    "oos_end": "2025-12-31",
+    "unseen_end": "2026-05-22"
+  },
+  "cells": {
+    "30m": {
+      "SOL_10/30": {
+        "n_bars": 96379,
+        "n_setups": 1869,
+        "max_hold_cap_bars": 335,
+        "median_hold_bars": 22.0,
+        "ma_held_sumnet_pct": -92.67982348180581,
+        "null_p50_sumnet_pct": -105.38952003655191,
+        "null_p95_sumnet_pct": 17.9322448919295,
+        "held_n_trades": 391,
+        "per_window_compound": {
+          "TRAIN": -87.91540006909862,
+          "VAL": -51.16347677287831,
+          "OOS": -46.11235053789656,
+          "UNSEEN": -37.216097512324495
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 2906.889919923785,
+        "oracle_held_nmoves": {
+          "OOS": 1753,
+          "UNSEEN": 870
+        },
+        "oracle_total_moves": 13858,
+        "capture_MA": -0.0318828115390884,
+        "capture_null_p50": -0.03625507774278398,
+        "capture_null_p95": 0.006168876492027487,
+        "capture_edge_vs_p50": 0.004372266203695574,
+        "beats_null_p95_sumnet": false
+      },
+      "SOL_20/50": {
+        "n_bars": 96379,
+        "n_setups": 1081,
+        "max_hold_cap_bars": 335,
+        "median_hold_bars": 37.0,
+        "ma_held_sumnet_pct": -90.23774680868277,
+        "null_p50_sumnet_pct": -83.22526314450708,
+        "null_p95_sumnet_pct": 30.07625703727882,
+        "held_n_trades": 234,
+        "per_window_compound": {
+          "TRAIN": 514.123263576519,
+          "VAL": 1.7723088113656305,
+          "OOS": -51.01703835247867,
+          "UNSEEN": -29.593918107850758
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 2906.889919923785,
+        "oracle_held_nmoves": {
+          "OOS": 1753,
+          "UNSEEN": 870
+        },
+        "oracle_total_moves": 13858,
+        "capture_MA": -0.03104271207182441,
+        "capture_null_p50": -0.028630345639882072,
+        "capture_null_p95": 0.010346541446628768,
+        "capture_edge_vs_p50": -0.0024123664319423387,
+        "beats_null_p95_sumnet": false
+      },
+      "BTC_10/30": {
+        "n_bars": 111900,
+        "n_setups": 2306,
+        "max_hold_cap_bars": 336,
+        "median_hold_bars": 22.0,
+        "ma_held_sumnet_pct": -114.98392319790716,
+        "null_p50_sumnet_pct": -107.39281035302386,
+        "null_p95_sumnet_pct": -35.098377186364566,
+        "held_n_trades": 415,
+        "per_window_compound": {
+          "TRAIN": -89.15393727010921,
+          "VAL": -40.35663466954584,
+          "OOS": -56.05515719916718,
+          "UNSEEN": -31.16476718145622
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 1416.5474775029822,
+        "oracle_held_nmoves": {
+          "OOS": 1311,
+          "UNSEEN": 753
+        },
+        "oracle_total_moves": 12458,
+        "capture_MA": -0.08117195153994765,
+        "capture_null_p50": -0.07581306808179168,
+        "capture_null_p95": -0.024777409683602133,
+        "capture_edge_vs_p50": -0.005358883458155966,
+        "beats_null_p95_sumnet": false
+      },
+      "BTC_20/50": {
+        "n_bars": 111900,
+        "n_setups": 1309,
+        "max_hold_cap_bars": 336,
+        "median_hold_bars": 38.0,
+        "ma_held_sumnet_pct": -66.06845718914882,
+        "null_p50_sumnet_pct": -62.96381822804149,
+        "null_p95_sumnet_pct": 3.851393152052587,
+        "held_n_trades": 245,
+        "per_window_compound": {
+          "TRAIN": 28.832458625162637,
+          "VAL": -16.846629616622188,
+          "OOS": -49.751705598619836,
+          "UNSEEN": -1.7542648105166037
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 1416.5474775029822,
+        "oracle_held_nmoves": {
+          "OOS": 1311,
+          "UNSEEN": 753
+        },
+        "oracle_total_moves": 12458,
+        "capture_MA": -0.04664048204413941,
+        "capture_null_p50": -0.0444487877942721,
+        "capture_null_p95": 0.0027188592074877905,
+        "capture_edge_vs_p50": -0.0021916942498673084,
+        "beats_null_p95_sumnet": false
+      },
+      "ETH_10/30": {
+        "n_bars": 111443,
+        "n_setups": 2244,
+        "max_hold_cap_bars": 336,
+        "median_hold_bars": 22.0,
+        "ma_held_sumnet_pct": -9.240350696013083,
+        "null_p50_sumnet_pct": -68.82463778624152,
+        "null_p95_sumnet_pct": 42.53644473956818,
+        "held_n_trades": 415,
+        "per_window_compound": {
+          "TRAIN": -0.7260504219616659,
+          "VAL": -44.91126280280924,
+          "OOS": 10.506209372819676,
+          "UNSEEN": -29.663720897754708
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 2455.830438350932,
+        "oracle_held_nmoves": {
+          "OOS": 1665,
+          "UNSEEN": 801
+        },
+        "oracle_total_moves": 13824,
+        "capture_MA": -0.003762617545459651,
+        "capture_null_p50": -0.028024995826852216,
+        "capture_null_p95": 0.017320595133648975,
+        "capture_edge_vs_p50": 0.024262378281392563,
+        "beats_null_p95_sumnet": false
+      },
+      "ETH_20/50": {
+        "n_bars": 111443,
+        "n_setups": 1281,
+        "max_hold_cap_bars": 336,
+        "median_hold_bars": 38.0,
+        "ma_held_sumnet_pct": -20.324728611427524,
+        "null_p50_sumnet_pct": -58.142057717025494,
+        "null_p95_sumnet_pct": 52.99503640521854,
+        "held_n_trades": 253,
+        "per_window_compound": {
+          "TRAIN": 99.1098783616726,
+          "VAL": -40.12381247988762,
+          "OOS": -17.965115136427666,
+          "UNSEEN": -16.818473412371095
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 2455.830438350932,
+        "oracle_held_nmoves": {
+          "OOS": 1665,
+          "UNSEEN": 801
+        },
+        "oracle_total_moves": 13824,
+        "capture_MA": -0.008276112346370051,
+        "capture_null_p50": -0.023675110793099932,
+        "capture_null_p95": 0.021579273380455465,
+        "capture_edge_vs_p50": 0.015398998446729881,
+        "beats_null_p95_sumnet": false
+      },
+      "BNB_10/30": {
+        "n_bars": 111160,
+        "n_setups": 2181,
+        "max_hold_cap_bars": 336,
+        "median_hold_bars": 23.0,
+        "ma_held_sumnet_pct": -72.98368861612217,
+        "null_p50_sumnet_pct": -79.52196924014316,
+        "null_p95_sumnet_pct": -0.003688454905656502,
+        "held_n_trades": 392,
+        "per_window_compound": {
+          "TRAIN": 15.248968137408259,
+          "VAL": -50.95472804755066,
+          "OOS": -22.156174095464465,
+          "UNSEEN": -42.07670284087255
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 1846.8018497329642,
+        "oracle_held_nmoves": {
+          "OOS": 1552,
+          "UNSEEN": 807
+        },
+        "oracle_total_moves": 14131,
+        "capture_MA": -0.039518960102122025,
+        "capture_null_p50": -0.04305928611217361,
+        "capture_null_p95": -1.9972120485962415e-06,
+        "capture_edge_vs_p50": 0.003540326010051588,
+        "beats_null_p95_sumnet": false
+      },
+      "BNB_20/50": {
+        "n_bars": 111160,
+        "n_setups": 1278,
+        "max_hold_cap_bars": 336,
+        "median_hold_bars": 38.0,
+        "ma_held_sumnet_pct": -60.769296468862464,
+        "null_p50_sumnet_pct": -46.56355875217725,
+        "null_p95_sumnet_pct": 29.497485407108364,
+        "held_n_trades": 249,
+        "per_window_compound": {
+          "TRAIN": 153.89050510354753,
+          "VAL": -26.19601436509772,
+          "OOS": -27.269415074389624,
+          "UNSEEN": -29.862250967449157
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 1846.8018497329642,
+        "oracle_held_nmoves": {
+          "OOS": 1552,
+          "UNSEEN": 807
+        },
+        "oracle_total_moves": 14131,
+        "capture_MA": -0.03290515248165325,
+        "capture_null_p50": -0.025213077818234828,
+        "capture_null_p95": 0.015972198322940553,
+        "capture_edge_vs_p50": -0.0076920746634184245,
+        "beats_null_p95_sumnet": false
+      },
+      "AVAX_10/30": {
+        "n_bars": 96540,
+        "n_setups": 1905,
+        "max_hold_cap_bars": 335,
+        "median_hold_bars": 22.0,
+        "ma_held_sumnet_pct": -90.59346009861714,
+        "null_p50_sumnet_pct": -124.33445008243362,
+        "null_p95_sumnet_pct": 17.229591998475367,
+        "held_n_trades": 411,
+        "per_window_compound": {
+          "TRAIN": -78.71978526177796,
+          "VAL": -40.09388025286855,
+          "OOS": -50.458359094140135,
+          "UNSEEN": -32.15998881054007
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 3506.547313151701,
+        "oracle_held_nmoves": {
+          "OOS": 1973,
+          "UNSEEN": 973
+        },
+        "oracle_total_moves": 14232,
+        "capture_MA": -0.02583551625236487,
+        "capture_null_p50": -0.03545779907663109,
+        "capture_null_p95": 0.004913548987020321,
+        "capture_edge_vs_p50": 0.009622282824266217,
+        "beats_null_p95_sumnet": false
+      },
+      "AVAX_20/50": {
+        "n_bars": 96540,
+        "n_setups": 1092,
+        "max_hold_cap_bars": 335,
+        "median_hold_bars": 37.0,
+        "ma_held_sumnet_pct": -74.91443657039054,
+        "null_p50_sumnet_pct": -79.76198546088929,
+        "null_p95_sumnet_pct": 45.06526080532023,
+        "held_n_trades": 238,
+        "per_window_compound": {
+          "TRAIN": 534.1613701217258,
+          "VAL": -18.58711645359461,
+          "OOS": -43.91945983638277,
+          "UNSEEN": -28.641459070806707
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 3506.547313151701,
+        "oracle_held_nmoves": {
+          "OOS": 1973,
+          "UNSEEN": 973
+        },
+        "oracle_total_moves": 14232,
+        "capture_MA": -0.02136415963629394,
+        "capture_null_p50": -0.02274658755115979,
+        "capture_null_p95": 0.012851747539894268,
+        "capture_edge_vs_p50": 0.0013824279148658518,
+        "beats_null_p95_sumnet": false
+      },
+      "_AGG": {
+        "n_cells": 10,
+        "median_capture_MA": -0.03146276180545641,
+        "median_edge_vs_p50": 0.00246137696245872,
+        "n_beats_p95": 0,
+        "n_fw_edge": 0
+      }
+    },
+    "15m": {
+      "SOL_10/30": {
+        "n_bars": 188060,
+        "n_setups": 3756,
+        "max_hold_cap_bars": 671,
+        "median_hold_bars": 21.0,
+        "ma_held_sumnet_pct": -211.03641844138585,
+        "null_p50_sumnet_pct": -192.04021722904918,
+        "null_p95_sumnet_pct": -59.64283314518257,
+        "held_n_trades": 814,
+        "per_window_compound": {
+          "TRAIN": -99.62170610934015,
+          "VAL": -82.2969725245553,
+          "OOS": -76.66117655881311,
+          "UNSEEN": -55.62396015658535
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 3490.754181735278,
+        "oracle_held_nmoves": {
+          "OOS": 2338,
+          "UNSEEN": 1140
+        },
+        "oracle_total_moves": 17608,
+        "capture_MA": -0.06045582342795567,
+        "capture_null_p50": -0.05501396180626636,
+        "capture_null_p95": -0.017085944767251903,
+        "capture_edge_vs_p50": -0.00544186162168931,
+        "beats_null_p95_sumnet": false
+      },
+      "SOL_20/50": {
+        "n_bars": 188060,
+        "n_setups": 2126,
+        "max_hold_cap_bars": 671,
+        "median_hold_bars": 36.5,
+        "ma_held_sumnet_pct": -97.69246195440651,
+        "null_p50_sumnet_pct": -113.90602274117296,
+        "null_p95_sumnet_pct": 15.080775554763811,
+        "held_n_trades": 459,
+        "per_window_compound": {
+          "TRAIN": -86.59441423557082,
+          "VAL": -38.54468038999303,
+          "OOS": -51.221918813603516,
+          "UNSEEN": -33.80634170331314
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 3490.754181735278,
+        "oracle_held_nmoves": {
+          "OOS": 2338,
+          "UNSEEN": 1140
+        },
+        "oracle_total_moves": 17608,
+        "capture_MA": -0.0279860617128425,
+        "capture_null_p50": -0.03263077742258823,
+        "capture_null_p95": 0.004320205540015153,
+        "capture_edge_vs_p50": 0.004644715709745728,
+        "beats_null_p95_sumnet": false
+      },
+      "BTC_10/30": {
+        "n_bars": 223098,
+        "n_setups": 4712,
+        "max_hold_cap_bars": 672,
+        "median_hold_bars": 21.0,
+        "ma_held_sumnet_pct": -192.45157182307182,
+        "null_p50_sumnet_pct": -195.35878553596916,
+        "null_p95_sumnet_pct": -120.99047748343324,
+        "held_n_trades": 827,
+        "per_window_compound": {
+          "TRAIN": -99.9700963244175,
+          "VAL": -70.30288854311475,
+          "OOS": -67.17550929254183,
+          "UNSEEN": -57.907387247823095
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 1696.2594323803992,
+        "oracle_held_nmoves": {
+          "OOS": 1693,
+          "UNSEEN": 950
+        },
+        "oracle_total_moves": 16061,
+        "capture_MA": -0.11345644902501746,
+        "capture_null_p50": -0.11517034588383557,
+        "capture_null_p95": -0.07132781411487545,
+        "capture_edge_vs_p50": 0.0017138968588181064,
+        "beats_null_p95_sumnet": false
+      },
+      "BTC_20/50": {
+        "n_bars": 223098,
+        "n_setups": 2737,
+        "max_hold_cap_bars": 672,
+        "median_hold_bars": 35.0,
+        "ma_held_sumnet_pct": -134.0187566231863,
+        "null_p50_sumnet_pct": -118.64996094040006,
+        "null_p95_sumnet_pct": -50.67427999430849,
+        "held_n_trades": 485,
+        "per_window_compound": {
+          "TRAIN": -96.77349586999722,
+          "VAL": -40.392640654230995,
+          "OOS": -55.49143922821658,
+          "UNSEEN": -43.81861317552189
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 1696.2594323803992,
+        "oracle_held_nmoves": {
+          "OOS": 1693,
+          "UNSEEN": 950
+        },
+        "oracle_total_moves": 16061,
+        "capture_MA": -0.07900840759665799,
+        "capture_null_p50": -0.06994800363402896,
+        "capture_null_p95": -0.029874133064183545,
+        "capture_edge_vs_p50": -0.009060403962629027,
+        "beats_null_p95_sumnet": false
+      },
+      "ETH_10/30": {
+        "n_bars": 221277,
+        "n_setups": 4546,
+        "max_hold_cap_bars": 671,
+        "median_hold_bars": 22.0,
+        "ma_held_sumnet_pct": -99.52647689282527,
+        "null_p50_sumnet_pct": -167.67297910951254,
+        "null_p95_sumnet_pct": -37.74687107478291,
+        "held_n_trades": 827,
+        "per_window_compound": {
+          "TRAIN": -99.877013064735,
+          "VAL": -71.64981683276052,
+          "OOS": -44.92251212887556,
+          "UNSEEN": -42.9201413404497
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 2968.1379845576757,
+        "oracle_held_nmoves": {
+          "OOS": 2203,
+          "UNSEEN": 1067
+        },
+        "oracle_total_moves": 17924,
+        "capture_MA": -0.03353162063577618,
+        "capture_null_p50": -0.05649096503662038,
+        "capture_null_p95": -0.01271735723580523,
+        "capture_edge_vs_p50": 0.022959344400844198,
+        "beats_null_p95_sumnet": false
+      },
+      "ETH_20/50": {
+        "n_bars": 221277,
+        "n_setups": 2559,
+        "max_hold_cap_bars": 671,
+        "median_hold_bars": 37.0,
+        "ma_held_sumnet_pct": -11.948258652641202,
+        "null_p50_sumnet_pct": -75.92669128500387,
+        "null_p95_sumnet_pct": 42.03788369609593,
+        "held_n_trades": 474,
+        "per_window_compound": {
+          "TRAIN": -76.94317716086228,
+          "VAL": -49.096866305855855,
+          "OOS": 5.665855242296902,
+          "UNSEEN": -28.698485969254172
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 2968.1379845576757,
+        "oracle_held_nmoves": {
+          "OOS": 2203,
+          "UNSEEN": 1067
+        },
+        "oracle_total_moves": 17924,
+        "capture_MA": -0.004025506467288374,
+        "capture_null_p50": -0.02558058004042517,
+        "capture_null_p95": 0.014163048993950527,
+        "capture_edge_vs_p50": 0.021555073573136796,
+        "beats_null_p95_sumnet": false
+      },
+      "BNB_10/30": {
+        "n_bars": 217213,
+        "n_setups": 4353,
+        "max_hold_cap_bars": 670,
+        "median_hold_bars": 22.0,
+        "ma_held_sumnet_pct": -200.22984418813238,
+        "null_p50_sumnet_pct": -176.51420042818245,
+        "null_p95_sumnet_pct": -100.93170736955682,
+        "held_n_trades": 807,
+        "per_window_compound": {
+          "TRAIN": -99.60525048943883,
+          "VAL": -74.8256718980791,
+          "OOS": -67.82158528386371,
+          "UNSEEN": -60.961257997059334
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 2191.5083332351196,
+        "oracle_held_nmoves": {
+          "OOS": 1987,
+          "UNSEEN": 995
+        },
+        "oracle_total_moves": 17958,
+        "capture_MA": -0.09136622533054743,
+        "capture_null_p50": -0.0805446174907357,
+        "capture_null_p95": -0.04605581728295814,
+        "capture_edge_vs_p50": -0.010821607839811731,
+        "beats_null_p95_sumnet": false
+      },
+      "BNB_20/50": {
+        "n_bars": 217213,
+        "n_setups": 2513,
+        "max_hold_cap_bars": 670,
+        "median_hold_bars": 37.0,
+        "ma_held_sumnet_pct": -65.12778703292729,
+        "null_p50_sumnet_pct": -84.44621404498065,
+        "null_p95_sumnet_pct": -1.7348004935903911,
+        "held_n_trades": 446,
+        "per_window_compound": {
+          "TRAIN": -92.26087180857282,
+          "VAL": -53.235915446418645,
+          "OOS": -17.981589101759266,
+          "UNSEEN": -40.523172075032846
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 2191.5083332351196,
+        "oracle_held_nmoves": {
+          "OOS": 1987,
+          "UNSEEN": 995
+        },
+        "oracle_total_moves": 17958,
+        "capture_MA": -0.029718247494311463,
+        "capture_null_p50": -0.03853337574141029,
+        "capture_null_p95": -0.0007916011393985743,
+        "capture_edge_vs_p50": 0.008815128247098826,
+        "beats_null_p95_sumnet": false
+      },
+      "AVAX_10/30": {
+        "n_bars": 185865,
+        "n_setups": 3763,
+        "max_hold_cap_bars": 669,
+        "median_hold_bars": 21.0,
+        "ma_held_sumnet_pct": -162.3480901195261,
+        "null_p50_sumnet_pct": -179.06175140893006,
+        "null_p95_sumnet_pct": -46.93099120790819,
+        "held_n_trades": 797,
+        "per_window_compound": {
+          "TRAIN": -99.93834498250885,
+          "VAL": -77.51417450401925,
+          "OOS": -71.68792106970629,
+          "UNSEEN": -42.358698237251524
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 4190.758495829095,
+        "oracle_held_nmoves": {
+          "OOS": 2503,
+          "UNSEEN": 1191
+        },
+        "oracle_total_moves": 17967,
+        "capture_MA": -0.038739548051052106,
+        "capture_null_p50": -0.04272776672460212,
+        "capture_null_p95": -0.011198686646967809,
+        "capture_edge_vs_p50": 0.003988218673550016,
+        "beats_null_p95_sumnet": false
+      },
+      "AVAX_20/50": {
+        "n_bars": 185865,
+        "n_setups": 2151,
+        "max_hold_cap_bars": 669,
+        "median_hold_bars": 36.0,
+        "ma_held_sumnet_pct": -143.3984790679411,
+        "null_p50_sumnet_pct": -125.23797828809305,
+        "null_p95_sumnet_pct": 6.738053131242279,
+        "held_n_trades": 477,
+        "per_window_compound": {
+          "TRAIN": -92.85427001324803,
+          "VAL": -56.35334680299451,
+          "OOS": -69.80402866752821,
+          "UNSEEN": -35.165867053263526
+        },
+        "firewall_compound_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+        "firewall_beats_held": false,
+        "firewall_pos_held": false,
+        "regime_mode": "regime_matched_gate_on",
+        "oracle_held_sumnet_pct": 4190.758495829095,
+        "oracle_held_nmoves": {
+          "OOS": 2503,
+          "UNSEEN": 1191
+        },
+        "oracle_total_moves": 17967,
+        "capture_MA": -0.03421778640087713,
+        "capture_null_p50": -0.029884322471155928,
+        "capture_null_p95": 0.0016078361800014032,
+        "capture_edge_vs_p50": -0.004333463929721202,
+        "beats_null_p95_sumnet": false
+      },
+      "_AGG": {
+        "n_cells": 10,
+        "median_capture_MA": -0.036478667225964614,
+        "median_edge_vs_p50": 0.0028510577661840612,
+        "n_beats_p95": 0,
+        "n_fw_edge": 0
+      }
+    }
+  },
+  "infeasible": {},
+  "ranking_by_median_capture_MA": [
+    {
+      "cadence": "30m",
+      "median_capture_MA": -0.03146276180545641,
+      "median_edge_vs_null_p50": 0.00246137696245872,
+      "n_beats_null_p95": 0,
+      "n_cells": 10,
+      "n_firewall_edge": 0
+    },
+    {
+      "cadence": "15m",
+      "median_capture_MA": -0.036478667225964614,
+      "median_edge_vs_null_p50": 0.0028510577661840612,
+      "n_beats_null_p95": 0,
+      "n_cells": 10,
+      "n_firewall_edge": 0
+    }
+  ],
+  "elapsed_s": 58.72868847846985
+}

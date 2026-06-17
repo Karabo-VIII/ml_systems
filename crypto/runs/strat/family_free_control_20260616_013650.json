@@ -1,0 +1,293 @@
+{
+ "repro": {
+  "command": "python -m strat.family_free_control --years 2020,2021,2022,2023,2024,2025",
+  "git_sha": "6a4c1ff",
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "derisk": "light",
+  "unseen_window": [
+   "2025-12-31",
+   "2026-06-01"
+  ]
+ },
+ "prereg": {
+  "H0_apparatus_dead": "the family-free vol-gate MATCHES the book on per-year maxDD (within ~5pp) AND full-cycle compound (within ~10pp) AND UNSEEN -> the family-ensemble apparatus adds NOTHING; the deployable is the vol-braked EW-beta one-liner.",
+  "H1_apparatus_adds_value": "the family-free vol-gate is MATERIALLY WORSE on full-cycle compound and/or per-year net -> the families add participation/compound; that delta IS the apparatus's value.",
+  "match_dd_pp": 5.0,
+  "match_compound_pp": 10.0,
+  "asymmetric_loss": "false-ship a non-preserving book into a -60% bear >> false-skip; the honest read is the cheap one to get right.",
+  "pick_level": "light",
+  "unseen_window": [
+   "2025-12-31",
+   "2026-06-01"
+  ]
+ },
+ "results": {
+  "prereg": {
+   "H0_apparatus_dead": "the family-free vol-gate MATCHES the book on per-year maxDD (within ~5pp) AND full-cycle compound (within ~10pp) AND UNSEEN -> the family-ensemble apparatus adds NOTHING; the deployable is the vol-braked EW-beta one-liner.",
+   "H1_apparatus_adds_value": "the family-free vol-gate is MATERIALLY WORSE on full-cycle compound and/or per-year net -> the families add participation/compound; that delta IS the apparatus's value.",
+   "match_dd_pp": 5.0,
+   "match_compound_pp": 10.0,
+   "asymmetric_loss": "false-ship a non-preserving book into a -60% bear >> false-skip; the honest read is the cheap one to get right.",
+   "pick_level": "light",
+   "unseen_window": [
+    "2025-12-31",
+    "2026-06-01"
+   ]
+  },
+  "derisk": "light",
+  "years": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "per_year": {
+   "2020": {
+    "book_net": 17.8,
+    "book_dd": -4.4,
+    "book_calmar": 4.05,
+    "ff_net": 25.1,
+    "ff_dd": -16.2,
+    "ff_calmar": 1.55,
+    "raw_net": 26.7,
+    "raw_dd": -19.4,
+    "dd_match_5pp": false,
+    "net_gap_book_minus_ff_pp": -7.3
+   },
+   "2021": {
+    "book_net": 23.1,
+    "book_dd": -11.5,
+    "book_calmar": 2.01,
+    "ff_net": 162.8,
+    "ff_dd": -44.2,
+    "ff_calmar": 3.68,
+    "raw_net": 208.4,
+    "raw_dd": -49.5,
+    "dd_match_5pp": false,
+    "net_gap_book_minus_ff_pp": -139.7
+   },
+   "2022": {
+    "book_net": -14.0,
+    "book_dd": -19.8,
+    "book_calmar": -0.71,
+    "ff_net": -64.6,
+    "ff_dd": -66.2,
+    "ff_calmar": -0.98,
+    "raw_net": -71.9,
+    "raw_dd": -73.4,
+    "dd_match_5pp": false,
+    "net_gap_book_minus_ff_pp": 50.6
+   },
+   "2023": {
+    "book_net": 20.2,
+    "book_dd": -8.2,
+    "book_calmar": 2.45,
+    "ff_net": 81.9,
+    "ff_dd": -31.4,
+    "ff_calmar": 2.61,
+    "raw_net": 116.8,
+    "raw_dd": -33.9,
+    "dd_match_5pp": false,
+    "net_gap_book_minus_ff_pp": -61.7
+   },
+   "2024": {
+    "book_net": 28.3,
+    "book_dd": -7.7,
+    "book_calmar": 3.66,
+    "ff_net": 46.3,
+    "ff_dd": -44.2,
+    "ff_calmar": 1.05,
+    "raw_net": 65.8,
+    "raw_dd": -45.9,
+    "dd_match_5pp": false,
+    "net_gap_book_minus_ff_pp": -18.0
+   },
+   "2025": {
+    "book_net": -18.0,
+    "book_dd": -22.5,
+    "book_calmar": -0.8,
+    "ff_net": -49.0,
+    "ff_dd": -55.0,
+    "ff_calmar": -0.89,
+    "raw_net": -55.5,
+    "raw_dd": -61.1,
+    "dd_match_5pp": false,
+    "net_gap_book_minus_ff_pp": 31.0
+   }
+  },
+  "full_cycle": {
+   "book": {
+    "n_days": 2190,
+    "net_pct": 57.7,
+    "maxdd_pct": -25.7,
+    "sharpe": 0.61,
+    "win_day_pct": 45.6,
+    "calmar": 2.25
+   },
+   "family_free": {
+    "n_days": 2190,
+    "net_pct": 57.7,
+    "maxdd_pct": -72.9,
+    "sharpe": 0.41,
+    "win_day_pct": 50.0,
+    "calmar": 0.79
+   },
+   "raw_beta": {
+    "n_days": 2190,
+    "net_pct": 75.5,
+    "maxdd_pct": -78.9,
+    "sharpe": 0.47,
+    "win_day_pct": 49.8,
+    "calmar": 0.96
+   }
+  },
+  "full_cycle_compound_gap_book_minus_ff_pp": 0.0,
+  "unseen_once": {
+   "window": [
+    "2025-12-31",
+    "2026-06-01"
+   ],
+   "regime": "CHOP/SIDEWAYS",
+   "book_net": -0.9,
+   "book_dd": -2.3,
+   "ff_net": -3.3,
+   "ff_dd": -35.5,
+   "raw_net": -8.1,
+   "raw_dd": -40.2,
+   "dd_match_5pp": false
+  },
+  "scorecard_family_free": {
+   "name": "family_free_vol_gate",
+   "kind": "BOOK",
+   "n_days": 2338,
+   "per_split": {
+    "SEL": {
+     "n": 1898,
+     "compound_pct": 102.18,
+     "ann_pct": 14.5,
+     "maxdd_pct": -72.95,
+     "sharpe": 0.52,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.497,
+       "n": 1898
+      },
+      "3d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.494,
+       "n": 632
+      },
+      "7d": {
+       "median_pct": 0.0,
+       "frac_positive": 0.498,
+       "n": 271
+      }
+     }
+    },
+    "OOS": {
+     "n": 291,
+     "compound_pct": -30.95,
+     "ann_pct": -37.15,
+     "maxdd_pct": -51.95,
+     "sharpe": -0.29,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": 0.198,
+       "frac_positive": 0.519,
+       "n": 291
+      },
+      "3d": {
+       "median_pct": 0.182,
+       "frac_positive": 0.505,
+       "n": 97
+      },
+      "7d": {
+       "median_pct": -0.235,
+       "frac_positive": 0.488,
+       "n": 41
+      }
+     }
+    },
+    "UNSEEN": {
+     "n": 149,
+     "compound_pct": -3.29,
+     "ann_pct": -7.86,
+     "maxdd_pct": -35.45,
+     "sharpe": 0.09,
+     "softbench_roi": {
+      "1d": {
+       "median_pct": -0.074,
+       "frac_positive": 0.463,
+       "n": 149
+      },
+      "3d": {
+       "median_pct": 0.266,
+       "frac_positive": 0.531,
+       "n": 49
+      },
+      "7d": {
+       "median_pct": 0.29,
+       "frac_positive": 0.571,
+       "n": 21
+      }
+     }
+    }
+   },
+   "full_block_bootstrap": {
+    "p05": -86.09,
+    "p50": 30.7,
+    "p95": 1045.14
+   },
+   "heldout_block_bootstrap": {
+    "p05": -78.14,
+    "p50": -30.83,
+    "p95": 103.57
+   },
+   "ship_read": {
+    "unseen_compound_pos": false,
+    "full_p05_pos": false,
+    "heldout_p05_pos": false,
+    "ship": false
+   }
+  },
+  "verdict": {
+   "verdict": "APPARATUS_ADDS_VALUE",
+   "n_dd_match": 0,
+   "n_years": 6,
+   "n_book_beats_ff": 2,
+   "n_ff_beats_book": 3,
+   "preservation_matches": false,
+   "full_cycle_matches": true,
+   "unseen_dd_match": false,
+   "full_cycle_compound_gap_pp": 0.0,
+   "fc_book_net": 57.7,
+   "fc_ff_net": 57.7,
+   "fc_raw_net": 75.5,
+   "lines": [
+    "## DECISIVE FALSIFIER VERDICT (family-free vol-gate vs the family-ensemble book) [VERIFIED-FALSIFIER]",
+    "PRESERVATION (per-year maxDD): family-free matches the book in 0/6 years (<= 5.0pp) -> preservation does NOT match.",
+    "UNSEEN preservation: book maxDD -2.3% vs family-free -35.5% (raw-beta -40.2%) -> DD-match False. UNSEEN net: book -0.9% / family-free -3.3% / raw-beta -8.1% (regime CHOP/SIDEWAYS).",
+    "FULL-CYCLE compound: book 57.7% (maxDD -25.7%, Calmar 2.25) vs family-free 57.7% (maxDD -72.9%, Calmar 0.79) vs raw-beta 75.5% (maxDD -78.9%). Compound gap (book - family-free) = 0.0pp -> full-cycle MATCHES (tol 10.0pp).",
+    "PER-YEAR net: book materially beats family-free in 2/6 years; family-free materially beats book in 3/6 years (material = > 10.0pp).",
+    "READ: the vol-brake on plain EW-beta reproduces the book's CRASH-PRESERVATION (the risk property is family-agnostic). The book ALSO preserves materially better than the vol-brake -> the apparatus adds real value.",
+    "GATES: preservation_matches=False | full_cycle_matches=True | unseen_dd_match=False | n_dd_match=0/6 | fc_gap=0.0pp."
+   ]
+  },
+  "charts": [
+   "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\family_free_vs_book.png"
+  ]
+ },
+ "charts": [
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\family_free_vs_book.png"
+ ]
+}

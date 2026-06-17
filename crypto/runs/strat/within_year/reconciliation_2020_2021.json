@@ -1,0 +1,156 @@
+{
+ "repro": {
+  "git_sha": "97c7104",
+  "cost_maker": 0.0006,
+  "cost_taker": 0.0024
+ },
+ "reconcile": {
+  "family_2020": {
+   "trend": {
+    "best_robust_oos": 40.7,
+    "best_cfg": "VORTEX(14)@1d",
+    "best_robust_xbh": 0.86,
+    "robust_frac": 1.0,
+    "iron_dnet_median": -7.1,
+    "iron_dmaxdd_median": 6.0,
+    "n_beat_bh": 0,
+    "n_total": 404,
+    "bh_oos_median": 49.0,
+    "beat_bh_median_timein": null
+   },
+   "momentum": {
+    "best_robust_oos": 41.6,
+    "best_cfg": "ROC(100,thr0.0)@4h",
+    "best_robust_xbh": 0.87,
+    "robust_frac": 0.9,
+    "iron_dnet_median": 0.4,
+    "iron_dmaxdd_median": 3.7,
+    "n_beat_bh": 0,
+    "n_total": 80,
+    "bh_oos_median": 49.0,
+    "beat_bh_median_timein": null
+   },
+   "breakout": {
+    "best_robust_oos": 38.7,
+    "best_cfg": "DONCH(20,5)@1d",
+    "best_robust_xbh": 0.82,
+    "robust_frac": 1.0,
+    "iron_dnet_median": -1.0,
+    "iron_dmaxdd_median": 4.0,
+    "n_beat_bh": 0,
+    "n_total": 60,
+    "bh_oos_median": 49.0,
+    "beat_bh_median_timein": null
+   },
+   "mean-reversion": {
+    "best_robust_oos": 27.5,
+    "best_cfg": "RSI(7,lo35,hi65)@1h",
+    "best_robust_xbh": 0.53,
+    "robust_frac": 0.57,
+    "iron_dnet_median": 0.0,
+    "iron_dmaxdd_median": 6.3,
+    "n_beat_bh": 0,
+    "n_total": 372,
+    "bh_oos_median": 49.0,
+    "beat_bh_median_timein": null
+   },
+   "volume": {
+    "best_robust_oos": 57.2,
+    "best_cfg": "VOLIMB(3,thr0.52)@1d",
+    "best_robust_xbh": 1.0,
+    "robust_frac": 0.71,
+    "iron_dnet_median": -1.5,
+    "iron_dmaxdd_median": 2.6,
+    "n_beat_bh": 0,
+    "n_total": 93,
+    "bh_oos_median": 57.3,
+    "beat_bh_median_timein": null
+   }
+  },
+  "family_2021": {
+   "trend": {
+    "best_robust_oos": 17.8,
+    "best_cfg": "ST(14,3.0)@1d",
+    "best_robust_xbh": 3.18,
+    "robust_frac": 1.0,
+    "iron_dnet_median": 3.1,
+    "iron_dmaxdd_median": 4.2,
+    "n_beat_bh": 93,
+    "n_total": 404,
+    "bh_oos_median": 6.3,
+    "beat_bh_median_timein": 0.32
+   },
+   "momentum": {
+    "best_robust_oos": 16.5,
+    "best_cfg": "ROC(50,thr0.0)@4h",
+    "best_robust_xbh": 2.62,
+    "robust_frac": 1.0,
+    "iron_dnet_median": 0.8,
+    "iron_dmaxdd_median": 1.8,
+    "n_beat_bh": 19,
+    "n_total": 80,
+    "bh_oos_median": 6.3,
+    "beat_bh_median_timein": 0.41
+   },
+   "breakout": {
+    "best_robust_oos": 9.8,
+    "best_cfg": "KELT(20,2.0)@1d",
+    "best_robust_xbh": 1.75,
+    "robust_frac": 0.9,
+    "iron_dnet_median": -0.4,
+    "iron_dmaxdd_median": 1.1,
+    "n_beat_bh": 6,
+    "n_total": 60,
+    "bh_oos_median": 6.3,
+    "beat_bh_median_timein": 0.3
+   },
+   "mean-reversion": {
+    "best_robust_oos": 11.1,
+    "best_cfg": "BBPCT(20,lo0.2,hi0.9)@4h",
+    "best_robust_xbh": 1.91,
+    "robust_frac": 0.69,
+    "iron_dnet_median": 0.9,
+    "iron_dmaxdd_median": 10.7,
+    "n_beat_bh": 47,
+    "n_total": 372,
+    "bh_oos_median": 6.3,
+    "beat_bh_median_timein": 0.14
+   },
+   "volume": {
+    "best_robust_oos": 24.4,
+    "best_cfg": "VOLIMB(7,thr0.5)@1d",
+    "best_robust_xbh": 2.14,
+    "robust_frac": 0.82,
+    "iron_dnet_median": 0.4,
+    "iron_dmaxdd_median": 3.4,
+    "n_beat_bh": 6,
+    "n_total": 93,
+    "bh_oos_median": 13.1,
+    "beat_bh_median_timein": 0.42
+   }
+  },
+  "spearman_xbh": 0.5,
+  "iron_dd_sign_2020": true,
+  "iron_dd_sign_2021": true,
+  "beat_bh_2020": 0,
+  "beat_bh_2021": 171,
+  "bh_oos_median_2020": 49.0,
+  "bh_oos_median_2021": 6.3,
+  "beat_bh_timein_2021": 0.32,
+  "robust_both": true,
+  "reproduces": false
+ },
+ "lines": [
+  "",
+  "## VERDICT -- does the within-year TI STRUCTURE reproduce 2020->2021? [VERIFIED within-year]",
+  "family OOS-xBH rank-transfer: Spearman(2020,2021) = 0.5 (does NOT reproduce -- family ordering is regime-transient too)",
+  "iron-buys-DD-not-net: iron REDUCES DD in ALL families 2020=True / 2021=True (SAME sign -> the iron mechanism reproduces)",
+  "OOS regime: BH OOS-net median = 49.0% (2020 Q4) / 6.3% (2021 Q4). configs beating BH on OOS net = 0 (2020) / 171 (2021).",
+  "EXPOSURE CONTROL (the referee catch): 2021-Q4 BH was only ~6.3% (post-ATH DECLINE/chop, not a bull); the beat-BH configs there have median OOS time-in = 0.32 -- LOW time-in => they beat BH by SITTING IN CASH during the decline (EXPOSURE-timing/preservation, NOT alpha -- the going-to-cash mechanism), not genuine signal. So '2021 OOS beats BH' is the SAME de-risked-beta mechanism paying in a down-quarter, NOT a new edge (it LOSES to BH in the 2020 bull-OOS). 2020 vs 2021 = the two SIDES of de-risked beta.",
+  "robust band participates (robust_frac>0) in every family both years: True",
+  "",
+  "HEADLINE: the within-year TI structure PARTIALLY reproduces 2020->2021 -- see the per-stat breakdown. This is the WITHIN-YEAR structure (distinct from the cross-year config TRANSLATION, which is ~0). The deployable read is unchanged: the iron buys DRAWDOWN + robustness, NOT bull-net (0 beat BH); the family band is a de-risked beta that participates both years.",
+  "",
+  "MULTIPLICITY NOTE: thousands of (TI x config x TF) cells were scanned; the per-family numbers are the ROBUST-BAND (TRAIN&VAL-positive) OOS aggregate, NOT a cherry-picked best. A single 'best config' claim would need Deflated-Sharpe vs the N tried -- not made here (the band, not the #1, is the unit)."
+ ]
+}

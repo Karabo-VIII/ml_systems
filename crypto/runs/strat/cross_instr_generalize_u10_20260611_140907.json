@@ -1,0 +1,228 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\cross_instrument_generalize.py --universe u10 --cadences 4h,1d",
+  "git_sha": "0d3ab3c"
+ },
+ "result": {
+  "universe": "u10",
+  "cadences": [
+   "4h",
+   "1d"
+  ],
+  "n_assets": 10,
+  "report": {
+   "4h": {
+    "MA20_100": {
+     "assets": 10,
+     "breadth_pos": 0.5,
+     "breadth_cost": 0.5,
+     "median_asset_oos": 0.0018347601835646723,
+     "pooled_oos_mean": 0.0024865771301936686,
+     "pooled_oos_se": 0.004510453659471942,
+     "pooled_oos_win": 0.43243243243243246,
+     "pooled_oos_jk5pct": -0.007548503422696069,
+     "pooled_oos_n": 222,
+     "persistence": 0.5,
+     "median_hold_bars": 11
+    },
+    "DONCH20": {
+     "assets": 10,
+     "breadth_pos": 0.8,
+     "breadth_cost": 0.6,
+     "median_asset_oos": 0.0029892666404468383,
+     "pooled_oos_mean": 0.00448670877400953,
+     "pooled_oos_se": 0.0023053325941563303,
+     "pooled_oos_win": 0.38987043580683156,
+     "pooled_oos_jk5pct": -0.005778941258303681,
+     "pooled_oos_n": 849,
+     "persistence": 0.8,
+     "median_hold_bars": 11
+    },
+    "ROC20": {
+     "assets": 10,
+     "breadth_pos": 0.8,
+     "breadth_cost": 0.7,
+     "median_asset_oos": 0.005851683060483816,
+     "pooled_oos_mean": 0.004785728646592676,
+     "pooled_oos_se": 0.00203501846525766,
+     "pooled_oos_win": 0.42611336032388664,
+     "pooled_oos_jk5pct": -0.004516252849534638,
+     "pooled_oos_n": 988,
+     "persistence": 0.6,
+     "median_hold_bars": 13
+    },
+    "RSI_30_50": {
+     "assets": 10,
+     "breadth_pos": 0.8,
+     "breadth_cost": 0.6,
+     "median_asset_oos": 0.004208971549843932,
+     "pooled_oos_mean": 0.0044100722235600595,
+     "pooled_oos_se": 0.003759897224201326,
+     "pooled_oos_win": 0.44562334217506633,
+     "pooled_oos_jk5pct": -0.006921161686245458,
+     "pooled_oos_n": 377,
+     "persistence": 0.4,
+     "median_hold_bars": 12
+    },
+    "BOLL_LO": {
+     "assets": 10,
+     "breadth_pos": 0.4,
+     "breadth_cost": 0.2,
+     "median_asset_oos": -0.00019997695285207143,
+     "pooled_oos_mean": 0.0011640313452323612,
+     "pooled_oos_se": 0.0024923484492819204,
+     "pooled_oos_win": 0.42193548387096774,
+     "pooled_oos_jk5pct": -0.00958268172521055,
+     "pooled_oos_n": 775,
+     "persistence": 0.5,
+     "median_hold_bars": 12
+    },
+    "VOLEXP": {
+     "assets": 10,
+     "breadth_pos": 0.9,
+     "breadth_cost": 0.9,
+     "median_asset_oos": 0.019491929137457717,
+     "pooled_oos_mean": 0.01880802694819696,
+     "pooled_oos_se": 0.008711949645366994,
+     "pooled_oos_win": 0.45544554455445546,
+     "pooled_oos_jk5pct": 0.00572449800510512,
+     "pooled_oos_n": 101,
+     "persistence": 0.7,
+     "median_hold_bars": 14
+    },
+    "NRBREAK": {
+     "assets": 10,
+     "breadth_pos": 0.5,
+     "breadth_cost": 0.3,
+     "median_asset_oos": 0.0002226980153406761,
+     "pooled_oos_mean": 0.001199194408593571,
+     "pooled_oos_se": 0.0019792000716702977,
+     "pooled_oos_win": 0.39035087719298245,
+     "pooled_oos_jk5pct": -0.008834431400165866,
+     "pooled_oos_n": 1140,
+     "persistence": 0.5,
+     "median_hold_bars": 12
+    },
+    "TRENDGATE": {
+     "assets": 10,
+     "breadth_pos": 0.6,
+     "breadth_cost": 0.6,
+     "median_asset_oos": 0.005485216440480273,
+     "pooled_oos_mean": 0.0034609398002649,
+     "pooled_oos_se": 0.002762856025697618,
+     "pooled_oos_win": 0.40973630831643004,
+     "pooled_oos_jk5pct": -0.0056879397708572985,
+     "pooled_oos_n": 493,
+     "persistence": 0.7,
+     "median_hold_bars": 12
+    }
+   },
+   "1d": {
+    "MA20_100": {
+     "assets": 9,
+     "breadth_pos": 0.4444444444444444,
+     "breadth_cost": 0.4444444444444444,
+     "median_asset_oos": -0.02100429114085697,
+     "pooled_oos_mean": 0.006735071646457272,
+     "pooled_oos_se": 0.022597351287950204,
+     "pooled_oos_win": 0.36363636363636365,
+     "pooled_oos_jk5pct": -0.021401232033057317,
+     "pooled_oos_n": 33,
+     "persistence": 0.4444444444444444,
+     "median_hold_bars": 3
+    },
+    "DONCH20": {
+     "assets": 10,
+     "breadth_pos": 0.8,
+     "breadth_cost": 0.8,
+     "median_asset_oos": 0.009553411266740024,
+     "pooled_oos_mean": 0.0106077184890185,
+     "pooled_oos_se": 0.006718429086238656,
+     "pooled_oos_win": 0.47619047619047616,
+     "pooled_oos_jk5pct": -0.006685994716436627,
+     "pooled_oos_n": 231,
+     "persistence": 0.8,
+     "median_hold_bars": 3
+    },
+    "ROC20": {
+     "assets": 10,
+     "breadth_pos": 0.6,
+     "breadth_cost": 0.4,
+     "median_asset_oos": 0.0007468976074374468,
+     "pooled_oos_mean": 0.001482478630606183,
+     "pooled_oos_se": 0.004610240284709029,
+     "pooled_oos_win": 0.4935064935064935,
+     "pooled_oos_jk5pct": -0.007996075526835683,
+     "pooled_oos_n": 231,
+     "persistence": 0.2,
+     "median_hold_bars": 3
+    },
+    "RSI_30_50": {
+     "assets": 9,
+     "breadth_pos": 0.8888888888888888,
+     "breadth_cost": 0.8888888888888888,
+     "median_asset_oos": 0.01516006276837219,
+     "pooled_oos_mean": 0.02557012817403259,
+     "pooled_oos_se": 0.009996105713538563,
+     "pooled_oos_win": 0.7073170731707317,
+     "pooled_oos_jk5pct": 0.019001755857990524,
+     "pooled_oos_n": 41,
+     "persistence": 0.4444444444444444,
+     "median_hold_bars": 3
+    },
+    "BOLL_LO": {
+     "assets": 10,
+     "breadth_pos": 0.6,
+     "breadth_cost": 0.6,
+     "median_asset_oos": 0.012417460512591759,
+     "pooled_oos_mean": 0.012177200357159017,
+     "pooled_oos_se": 0.005589187559403319,
+     "pooled_oos_win": 0.5973154362416108,
+     "pooled_oos_jk5pct": 0.004518453256118406,
+     "pooled_oos_n": 149,
+     "persistence": 0.8,
+     "median_hold_bars": 3
+    },
+    "VOLEXP": {
+     "assets": 5,
+     "breadth_pos": 0.6,
+     "breadth_cost": 0.6,
+     "median_asset_oos": 0.014618211266616587,
+     "pooled_oos_mean": 0.029876947125443892,
+     "pooled_oos_se": 0.014614952705803739,
+     "pooled_oos_win": 0.6666666666666666,
+     "pooled_oos_jk5pct": 0.021383289968921713,
+     "pooled_oos_n": 27,
+     "persistence": 1.0,
+     "median_hold_bars": 3
+    },
+    "NRBREAK": {
+     "assets": 10,
+     "breadth_pos": 0.6,
+     "breadth_cost": 0.5,
+     "median_asset_oos": 0.0028151109477643015,
+     "pooled_oos_mean": 0.0006195790924090813,
+     "pooled_oos_se": 0.0051084469389479775,
+     "pooled_oos_win": 0.44696969696969696,
+     "pooled_oos_jk5pct": -0.011181508712997333,
+     "pooled_oos_n": 264,
+     "persistence": 0.4,
+     "median_hold_bars": 3
+    },
+    "TRENDGATE": {
+     "assets": 10,
+     "breadth_pos": 0.6,
+     "breadth_cost": 0.5,
+     "median_asset_oos": 0.00218544920421093,
+     "pooled_oos_mean": 0.0059548658639592515,
+     "pooled_oos_se": 0.008003472036430894,
+     "pooled_oos_win": 0.4957983193277311,
+     "pooled_oos_jk5pct": -0.007172900329587571,
+     "pooled_oos_n": 119,
+     "persistence": 0.6,
+     "median_hold_bars": 3
+    }
+   }
+  }
+ }
+}

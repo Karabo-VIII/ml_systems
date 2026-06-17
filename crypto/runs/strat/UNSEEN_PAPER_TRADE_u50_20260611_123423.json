@@ -1,0 +1,181 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\unseen_paper_trade.py --universe u50",
+  "git_sha": "c915277"
+ },
+ "window": [
+  "2025-12-31",
+  "2026-06-01"
+ ],
+ "cost_per_side": 0.0012,
+ "books_rwyb": {
+  "TSMOM_breadth": {
+   "n_days": 149,
+   "final_pct": -2.14,
+   "ann_pct": -5.15,
+   "maxdd_pct": -6.43,
+   "sharpe": -0.45,
+   "win_day_pct": 49.0,
+   "softbench_1d": {
+    "median_pct": -0.01,
+    "frac_positive": 0.49
+   },
+   "softbench_3d": {
+    "median_pct": 0.013,
+    "frac_positive": 0.531
+   }
+  },
+  "regime_beta": {
+   "n_days": 149,
+   "final_pct": -3.49,
+   "ann_pct": -8.34,
+   "maxdd_pct": -10.67,
+   "sharpe": -0.6,
+   "win_day_pct": 48.3,
+   "softbench_1d": {
+    "median_pct": -0.003,
+    "frac_positive": 0.483
+   },
+   "softbench_3d": {
+    "median_pct": 0.037,
+    "frac_positive": 0.571
+   }
+  },
+  "buy_hold": {
+   "n_days": 149,
+   "final_pct": -18.3,
+   "ann_pct": -39.05,
+   "maxdd_pct": -42.7,
+   "sharpe": -0.44,
+   "win_day_pct": 47.7,
+   "softbench_1d": {
+    "median_pct": -0.192,
+    "frac_positive": 0.477
+   },
+   "softbench_3d": {
+    "median_pct": -0.009,
+    "frac_positive": 0.49
+   }
+  },
+  "low_vol_tilt": {
+   "n_days": 149,
+   "final_pct": -20.07,
+   "ann_pct": -42.23,
+   "maxdd_pct": -38.68,
+   "sharpe": -0.75,
+   "win_day_pct": 45.6,
+   "softbench_1d": {
+    "median_pct": -0.31,
+    "frac_positive": 0.456
+   },
+   "softbench_3d": {
+    "median_pct": -0.226,
+    "frac_positive": 0.469
+   }
+  },
+  "BLEND_25r": {
+   "n_days": 149,
+   "final_pct": -2.43,
+   "ann_pct": -5.86,
+   "maxdd_pct": -6.6,
+   "sharpe": -0.52,
+   "win_day_pct": 49.0,
+   "softbench_1d": {
+    "median_pct": -0.008,
+    "frac_positive": 0.49
+   },
+   "softbench_3d": {
+    "median_pct": 0.013,
+    "frac_positive": 0.531
+   }
+  },
+  "BLEND_50r": {
+   "n_days": 149,
+   "final_pct": -2.77,
+   "ann_pct": -6.64,
+   "maxdd_pct": -7.97,
+   "sharpe": -0.57,
+   "win_day_pct": 50.3,
+   "softbench_1d": {
+    "median_pct": 0.001,
+    "frac_positive": 0.503
+   },
+   "softbench_3d": {
+    "median_pct": 0.012,
+    "frac_positive": 0.51
+   }
+  },
+  "BLEND_75r": {
+   "n_days": 149,
+   "final_pct": -3.12,
+   "ann_pct": -7.47,
+   "maxdd_pct": -9.32,
+   "sharpe": -0.59,
+   "win_day_pct": 48.3,
+   "softbench_1d": {
+    "median_pct": -0.012,
+    "frac_positive": 0.483
+   },
+   "softbench_3d": {
+    "median_pct": 0.01,
+    "frac_positive": 0.531
+   }
+  },
+  "RANDOM_null": {
+   "n_days": 149,
+   "final_pct": -6.37,
+   "ann_pct": -14.9,
+   "maxdd_pct": -9.15,
+   "sharpe": -1.26,
+   "win_day_pct": 47.0,
+   "softbench_1d": {
+    "median_pct": -0.025,
+    "frac_positive": 0.47
+   },
+   "softbench_3d": {
+    "median_pct": -0.112,
+    "frac_positive": 0.469
+   }
+  },
+  "Family2_mover_rotation": {
+   "n_days": 152,
+   "final_pct": -9.27,
+   "ann_pct": -20.82,
+   "maxdd_pct": -14.43,
+   "sharpe": -0.64,
+   "win_day_pct": 4.6,
+   "softbench_1d": {
+    "median_pct": 0.0,
+    "frac_positive": 0.046
+   },
+   "softbench_3d": {
+    "median_pct": 0.0,
+    "frac_positive": 0.1
+   },
+   "n_trades_unseen": 22
+  }
+ },
+ "labs_ingested": {
+  "trend_book_lab": {
+   "final_pct": 0.0,
+   "note": "0 trades on UNSEEN (flat in bear = pure abstention)"
+  },
+  "symmetric_trend_LS_perp": {
+   "final_pct": null,
+   "ann_pct": 13.8,
+   "note": "+13.8%/yr on 4 short trades (perp; tiny-n)"
+  },
+  "setup_chaser_book": {
+   "final_pct": -15.18,
+   "note": "UNSEEN -15.18% comp; battery FAIL PBO 0.79 (NULL)"
+  },
+  "alt_bar_trend_renko": {
+   "ann_pct": -20.0,
+   "note": "Renko UNSEEN -20%/yr (best alt-bar); 0/10 seeds (NULL)"
+  },
+  "regime_dna_SYS_A_u50": {
+   "note": "UNSEEN per-trade -1.25+-0.82% (trade-level, not a book); UNSEEN-neg"
+  }
+ },
+ "plot": "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\strat\\plots\\unseen_paper_trade_u50_20260611_1234.png"
+}

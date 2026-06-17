@@ -1,0 +1,373 @@
+{
+ "repro": {
+  "command": "python -m strat.ml_config_recommender_v2 --cadences 4h --n-shuffle 200",
+  "git_sha": "75a2789",
+  "cost_maker": 0.0006,
+  "cost_taker": 0.0024,
+  "runway": [
+   "2020-01-01",
+   "2021-01-01"
+  ],
+  "splits": {
+   "TRAIN": [
+    "2020-01-01",
+    "2020-09-01"
+   ],
+   "VAL": [
+    "2020-09-01",
+    "2020-10-01"
+   ],
+   "OOS": [
+    "2020-10-01",
+    "2021-01-01"
+   ]
+  },
+  "k_per_type": 3,
+  "n_shuffle": 200,
+  "rank_metric": "NET (wealth)",
+  "bar": "ML OOS book lands TOP-10 of static leaderboard OR matches/beats best robust deployable config",
+  "upgrades": [
+   "config-granular candidates",
+   "stacking A/B/STACK on VAL",
+   "conformal abstention",
+   "honest switch cost",
+   "rank-within-static benchmark"
+  ]
+ },
+ "results": {
+  "4h": {
+   "cadence": "4h",
+   "n_windows": 51,
+   "candidates": [
+    "EMA(5,75,208)",
+    "EMA(10,16)",
+    "EMA(12,84,148)",
+    "SMA(8,28)",
+    "SMA(8,132,233)",
+    "SMA(4,26)",
+    "WMA(22,33)",
+    "WMA(15,27,48)",
+    "WMA(5,37)",
+    "HMA(18,128)",
+    "HMA(22,128)",
+    "HMA(5,143)",
+    "DEMA(18,33)",
+    "DEMA(22,33)",
+    "DEMA(15,33)",
+    "TEMA(22,33)",
+    "TEMA(10,65)",
+    "TEMA(26,45)",
+    "KAMA(4,26)",
+    "KAMA(3,6,7)",
+    "KAMA(4,5,186)",
+    "VIDYA(4,5,186)",
+    "VIDYA(5,24,106)",
+    "VIDYA(2,3,4)",
+    "BUYHOLD",
+    "VOLTGT_BH"
+   ],
+   "features": [
+    "recent_EMA(5,75,208)",
+    "recent_EMA(10,16)",
+    "recent_EMA(12,84,148)",
+    "recent_SMA(8,28)",
+    "recent_SMA(8,132,233)",
+    "recent_SMA(4,26)",
+    "recent_WMA(22,33)",
+    "recent_WMA(15,27,48)",
+    "recent_WMA(5,37)",
+    "recent_HMA(18,128)",
+    "recent_HMA(22,128)",
+    "recent_HMA(5,143)",
+    "recent_DEMA(18,33)",
+    "recent_DEMA(22,33)",
+    "recent_DEMA(15,33)",
+    "recent_TEMA(22,33)",
+    "recent_TEMA(10,65)",
+    "recent_TEMA(26,45)",
+    "recent_KAMA(4,26)",
+    "recent_KAMA(3,6,7)",
+    "recent_KAMA(4,5,186)",
+    "recent_VIDYA(4,5,186)",
+    "recent_VIDYA(5,24,106)",
+    "recent_VIDYA(2,3,4)",
+    "recent_BUYHOLD",
+    "recent_VOLTGT_BH",
+    "recent_dispersion",
+    "recent_best_margin",
+    "recent_lag_mean",
+    "regime_breadth",
+    "participation",
+    "vol_level",
+    "whipsaw",
+    "trend_strength",
+    "dd_state",
+    "vol_regime",
+    "weekend_frac",
+    "ushours_frac"
+   ],
+   "roll_bars": 42,
+   "k_per_type": 3,
+   "n_candidates": 26,
+   "tier_selection": {
+    "chosen_tier": "B",
+    "abstain_thresh": 0.0426,
+    "val_net": 9.01,
+    "b_backend": "lightgbm"
+   },
+   "splits": {
+    "TRAIN": {
+     "n_windows": 35,
+     "ML": {
+      "net": 193.1,
+      "sharpe": 3.77,
+      "maxdd": -26.3,
+      "coverage": 0.92,
+      "p05": 55.02,
+      "pick_freq": {
+       "BUYHOLD": 14,
+       "VOLTGT_BH": 7,
+       "KAMA(3,6,7)": 2,
+       "KAMA(4,5,186)": 2,
+       "EMA(10,16)": 1,
+       "VIDYA(5,24,106)": 1,
+       "EMA(12,84,148)": 1,
+       "TEMA(22,33)": 1,
+       "VIDYA(4,5,186)": 1,
+       "TEMA(26,45)": 1,
+       "SMA(8,132,233)": 1,
+       "VIDYA(2,3,4)": 1,
+       "HMA(22,128)": 1,
+       "WMA(15,27,48)": 1
+      },
+      "abstain_rate": 0.2
+     },
+     "STATIC": {
+      "net": 93.6,
+      "sharpe": 3.38,
+      "maxdd": -15.2,
+      "coverage": 0.82,
+      "p05": 29.03,
+      "pick": "HMA(5,143)"
+     },
+     "VOLTGT_BH": {
+      "net": 46.8,
+      "sharpe": 1.52,
+      "maxdd": -38.9,
+      "coverage": 0.94,
+      "p05": -20.72
+     },
+     "BUYHOLD": {
+      "net": 56.3,
+      "sharpe": 1.45,
+      "maxdd": -48.9,
+      "coverage": 1.0,
+      "p05": -30.85
+     },
+     "ORACLE": {
+      "net": 352.6,
+      "sharpe": 6.19,
+      "maxdd": -10.5,
+      "coverage": null,
+      "p05": 180.45
+     },
+     "RANDOM": {
+      "net": 90.8,
+      "sharpe": 3.08,
+      "maxdd": -11.2,
+      "coverage": null,
+      "p05": 23.57
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 60.85,
+      "mean": 60.71,
+      "sd": 38.7,
+      "p05": -2.06,
+      "p95": 120.05,
+      "ml_net": 193.1,
+      "ml_percentile": 1.0,
+      "p_value": 0.0,
+      "beats_median": true,
+      "timing_skill": true
+     }
+    },
+    "VAL": {
+     "n_windows": 4,
+     "ML": {
+      "net": 9.0,
+      "sharpe": 4.26,
+      "maxdd": -8.1,
+      "coverage": 0.67,
+      "p05": -4.75,
+      "pick_freq": {
+       "VOLTGT_BH": 2,
+       "EMA(12,84,148)": 1,
+       "SMA(8,132,233)": 1
+      },
+      "abstain_rate": 0.5
+     },
+     "STATIC": {
+      "net": -0.4,
+      "sharpe": 0.01,
+      "maxdd": -8.4,
+      "coverage": 0.99,
+      "p05": -14.21,
+      "pick": "HMA(5,143)"
+     },
+     "VOLTGT_BH": {
+      "net": 0.1,
+      "sharpe": 0.23,
+      "maxdd": -12.9,
+      "coverage": 1.0,
+      "p05": -18.13
+     },
+     "BUYHOLD": {
+      "net": -2.3,
+      "sharpe": -0.22,
+      "maxdd": -20.2,
+      "coverage": 1.0,
+      "p05": -25.88
+     },
+     "ORACLE": {
+      "net": 15.2,
+      "sharpe": 5.89,
+      "maxdd": -4.2,
+      "coverage": null,
+      "p05": -0.77
+     },
+     "RANDOM": {
+      "net": -5.3,
+      "sharpe": -1.8,
+      "maxdd": -12.7,
+      "coverage": null,
+      "p05": -20.29
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 0.22,
+      "mean": 1.45,
+      "sd": 5.02,
+      "p05": -6.1,
+      "p95": 9.21,
+      "ml_net": 9.0,
+      "ml_percentile": 0.81,
+      "p_value": 0.19,
+      "beats_median": true,
+      "timing_skill": false
+     }
+    },
+    "OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 62.9,
+      "sharpe": 3.63,
+      "maxdd": -22.2,
+      "coverage": 0.98,
+      "p05": -8.45,
+      "pick_freq": {
+       "BUYHOLD": 4,
+       "VOLTGT_BH": 3,
+       "TEMA(10,65)": 1,
+       "TEMA(22,33)": 1,
+       "SMA(8,132,233)": 1,
+       "VIDYA(2,3,4)": 1,
+       "VIDYA(5,24,106)": 1
+      },
+      "abstain_rate": 0.25
+     },
+     "STATIC": {
+      "net": 43.9,
+      "sharpe": 3.52,
+      "maxdd": -13.9,
+      "coverage": 0.92,
+      "p05": -2.52,
+      "pick": "HMA(5,143)"
+     },
+     "VOLTGT_BH": {
+      "net": 50.0,
+      "sharpe": 2.98,
+      "maxdd": -19.1,
+      "coverage": 1.0,
+      "p05": -14.78
+     },
+     "BUYHOLD": {
+      "net": 53.3,
+      "sharpe": 2.76,
+      "maxdd": -22.2,
+      "coverage": 1.0,
+      "p05": -23.97
+     },
+     "ORACLE": {
+      "net": 119.7,
+      "sharpe": 6.14,
+      "maxdd": -9.5,
+      "coverage": null,
+      "p05": 38.15
+     },
+     "RANDOM": {
+      "net": 42.9,
+      "sharpe": 2.82,
+      "maxdd": -18.6,
+      "coverage": null,
+      "p05": -14.64
+     },
+     "SHUFFLE_dist": {
+      "n_draws": 200,
+      "median": 43.81,
+      "mean": 47.77,
+      "sd": 14.68,
+      "p05": 21.66,
+      "p95": 66.76,
+      "ml_net": 62.9,
+      "ml_percentile": 0.86,
+      "p_value": 0.14,
+      "beats_median": true,
+      "timing_skill": false
+     },
+     "STATIC_BENCHMARK": {
+      "n_static": 120,
+      "ml_oos_net": 62.9,
+      "static_best_net": 55.4,
+      "static_top10_thresh": 45.7,
+      "ml_rank_in_static": 1,
+      "ml_percentile": 1.0,
+      "robust_deployable": "SMA SMA(12,84,148)",
+      "robust_deployable_net": 28.6,
+      "lands_top10": true,
+      "matches_robust": true
+     }
+    }
+   },
+   "static_rule_pick": "HMA(5,143)"
+  }
+ },
+ "verdict": {
+  "headline": "BAR MET at 1/1 cadences (['4h']): the v2 recommender's OOS book lands in the TOP-10 of the static models ['4h'] and/or matches/beats the best ROBUST deployable config ['4h']. HONESTY: this is config-granular SELECTION quality (the ML rides the right static config), distinct from timing alpha -- genuine timing skill (beats its own shuffle-median, p<0.10) at []/1. Beating VOLTGT_BH on NET at ['4h'].",
+  "top10_cadences": [
+   "4h"
+  ],
+  "matches_robust_cadences": [
+   "4h"
+  ],
+  "timing_skill_cadences": [],
+  "beat_voltgt_cadences": [
+   "4h"
+  ],
+  "bar_met_cadences": [
+   "4h"
+  ],
+  "n_cadences": 1,
+  "lines": [
+   "USER BAR: ML book lands in the TOP-10 of the static models OR matches/beats the best robust deployable config, per TF, on OOS ('2020-10-01', '2021-01-01').",
+   "HEADLINE: BAR MET at 1/1 cadences (['4h']): the v2 recommender's OOS book lands in the TOP-10 of the static models ['4h'] and/or matches/beats the best ROBUST deployable config ['4h']. HONESTY: this is config-granular SELECTION quality (the ML rides the right static config), distinct from timing alpha -- genuine timing skill (beats its own shuffle-median, p<0.10) at []/1. Beating VOLTGT_BH on NET at ['4h'].",
+   "",
+   "[4h] OOS ML 62.9% (abstain 0.25, pick {'BUYHOLD': 4, 'VOLTGT_BH': 3, 'TEMA(10,65)': 1, 'TEMA(22,33)': 1, 'SMA(8,132,233)': 1, 'VIDYA(2,3,4)': 1, 'VIDYA(5,24,106)': 1}) | static: best 55.4% top10>= 45.7% robust SMA SMA(12,84,148) 28.6% -> ML rank 1/120 pctl 1.0 TOP10 MATCHES-ROBUST | VOLTGT_BH 50.0% | timing no (p=0.14) | tier B@thr0.0426",
+   "",
+   "TIMING-SKILL (hardened): ML must beat the MEDIAN of N block-shuffle re-timings of its own picks with one-sided p<0.10 -- 'lands top-10' can be SELECTION quality (riding the right beta config) WITHOUT timing alpha; both are reported. SWITCH COST: a config change between windows pays a maker round-trip (no free churn). CAVEATS: long-only spot lev=1; fixed-EW u10; causal/lag-1 MtM; maker; candidate pool seeded by VAL net (no OOS peek); static benchmark = the curated leaderboard's OOS nets; tier+abstention chosen on VAL (never OOS); UNSEEN untouched. [VERIFIED-2020-OOS]"
+  ]
+ },
+ "best_config_oneliners": {
+  "4h": "v2 OOS top pick 'BUYHOLD' (freq {'BUYHOLD': 4, 'VOLTGT_BH': 3, 'TEMA(10,65)': 1, 'TEMA(22,33)': 1, 'SMA(8,132,233)': 1, 'VIDYA(2,3,4)': 1, 'VIDYA(5,24,106)': 1}); NET 62.9% Sh 3.63 maxDD -22.2% cov 0.98 abstain 0.25 | rank 1/120 in static (top10>= 45.7%, robust 28.6%)"
+ }
+}

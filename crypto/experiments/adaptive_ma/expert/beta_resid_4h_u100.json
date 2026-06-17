@@ -1,0 +1,5250 @@
+{
+  "config": {
+    "cadence": "4h",
+    "locked_from": "er_gate_4h.py",
+    "fast": 8,
+    "slow": 21,
+    "er_thresh": 0.4,
+    "atr_trail_mult": 3.0,
+    "max_hold": 42,
+    "taker": 0.0024,
+    "factor": "BTCUSDT open-to-open 4h, full-sample OLS beta",
+    "null": "regime_matched_ER>0.4 random-entry, replayed on residual returns",
+    "n_books": 200
+  },
+  "aggregate": {
+    "n_assets_evaluated": 77,
+    "beta_vs_btc_median": 1.234,
+    "beta_vs_btc_mean": 1.27,
+    "raw_n_beat_null_AND_pos_held": 0,
+    "raw_n_pos_held": 13,
+    "raw_pos_held_assets": [
+      "PEPEUSDT",
+      "FETUSDT",
+      "PENGUUSDT",
+      "ALGOUSDT",
+      "ICPUSDT",
+      "POLUSDT",
+      "XLMUSDT",
+      "ONDOUSDT",
+      "PROMUSDT",
+      "NEIROUSDT",
+      "PNUTUSDT",
+      "BIOUSDT",
+      "ZBTUSDT"
+    ],
+    "raw_UNSEEN_mean": 7.26,
+    "raw_UNSEEN_median": -0.51,
+    "raw_OOS_mean": -8.43,
+    "raw_OOS_median": -12.91,
+    "resid_n_beat_null_AND_pos_held": 0,
+    "resid_beat_pos_assets": [],
+    "resid_n_pos_held": 14,
+    "resid_pos_held_assets": [
+      "TRXUSDT",
+      "FETUSDT",
+      "WLDUSDT",
+      "PENGUUSDT",
+      "HBARUSDT",
+      "ALGOUSDT",
+      "BONKUSDT",
+      "ICPUSDT",
+      "POLUSDT",
+      "XLMUSDT",
+      "PROMUSDT",
+      "VIRTUALUSDT",
+      "NEIROUSDT",
+      "ZBTUSDT"
+    ],
+    "resid_UNSEEN_mean": 9.54,
+    "resid_UNSEEN_median": 0.8,
+    "resid_OOS_mean": -8.68,
+    "resid_OOS_median": -14.01,
+    "advantage_OOS_raw_median": -20.33,
+    "advantage_OOS_resid_median": -6.49,
+    "advantage_UNSEEN_raw_median": 1.08,
+    "advantage_UNSEEN_resid_median": 3.16,
+    "raw_n_p05_positive": 1,
+    "raw_p05_positive_assets": [
+      "POLUSDT"
+    ],
+    "resid_n_p05_positive": 1,
+    "resid_p05_positive_assets": [
+      "POLUSDT"
+    ],
+    "pooled_held_n_trades": 2202,
+    "pooled_held_raw_exp_pct": 0.0669,
+    "pooled_held_resid_exp_pct": 0.1271,
+    "pooled_raw_exp_bootstrap": {
+      "p05": -0.3106,
+      "p50": 0.0585,
+      "p95": 0.4578
+    },
+    "pooled_resid_exp_bootstrap": {
+      "p05": -0.22,
+      "p50": 0.1219,
+      "p95": 0.4853
+    }
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "beta_vs_btc": 1.0,
+      "n_trades_held": 35,
+      "windows_raw": {
+        "TRAIN": 139.22,
+        "VAL": -10.87,
+        "OOS": 1.37,
+        "UNSEEN": -3.21
+      },
+      "windows_resid": {
+        "TRAIN": -28.91,
+        "VAL": -6.51,
+        "OOS": -5.6,
+        "UNSEEN": -2.61
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -4.0,
+          "resid": -0.0
+        },
+        "UNSEEN": {
+          "raw": -1.98,
+          "resid": 0.0
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 12.98,
+          "raw_p95": 244.55,
+          "resid_p50": -28.91,
+          "resid_p95": -28.91,
+          "n": 142
+        },
+        "VAL": {
+          "raw_p50": 0.46,
+          "raw_p95": 37.04,
+          "resid_p50": -6.51,
+          "resid_p95": -6.51,
+          "n": 28
+        },
+        "OOS": {
+          "raw_p50": 5.37,
+          "raw_p95": 32.28,
+          "resid_p50": -5.6,
+          "resid_p95": -5.6,
+          "n": 24
+        },
+        "UNSEEN": {
+          "raw_p50": -1.23,
+          "raw_p95": 16.61,
+          "resid_p50": -2.61,
+          "resid_p95": -2.61,
+          "n": 11
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.0167,
+      "held_resid_exp_pct": -0.24,
+      "held_raw_p05_blockboot": -17.4,
+      "held_resid_p05_blockboot": -8.07,
+      "held_resid_p50_blockboot": -8.07,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ETHUSDT": {
+      "beta_vs_btc": 1.09,
+      "n_trades_held": 46,
+      "windows_raw": {
+        "TRAIN": 84.14,
+        "VAL": 4.54,
+        "OOS": -2.45,
+        "UNSEEN": -16.59
+      },
+      "windows_resid": {
+        "TRAIN": 0.1,
+        "VAL": -3.94,
+        "OOS": 18.89,
+        "UNSEEN": -11.83
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -23.87,
+          "resid": 3.06
+        },
+        "UNSEEN": {
+          "raw": -7.17,
+          "resid": -5.95
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 23.27,
+          "raw_p95": 258.88,
+          "resid_p50": -43.16,
+          "resid_p95": 28.01,
+          "n": 148
+        },
+        "VAL": {
+          "raw_p50": -2.98,
+          "raw_p95": 48.79,
+          "resid_p50": -22.9,
+          "resid_p95": 1.75,
+          "n": 21
+        },
+        "OOS": {
+          "raw_p50": 21.42,
+          "raw_p95": 98.58,
+          "resid_p50": 15.83,
+          "resid_p95": 59.82,
+          "n": 32
+        },
+        "UNSEEN": {
+          "raw_p50": -9.42,
+          "raw_p95": 12.35,
+          "resid_p50": -5.88,
+          "resid_p95": 1.49,
+          "n": 14
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.3407,
+      "held_resid_exp_pct": 0.1801,
+      "held_raw_p05_blockboot": -46.7,
+      "held_resid_p05_blockboot": -23.63,
+      "held_resid_p50_blockboot": 9.22,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "SOLUSDT": {
+      "beta_vs_btc": 1.248,
+      "n_trades_held": 37,
+      "windows_raw": {
+        "TRAIN": -33.28,
+        "VAL": -0.26,
+        "OOS": -20.79,
+        "UNSEEN": -9.36
+      },
+      "windows_resid": {
+        "TRAIN": -5.12,
+        "VAL": -20.65,
+        "OOS": -11.66,
+        "UNSEEN": -3.72
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -13.98,
+          "resid": 0.63
+        },
+        "UNSEEN": {
+          "raw": -6.1,
+          "resid": -1.27
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 60.86,
+          "raw_p95": 535.82,
+          "resid_p50": 38.63,
+          "resid_p95": 383.26,
+          "n": 103
+        },
+        "VAL": {
+          "raw_p50": -12.3,
+          "raw_p95": 62.32,
+          "resid_p50": -10.22,
+          "resid_p95": 41.46,
+          "n": 24
+        },
+        "OOS": {
+          "raw_p50": -6.81,
+          "raw_p95": 36.2,
+          "resid_p50": -12.29,
+          "resid_p95": 15.11,
+          "n": 28
+        },
+        "UNSEEN": {
+          "raw_p50": -3.26,
+          "raw_p95": 19.79,
+          "resid_p50": -2.45,
+          "resid_p95": 8.12,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.8411,
+      "held_resid_exp_pct": -0.3861,
+      "held_raw_p05_blockboot": -45.77,
+      "held_resid_p05_blockboot": -34.94,
+      "held_resid_p50_blockboot": -19.01,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "XRPUSDT": {
+      "beta_vs_btc": 0.988,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": 129.23,
+        "VAL": 86.18,
+        "OOS": -7.5,
+        "UNSEEN": 3.63
+      },
+      "windows_resid": {
+        "TRAIN": 62.59,
+        "VAL": 79.94,
+        "OOS": -17.39,
+        "UNSEEN": 3.03
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -19.32,
+          "resid": -16.2
+        },
+        "UNSEEN": {
+          "raw": 7.33,
+          "resid": 5.39
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 0.72,
+          "raw_p95": 493.89,
+          "resid_p50": -17.53,
+          "resid_p95": 229.56,
+          "n": 120
+        },
+        "VAL": {
+          "raw_p50": 34.07,
+          "raw_p95": 286.45,
+          "resid_p50": 22.78,
+          "resid_p95": 218.43,
+          "n": 27
+        },
+        "OOS": {
+          "raw_p50": 11.82,
+          "raw_p95": 52.25,
+          "resid_p50": -1.19,
+          "resid_p95": 27.63,
+          "n": 22
+        },
+        "UNSEEN": {
+          "raw_p50": -3.7,
+          "raw_p95": 26.46,
+          "resid_p50": -2.36,
+          "resid_p95": 16.03,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.0348,
+      "held_resid_exp_pct": -0.4805,
+      "held_raw_p05_blockboot": -26.7,
+      "held_resid_p05_blockboot": -34.27,
+      "held_resid_p50_blockboot": -14.59,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "BNBUSDT": {
+      "beta_vs_btc": 0.928,
+      "n_trades_held": 31,
+      "windows_raw": {
+        "TRAIN": 271.28,
+        "VAL": -22.4,
+        "OOS": 4.26,
+        "UNSEEN": -17.41
+      },
+      "windows_resid": {
+        "TRAIN": 126.01,
+        "VAL": -17.68,
+        "OOS": 10.6,
+        "UNSEEN": -7.11
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -8.76,
+          "resid": -0.29
+        },
+        "UNSEEN": {
+          "raw": -15.08,
+          "resid": -2.67
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 123.37,
+          "raw_p95": 860.51,
+          "resid_p50": 74.76,
+          "resid_p95": 464.42,
+          "n": 124
+        },
+        "VAL": {
+          "raw_p50": -11.04,
+          "raw_p95": 29.12,
+          "resid_p50": -13.59,
+          "resid_p95": 9.72,
+          "n": 30
+        },
+        "OOS": {
+          "raw_p50": 13.02,
+          "raw_p95": 50.47,
+          "resid_p50": 10.89,
+          "resid_p95": 40.58,
+          "n": 20
+        },
+        "UNSEEN": {
+          "raw_p50": -2.33,
+          "raw_p95": 11.6,
+          "resid_p50": -4.44,
+          "resid_p95": 1.72,
+          "n": 11
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.4272,
+      "held_resid_exp_pct": 0.1336,
+      "held_raw_p05_blockboot": -32.85,
+      "held_resid_p05_blockboot": -15.99,
+      "held_resid_p50_blockboot": 6.78,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "DOGEUSDT": {
+      "beta_vs_btc": 1.145,
+      "n_trades_held": 31,
+      "windows_raw": {
+        "TRAIN": 14808.13,
+        "VAL": 18.84,
+        "OOS": -4.31,
+        "UNSEEN": 2.86
+      },
+      "windows_resid": {
+        "TRAIN": 3882.49,
+        "VAL": 20.96,
+        "OOS": 3.25,
+        "UNSEEN": -0.35
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -18.09,
+          "resid": 3.06
+        },
+        "UNSEEN": {
+          "raw": 5.8,
+          "resid": 4.22
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 869.48,
+          "raw_p95": 24747.1,
+          "resid_p50": 421.18,
+          "resid_p95": 14055.28,
+          "n": 92
+        },
+        "VAL": {
+          "raw_p50": -4.07,
+          "raw_p95": 92.19,
+          "resid_p50": -2.39,
+          "resid_p95": 78.15,
+          "n": 22
+        },
+        "OOS": {
+          "raw_p50": 13.78,
+          "raw_p95": 87.19,
+          "resid_p50": 0.19,
+          "resid_p95": 49.47,
+          "n": 24
+        },
+        "UNSEEN": {
+          "raw_p50": -2.94,
+          "raw_p95": 21.19,
+          "resid_p50": -4.57,
+          "resid_p95": 10.02,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.108,
+      "held_resid_exp_pct": 0.2308,
+      "held_raw_p05_blockboot": -32.42,
+      "held_resid_p05_blockboot": -29.29,
+      "held_resid_p50_blockboot": 2.55,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ZECUSDT": {
+      "beta_vs_btc": 1.107,
+      "n_trades_held": 43,
+      "windows_raw": {
+        "TRAIN": -71.97,
+        "VAL": 7.19,
+        "OOS": -14.81,
+        "UNSEEN": 107.32
+      },
+      "windows_resid": {
+        "TRAIN": -20.66,
+        "VAL": -26.33,
+        "OOS": -11.18,
+        "UNSEEN": 107.97
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -43.21,
+          "resid": -40.58
+        },
+        "UNSEEN": {
+          "raw": 84.63,
+          "resid": 86.27
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -26.11,
+          "raw_p95": 253.09,
+          "resid_p50": -2.24,
+          "resid_p95": 222.12,
+          "n": 119
+        },
+        "VAL": {
+          "raw_p50": 5.01,
+          "raw_p95": 78.36,
+          "resid_p50": -9.85,
+          "resid_p95": 40.5,
+          "n": 23
+        },
+        "OOS": {
+          "raw_p50": 28.4,
+          "raw_p95": 386.02,
+          "resid_p50": 29.4,
+          "resid_p95": 338.22,
+          "n": 33
+        },
+        "UNSEEN": {
+          "raw_p50": 22.69,
+          "raw_p95": 110.25,
+          "resid_p50": 21.7,
+          "resid_p95": 97.42,
+          "n": 10
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 2.0928,
+      "held_resid_exp_pct": 2.067,
+      "held_raw_p05_blockboot": -65.19,
+      "held_resid_p05_blockboot": -60.18,
+      "held_resid_p50_blockboot": 35.45,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "TRXUSDT": {
+      "beta_vs_btc": 0.735,
+      "n_trades_held": 44,
+      "windows_raw": {
+        "TRAIN": -38.81,
+        "VAL": 39.13,
+        "OOS": -5.66,
+        "UNSEEN": -3.94
+      },
+      "windows_resid": {
+        "TRAIN": -49.45,
+        "VAL": 22.15,
+        "OOS": 3.42,
+        "UNSEEN": 0.48
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 4.28,
+          "resid": 10.34
+        },
+        "UNSEEN": {
+          "raw": -3.78,
+          "resid": -0.15
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 3.22,
+          "raw_p95": 420.41,
+          "resid_p50": 0.81,
+          "resid_p95": 328.41,
+          "n": 140
+        },
+        "VAL": {
+          "raw_p50": -2.06,
+          "raw_p95": 67.58,
+          "resid_p50": -5.11,
+          "resid_p95": 53.09,
+          "n": 41
+        },
+        "OOS": {
+          "raw_p50": -9.94,
+          "raw_p95": 9.96,
+          "resid_p50": -6.92,
+          "resid_p95": 11.74,
+          "n": 29
+        },
+        "UNSEEN": {
+          "raw_p50": -0.16,
+          "raw_p95": 11.37,
+          "resid_p50": 0.63,
+          "resid_p95": 15.38,
+          "n": 15
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": -0.2077,
+      "held_resid_exp_pct": 0.1018,
+      "held_raw_p05_blockboot": -25.93,
+      "held_resid_p05_blockboot": -13.28,
+      "held_resid_p50_blockboot": 3.06,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "PEPEUSDT": {
+      "beta_vs_btc": 1.838,
+      "n_trades_held": 28,
+      "windows_raw": {
+        "TRAIN": 18.41,
+        "VAL": 20.63,
+        "OOS": 10.75,
+        "UNSEEN": 8.17
+      },
+      "windows_resid": {
+        "TRAIN": -35.61,
+        "VAL": 28.77,
+        "OOS": -5.62,
+        "UNSEEN": 3.99
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -4.21,
+          "resid": -4.56
+        },
+        "UNSEEN": {
+          "raw": 15.78,
+          "resid": 8.91
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 141.49,
+          "raw_p95": 848.31,
+          "resid_p50": 46.47,
+          "resid_p95": 332.99,
+          "n": 26
+        },
+        "VAL": {
+          "raw_p50": 19.31,
+          "raw_p95": 241.97,
+          "resid_p50": 14.65,
+          "resid_p95": 100.44,
+          "n": 19
+        },
+        "OOS": {
+          "raw_p50": 14.96,
+          "raw_p95": 87.15,
+          "resid_p50": -1.06,
+          "resid_p95": 31.33,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": -7.61,
+          "raw_p95": 24.04,
+          "resid_p50": -4.92,
+          "resid_p95": 30.03,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 1.0504,
+      "held_resid_exp_pct": 0.2089,
+      "held_raw_p05_blockboot": -30.56,
+      "held_resid_p05_blockboot": -42.54,
+      "held_resid_p50_blockboot": -2.96,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ADAUSDT": {
+      "beta_vs_btc": 1.129,
+      "n_trades_held": 31,
+      "windows_raw": {
+        "TRAIN": 92.81,
+        "VAL": 2.27,
+        "OOS": -27.65,
+        "UNSEEN": -16.01
+      },
+      "windows_resid": {
+        "TRAIN": 14.57,
+        "VAL": -21.08,
+        "OOS": -18.59,
+        "UNSEEN": -16.28
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -21.4,
+          "resid": -8.01
+        },
+        "UNSEEN": {
+          "raw": -19.67,
+          "resid": -18.45
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -0.78,
+          "raw_p95": 277.26,
+          "resid_p50": -5.52,
+          "resid_p95": 263.86,
+          "n": 119
+        },
+        "VAL": {
+          "raw_p50": 35.26,
+          "raw_p95": 216.06,
+          "resid_p50": 1.54,
+          "resid_p95": 80.78,
+          "n": 26
+        },
+        "OOS": {
+          "raw_p50": -6.25,
+          "raw_p95": 44.33,
+          "resid_p50": -10.58,
+          "resid_p95": 16.48,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": 3.66,
+          "raw_p95": 35.51,
+          "resid_p50": 2.17,
+          "resid_p95": 21.76,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.4995,
+      "held_resid_exp_pct": -1.1867,
+      "held_raw_p05_blockboot": -56.0,
+      "held_resid_p05_blockboot": -48.22,
+      "held_resid_p50_blockboot": -30.37,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "LINKUSDT": {
+      "beta_vs_btc": 1.207,
+      "n_trades_held": 33,
+      "windows_raw": {
+        "TRAIN": -14.29,
+        "VAL": -20.49,
+        "OOS": -9.41,
+        "UNSEEN": -12.97
+      },
+      "windows_resid": {
+        "TRAIN": 14.17,
+        "VAL": -32.3,
+        "OOS": -9.9,
+        "UNSEEN": -7.37
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -43.77,
+          "resid": -21.59
+        },
+        "UNSEEN": {
+          "raw": -8.49,
+          "resid": -6.89
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 45.48,
+          "raw_p95": 486.99,
+          "resid_p50": 53.83,
+          "resid_p95": 404.59,
+          "n": 127
+        },
+        "VAL": {
+          "raw_p50": 2.15,
+          "raw_p95": 72.86,
+          "resid_p50": -21.99,
+          "resid_p95": 5.88,
+          "n": 24
+        },
+        "OOS": {
+          "raw_p50": 34.36,
+          "raw_p95": 121.8,
+          "resid_p50": 11.69,
+          "resid_p95": 51.94,
+          "n": 24
+        },
+        "UNSEEN": {
+          "raw_p50": -4.48,
+          "raw_p95": 16.27,
+          "resid_p50": -0.48,
+          "resid_p95": 9.78,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.6405,
+      "held_resid_exp_pct": -0.4975,
+      "held_raw_p05_blockboot": -50.61,
+      "held_resid_p05_blockboot": -42.8,
+      "held_resid_p50_blockboot": -21.37,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "SUIUSDT": {
+      "beta_vs_btc": 1.464,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": -0.93,
+        "VAL": -6.97,
+        "OOS": 23.11,
+        "UNSEEN": -15.45
+      },
+      "windows_resid": {
+        "TRAIN": -27.38,
+        "VAL": -40.77,
+        "OOS": 17.7,
+        "UNSEEN": -11.38
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 0.25,
+          "resid": 5.44
+        },
+        "UNSEEN": {
+          "raw": -11.04,
+          "resid": -11.38
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -12.22,
+          "raw_p95": 60.16,
+          "resid_p50": -14.15,
+          "resid_p95": 66.96,
+          "n": 23
+        },
+        "VAL": {
+          "raw_p50": 44.24,
+          "raw_p95": 196.83,
+          "resid_p50": 15.94,
+          "resid_p95": 114.14,
+          "n": 24
+        },
+        "OOS": {
+          "raw_p50": 22.86,
+          "raw_p95": 134.06,
+          "resid_p50": 12.26,
+          "resid_p95": 69.05,
+          "n": 20
+        },
+        "UNSEEN": {
+          "raw_p50": -4.41,
+          "raw_p95": 21.71,
+          "resid_p50": 0.0,
+          "resid_p95": 21.99,
+          "n": 10
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.5975,
+      "held_resid_exp_pct": 0.5183,
+      "held_raw_p05_blockboot": -52.07,
+      "held_resid_p05_blockboot": -51.58,
+      "held_resid_p50_blockboot": -20.21,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "AVAXUSDT": {
+      "beta_vs_btc": 1.263,
+      "n_trades_held": 34,
+      "windows_raw": {
+        "TRAIN": 248.23,
+        "VAL": -23.86,
+        "OOS": -24.1,
+        "UNSEEN": -12.74
+      },
+      "windows_resid": {
+        "TRAIN": 190.37,
+        "VAL": -42.25,
+        "OOS": -19.45,
+        "UNSEEN": -5.8
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -16.25,
+          "resid": -0.9
+        },
+        "UNSEEN": {
+          "raw": -11.29,
+          "resid": -5.05
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 107.68,
+          "raw_p95": 1870.43,
+          "resid_p50": 75.72,
+          "resid_p95": 938.6,
+          "n": 99
+        },
+        "VAL": {
+          "raw_p50": -7.86,
+          "raw_p95": 53.39,
+          "resid_p50": -20.45,
+          "resid_p95": 11.58,
+          "n": 23
+        },
+        "OOS": {
+          "raw_p50": -7.85,
+          "raw_p95": 39.93,
+          "resid_p50": -18.55,
+          "resid_p95": 9.26,
+          "n": 26
+        },
+        "UNSEEN": {
+          "raw_p50": -1.45,
+          "raw_p95": 18.95,
+          "resid_p50": -0.75,
+          "resid_p95": 10.59,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.0706,
+      "held_resid_exp_pct": -0.7371,
+      "held_raw_p05_blockboot": -55.45,
+      "held_resid_p05_blockboot": -46.83,
+      "held_resid_p50_blockboot": -29.51,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "TAOUSDT": {
+      "beta_vs_btc": 1.488,
+      "n_trades_held": 32,
+      "windows_raw": {
+        "TRAIN": -11.64,
+        "VAL": 10.86,
+        "OOS": -26.55,
+        "UNSEEN": 39.34
+      },
+      "windows_resid": {
+        "TRAIN": -6.04,
+        "VAL": -24.38,
+        "OOS": -35.91,
+        "UNSEEN": 55.52
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -21.88,
+          "resid": -13.03
+        },
+        "UNSEEN": {
+          "raw": 38.24,
+          "resid": 49.98
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -5.03,
+          "raw_p95": 13.57,
+          "resid_p50": -3.67,
+          "resid_p95": 5.11,
+          "n": 2
+        },
+        "VAL": {
+          "raw_p50": 4.63,
+          "raw_p95": 121.89,
+          "resid_p50": 1.38,
+          "resid_p95": 92.84,
+          "n": 23
+        },
+        "OOS": {
+          "raw_p50": -4.67,
+          "raw_p95": 57.77,
+          "resid_p50": -22.88,
+          "resid_p95": 6.75,
+          "n": 19
+        },
+        "UNSEEN": {
+          "raw_p50": 1.1,
+          "raw_p95": 59.4,
+          "resid_p50": 5.54,
+          "resid_p95": 68.82,
+          "n": 13
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.4709,
+      "held_resid_exp_pct": 0.2285,
+      "held_raw_p05_blockboot": -57.45,
+      "held_resid_p05_blockboot": -53.66,
+      "held_resid_p50_blockboot": 0.74,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "FETUSDT": {
+      "beta_vs_btc": 1.182,
+      "n_trades_held": 29,
+      "windows_raw": {
+        "TRAIN": -26.99,
+        "VAL": -10.42,
+        "OOS": 6.0,
+        "UNSEEN": 7.39
+      },
+      "windows_resid": {
+        "TRAIN": -36.3,
+        "VAL": -3.29,
+        "OOS": 11.75,
+        "UNSEEN": 15.95
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 6.84,
+          "resid": 27.09
+        },
+        "UNSEEN": {
+          "raw": 0.66,
+          "resid": 3.37
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -3.22,
+          "raw_p95": 743.97,
+          "resid_p50": -31.13,
+          "resid_p95": 265.47,
+          "n": 106
+        },
+        "VAL": {
+          "raw_p50": 7.74,
+          "raw_p95": 92.59,
+          "resid_p50": -2.41,
+          "resid_p95": 65.55,
+          "n": 17
+        },
+        "OOS": {
+          "raw_p50": -0.84,
+          "raw_p95": 68.77,
+          "resid_p50": -15.34,
+          "resid_p95": 37.12,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": 6.73,
+          "raw_p95": 66.31,
+          "resid_p50": 12.58,
+          "resid_p95": 59.15,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 0.8282,
+      "held_resid_exp_pct": 1.1718,
+      "held_raw_p05_blockboot": -33.21,
+      "held_resid_p05_blockboot": -22.34,
+      "held_resid_p50_blockboot": 42.09,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ENJUSDT": {
+      "beta_vs_btc": 1.076,
+      "n_trades_held": 25,
+      "windows_raw": {
+        "TRAIN": -53.37,
+        "VAL": -12.51,
+        "OOS": -20.86,
+        "UNSEEN": 158.0
+      },
+      "windows_resid": {
+        "TRAIN": -81.91,
+        "VAL": -23.99,
+        "OOS": -19.29,
+        "UNSEEN": 141.12
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -34.89,
+          "resid": -13.33
+        },
+        "UNSEEN": {
+          "raw": 157.63,
+          "resid": 132.94
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -31.7,
+          "raw_p95": 231.73,
+          "resid_p50": -46.67,
+          "resid_p95": 96.06,
+          "n": 104
+        },
+        "VAL": {
+          "raw_p50": -8.57,
+          "raw_p95": 54.8,
+          "resid_p50": -23.65,
+          "resid_p95": 11.18,
+          "n": 22
+        },
+        "OOS": {
+          "raw_p50": 14.03,
+          "raw_p95": 81.36,
+          "resid_p50": -5.96,
+          "resid_p95": 54.89,
+          "n": 18
+        },
+        "UNSEEN": {
+          "raw_p50": 0.37,
+          "raw_p95": 121.2,
+          "resid_p50": 8.18,
+          "resid_p95": 133.51,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 6.2155,
+      "held_resid_exp_pct": 5.6775,
+      "held_raw_p05_blockboot": -51.03,
+      "held_resid_p05_blockboot": -47.2,
+      "held_resid_p50_blockboot": 79.95,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ORDIUSDT": {
+      "beta_vs_btc": 1.609,
+      "n_trades_held": 34,
+      "windows_raw": {
+        "TRAIN": 39.11,
+        "VAL": -49.25,
+        "OOS": -22.85,
+        "UNSEEN": 44.4
+      },
+      "windows_resid": {
+        "TRAIN": 1.81,
+        "VAL": -45.82,
+        "OOS": -18.76,
+        "UNSEEN": 36.81
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -42.07,
+          "resid": -20.15
+        },
+        "UNSEEN": {
+          "raw": 52.01,
+          "resid": 44.61
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 45.38,
+          "raw_p95": 366.13,
+          "resid_p50": 14.9,
+          "resid_p95": 185.53,
+          "n": 17
+        },
+        "VAL": {
+          "raw_p50": -29.34,
+          "raw_p95": 49.14,
+          "resid_p50": -11.26,
+          "resid_p95": 49.76,
+          "n": 31
+        },
+        "OOS": {
+          "raw_p50": 19.22,
+          "raw_p95": 119.56,
+          "resid_p50": 1.39,
+          "resid_p95": 64.33,
+          "n": 25
+        },
+        "UNSEEN": {
+          "raw_p50": -7.61,
+          "raw_p95": 221.53,
+          "resid_p50": -7.8,
+          "resid_p95": 208.33,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 2.0302,
+      "held_resid_exp_pct": 1.822,
+      "held_raw_p05_blockboot": -60.78,
+      "held_resid_p05_blockboot": -56.97,
+      "held_resid_p50_blockboot": 0.95,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "NEARUSDT": {
+      "beta_vs_btc": 1.259,
+      "n_trades_held": 39,
+      "windows_raw": {
+        "TRAIN": 122.44,
+        "VAL": 42.37,
+        "OOS": -5.8,
+        "UNSEEN": 0.06
+      },
+      "windows_resid": {
+        "TRAIN": 1.08,
+        "VAL": -13.79,
+        "OOS": -14.59,
+        "UNSEEN": 12.12
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -20.71,
+          "resid": -2.31
+        },
+        "UNSEEN": {
+          "raw": -13.36,
+          "resid": -4.91
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -2.95,
+          "raw_p95": 436.52,
+          "resid_p50": -16.19,
+          "resid_p95": 165.17,
+          "n": 90
+        },
+        "VAL": {
+          "raw_p50": 10.48,
+          "raw_p95": 95.96,
+          "resid_p50": -11.94,
+          "resid_p95": 18.02,
+          "n": 17
+        },
+        "OOS": {
+          "raw_p50": 14.91,
+          "raw_p95": 96.87,
+          "resid_p50": -12.28,
+          "resid_p95": 21.47,
+          "n": 26
+        },
+        "UNSEEN": {
+          "raw_p50": 13.42,
+          "raw_p95": 89.24,
+          "resid_p50": 17.03,
+          "resid_p95": 92.5,
+          "n": 13
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.0876,
+      "held_resid_exp_pct": 0.1149,
+      "held_raw_p05_blockboot": -63.25,
+      "held_resid_p05_blockboot": -63.67,
+      "held_resid_p50_blockboot": -31.06,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "WLDUSDT": {
+      "beta_vs_btc": 1.506,
+      "n_trades_held": 28,
+      "windows_raw": {
+        "TRAIN": 82.46,
+        "VAL": 32.5,
+        "OOS": 48.38,
+        "UNSEEN": -0.23
+      },
+      "windows_resid": {
+        "TRAIN": 72.93,
+        "VAL": 8.62,
+        "OOS": 34.81,
+        "UNSEEN": 18.47
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 8.54,
+          "resid": 24.5
+        },
+        "UNSEEN": {
+          "raw": 7.19,
+          "resid": 27.87
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 7.87,
+          "raw_p95": 233.87,
+          "resid_p50": 0.16,
+          "resid_p95": 211.29,
+          "n": 17
+        },
+        "VAL": {
+          "raw_p50": -20.49,
+          "raw_p95": 46.26,
+          "resid_p50": -16.72,
+          "resid_p95": 35.78,
+          "n": 17
+        },
+        "OOS": {
+          "raw_p50": 39.84,
+          "raw_p95": 301.51,
+          "resid_p50": 10.31,
+          "resid_p95": 173.83,
+          "n": 19
+        },
+        "UNSEEN": {
+          "raw_p50": -7.42,
+          "raw_p95": 34.38,
+          "resid_p50": -9.4,
+          "resid_p95": 32.64,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 2.6044,
+      "held_resid_exp_pct": 2.5252,
+      "held_raw_p05_blockboot": -43.95,
+      "held_resid_p05_blockboot": -32.55,
+      "held_resid_p50_blockboot": 42.17,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ENAUSDT": {
+      "beta_vs_btc": 1.67,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": -4.33,
+        "VAL": -19.48,
+        "OOS": -17.71,
+        "UNSEEN": -8.46
+      },
+      "windows_resid": {
+        "TRAIN": 1.4,
+        "VAL": -46.63,
+        "OOS": 0.43,
+        "UNSEEN": -1.33
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -19.77,
+          "resid": 6.44
+        },
+        "UNSEEN": {
+          "raw": 2.06,
+          "resid": 6.22
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -1.84,
+          "raw_p95": 6.95,
+          "resid_p50": -2.97,
+          "resid_p95": 7.43,
+          "n": 1
+        },
+        "VAL": {
+          "raw_p50": -33.15,
+          "raw_p95": 43.93,
+          "resid_p50": -38.61,
+          "resid_p95": 4.19,
+          "n": 20
+        },
+        "OOS": {
+          "raw_p50": 2.06,
+          "raw_p95": 111.61,
+          "resid_p50": -6.01,
+          "resid_p95": 53.73,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": -10.52,
+          "raw_p95": 17.86,
+          "resid_p50": -7.55,
+          "resid_p95": 12.4,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.7313,
+      "held_resid_exp_pct": 0.1506,
+      "held_raw_p05_blockboot": -59.99,
+      "held_resid_p05_blockboot": -43.26,
+      "held_resid_p50_blockboot": -12.44,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "LTCUSDT": {
+      "beta_vs_btc": 1.087,
+      "n_trades_held": 32,
+      "windows_raw": {
+        "TRAIN": -66.4,
+        "VAL": 1.93,
+        "OOS": -38.94,
+        "UNSEEN": -4.94
+      },
+      "windows_resid": {
+        "TRAIN": -73.41,
+        "VAL": -10.78,
+        "OOS": -34.45,
+        "UNSEEN": -3.88
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -33.52,
+          "resid": -22.44
+        },
+        "UNSEEN": {
+          "raw": -2.0,
+          "resid": -1.29
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -55.68,
+          "raw_p95": 141.39,
+          "resid_p50": -55.07,
+          "resid_p95": 13.25,
+          "n": 143
+        },
+        "VAL": {
+          "raw_p50": 13.41,
+          "raw_p95": 80.63,
+          "resid_p50": -15.61,
+          "resid_p95": 28.54,
+          "n": 31
+        },
+        "OOS": {
+          "raw_p50": -5.42,
+          "raw_p95": 33.65,
+          "resid_p50": -12.01,
+          "resid_p95": 10.63,
+          "n": 26
+        },
+        "UNSEEN": {
+          "raw_p50": -2.94,
+          "raw_p95": 12.59,
+          "resid_p50": -2.59,
+          "resid_p95": 10.4,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.5344,
+      "held_resid_exp_pct": -1.3452,
+      "held_raw_p05_blockboot": -64.6,
+      "held_resid_p05_blockboot": -57.44,
+      "held_resid_p50_blockboot": -36.87,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "AAVEUSDT": {
+      "beta_vs_btc": 1.297,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": -54.76,
+        "VAL": 19.82,
+        "OOS": -19.17,
+        "UNSEEN": -19.9
+      },
+      "windows_resid": {
+        "TRAIN": -74.41,
+        "VAL": -29.97,
+        "OOS": -22.81,
+        "UNSEEN": -7.56
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -25.16,
+          "resid": -24.92
+        },
+        "UNSEEN": {
+          "raw": -15.66,
+          "resid": -1.64
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -38.13,
+          "raw_p95": 248.84,
+          "resid_p50": -42.86,
+          "resid_p95": 80.49,
+          "n": 96
+        },
+        "VAL": {
+          "raw_p50": 22.16,
+          "raw_p95": 133.52,
+          "resid_p50": -18.82,
+          "resid_p95": 49.65,
+          "n": 24
+        },
+        "OOS": {
+          "raw_p50": 5.99,
+          "raw_p95": 60.78,
+          "resid_p50": 2.11,
+          "resid_p95": 32.29,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": -4.24,
+          "raw_p95": 21.91,
+          "resid_p50": -5.92,
+          "resid_p95": 10.4,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.3822,
+      "held_resid_exp_pct": -1.0791,
+      "held_raw_p05_blockboot": -51.01,
+      "held_resid_p05_blockboot": -39.62,
+      "held_resid_p50_blockboot": -30.72,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "DASHUSDT": {
+      "beta_vs_btc": 1.089,
+      "n_trades_held": 33,
+      "windows_raw": {
+        "TRAIN": -68.28,
+        "VAL": 14.91,
+        "OOS": -36.15,
+        "UNSEEN": 160.29
+      },
+      "windows_resid": {
+        "TRAIN": -54.69,
+        "VAL": 0.02,
+        "OOS": -14.99,
+        "UNSEEN": 158.06
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -71.89,
+          "resid": -35.38
+        },
+        "UNSEEN": {
+          "raw": 156.46,
+          "resid": 155.77
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -8.44,
+          "raw_p95": 396.5,
+          "resid_p50": -18.09,
+          "resid_p95": 252.81,
+          "n": 125
+        },
+        "VAL": {
+          "raw_p50": 2.46,
+          "raw_p95": 62.04,
+          "resid_p50": -13.18,
+          "resid_p95": 30.4,
+          "n": 22
+        },
+        "OOS": {
+          "raw_p50": 35.74,
+          "raw_p95": 258.95,
+          "resid_p50": 20.39,
+          "resid_p95": 232.37,
+          "n": 26
+        },
+        "UNSEEN": {
+          "raw_p50": 3.83,
+          "raw_p95": 142.52,
+          "resid_p50": 2.29,
+          "resid_p95": 121.66,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 2.587,
+      "held_resid_exp_pct": 3.4972,
+      "held_raw_p05_blockboot": -53.78,
+      "held_resid_p05_blockboot": -44.22,
+      "held_resid_p50_blockboot": 76.2,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "UNIUSDT": {
+      "beta_vs_btc": 1.234,
+      "n_trades_held": 29,
+      "windows_raw": {
+        "TRAIN": -66.78,
+        "VAL": -33.09,
+        "OOS": -7.39,
+        "UNSEEN": -16.61
+      },
+      "windows_resid": {
+        "TRAIN": -64.22,
+        "VAL": -33.14,
+        "OOS": -2.56,
+        "UNSEEN": -8.42
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -30.79,
+          "resid": -10.61
+        },
+        "UNSEEN": {
+          "raw": -16.35,
+          "resid": -5.46
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -26.61,
+          "raw_p95": 199.31,
+          "resid_p50": -55.01,
+          "resid_p95": 54.57,
+          "n": 93
+        },
+        "VAL": {
+          "raw_p50": 3.02,
+          "raw_p95": 129.6,
+          "resid_p50": 10.59,
+          "resid_p95": 85.61,
+          "n": 28
+        },
+        "OOS": {
+          "raw_p50": 23.4,
+          "raw_p95": 118.5,
+          "resid_p50": 8.05,
+          "resid_p95": 77.19,
+          "n": 22
+        },
+        "UNSEEN": {
+          "raw_p50": -0.26,
+          "raw_p95": 14.76,
+          "resid_p50": -2.96,
+          "resid_p95": 6.48,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.5724,
+      "held_resid_exp_pct": -0.1132,
+      "held_raw_p05_blockboot": -55.47,
+      "held_resid_p05_blockboot": -41.17,
+      "held_resid_p50_blockboot": -7.05,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "BCHUSDT": {
+      "beta_vs_btc": 1.074,
+      "n_trades_held": 29,
+      "windows_raw": {
+        "TRAIN": -1.28,
+        "VAL": -18.9,
+        "OOS": -30.13,
+        "UNSEEN": -6.53
+      },
+      "windows_resid": {
+        "TRAIN": -26.14,
+        "VAL": -25.59,
+        "OOS": -28.02,
+        "UNSEEN": -7.15
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -25.71,
+          "resid": -21.76
+        },
+        "UNSEEN": {
+          "raw": -3.37,
+          "resid": -3.91
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 10.18,
+          "raw_p95": 457.29,
+          "resid_p50": -14.79,
+          "resid_p95": 140.22,
+          "n": 119
+        },
+        "VAL": {
+          "raw_p50": -11.54,
+          "raw_p95": 31.95,
+          "resid_p50": -22.28,
+          "resid_p95": 5.82,
+          "n": 23
+        },
+        "OOS": {
+          "raw_p50": -4.42,
+          "raw_p95": 26.07,
+          "resid_p50": -6.26,
+          "resid_p95": 13.5,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": -3.16,
+          "raw_p95": 12.11,
+          "resid_p50": -3.24,
+          "resid_p95": 9.92,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.4058,
+      "held_resid_exp_pct": -1.3338,
+      "held_raw_p05_blockboot": -48.61,
+      "held_resid_p05_blockboot": -45.66,
+      "held_resid_p50_blockboot": -34.69,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "PENGUUSDT": {
+      "beta_vs_btc": 1.747,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": -16.4,
+        "OOS": 163.61,
+        "UNSEEN": 14.51
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -1.33,
+        "OOS": 113.58,
+        "UNSEEN": 31.36
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 118.9,
+          "resid": 77.95
+        },
+        "UNSEEN": {
+          "raw": 17.3,
+          "resid": 30.4
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": -6.3,
+          "raw_p95": 10.71,
+          "resid_p50": -7.24,
+          "resid_p95": 14.01,
+          "n": 3
+        },
+        "OOS": {
+          "raw_p50": 44.71,
+          "raw_p95": 262.79,
+          "resid_p50": 35.63,
+          "resid_p95": 210.78,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": -2.79,
+          "raw_p95": 38.83,
+          "resid_p50": 0.96,
+          "resid_p95": 35.4,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 5.1406,
+      "held_resid_exp_pct": 4.6424,
+      "held_raw_p05_blockboot": -21.71,
+      "held_resid_p05_blockboot": -24.31,
+      "held_resid_p50_blockboot": 148.35,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "DOTUSDT": {
+      "beta_vs_btc": 1.177,
+      "n_trades_held": 33,
+      "windows_raw": {
+        "TRAIN": 90.07,
+        "VAL": -20.28,
+        "OOS": -26.79,
+        "UNSEEN": -21.78
+      },
+      "windows_resid": {
+        "TRAIN": -6.75,
+        "VAL": -32.32,
+        "OOS": -26.16,
+        "UNSEEN": -7.83
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -21.62,
+          "resid": -6.33
+        },
+        "UNSEEN": {
+          "raw": -18.08,
+          "resid": -4.08
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -20.57,
+          "raw_p95": 242.78,
+          "resid_p50": -31.86,
+          "resid_p95": 131.07,
+          "n": 106
+        },
+        "VAL": {
+          "raw_p50": -9.16,
+          "raw_p95": 68.42,
+          "resid_p50": -16.21,
+          "resid_p95": 22.26,
+          "n": 26
+        },
+        "OOS": {
+          "raw_p50": -5.17,
+          "raw_p95": 40.1,
+          "resid_p50": -19.83,
+          "resid_p95": 4.17,
+          "n": 25
+        },
+        "UNSEEN": {
+          "raw_p50": -3.7,
+          "raw_p95": 30.92,
+          "resid_p50": -3.75,
+          "resid_p95": 24.53,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.5733,
+      "held_resid_exp_pct": -1.1085,
+      "held_raw_p05_blockboot": -60.69,
+      "held_resid_p05_blockboot": -46.94,
+      "held_resid_p50_blockboot": -32.66,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "TONUSDT": {
+      "beta_vs_btc": 0.894,
+      "n_trades_held": 33,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 6.72,
+        "OOS": -43.07,
+        "UNSEEN": 74.34
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -7.62,
+        "OOS": -29.0,
+        "UNSEEN": 76.0
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -32.44,
+          "resid": -22.64
+        },
+        "UNSEEN": {
+          "raw": 62.29,
+          "resid": 58.45
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": 12.29,
+          "raw_p95": 61.0,
+          "resid_p50": 6.12,
+          "resid_p95": 51.09,
+          "n": 15
+        },
+        "OOS": {
+          "raw_p50": -10.63,
+          "raw_p95": 25.07,
+          "resid_p50": -6.36,
+          "resid_p95": 16.38,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": 12.05,
+          "raw_p95": 106.76,
+          "resid_p50": 17.55,
+          "resid_p95": 112.47,
+          "n": 10
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.6589,
+      "held_resid_exp_pct": 1.2822,
+      "held_raw_p05_blockboot": -55.66,
+      "held_resid_p05_blockboot": -41.44,
+      "held_resid_p50_blockboot": -18.96,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "APTUSDT": {
+      "beta_vs_btc": 1.343,
+      "n_trades_held": 32,
+      "windows_raw": {
+        "TRAIN": -22.08,
+        "VAL": 30.44,
+        "OOS": -23.4,
+        "UNSEEN": -21.22
+      },
+      "windows_resid": {
+        "TRAIN": -51.49,
+        "VAL": -10.87,
+        "OOS": -18.45,
+        "UNSEEN": -19.85
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -38.7,
+          "resid": -9.88
+        },
+        "UNSEEN": {
+          "raw": -8.66,
+          "resid": -5.66
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -9.89,
+          "raw_p95": 137.41,
+          "resid_p50": -32.7,
+          "resid_p95": 59.19,
+          "n": 43
+        },
+        "VAL": {
+          "raw_p50": 30.28,
+          "raw_p95": 136.9,
+          "resid_p50": 3.81,
+          "resid_p95": 67.08,
+          "n": 21
+        },
+        "OOS": {
+          "raw_p50": 15.3,
+          "raw_p95": 97.77,
+          "resid_p50": -8.57,
+          "resid_p95": 39.76,
+          "n": 24
+        },
+        "UNSEEN": {
+          "raw_p50": -12.56,
+          "raw_p95": 2.11,
+          "resid_p50": -14.19,
+          "resid_p95": 0.49,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.4381,
+      "held_resid_exp_pct": -1.28,
+      "held_raw_p05_blockboot": -59.43,
+      "held_resid_p05_blockboot": -49.38,
+      "held_resid_p50_blockboot": -33.9,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "FILUSDT": {
+      "beta_vs_btc": 1.042,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": 22.26,
+        "VAL": -4.04,
+        "OOS": -9.07,
+        "UNSEEN": -15.08
+      },
+      "windows_resid": {
+        "TRAIN": -29.82,
+        "VAL": -27.16,
+        "OOS": -15.18,
+        "UNSEEN": -3.29
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -11.24,
+          "resid": -0.99
+        },
+        "UNSEEN": {
+          "raw": -7.25,
+          "resid": 3.16
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -42.96,
+          "raw_p95": 176.83,
+          "resid_p50": -44.78,
+          "resid_p95": 109.35,
+          "n": 91
+        },
+        "VAL": {
+          "raw_p50": -3.86,
+          "raw_p95": 69.27,
+          "resid_p50": -15.8,
+          "resid_p95": 30.95,
+          "n": 27
+        },
+        "OOS": {
+          "raw_p50": 2.17,
+          "raw_p95": 94.1,
+          "resid_p50": -14.19,
+          "resid_p95": 69.69,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": -7.83,
+          "raw_p95": 13.77,
+          "resid_p50": -6.45,
+          "resid_p95": 12.82,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.7515,
+      "held_resid_exp_pct": -0.5601,
+      "held_raw_p05_blockboot": -42.17,
+      "held_resid_p05_blockboot": -38.34,
+      "held_resid_p50_blockboot": -20.72,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "RENDERUSDT": {
+      "beta_vs_btc": 1.668,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 19.42,
+        "OOS": -32.47,
+        "UNSEEN": 40.83
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 2.58,
+        "OOS": -34.67,
+        "UNSEEN": 23.62
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -32.81,
+          "resid": -17.66
+        },
+        "UNSEEN": {
+          "raw": 11.94,
+          "resid": -15.2
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": 18.41,
+          "raw_p95": 76.83,
+          "resid_p50": 9.04,
+          "resid_p95": 49.55,
+          "n": 12
+        },
+        "OOS": {
+          "raw_p50": 0.34,
+          "raw_p95": 69.4,
+          "resid_p50": -17.01,
+          "resid_p95": 22.93,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": 28.89,
+          "raw_p95": 145.21,
+          "resid_p50": 38.82,
+          "resid_p95": 155.44,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.4675,
+      "held_resid_exp_pct": -0.3002,
+      "held_raw_p05_blockboot": -47.7,
+      "held_resid_p05_blockboot": -49.94,
+      "held_resid_p50_blockboot": -19.31,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "HBARUSDT": {
+      "beta_vs_btc": 1.102,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": 38.79,
+        "VAL": 111.31,
+        "OOS": -10.82,
+        "UNSEEN": -3.35
+      },
+      "windows_resid": {
+        "TRAIN": 42.52,
+        "VAL": 46.67,
+        "OOS": 0.36,
+        "UNSEEN": 1.4
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -23.71,
+          "resid": -1.71
+        },
+        "UNSEEN": {
+          "raw": -2.95,
+          "resid": -3.33
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -37.8,
+          "raw_p95": 201.55,
+          "resid_p50": -11.36,
+          "resid_p95": 220.13,
+          "n": 100
+        },
+        "VAL": {
+          "raw_p50": 23.89,
+          "raw_p95": 203.71,
+          "resid_p50": 4.22,
+          "resid_p95": 145.82,
+          "n": 20
+        },
+        "OOS": {
+          "raw_p50": 12.89,
+          "raw_p95": 86.48,
+          "resid_p50": 2.07,
+          "resid_p95": 51.23,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": -0.4,
+          "raw_p95": 21.94,
+          "resid_p50": 4.73,
+          "resid_p95": 21.95,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": -0.3573,
+      "held_resid_exp_pct": 0.1514,
+      "held_raw_p05_blockboot": -37.51,
+      "held_resid_p05_blockboot": -19.86,
+      "held_resid_p50_blockboot": 3.15,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ARBUSDT": {
+      "beta_vs_btc": 1.377,
+      "n_trades_held": 31,
+      "windows_raw": {
+        "TRAIN": -33.97,
+        "VAL": -7.08,
+        "OOS": -27.32,
+        "UNSEEN": 19.02
+      },
+      "windows_resid": {
+        "TRAIN": -44.45,
+        "VAL": -14.45,
+        "OOS": -15.87,
+        "UNSEEN": 18.45
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -22.56,
+          "resid": -2.34
+        },
+        "UNSEEN": {
+          "raw": 28.69,
+          "resid": 24.87
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 2.53,
+          "raw_p95": 54.64,
+          "resid_p50": -10.65,
+          "resid_p95": 52.62,
+          "n": 29
+        },
+        "VAL": {
+          "raw_p50": -7.61,
+          "raw_p95": 47.85,
+          "resid_p50": -16.47,
+          "resid_p95": 16.43,
+          "n": 23
+        },
+        "OOS": {
+          "raw_p50": -4.76,
+          "raw_p95": 65.88,
+          "resid_p50": -13.53,
+          "resid_p95": 35.11,
+          "n": 25
+        },
+        "UNSEEN": {
+          "raw_p50": -9.67,
+          "raw_p95": 19.42,
+          "resid_p50": -6.42,
+          "resid_p95": 11.27,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.2516,
+      "held_resid_exp_pct": 0.1807,
+      "held_raw_p05_blockboot": -55.56,
+      "held_resid_p05_blockboot": -42.38,
+      "held_resid_p50_blockboot": -10.8,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "TRUMPUSDT": {
+      "beta_vs_btc": 1.336,
+      "n_trades_held": 24,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": -12.9,
+        "OOS": 14.24,
+        "UNSEEN": -33.89
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -12.67,
+        "OOS": 17.34,
+        "UNSEEN": -34.5
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 11.84,
+          "resid": 24.72
+        },
+        "UNSEEN": {
+          "raw": -26.58,
+          "resid": -26.72
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": -0.38,
+          "raw_p95": 12.82,
+          "resid_p50": 0.43,
+          "resid_p95": 10.27,
+          "n": 1
+        },
+        "OOS": {
+          "raw_p50": 2.4,
+          "raw_p95": 76.17,
+          "resid_p50": -7.38,
+          "resid_p95": 50.83,
+          "n": 18
+        },
+        "UNSEEN": {
+          "raw_p50": -7.31,
+          "raw_p95": 1.95,
+          "resid_p50": -7.78,
+          "resid_p95": 2.59,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.6119,
+      "held_resid_exp_pct": -0.6502,
+      "held_raw_p05_blockboot": -63.29,
+      "held_resid_p05_blockboot": -64.58,
+      "held_resid_p50_blockboot": -21.09,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "TREEUSDT": {
+      "beta_vs_btc": 1.183,
+      "n_trades_held": 18,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -45.21,
+        "UNSEEN": -9.43
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -41.03,
+        "UNSEEN": -8.38
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -38.11,
+          "resid": -30.14
+        },
+        "UNSEEN": {
+          "raw": 14.24,
+          "resid": 4.8
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": -7.1,
+          "raw_p95": 32.22,
+          "resid_p50": -10.89,
+          "resid_p95": 22.16,
+          "n": 8
+        },
+        "UNSEEN": {
+          "raw_p50": -23.67,
+          "raw_p95": 1.62,
+          "resid_p50": -13.18,
+          "resid_p95": 14.34,
+          "n": 10
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -3.6297,
+      "held_resid_exp_pct": -3.19,
+      "held_raw_p05_blockboot": -66.1,
+      "held_resid_p05_blockboot": -63.67,
+      "held_resid_p50_blockboot": -37.32,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "SHIBUSDT": {
+      "beta_vs_btc": 1.172,
+      "n_trades_held": 29,
+      "windows_raw": {
+        "TRAIN": 492.95,
+        "VAL": 15.1,
+        "OOS": -6.14,
+        "UNSEEN": 4.1
+      },
+      "windows_resid": {
+        "TRAIN": 425.83,
+        "VAL": 0.16,
+        "OOS": -15.23,
+        "UNSEEN": 2.72
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -16.27,
+          "resid": -6.78
+        },
+        "UNSEEN": {
+          "raw": 0.33,
+          "resid": -2.12
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 304.23,
+          "raw_p95": 5433.92,
+          "resid_p50": 337.76,
+          "resid_p95": 3737.06,
+          "n": 78
+        },
+        "VAL": {
+          "raw_p50": -3.46,
+          "raw_p95": 55.26,
+          "resid_p50": -3.3,
+          "resid_p95": 42.32,
+          "n": 18
+        },
+        "OOS": {
+          "raw_p50": 10.13,
+          "raw_p95": 61.25,
+          "resid_p50": -8.45,
+          "resid_p95": 19.92,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": 3.77,
+          "raw_p95": 34.9,
+          "resid_p50": 4.84,
+          "resid_p95": 22.92,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.0336,
+      "held_resid_exp_pct": -0.3962,
+      "held_raw_p05_blockboot": -17.19,
+      "held_resid_p05_blockboot": -31.98,
+      "held_resid_p50_blockboot": -14.27,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ALGOUSDT": {
+      "beta_vs_btc": 1.164,
+      "n_trades_held": 27,
+      "windows_raw": {
+        "TRAIN": -83.93,
+        "VAL": 8.82,
+        "OOS": 6.52,
+        "UNSEEN": 30.81
+      },
+      "windows_resid": {
+        "TRAIN": -87.26,
+        "VAL": -11.15,
+        "OOS": 1.03,
+        "UNSEEN": 28.83
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -10.15,
+          "resid": -4.29
+        },
+        "UNSEEN": {
+          "raw": 13.94,
+          "resid": 15.24
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -49.59,
+          "raw_p95": 99.22,
+          "resid_p50": -48.94,
+          "resid_p95": 60.73,
+          "n": 115
+        },
+        "VAL": {
+          "raw_p50": 18.28,
+          "raw_p95": 125.13,
+          "resid_p50": -3.75,
+          "resid_p95": 62.08,
+          "n": 22
+        },
+        "OOS": {
+          "raw_p50": 16.67,
+          "raw_p95": 120.39,
+          "resid_p50": 5.32,
+          "resid_p95": 60.22,
+          "n": 18
+        },
+        "UNSEEN": {
+          "raw_p50": 16.87,
+          "raw_p95": 65.98,
+          "resid_p50": 13.59,
+          "resid_p95": 55.89,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 1.4604,
+      "held_resid_exp_pct": 1.1608,
+      "held_raw_p05_blockboot": -24.62,
+      "held_resid_p05_blockboot": -23.49,
+      "held_resid_p50_blockboot": 18.92,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "BONKUSDT": {
+      "beta_vs_btc": 1.796,
+      "n_trades_held": 34,
+      "windows_raw": {
+        "TRAIN": 46.09,
+        "VAL": 52.44,
+        "OOS": -11.49,
+        "UNSEEN": 9.3
+      },
+      "windows_resid": {
+        "TRAIN": 50.36,
+        "VAL": 74.02,
+        "OOS": 6.59,
+        "UNSEEN": 18.46
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -19.85,
+          "resid": 6.17
+        },
+        "UNSEEN": {
+          "raw": 6.01,
+          "resid": 14.33
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 22.69,
+          "raw_p95": 282.83,
+          "resid_p50": 24.91,
+          "resid_p95": 181.08,
+          "n": 9
+        },
+        "VAL": {
+          "raw_p50": 6.91,
+          "raw_p95": 127.39,
+          "resid_p50": 2.33,
+          "resid_p95": 82.9,
+          "n": 18
+        },
+        "OOS": {
+          "raw_p50": 8.36,
+          "raw_p95": 120.56,
+          "resid_p50": 0.42,
+          "resid_p95": 67.5,
+          "n": 27
+        },
+        "UNSEEN": {
+          "raw_p50": 3.29,
+          "raw_p95": 60.05,
+          "resid_p50": 4.13,
+          "resid_p95": 41.28,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 0.3206,
+      "held_resid_exp_pct": 1.0111,
+      "held_raw_p05_blockboot": -54.93,
+      "held_resid_p05_blockboot": -26.68,
+      "held_resid_p50_blockboot": 28.13,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "WIFUSDT": {
+      "beta_vs_btc": 1.868,
+      "n_trades_held": 30,
+      "windows_raw": {
+        "TRAIN": -33.02,
+        "VAL": 27.14,
+        "OOS": 37.31,
+        "UNSEEN": -22.08
+      },
+      "windows_resid": {
+        "TRAIN": -14.86,
+        "VAL": 40.18,
+        "OOS": 8.04,
+        "UNSEEN": -9.2
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -8.53,
+          "resid": -6.35
+        },
+        "UNSEEN": {
+          "raw": -22.38,
+          "resid": -11.82
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -19.01,
+          "raw_p95": 50.71,
+          "resid_p50": -3.07,
+          "resid_p95": 68.97,
+          "n": 6
+        },
+        "VAL": {
+          "raw_p50": -27.92,
+          "raw_p95": 62.5,
+          "resid_p50": -21.01,
+          "resid_p95": 51.19,
+          "n": 19
+        },
+        "OOS": {
+          "raw_p50": 45.84,
+          "raw_p95": 276.79,
+          "resid_p50": 14.39,
+          "resid_p95": 149.07,
+          "n": 22
+        },
+        "UNSEEN": {
+          "raw_p50": 0.3,
+          "raw_p95": 38.06,
+          "resid_p50": 2.62,
+          "resid_p95": 33.17,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 1.2532,
+      "held_resid_exp_pct": 0.6231,
+      "held_raw_p05_blockboot": -74.03,
+      "held_resid_p05_blockboot": -70.07,
+      "held_resid_p50_blockboot": -38.08,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ICPUSDT": {
+      "beta_vs_btc": 1.269,
+      "n_trades_held": 33,
+      "windows_raw": {
+        "TRAIN": 48.35,
+        "VAL": 18.92,
+        "OOS": 0.55,
+        "UNSEEN": 31.49
+      },
+      "windows_resid": {
+        "TRAIN": 18.37,
+        "VAL": -16.58,
+        "OOS": 14.78,
+        "UNSEEN": 43.84
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -8.75,
+          "resid": 13.17
+        },
+        "UNSEEN": {
+          "raw": 48.16,
+          "resid": 53.57
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -59.0,
+          "raw_p95": 58.52,
+          "resid_p50": -61.25,
+          "resid_p95": 31.08,
+          "n": 63
+        },
+        "VAL": {
+          "raw_p50": 10.59,
+          "raw_p95": 86.75,
+          "resid_p50": -11.9,
+          "resid_p95": 38.53,
+          "n": 18
+        },
+        "OOS": {
+          "raw_p50": 9.3,
+          "raw_p95": 100.61,
+          "resid_p50": 1.61,
+          "resid_p95": 91.25,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": -16.67,
+          "raw_p95": 32.38,
+          "resid_p50": -9.73,
+          "resid_p95": 40.04,
+          "n": 12
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 1.2191,
+      "held_resid_exp_pct": 1.997,
+      "held_raw_p05_blockboot": -33.41,
+      "held_resid_p05_blockboot": -31.81,
+      "held_resid_p50_blockboot": 36.27,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "SEIUSDT": {
+      "beta_vs_btc": 1.438,
+      "n_trades_held": 32,
+      "windows_raw": {
+        "TRAIN": -36.15,
+        "VAL": 5.16,
+        "OOS": -40.23,
+        "UNSEEN": 17.45
+      },
+      "windows_resid": {
+        "TRAIN": -35.62,
+        "VAL": 0.81,
+        "OOS": -34.92,
+        "UNSEEN": 21.9
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -32.71,
+          "resid": -17.48
+        },
+        "UNSEEN": {
+          "raw": 26.91,
+          "resid": 26.51
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -16.03,
+          "raw_p95": 59.64,
+          "resid_p50": -23.18,
+          "resid_p95": 29.17,
+          "n": 25
+        },
+        "VAL": {
+          "raw_p50": -8.6,
+          "raw_p95": 71.1,
+          "resid_p50": -15.78,
+          "resid_p95": 34.35,
+          "n": 21
+        },
+        "OOS": {
+          "raw_p50": -7.52,
+          "raw_p95": 55.54,
+          "resid_p50": -17.44,
+          "resid_p95": 18.2,
+          "n": 26
+        },
+        "UNSEEN": {
+          "raw_p50": -9.46,
+          "raw_p95": 12.32,
+          "resid_p50": -4.61,
+          "resid_p95": 16.97,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.9646,
+      "held_resid_exp_pct": -0.5806,
+      "held_raw_p05_blockboot": -59.98,
+      "held_resid_p05_blockboot": -63.49,
+      "held_resid_p50_blockboot": -35.81,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "JSTUSDT": {
+      "beta_vs_btc": 0.811,
+      "n_trades_held": 51,
+      "windows_raw": {
+        "TRAIN": -77.94,
+        "VAL": -31.26,
+        "OOS": -5.21,
+        "UNSEEN": -11.0
+      },
+      "windows_resid": {
+        "TRAIN": -81.65,
+        "VAL": -46.02,
+        "OOS": -7.15,
+        "UNSEEN": -15.85
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -4.32,
+          "resid": -2.98
+        },
+        "UNSEEN": {
+          "raw": -15.96,
+          "resid": -11.17
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -17.06,
+          "raw_p95": 192.41,
+          "resid_p50": -57.44,
+          "resid_p95": 24.56,
+          "n": 119
+        },
+        "VAL": {
+          "raw_p50": -6.05,
+          "raw_p95": 33.56,
+          "resid_p50": -22.79,
+          "resid_p95": 2.43,
+          "n": 25
+        },
+        "OOS": {
+          "raw_p50": -0.89,
+          "raw_p95": 39.35,
+          "resid_p50": -4.17,
+          "resid_p95": 35.51,
+          "n": 36
+        },
+        "UNSEEN": {
+          "raw_p50": 4.96,
+          "raw_p95": 35.2,
+          "resid_p50": -4.68,
+          "resid_p95": 27.1,
+          "n": 15
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.225,
+      "held_resid_exp_pct": -0.3705,
+      "held_raw_p05_blockboot": -46.99,
+      "held_resid_p05_blockboot": -52.02,
+      "held_resid_p50_blockboot": -24.58,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "CRVUSDT": {
+      "beta_vs_btc": 1.367,
+      "n_trades_held": 23,
+      "windows_raw": {
+        "TRAIN": -86.14,
+        "VAL": 26.04,
+        "OOS": 32.86,
+        "UNSEEN": -12.69
+      },
+      "windows_resid": {
+        "TRAIN": -90.15,
+        "VAL": 10.12,
+        "OOS": 12.6,
+        "UNSEEN": -7.95
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -11.75,
+          "resid": -13.24
+        },
+        "UNSEEN": {
+          "raw": -8.44,
+          "resid": -6.32
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -59.21,
+          "raw_p95": 107.32,
+          "resid_p50": -68.38,
+          "resid_p95": 43.78,
+          "n": 111
+        },
+        "VAL": {
+          "raw_p50": 16.49,
+          "raw_p95": 176.07,
+          "resid_p50": 2.09,
+          "resid_p95": 127.13,
+          "n": 18
+        },
+        "OOS": {
+          "raw_p50": 44.61,
+          "raw_p95": 132.74,
+          "resid_p50": 25.84,
+          "resid_p95": 101.95,
+          "n": 17
+        },
+        "UNSEEN": {
+          "raw_p50": -4.25,
+          "raw_p95": 23.36,
+          "resid_p50": -1.63,
+          "resid_p95": 9.46,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.995,
+      "held_resid_exp_pct": 0.5327,
+      "held_raw_p05_blockboot": -36.41,
+      "held_resid_p05_blockboot": -41.0,
+      "held_resid_p50_blockboot": 2.13,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "BLURUSDT": {
+      "beta_vs_btc": 1.199,
+      "n_trades_held": 25,
+      "windows_raw": {
+        "TRAIN": -28.59,
+        "VAL": -42.51,
+        "OOS": -27.77,
+        "UNSEEN": -41.16
+      },
+      "windows_resid": {
+        "TRAIN": -13.43,
+        "VAL": -38.94,
+        "OOS": -35.96,
+        "UNSEEN": -31.97
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -32.32,
+          "resid": -25.98
+        },
+        "UNSEEN": {
+          "raw": -37.5,
+          "resid": -31.56
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 0.11,
+          "raw_p95": 33.86,
+          "resid_p50": -0.27,
+          "resid_p95": 32.22,
+          "n": 9
+        },
+        "VAL": {
+          "raw_p50": -22.27,
+          "raw_p95": 32.79,
+          "resid_p50": -20.77,
+          "resid_p95": 20.9,
+          "n": 22
+        },
+        "OOS": {
+          "raw_p50": 4.55,
+          "raw_p95": 52.38,
+          "resid_p50": -9.98,
+          "resid_p95": 24.06,
+          "n": 15
+        },
+        "UNSEEN": {
+          "raw_p50": -3.66,
+          "raw_p95": 80.7,
+          "resid_p50": -0.41,
+          "resid_p95": 68.76,
+          "n": 10
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -3.1979,
+      "held_resid_exp_pct": -3.1027,
+      "held_raw_p05_blockboot": -77.66,
+      "held_resid_p05_blockboot": -71.83,
+      "held_resid_p50_blockboot": -59.57,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "LDOUSDT": {
+      "beta_vs_btc": 1.497,
+      "n_trades_held": 29,
+      "windows_raw": {
+        "TRAIN": -25.56,
+        "VAL": 21.41,
+        "OOS": -3.34,
+        "UNSEEN": -17.98
+      },
+      "windows_resid": {
+        "TRAIN": -53.47,
+        "VAL": -12.55,
+        "OOS": 5.87,
+        "UNSEEN": -11.21
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -19.67,
+          "resid": 4.15
+        },
+        "UNSEEN": {
+          "raw": -12.73,
+          "resid": -4.59
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -0.0,
+          "raw_p95": 212.85,
+          "resid_p50": -10.46,
+          "resid_p95": 111.28,
+          "n": 51
+        },
+        "VAL": {
+          "raw_p50": -18.15,
+          "raw_p95": 70.86,
+          "resid_p50": -25.2,
+          "resid_p95": 42.17,
+          "n": 21
+        },
+        "OOS": {
+          "raw_p50": 16.33,
+          "raw_p95": 101.21,
+          "resid_p50": 1.72,
+          "resid_p95": 68.59,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": -5.25,
+          "raw_p95": 17.45,
+          "resid_p50": -6.62,
+          "resid_p95": 10.39,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.3442,
+      "held_resid_exp_pct": 0.1029,
+      "held_raw_p05_blockboot": -59.52,
+      "held_resid_p05_blockboot": -42.46,
+      "held_resid_p50_blockboot": 3.78,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "OPUSDT": {
+      "beta_vs_btc": 1.492,
+      "n_trades_held": 34,
+      "windows_raw": {
+        "TRAIN": -15.11,
+        "VAL": -32.89,
+        "OOS": -28.88,
+        "UNSEEN": 7.03
+      },
+      "windows_resid": {
+        "TRAIN": -29.37,
+        "VAL": -36.51,
+        "OOS": -20.1,
+        "UNSEEN": 10.89
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -22.28,
+          "resid": 4.1
+        },
+        "UNSEEN": {
+          "raw": 27.92,
+          "resid": 22.17
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 20.13,
+          "raw_p95": 180.43,
+          "resid_p50": -1.44,
+          "resid_p95": 140.5,
+          "n": 51
+        },
+        "VAL": {
+          "raw_p50": -9.41,
+          "raw_p95": 50.75,
+          "resid_p50": -21.44,
+          "resid_p95": 7.2,
+          "n": 21
+        },
+        "OOS": {
+          "raw_p50": -6.6,
+          "raw_p95": 60.6,
+          "resid_p50": -24.2,
+          "resid_p95": 7.83,
+          "n": 25
+        },
+        "UNSEEN": {
+          "raw_p50": -20.89,
+          "raw_p95": 20.47,
+          "resid_p50": -11.28,
+          "resid_p95": 17.53,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.6457,
+      "held_resid_exp_pct": -0.205,
+      "held_raw_p05_blockboot": -57.71,
+      "held_resid_p05_blockboot": -50.95,
+      "held_resid_p50_blockboot": -20.49,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ETCUSDT": {
+      "beta_vs_btc": 1.119,
+      "n_trades_held": 27,
+      "windows_raw": {
+        "TRAIN": 436.52,
+        "VAL": -39.68,
+        "OOS": -36.66,
+        "UNSEEN": -12.09
+      },
+      "windows_resid": {
+        "TRAIN": 228.99,
+        "VAL": -43.22,
+        "OOS": -31.26,
+        "UNSEEN": -13.09
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -38.77,
+          "resid": -18.67
+        },
+        "UNSEEN": {
+          "raw": -13.09,
+          "resid": -15.5
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 180.5,
+          "raw_p95": 2298.44,
+          "resid_p50": 105.83,
+          "resid_p95": 1000.74,
+          "n": 119
+        },
+        "VAL": {
+          "raw_p50": -5.86,
+          "raw_p95": 33.56,
+          "resid_p50": -15.45,
+          "resid_p95": 14.83,
+          "n": 24
+        },
+        "OOS": {
+          "raw_p50": 2.11,
+          "raw_p95": 41.68,
+          "resid_p50": -12.59,
+          "resid_p95": 10.83,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": 1.0,
+          "raw_p95": 19.37,
+          "resid_p50": 2.41,
+          "resid_p95": 13.51,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -2.0971,
+      "held_resid_exp_pct": -1.8524,
+      "held_raw_p05_blockboot": -60.35,
+      "held_resid_p05_blockboot": -49.62,
+      "held_resid_p50_blockboot": -40.75,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "SUPERUSDT": {
+      "beta_vs_btc": 1.472,
+      "n_trades_held": 31,
+      "windows_raw": {
+        "TRAIN": 0.35,
+        "VAL": 1.0,
+        "OOS": -31.02,
+        "UNSEEN": -45.52
+      },
+      "windows_resid": {
+        "TRAIN": -32.82,
+        "VAL": -18.83,
+        "OOS": -32.67,
+        "UNSEEN": -45.11
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -12.63,
+          "resid": -19.69
+        },
+        "UNSEEN": {
+          "raw": -34.61,
+          "resid": -35.98
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -45.3,
+          "raw_p95": 176.34,
+          "resid_p50": -37.19,
+          "resid_p95": 131.97,
+          "n": 68
+        },
+        "VAL": {
+          "raw_p50": -17.74,
+          "raw_p95": 71.87,
+          "resid_p50": -13.96,
+          "resid_p95": 26.03,
+          "n": 17
+        },
+        "OOS": {
+          "raw_p50": -18.39,
+          "raw_p95": 43.03,
+          "resid_p50": -12.98,
+          "resid_p95": 32.51,
+          "n": 19
+        },
+        "UNSEEN": {
+          "raw_p50": -10.91,
+          "raw_p95": 18.58,
+          "resid_p50": -9.13,
+          "resid_p95": 14.23,
+          "n": 12
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -2.9295,
+      "held_resid_exp_pct": -2.9467,
+      "held_raw_p05_blockboot": -78.86,
+      "held_resid_p05_blockboot": -82.73,
+      "held_resid_p50_blockboot": -68.7,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "POLUSDT": {
+      "beta_vs_btc": 1.212,
+      "n_trades_held": 24,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.19,
+        "OOS": 34.62,
+        "UNSEEN": 30.41
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -19.69,
+        "OOS": 14.64,
+        "UNSEEN": 40.7
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 25.5,
+          "resid": 20.05
+        },
+        "UNSEEN": {
+          "raw": 22.67,
+          "resid": 26.7
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": -2.58,
+          "raw_p95": 44.64,
+          "resid_p50": -18.04,
+          "resid_p95": 15.91,
+          "n": 11
+        },
+        "OOS": {
+          "raw_p50": 9.12,
+          "raw_p95": 58.73,
+          "resid_p50": -5.41,
+          "resid_p95": 22.09,
+          "n": 16
+        },
+        "UNSEEN": {
+          "raw_p50": 7.74,
+          "raw_p95": 67.36,
+          "resid_p50": 14.0,
+          "resid_p95": 67.7,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 2.7797,
+      "held_resid_exp_pct": 2.2819,
+      "held_raw_p05_blockboot": 10.02,
+      "held_resid_p05_blockboot": 4.65,
+      "held_resid_p50_blockboot": 67.89,
+      "raw_p05_positive": true,
+      "resid_p05_positive": true
+    },
+    "TIAUSDT": {
+      "beta_vs_btc": 1.405,
+      "n_trades_held": 27,
+      "windows_raw": {
+        "TRAIN": 1.58,
+        "VAL": -8.08,
+        "OOS": -19.18,
+        "UNSEEN": -9.72
+      },
+      "windows_resid": {
+        "TRAIN": 4.74,
+        "VAL": -21.57,
+        "OOS": -27.77,
+        "UNSEEN": 0.8
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -6.74,
+          "resid": -6.49
+        },
+        "UNSEEN": {
+          "raw": -8.47,
+          "resid": 0.58
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 42.65,
+          "raw_p95": 201.11,
+          "resid_p50": 27.04,
+          "resid_p95": 188.52,
+          "n": 11
+        },
+        "VAL": {
+          "raw_p50": -22.89,
+          "raw_p95": 27.49,
+          "resid_p50": -20.26,
+          "resid_p95": 26.19,
+          "n": 18
+        },
+        "OOS": {
+          "raw_p50": -12.44,
+          "raw_p95": 36.89,
+          "resid_p50": -21.28,
+          "resid_p95": 11.31,
+          "n": 20
+        },
+        "UNSEEN": {
+          "raw_p50": -1.25,
+          "raw_p95": 25.51,
+          "resid_p50": 0.22,
+          "resid_p95": 22.92,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.8819,
+      "held_resid_exp_pct": -1.005,
+      "held_raw_p05_blockboot": -52.45,
+      "held_resid_p05_blockboot": -49.07,
+      "held_resid_p50_blockboot": -22.64,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "XLMUSDT": {
+      "beta_vs_btc": 1.019,
+      "n_trades_held": 28,
+      "windows_raw": {
+        "TRAIN": -46.28,
+        "VAL": 7.8,
+        "OOS": 33.32,
+        "UNSEEN": 28.79
+      },
+      "windows_resid": {
+        "TRAIN": -50.9,
+        "VAL": -14.71,
+        "OOS": 22.58,
+        "UNSEEN": 30.1
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 9.89,
+          "resid": 9.02
+        },
+        "UNSEEN": {
+          "raw": 26.03,
+          "resid": 26.62
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 41.51,
+          "raw_p95": 531.97,
+          "resid_p50": 16.03,
+          "resid_p95": 362.07,
+          "n": 121
+        },
+        "VAL": {
+          "raw_p50": 94.24,
+          "raw_p95": 379.63,
+          "resid_p50": 59.99,
+          "resid_p95": 277.05,
+          "n": 24
+        },
+        "OOS": {
+          "raw_p50": 23.43,
+          "raw_p95": 122.93,
+          "resid_p50": 13.56,
+          "resid_p95": 93.41,
+          "n": 19
+        },
+        "UNSEEN": {
+          "raw_p50": 2.76,
+          "raw_p95": 37.79,
+          "resid_p50": 3.48,
+          "resid_p95": 30.42,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 2.907,
+      "held_resid_exp_pct": 2.3369,
+      "held_raw_p05_blockboot": -33.49,
+      "held_resid_p05_blockboot": -27.51,
+      "held_resid_p50_blockboot": 36.34,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "EIGENUSDT": {
+      "beta_vs_btc": 1.701,
+      "n_trades_held": 33,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": -19.39,
+        "OOS": -41.0,
+        "UNSEEN": -30.4
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -28.37,
+        "OOS": -27.88,
+        "UNSEEN": -25.28
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -68.24,
+          "resid": -32.9
+        },
+        "UNSEEN": {
+          "raw": -13.58,
+          "resid": -12.51
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": -15.31,
+          "raw_p95": 26.35,
+          "resid_p50": -24.77,
+          "resid_p95": 11.73,
+          "n": 11
+        },
+        "OOS": {
+          "raw_p50": 27.24,
+          "raw_p95": 174.07,
+          "resid_p50": 5.02,
+          "resid_p95": 98.66,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": -16.82,
+          "raw_p95": 12.68,
+          "resid_p50": -12.77,
+          "resid_p95": 16.27,
+          "n": 12
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -2.5117,
+      "held_resid_exp_pct": -1.7495,
+      "held_raw_p05_blockboot": -73.45,
+      "held_resid_p05_blockboot": -65.08,
+      "held_resid_p50_blockboot": -44.46,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ONDOUSDT": {
+      "beta_vs_btc": 1.566,
+      "n_trades_held": 23,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": 12.25,
+        "UNSEEN": 41.58
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -4.5,
+        "UNSEEN": 31.72
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 0.66,
+          "resid": 0.13
+        },
+        "UNSEEN": {
+          "raw": 33.34,
+          "resid": 24.09
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": 11.59,
+          "raw_p95": 51.69,
+          "resid_p50": -4.63,
+          "resid_p95": 16.54,
+          "n": 16
+        },
+        "UNSEEN": {
+          "raw_p50": 8.24,
+          "raw_p95": 56.34,
+          "resid_p50": 7.63,
+          "resid_p95": 50.49,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 2.4436,
+      "held_resid_exp_pct": 1.3153,
+      "held_raw_p05_blockboot": -10.34,
+      "held_resid_p05_blockboot": -27.06,
+      "held_resid_p50_blockboot": 2.95,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "DYDXUSDT": {
+      "beta_vs_btc": 1.349,
+      "n_trades_held": 33,
+      "windows_raw": {
+        "TRAIN": -46.74,
+        "VAL": -39.25,
+        "OOS": -26.0,
+        "UNSEEN": -18.94
+      },
+      "windows_resid": {
+        "TRAIN": -58.22,
+        "VAL": -51.52,
+        "OOS": -28.34,
+        "UNSEEN": -4.87
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -29.19,
+          "resid": -4.69
+        },
+        "UNSEEN": {
+          "raw": -22.13,
+          "resid": -7.52
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 12.99,
+          "raw_p95": 206.07,
+          "resid_p50": -1.99,
+          "resid_p95": 160.8,
+          "n": 72
+        },
+        "VAL": {
+          "raw_p50": -23.66,
+          "raw_p95": 45.6,
+          "resid_p50": -25.56,
+          "resid_p95": 17.3,
+          "n": 21
+        },
+        "OOS": {
+          "raw_p50": 3.19,
+          "raw_p95": 69.72,
+          "resid_p50": -23.65,
+          "resid_p95": 12.34,
+          "n": 23
+        },
+        "UNSEEN": {
+          "raw_p50": 3.19,
+          "raw_p95": 50.68,
+          "resid_p50": 2.65,
+          "resid_p95": 40.03,
+          "n": 10
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.2996,
+      "held_resid_exp_pct": -0.9497,
+      "held_raw_p05_blockboot": -52.95,
+      "held_resid_p05_blockboot": -47.09,
+      "held_resid_p50_blockboot": -25.22,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "FLOKIUSDT": {
+      "beta_vs_btc": 1.612,
+      "n_trades_held": 29,
+      "windows_raw": {
+        "TRAIN": 299.53,
+        "VAL": -31.56,
+        "OOS": -27.99,
+        "UNSEEN": 8.15
+      },
+      "windows_resid": {
+        "TRAIN": 71.15,
+        "VAL": -40.6,
+        "OOS": -23.12,
+        "UNSEEN": 4.29
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -40.38,
+          "resid": -22.33
+        },
+        "UNSEEN": {
+          "raw": 8.33,
+          "resid": 3.93
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 59.87,
+          "raw_p95": 724.16,
+          "resid_p50": 26.54,
+          "resid_p95": 394.88,
+          "n": 19
+        },
+        "VAL": {
+          "raw_p50": -17.17,
+          "raw_p95": 42.65,
+          "resid_p50": -17.63,
+          "resid_p95": 20.36,
+          "n": 19
+        },
+        "OOS": {
+          "raw_p50": 12.39,
+          "raw_p95": 90.04,
+          "resid_p50": -0.79,
+          "resid_p95": 47.62,
+          "n": 24
+        },
+        "UNSEEN": {
+          "raw_p50": -0.18,
+          "raw_p95": 27.14,
+          "resid_p50": 0.36,
+          "resid_p95": 20.17,
+          "n": 5
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.5753,
+      "held_resid_exp_pct": -0.5408,
+      "held_raw_p05_blockboot": -55.79,
+      "held_resid_p05_blockboot": -51.26,
+      "held_resid_p50_blockboot": -19.51,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "CHZUSDT": {
+      "beta_vs_btc": 1.036,
+      "n_trades_held": 36,
+      "windows_raw": {
+        "TRAIN": 663.62,
+        "VAL": 15.98,
+        "OOS": -19.68,
+        "UNSEEN": 0.88
+      },
+      "windows_resid": {
+        "TRAIN": 270.1,
+        "VAL": -2.37,
+        "OOS": -16.28,
+        "UNSEEN": -4.42
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -43.89,
+          "resid": -19.31
+        },
+        "UNSEEN": {
+          "raw": 21.05,
+          "resid": 13.12
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -19.91,
+          "raw_p95": 532.57,
+          "resid_p50": -33.71,
+          "resid_p95": 340.56,
+          "n": 95
+        },
+        "VAL": {
+          "raw_p50": -1.25,
+          "raw_p95": 69.07,
+          "resid_p50": -11.79,
+          "resid_p95": 42.24,
+          "n": 22
+        },
+        "OOS": {
+          "raw_p50": 24.21,
+          "raw_p95": 102.73,
+          "resid_p50": 3.03,
+          "resid_p95": 56.93,
+          "n": 24
+        },
+        "UNSEEN": {
+          "raw_p50": -20.17,
+          "raw_p95": 12.39,
+          "resid_p50": -17.54,
+          "resid_p95": 6.86,
+          "n": 12
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.4467,
+      "held_resid_exp_pct": -0.5349,
+      "held_raw_p05_blockboot": -47.04,
+      "held_resid_p05_blockboot": -45.61,
+      "held_resid_p50_blockboot": -21.06,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ARUSDT": {
+      "beta_vs_btc": 1.383,
+      "n_trades_held": 26,
+      "windows_raw": {
+        "TRAIN": 65.23,
+        "VAL": -21.11,
+        "OOS": 61.94,
+        "UNSEEN": -8.51
+      },
+      "windows_resid": {
+        "TRAIN": -31.05,
+        "VAL": -48.37,
+        "OOS": 13.52,
+        "UNSEEN": -14.28
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 57.5,
+          "resid": 20.39
+        },
+        "UNSEEN": {
+          "raw": 4.73,
+          "resid": -2.95
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -0.55,
+          "raw_p95": 411.51,
+          "resid_p50": 0.27,
+          "resid_p95": 251.51,
+          "n": 76
+        },
+        "VAL": {
+          "raw_p50": -19.32,
+          "raw_p95": 91.06,
+          "resid_p50": -23.44,
+          "resid_p95": 19.05,
+          "n": 18
+        },
+        "OOS": {
+          "raw_p50": 4.44,
+          "raw_p95": 99.78,
+          "resid_p50": -6.87,
+          "resid_p95": 43.5,
+          "n": 17
+        },
+        "UNSEEN": {
+          "raw_p50": -13.24,
+          "raw_p95": 16.48,
+          "resid_p50": -11.33,
+          "resid_p95": 12.47,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 1.7727,
+      "held_resid_exp_pct": 0.0137,
+      "held_raw_p05_blockboot": -1.98,
+      "held_resid_p05_blockboot": -30.48,
+      "held_resid_p50_blockboot": -5.25,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ZROUSDT": {
+      "beta_vs_btc": 1.402,
+      "n_trades_held": 26,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": -6.85,
+        "OOS": -22.35,
+        "UNSEEN": -6.54
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -17.0,
+        "OOS": -27.97,
+        "UNSEEN": 6.5
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -43.35,
+          "resid": -21.32
+        },
+        "UNSEEN": {
+          "raw": 1.08,
+          "resid": 12.23
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": -21.04,
+          "raw_p95": 42.85,
+          "resid_p50": -10.76,
+          "resid_p95": 52.91,
+          "n": 17
+        },
+        "OOS": {
+          "raw_p50": 21.0,
+          "raw_p95": 109.4,
+          "resid_p50": -6.65,
+          "resid_p95": 45.52,
+          "n": 19
+        },
+        "UNSEEN": {
+          "raw_p50": -7.62,
+          "raw_p95": 27.86,
+          "resid_p50": -5.73,
+          "resid_p95": 27.56,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.0701,
+      "held_resid_exp_pct": -0.7936,
+      "held_raw_p05_blockboot": -42.79,
+      "held_resid_p05_blockboot": -51.44,
+      "held_resid_p50_blockboot": -25.79,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ARKMUSDT": {
+      "beta_vs_btc": 1.509,
+      "n_trades_held": 31,
+      "windows_raw": {
+        "TRAIN": 24.45,
+        "VAL": -25.4,
+        "OOS": -8.27,
+        "UNSEEN": 5.46
+      },
+      "windows_resid": {
+        "TRAIN": -24.95,
+        "VAL": -44.19,
+        "OOS": -9.5,
+        "UNSEEN": 2.21
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -50.86,
+          "resid": -17.61
+        },
+        "UNSEEN": {
+          "raw": 3.8,
+          "resid": 1.5
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": 12.14,
+          "raw_p95": 151.67,
+          "resid_p50": -8.61,
+          "resid_p95": 105.31,
+          "n": 22
+        },
+        "VAL": {
+          "raw_p50": -9.88,
+          "raw_p95": 66.99,
+          "resid_p50": -11.52,
+          "resid_p95": 43.65,
+          "n": 18
+        },
+        "OOS": {
+          "raw_p50": 42.59,
+          "raw_p95": 121.33,
+          "resid_p50": 8.11,
+          "resid_p95": 54.02,
+          "n": 22
+        },
+        "UNSEEN": {
+          "raw_p50": 1.66,
+          "raw_p95": 38.41,
+          "resid_p50": 0.71,
+          "resid_p95": 29.93,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 0.0777,
+      "held_resid_exp_pct": -0.1308,
+      "held_raw_p05_blockboot": -29.45,
+      "held_resid_p05_blockboot": -32.22,
+      "held_resid_p50_blockboot": -2.43,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "DEXEUSDT": {
+      "beta_vs_btc": 0.66,
+      "n_trades_held": 37,
+      "windows_raw": {
+        "TRAIN": -82.26,
+        "VAL": -13.53,
+        "OOS": -58.22,
+        "UNSEEN": 18.23
+      },
+      "windows_resid": {
+        "TRAIN": -85.85,
+        "VAL": -30.78,
+        "OOS": -58.0,
+        "UNSEEN": 14.16
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -52.72,
+          "resid": -48.06
+        },
+        "UNSEEN": {
+          "raw": 5.74,
+          "resid": 5.59
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -31.82,
+          "raw_p95": 120.52,
+          "resid_p50": -26.56,
+          "resid_p95": 112.01,
+          "n": 64
+        },
+        "VAL": {
+          "raw_p50": -11.31,
+          "raw_p95": 54.18,
+          "resid_p50": -16.65,
+          "resid_p95": 32.74,
+          "n": 20
+        },
+        "OOS": {
+          "raw_p50": -5.5,
+          "raw_p95": 53.41,
+          "resid_p50": -9.94,
+          "resid_p95": 47.77,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": 12.49,
+          "raw_p95": 137.33,
+          "resid_p50": 8.57,
+          "resid_p95": 124.83,
+          "n": 16
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.3845,
+      "held_resid_exp_pct": -1.4949,
+      "held_raw_p05_blockboot": -82.47,
+      "held_resid_p05_blockboot": -82.74,
+      "held_resid_p50_blockboot": -49.44,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ATOMUSDT": {
+      "beta_vs_btc": 1.109,
+      "n_trades_held": 25,
+      "windows_raw": {
+        "TRAIN": -77.89,
+        "VAL": -25.7,
+        "OOS": -14.57,
+        "UNSEEN": 13.1
+      },
+      "windows_resid": {
+        "TRAIN": -80.06,
+        "VAL": -38.52,
+        "OOS": -9.01,
+        "UNSEEN": 11.51
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -23.08,
+          "resid": -9.39
+        },
+        "UNSEEN": {
+          "raw": 5.22,
+          "resid": 6.46
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -44.85,
+          "raw_p95": 118.87,
+          "resid_p50": -27.35,
+          "resid_p95": 181.8,
+          "n": 115
+        },
+        "VAL": {
+          "raw_p50": -5.05,
+          "raw_p95": 57.02,
+          "resid_p50": -14.57,
+          "resid_p95": 22.44,
+          "n": 22
+        },
+        "OOS": {
+          "raw_p50": 8.51,
+          "raw_p95": 48.05,
+          "resid_p50": 0.38,
+          "resid_p95": 27.47,
+          "n": 16
+        },
+        "UNSEEN": {
+          "raw_p50": 7.88,
+          "raw_p95": 37.08,
+          "resid_p50": 5.05,
+          "resid_p95": 38.63,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.0135,
+      "held_resid_exp_pct": 0.1452,
+      "held_raw_p05_blockboot": -33.05,
+      "held_resid_p05_blockboot": -33.56,
+      "held_resid_p50_blockboot": -5.1,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "INJUSDT": {
+      "beta_vs_btc": 1.16,
+      "n_trades_held": 31,
+      "windows_raw": {
+        "TRAIN": -24.38,
+        "VAL": 0.85,
+        "OOS": -34.2,
+        "UNSEEN": 0.17
+      },
+      "windows_resid": {
+        "TRAIN": -69.36,
+        "VAL": -17.31,
+        "OOS": -33.36,
+        "UNSEEN": 2.07
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -46.35,
+          "resid": -31.53
+        },
+        "UNSEEN": {
+          "raw": -8.87,
+          "resid": 0.79
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -3.78,
+          "raw_p95": 345.63,
+          "resid_p50": -49.13,
+          "resid_p95": 94.62,
+          "n": 84
+        },
+        "VAL": {
+          "raw_p50": -10.79,
+          "raw_p95": 85.62,
+          "resid_p50": -25.01,
+          "resid_p95": 29.74,
+          "n": 21
+        },
+        "OOS": {
+          "raw_p50": 12.15,
+          "raw_p95": 84.11,
+          "resid_p50": -1.83,
+          "resid_p95": 44.94,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": 9.04,
+          "raw_p95": 47.76,
+          "resid_p50": 1.28,
+          "resid_p95": 38.93,
+          "n": 10
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.1636,
+      "held_resid_exp_pct": -1.0476,
+      "held_raw_p05_blockboot": -67.14,
+      "held_resid_p05_blockboot": -65.42,
+      "held_resid_p50_blockboot": -47.35,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ZENUSDT": {
+      "beta_vs_btc": 1.204,
+      "n_trades_held": 27,
+      "windows_raw": {
+        "TRAIN": -91.07,
+        "VAL": 2.7,
+        "OOS": -56.65,
+        "UNSEEN": 25.03
+      },
+      "windows_resid": {
+        "TRAIN": -92.45,
+        "VAL": 3.32,
+        "OOS": -52.39,
+        "UNSEEN": 17.31
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -43.93,
+          "resid": -31.99
+        },
+        "UNSEEN": {
+          "raw": 37.46,
+          "resid": 23.66
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -30.95,
+          "raw_p95": 192.44,
+          "resid_p50": -44.11,
+          "resid_p95": 81.78,
+          "n": 99
+        },
+        "VAL": {
+          "raw_p50": 6.41,
+          "raw_p95": 117.85,
+          "resid_p50": -7.08,
+          "resid_p95": 78.8,
+          "n": 21
+        },
+        "OOS": {
+          "raw_p50": -12.72,
+          "raw_p95": 74.59,
+          "resid_p50": -20.4,
+          "resid_p95": 50.15,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": -12.43,
+          "raw_p95": 26.05,
+          "resid_p50": -6.35,
+          "resid_p95": 25.03,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.6589,
+      "held_resid_exp_pct": -1.8222,
+      "held_raw_p05_blockboot": -80.61,
+      "held_resid_p05_blockboot": -76.02,
+      "held_resid_p50_blockboot": -48.74,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "MOVRUSDT": {
+      "beta_vs_btc": 1.196,
+      "n_trades_held": 22,
+      "windows_raw": {
+        "TRAIN": -56.03,
+        "VAL": -27.03,
+        "OOS": -12.91,
+        "UNSEEN": 37.46
+      },
+      "windows_resid": {
+        "TRAIN": -48.16,
+        "VAL": -41.17,
+        "OOS": -11.86,
+        "UNSEEN": 34.58
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -16.87,
+          "resid": -4.79
+        },
+        "UNSEEN": {
+          "raw": 47.12,
+          "resid": 41.72
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -30.84,
+          "raw_p95": 257.83,
+          "resid_p50": -20.35,
+          "resid_p95": 212.36,
+          "n": 55
+        },
+        "VAL": {
+          "raw_p50": -9.37,
+          "raw_p95": 64.04,
+          "resid_p50": -15.52,
+          "resid_p95": 27.64,
+          "n": 20
+        },
+        "OOS": {
+          "raw_p50": 3.96,
+          "raw_p95": 45.06,
+          "resid_p50": -7.07,
+          "resid_p95": 22.35,
+          "n": 14
+        },
+        "UNSEEN": {
+          "raw_p50": -9.66,
+          "raw_p95": 108.08,
+          "resid_p50": -7.14,
+          "resid_p95": 111.29,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 3.1944,
+      "held_resid_exp_pct": 3.067,
+      "held_raw_p05_blockboot": -34.72,
+      "held_resid_p05_blockboot": -37.8,
+      "held_resid_p50_blockboot": 45.05,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "PROMUSDT": {
+      "beta_vs_btc": 0.553,
+      "n_trades_held": 23,
+      "windows_raw": {
+        "TRAIN": -21.85,
+        "VAL": -31.62,
+        "OOS": 32.75,
+        "UNSEEN": 61.02
+      },
+      "windows_resid": {
+        "TRAIN": -34.7,
+        "VAL": -26.78,
+        "OOS": 42.05,
+        "UNSEEN": 56.55
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 11.6,
+          "resid": 19.85
+        },
+        "UNSEEN": {
+          "raw": 91.26,
+          "resid": 84.3
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": -19.2,
+          "raw_p95": 99.02,
+          "resid_p50": -23.76,
+          "resid_p95": 58.8,
+          "n": 23
+        },
+        "VAL": {
+          "raw_p50": -6.8,
+          "raw_p95": 84.54,
+          "resid_p50": -6.18,
+          "resid_p95": 74.6,
+          "n": 22
+        },
+        "OOS": {
+          "raw_p50": 21.15,
+          "raw_p95": 143.82,
+          "resid_p50": 22.2,
+          "resid_p95": 136.07,
+          "n": 16
+        },
+        "UNSEEN": {
+          "raw_p50": -30.24,
+          "raw_p95": 26.85,
+          "resid_p50": -27.75,
+          "resid_p95": 19.7,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 3.9968,
+      "held_resid_exp_pct": 4.1951,
+      "held_raw_p05_blockboot": -15.58,
+      "held_resid_p05_blockboot": -7.89,
+      "held_resid_p50_blockboot": 90.46,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "VIRTUALUSDT": {
+      "beta_vs_btc": 1.994,
+      "n_trades_held": 28,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": 14.62,
+        "UNSEEN": -0.98
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": 34.95,
+        "UNSEEN": 17.5
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -24.83,
+          "resid": 12.94
+        },
+        "UNSEEN": {
+          "raw": -2.45,
+          "resid": 8.91
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": 39.45,
+          "raw_p95": 192.35,
+          "resid_p50": 22.01,
+          "resid_p95": 139.47,
+          "n": 17
+        },
+        "UNSEEN": {
+          "raw_p50": 1.47,
+          "raw_p95": 56.3,
+          "resid_p50": 8.59,
+          "resid_p95": 55.71,
+          "n": 11
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 1.5373,
+      "held_resid_exp_pct": 2.6337,
+      "held_raw_p05_blockboot": -59.52,
+      "held_resid_p05_blockboot": -44.12,
+      "held_resid_p50_blockboot": 32.06,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "NEIROUSDT": {
+      "beta_vs_btc": 1.807,
+      "n_trades_held": 27,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": -1.45,
+        "OOS": 16.29,
+        "UNSEEN": 24.84
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 2.46,
+        "OOS": 8.36,
+        "UNSEEN": 26.26
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -0.08,
+          "resid": 8.12
+        },
+        "UNSEEN": {
+          "raw": 27.38,
+          "resid": 29.64
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": -3.9,
+          "raw_p95": 88.62,
+          "resid_p50": -14.18,
+          "resid_p95": 52.71,
+          "n": 13
+        },
+        "OOS": {
+          "raw_p50": 16.37,
+          "raw_p95": 219.05,
+          "resid_p50": 0.24,
+          "resid_p95": 139.56,
+          "n": 21
+        },
+        "UNSEEN": {
+          "raw_p50": -2.54,
+          "raw_p95": 48.83,
+          "resid_p50": -3.38,
+          "resid_p95": 46.93,
+          "n": 6
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 2.8361,
+      "held_resid_exp_pct": 2.5961,
+      "held_raw_p05_blockboot": -53.02,
+      "held_resid_p05_blockboot": -55.78,
+      "held_resid_p50_blockboot": 15.69,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "PNUTUSDT": {
+      "beta_vs_btc": 1.589,
+      "n_trades_held": 24,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": -38.23,
+        "OOS": 3.38,
+        "UNSEEN": 31.08
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -38.8,
+        "OOS": -8.23,
+        "UNSEEN": 23.96
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -20.33,
+          "resid": -22.83
+        },
+        "UNSEEN": {
+          "raw": 27.42,
+          "resid": 23.93
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": -6.29,
+          "raw_p95": 37.74,
+          "resid_p50": -7.33,
+          "resid_p95": 31.42,
+          "n": 5
+        },
+        "OOS": {
+          "raw_p50": 23.71,
+          "raw_p95": 205.93,
+          "resid_p50": 14.6,
+          "resid_p95": 148.94,
+          "n": 19
+        },
+        "UNSEEN": {
+          "raw_p50": 3.66,
+          "raw_p95": 38.76,
+          "resid_p50": 0.03,
+          "resid_p95": 32.46,
+          "n": 5
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 2.0816,
+      "held_resid_exp_pct": 1.2715,
+      "held_raw_p05_blockboot": -47.21,
+      "held_resid_p05_blockboot": -47.05,
+      "held_resid_p50_blockboot": 9.03,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "BIOUSDT": {
+      "beta_vs_btc": 1.594,
+      "n_trades_held": 24,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": -5.3,
+        "OOS": 44.27,
+        "UNSEEN": 17.35
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -6.63,
+        "OOS": 46.71,
+        "UNSEEN": -4.52
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 52.26,
+          "resid": 58.0
+        },
+        "UNSEEN": {
+          "raw": 42.38,
+          "resid": 17.6
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": -6.3,
+          "raw_p95": 14.59,
+          "resid_p50": -9.53,
+          "resid_p95": 10.58,
+          "n": 2
+        },
+        "OOS": {
+          "raw_p50": -7.99,
+          "raw_p95": 108.71,
+          "resid_p50": -11.29,
+          "resid_p95": 72.74,
+          "n": 16
+        },
+        "UNSEEN": {
+          "raw_p50": -25.03,
+          "raw_p95": 19.07,
+          "resid_p50": -22.12,
+          "resid_p95": 11.4,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": 4.5399,
+      "held_resid_exp_pct": 3.751,
+      "held_raw_p05_blockboot": -60.07,
+      "held_resid_p05_blockboot": -60.43,
+      "held_resid_p50_blockboot": 22.21,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "DUSDT": {
+      "beta_vs_btc": 0.993,
+      "n_trades_held": 22,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": -24.28,
+        "OOS": -35.95,
+        "UNSEEN": -65.87
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": -22.26,
+        "OOS": -34.53,
+        "UNSEEN": -67.88
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -45.23,
+          "resid": -39.85
+        },
+        "UNSEEN": {
+          "raw": -57.39,
+          "resid": -60.72
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": 0.34,
+          "raw_p95": 17.88,
+          "resid_p50": -0.9,
+          "resid_p95": 17.12,
+          "n": 2
+        },
+        "OOS": {
+          "raw_p50": 9.28,
+          "raw_p95": 71.13,
+          "resid_p50": 5.32,
+          "resid_p95": 61.27,
+          "n": 14
+        },
+        "UNSEEN": {
+          "raw_p50": -8.48,
+          "raw_p95": 71.84,
+          "resid_p50": -7.16,
+          "resid_p95": 75.6,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -6.0403,
+      "held_resid_exp_pct": -6.1725,
+      "held_raw_p05_blockboot": -92.2,
+      "held_resid_p05_blockboot": -92.91,
+      "held_resid_p50_blockboot": -77.31,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "XPLUSDT": {
+      "beta_vs_btc": 1.593,
+      "n_trades_held": 15,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -11.25,
+        "UNSEEN": -14.31
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -14.01,
+        "UNSEEN": -13.19
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -8.8,
+          "resid": -9.68
+        },
+        "UNSEEN": {
+          "raw": 7.58,
+          "resid": 8.04
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": -2.45,
+          "raw_p95": 13.42,
+          "resid_p50": -4.33,
+          "resid_p95": 14.55,
+          "n": 2
+        },
+        "UNSEEN": {
+          "raw_p50": -21.89,
+          "raw_p95": 12.42,
+          "resid_p50": -21.23,
+          "resid_p95": 6.89,
+          "n": 13
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -1.6083,
+      "held_resid_exp_pct": -1.7311,
+      "held_raw_p05_blockboot": -36.77,
+      "held_resid_p05_blockboot": -40.48,
+      "held_resid_p50_blockboot": -19.37,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "XUSDUSDT": {
+      "beta_vs_btc": 0.0,
+      "n_trades_held": 6,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -0.75,
+        "UNSEEN": -0.51
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -0.75,
+        "UNSEEN": -0.51
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 0.0,
+          "resid": 0.0
+        },
+        "UNSEEN": {
+          "raw": 0.09,
+          "resid": 0.09
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": -0.75,
+          "raw_p95": -0.68,
+          "resid_p50": -0.75,
+          "resid_p95": -0.68,
+          "n": 3
+        },
+        "UNSEEN": {
+          "raw_p50": -0.6,
+          "raw_p95": -0.45,
+          "resid_p50": -0.6,
+          "resid_p95": -0.45,
+          "n": 3
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.21,
+      "held_resid_exp_pct": -0.21,
+      "held_raw_p05_blockboot": null,
+      "held_resid_p05_blockboot": null,
+      "held_resid_p50_blockboot": null,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "WLFIUSDT": {
+      "beta_vs_btc": 1.139,
+      "n_trades_held": 14,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -29.69,
+        "UNSEEN": -3.1
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -23.29,
+        "UNSEEN": -8.46
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -17.76,
+          "resid": -17.19
+        },
+        "UNSEEN": {
+          "raw": -10.17,
+          "resid": -14.02
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": -11.93,
+          "raw_p95": 33.39,
+          "resid_p50": -6.1,
+          "resid_p95": 29.76,
+          "n": 7
+        },
+        "UNSEEN": {
+          "raw_p50": 7.07,
+          "raw_p95": 41.76,
+          "resid_p50": 5.56,
+          "resid_p95": 38.55,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -2.5652,
+      "held_resid_exp_pct": -2.3915,
+      "held_raw_p05_blockboot": -52.56,
+      "held_resid_p05_blockboot": -45.84,
+      "held_resid_p50_blockboot": -33.59,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ASTERUSDT": {
+      "beta_vs_btc": 1.184,
+      "n_trades_held": 11,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -33.12,
+        "UNSEEN": -6.76
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -29.69,
+        "UNSEEN": -2.6
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -28.72,
+          "resid": -24.19
+        },
+        "UNSEEN": {
+          "raw": -13.04,
+          "resid": -14.35
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": -4.4,
+          "raw_p95": 30.36,
+          "resid_p50": -5.5,
+          "resid_p95": 24.67,
+          "n": 3
+        },
+        "UNSEEN": {
+          "raw_p50": 6.28,
+          "raw_p95": 35.16,
+          "resid_p50": 11.75,
+          "resid_p95": 51.96,
+          "n": 8
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -3.8878,
+      "held_resid_exp_pct": -3.0636,
+      "held_raw_p05_blockboot": -53.81,
+      "held_resid_p05_blockboot": -46.19,
+      "held_resid_p50_blockboot": -5.68,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "GIGGLEUSDT": {
+      "beta_vs_btc": 1.261,
+      "n_trades_held": 9,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -37.55,
+        "UNSEEN": -17.97
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -30.84,
+        "UNSEEN": -28.81
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -28.97,
+          "resid": -23.64
+        },
+        "UNSEEN": {
+          "raw": -11.12,
+          "resid": -20.97
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": -8.58,
+          "raw_p95": 8.89,
+          "resid_p50": -7.2,
+          "resid_p95": 10.9,
+          "n": 2
+        },
+        "UNSEEN": {
+          "raw_p50": -6.85,
+          "raw_p95": 19.16,
+          "resid_p50": -7.84,
+          "resid_p95": 17.71,
+          "n": 7
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -6.677,
+      "held_resid_exp_pct": -7.2744,
+      "held_raw_p05_blockboot": null,
+      "held_resid_p05_blockboot": null,
+      "held_resid_p50_blockboot": null,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "PLUMEUSDT": {
+      "beta_vs_btc": 1.414,
+      "n_trades_held": 14,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -16.28,
+        "UNSEEN": 10.14
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": -17.17,
+        "UNSEEN": 18.01
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": -7.34,
+          "resid": -12.14
+        },
+        "UNSEEN": {
+          "raw": 15.33,
+          "resid": 24.06
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": -8.94,
+          "raw_p95": 25.96,
+          "resid_p50": -5.03,
+          "resid_p95": 20.36,
+          "n": 5
+        },
+        "UNSEEN": {
+          "raw_p50": -5.19,
+          "raw_p95": 31.45,
+          "resid_p50": -6.05,
+          "resid_p95": 23.24,
+          "n": 9
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": false,
+      "resid_beats_null_held": false,
+      "resid_pos_held": false,
+      "held_raw_exp_pct": -0.0681,
+      "held_resid_exp_pct": 0.3344,
+      "held_raw_p05_blockboot": -53.72,
+      "held_resid_p05_blockboot": -55.21,
+      "held_resid_p50_blockboot": -27.53,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    },
+    "ZBTUSDT": {
+      "beta_vs_btc": 0.919,
+      "n_trades_held": 8,
+      "windows_raw": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": 5.09,
+        "UNSEEN": 39.96
+      },
+      "windows_resid": {
+        "TRAIN": 0.0,
+        "VAL": 0.0,
+        "OOS": 4.81,
+        "UNSEEN": 43.43
+      },
+      "advantage_over_null": {
+        "OOS": {
+          "raw": 11.32,
+          "resid": 11.49
+        },
+        "UNSEEN": {
+          "raw": 37.51,
+          "resid": 40.44
+        }
+      },
+      "null": {
+        "TRAIN": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "VAL": {
+          "raw_p50": null,
+          "raw_p95": null,
+          "resid_p50": null,
+          "resid_p95": null,
+          "n": 0
+        },
+        "OOS": {
+          "raw_p50": -6.23,
+          "raw_p95": 51.44,
+          "resid_p50": -6.68,
+          "resid_p95": 46.7,
+          "n": 3
+        },
+        "UNSEEN": {
+          "raw_p50": 2.45,
+          "raw_p95": 55.14,
+          "resid_p50": 2.99,
+          "resid_p95": 57.0,
+          "n": 5
+        }
+      },
+      "raw_beats_null_held": false,
+      "raw_pos_held": true,
+      "resid_beats_null_held": false,
+      "resid_pos_held": true,
+      "held_raw_exp_pct": 6.4844,
+      "held_resid_exp_pct": 6.6313,
+      "held_raw_p05_blockboot": null,
+      "held_resid_p05_blockboot": null,
+      "held_resid_p50_blockboot": null,
+      "raw_p05_positive": false,
+      "resid_p05_positive": false
+    }
+  }
+}

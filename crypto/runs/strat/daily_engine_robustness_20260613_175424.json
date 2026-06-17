@@ -1,0 +1,231 @@
+{
+ "repro": {
+  "command": "python -m strat.daily_engine_gauntlet",
+  "git_sha": "616a448",
+  "engine": "src/strat/daily_engine.py",
+  "cadence": "1d",
+  "universe": "u10",
+  "train_end": "2023-01-01",
+  "heldout_lo": "2025-03-15",
+  "panel_span": [
+   "2020-01-06",
+   "2026-05-28"
+  ]
+ },
+ "verdicts": {
+  "dim1_block_bootstrap_p05": "FRAGILE",
+  "dim2_pbo": "FRAGILE",
+  "dim3_param_sensitivity": "PASS",
+  "dim4_regime_stratified": "PASS",
+  "dim5_cost_sensitivity": "PASS",
+  "dim6_concentration": "PASS",
+  "dim7_lookahead_audit": "PASS"
+ },
+ "n_pass": 5,
+ "n_dims": 7,
+ "dimensions": {
+  "dim1_block_bootstrap_p05": {
+   "full_2020_2026": {
+    "compound_pct": 2938.48,
+    "p05": 267.37,
+    "p50": 2945.65,
+    "p95": 25575.88
+   },
+   "post_train_2023plus": {
+    "compound_pct": 131.62,
+    "n_days": 1244,
+    "p05": -19.89,
+    "p50": 123.35,
+    "p95": 614.4
+   },
+   "heldout_2025_03plus": {
+    "compound_pct": -7.38,
+    "n_days": 440,
+    "p05": -42.68,
+    "p50": -4.32,
+    "p95": 56.56
+   },
+   "verdict": "FRAGILE",
+   "note": "held-out p05=-42.68 (post-train p05=-19.89). PASS requires held-out p05>0; FRAGILE = OOS expectancy not robustly positive."
+  },
+  "dim2_pbo": {
+   "n_configs": 81,
+   "T": 2335,
+   "grid": "trend{0.8,0.9,1.0} x chop{0.4,0.6,0.8} x down{0.0,0.2,0.4} x lookback{45,60,75}",
+   "pbo": 0.9428571428571428,
+   "prob_oos_loss": 0.014285714285714285,
+   "perf_degradation_slope": -0.8302367531775171,
+   "median_logit": -2.371577964480997,
+   "n_combinations": 70,
+   "S": 8,
+   "T_used": 2328,
+   "N": 81,
+   "verdict": "FRAGILE",
+   "note": "PBO=0.943 (degrade_slope=-0.83). PASS<0.5 = the param-selection generalizes; the engine params are pre-registered (not fit), so a low PBO confirms the curve is param-robust by construction."
+  },
+  "dim3_param_sensitivity": {
+   "base": {
+    "compound_pct": 2938.5,
+    "maxdd_pct": -55.4,
+    "sharpe": 1.31
+   },
+   "perturbations": [
+    {
+     "perturb": "trend0.8",
+     "compound_pct": 1821.2,
+     "maxdd_pct": -55.4,
+     "sharpe": 1.23
+    },
+    {
+     "perturb": "trend1.0",
+     "compound_pct": 2938.5,
+     "maxdd_pct": -55.4,
+     "sharpe": 1.31
+    },
+    {
+     "perturb": "chop0.4",
+     "compound_pct": 2477.0,
+     "maxdd_pct": -40.6,
+     "sharpe": 1.42
+    },
+    {
+     "perturb": "chop0.8",
+     "compound_pct": 3106.0,
+     "maxdd_pct": -67.1,
+     "sharpe": 1.2
+    },
+    {
+     "perturb": "down0.0",
+     "compound_pct": 2746.9,
+     "maxdd_pct": -55.1,
+     "sharpe": 1.3
+    },
+    {
+     "perturb": "down0.4",
+     "compound_pct": 3044.7,
+     "maxdd_pct": -56.1,
+     "sharpe": 1.3
+    },
+    {
+     "perturb": "lookback42",
+     "compound_pct": 2547.2,
+     "maxdd_pct": -53.5,
+     "sharpe": 1.26
+    },
+    {
+     "perturb": "lookback78",
+     "compound_pct": 2672.7,
+     "maxdd_pct": -56.7,
+     "sharpe": 1.27
+    },
+    {
+     "perturb": "volwin21",
+     "compound_pct": 3090.5,
+     "maxdd_pct": -55.4,
+     "sharpe": 1.31
+    },
+    {
+     "perturb": "volwin39",
+     "compound_pct": 2873.7,
+     "maxdd_pct": -55.4,
+     "sharpe": 1.3
+    }
+   ],
+   "sharpe_spread": 0.22,
+   "compound_rel_spread": 0.437,
+   "verdict": "PASS",
+   "note": "Sharpe spread 0.22 across all perturbations (base 1.31); PASS<0.4 = no param is a knife-edge. Compound moves more (return is leverage-like) but Sharpe stability is the robustness signal."
+  },
+  "dim4_regime_stratified": {
+   "definition": "exogenous BTC regime: bull=close>SMA200 & DD>-20%; bear=DD<=-20% off peak; else chop",
+   "bull": {
+    "n_days": 927,
+    "engine_compound_pct": 7442.9,
+    "engine_maxdd_pct": -23.4,
+    "core_compound_pct": 20594.7,
+    "core_maxdd_pct": -33.6,
+    "overlay_dd_saved_pp": 10.3
+   },
+   "bear": {
+    "n_days": 1282,
+    "engine_compound_pct": -65.1,
+    "engine_maxdd_pct": -68.2,
+    "core_compound_pct": -88.2,
+    "core_maxdd_pct": -87.5,
+    "overlay_dd_saved_pp": 19.2
+   },
+   "chop": {
+    "n_days": 126,
+    "engine_compound_pct": 15.4,
+    "engine_maxdd_pct": -12.5,
+    "core_compound_pct": 17.7,
+    "core_maxdd_pct": -21.6,
+    "overlay_dd_saved_pp": 9.1
+   },
+   "verdict": "PASS",
+   "note": "overlay saved 19.2pp of bear maxDD (engine -68.2 vs core -87.5). PASS = overlay materially de-risks the bear as claimed."
+  },
+  "dim5_cost_sensitivity": {
+   "by_cost": {
+    "maker": {
+     "cost_rt": 0.0006,
+     "full_compound_pct": 2983.1,
+     "full_sharpe": 1.31,
+     "heldout_compound_pct": -7.0
+    },
+    "taker": {
+     "cost_rt": 0.0024,
+     "full_compound_pct": 2938.5,
+     "full_sharpe": 1.31,
+     "heldout_compound_pct": -7.4
+    },
+    "2x_taker": {
+     "cost_rt": 0.0048,
+     "full_compound_pct": 2880.0,
+     "full_sharpe": 1.3,
+     "heldout_compound_pct": -7.8
+    }
+   },
+   "avg_daily_turnover": 0.0069,
+   "ann_cost_drag_taker_pct": 0.3,
+   "maker_to_2xtaker_rel_spread": 0.035,
+   "verdict": "PASS",
+   "note": "avg daily turnover 0.007 -> ~0.3%/yr taker drag. Low-turnover daily engine; PASS = compound spread maker->2x-taker < 25% of taker."
+  },
+  "dim6_concentration": {
+   "per_asset_contribution_share": {
+    "DOGEUSDT": 0.171,
+    "SOLUSDT": 0.133,
+    "BNBUSDT": 0.127,
+    "AVAXUSDT": 0.101,
+    "ADAUSDT": 0.097,
+    "LINKUSDT": 0.089,
+    "XRPUSDT": 0.088,
+    "ETHUSDT": 0.086,
+    "BTCUSDT": 0.056,
+    "LTCUSDT": 0.052
+   },
+   "top_asset": "DOGEUSDT",
+   "top1_share": 0.171,
+   "top2_share": 0.304,
+   "compound_full_pct": 2938.5,
+   "compound_without_top_pct": 1887.7,
+   "verdict": "PASS",
+   "note": "top name DOGEUSDT = 17.1% of return; book without it = 1888% (vs 2938% full). PASS = no name >95% AND positive without the top name."
+  },
+  "dim7_lookahead_audit": {
+   "checks": {
+    "thresholds_invariant_to_post_train_data": true,
+    "voltgt_weight_causal_no_future_leak": true,
+    "regime_label_causal_no_future_leak": true,
+    "weights_lagged_first_bar_zero": true
+   },
+   "verdict": "PASS",
+   "train_fit_window": [
+    "2019-01-01",
+    "2023-01-01"
+   ],
+   "note": "programmatic causality probes: thresholds fit train-only & invariant to post-train data; vol-target + regime label at t invariant to future bars; weights lagged 1. ALL must pass for a deployable causal engine."
+  }
+ }
+}

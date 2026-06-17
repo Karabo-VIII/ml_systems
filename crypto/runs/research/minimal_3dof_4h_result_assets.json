@@ -1,0 +1,231 @@
+{
+  "config": {
+    "cadence": "4h",
+    "taker": 0.0024,
+    "ma": [
+      8,
+      21,
+      "ema"
+    ],
+    "er_win": 20,
+    "er_gate": 0.4,
+    "breakout_n": 20,
+    "atr_win": 14,
+    "atr_mult": 3.0,
+    "time_stop_bars": 42,
+    "windows": {
+      "train_end": "2024-05-15",
+      "val_end": "2025-03-15",
+      "oos_end": "2025-12-31",
+      "unseen_end": "2026-05-22",
+      "train_start": null
+    },
+    "n_assets_loaded": 3
+  },
+  "aggregate": {
+    "TRAIN": {
+      "pooled_trade_exp_pct": 0.9627,
+      "pooled_winrate": 0.395,
+      "pooled_n_trades": 228,
+      "mean_comp": 72.33,
+      "median_comp": 65.24,
+      "n_assets_pos_comp": 3,
+      "n_assets": 3
+    },
+    "VAL": {
+      "pooled_trade_exp_pct": 0.3327,
+      "pooled_winrate": 0.375,
+      "pooled_n_trades": 48,
+      "mean_comp": 2.3,
+      "median_comp": 3.2,
+      "n_assets_pos_comp": 2,
+      "n_assets": 3
+    },
+    "OOS": {
+      "pooled_trade_exp_pct": -0.032,
+      "pooled_winrate": 0.367,
+      "pooled_n_trades": 49,
+      "mean_comp": -1.16,
+      "median_comp": -1.17,
+      "n_assets_pos_comp": 1,
+      "n_assets": 3
+    },
+    "UNSEEN": {
+      "pooled_trade_exp_pct": -0.5718,
+      "pooled_winrate": 0.375,
+      "pooled_n_trades": 16,
+      "mean_comp": -3.12,
+      "median_comp": -2.69,
+      "n_assets_pos_comp": 0,
+      "n_assets": 3
+    },
+    "firewall_regime_matched": {
+      "n_beat_null_held": 0,
+      "n_assets": 3
+    }
+  },
+  "per_asset": {
+    "BTCUSDT": {
+      "n_setups": 488,
+      "TRAIN": {
+        "comp": 129.05,
+        "n": 79,
+        "wr": 0.405,
+        "exp_pct": 1.2262,
+        "dd": -19.58
+      },
+      "VAL": {
+        "comp": 3.2,
+        "n": 18,
+        "wr": 0.333,
+        "exp_pct": 0.2911,
+        "dd": -11.86
+      },
+      "OOS": {
+        "comp": 11.38,
+        "n": 12,
+        "wr": 0.5,
+        "exp_pct": 0.9477,
+        "dd": -2.63
+      },
+      "UNSEEN": {
+        "comp": -1.64,
+        "n": 6,
+        "wr": 0.5,
+        "exp_pct": -0.2713,
+        "dd": -3.15
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 129.05,
+          "p95": 408.8,
+          "beats": false
+        },
+        "VAL": {
+          "real": 3.2,
+          "p95": 33.2,
+          "beats": false
+        },
+        "OOS": {
+          "real": 11.38,
+          "p95": 21.83,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -1.64,
+          "p95": 7.16,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "ETHUSDT": {
+      "n_setups": 519,
+      "TRAIN": {
+        "comp": 65.24,
+        "n": 89,
+        "wr": 0.404,
+        "exp_pct": 0.7796,
+        "dd": -30.96
+      },
+      "VAL": {
+        "comp": 5.3,
+        "n": 14,
+        "wr": 0.357,
+        "exp_pct": 0.5346,
+        "dd": -8.64
+      },
+      "OOS": {
+        "comp": -1.17,
+        "n": 20,
+        "wr": 0.35,
+        "exp_pct": 0.0489,
+        "dd": -14.83
+      },
+      "UNSEEN": {
+        "comp": -5.03,
+        "n": 6,
+        "wr": 0.167,
+        "exp_pct": -0.8237,
+        "dd": -8.98
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 65.24,
+          "p95": 376.2,
+          "beats": false
+        },
+        "VAL": {
+          "real": 5.3,
+          "p95": 49.23,
+          "beats": false
+        },
+        "OOS": {
+          "real": -1.17,
+          "p95": 50.58,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -5.03,
+          "p95": 5.59,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    },
+    "SOLUSDT": {
+      "n_setups": 334,
+      "TRAIN": {
+        "comp": 22.69,
+        "n": 60,
+        "wr": 0.367,
+        "exp_pct": 0.8873,
+        "dd": -39.31
+      },
+      "VAL": {
+        "comp": -1.59,
+        "n": 16,
+        "wr": 0.438,
+        "exp_pct": 0.2028,
+        "dd": -16.74
+      },
+      "OOS": {
+        "comp": -13.7,
+        "n": 17,
+        "wr": 0.294,
+        "exp_pct": -0.8189,
+        "dd": -16.04
+      },
+      "UNSEEN": {
+        "comp": -2.69,
+        "n": 4,
+        "wr": 0.5,
+        "exp_pct": -0.6447,
+        "dd": -3.91
+      },
+      "fw_regime": {
+        "TRAIN": {
+          "real": 22.69,
+          "p95": 698.31,
+          "beats": false
+        },
+        "VAL": {
+          "real": -1.59,
+          "p95": 54.12,
+          "beats": false
+        },
+        "OOS": {
+          "real": -13.7,
+          "p95": 13.66,
+          "beats": false
+        },
+        "UNSEEN": {
+          "real": -2.69,
+          "p95": 7.4,
+          "beats": false
+        }
+      },
+      "fw_beats_held": false
+    }
+  }
+}

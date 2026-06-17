@@ -1,0 +1,578 @@
+{
+ "thisYear": {
+  "candidates": [
+   {
+    "name": "Regime-managed-beta CORE book (thread 22, the charter CORE)",
+    "mechanism": "Per-asset LONG when close > fast SMA(100-150d), flat=cash, equal-weight u50; harvests regime-participation + diversification (capital-preservation in bears, full beta in bulls). NOT standalone alpha -- validated regime-TIMING value beyond mere de-risking.",
+    "prior_evidence": "VERIFIED (RWYB, post-reset apparatus): docs/ENTRY_SIGNAL_CAPTURE_FINDINGS_2026_06_09.md + src/strat/entry_signal_lab.py, 11 cycles. u50 book Calmar 19.8 vs basket 11.0; beats exposure-matched phase-shift null p95 (19.78 > 10.83, 200 seeds) = real timing; UNSEEN 2026 downtrend -0.3% vs basket -18%; edge widens with breadth (u10 1.18x -> u50 1.8x -> u100 8x Calmar ratio); PBO 0.641 on exact MA length BUT family prob_oos_loss 0.021 (use A fast MA, don't tune it; SMA200 LOSES, Calmar 5.4). Deployable frontier per docs/STRATEGY_AND_TARGET_VERDICT_2026_06_10.md: ~48%/yr @ -58% DD full size, ~25%/yr @ ~30% DD half size.",
+    "status": "REVIVABLE",
+    "scope_change": "Was parked on the A/B/C fork + the 2x/yr gate. CAMPAIGN_CHARTER_2026_06_10 resolves the fork (Fork A executes), retires the 2x gate, and unblocks stage 03 -- 'the trend premium is a PRODUCT'. Book-level DD-budget sizing + cash-yield-in-bears still UNTESTED (the named open items).",
+    "test_plan": "Stage-03 build via framework.pipeline: assemble u50 book in src/strat (reuse entry_signal_lab book path), pre-register SMA120 (mid-family, NOT tuned), add book-level vol-target/DD-budget sizing + cash-yield leg; full battery (10 seeds, block-bootstrap p05>0, jackknife drop-top-K, maxDD vs charter ladder) + firewall + phase-shift null re-run + UNSEEN-once; PBO already run (family-level).",
+    "ev_rank": 9,
+    "regime_slot": "trend (CORE) + bear (abstention-to-cash)"
+   },
+   {
+    "name": "TSMOM ensemble + regime BLEND (commits 5e638c6 + 5596512)",
+    "mechanism": "Per-asset momentum = fraction of {21,63,126,252d} lookbacks positive (ensemble, no magic lookback); inverse-vol risk-parity weights; breadth-normalized exposure; daily rebalance, lagged weights; blend alpha*regime_beta + (1-alpha)*TSMOM. Genuine cross-sectional name-selection (beats exposure-matched random EVERY year) + defensive frontier.",
+    "prior_evidence": "VERIFIED (RWYB, overseer): docs/TSMOM_BLEND_FINDINGS_2026_06_10.md + runs/mining/tsmom_ensemble_u50_1d.json + tsmom_battery_*.json. BLEND_50r: FULL ann +48.6%, DD -47.8%, Calmar 24.3; vs RANDOM null FULL 20.8%/OOS -18.4% (book OOS -7.5%); battery: parameter-robust PASS (30 perturbations, 42-51% ann), full-cycle bootstrap p05 +7.6% P(>0)=98% PASS; held-out 2025-26 negative (whole-class down-market) FAIL-as-alpha; DD gate FAIL at full size (size to half -> ~24%/yr @ ~25% DD). Maker~taker (turnover ~5%/day).",
+    "status": "REVIVABLE",
+    "scope_change": "Judged 'not ship-grade as standalone alpha' under the old 2x/yr frame; charter retires that gate and explicitly wants a trend sleeve judged on book-level bands. The held-out negative is the LO+spot ceiling in a falling market (preservation), which the charter accepts inside the risk envelope.",
+    "test_plan": "Already through src/strat/tsmom_ensemble.py --battery --book. Remaining: PBO/CSCV on the (lookback-set x regime-SMA x alpha) grid via src/strat/pbo_cscv.py; firewall (cost-matched random-entry) at book level; race/blend vs the thread-22 CORE under one capital envelope (they overlap heavily -- pre-register the blend alpha, don't fit it); UNSEEN-once on any param change.",
+    "ev_rank": 8,
+    "regime_slot": "trend (defensive variant) + chop (breadth-normalized de-exposure)"
+   },
+   {
+    "name": "Ensemble-trend SATELLITE entries from the family_regime_map cells (charter book v1 'BUILD NOW')",
+    "mechanism": "Per-(asset,regime) indicator-family map (EMA_20_100/EMA_50_200/DONCH_20_10/ROC_20 trend class) with 2xATR14 trailing stop, daily SMA200 causal regime split -- the opportunistic trend-entry satellites the charter's CORE+SATELLITES design calls for; positive-skew anatomy matches the playbook's verified trend profile (win 30-45%, PF 1.3-2.0).",
+    "prior_evidence": "VERIFIED (read directly from runs/mining/family_regime_map_u10_20260610_210713.json, commit 7e1537e): 1d OOS pooled n=222 trades, win 36.0%, mean +3.14%/trade, PF 1.93, 8/10 assets positive-sum; 4h OOS n=412, win 33.0%, mean +1.65%/trade, PF 1.66, 10/10 assets positive. TREND-class OOS PF 1.94 (n=909). Caveats: u10 only, no firewall/battery/jackknife run yet, per-cell n thin (4-30), map is per-cell-best (selection pressure).",
+    "status": "NEW",
+    "scope_change": "n/a (new artifact 2026-06-10; the per-trade anatomy is the first current-tree map of WHERE trend families pay)",
+    "test_plan": "Promote map -> sleeve: pre-register family-per-class (not per-cell-best, to kill the selection bias), u50 breadth, 1d primary; run setup_harness -> firewall (membership-matched null; entry-timing is fungible so expect the value in the EXIT/participation, not trigger) -> candidate_gate @ taker 0.0024 -> battery 10-seed + jackknife (concentration is the known killer) -> pbo_cscv on the family grid -> UNSEEN-once. Wire under the CORE's heat cap (alts = one BTC-beta bet).",
+    "ev_rank": 8,
+    "regime_slot": "trend (opportunistic satellites)"
+   },
+   {
+    "name": "Vol-targeting SIZING overlay (hitlist #1 + playbook section 2; thread-2 A3 archetype)",
+    "mechanism": "Size the whole book to target_vol/HAR-RV forecast, capped at 1.0 (no-lev): converts crypto's vol clustering into DD shaping; the single best-evidenced crypto practice (Man Group BTC 2012-24 +0.4 Sharpe REPORTED) and the only candidate with zero dead-list collision (D02 refutes voladj TARGETS, not sizing).",
+    "prior_evidence": "REPORTED (literature, Man/Moreira-Muir JF 2017) -- UNTESTED in-house at book level (docs/HOW_TO_TRADE_CRYPTO_PLAYBOOK_2026_06_10.md section 6 says exactly this). docs/LO_EDGE_HITLIST_2026_06_10.md ranks it #1 with P(held-out+) ~0.85 as Calmar/DD shaper, not alpha. Vol features (norm_yz_volatility, rv_rv_5m) already in chimera. Charter section 3 MANDATES vol-targeted sizing.",
+    "status": "NEW",
+    "scope_change": "n/a (never built; charter risk envelope now requires it before any sleeve is sized into capital)",
+    "test_plan": "~0.5 file: wrap the CORE book backtest in HAR-RV inverse-vol sizing (cap 1.0, floor pre-registered); compare compound + maxDD + Calmar vs unsized via src/strat/battery.py at taker; verify the <30% DD point moves to higher return than naive half-sizing; 10-seed + UNSEEN-once. Expectation published first: it WILL lag in bull legs (0.4-0.75x notional in calm vol) -- that is the design.",
+    "ev_rank": 8,
+    "regime_slot": "cross-cutting (book-level risk; primary lever for the <30% DD charter point)"
+   },
+   {
+    "name": "Breadth-bounce 4h RSI-oversold satellite + trailing-exit kappa lever (threads 7 + ledger #2/#4)",
+    "mechanism": "Pooled cross-u70 4h RSI-bounce thr24 (cross-UP out of oversold = the confirmed turn, ~2/day selectivity), regime-gated, managed RSI>50 exit; the kappa trailing-exit variant ~doubles per-trade capture. Bull/recovery alpha satellite -- the only per-trade edge in 2026 evidence that beat a cost-matched null with lag-robustness.",
+    "prior_evidence": "VERIFIED at commit f35c7d4 (2026-06-04, clean native multi-TF loader, post-A4 fix): OOS +4.93%/trade, PF 13, win 83%, n=130, book EW +43%, broad (top-10 trades = 20% of gains across 70 alts), lag-robust (lag0/1/2 = +4.93/+5.08/+4.63%). Bear wall: UNSEEN gated -0.85%; ungated +0.47% collapses at lag-1 (D58 HARD). kappa lever REPORTED (02_APPROACH_LEDGER #4): trail_0.05 OOS +3.61% vs managed +1.58% (+2pp), VERIFIED 2026-06-04 per thread 7; book assembly never done. Code ARCHIVED at archive/restart_2026_06_04/src/strat/breadth_per_trade.py (not in live tree).",
+    "status": "REVIVABLE",
+    "scope_change": "Thread 7's blocker was 'the regime-routed book that makes trailing work without DD cost was never assembled' -- the charter's book structure (satellite under CORE heat-cap, bears abstained by the regime gate) IS that container. D60 (1h dead) and D50/D51 (thr30/thr20 dead) bound the param space: 4h thr24 only.",
+    "test_plan": "Port breadth_per_trade.py from archive into src/strat (pre-register thr24/4h/managed+kappa-trail exactly as archived -- no re-tuning); re-run on current chimera through firewall (cost-matched random-entry null) -> candidate_gate -> battery multi-seed + jackknife + p05 -> UNSEEN-once (2026 bear: expect ~0 trades gated = the correct abstention behavior); route INSIDE the regime gate so bear entries never fire.",
+    "ev_rank": 7,
+    "regime_slot": "chop-carry / bull-recovery satellite"
+   },
+   {
+    "name": "Bear-short sleeve (thread 8 + symmetric_trend_book current-tree evidence)",
+    "mechanism": "Short downtrend-resumption on perp with idle bear-cash, only in confirmed BEAR (price<SMA200 AND SMA50<SMA200 falling); converts the book's bear abstention into participation. Charter lists it as the bear sleeve, flagged for the user's LO-exception sign-off.",
+    "prior_evidence": "Thread 8 (REPORTED, code archived): UNSEEN +0.40%/trade; book-level -5.1pp CAGR for +5.6pp bear-participation. Current-tree VERIFIED (runs/strat/symmetric_trend_book_2026-06-10.json, funding-costed, look-ahead self-audit PASS): short leg adds +1.3pp OOS and +5.4pp UNSEEN (short book +5.39% in the 2026 bear while long-only sat at 0) -- but UNSEEN n=4 trades (thin) and OOS short leg only +1.4% compound. D56 binds: only trend-resumption shorts, never overbought-fades.",
+    "status": "NEEDS_USER_SIGNOFF",
+    "scope_change": "LO+spot+lev=1 excluded shorts; charter explicitly carves the exception path ('VALIDATED but needs the user's LO-exception sign-off'). The 2026 bear regime is the named revive condition of D04.",
+    "test_plan": "After sign-off: rebuild from src/strat/symmetric_trend_book.py short path (current tree; thread-8 regime_short code is NOT in the live tree -- verified absent); grow n via u50 breadth + 4h; battery multi-seed + jackknife (n=4 UNSEEN is nowhere near gate); real funding panel (src/pipeline/ingest/binance_funding_panel.py) instead of the 0.045%/day upper bound; paper-trade stage 04 before capital.",
+    "ev_rank": 6,
+    "regime_slot": "bear"
+   },
+   {
+    "name": "External-data mover/cascade discriminator (threads 23+24 -- the boxed moonshot)",
+    "mechanism": "Trigger-time continuation discriminator for intraday movers using LEADING external data (Coinglass liq-heatmap/aggregated-liq ~$29/mo, CryptoQuant netflow, news/social). The spec is uniquely sharp: any signal with OOS AUC >=0.58 on continuation-given-onset flips the (already-built) 1m mover-riding harness EV-positive.",
+    "prior_evidence": "D72 (VERIFIED, runs/mining/mover_ride_u10_*.json + mover_metalabel_u10_20260610_195259.json): meat EXISTS at 1m (+5.3-5.7% MEDIAN post-trigger oracle on >=5%-runup days, n=2662 TRAIN/1043 OOS) but internal 16-feature meta-labeler OOS AUC 0.521/0.510 = no internal information; all 18 riding cells negative. D71 (VERIFIED): liq signature adds ~0 beyond the drop; oi_d24h the ONE split-stable DNA (rho -0.22/-0.28, p~0.05); UNSEEN sealed unspent (43 events). Caveat: D69 lowered the prior on ALL leading-data-like signals (every one tested was coincident).",
+    "status": "NEEDS_USER_SIGNOFF",
+    "scope_change": "Both kills are SCOPED 'internal data' -- external pre-event data is the explicitly-named untested cell. Charter boxes it as the moonshot lane ('awaiting data decision'), budget-capped so it never consumes the operation.",
+    "test_plan": "User purchase decision first (~$29/mo Coinglass). Then a ~1-day test on the READY harness: feed heatmap-proximity/netflow features into mover_metalabel.py (pre-registered AUC>=0.58 gate, TRAIN-fit OOS-once), and oi_d24h + heatmap into cascade_oracle.py r2 (vol-matched nulls, 48h-cluster bootstrap); only on PASS spend the sealed UNSEEN (43 events) once.",
+    "ev_rank": 5,
+    "regime_slot": "moonshot (boxed) / event"
+   },
+   {
+    "name": "Token-unlock calendar sleeve (playbook section 3 -- the one NEW exogenous avenue)",
+    "mechanism": "Large cliff unlocks (>=1-5% supply) have a documented ~90% decline base rate with weakness starting T-30d (Keyrock, 16k events REPORTED): pre-unlock avoidance/de-weight in the CORE (long-only compatible NOW) + post-unlock exhaustion-gated relief bounce (hitlist #10).",
+    "prior_evidence": "REPORTED only (literature, large-n): docs/HOW_TO_TRADE_CRYPTO_PLAYBOOK_2026_06_10.md section 3 (Keyrock 16k events) -- UNTESTED in-house; zero dead-list collision on the avoidance side. The relief-bounce LONG leg is D48/D49-adjacent (anti-edge cousin) and must clear the D61 no-skill fixed-hold control.",
+    "status": "NEEDS_DATA",
+    "scope_change": "n/a (genuinely new; surfaced by the 2026-06-10 playbook research; charter event sleeve = 'data + test')",
+    "test_plan": "Ingest free unlock calendar (Tokenomist/TokenUnlocks, ~1-2d); event-study via setup_harness: (a) avoidance leg -- CORE excludes names inside T-30d..T+2d of cliff unlocks, A/B book Calmar; (b) bounce leg -- entry unlock+{1,2,3,5}d held {3,5,10}d vs cost-matched random null AND D61 fixed-hold control (mandatory); battery + UNSEEN-once. Avoidance leg first (no new-edge risk, pure de-risking of held names).",
+    "ev_rank": 5,
+    "regime_slot": "event"
+   },
+   {
+    "name": "New-listing H1 momentum revival (P8 / ledger #20, hitlist #6)",
+    "mechanism": "Buy first fully-formed bar after tier-1 listing if early momentum + $-volume floor pass; orthogonal info-channel (listing events uncorrelated with the trend book). Playbook adds the guard: 98% of Binance listings dump from listing price (sell-the-news), so the long window is hours, hard time-stop.",
+    "prior_evidence": "REPORTED (pre-reset apparatus, 2026-04): OOS +8.64%/event n=85; live paper +1.50%/event = 5.76x attenuation (thin books; maker p_fill 0.21-0.40 = D43). Tooling exists: listing_dates.py + multi_venue_listings.py per hitlist #6. No tracking since May; never re-tested under the current candidate_gate.",
+    "status": "REVIVABLE",
+    "scope_change": "Pre-reset numbers are apparatus-suspect (A1-A8 era) -- but this was a LIVE-measured +1.50%/event, the only candidate with real fills behind it. Charter event sleeve explicitly names listings. Needs the real-time listing poller (the original blocker) which is a bounded eng task.",
+    "test_plan": "Re-test archived P8 logic through current candidate_gate at taker 0.0024 with strict first-hour-$-volume floor; size expectations off the LIVE 1.50% (not the OOS 8.64%); battery on event-resampled bootstrap (events are the unit, not bars); build the listing poller only after the gate passes; stage-04 paper with per-event caps.",
+    "ev_rank": 5,
+    "regime_slot": "event"
+   },
+   {
+    "name": "MR-class (RSI14_30_50 / BOLL_20_2) regime cells at 1d (family_regime_map chop candidate)",
+    "mechanism": "The same family_regime_map run shows the MR family class pooled OOS positive at 1d -- candidate raw material for the charter's chop sleeve (the bounce mechanism in its regime-conditioned cell, cousin of the validated breadth bounce).",
+    "prior_evidence": "VERIFIED (read directly from family_regime_map_u10_20260610_210713.json class_table): MR|OOS 1d n=345, win 60.3%, mean +2.81%/trade, median +2.72%, PF 1.91. Caveats: u10, no firewall/null/battery, class pooled over per-cell-best families (selection pressure), and the dead-list is dense here (D50/D51 RSI depth/freq HARD, D54 funding-extreme UNSEEN-neg, D58 ungated bear bounce HARD).",
+    "status": "NEW",
+    "scope_change": "n/a (new 2026-06-10 artifact; differs from the killed variants by being regime-cell-conditioned at 1d rather than high-freq or depth-tuned)",
+    "test_plan": "Pre-register the exact archived family params (RSI14 30/50 cross-up, BOLL_20_2) BEFORE reading any more cells; u50 breadth; firewall membership-matched null (the bounce's prior pass was its distinguishing strength) -> candidate_gate -> battery + jackknife (60% win MR books die by left-tail concentration) -> UNSEEN-once. Kill on any D50/D51-pattern (loosening = death).",
+    "ev_rank": 5,
+    "regime_slot": "chop"
+   },
+   {
+    "name": "Funding cash-and-carry / basis yield sleeve (D18 + commit 2231326)",
+    "mechanism": "Long spot + short perp harvests funding when positive -- genuine low-DD yield, the charter's chop-carry filler so abstention capital is never idle. Pro-cyclical (pays in bulls, ~0 in bears).",
+    "prior_evidence": "REPORTED (pre-reset, commit 2231326 2026-06-03: 'genuine low-DD yield, but decayed/pro-cyclical'); D18 numbers: full +13%/yr gross -> UNSEEN +3.1% gross, -5.4% NET post-2024 (worse than staking yield). SCOPED kill ('now -- cyclical'), explicitly named revive-class by the charter chop sleeve.",
+    "status": "NEEDS_DATA",
+    "scope_change": "D18's scope condition = the funding regime; 2024-era decay was the kill basis. Current 2026 funding levels never measured on the live panel. Charter also accepts it as YIELD (vs the old alpha bar it failed). Requires the perp leg = same LO-exception sign-off class as the bear-short.",
+    "test_plan": "Measure first, build second: pull current funding via src/pipeline/ingest/binance_funding_panel.py, compute trailing 90d net carry after both legs' costs vs staking yield baseline; only if net > staking by a pre-registered margin, build the sleeve (delta-neutral, sized inside the heat cap) and battery it; else record 'still decayed' and re-check quarterly.",
+    "ev_rank": 4,
+    "regime_slot": "chop-carry"
+   },
+   {
+    "name": "Cross-sectional LOW-vol tilt (hitlist #2, thread-2 archetype B)",
+    "mechanism": "Monthly rebalance into the bottom-RV quintile of a survivorship-clean universe -- defensive-beta tilt (low-vol premium) that pairs with the vol-target overlay as its base book.",
+    "prior_evidence": "REPORTED/contested literature; in-house UNTESTED. Hitlist P(held-out+) ~0.55, flagged 'likely defensive-beta tilt, fades in bear'. Survivorship-clean universe is load-bearing (the named data dependency).",
+    "status": "NEW",
+    "scope_change": "n/a",
+    "test_plan": "Bottom-vol-quintile EW vs EW-buy&hold AND top-vol-quintile on full-cycle Calmar incl. a bear window; survivorship-clean panel mandatory; battery + UNSEEN-once; adopt only if it beats the CORE's Calmar contribution per unit heat (it overlaps the regime book's defensive role -- test marginal value INSIDE the book, not standalone).",
+    "ev_rank": 4,
+    "regime_slot": "chop-carry (defensive tilt under the CORE)"
+   },
+   {
+    "name": "rv_skew_5m / rv_kurt_5m causal feature build (thread 21 + hitlist #8 -- enabler)",
+    "mechanism": "Causal realized-skew/kurt from the existing 5m pipeline: the one un-built SHAPE feature that attacks the 'vol-expansion = coin-flip direction' wall (D41/D65 said vol is sizing-only BECAUSE direction was a coin-flip; signed asymmetry is the untested directional channel).",
+    "prior_evidence": "INFERRED (gap analysis, 05_OPEN_THREADS thread 21 'top -- 5m pipeline already exists' + hitlist #8 P~0.30 'honest unknown'); no in-house numbers exist by construction (feature never built). ~1d build cost.",
+    "status": "NEW",
+    "scope_change": "n/a (fork-agnostic bounded eng; also feeds the mover-metalabel feature set if the moonshot data arrives)",
+    "test_plan": "Build rv_skew_5m/rv_kurt_5m as causal chimera adds (pipeline framework primitives, pre-train gate); re-run ONLY the breakout family with skew>0 gate through mover_capture.py + dual_null_evaluator.py (pre-registered: this is the single test, not a mining license); register the result either way (closes or revives the breakout cluster).",
+    "ev_rank": 4,
+    "regime_slot": "trend/event (feature enabler)"
+   },
+   {
+    "name": "CFTC COT institutional-positioning conditioner (hitlist #4)",
+    "mechanism": "Weekly CME large-trader net-long z as a slow exposure multiplier on the book (publication-lagged, A6-safe). The cleanest FREE leading-data profile remaining; positioning differs mechanically from the flow signals D69 killed.",
+    "prior_evidence": "REPORTED only; hitlist P~0.45 with 'zero dead-list collision'. PRIOR CUT by D69 (VERIFIED 2026-06-10): every macro/flow conditioner tested was coincident-not-predictive; macro GATE = preservation at lower full-cycle Calmar; conviction-SIZING null (1007% vs 1167% fixed). Expect preservation at best.",
+    "status": "NEEDS_DATA",
+    "scope_change": "n/a (never tested; free ingest ~1-2d via cot_reports)",
+    "test_plan": "Ingest COT; A/B the exposure-gated CORE vs ungated on full-cycle Calmar + held-out DD (the D69 protocol exactly, so results are comparable); pre-register that 'cuts DD but costs Calmar' = NULL per D69 precedent; UNSEEN-once.",
+    "ev_rank": 3,
+    "regime_slot": "cross-cutting conditioner (bear/event early-warning)"
+   },
+   {
+    "name": "DVOL eVRP yield sleeve via options chain (thread 13)",
+    "mechanism": "Sell the IV-RV gap (VRP real: IV>RV 71% of days) as an income sleeve -- the only instrument-class candidate for chop-carry that doesn't depend on funding levels. Covered-calls form is DEAD (D38, caps the right tail).",
+    "prior_evidence": "REPORTED: VRP existence 71% days (pre-reset measurement); D38 covered-calls -24pp CAGR for +7pp DD (the kill of the naive form); dv_dvol feed 98% sparse; Deribit options-chain ingest never built (the 1-2d prereq).",
+    "status": "NEEDS_DATA",
+    "scope_change": "Thread 13's own condition: 'when backbone is live + yield is the marginal question' -- the charter book makes yield the chop-sleeve question NOW. Options = instrument exception (same sign-off class as perp short).",
+    "test_plan": "User sign-off on options instrument first; then Deribit chain ingest (1-2d); structure as defined-risk short-vol (put-spread/strangle with tail caps, NOT covered calls per D38); backtest vs staking-yield baseline at all-in costs; battery on event-units; box sizing inside the chop sleeve only.",
+    "ev_rank": 3,
+    "regime_slot": "chop-carry (yield)"
+   },
+   {
+    "name": "PEPE dollar slow-SMA x whale lone survivor (thread 4 / ledger #8)",
+    "mechanism": "Coarse dollar-clock slow-SMA crossed with whale accumulation on PEPE -- the single setup-chaser survivor; mechanism-falsifier PASSED (the filter genuinely selects, not tail-keeps).",
+    "prior_evidence": "REPORTED (pre-reset apparatus but retail-grade PASS + CDAP-clean per thread 4): UNSEEN +71%, jk3 +26.7, mech-falsifier PASS; FAILS institutional gates: n_eff=8, n=11, DSRp>0.91, UNSEEN mpos=1.0 flagged as 4-month luck. User ship/no-ship pending since 2026-05-29.",
+    "status": "NEEDS_USER_SIGNOFF",
+    "scope_change": "Charter's 'losses are accepted inside the risk envelope' permits the small live test thread 4 suggests (n~11 evidence = micro-stake only, satellite cap). Not a capital commitment.",
+    "test_plan": "If user says go: re-verify the exact frozen config on current apparatus (no re-tune) through candidate_gate + battery; deploy micro-stake (<=0.5% equity risk) at stage-04 paper-then-live with a pre-registered structural kill (whale-feed decay), tracked on the leaderboard as an n-growing live experiment.",
+    "ev_rank": 3,
+    "regime_slot": "moonshot / event satellite"
+   },
+   {
+    "name": "Family-2 cross-sectional mover rotation (commit ea2dc8f -- the flicker, register-only)",
+    "mechanism": "Top-K(3) by 10d trailing return, MA200-rising filter, ATR trail, 10d rebalance -- alt-season event-capture. Arithmetically spectacular held-out, but the kill caveats are the evidence.",
+    "prior_evidence": "VERIFIED numbers, FAILED gate (runs/strat/momentum_rotation_lab_2026-06-10.json + FIND_LO_WINNER_VERDICT_2026-06-10.md): UNSEEN +171.9% (+1080%/yr), DD -10.9% -- BUT n=22 trades, win 0.50, n_eff=4.1mo; drop-top-10-days collapses to +32%; ATR8 variant -9.5%; firewall NOT run, PBO NOT run (custom sim). Dead-list D68 (SCOPED) predicted exactly this concentration-fragility; D40/D67 adjacent.",
+    "status": "WEAK",
+    "scope_change": "D68 is SCOPED ('robustness needs sub-hour + Fork') -- the scope condition has NOT changed. Registered so the next instance doesn't re-mine it as a discovery; only legitimate revival = as the alt-season EVENT detector (regime flag, not a compounder), or post external-data.",
+    "test_plan": "ONLY IF touched: complete the failed gate first (firewall random-entry null + pbo_cscv via the standard harness, not the custom sim); require a SECOND independent alt-season window positive + jackknife drop-top-10-days still >0; expectation per dead-list: fails. Cheaper use: convert the trigger into an 'alt-season ON' regime flag and test as a satellite-enabler gate.",
+    "ev_rank": 2,
+    "regime_slot": "event (alt-season) / moonshot"
+   },
+   {
+    "name": "M2 regime-math weekly config generator (D73 residue, register-only)",
+    "mechanism": "Predetermined regime-math (daily SMA200 + ER -> EMA_50_200, else abstain) -- the least-bad of the weekly config generators; its entire positive tail = trend weeks = regime participation, converging with thread 22 rather than adding to it.",
+    "prior_evidence": "VERIFIED (runs/mining/config_map_lab_u10_20260610_205051.json + D73): weekly oracle IS in the user band (med +1.9-3.5%/wk, 68-76% wks>0) but M2 OOS MEAN +1.1-1.6%/wk is tail-driven: actual-trade MEDIAN -0.50%, breadth 0/10, jk3 +0.1-0.7; M1 persistence ANTI-predictive; M3 learned = memorization (TRAIN capture 1.00 -> OOS negative). 5th independent kill of factor->config.",
+    "status": "WEAK",
+    "scope_change": "None -- D73 is fresh (2026-06-10). Registered as convergent EVIDENCE for the regime book (its tail is the trend premium), not as a buildable candidate. The missing discriminator is the same object as threads 23/24.",
+    "test_plan": "Do not build standalone. Fold the one reusable piece -- SMA200+ER as an abstention condition -- into the CORE book's pre-registered variant grid (1 extra column in the existing battery run), and stop.",
+    "ev_rank": 2,
+    "regime_slot": "trend (evidence convergence only)"
+   },
+   {
+    "name": "BTC-dib momentum-capture flicker (REFRAME findings residue, register-only)",
+    "mechanism": "Momentum-continuation capture on BTC dollar-imbalance bars cleared the 25% capture bar where every other cadence/bar-type was null -- single-asset, non-replicating; most likely a bar-frequency artifact.",
+    "prior_evidence": "VERIFIED (runs/strat/REFRAME_CAPTURE_FINDINGS_2026-06-10.md + oracle_capture_BTC_ETH_SOL__dollar_dib.json): BTC dib taker +0.265 / maker +0.362 capture (99 moves) BUT ETH dib null (+0.063) and SOL dib has no data. All sibling cells (1d->15m, dollar) pinned at -7% to +5.6% capture after cost.",
+    "status": "WEAK",
+    "scope_change": "n/a (probe listed in the findings' own 'genuinely still open' section; expected noise)",
+    "test_plan": "Bounded probe only: build SOL dib bars, re-run oracle_capture_lab on {BTC,ETH,SOL} dib with seed-robustness + block-bootstrap; pre-registered verdict rule: non-replication on either asset = close permanently (write the dead-list entry).",
+    "ev_rank": 2,
+    "regime_slot": "moonshot (bar-type frontier)"
+   }
+  ]
+ },
+ "archive": {
+  "candidates": [
+   {
+    "name": "Regime-gated quality-beta backbone + trend_scale + yield (the '~26% CAGR backbone', DEF12/top-4 class)",
+    "mechanism": "Harvests the trend premium + bear abstention: EW curated/mechanical quality majors, BTC>SMA100 daily cash gate (SMA75-150 robust band), trend_scale gross-scaling (denom 0.25) + vol-target (vt0.05), staking yield invested + cash yield in bears. The gate is the real edge (halves DD vs buy-hold); charter explicitly makes 'trend premium is a PRODUCT'. This IS the charter CORE sleeve.",
+    "prior_evidence": "REPORTED (June-2026 apparatus, post-A1/A3 fixes, red-team de-inflated): C38 config 6-seed +29.6% CAGR / -16.3% maxDD / UNSEEN +6.0% / worst-seed +10.3% (archive/restart_2026_06_04/docs/DEPLOYABLE_BREADTH_SYSTEM_2026_06_02.md). REPORTED honest-floor after oracle hindsight audit: mechanical top-15 +15.1% CAGR (OOS +5.6 / UNSEEN +4.7); top-4 full-cycle 2021-26 +23.5% / -28.9% DD beats BTC buy-hold both axes (memory/per_asset_strategy_exhausted_2026_06_02.md). REPORTED current-apparatus re-validation: mechanism independently re-confirmed post-reset as thread 22 (src/strat/entry_signal_lab.py 2026-06-09: Calmar u50 19.8 vs 11.0 buy-hold, survives exposure-matched phase-shift null).",
+    "status": "REVIVABLE",
+    "scope_change": "Never killed -- it was dismissed as 'only beta, not the 1-5%/d target'. The charter retired that gate (Fork A executes); regime participation is now the validated core product. Mechanism already re-verified under the current apparatus (thread 22); only the full config (trend_scale + vt + yield + book sizing) needs porting.",
+    "test_plan": "Port archive paper_trade/sweep_replay/regime_timing configs into current src/strat (trend_book_lab.py already in flight on this branch). Pre-register: mechanical universe rule (top-N by $vol, no hand-pick), SMA band 75-150 walk-forward, vt grid {0.015,0.03,0.05}, trend_denom 0.25, yield rates. Run candidate_gate -> firewall (cost-matched random-entry null) -> battery (10 seeds incl. bear-entry, block-bootstrap p05>0, jackknife, maxDD<30%) -> PBO/CSCV over the vt/SMA grid -> UNSEEN-once. Track 1d/3d ROI bands at book level.",
+    "ev_rank": 9,
+    "regime_slot": "trend (the CORE buy-and-hold sleeve; its cash gate also covers bear-abstention)"
+   },
+   {
+    "name": "Breadth RSI-bounce 4h pooled satellite (thr24-25, K-slot) + trailing-exit kappa lever",
+    "mechanism": "Liquidity-provision premium to forced sellers, harvested ONLY after the turn confirms (RSI(14) cross-UP through ~24-25, 4h, across >=50 liquid assets, K~10 slot no-leverage pool, BTC>SMA100 gated). The mechanism law: buy-the-extreme is anti-edge; the cross-up confirmation threads the needle at ~2 setups/day clearing the cost wall. The kappa lever: trailing-stop exit (trail 5-8%) instead of managed RSI>50 captures 62-68% of the move vs 46-55%, ~doubling per-trade -- valid only regime-routed (standalone breaches the 30% DD bound).",
+    "prior_evidence": "REPORTED (2026-06-02/03 apparatus, liquidity-TIERED 30/60/120bps cost + cost-matched random-ENTRY null + capital-constrained sim; Stage-0 data gate PASSED on the green rebuild 2026-06-03): OOS +6.4-6.6% / UNSEEN +0.6% (thr25) to +2.4% (thr24, bear-robust), beats null by ~14pp (random risk-on entries LOSE -13%); subset-robust 4/4 halves, cost-robust 10-50bps, K-robust 5-20; sole survivor of a 16-mechanism x 2-cadence sweep (archive/restart_2026_06_04/docs/DEPLOYABLE_BREADTH_SYSTEM_2026_06_02.md). Trailing lever REPORTED: OOS +1.58 -> +3.61%/trade, beats random-gated-entry null +3.47pp at p95 across 6 exit-params x thr24/25 x 70/100 assets (memory/capture_lever_breadth_exit_2026_06_04.md). Dead-list compatible: D50 kills thr30, D51 kills thr20, D60 kills 1h -- the thr24-26 4h plateau explicitly survives; D23 notes trailing works on THIS entry.",
+    "status": "REVIVABLE",
+    "scope_change": "Thread 7 (05_OPEN_THREADS): the regime-routed book assembly that makes the trailing exit DD-safe was deferred to a 'parallel instance' and never done; multi-seed open. Numbers were 'provisional pending clean rebuild' -- the rebuild landed and the data gate passed, but the kill_test/pooled_book_sim re-verify checklist was never executed post-reset.",
+    "test_plan": "Port pooled_oversold_sweep.py / pooled_book_sim.py / kill_test.py / breadth_book_kappa.py from archive into current src/strat under ChimeraLoader. Pre-register thr24 hold3 K in {6,10} trail 0.05, bull/recovery routing only. Gates: ABSOLUTE positivity AND null-beat (both required), multi-seed, jackknife drop-top-K, trade-path DD (not monthly buckets), maxDD<30% at book level, UNSEEN-once. Then wire as the opportunistic dip satellite next to the core.",
+    "ev_rank": 8,
+    "regime_slot": "chop-carry / recovery satellite (opportunistic dip sleeve in the CORE+SATELLITES book)"
+   },
+   {
+    "name": "P8 listing H1-momentum event sleeve (LONG side only)",
+    "mechanism": "Post-Binance-futures-listing hour-1 momentum continuation: wait 60min post-onboard, measure 1h return; if positive, enter LONG, exit at the 4h mark. A genuinely orthogonal information channel (fires in the first 5h of a symbol's existence -- nothing else in the book can see it). Charter event sleeve names listings explicitly.",
+    "prior_evidence": "REPORTED (event-clock harness on 405 listings from fapi exchangeInfo; A1/A3 apparatus classes do NOT apply -- per-event returns, real-time-placeable timestamps, no spot-loader fills): chronological OOS 2025Q4-2026-04 dual-side +8.64%/event t=3.61 n=85 hit 67%; LONG-only legs +9.50%/event (n=45, t=2.45) and h1>+5% +16.88% (n=28, t=2.96) (archive/restart_2026_06_04/memory/listing_h1_momentum_alpha_2026_04_22.md). REPORTED live measurement: +1.50%/event = 5.76x attenuation vs backtest, still positive (05_OPEN_THREADS thread 12, citing PROD_DEPLOY_VERDICT). Bonferroni-surviving at 140 cells. Caveats: LONG-only n is small (45/28 OOS); 16bps taker assumption optimistic on thin new listings; live attenuation is the honest expectation-setter.",
+    "status": "REVIVABLE",
+    "scope_change": "Never killed -- tracking simply stopped in May. Not on the dead-list. Scope question for the charter: it trades the FUTURES listing LONG at lev=1 (economically long exposure, but perp instrument) -- confirm whether long-perp-lev=1 fits the LO mandate or test the spot-listing variant; flag to user if perp-only.",
+    "test_plan": "Re-pull listings 2024->present via /fapi/v1/exchangeInfo (extends n by ~14 months); pre-register LONG-only h1>0 4h-hold (one cell, no sweep); cost stressed at 100bps RT; run through current candidate_gate + firewall analog (shuffle-date null) + jackknife on the fat right tail; size off the LIVE +1.5%/event number not the backtest; rebuild futures_listings_poller.py; paper-trade 10 listings before capital. ~0.4-0.5 events/day at 5-20% capital/event maps directly to the 1d/3d ROI ledger.",
+    "ev_rank": 7,
+    "regime_slot": "event (calendar/listings sleeve)"
+   },
+   {
+    "name": "Bear-short trend-resumption sleeve (regime_short)",
+    "mechanism": "Short the downtrend RESUMPTION (not the refuted overbought-fade, D56): RSI(14) cross-DOWN thr40 under a confirmed-bear gate (BTC<SMA100 AND 20d-mom<0, +1d lagged), cover RSI<30, squeeze stop. Funded from the backbone's idle bear-cash (gross<=1, leverage-free). Buys bear PARTICIPATION: converts UNSEEN-2026-bear +6.2% -> +10-14%.",
+    "prior_evidence": "REPORTED (2026-06-04, leak-fixed + red-team corrected twice -- regime-gate look-ahead removed, funding charged, conservative fills): UNSEEN (2026 bear) +0.403%/trade beating mechanism-matched null (+0.32); lag-robust (lag-1 +0.478); broad n=780 across 70 assets, top-3 only 2.6% of gains, jackknife-drop-3 positive (archive/restart_2026_06_04/docs/ALL_REGIME_BOOK_2026_06_04.md). HONEST costs: -4 to -8pp full-cycle CAGR and +3-9pp DD vs backbone-alone; OOS marginal, TRAIN/VAL negative (recent-bear-shape edge, not 2022-confirmed); execution-sensitive +/-6pp on stop-fill assumption.",
+    "status": "NEEDS_USER_SIGNOFF",
+    "scope_change": "Charter already flags it: 'bear-short sleeve is VALIDATED but needs the user's LO-exception sign-off' (perp shorts relax LO-spot). The strategic question (is bear participation worth the full-cycle wealth cost?) is the user's, not empirical. Thread 8.",
+    "test_plan": "On sign-off: port regime_short.py/regime_classify.py/regime_book.py into current src/strat; re-run battery with the conservative-fill bound + real exchange funding; paper-trade >=1 bear-month before sizing (the fill assumption is the +/-6pp swing); size small (2026-bear-specific evidence); deploy only from bear-cash so book gross stays <=1.",
+    "ev_rank": 6,
+    "regime_slot": "bear"
+   },
+   {
+    "name": "prod_meta_combined -- CatBoost meta-labeled ensemble (mechanism retest, not number revival)",
+    "mechanism": "CatBoost meta-gate over a base swing/trend signal ensemble: the meta-labeler decides WHICH base signals to take. Archive alignment evidence says meta-labeling was load-bearing -- all 6 meta variants net-positive while every non-meta base profile lost money (alignment_2026_04_23.md). D16 kills ML-as-alpha but explicitly preserves the meta-labeler class.",
+    "prior_evidence": "REPORTED and APPARATUS-SUSPECT: post-MtM-fix +94.02% @ maker 13mo (CLAUDE.md canonical); paper_trader MEASURED +48.9% CAGR Sh 2.69 (memory/deployment_rank_2026_04_22_final.md). All April-2026 numbers predate the A3 same-bar-close fill fix (2026-05-25, delta +50-80pp class) and ride maker p_fill 0.8 optimism (D43 HARD: real 0.21-0.40, live 50-75% of backtest). INFERRED: the honest residual could be a fraction of the claim or zero. Thread 9 rates the full 12-sleeve ladder LOW but the prod_meta_combined mechanism retest MEDIUM ('worth understanding before discarding'). Note a separate ML meta-labeling null exists (AUC 0.495, per_asset run) -- but that was LGBM on different bases, not this CatBoost-over-ensemble construction.",
+    "status": "NEEDS_DATA",
+    "scope_change": "Never honestly measured under the current apparatus: every number predates the A3 fill fix and the reset. The mechanism class (meta-labeling) survived D16 by name. Code lives in archived src/strategy (do NOT redeploy old code -- rebuild on src/strat).",
+    "test_plan": "Treat as a NEW candidate inheriting only the architecture: define base long-only signals from the current validated set (trend ensemble + breadth bounce), train a meta-labeler walk-forward (purge gaps) on TRAIN+VAL only, pre-register the gate threshold, run candidate_gate -> firewall -> battery -> UNSEEN-once with maker p_fill 0.21-0.40 and the tiered cost model. Kill fast if the meta-gate fails to beat the ungated ensemble OOS.",
+    "ev_rank": 5,
+    "regime_slot": "trend (meta-gated momentum; could promote to book-level overlay)"
+   },
+   {
+    "name": "Funding-carry sleeve (dormant, regime-triggered)",
+    "mechanism": "Delta-neutral long-spot/short-perp harvesting positive funding. Structurally sound mechanism, regime- and fee-dominated: typical 2025-26 funding 0.01-0.03%/8h vs 0.24% round-trip leg cost at retail tier.",
+    "prior_evidence": "REPORTED: exhaustive 10-asset x 35-param sweep (2026-04-20) -- best config +0.4%/yr, baseline portfolio -22% net; fees exceed carry in the current regime (archive/restart_2026_06_04/memory/step3_funding_carry_concede_2026_04_20.md). D18 (later test): +13%/yr GROSS real but forward-decayed, net ~0-negative post-2024; SCOPED to 'now', explicitly cyclical. Named revival triggers in the concede doc: funding >0.1%/8h sustained (bull-mania regime), VIP/maker fee tier, or basis-trade (quarterly cash-and-carry) infrastructure.",
+    "status": "NEEDS_DATA",
+    "scope_change": "D18 is SCOPED-cyclical, so the charter's chop-carry slot can hold it as a DORMANT sleeve with a mechanical wake condition. Nothing has changed YET -- the test is whether the current funding regime has shifted since 2026-04 (one query against the funding_rate table).",
+    "test_plan": "Build a 20-line funding-regime monitor on existing funding_rate data: rolling 30d share of 8h intervals >0.05%/8h across u50. Pre-register the wake condition (e.g. >20% of intervals for 14d) and the entry/exit thresholds from the archive sweep (entry 0.01%, exit -0.2%). Until the wake fires, the sleeve is cash. Also price the quarterly-basis variant (different fee structure, 3-7%/yr claimed at better tiers) as a one-day study.",
+    "ev_rank": 4,
+    "regime_slot": "chop-carry"
+   },
+   {
+    "name": "eVRP / covered-call yield overlay",
+    "mechanism": "Sell the variance risk premium against held BTC/ETH (covered calls; own the underlying, no ruin). The PREMIUM is real; the harvest conflicts with the objective: it caps the bull right-tail that the 1d/3d ROI book lives on.",
+    "prior_evidence": "REPORTED: VRP CONFIRMED via Deribit DVOL (pa_vrp.py): IV > forward-30d RV on 71% of days, +5.3 vol-pts avg (2024 +6.9 / 2025 +6.4 / 2026 -2.4 crash-exposed). Covered-call harvest REFUTED for a return-seeking book (pa_covcall.py, 33mo): regime+covered-call +14.7% CAGR vs +38.9% no-overlay = -24pp CAGR for +7pp DD, no Sharpe gain (memory/per_asset_strategy_exhausted_2026_06_02.md; = D38 SCOPED to pure-income mandate). Deribit options-chain ingest never built (thread 13; dv_dvol 98% sparse).",
+    "status": "WEAK",
+    "scope_change": "D38's scope condition (an income mandate instead of a return mandate) has NOT changed -- the charter is a return/ROI objective, so the kill stands. Also requires an options instrument outside LO+spot+lev=1. Park until the backbone is live and marginal-yield-on-idle-core becomes the actual question; then it needs the 1-2d Deribit ingest first.",
+    "test_plan": "None now. If revisited: ingest Deribit chain, test calls ONLY on the gated-core's held coins during chop-regime windows (where the right-tail cost is lowest), pre-registered strike/tenor, battery + UNSEEN-once. Expect a small yield add at best.",
+    "ev_rank": 2,
+    "regime_slot": "chop-carry (yield overlay, income-mandate only)"
+   },
+   {
+    "name": "REGIME_ROUTER_SHIP (momentum/TA_SML router)",
+    "mechanism": "Route capital between u100 momentum and u50 TA_SML by BTC 30d trend state. The only verified surviving kernel is the simple regime gate itself -- which candidate #1 already contains.",
+    "prior_evidence": "REPORTED and APPARATUS-INFLATED: +141.39% UNSEEN / '+0.80%/d' (DEPLOY_LADDER_2026_05_15.md) -- pre-A3 fill-leak apparatus (2026-05-15 < 2026-05-25 fix) on the archived src/strategy layer; PROJECT_NORTH_STAR explicitly tombstones 'REGIME_ROUTER +20.25%' as apparatus-inflated. VERIFIED in-tree refutation of the routing idea's stronger form: P21 audit (2026-05-22) -- correlation-conditional routing did NOT beat unconditional or a simple ensemble. V2/STRICT verification 'in progress' was never completed. Thread 6 says rebuild-don't-redeploy.",
+    "status": "WEAK",
+    "scope_change": "No scope condition changed; the un-inflated content (regime gating) is subsumed by the backbone, and the routing-adds-value claim was refuted at P21. Only revive if the book later holds 2+ genuinely regime-disjoint sleeves and routing-vs-static-blend becomes a real question -- test it then as a book-construction ablation, not a strategy.",
+    "test_plan": "None standalone. If the book reaches 3+ sleeves: ablation of regime-routed vs fixed-weight blend under the battery, pre-registered, with the P21 result as the null expectation.",
+    "ev_rank": 2,
+    "regime_slot": "trend (book-construction overlay at best)"
+   },
+   {
+    "name": "Multi-cadence GATED bot + the PEPE MA/EMA leaderboard family (R12/R23/SOTA-31)",
+    "mechanism": "PEPE single-asset MA-family bots with LGBM gating across cadences; multi-cadence GATED was the Sharpe-best variant (1.92), SOTA-31 the compound-best (+70%).",
+    "prior_evidence": "REPORTED then REFUTED-UNDER-STRESS: multi-cadence GATED +50.3% compound / Sharpe 1.92 / 10-seed p05 +39.2% / DD -9.2% (WORLD_CLASS_PUSH.md 2026-05-24); on 2026-05-26 the v8.5 retrofit demoted ALL PEPE leaderboard candidates: n_eff 4.4-8.8 vs the >=15 gate (Herfindahl-concentrated trades), DSR p-values 0.91-0.99 at family N=1000 (null NOT rejected), L2 capture negative on both leaders (archive/restart_2026_06_04/runs/oracle/WEALTH_BOT_LEADERBOARD.md). Multi-cadence GATED additionally listed REFUTED in AUTONOMOUS_MAXX_PEPE_HONEST_REMINE SESSION_CLOSE. Post-reset, the MA-trend family took further hard kills (D63 naive MA null, D45 bar-level entry timing null, D62 capture is regime-not-asset).",
+    "status": "WEAK",
+    "scope_change": "Died UNDER stress, not from apparatus drift -- the stress gates (n_eff, DSR, L2) are exactly the current honesty contract, so re-running today reproduces the kill. The only open residue is thread 4 (PEPE dollar slow-SMA x whale retail-grade ship/no-ship, a user call pending since 2026-05-29) -- a decision, not a research revival.",
+    "test_plan": "None. Cite D63/D45/D62 + the v8.5 retrofit against any proposal to re-mine single-asset MA bots. The transferable lesson (n_eff + DSR + L2-capture gates) is already in the battery.",
+    "ev_rank": 1,
+    "regime_slot": "moonshot (none, realistically)"
+   }
+  ]
+ },
+ "scoped": {
+  "candidates": [
+   {
+    "name": "D61-revival: exit sub-axes (regime-conditioned exit / take-profit / trailing) attached to edge-bearing entries",
+    "mechanism": "Exit-timing skill was only refuted on EDGELESS daily-breakout entries with a hold-length artifact; the kill text itself names regime-conditioned exit, take-profit, and sub-bar exit as UNTESTED. D23 additionally records that trailing exits DO work on breadth-bounce entries (different entry). Now that the charter builds the trend book (and thread-22 regime-managed beta is a VALIDATED entry with Calmar edge u50 19.8 vs 11.0), the exit axis finally has an edge-bearing entry to improve -- directly raising 1d/3d capture of the BUILD-NOW sleeve.",
+    "prior_evidence": "D61 fair-test delta -0.037, wins 3/12 (01_DEAD_LIST.md, REPORTED). D23 note 'trailing DOES work on breadth bounce' (dead-list, REPORTED). Thread 7 (05_OPEN_THREADS.md): breadth-bounce trailing-exit kappa lever 'per-trade lift VERIFIED 2026-06-04', book assembly never done (REPORTED). Fresh counter-evidence: runs/strat/family1_chandelier_trail_2026-06-10.json UNSEEN CAGR -23.95%/yr taker at 4h (VERIFIED, read this session) -- chandelier on 4h F1 is currently negative, so exit work must attach to the 1d thread-22 book / breadth bounce, NOT 4h F1.",
+    "status": "REVIVABLE",
+    "test_plan": "Attach a PRE-REGISTERED exit grid {fixed-hold baseline, chandelier ATR-mult sweep, take-profit ladder, regime-flip exit} to the two entries that HAVE evidence: (a) thread-22 regime-managed-beta u50 1d book (src/strat/entry_signal_lab.py + trend_book_lab.py), (b) breadth-bounce (thread 7). Mandatory D61 no-skill fixed-hold control via src/strat/exit_capture_proxy.py; pbo_cscv.py on the exit grid; then candidate_gate -> firewall (cost-matched nulls) -> battery (10 seeds, jackknife drop-top-K, p05>0) -> UNSEEN-once.",
+    "ev_rank": 8,
+    "regime_slot": "trend (plus chop for the breadth-bounce variant)",
+    "scope_change": "The blocker named in the kill ('no point optimizing exit on edgeless entries') is removed: a validated entry edge now exists (thread-22 regime participation) and the charter mandates building that sleeve NOW. Tools (exit_capture_proxy, family1_chandelier_trail, pbo_cscv) all in src/strat/ today."
+   },
+   {
+    "name": "D54-revival: funding-extreme breadth reversal, bull/recovery-regime-gated",
+    "mechanism": "The funding-extreme reversal was OOS-REAL and only died on UNSEEN because it caught the bear knife (-4 to -9%). Gating it to non-bear regimes (the validated SMA100-150 classifier) excises exactly the failure cell. The dead-list's own SOFTEST-5 names 'bull/recovery-filtered version untested'. Sister entry D19 (risk-off post-pop reversion, bear-confound) is the same family and gets covered by the same regime-gated test.",
+    "prior_evidence": "D54: 'OOS-real but UNSEEN -4 to -9% (bear knife)... regime-filtered version untested' (01_DEAD_LIST.md, REPORTED). Dead-list SOFTEST-5 item (5) names this exact variant (REPORTED). LO_EDGE_HITLIST_2026_06_10.md #7 ranks the range-gated conditioner version P~0.30 with a mandatory D42 sign-check (REPORTED). Data VERIFIED this session: fund_rate_z30, fund_extreme_long_count/short_count, fund_sign_flip present in btcusdt_v51_chimera_4h_20260528.parquet (243 cols, 13996 rows).",
+    "status": "REVIVABLE",
+    "test_plan": "Pre-register BEFORE reading results: trigger = fund_rate_z30 < -1.5 (FIRST verify sign direction on TRAIN only -- D42 found the mechanism inverts at our cadence) AND regime = non-bear (close>SMA100-150 BTC or breadth gate) AND range-confirmed; majors-only (funding 100% null on memes per hitlist). Chain: setup_harness.py -> dual_null_evaluator.py with cost-matched random-entry-in-SAME-REGIME null (A7 guard) -> candidate_gate @ 0.0024 -> battery -> UNSEEN-once. Ablation gate: must lift the base regime-gated book OOS or it collapses into the base (no double-counting the regime filter's work). D19's bear-confound variant rides the same run as a secondary pre-registered cell.",
+    "ev_rank": 6,
+    "regime_slot": "chop-carry (reversal sleeve inside non-bear)",
+    "scope_change": "The regime classifier is now VALIDATED (thread 22) and the charter's sleeve book makes a conditional edge a legitimate sleeve rather than a failed standalone '2nd edge'. The named scope condition (regime filter) is buildable today from in-repo chimera features."
+   },
+   {
+    "name": "D14-revival: TI/trend mining on information-clock bar types (dib / runs / range / adaptive_vol)",
+    "mechanism": "The exhaustive price-TI null (0/127 ETH, 0/u100) was run on TIME bars; the kill text itself scopes it: 'null at tested TFs; finer chart-types untested'. Information-clock bars resample by activity, which is the one structural change that can make the same TI families see different (cleaner) trend structure -- it is a NEW cell, not re-mining.",
+    "prior_evidence": "D14: 0/127 ETH, 0 survivors u100 at time TFs (dead-list, REPORTED). Resources VERIFIED this session: data/processed/bars/{dib,range,runs_tick,runs_vol,runs_volume,adaptive_vol} and chimera/{dib,dollar,range,runs_tick,runs_volume,adaptive_vol} exist. First lab pass VERIFIED: runs/strat/alt_bar_trend_lab_2026-06-10.json -- best bar type UNSEEN = renko at -20%/yr vs B&H -55%/yr (beats_BH TRUE, maxDD -12.6%) but ABSOLUTE-negative and firewall_beats_null FALSE -> first trend-family pass is preservation-grade, not yet alpha.",
+    "status": "REVIVABLE",
+    "test_plan": "Extend src/strat/alt_bar_trend_lab.py beyond the trend family to the pre-registered TI families on dib/runs/range/adaptive_vol bars, u50; REQUIRE absolute-positive OOS AND firewall_beats_null TRUE (not merely beats-B&H -- the current pass fails this); tiered cost + fill_model p_fill 0.21-0.40; pbo_cscv across the family grid; UNSEEN-once. Note: this is partially in flight (untracked 2026-06-10 lab runs) -- coordinate, don't duplicate.",
+    "ev_rank": 5,
+    "regime_slot": "trend",
+    "scope_change": "Alt-bar chimeras + the lab harness now exist in-repo; the kill was explicitly scoped to time-bar TFs."
+   },
+   {
+    "name": "D03-revival: meta-gated base sleeves (the prod_meta_combined mechanism) re-measured under the current harness",
+    "mechanism": "Base swing/trend strategies surrender their edge to cost WITHOUT the meta-gate; with the CatBoost meta-gate the combined book was the project's one robustly-measured positive. D16 explicitly preserves ML-as-META-LABELER as the surviving ML role. The kill text says 'revive w/ meta-gate'.",
+    "prior_evidence": "D03 ungated: prod_combined -38.5% (dead-list, REPORTED). Gated: prod_meta_combined +94.02% over 13mo @ maker post-MtM-fix (CLAUDE.md, REPORTED -- measured 2026-04-22 which is PRE-A3 same-bar-close-fill patch, so likely inflated +50-80pp; treat as direction-only). Thread 9: 'only prod_meta_combined robustly MEASURED (+48.9% CAGR Sh2.69)' (05_OPEN_THREADS.md, REPORTED, same apparatus caveat). All pre-reset numbers carry the A1-A8 skepticism flag per the charter.",
+    "status": "REVIVABLE",
+    "test_plan": "Rebuild the mechanism (trend/swing base entries + TRAIN-fit meta-labeler gate; optionally D09 triple-barrier labels as a pre-registered label variant for the labeler only) on the current src/strat stack: ChimeraLoader access, fill_model p_fill 0.21-0.40, tiered cost (A7), A3-safe next-bar fills. OOS-once labeler eval; full battery; A/B vs ungated base (the original D03 cell) and vs the plain regime-gated book. If the gated lift does not survive the battery, D03 graduates to HARD.",
+    "ev_rank": 5,
+    "regime_slot": "trend",
+    "scope_change": "The kill predates the honest apparatus; A1 was fixed but A3 was not when the +94% was measured -- the entire cell has never been measured under the current battery, and the charter book needs gated sleeves."
+   },
+   {
+    "name": "D12-revival: top-trader LSR overlay gated to late-bear/early-bull",
+    "mechanism": "Smart-money positioning (top-trader long/short ratio) discriminates when retail is WRONG -- late-bear capitulation and the turn -- and is noise in bull when retail is right (2023 +127% vs 2025 +1%). The kill text names 'late-bear/early-bull only' as the untested cell. Fits the charter's bear/transition sleeve.",
+    "prior_evidence": "D12: 2025 +1% vs 2023 +127% regime split (dead-list, REPORTED; pre-reset apparatus -- direction-only). Data VERIFIED this session: s3_top_acct_lsr, s3_top_pos_lsr_z, s3_top_pos_lsr_xsec_z, s3_global_lsr_z present in 4h chimera.",
+    "status": "REVIVABLE",
+    "test_plan": "Pre-register the regime cell mechanically (SMA-regime transition: bear-confirmed for >=N bars then first reclaim, on BTC); test the LSR-z overlay only inside that cell across the 2022 and 2025-26 bear windows, u50 majors; sample-size discipline (the cell is rare -- tighten thresholds at n<20); dual_null_evaluator with same-regime cost-matched null; battery; UNSEEN-once. Deploys conditionally (sits idle outside the regime).",
+    "ev_rank": 4,
+    "regime_slot": "bear (transition into early-bull)",
+    "scope_change": "Regime classifier validated (thread 22) makes the named regime cell mechanically definable; the charter explicitly wants a bear/transition sleeve. The named cell was never tested."
+   },
+   {
+    "name": "D41/D06-revival: vol-breakout direction-gated by NEW causal rv_skew_5m feature",
+    "mechanism": "Vol-expansion is real but direction is a coin-flip (D65, D55) -- which is why regime-gated breakouts had 0 x-asset winners. Realized 5m skew/kurt asymmetry is the one UN-BUILT causal feature that directly encodes direction-of-expansion; the kill text says 'regime-period cells not exhausted' and the hitlist names rv_skew_5m as 'the missed feature'.",
+    "prior_evidence": "D41: 0 x-asset winners (dead-list, REPORTED). LO_EDGE_HITLIST_2026_06_10.md #8: rv_skew_5m/rv_kurt_5m named as the missed magnitude-asymmetry feature, P~0.30, 5m pipeline exists, ~1d build (REPORTED). Feature NOT in the 243 chimera cols (VERIFIED absent this session in btcusdt 4h chimera).",
+    "status": "NEEDS_DATA",
+    "test_plan": "Build causal rv_skew_5m/rv_kurt_5m from the existing 5m pipeline (strict trailing windows -- the wavelet/G-AUDIT-011 look-ahead class is the known trap); re-run the breakout family WITH the skew gate via src/strat/mover_capture.py + dual_null_evaluator; pbo_cscv on the {lookback, threshold} grid; candidate_gate -> battery -> UNSEEN-once.",
+    "ev_rank": 4,
+    "regime_slot": "trend/event",
+    "scope_change": "A genuinely new causal feature = a new cell (not re-mining); the only blocker is a ~1-day feature build on the in-repo 5m pipeline."
+   },
+   {
+    "name": "D18-revival: conditional funding/basis carry as the chop-carry sleeve",
+    "mechanism": "Funding carry decayed post-2024 (UNSEEN +3.1% gross / -5.4% net) but the kill is tagged 'SCOPED (now) -- cyclical'. The untested variant is CONDITIONAL carry: deploy only when funding APR percentile is high across breadth (mania phases), idle otherwise. The charter explicitly creates this slot: 'Chop: Abstention + carry/yield (funding/basis class) -- revive candidates'.",
+    "prior_evidence": "D18: UNSEEN 3.1% gross, net ~0-negative post-2024 (dead-list, REPORTED). Approach-ledger #13: 'arbed away post-2024; worse than staking yield' (REPORTED). Data VERIFIED this session: fund_avg_apr, fund_rate_mean/max/min, bs_basis_pct/z30 in 4h chimera.",
+    "status": "NEEDS_USER_SIGNOFF",
+    "test_plan": "Pre-register: enter delta-neutral (long spot + short perp) only when fund_avg_apr percentile > threshold across u50 majors; net of BOTH legs' costs + funding-settlement timing; honest null = staking yield benchmark, not zero; battery; UNSEEN-once. SIGNOFF NEEDED FIRST: the short-perp hedge leg breaks LONG-only spot lev=1 -- same exception class as the charter's flagged bear-short sleeve. Yield-grade EV only (single-digit %/yr), but it is the charter's named chop sleeve.",
+    "ev_rank": 4,
+    "regime_slot": "chop-carry",
+    "scope_change": "The charter retired the 1-5%/d gate -- 'fails as 2nd-edge' was a kill under the old ambition bar; a small positive-carry sleeve now has a legitimate slot. The conditional (regime-of-funding) version was never the thing tested."
+   },
+   {
+    "name": "D21-revival: continuous TSMOM ensemble re-measured under the fixed harness (ALREADY IN FLIGHT)",
+    "mechanism": "The original kill was apparatus-scoped: 'broken exposure-match + seed-flatter' -- an artifact kill, not a mechanism kill ('only 12mo screen real'; the momentum-screen survives as a filter). Re-measurement under the current harness is the honest closure.",
+    "prior_evidence": "D21 kill text (dead-list, REPORTED). Fresh re-run VERIFIED this session: runs/mining/tsmom_ensemble_u50_1d.json (git-modified, repro sha 5e638c6) -- TSMOM_breadth full +40.9%/yr but OOS -2.5% / UNSEEN -5.1%; regime_beta OOS -14.6% / UNSEEN -8.3%. First held-out read is NULL-ish; better maxDD than regime-beta (-17.4 vs -23.1 OOS).",
+    "status": "NEEDS_DATA",
+    "test_plan": "A concurrent instance is already running this (modified run JSON + src/strat/tsmom_ensemble.py). Do NOT duplicate: let the in-flight run complete its battery; the open question is whether the ensemble survives as the trend sleeve's SIGNAL LAYER (vs Donchian/EMA per charter section 2) rather than standalone. Decision gate: OOS/UNSEEN positive after battery or D21 graduates toward HARD at 1d.",
+    "ev_rank": 3,
+    "regime_slot": "trend",
+    "scope_change": "The named defect (exposure-match bug, seed-flattering) is fixed in the current harness; first honest numbers now exist and are weak -- being honest, this revival may close as a confirmation kill."
+   },
+   {
+    "name": "D68-revival: sub-hour cross-sectional mover selection with multi-day holds, regime- and concentration-gated",
+    "mechanism": "The cadence GRADIENT is real (daily-negative -> 4h +1.5pp -> 1h +5.6pp OOS) and the kill text names sub-hour as the untested cell. Failure modes were UNSEEN non-persistence and beats_rnd_daily ~0.5 (a few big days). The variant: select at 15m/30m resolution but HOLD >=1d (amortizes cost -- avoids ramming D60's HARD 1h cost wall), gated by regime and by pre-registered concentration gates.",
+    "prior_evidence": "D68: OOS +5.6pp / UNSEEN ~0, beats_rnd_daily ~0.5 (dead-list, REPORTED). 15m/30m chimera for 104 assets VERIFIED present (data/processed/chimera/{15m,30m}); hitlist confirms 'every blocked-on-sub-hour-data claim is FALSE' (REPORTED). Collision warning: D60 (1h cost wall) is HARD -- per-bar frequency must NOT shrink with cadence.",
+    "status": "REVIVABLE",
+    "test_plan": "src/strat/mover_capture.py momentum-selection at 15m/30m entry resolution, holds >=1d; regime gate; pre-registered PASS gates BEFORE results: beats_rnd_daily > 0.6 AND UNSEEN-positive AND jackknife drop-top-3 survives AND positive at taker 24bps. One shot at UNSEEN. Optional pre-registered sub-cell: UTC-hour conditioning (hitlist #11).",
+    "ev_rank": 3,
+    "regime_slot": "trend/event",
+    "scope_change": "Sub-hour chimera data exists in-repo today; the kill names exactly this cell; the new charter judges at the BOOK level so a regime-dependent sleeve is allowed if it passes the battery honestly."
+   },
+   {
+    "name": "D04/D05-revival: bear-regime bidirectional/router sleeve (charter's flagged bear sleeve)",
+    "mechanism": "The short leg was only wrong-way in BULL; the kill says 'revive if BTC -15%/vol>80%'. The charter already created the bear sleeve slot and notes the bear-short sleeve is VALIDATED, pending the user's LO-exception sign-off. This revival = the historical re-test plus the conditional wiring.",
+    "prior_evidence": "D04: +329% in 2022-23 bear (dead-list, REPORTED -- PRE-2026-04-22 MtM bug A1, inflated 2-5x, direction-only). Thread 8 (05_OPEN_THREADS.md): bear-short sleeve VALIDATED under the current apparatus, code exists (regime_short/classify/book.py), never paper-traded (REPORTED). Charter section 2 flags it for sign-off (VERIFIED, read this session).",
+    "status": "NEEDS_USER_SIGNOFF",
+    "test_plan": "Historical re-test under the current battery on the 2022 and 2025-26 bear windows with the regime trigger pre-registered (BTC -15% from high AND vol>80th pct); compare vs cash+yield (the charter's default bear sleeve); paper-wire only after the user's LO-exception sign-off. The validated bear-short code is the starting point, not the archived D04 code.",
+    "ev_rank": 3,
+    "regime_slot": "bear",
+    "scope_change": "Charter creates the bear sleeve and explicitly flags this exact sign-off; the regime trigger is now mechanically definable; the validated regime_short code exists."
+   },
+   {
+    "name": "D10-revival: BOCPD as continuous size-multiplier on the trend book",
+    "mechanism": "BOCPD was killed as a BINARY de-risk gate that mistimed in bull; the kill text names 'untested as size-multiplier'. The charter's vol-targeted sizing layer gives a continuous change-prob multiplier a natural slot. Low conviction: D69 (macro conviction-sizing NULL) is an adjacent negative prior for sizing-on-signal generally.",
+    "prior_evidence": "D10: -39pp vs baseline as gate (dead-list, REPORTED). D69: conviction-SIZING null/worse, FULL 1007 vs 1167%, Calmar 18.7 vs 21.2 (dead-list, REPORTED) -- the adjacent prior says expect preservation at best.",
+    "status": "REVIVABLE",
+    "test_plan": "BOCPD change-probability -> multiplier in [0.25, 1.0] on the trend book; A/B vs unsized AND vs HAR-RV vol-targeting (hitlist #1 -- the stronger incumbent that must be beaten, not just baseline); judged on held-out Calmar/maxDD/compound; battery. If it cannot beat plain vol-targeting it dies permanently.",
+    "ev_rank": 2,
+    "regime_slot": "trend (risk/sizing layer)",
+    "scope_change": "A book sizing layer now exists to host a multiplier; the named variant (multiplier not gate) was never tested."
+   },
+   {
+    "name": "D11-revival: MIDAS confirm as size-AMPLIFIER (kill text names it untested)",
+    "mechanism": "As a FILTER it dropped 42% of trades that were all net-positive (+33% vs +77%); the kill text names the amplifier variant untested: keep all entries, upsize confirmed ones. Same D69 sizing-null shadow as D10.",
+    "prior_evidence": "D11: filter +33% vs +77% unfiltered, dropped trades net-positive (dead-list, REPORTED). D69 sizing-null adjacent prior (REPORTED).",
+    "status": "WEAK",
+    "test_plan": "Only worth bundling into the same sizing-layer A/B as the D10 test (one harness run, two multiplier candidates, pre-registered): MIDAS-confirmed entries sized 1.0, unconfirmed 0.5; vs flat and vs vol-target. Do not run standalone.",
+    "ev_rank": 2,
+    "regime_slot": "trend (sizing layer)",
+    "scope_change": "Named untested variant + a sizing layer now exists; but two adjacent sizing-null results (D69, D26 conviction-Kelly) make this low-EV."
+   },
+   {
+    "name": "D38-revival: VRP income sleeve (covered calls / options) for the 7d-secondary horizon",
+    "mechanism": "VRP is real (IV>RV 71% of days); the kill is scoped 'VRP real for pure income mandate only' -- the charter's chop-carry sleeve IS partially an income mandate. Blocked on the Deribit options-chain ingest (never built, dv_dvol 98% sparse) and on instrument sign-off (options are not spot LO).",
+    "prior_evidence": "D38: -24pp CAGR as return-enhancement, VRP real (dead-list, REPORTED). Thread 13: options ingest is a 1-2d prereq (05_OPEN_THREADS.md, REPORTED).",
+    "status": "NEEDS_DATA",
+    "test_plan": "Two gates before any test: (1) user instrument sign-off (options), (2) Deribit chain ingest (~1-2d). Then: income-mandate framing only (yield on the bear/chop cash sleeve, never on the trend sleeve's upside); battery vs staking-yield null. Park unless the chop sleeve's funding-carry leg fails sign-off or test.",
+    "ev_rank": 2,
+    "regime_slot": "chop-carry (income on idle cash)",
+    "scope_change": "Charter creates an income-tolerant sleeve (the scoped survival condition); but data + instrument blockers stand TODAY, so it ranks below funding carry."
+   },
+   {
+    "name": "D07 sub-day engines re-run -- SUBSUMED, do not revive as-is",
+    "mechanism": "The kill was apparatus-scoped ('dollar-bar miscal + p_fill underestimate... needs correct sub-day harness') and the correct harness NOW EXISTS (battery + fill_model p_fill 0.21-0.40 + tiered cost + 15m/30m chimera). BUT the original 3 engines were largely MR-flavored, and the MR-at-sub-day space has since been HARD-killed multiple ways (D52 micro-z reversion, D70 maker grid, D60 1h cost wall). The honest revival of D07 is exactly the two live cells already listed: alt-bar trend mining (D14 entry) and sub-hour selection with multi-day holds (D68 entry).",
+    "prior_evidence": "D07: -54.63% CAGR pre-P5 (dead-list, REPORTED). Harness existence VERIFIED this session (src/strat/{battery,fill_model,candidate_gate,firewall,dual_null_evaluator}.py + chimera/{15m,30m}). HARD collisions: D52/D60/D70 (dead-list, REPORTED).",
+    "status": "WEAK",
+    "test_plan": "No standalone re-run. Any specific original engine may be revived ONLY after checking its mechanism against D52/D60/D70 in the archive (archive/restart_2026_06_04/) -- if it is MR-at-sub-day, it stays dead; if trend/event-flavored, it folds into the D14 or D68 test above.",
+    "ev_rank": 2,
+    "regime_slot": "trend/event (via the D14/D68 cells)",
+    "scope_change": "The named scope condition (correct harness) IS satisfied today -- but interleaving HARD kills since then shrank the revivable space to the two cells already on this register."
+   },
+   {
+    "name": "D22-class PEPE filters generalized to u50-u100 -- DO NOT REVIVE",
+    "mechanism": "The tempting revival (re-test the PEPE-scoped filter/sizing variants D22/D24/D25/D26/D27/D30/D31/D32/D33/D34 on u100 breadth) collides with TWO HARD kills: D39 (exo-conditioners HURT vs bare MA on the broad universe) and D62 (capture is regime-driven, not asset-feature-driven, 1/47 and the winner collapses demeaned). The breadth version is closer to the HARD kills than to a fresh cell. The single salvageable artifact from the PEPE campaign is D23's trailing-on-breadth-bounce note, already absorbed into the D61 revival (candidate 1).",
+    "prior_evidence": "D39: both-win 0.08-0.15 vs 0.25 chance, broad universe (dead-list, REPORTED). D62: 1/47, demeaned collapse (dead-list, REPORTED). D33: within-TI regime composition dilutes (REPORTED). D73: 5th independent kill of factor->config (REPORTED).",
+    "status": "WEAK",
+    "test_plan": "None. Cite D39/D62 when this class is next proposed. Exception already routed: D23's trailing exit note feeds candidate 1's breadth-bounce exit grid.",
+    "ev_rank": 1,
+    "regime_slot": "n/a",
+    "scope_change": "u100 breadth exists, but the scope condition that matters (conditioners working beyond one overfit asset) was HARD-refuted at breadth -- scope moved TOWARD the kill, not away from it."
+   },
+   {
+    "name": "D58 bear-bounce lag-1 -- DO NOT REVIVE (HARD-tagged despite being on the evaluate list)",
+    "mechanism": "Listed for evaluation but the register marks it HARD: '+0.47% beats null but collapses at lag-1 (-0.245%)' = the information is SAME-BAR only, i.e. non-capturable at next-bar execution. The only conceivable variant (enter intra-bar at 1m as the bounce forms, using data/processed/liq_subbar/) is continuation-given-onset discrimination -- exactly what D72 killed on internal data (meta-labeler OOS AUC 0.521, 16 causal features incl. liq/regime/BTC-ctx). The 1m data does not change the information constraint D72 measured.",
+    "prior_evidence": "D58: lag-1 collapse +0.47% -> -0.245% (dead-list, REPORTED, HARD tag). D72: OOS AUC 0.521/0.510, all 18 ride cells negative (dead-list, REPORTED, excluded mechanism per the lens).",
+    "status": "WEAK",
+    "test_plan": "None on internal data. The bounce only re-opens if the moonshot lane's EXTERNAL leading data (thread 24: needs trigger-time OOS AUC >~0.58) ever lands -- and that is the boxed moonshot lane's call, not this register's.",
+    "ev_rank": 1,
+    "regime_slot": "n/a (would be bear)",
+    "scope_change": "The new 1m layer looks like a scope change but is not: D72 already measured the 1m/internal-data information ceiling and found none. Same-bar artifact + no internal trigger info = stays dead."
+   }
+  ]
+ },
+ "fresh": {
+  "candidates": [
+   {
+    "name": "Vol-targeting sizing overlay (HAR-RV/smoothed realized-vol) on the whole book",
+    "mechanism": "Vol clusters but returns do not scale with vol, so scaling exposure to 1/realized-vol cuts exposure exactly where crashes live and improves compound/Calmar. Under LO+spot+lev=1 it is a DOWN-only scaler (cannot lever calm regimes) -- the harvest is bear/high-vol de-risking + smoother compounding on every sleeve. The single least-contested item in the corpus; explicitly NOT killed by D02 (that was voladj TARGETS, not sizing).",
+    "prior_evidence": "Man Group BTC 2012-2024 constant-30%-vol scaling +0.4 Sharpe [REPORTED, docs/HOW_TO_TRADE_CRYPTO_PLAYBOOK_2026_06_10.md sec 2]; 'vol targeting helps -- UNTESTED in-house' [VERIFIED gap, playbook sec 6 reconciliation table]; vol clustering Hurst|ret| 0.80-0.84, AC1|ret| 0.18->0.33 [VERIFIED, RWYB econometric_signature per docs/MARKET_FRAMEWORK/06_STRATEGY_RESEARCH.md constraint 3]; features norm_yz_volatility + rv_rv_5m dense in 104-asset 1d/4h chimera [VERIFIED, data/processed/chimera/1d].",
+    "status": "NEW",
+    "test_plan": "Implement as a sizing layer in src/strat (extend setup_harness.py CanonicalHarness sizing hook or trend_book_lab.py book assembly). Pre-register BEFORE results: target vol 30% annualized, lookback {20,60}d realized (2 variants only), scale capped at 1.0 notional (lev=1), applied to the ensemble-trend book u50 1d. Gates: must improve the SAME book's OOS Calmar AND 3d-ROI band vs unscaled (paired comparison, decided on TRAIN+VAL); battery on the overlaid book (10 seeds, block-bootstrap p05>0, jackknife drop-top-K, maxDD<30%) via src/strat/battery.py; PBO via src/strat/pbo_cscv.py over the 2-variant grid; UNSEEN-once. Honest caveat pre-published: lev=1 means it WILL lag B&H in bull legs by design.",
+    "ev_rank": 8,
+    "regime_slot": "all sleeves (book-level overlay; primary carrier = trend)",
+    "scope_change": "n/a (never tested in-house; no dead-list entry)"
+   },
+   {
+    "name": "Sector-stratified risk-adjusted momentum rotation (top-1 per sector, LO spot)",
+    "mechanism": "Within-cluster MOMENTUM persists (the verified live side of D53 -- reversion was the dead side); raw CSMOM is dead (D40 HARD) but risk-ADJUSTED leadership persisted 3/4 as a filter. Family-2 momentum rotation just passed LENS_A but is concentration-fragile (n_eff 4.1) and skipped the firewall. NEW construction: rank by trailing return/ATR (risk-adjusted, the D40-surviving variant), pick top-1 PER SECTOR (forces diversification across L1/DeFi/meme/AI/infra buckets, fixing the all-meme concentration), keep family-2's MA200+rising filter + ATR3 trail unchanged (no re-tuning).",
+    "prior_evidence": "Family-2 rotation UNSEEN +171.9% compound, battery LENS_A_PASS, p05 +103.5, BUT n_eff 4.1, 22 UNSEEN trades, firewall 'NOT RUN -- custom simulator' [VERIFIED, runs/strat/momentum_rotation_lab_2026-06-10.json + commit ea2dc8f]; D53 'within-cluster momentum PERSISTS' [VERIFIED, 01_DEAD_LIST D53]; D40 'risk-adj persists 3/4 as filter' [VERIFIED, D40 row]. Sector map does NOT exist (asset_dna is only BLUE/STEADY/VOLATILE [VERIFIED, chimera 1d]) -- needs a ~1-2h static config/sectors_u100.yaml.",
+    "status": "NEW",
+    "test_plan": "Extend src/strat/momentum_rotation_lab.py. Pre-register: inherit family-2 params verbatim (N=10d formation, MA200 filter, ATR3 trail, R10 rebalance), only NEW knobs = rank metric {ret/ATR} (1 variant, no grid) + sector buckets from a frozen sectors yaml written BEFORE any backtest. Route through CanonicalHarness next-bar fills -> candidate_gate.evaluate_candidate (closes family-2's firewall gap; taker 0.0024) -> battery (10 seeds, p05>0, jk drop-top-K must improve on family-2's n_eff 4.1, maxDD<30%) -> PBO across the {family-2, sector-stratified} family -> UNSEEN-once.",
+    "ev_rank": 7,
+    "regime_slot": "trend (bull/altseason participation)",
+    "scope_change": "n/a (new construction; D40/D53 reconciled in-mechanism -- momentum direction + risk-adjusted rank are the surviving cells)"
+   },
+   {
+    "name": "Breadth-thrust participation throttle (cross-sectional % above MA as the regime gate)",
+    "mechanism": "Thread-22 validated regime-PARTICIPATION as the real Fork-A value, using a single price-vs-MA gate whose edge WIDENS with breadth. A breadth-thrust gate (% of u50 above their 20-50d MA crossing from washout <30% to >60%) is the cross-sectional analogue: it measures participation directly, turns on faster than a 150d MA after washouts (catching the early-recovery 3d windows the charter targets), and is computable past-only from in-repo daily closes. Charter sec 1 explicitly names 'breadth structure' as a capture source above baseline.",
+    "prior_evidence": "Thread-22 regime book: Calmar 19.8 vs 11.0 buy-hold at u50, breadth-scaling 1.18x (u10) -> 8x (u100), survives exposure-matched phase-shift null [VERIFIED, 05_OPEN_THREADS #22 / src/strat/entry_signal_lab.py 8-cycle RWYB]; fast MA (SMA100-150) beats classic 200 in crypto [VERIFIED, same thread]; breadth-thrust itself is equities lore (Zweig) [REPORTED/LORE -- treat as hypothesis]. u50/u100 1d closes in-repo [VERIFIED, 104 assets data/processed/chimera/1d].",
+    "status": "NEW",
+    "test_plan": "Add a breadth-gate variant to src/strat/entry_signal_lab.py / trend_book_lab.py. Pre-register: breadth = share of u50 with close>SMA50; ON at cross >60%, OFF at <30% (hysteresis, 1 config) + 2 pre-declared compositions vs the SMA150 gate (REPLACE, AND) -- total 3 trials fed to pbo_cscv as the family. Gate: must improve the SAME book's OOS Calmar AND 1d/3d ROI bands vs the SMA150-gated baseline (the playbook rule: a regime filter must independently improve a gated metric); candidate_gate + battery + UNSEEN-once. Expect n_effective ~3-5 regime episodes -- publish that limitation BEFORE results.",
+    "ev_rank": 6.5,
+    "regime_slot": "trend (the on/off/scale switch; also throttles chop abstention)",
+    "scope_change": "n/a (D10 BOCPD was a different detector and is SCOPED as gate; this is a new detector family never tested in-house)"
+   },
+   {
+    "name": "Gold-token flight-to-quality rotation (XAUT/PAXG as the bear-sleeve asset)",
+    "mechanism": "The charter bear sleeve is 'cash + yield' and the validated bear-short needs an LO-exception sign-off. Tokenized gold (XAUT, PAXG) is an on-Binance LO+spot+lev=1 instrument with low/negative BTC-beta -- rotating bear-regime capital into it converts abstention into a defensive risk asset with its own (2022-2026) bull trend, with NO sign-off needed. Strictly enlarges the action space of the already-validated thread-22 regime book: {cash} -> {cash, gold} in bear states.",
+    "prior_evidence": "XAUT v51 1d chimera EXISTS in-repo [VERIFIED, data/processed/chimera/1d/xautusdt_v51_chimera_1d_20260515.parquet]; PAXG raw klines in data/prod/paxgusdt [VERIFIED]; thread-22 bear-abstention value (wins bears 2022/25/26) [VERIFIED, 05_OPEN_THREADS #22]; gold-vs-BTC 2022 divergence (gold ~flat vs BTC -65%) [INFERRED -- not yet measured in-house; first step of the test measures XAUT beta + history length on our own data]. No dead-list entry touches gold-token rotation [VERIFIED, D01-D73 scan].",
+    "status": "NEW",
+    "test_plan": "Extend the thread-22 book in src/strat/entry_signal_lab.py: when the regime gate says OFF (BTC<SMA150), allocate {0%, 50%, 100%} of idle capital to XAUT (3 pre-registered variants -> pbo_cscv). Pre-flight data check: XAUT history length, gap/null audit, realized BTC-beta, book-depth sanity (thin-book caveat published before results). Gates: full-cycle compound AND Calmar must beat cash-in-bear baseline on OOS (TRAIN+VAL decision); battery 10 seeds + p05>0 + maxDD<30%; mixed-regime UNSEEN-once (must include a bear stretch); taker 0.0024 on the rotation legs.",
+    "ev_rank": 6,
+    "regime_slot": "bear (primary) + chop-carry (defensive parking)",
+    "scope_change": "n/a (genuinely absent from every prior doc; the bear-sleeve scope changed from 'cash only' to 'any LO spot asset' under the charter)"
+   },
+   {
+    "name": "Token-unlock calendar sleeve (underweight/exclusion overlay + post-unlock re-entry)",
+    "mechanism": "Scheduled supply events with published dates -- the one documented calendar edge with large n. Under LO the harvest is inverse: (a) EXCLUSION overlay -- remove/underweight assets in their T-30d..T+7d unlock window from trend/rotation books (avoids a ~90%-base-rate decline window, freeing capital for clean names); (b) optional post-unlock re-entry once supply is absorbed. Exact-date, pre-announced = no look-ahead risk, and it is orthogonal to every price-derived signal we have.",
+    "prior_evidence": "Keyrock 16k unlock events: ~90% decline base rate, weakness starts T-30d, sized by %-of-supply [REPORTED, playbook sec 3]; 'UNTESTED in-house -- the one NEW exogenous avenue this research surfaced' [VERIFIED gap, playbook sec 6]; NO unlock calendar in-repo [VERIFIED, data/raw_external has no unlocks source] but DefiLlama ingest client is reusable (src/pipeline/ingest/defillama_stable_flows.py, unlocks endpoint is free) [VERIFIED file exists].",
+    "status": "NEEDS_DATA",
+    "test_plan": "1-day ingest: src/pipeline/ingest/defillama_unlocks.py (free API) -> per-asset unlock calendar with %-circulating-supply. Pre-register BEFORE any backtest: window T-30..T+7, materiality threshold >1% circulating supply, action = exclude from book entry + force-exit existing position at window start (1 config; re-entry variant T+7 as the only second trial -> pbo_cscv on the pair). Test as overlay on the ensemble-trend book + sector rotation via candidate_gate (overlay rule: must improve base book OOS 3d-ROI AND maxDD); event-study expectancy net of taker; battery; UNSEEN-once. Falsifier: if u50-listed unlock events are too few (n<30 in TRAIN+VAL), report NEEDS-MORE-DATA honestly instead of a verdict.",
+    "ev_rank": 6,
+    "regime_slot": "event (calendar sleeve; defensive overlay on trend/chop books)",
+    "scope_change": "n/a (never tested; charter row 'Event: token unlocks / listings -- data + test' explicitly commissions it)"
+   },
+   {
+    "name": "Regime-gated daily breadth-bounce book with trailing exit (thread-7 completion under charter judging)",
+    "mechanism": "Pooled cross-sectional washout-bounce at DAILY cadence: when many u50 names are simultaneously stretched below their MA in a risk-on regime, long the bounce basket with the VERIFIED trailing exit. The per-trade lift exists; what was never built is the regime-routed BOOK that keeps the DD acceptable. The charter changes the judge: book-level 3d-ROI bands instead of per-window positivity, and the bull/recovery regime filter is exactly the untested cell D54 names.",
+    "prior_evidence": "Breadth-bounce trailing-exit per-trade lift VERIFIED 2026-06-04, book assembly never done [VERIFIED, 05_OPEN_THREADS #7]; D23 note 'trailing DOES work on breadth bounce (diff entry)' [VERIFIED, dead-list]; counters: D54 funding-extreme breadth UNSEEN -4 to -9% in bear (the knife this gate must dodge), D58 ungated bear-bounce lag-collapse HARD, D60 1h breadth HARD (cost wall) [all VERIFIED dead-list rows] -- so DAILY + regime-gated is the only open cell.",
+    "status": "REVIVABLE",
+    "test_plan": "Assemble the book in src/strat (new breadth_bounce_book.py on CanonicalHarness, NOT the archived code). Pre-register: entry = >=30% of u50 below SMA20 by >1.5 ATR while BTC>SMA150 (risk-on gate load-bearing); basket = the stretched names, equal-risk vol-sized; exit = the verified trailing rule + 5d time-stop; daily bars only; taker 0.0024. Gates in charter order: candidate_gate -> firewall random-entry cost-matched null (mandatory -- D58's same-bar artifact is the known trap, enforce next-bar fills + lag-1 robustness check) -> battery (10 seeds, p05>0, jk drop-top-K, maxDD<30%) -> UNSEEN-once (must contain mixed regimes).",
+    "ev_rank": 6,
+    "regime_slot": "chop-carry (dispersion/washout harvest inside risk-on)",
+    "scope_change": "Thread 7 was parked at 'book assembly deferred', never killed. Scope changes: (1) charter retires per-window positivity -> book-level 3d-ROI judging; (2) D54's named untested condition (bull/recovery filter) is now the pre-registered gate; (3) daily-only sidesteps D60's 1h cost wall."
+   },
+   {
+    "name": "Illiquid-tail weekly-reversal LONG sleeve (liquidity-tier-aware, regime-gated)",
+    "mechanism": "The literature's liquidity-tier sign-flip: liquid majors exhibit daily MOMENTUM (covered by candidate 2) while the ILLIQUID small-cap tail exhibits short-term REVERSAL. Every in-house reversal kill (D53 4h within-cluster, D52 micro-z, D60 1h) tested pooled or finer-cadence cells -- the illiquid-tier-ONLY + daily-formation + weekly-hold LONG cell is the one genuinely-open reversal cell, flagged as such with elevated burden of proof in 06_STRATEGY_RESEARCH sec E.2. LO version trades only the long leg (beaten-down illiquid names), regime-gated to dodge the bear knife.",
+    "prior_evidence": "Liquidity-tier sign-flip: 1,160-3,600-coin studies, reversal lives in illiquid tail [REPORTED, STRATEGY_PLAYBOOK.md archetype B caveat]; D53 0/72 at 4h 'continuation dominates' [VERIFIED] -- daily-illiquid cell explicitly untested; 'cross-section reverses at ~1 week' [VERIFIED, playbook sec 0 foundation]; u100 1d chimera + xrel_* ranks + dollar-volume for tier split all in-repo [VERIFIED, 243 cols x 104 assets].",
+    "status": "NEW",
+    "test_plan": "New src/strat/illiquid_reversal_lab.py on CanonicalHarness. Pre-register: tier = bottom half of u100 by 30d median dollar volume (frozen boundary, no sweep); signal = bottom decile of trailing 5d return within tier; hold 5d fixed; gate BTC>SMA150; maker entry claimed only with p_fill 0.21-0.40 haircut, taker 0.0024 as the headline. ELEVATED burden (near-neighbor of HARD kills): run pbo_cscv on the full family (any tier/decile variant counts as a trial), firewall cost-matched random-entry null, battery, manipulation guard (exclude bottom-decile dollar-volume names entirely), UNSEEN-once. Pre-declared kill: if TRAIN+VAL expectancy < 2x cost, stop before OOS.",
+    "ev_rank": 5.5,
+    "regime_slot": "chop-carry (dispersion harvest, risk-on gated)",
+    "scope_change": "D53 is HARD at 4h pooled-cluster; the scope condition that changed is cadence (daily formation/weekly hold) + tier restriction (illiquid-only) + direction (long-leg only) -- the exact cell 06_STRATEGY_RESEARCH pre-authorizes with elevated proof burden"
+   },
+   {
+    "name": "Funding-as-momentum confirmation overlay (harvesting D42's verified inverted sign)",
+    "mechanism": "D42 empirically found the OPPOSITE of the folk rule: high funding -> HIGHER forward returns (crowding momentum), and that verified sign was never harvested -- only the refuted bearish-guard direction was tested. Use positive funding z (+ rising OI) as a CONFIRMATION/sizing-up conditioner on trend-book entries, and funding collapse as an exit accelerator. Pure overlay per the playbook rule -- never asserted alone.",
+    "prior_evidence": "D42 'sign inverted: high funding -> higher fwd (momentum)' [VERIFIED, dead-list D42, mechanism-level finding]; fund_rate_z30 / fund_extreme_long_count / s3 OI features dense at 1d/4h, 0.5% null on majors [VERIFIED, 06_STRATEGY_RESEARCH sec B + chimera columns inspected]; counter-evidence: euphoria-blowoff regime (5% of bars, GMM) is where crowded-long unwinds [VERIFIED, STRATEGY_PLAYBOOK sec 1.5] -- the overlay must pair with a crowding-extreme trim.",
+    "status": "NEW",
+    "test_plan": "Overlay hook in trend_book_lab.py / tsmom_ensemble.py. Pre-register exactly 2 variants -> pbo_cscv: (a) entry-confirm: take trend entries only when fund_rate_z30>0; (b) sizing: 1.0x vs 0.5x risk by funding sign; plus one pre-declared trim rule (halve size when fund_rate_z30>2.5 = blowoff guard). Gate: must improve the SAME book's OOS Calmar AND 3d ROI (playbook overlay rule); candidate_gate + battery + UNSEEN-once. Majors-tier features only (meme funding is manipulation surface per the dictionary).",
+    "ev_rank": 5,
+    "regime_slot": "trend (entry-confirmation / sizing conditioner)",
+    "scope_change": "D42 killed the BEARISH-guard direction (HARD); this proposes the opposite (momentum-confirming) direction, which is D42's own verified finding, not its refuted claim. D54's kill is also the reversal direction -- not touched."
+   },
+   {
+    "name": "New-listing seasoning filter (universe hygiene overlay from in-repo listing dates)",
+    "mechanism": "98% of Binance listings trade down from listing price (-37.6% median at 6 months) -- holding fresh listings in a LONG-only book is negative-drift inventory. Overlay: bar any asset from book entry until N days after its first Binance bar. Costs nothing, needs zero new data (first-bar date IS the listing date in our own parquet), doubles as survivorship hygiene for every backtest. Distinct from thread-12's P8 listing-H1 momentum ride (that rides the first hours; this excludes the decay months -- the two compose).",
+    "prior_evidence": "Empirica 2024: sell-the-news, 98% of Binance listings dump, -37.6% median 6mo [REPORTED, playbook sec 3]; first-bar dates in-repo for all 104 chimera assets + data/prod/fetch_manifest.json [VERIFIED]; src/pipeline/ingest/multi_venue_listings.py already exists for richer listing metadata [VERIFIED file]. Never tested as a book overlay in-house [VERIFIED -- absent from all lab JSONs].",
+    "status": "NEW",
+    "test_plan": "Trivial overlay flag in the book labs (trend_book_lab, momentum_rotation_lab, setup_chaser_book): exclude assets with age-since-first-bar < N, N in {90,180}d pre-registered (2 trials -> pbo_cscv). Gate: improves base-book OOS compound AND maxDD (overlay rule, TRAIN+VAL decision); battery on the filtered book; UNSEEN-once. Cheap enough to run as the first overlay experiment of the campaign; also report the pure event-study (forward 1/3/7d returns by listing age) as a descriptive artifact.",
+    "ev_rank": 5,
+    "regime_slot": "event (calendar/listing sleeve; hygiene overlay on all long books)",
+    "scope_change": "n/a (thread 12 P8 was the momentum-ride side and stays a revival item for another lens; the exclusion side was never proposed)"
+   },
+   {
+    "name": "Realized skew/kurtosis (5m) lottery-reversal cross-sectional tilt",
+    "mechanism": "Lottery-preference reversal: high positive realized-skew names (lottery tickets) get overbought and underperform; low-skew names outperform. rv_skew_5m / rv_kurt_5m are the top-ranked CAUSAL indicator gap in 06_STRATEGY_RESEARCH sec C and a pure engineering add (the 5m pipeline already computes rv_rv_5m). Use as a cross-sectional TILT inside candidate 2's rotation (underweight top-skew decile), not a standalone signal -- the channel is cross-sectional rank, not per-asset conditioning (which D39/D62 killed).",
+    "prior_evidence": "Lee/Wang 2024: realized skewness predicts crypto returns via lottery-preference reversal [REPORTED, 06_STRATEGY_RESEARCH sec C item 1, 'Top pick']; 5m realized pipeline exists (rv_rv_5m dense in chimera) [VERIFIED, columns inspected]; feature itself NOT built [VERIFIED, thread 21 'identified, not built']. Burden flags: D39 (per-asset exo-conditioners on MA, HARD broad) and D62 (per-asset capture conditioning, HARD) are mechanism-adjacent -- but both were per-asset timing, not cross-sectional rank tilts.",
+    "status": "NEEDS_DATA",
+    "test_plan": "~1d feature build: rv_skew_5m/rv_kurt_5m producer using framework primitives (src/pipeline/parquet_io atomic writes), populate 1d/4h chimera for u100. Pre-register ONE hypothesis (sign: high realized skew -> underweight; no grid): apply as a single multiplicative tilt (0.5x weight on top-skew decile) inside the sector-rotation book. Gate: improves rotation book OOS compound/Calmar (overlay rule); pbo_cscv counting the build as 1 trial in the rotation family; battery; UNSEEN-once. If null, the features still feed the decomposer for free.",
+    "ev_rank": 4.5,
+    "regime_slot": "trend/chop-carry (cross-sectional conditioner on rotation books)",
+    "scope_change": "n/a (feature never existed; D39/D62 reconciled -- those killed per-asset TIMING conditioners, this is cross-sectional RANK, a different mechanism class)"
+   },
+   {
+    "name": "Coinglass heatmap mover-discriminator (the quantified D72 solution spec) -- moonshot lane",
+    "mechanism": "D72 proved the meat exists (+5.3-5.7% median post-trigger oracle ceiling at 1m on >=5%-runup days) and that INTERNAL data carries zero continuation information (meta-labeler OOS AUC 0.521). The missing object is exactly specified: a trigger-time EXTERNAL leading signal with OOS AUC >=0.58 on continuation. Coinglass liquidation-heatmap proximity (where the resting liquidation fuel sits AHEAD of price) is the top-ranked candidate; the entire harness already exists with UNSEEN sealed.",
+    "prior_evidence": "D72 [VERIFIED, dead-list + MOVER_RIDE_FINDINGS_2026_06_10]: oracle ceiling +5.3-5.7% median (n=2662 TRAIN/1043 OOS events), 16-feature internal meta-labeler OOS AUC 0.521/0.510, all 18 unconditional riding cells negative; thread 24 spec: 'needs OOS AUC >~0.58... harness ready + UNSEEN sealed... Coinglass ~$29/mo' [VERIFIED, 05_OPEN_THREADS #24]; D71 also leaves Coinglass pre-event data as the named open cell [VERIFIED].",
+    "status": "NEEDS_USER_SIGNOFF",
+    "test_plan": "Sign-off = $29/mo Coinglass + moonshot budget box (charter row 5). Then: 3-5d ingest (liq_cluster_proximity_pct per 06 Tier-3) -> add to the EXISTING mover_metalabel.py feature set -> single pre-registered gate: OOS AUC >=0.58 on continuation-given-trigger (TRAIN-fit, OOS-once; the sealed UNSEEN stays sealed unless AUC gate passes) -> only on pass, trade-sim via mover_ride.py cells -> candidate_gate + battery. Binary outcome by design; budget-boxed so a null costs ~$29 + 1 week.",
+    "ev_rank": 5,
+    "regime_slot": "moonshot (boxed; the only lane that can touch the 1-5%/day aspiration)",
+    "scope_change": "D72 is SCOPED 'internal data' -- external leading data is the explicitly named untested condition; D47/D48 (spike-BUY at daily/4h) are not touched (this is pre-positioned discrimination at 1m event-clock, not buy-the-extreme)"
+   },
+   {
+    "name": "Information-clock (dollar/DIB) trend book -- alt-bar lattice completion",
+    "mechanism": "Event-clock bars (dollar/dib/runs) sample by information arrival, normalizing vol per bar -- in principle trend signals whipsaw less in clock-time chop and capture regime shifts faster. This is the 'mostly unexplored constituent lattice' cell. HONEST prior: the three sibling alt-bar types just FAILED hard at trend (renko best at UNSEEN -20%/yr, firewall FAIL, 0/10 seeds), and alt-bar chimeras carry only OHLCV+structure families (derivatives/liq are 83-100% null there), so the priors are against it.",
+    "prior_evidence": "alt_bar_trend_lab 2026-06-10: heikin_ashi -53%/yr, renko -20%/yr, range -24%/yr UNSEEN, firewall_beats_null FALSE, 10-seed positive frac 0.0 [VERIFIED, runs/strat/alt_bar_trend_lab_2026-06-10.json]; dollar/dib/runs NOT in that lab [VERIFIED]; dib chimera exists for only 3 assets, runs_volume for 0 [VERIFIED, ls data/processed/chimera]; D7 sub-day combined SCOPED 'needs correct sub-day harness'; resolution cliff [VERIFIED, 06_STRATEGY_RESEARCH sec B].",
+    "status": "WEAK",
+    "test_plan": "ONLY if cheap capacity exists after candidates 1-6: build dib + runs_volume v51 chimeras for u10 via make_chimera_bars.py (bounded pipeline job), then re-run the EXISTING alt_bar_trend_lab.py unchanged (same pre-registered configs as the renko/range run -- zero new tuning, so zero new trials for PBO) on the two new bar types. Gates identical: candidate_gate + firewall + battery + UNSEEN-once. Pre-declared kill: any result inside the renko/range failure envelope closes the alt-bar trend lattice for good (upgrade to a dead-list entry).",
+    "ev_rank": 3,
+    "regime_slot": "trend (alt-bar lattice; closure value even on a null)",
+    "scope_change": "n/a (untested cell, but 3/3 sibling bar types just failed the identical test -- ranked honestly as WEAK rather than hidden)"
+   }
+  ]
+ }
+}

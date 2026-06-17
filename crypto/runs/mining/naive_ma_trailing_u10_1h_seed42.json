@@ -1,0 +1,212 @@
+{
+  "repro": {
+    "command": "python src/strat/naive_ma_trailing.py --cadence 1h --mas 81,100,200 --universe u10 --json",
+    "git_sha": "9f1f733",
+    "spec": {
+      "capital": 10000.0,
+      "bet": 500.0,
+      "trail": 0.1,
+      "cost_rt": 0.0024
+    }
+  },
+  "slices": [
+    "2020-02",
+    "2021-10",
+    "2022-08",
+    "2023-06",
+    "2024-06",
+    "2025-11",
+    "2026-02"
+  ],
+  "results": {
+    "MA81_2020-02": {
+      "final": 10285.0,
+      "ret_pct": 2.85,
+      "n_trades": 24,
+      "win_rate": 0.33,
+      "avg_win_pct": 20.92,
+      "avg_loss_pct": -6.54,
+      "maxdd_pct": -8.5
+    },
+    "MA81_2021-10": {
+      "final": 10337.0,
+      "ret_pct": 3.37,
+      "n_trades": 33,
+      "win_rate": 0.42,
+      "avg_win_pct": 11.14,
+      "avg_loss_pct": -4.24,
+      "maxdd_pct": -4.6
+    },
+    "MA81_2022-08": {
+      "final": 9762.0,
+      "ret_pct": -2.38,
+      "n_trades": 31,
+      "win_rate": 0.29,
+      "avg_win_pct": 7.71,
+      "avg_loss_pct": -4.98,
+      "maxdd_pct": -9.6
+    },
+    "MA81_2023-06": {
+      "final": 9845.0,
+      "ret_pct": -1.55,
+      "n_trades": 30,
+      "win_rate": 0.37,
+      "avg_win_pct": 9.14,
+      "avg_loss_pct": -6.54,
+      "maxdd_pct": -10.3
+    },
+    "MA81_2024-06": {
+      "final": 9106.0,
+      "ret_pct": -8.94,
+      "n_trades": 35,
+      "win_rate": 0.23,
+      "avg_win_pct": 5.46,
+      "avg_loss_pct": -7.93,
+      "maxdd_pct": -13.5
+    },
+    "MA81_2025-11": {
+      "final": 9075.0,
+      "ret_pct": -9.25,
+      "n_trades": 40,
+      "win_rate": 0.3,
+      "avg_win_pct": 3.65,
+      "avg_loss_pct": -7.83,
+      "maxdd_pct": -11.3
+    },
+    "MA81_2026-02": {
+      "final": 8922.0,
+      "ret_pct": -10.78,
+      "n_trades": 39,
+      "win_rate": 0.21,
+      "avg_win_pct": 3.55,
+      "avg_loss_pct": -7.57,
+      "maxdd_pct": -11.2
+    },
+    "MA100_2020-02": {
+      "final": 10216.0,
+      "ret_pct": 2.16,
+      "n_trades": 23,
+      "win_rate": 0.39,
+      "avg_win_pct": 18.8,
+      "avg_loss_pct": -8.6,
+      "maxdd_pct": -9.4
+    },
+    "MA100_2021-10": {
+      "final": 10162.0,
+      "ret_pct": 1.62,
+      "n_trades": 32,
+      "win_rate": 0.44,
+      "avg_win_pct": 9.0,
+      "avg_loss_pct": -4.78,
+      "maxdd_pct": -4.5
+    },
+    "MA100_2022-08": {
+      "final": 9658.0,
+      "ret_pct": -3.42,
+      "n_trades": 31,
+      "win_rate": 0.26,
+      "avg_win_pct": 7.09,
+      "avg_loss_pct": -5.11,
+      "maxdd_pct": -9.9
+    },
+    "MA100_2023-06": {
+      "final": 9807.0,
+      "ret_pct": -1.93,
+      "n_trades": 30,
+      "win_rate": 0.37,
+      "avg_win_pct": 8.62,
+      "avg_loss_pct": -6.64,
+      "maxdd_pct": -10.6
+    },
+    "MA100_2024-06": {
+      "final": 9144.0,
+      "ret_pct": -8.56,
+      "n_trades": 34,
+      "win_rate": 0.29,
+      "avg_win_pct": 3.89,
+      "avg_loss_pct": -8.42,
+      "maxdd_pct": -13.1
+    },
+    "MA100_2025-11": {
+      "final": 9202.0,
+      "ret_pct": -7.98,
+      "n_trades": 35,
+      "win_rate": 0.26,
+      "avg_win_pct": 3.87,
+      "avg_loss_pct": -7.15,
+      "maxdd_pct": -9.5
+    },
+    "MA100_2026-02": {
+      "final": 9060.0,
+      "ret_pct": -9.4,
+      "n_trades": 37,
+      "win_rate": 0.16,
+      "avg_win_pct": 3.53,
+      "avg_loss_pct": -6.46,
+      "maxdd_pct": -10.2
+    },
+    "MA200_2020-02": {
+      "final": 10008.0,
+      "ret_pct": 0.08,
+      "n_trades": 18,
+      "win_rate": 0.33,
+      "avg_win_pct": 17.67,
+      "avg_loss_pct": -8.34,
+      "maxdd_pct": -8.1
+    },
+    "MA200_2021-10": {
+      "final": 10201.0,
+      "ret_pct": 2.01,
+      "n_trades": 28,
+      "win_rate": 0.46,
+      "avg_win_pct": 9.3,
+      "avg_loss_pct": -4.94,
+      "maxdd_pct": -4.5
+    },
+    "MA200_2022-08": {
+      "final": 9746.0,
+      "ret_pct": -2.54,
+      "n_trades": 24,
+      "win_rate": 0.25,
+      "avg_win_pct": 11.46,
+      "avg_loss_pct": -6.33,
+      "maxdd_pct": -9.0
+    },
+    "MA200_2023-06": {
+      "final": 9846.0,
+      "ret_pct": -1.54,
+      "n_trades": 26,
+      "win_rate": 0.38,
+      "avg_win_pct": 8.72,
+      "avg_loss_pct": -6.99,
+      "maxdd_pct": -9.4
+    },
+    "MA200_2024-06": {
+      "final": 9628.0,
+      "ret_pct": -3.72,
+      "n_trades": 23,
+      "win_rate": 0.3,
+      "avg_win_pct": 4.7,
+      "avg_loss_pct": -6.36,
+      "maxdd_pct": -6.9
+    },
+    "MA200_2025-11": {
+      "final": 9534.0,
+      "ret_pct": -4.66,
+      "n_trades": 23,
+      "win_rate": 0.22,
+      "avg_win_pct": 2.86,
+      "avg_loss_pct": -5.67,
+      "maxdd_pct": -6.2
+    },
+    "MA200_2026-02": {
+      "final": 9518.0,
+      "ret_pct": -4.82,
+      "n_trades": 29,
+      "win_rate": 0.24,
+      "avg_win_pct": 2.57,
+      "avg_loss_pct": -4.88,
+      "maxdd_pct": -9.5
+    }
+  }
+}

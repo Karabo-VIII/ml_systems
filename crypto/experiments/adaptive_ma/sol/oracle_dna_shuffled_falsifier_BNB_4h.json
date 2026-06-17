@@ -1,0 +1,143 @@
+{
+  "asset": "BNB",
+  "cadence": "4h",
+  "n_bars": 13947,
+  "n_features": 40,
+  "oracle_entries": 3175,
+  "oracle_base_rate": 0.22764752276475228,
+  "exit_H_bars": 2,
+  "cost_rt": 0.0024,
+  "fit_rows": 11309,
+  "held_out_rows": 2638,
+  "real": {
+    "OOS": {
+      "auc": 0.7769586573884569,
+      "ic_fwd": 0.012482053892579427,
+      "capture_plain": {
+        "skill": 0.01744136460914649,
+        "dna_compound_pct": -48.84423851789319,
+        "n_sel": 407,
+        "dna_mean_net_pct": -0.15369703827946343,
+        "best_mean_net_pct": 1.5896659090987753,
+        "chance_mean_net_pct": -0.1846434141150436
+      },
+      "capture_regime": {
+        "skill": -0.018801900060442335,
+        "dna_compound_pct": -41.255991638539015,
+        "n_sel": 251,
+        "dna_mean_net_pct": -0.20096355610353914,
+        "best_mean_net_pct": 1.6154697856481943,
+        "chance_mean_net_pct": -0.16744143746983298
+      }
+    },
+    "UNSEEN": {
+      "auc": 0.769738645709586,
+      "ic_fwd": 0.013262819827448685,
+      "capture_plain": {
+        "skill": 0.044638510479474994,
+        "dna_compound_pct": -39.421832841745186,
+        "n_sel": 207,
+        "dna_mean_net_pct": -0.23248135443087067,
+        "best_mean_net_pct": 1.2578011844289039,
+        "chance_mean_net_pct": -0.30211362813876064
+      },
+      "capture_regime": {
+        "skill": 0.03701600238819435,
+        "dna_compound_pct": -24.99593919991423,
+        "n_sel": 112,
+        "dna_mean_net_pct": -0.25074800661151575,
+        "best_mean_net_pct": 0.9090571904415732,
+        "chance_mean_net_pct": -0.29532959057389396
+      }
+    },
+    "HELD_OUT": {
+      "auc": 0.774503138446682,
+      "ic_fwd": 0.012482630137483708,
+      "capture_plain": {
+        "skill": 0.025278058167804315,
+        "dna_compound_pct": -69.25800242669557,
+        "n_sel": 615,
+        "dna_mean_net_pct": -0.18119422098487006,
+        "best_mean_net_pct": 1.4800268658464015,
+        "chance_mean_net_pct": -0.22427567987105285
+      },
+      "capture_regime": {
+        "skill": 0.005270680587511838,
+        "dna_compound_pct": -52.83765680910945,
+        "n_sel": 363,
+        "dna_mean_net_pct": -0.19830080741715309,
+        "best_mean_net_pct": 1.407743315204937,
+        "chance_mean_net_pct": -0.2068106054241037
+      }
+    }
+  },
+  "shuffled_control": {
+    "auc": {
+      "mean": 0.5080873137878638,
+      "p05": 0.43370018070920374,
+      "p95": 0.5877007682803869,
+      "max": 0.6071980132638426
+    },
+    "ic_fwd": {
+      "mean": -0.002794574936988352,
+      "p05": -0.03641310478734429,
+      "p95": 0.022669505684863235,
+      "max": 0.03100406176302972
+    },
+    "capture_plain_skill": {
+      "mean": 0.006043713873243301,
+      "p05": -0.030280041802409615,
+      "p95": 0.04964186815072505,
+      "max": 0.07250367257685998
+    },
+    "capture_regime_skill": {
+      "mean": 0.01889275499176002,
+      "p05": -0.037361456006342435,
+      "p95": 0.0651728894088069,
+      "max": 0.10645894502590691
+    },
+    "n_shuffle": 12
+  },
+  "positive_control": {
+    "held_out_auc": 0.8685802307228611,
+    "shuffled_auc": {
+      "mean": 0.5058956693064357,
+      "p05": 0.4391863613983259,
+      "p95": 0.5777820821656843,
+      "max": 0.5813034645241744
+    },
+    "has_power": true,
+    "shuffled_collapses": true
+  },
+  "regime_firewall": {
+    "dna_capture_plain_compound_pct": -69.25800242669557,
+    "dna_capture_regime_compound_pct": -52.83765680910945,
+    "null_plain": {
+      "p50_pct": -76.82997866155804,
+      "p95_pct": -55.8941553995613,
+      "mean_pct": -75.01673388090845,
+      "k": 615,
+      "n_pool": 2635
+    },
+    "null_regime": {
+      "p50_pct": -53.14393810899959,
+      "p95_pct": -29.832844056501894,
+      "mean_pct": -52.78124556173411,
+      "k": 363,
+      "n_pool": 1556
+    },
+    "beats_plain_null_p95": false,
+    "beats_regime_null_p95": false
+  },
+  "real_held_out_auc": 0.774503138446682,
+  "real_held_out_ic_fwd": 0.012482630137483708,
+  "real_held_out_capture_skill": 0.025278058167804315,
+  "VERDICT": {
+    "shuffled_control_collapses": false,
+    "positive_control_has_power": true,
+    "APPARATUS_SOUND": false,
+    "dna_auc_beats_shuffled": true,
+    "dna_capture_beats_firewall": false,
+    "DNA_GENUINE_SIGNAL": false
+  }
+}

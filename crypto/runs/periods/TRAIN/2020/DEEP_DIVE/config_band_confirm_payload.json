@@ -1,0 +1,216 @@
+{
+ "verdict": {
+  "C1_band_recount_1d": {
+   "VIDYA": {
+    "live_2ma_3ma": [
+     42,
+     32
+    ],
+    "json_2ma_3ma": [
+     42,
+     32
+    ],
+    "match": true
+   },
+   "EMA": {
+    "live_2ma_3ma": [
+     59,
+     46
+    ],
+    "json_2ma_3ma": [
+     59,
+     46
+    ],
+    "match": true
+   },
+   "TEMA": {
+    "live_2ma_3ma": [
+     55,
+     57
+    ],
+    "json_2ma_3ma": [
+     55,
+     57
+    ],
+    "match": true
+   }
+  },
+  "C2_top_configs": {
+   "buyhold_FULL_net": 140.2,
+   "configs": {
+    "WMA(6,9,24)": {
+     "live_FULL_net": 159.7,
+     "json_FULL_net": 159.7,
+     "live_FULL_maxdd": -20.1,
+     "live_OOS_net": 33.5,
+     "json_OOS_net": 33.5,
+     "beats_buyhold_FULL": true,
+     "match_FULL": true
+    },
+    "TEMA(8,22,60)": {
+     "live_FULL_net": 162.7,
+     "json_FULL_net": 162.7,
+     "live_FULL_maxdd": -13.5,
+     "live_OOS_net": 40.9,
+     "json_OOS_net": 40.9,
+     "beats_buyhold_FULL": true,
+     "match_FULL": true
+    },
+    "HMA(37,38)": {
+     "live_FULL_net": 155.8,
+     "json_FULL_net": 155.8,
+     "live_FULL_maxdd": -18.6,
+     "live_OOS_net": 41.0,
+     "json_OOS_net": 41.0,
+     "beats_buyhold_FULL": true,
+     "match_FULL": true
+    }
+   }
+  },
+  "C3_crash_avoidance": {
+   "crash_window": [
+    "2020-02-19",
+    "2020-03-31"
+   ],
+   "h1_window": [
+    "2020-01-01",
+    "2020-07-01"
+   ],
+   "buyhold_maxdd_full": -46.1,
+   "buyhold_maxdd_h1": -46.1,
+   "top5_configs": [
+    {
+     "config": "TEMA(8,22,60)",
+     "avg_exposure_in_crash": 0.051,
+     "min_exposure_in_crash": 0.0,
+     "maxdd_full": -13.5,
+     "maxdd_h1": -8.0
+    },
+    {
+     "config": "WMA(6,9,24)",
+     "avg_exposure_in_crash": 0.098,
+     "min_exposure_in_crash": 0.0,
+     "maxdd_full": -20.1,
+     "maxdd_h1": -17.0
+    },
+    {
+     "config": "DEMA(8,14,38)",
+     "avg_exposure_in_crash": 0.037,
+     "min_exposure_in_crash": 0.0,
+     "maxdd_full": -16.8,
+     "maxdd_h1": -12.9
+    },
+    {
+     "config": "WMA(2,19,22)",
+     "avg_exposure_in_crash": 0.149,
+     "min_exposure_in_crash": 0.0,
+     "maxdd_full": -20.4,
+     "maxdd_h1": -14.6
+    },
+    {
+     "config": "HMA(37,38)",
+     "avg_exposure_in_crash": 0.083,
+     "min_exposure_in_crash": 0.0,
+     "maxdd_full": -18.6,
+     "maxdd_h1": -11.1
+    }
+   ]
+  },
+  "C4_rank_transience": {
+   "median_spearman_rho": 0.587,
+   "mean_spearman_rho": 0.574,
+   "json_median_rho_field": 0.587,
+   "overlap_min": 0,
+   "overlap_max": 7,
+   "n_cells": 48
+  }
+ },
+ "avg_band_width": {
+  "EMA": 101.5,
+  "SMA": 92.83333333333333,
+  "WMA": 94.5,
+  "HMA": 77.5,
+  "DEMA": 87.0,
+  "TEMA": 77.5,
+  "KAMA": 90.16666666666667,
+  "VIDYA": 106.5
+ },
+ "band_width_per_tf": {
+  "EMA": [
+   105,
+   120,
+   117,
+   108,
+   94,
+   65
+  ],
+  "SMA": [
+   84,
+   115,
+   110,
+   106,
+   90,
+   52
+  ],
+  "WMA": [
+   106,
+   114,
+   113,
+   109,
+   79,
+   46
+  ],
+  "HMA": [
+   108,
+   109,
+   102,
+   78,
+   48,
+   20
+  ],
+  "DEMA": [
+   114,
+   111,
+   101,
+   95,
+   66,
+   35
+  ],
+  "TEMA": [
+   112,
+   107,
+   99,
+   85,
+   42,
+   20
+  ],
+  "KAMA": [
+   74,
+   111,
+   116,
+   114,
+   79,
+   47
+  ],
+  "VIDYA": [
+   74,
+   115,
+   114,
+   120,
+   114,
+   102
+  ]
+ },
+ "crash_window_exposure": {
+  "1d": 0.12,
+  "4h": 0.16,
+  "15m": 0.24
+ },
+ "figures": [
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\periods\\TRAIN\\2020\\DEEP_DIVE\\charts\\config_top_equity_1d.png",
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\periods\\TRAIN\\2020\\DEEP_DIVE\\charts\\config_top_equity_30m.png",
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\periods\\TRAIN\\2020\\DEEP_DIVE\\charts\\band_ensemble_vs_buyhold.png",
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\periods\\TRAIN\\2020\\DEEP_DIVE\\charts\\band_exposure_timeline.png",
+  "C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\runs\\periods\\TRAIN\\2020\\DEEP_DIVE\\charts\\band_width_by_matype.png"
+ ]
+}

@@ -1,0 +1,621 @@
+{
+ "repro": {
+  "command": "python -m strat.forward_test_2021 ",
+  "git_sha": "1718e28",
+  "window": [
+   "2021-01-01",
+   "2022-01-01"
+  ],
+  "cost_maker": 0.0006,
+  "cost_taker": 0.0024,
+  "asof_listing_cutoff": "2021-12-01",
+  "liq_floor_usd": 1000000
+ },
+ "universe": {
+  "admitted": [
+   "BCHUSDT",
+   "DASHUSDT",
+   "LTCUSDT",
+   "TRXUSDT",
+   "BTCUSDT",
+   "ETCUSDT",
+   "LINKUSDT",
+   "ZECUSDT",
+   "XLMUSDT",
+   "ATOMUSDT",
+   "ETHUSDT",
+   "BNBUSDT",
+   "XRPUSDT",
+   "ALGOUSDT",
+   "ADAUSDT",
+   "HBARUSDT",
+   "FETUSDT",
+   "ENJUSDT",
+   "CHZUSDT",
+   "JSTUSDT",
+   "CRVUSDT",
+   "DOGEUSDT",
+   "DOTUSDT",
+   "RSRUSDT",
+   "ZENUSDT",
+   "SOLUSDT",
+   "UNIUSDT",
+   "AVAXUSDT",
+   "FILUSDT",
+   "AUDIOUSDT",
+   "AAVEUSDT",
+   "NEARUSDT",
+   "INJUSDT",
+   "UTKUSDT",
+   "ALICEUSDT",
+   "SUPERUSDT",
+   "SHIBUSDT",
+   "ICPUSDT",
+   "ARUSDT",
+   "GTCUSDT",
+   "DEXEUSDT",
+   "DYDXUSDT",
+   "MOVRUSDT",
+   "QIUSDT"
+  ],
+  "excluded": [
+   "API3USDT",
+   "LDOUSDT",
+   "OPUSDT",
+   "APTUSDT",
+   "HIGHUSDT",
+   "PHBUSDT",
+   "ARBUSDT",
+   "PROMUSDT",
+   "SUIUSDT",
+   "FLOKIUSDT",
+   "PEPEUSDT",
+   "ARKMUSDT",
+   "WLDUSDT",
+   "SEIUSDT",
+   "TIAUSDT",
+   "MEMEUSDT",
+   "ORDIUSDT",
+   "BLURUSDT",
+   "1000SATSUSDT",
+   "BONKUSDT",
+   "WIFUSDT",
+   "BOMEUSDT",
+   "ENAUSDT",
+   "WUSDT",
+   "SAGAUSDT",
+   "TAOUSDT",
+   "ZROUSDT",
+   "RENDERUSDT",
+   "TONUSDT",
+   "RAREUSDT",
+   "DOGSUSDT",
+   "POLUSDT",
+   "NEIROUSDT",
+   "EIGENUSDT",
+   "PNUTUSDT",
+   "MOVEUSDT",
+   "PENGUUSDT",
+   "BIOUSDT",
+   "DUSDT",
+   "TRUMPUSDT",
+   "GUNUSDT",
+   "ONDOUSDT",
+   "VIRTUALUSDT",
+   "STOUSDT",
+   "XUSDUSDT",
+   "SPKUSDT",
+   "TREEUSDT",
+   "PLUMEUSDT",
+   "WLFIUSDT",
+   "XPLUSDT",
+   "ASTERUSDT",
+   "ZBTUSDT",
+   "GIGGLEUSDT",
+   "SAPIENUSDT",
+   "UUSDT",
+   "ZAMAUSDT",
+   "NIGHTUSDT",
+   "CFGUSDT",
+   "KATUSDT",
+   "XAUTUSDT"
+  ]
+ },
+ "benchmarks": {
+  "BUYHOLD": {
+   "expand": {
+    "n_days": 365,
+    "final_pct": 678.1,
+    "ann_pct": 678.1,
+    "maxdd_pct": -63.1,
+    "sharpe": 2.43,
+    "win_day_pct": 61.9
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 466.3,
+    "ann_pct": 466.3,
+    "maxdd_pct": -60.7,
+    "sharpe": 2.28,
+    "win_day_pct": 58.6
+   }
+  },
+  "VOLTGT_BH": {
+   "expand": {
+    "n_days": 365,
+    "final_pct": 484.5,
+    "ann_pct": 484.5,
+    "maxdd_pct": -55.8,
+    "sharpe": 2.51,
+    "win_day_pct": 61.4
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 299.7,
+    "ann_pct": 299.7,
+    "maxdd_pct": -55.0,
+    "sharpe": 2.18,
+    "win_day_pct": 58.6
+   }
+  }
+ },
+ "candidates": [
+  {
+   "name": "EMA(5, 75, 208)",
+   "family": "MA",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 18.6,
+    "ann_pct": 30.8,
+    "maxdd_pct": -11.9,
+    "sharpe": 1.15,
+    "win_day_pct": 43.1
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 29.9,
+    "ann_pct": 29.9,
+    "maxdd_pct": -14.0,
+    "sharpe": 1.25,
+    "win_day_pct": 22.2
+   }
+  },
+  {
+   "name": "SMA(12, 84, 148)",
+   "family": "MA",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 19.6,
+    "ann_pct": 32.6,
+    "maxdd_pct": -10.2,
+    "sharpe": 1.42,
+    "win_day_pct": 35.8
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 23.1,
+    "ann_pct": 23.1,
+    "maxdd_pct": -12.1,
+    "sharpe": 1.12,
+    "win_day_pct": 15.9
+   }
+  },
+  {
+   "name": "WMA(19, 132, 148)",
+   "family": "MA",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 6.2,
+    "ann_pct": 9.9,
+    "maxdd_pct": -15.0,
+    "sharpe": 0.53,
+    "win_day_pct": 35.3
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 20.2,
+    "ann_pct": 20.2,
+    "maxdd_pct": -12.6,
+    "sharpe": 0.97,
+    "win_day_pct": 17.5
+   }
+  },
+  {
+   "name": "HMA(18, 128)",
+   "family": "MA",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 8.9,
+    "ann_pct": 14.4,
+    "maxdd_pct": -21.1,
+    "sharpe": 0.54,
+    "win_day_pct": 51.7
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 13.7,
+    "ann_pct": 13.7,
+    "maxdd_pct": -25.1,
+    "sharpe": 0.57,
+    "win_day_pct": 31.5
+   }
+  },
+  {
+   "name": "DEMA(18, 33)",
+   "family": "MA",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 0.6,
+    "ann_pct": 0.9,
+    "maxdd_pct": -26.2,
+    "sharpe": 0.22,
+    "win_day_pct": 51.3
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 11.5,
+    "ann_pct": 11.5,
+    "maxdd_pct": -22.5,
+    "sharpe": 0.51,
+    "win_day_pct": 30.1
+   }
+  },
+  {
+   "name": "TEMA(15, 67, 233)",
+   "family": "MA",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 0.1,
+    "ann_pct": 0.2,
+    "maxdd_pct": -22.9,
+    "sharpe": 0.14,
+    "win_day_pct": 48.3
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 16.8,
+    "ann_pct": 16.8,
+    "maxdd_pct": -18.3,
+    "sharpe": 0.89,
+    "win_day_pct": 25.2
+   }
+  },
+  {
+   "name": "KAMA(4, 26)",
+   "family": "MA",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 11.0,
+    "ann_pct": 17.8,
+    "maxdd_pct": -20.1,
+    "sharpe": 0.65,
+    "win_day_pct": 49.1
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 20.0,
+    "ann_pct": 20.0,
+    "maxdd_pct": -18.6,
+    "sharpe": 0.77,
+    "win_day_pct": 29.9
+   }
+  },
+  {
+   "name": "VIDYA(5, 75, 208)",
+   "family": "MA",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 2.1,
+    "ann_pct": 3.3,
+    "maxdd_pct": -9.6,
+    "sharpe": 0.3,
+    "win_day_pct": 38.8
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 7.7,
+    "ann_pct": 7.7,
+    "maxdd_pct": -7.9,
+    "sharpe": 0.67,
+    "win_day_pct": 17.8
+   }
+  },
+  {
+   "name": "ADX(14,20)",
+   "family": "trend",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": -18.4,
+    "ann_pct": -27.4,
+    "maxdd_pct": -34.2,
+    "sharpe": -0.55,
+    "win_day_pct": 53.0
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": -12.7,
+    "ann_pct": -12.7,
+    "maxdd_pct": -33.7,
+    "sharpe": -0.24,
+    "win_day_pct": 31.0
+   }
+  },
+  {
+   "name": "MACD(26,52,9)",
+   "family": "trend",
+   "cad": "1d",
+   "expand": {
+    "n_days": 365,
+    "final_pct": 122.6,
+    "ann_pct": 122.6,
+    "maxdd_pct": -11.4,
+    "sharpe": 2.95,
+    "win_day_pct": 49.3
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 128.3,
+    "ann_pct": 128.3,
+    "maxdd_pct": -12.1,
+    "sharpe": 2.92,
+    "win_day_pct": 37.3
+   }
+  },
+  {
+   "name": "PSAR(0.01,0.2)",
+   "family": "trend",
+   "cad": "1d",
+   "expand": {
+    "n_days": 365,
+    "final_pct": 112.1,
+    "ann_pct": 112.1,
+    "maxdd_pct": -12.9,
+    "sharpe": 2.54,
+    "win_day_pct": 51.0
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 70.8,
+    "ann_pct": 70.8,
+    "maxdd_pct": -17.7,
+    "sharpe": 1.85,
+    "win_day_pct": 43.3
+   }
+  },
+  {
+   "name": "VORTEX(21)",
+   "family": "trend",
+   "cad": "2h",
+   "expand": {
+    "n_days": 199,
+    "final_pct": 33.8,
+    "ann_pct": 70.6,
+    "maxdd_pct": -20.8,
+    "sharpe": 1.7,
+    "win_day_pct": 54.3
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 50.3,
+    "ann_pct": 50.3,
+    "maxdd_pct": -15.2,
+    "sharpe": 1.74,
+    "win_day_pct": 28.5
+   }
+  },
+  {
+   "name": "ST(14,3.0)",
+   "family": "trend",
+   "cad": "2h",
+   "expand": {
+    "n_days": 199,
+    "final_pct": 14.6,
+    "ann_pct": 28.4,
+    "maxdd_pct": -18.7,
+    "sharpe": 1.0,
+    "win_day_pct": 47.7
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 19.4,
+    "ann_pct": 19.4,
+    "maxdd_pct": -19.8,
+    "sharpe": 0.93,
+    "win_day_pct": 24.4
+   }
+  },
+  {
+   "name": "TSI(40,20)",
+   "family": "momentum",
+   "cad": "2h",
+   "expand": {
+    "n_days": 199,
+    "final_pct": 17.2,
+    "ann_pct": 33.9,
+    "maxdd_pct": -19.4,
+    "sharpe": 1.03,
+    "win_day_pct": 51.3
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 24.5,
+    "ann_pct": 24.5,
+    "maxdd_pct": -20.6,
+    "sharpe": 1.0,
+    "win_day_pct": 26.8
+   }
+  },
+  {
+   "name": "ROC(50,thr0.0)",
+   "family": "momentum",
+   "cad": "1h",
+   "expand": {
+    "n_days": 182,
+    "final_pct": 34.4,
+    "ann_pct": 80.8,
+    "maxdd_pct": -18.4,
+    "sharpe": 1.77,
+    "win_day_pct": 54.9
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 42.4,
+    "ann_pct": 42.4,
+    "maxdd_pct": -17.3,
+    "sharpe": 1.49,
+    "win_day_pct": 24.7
+   }
+  },
+  {
+   "name": "KELT(20,2.0)",
+   "family": "breakout",
+   "cad": "1d",
+   "expand": {
+    "n_days": 365,
+    "final_pct": 158.2,
+    "ann_pct": 158.2,
+    "maxdd_pct": -12.8,
+    "sharpe": 2.92,
+    "win_day_pct": 51.0
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 164.4,
+    "ann_pct": 164.4,
+    "maxdd_pct": -12.6,
+    "sharpe": 3.08,
+    "win_day_pct": 42.5
+   }
+  },
+  {
+   "name": "DONCH(30,20)",
+   "family": "breakout",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 11.4,
+    "ann_pct": 18.5,
+    "maxdd_pct": -14.2,
+    "sharpe": 0.76,
+    "win_day_pct": 47.4
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 30.9,
+    "ann_pct": 30.9,
+    "maxdd_pct": -13.8,
+    "sharpe": 1.24,
+    "win_day_pct": 24.9
+   }
+  },
+  {
+   "name": "VOLIMB(3,thr0.52)",
+   "family": "volume",
+   "cad": "1h",
+   "expand": {
+    "n_days": 182,
+    "final_pct": 7.3,
+    "ann_pct": 15.1,
+    "maxdd_pct": -23.3,
+    "sharpe": 0.54,
+    "win_day_pct": 33.5
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 1.0,
+    "ann_pct": 1.0,
+    "maxdd_pct": -2.5,
+    "sharpe": 0.34,
+    "win_day_pct": 16.7
+   }
+  },
+  {
+   "name": "OBV(10)",
+   "family": "volume",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 18.6,
+    "ann_pct": 30.8,
+    "maxdd_pct": -16.8,
+    "sharpe": 0.91,
+    "win_day_pct": 25.9
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 2.2,
+    "ann_pct": 2.2,
+    "maxdd_pct": -1.7,
+    "sharpe": 0.75,
+    "win_day_pct": 16.7
+   }
+  },
+  {
+   "name": "MFI(14,lo30,hi80)",
+   "family": "volume",
+   "cad": "4h",
+   "expand": {
+    "n_days": 232,
+    "final_pct": 3.1,
+    "ann_pct": 4.9,
+    "maxdd_pct": -21.8,
+    "sharpe": 0.31,
+    "win_day_pct": 21.1
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 0.7,
+    "ann_pct": 0.7,
+    "maxdd_pct": -2.4,
+    "sharpe": 0.25,
+    "win_day_pct": 13.7
+   }
+  },
+  {
+   "name": "STOCH(14,lo25,hi80)",
+   "family": "mean-reversion",
+   "cad": "1h",
+   "expand": {
+    "n_days": 182,
+    "final_pct": 9.6,
+    "ann_pct": 20.1,
+    "maxdd_pct": -10.4,
+    "sharpe": 0.91,
+    "win_day_pct": 55.5
+   },
+   "core": {
+    "n_days": 365,
+    "final_pct": 10.9,
+    "ann_pct": 10.9,
+    "maxdd_pct": -10.4,
+    "sharpe": 0.78,
+    "win_day_pct": 26.3
+   }
+  }
+ ],
+ "verdict": {
+  "beat_buyhold": [],
+  "beat_voltgt": [],
+  "expand_helps_n": 4,
+  "n": 21,
+  "best": "KELT(20,2.0)",
+  "lines": [
+   "",
+   "## VERDICT (2021 forward, point-in-time expanding universe) [VERIFIED-2021-FORWARD]",
+   "best candidate: KELT(20,2.0) (breakout) EXPAND 158.2% Sh 2.92 DD -12.8%",
+   "vs bars: BUYHOLD 678.1% / VOLTGT_BH 484.5% (expand). Beat BUYHOLD: 0/21; beat VOLTGT_BH: 0/21.",
+   "asset-expansion effect: EXPAND > CORE at 4/21 candidates (expansion does NOT broadly help -- the new listings add noise/drag more than diversification on net).",
+   "GENERALIZATION: the frozen 2020 selection is judged here purely out-of-selection-year on 2021 (no re-fit). Beta-tracking is the expected null (the configs are de-risked long-only beta).",
+   "CAVEATS: residual survivorship -- coins that traded in 2021 but delisted pre-2026 (LUNA/FTT/...) were never collected into chimera, so cannot be included (flagged, not fixable from our data). MR family run as iron @1h coarse proxy (frozen pick was 15m-recovered/fighter). Live fills: p_fill 0.25-0.50 => live equity ~50-75% of these maker-fill numbers. UNSEEN 2025-26 sealed."
+  ]
+ }
+}

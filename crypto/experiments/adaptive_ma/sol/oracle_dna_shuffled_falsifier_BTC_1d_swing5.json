@@ -1,0 +1,140 @@
+{
+  "asset": "BTC",
+  "cadence": "1d",
+  "n_bars": 2334,
+  "n_features": 40,
+  "oracle_entries": 210,
+  "oracle_base_rate": 0.08997429305912596,
+  "exit_H_bars": 4,
+  "cost_rt": 0.0024,
+  "fit_rows": 1894,
+  "held_out_rows": 440,
+  "real": {
+    "OOS": {
+      "auc": 0.7276946879834966,
+      "ic_fwd": 0.0491850459461697,
+      "capture_plain": {
+        "skill": 0.17307548081948773,
+        "dna_compound_pct": 37.50772201604806,
+        "n_sel": 28,
+        "dna_mean_net_pct": 1.2047986804199935,
+        "best_mean_net_pct": 7.294080374156109,
+        "chance_mean_net_pct": -0.06968929586242448
+      },
+      "capture_regime": {
+        "skill": 0.24434229901377874,
+        "dna_compound_pct": 34.71352543736215,
+        "n_sel": 19,
+        "dna_mean_net_pct": 1.655380664530796,
+        "best_mean_net_pct": 6.959304732673122,
+        "chance_mean_net_pct": -0.059645859929967404
+      }
+    },
+    "UNSEEN": {
+      "auc": 0.5717761557177615,
+      "ic_fwd": 0.12247809661602765,
+      "capture_plain": {
+        "skill": -0.0008633056909391473,
+        "dna_compound_pct": -9.179752461625979,
+        "n_sel": 14,
+        "dna_mean_net_pct": -0.6427274577469716,
+        "best_mean_net_pct": 6.55232396900035,
+        "chance_mean_net_pct": -0.6365212867264217
+      },
+      "capture_regime": {
+        "skill": NaN,
+        "dna_compound_pct": NaN,
+        "n_sel": 0
+      }
+    },
+    "HELD_OUT": {
+      "auc": 0.6653660349312525,
+      "ic_fwd": 0.06573723242805098,
+      "capture_plain": {
+        "skill": 0.09527112221005489,
+        "dna_compound_pct": 17.20920627365996,
+        "n_sel": 42,
+        "dna_mean_net_pct": 0.4385451434557812,
+        "best_mean_net_pct": 7.0468282391041885,
+        "chance_mean_net_pct": -0.25733023076912703
+      },
+      "capture_regime": {
+        "skill": 0.24434229901377874,
+        "dna_compound_pct": 34.71352543736215,
+        "n_sel": 19,
+        "dna_mean_net_pct": 1.655380664530796,
+        "best_mean_net_pct": 6.959304732673122,
+        "chance_mean_net_pct": -0.059645859929967404
+      }
+    }
+  },
+  "shuffled_control": {
+    "auc": {
+      "mean": 0.5108231140839836,
+      "p05": 0.41228632478632476,
+      "p95": 0.601621144555927,
+      "max": 0.6243961352657004
+    },
+    "ic_fwd": {
+      "mean": 0.0009608656966067344,
+      "p05": -0.07836561520956006,
+      "p95": 0.0738038916110371,
+      "max": 0.09654953734818211
+    },
+    "capture_plain_skill": {
+      "mean": -0.0007607200505810984,
+      "p05": -0.11243751667840864,
+      "p95": 0.13456163488010428,
+      "max": 0.2318139337683979
+    },
+    "capture_regime_skill": {
+      "mean": 0.03273870037931919,
+      "p05": -0.1227309005686492,
+      "p95": 0.18836219647594588,
+      "max": 0.22025420724185504
+    },
+    "n_shuffle": 30
+  },
+  "positive_control": {
+    "held_out_auc": 0.8388916439375156,
+    "shuffled_auc": {
+      "mean": 0.49653346006557025,
+      "p05": 0.4297111331515001,
+      "p95": 0.5825522770476899,
+      "max": 0.6111868749483429
+    },
+    "has_power": true,
+    "shuffled_collapses": true
+  },
+  "regime_firewall": {
+    "dna_capture_plain_compound_pct": 17.20920627365996,
+    "dna_capture_regime_compound_pct": 34.71352543736215,
+    "null_plain": {
+      "p50_pct": -12.752214217080793,
+      "p95_pct": 27.085539518022305,
+      "mean_pct": -10.35186597042218,
+      "k": 42,
+      "n_pool": 435
+    },
+    "null_regime": {
+      "p50_pct": -1.614287228413952,
+      "p95_pct": 24.58565531813569,
+      "mean_pct": -0.78506309754035,
+      "k": 19,
+      "n_pool": 199
+    },
+    "beats_plain_null_p95": false,
+    "beats_regime_null_p95": true
+  },
+  "real_held_out_auc": 0.6653660349312525,
+  "real_held_out_ic_fwd": 0.06573723242805098,
+  "real_held_out_capture_skill": 0.09527112221005489,
+  "VERDICT": {
+    "shuffled_control_collapses": true,
+    "positive_control_has_power": true,
+    "APPARATUS_SOUND": true,
+    "dna_auc_beats_shuffled": true,
+    "dna_capture_beats_firewall": false,
+    "DNA_GENUINE_SIGNAL": false
+  }
+}

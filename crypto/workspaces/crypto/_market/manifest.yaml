@@ -1,0 +1,647 @@
+market: crypto
+instrument: _market
+created: unstamped
+current_stage: 03_strat
+scope_note: stages 00-02 market-scoped (shared via the _market workspace); 03-06 instrument-scoped
+stages:
+  00_research:
+    status: done
+    scope: market
+    purpose: Decompose the market to its fundamental constituents
+    gate:
+      name: research_complete
+      passed: true
+      evidence: MARKET_FRAMEWORK committed 026dd60; market decomposed to 8 constituents
+        + dead-list
+      passed_by: human
+      checked:
+        git_sha: 0e651cfe3039
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T14:35:33'
+    artifacts:
+    - path: docs/MARKET_FRAMEWORK/README.md
+      kind: doc
+      note: consolidated framework hub
+    - path: docs/MARKET_FRAMEWORK/01_DEAD_LIST.md
+      kind: doc
+      note: 63 refuted theories
+    - path: docs/CHIMERA_FEATURE_DICTIONARY.md
+      kind: doc
+      note: 218 features + asset-conditional
+    - path: docs/CRYPTO_MARKET_UNDERSTANDING.md
+      kind: doc
+      note: cited market nature/math/strategies
+    - path: docs/STRATEGY_PLAYBOOK.md
+      kind: doc
+      note: 6 archetypes x features x regimes x gate
+    - path: docs/MARKET_FRAMEWORK/01_DEAD_LIST.md
+      kind: doc
+      note: 63 refuted (already)
+    - path: docs/MARKET_FRAMEWORK/04_MARKET_MODEL.md
+      kind: doc
+      note: 38 established market facts
+    - path: docs/FOUNDATION_2026_06_04.md
+      kind: doc
+      note: 'foundation: avenue map + apparatus audit'
+    - path: docs/AVENUE_MAP_2026_06_04.md
+      kind: doc
+      note: the avenue lattice
+    - path: docs/MARKET_RESEARCH_2026_06_05.md
+      kind: doc
+      note: opportunity premise (movers/day)
+    - path: src/narrate/
+      kind: code
+      note: descriptive narration engine (prose read of a slice)
+    - path: docs/ECONOMETRIC_SIGNATURE.md
+      kind: doc
+      note: measured econometric signature + reconciliation vs SII + chimera proxies
+      lineage:
+        git_sha: 21e7191e48a9
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T17:39:05'
+        artifact_sha256: 2ceedb971ef45611
+    - path: docs/TI_HARNESS.md
+      kind: doc
+      note: TI lens doc + config model + config-dependence demo
+      lineage:
+        git_sha: dab8912fa6af
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T18:35:20'
+        artifact_sha256: 059114c32e9d4fad
+    - path: docs/MARKET_FRAMEWORK/06_STRATEGY_RESEARCH.md
+      kind: doc
+      note: 'strat-layer founding survey: SOTA strategy taxonomy + chimera gap map
+        + TI survey + DISCOVERY methods (GP/LLM/oracle + PBO/CSCV gap) + first-build
+        shortlist; founds stage-03'
+      lineage:
+        git_sha: b6fe9ed565c8
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T19:22:30'
+        artifact_sha256: 65057057296b85f3
+    - path: docs/CASCADE_SUBBAR_FINDINGS_2026_06_10.md
+      kind: doc
+      note: 'FINDINGS: first test of Fork-B avenue #1 (sub-bar liq-cascade, internal
+        leading data) -> KILL (D71, SCOPED); apparatus lesson: oracle-ceiling max-statistic
+        inflates with post-event vol, PASS must gate on drift/asym'
+      lineage:
+        git_sha: 090adccbc718
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T18:53:29'
+        artifact_sha256: 15a56eb0d5043ab5
+    - path: docs/MOVER_RIDE_FINDINGS_2026_06_10.md
+      kind: doc
+      note: 'FINDINGS: mover-capture chain closed on internal data (D72); solution
+        spec quantified (need ext signal OOS AUC >0.58); thread 24 opened'
+      lineage:
+        git_sha: b7e4e5f70924
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T19:55:42'
+        artifact_sha256: fa17e3a422cfc119
+    - path: docs/HOW_TO_TRADE_CRYPTO_PLAYBOOK_2026_06_10.md
+      kind: doc
+      note: '6-lens practitioner research synthesis (trend/CTA, verified swing, risk/sizing,
+        structure, regime, psychology) reconciled vs dead-list; build contract in
+        section 7; NEW exogenous candidate: unlock/listing calendar edges'
+      lineage:
+        git_sha: 7e1537e7297b
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T21:32:12'
+        artifact_sha256: 7134984d3fe15595
+    - path: docs/CAMPAIGN_CHARTER_2026_06_10.md
+      kind: doc
+      note: 'BINDING campaign charter: core+satellite book, 1d/3d tracked ROI, every-regime
+        sleeves, risk envelope, honesty contract; retires 1-5pct/day gate; resolves
+        A/B/C fork as Fork-A-now + boxed moonshot'
+      lineage:
+        git_sha: 291cc93623a7
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T21:53:37'
+        artifact_sha256: ad0624bf66db03cc
+    - path: docs/CANDIDATE_REGISTER_2026_06_10.md
+      kind: doc
+      note: 'campaign build queue: 56-candidate 4-lens sweep deduped into 3 waves
+        + sign-off items; Wave 1 = CORE book + vol-target overlay + TSMOM blend +
+        family-map satellites'
+      lineage:
+        git_sha: e81583063336
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T22:07:50'
+        artifact_sha256: 4fe2a61bf912bf28
+    - path: docs/CANONICAL_FACTOR_REGISTRY_2026_06_11.md
+      kind: doc
+      note: signal-axis catalog (A=TI/B=chimera/C=frontier)
+      lineage:
+        git_sha: dc5ea3daebaa
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T15:49:51'
+        artifact_sha256: 81c6f52e2aa1a24a
+    - path: docs/CANONICAL_STRATEGY_DIMENSION_REGISTRY_2026_06_11.md
+      kind: doc
+      note: the other 7 lattice axes catalogued (incl strat-vs-mechanical exit split
+        + config-canonicalization + granularity ladder)
+      lineage:
+        git_sha: dc5ea3daebaa
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T15:49:52'
+        artifact_sha256: 07f740a495f8052a
+    - path: config/strategy_dimension_registry.yaml
+      kind: data
+      note: machine-readable mirror of the 7 non-signal axes + exit family tags +
+        config_canonicalization
+      lineage:
+        git_sha: dc5ea3daebaa
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T15:49:52'
+        artifact_sha256: 5a6592abacdb10d7
+    - path: src/strat/ti_config_decompose.py
+      kind: code
+      note: 'TI config-space decomposer: canonicalize_grid over each TI param sweep
+        -> distinct configs/strat+family; PROVEN timeframe-agnostic (306 ma-cross
+        reps at every cadence); TOTAL 7241 distinct @rel_tol0.15'
+      lineage:
+        git_sha: b5aabc98400c
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T16:14:41'
+        artifact_sha256: b4762a76400d9b9f
+    gate_spec:
+      manual: true
+  01_mining:
+    status: done
+    scope: market
+    purpose: Mine the data for structure (regime/cluster/trend/predictability)
+    gate:
+      name: mining_complete
+      passed: true
+      evidence: 5-cadence mining done (CHIMERA_MINING_FINDINGS); direction-null/vol-predictable/one-factor
+        RWYB
+      passed_by: human
+      checked:
+        git_sha: 0e651cfe3039
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T14:35:33'
+    artifacts:
+    - path: src/mining/
+      kind: code
+      note: chimera_mine/analyze/deep_mine/predictability/decompose
+    - path: docs/CHIMERA_MINING_FINDINGS_2026_06_08.md
+      kind: doc
+      note: RWYB mining findings
+    - path: docs/CHIMERA_DECOMPOSER.md
+      kind: doc
+      note: decomposer/viewer usage
+    - path: src/mining/decompose.py
+      kind: code
+      note: (period,TF,asset|universe) -> all-feature view + plots
+    - path: docs/ORACLE_DNA_FINDINGS_2026_06_08.md
+      kind: doc
+      note: MA-capture is regime-driven (verified-null)
+    - path: runs/mining/corpus_1d.parquet
+      kind: data
+      note: mining corpus (data-versioned)
+      lineage:
+        git_sha: 940b11f0d957
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T15:28:27'
+        data_ref: chimera_v51:105f:ac667f652628
+        artifact_sha256: 69693b0a3c83ddde
+    - path: src/mining/econometric_signature.py
+      kind: code
+      note: 'econometric signature: GARCH/tails/Hurst/stationarity/jumps (the math-econ
+        lens)'
+      lineage:
+        git_sha: 21e7191e48a9
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T17:39:05'
+        artifact_sha256: 25f43bce21e8d099
+    - path: src/mining/ti_harness.py
+      kind: code
+      note: 'configured-TI lens: rolling-window RSI/MA/MACD/Bollinger/ADX/ATR reader
+        (config first-class)'
+      lineage:
+        git_sha: dab8912fa6af
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T18:35:20'
+        artifact_sha256: c9fe4d12866a5cd3
+    - path: src/mining/liq_subbar.py
+      kind: code
+      note: 'Fork-B instrumentation: 1m liquidation-proxy builder from local tick
+        aggTrades (closes artifact A6 daily-broadcast gap; method-parity with liquidations_approx
+        verified to the dollar; deterministic stable sort)'
+      lineage:
+        git_sha: 2d631fcbd651
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T18:38:18'
+        artifact_sha256: 9113df95dcf27f0c
+    - path: src/mining/cascade_oracle.py
+      kind: code
+      note: 'Sub-bar liq-cascade oracle study r2 (RED-teamed: vol-robust PASS estimands
+        drift+asym, per-split matched nulls A/B, causal DNA, 48h-cluster bootstrap,
+        UNSEEN count-stubs only)'
+      lineage:
+        git_sha: 2d631fcbd651
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T18:38:18'
+        artifact_sha256: b429b6a696db04e0
+    - path: runs/mining/liq_subbar_build_20260610_183750.json
+      kind: data
+      note: 'u10 1m liq-proxy build report: 10/10 assets, 1974 days each, 0 failures,
+        2021-01-01..2026-05-28'
+      lineage:
+        git_sha: 2d631fcbd651
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T18:38:19'
+        artifact_sha256: cb06fae548d1e35f
+    - path: runs/mining/cascade_oracle_u10_20260610_184843.json
+      kind: run
+      note: 'D71 study run: u10 231 events; NULL-B (same-drop-no-liq) OOS drift +0.02pp
+        / asym -0.50pp = liq signature adds nothing held-out; concentration (3/139
+        carry TRAIN); UNSEEN sealed (43 stubs)'
+      lineage:
+        git_sha: 090adccbc718
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T18:53:29'
+        seed: 7
+        artifact_sha256: 76c99d8788afec79
+    - path: src/mining/mover_ride.py
+      kind: code
+      note: '1m event-clock mover-riding harness r2 (audited: post-trigger timing
+        null, fixed-span annualization, full-universe breadth; brute-force-verified
+        trail mechanics)'
+      lineage:
+        git_sha: b7e4e5f70924
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T19:55:39'
+        artifact_sha256: 93b8517e60e03b2f
+    - path: src/mining/mover_metalabel.py
+      kind: code
+      note: trigger-time meta-labeler (ML-as-metalabeler on fixed +1.5pct trigger;
+        16 causal features; TRAIN-fit OOS-once)
+      lineage:
+        git_sha: b7e4e5f70924
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T19:55:39'
+        artifact_sha256: 8d1151c4a1dc8150
+    - path: runs/mining/mover_ride_u10_20260610_193845.json
+      kind: run
+      note: 'D72 grid run: 18/18 cells negative absolute; meat curve +5.3-5.7pct median
+        post-trigger on movers'
+      lineage:
+        git_sha: b7e4e5f70924
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T19:55:40'
+        seed: 7
+        artifact_sha256: f6e5c23912521080
+    - path: runs/mining/mover_metalabel_u10_20260610_195259.json
+      kind: run
+      note: 'D72 kill-shot: OOS AUC 0.521/0.510 -- no internal continuation information;
+        all gates FALSE'
+      lineage:
+        git_sha: b7e4e5f70924
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T19:55:41'
+        seed: 7
+        artifact_sha256: 7cabe6fbe6efd161
+    - path: src/mining/oracle_slice7d.py
+      kind: code
+      note: random-7d-slice price-oracle vs TI-oracle viewer per cadence (thin runner
+        over ti_oracle_anchor primitives, read-only import; seeded windows)
+      lineage:
+        git_sha: 403476494eae
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T20:13:25'
+        seed: 11
+        artifact_sha256: 75b04281a3b12a4d
+    - path: runs/mining/oracle_slice7d_BTCUSDT_20260610_201244.json
+      kind: run
+      note: 'BTC seed-11 slices: capture 0.33/-0.71/0.00/0.79/0.91 across 1d/4h/1h/30m/15m
+        -- capture tracks REGIME (trend weeks ~B&H; chop weeks negative-or-abstain),
+        winning DNA unstable across slices'
+      lineage:
+        git_sha: 403476494eae
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T20:13:25'
+        seed: 11
+        artifact_sha256: 269ac6ace12c5bcf
+    - path: src/mining/config_map_lab.py
+      kind: code
+      note: 'config-map lab: weekly oracle vs 4 causal config-generators (M0 fixed/M1
+        persistence/M2 regime-math/M3 learned) at the user''s per-move bar'
+      lineage:
+        git_sha: 202ac6ed71c0
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T20:51:47'
+        seed: 7
+        artifact_sha256: 5f4ecbb58b4e40e9
+    - path: runs/mining/config_map_lab_u10_20260610_205051.json
+      kind: run
+      note: 'D73: oracle med +1.9-3.5pct/wk IS in the 1-5pct band; NO causal generator
+        reaches it OOS (persistence anti-predictive; learned memorizes; regime-math
+        tail-driven, actual-trade med -0.5pct)'
+      lineage:
+        git_sha: 202ac6ed71c0
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T20:51:47'
+        seed: 7
+        artifact_sha256: 4a071e8754ba1c25
+    - path: src/mining/family_regime_map.py
+      kind: code
+      note: 'indicator-family x regime map: 6 predetermined families x 2 exits x BULL/BEAR-at-entry,
+        per asset, TRAIN-select OOS-validate'
+      lineage:
+        git_sha: be9f70495987
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T21:08:46'
+        artifact_sha256: 3b22c5b5906c0de2
+    - path: runs/mining/family_regime_map_u10_20260610_210713.json
+      kind: run
+      note: 'map OOS: 4h 10/10 assets positive sum PF 1.66 win 33% median -1.02 (pure
+        CTA profile: ROI from fat right tail, winners<losers in count); MR class wins
+        51-60pct but PF~1.0 at 4h; trend premium confirmed per-trade'
+      lineage:
+        git_sha: be9f70495987
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T21:08:47'
+        artifact_sha256: 49613b9246eb0564
+    - path: runs/strat/CANDIDATE_SWEEP_2026_06_10.json
+      kind: data
+      note: 'full sweep: per-candidate claim-tagged evidence + pre-registered test
+        plans (2026-work/archive/scoped-revivals/new-ideas lenses)'
+      lineage:
+        git_sha: e81583063336
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-10T22:07:51'
+        artifact_sha256: f141f3a26cbd25be
+    - path: docs/REGIME_DNA_FINDINGS_2026_06_11.md
+      kind: doc
+      note: 'architecture fork ANSWERED (audit-corrected): per-asset config DNA NOT
+        real; regime-switching no value; regime-GATING (UP-only long-trend) is the
+        lever, +1.18%/trade UNSEEN at u50; DOWN cells lose (D58); build 1 robust config
+        not 50'
+      lineage:
+        git_sha: 5f0b3acf7b62
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T11:07:00'
+        artifact_sha256: 52b217556513dc7f
+    - path: docs/STRATEGY_LEADERBOARD_2026_06_11.md
+      kind: doc
+      note: honest re-grade of EVERY strategy via canonical scorecard; survivor=regime-gated
+        trend book (full p05 +88-106, beats buyhold+null, preserves bear, not UNSEEN-positive);
+        refine/dead/build tagged; 1d/3d soft-benchmark reported not eliminator
+      lineage:
+        git_sha: 7a2a84938606
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T12:04:16'
+        artifact_sha256: 0d0b182b22bc6d70
+    - path: docs/INTRADAY_ORACLE_FINDINGS_2026_06_11.md
+      kind: doc
+      note: 'intraday oracle-decompose (user frame 5m-4h, 3d hold, event-clock): oracle
+        +5.4-6.9%/event REAL but causal capture NEGATIVE every cadence, UNSEEN-neg
+        + jk-neg, maker doesn''t rescue -> wall holds; reframes external-data EV (the
+        +6%/event prize, only lock is the AUC>=0.58 discriminator)'
+      lineage:
+        git_sha: f731b587f979
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T13:26:24'
+        artifact_sha256: f8d124a374476026
+    - path: docs/INTRADAY_Q_ANSWERS_2026_06_11.md
+      kind: doc
+      note: '3 user Qs RWYB: MA-in+MA-out intraday = PF 0.91 @1h (whipsaw-walled),
+        1.23 @4h (beta); Coinglass free-proxy probe = ZERO AUC lift (0.49) -> SKIP,
+        save the money; continuation signal not in price/positioning data free or
+        paid'
+      lineage:
+        git_sha: dd4b4cbf367b
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T14:26:34'
+        artifact_sha256: 536247320eb50b22
+    - path: docs/TI_MASTER_CATALOG_2026_06_11.md
+      kind: doc
+      note: 'comprehensive classified master TI catalog: 8 families (trend/momentum/volatility/volume/statistical-cycle/structure-SR/crypto-derivatives/crypto-onchain-macro),
+        ~110 indicators, each tagged pandas_ta/HAVE/look-ahead/dead-list; + machine-readable
+        config/ti_master_catalog.yaml'
+      lineage:
+        git_sha: ce381b773782
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T14:53:04'
+        artifact_sha256: 8be832b8ebd9a2be
+    - path: docs/CANONICAL_FACTOR_REGISTRY_2026_06_11.md
+      kind: doc
+      note: 'unified canonical factor registry: 3 dimensions (A TI catalog ~110 /
+        B chimera v51 ~218 / C frontier sources 141), ~469 factors total; ''the dimension
+        you forgot'' = the 19 frontier feature sources; relationship map + de-dup
+        notes + underexploited slices'
+      lineage:
+        git_sha: a4688917390e
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T15:03:54'
+        artifact_sha256: 74488ec97109ba24
+    gate_spec:
+      manual: true
+  02_engine:
+    status: done
+    scope: market
+    purpose: Build reusable engines + validation apparatus (oracle/decomposer/gate)
+    gate:
+      name: engine_ready
+      passed: true
+      evidence:
+        kind: cmd
+        cmd: python src/audit/check_invariants.py
+        exit: 1
+        tail: ''
+        lineage:
+          git_sha: 0e651cfe3039
+          git_dirty: true
+          python: 3.11.9
+          ts: '2026-06-09T14:35:53'
+      passed_by: machine
+    artifacts:
+    - path: src/strat/candidate_gate.py
+      kind: code
+      note: 'gate chain: backtest->leak->firewall->benchmark->battery'
+    - path: src/oracle/
+      kind: code
+      note: oracle + decomposer engines
+    - path: src/firm/
+      kind: code
+      note: PM/CIO meta-layer (decision spine/risk/portfolio)
+    - path: docs/MARKET_FRAMEWORK/03_METHODOLOGY.md
+      kind: doc
+      note: 35 validation gates
+    - path: src/strat/battery.py
+      kind: code
+      note: setup-chaser/portfolio battery + block-bootstrap + jackknife
+    - path: src/strat/firewall.py
+      kind: code
+      note: random-entry null (regime/membership-matched)
+    - path: src/strat/benchmark.py
+      kind: code
+      note: 'benchmark_excess: beat-passive + bear_preserved'
+    - path: src/wealth_bot/harness.py
+      kind: code
+      note: CanonicalHarness (next-bar fills, no look-ahead)
+    - path: docs/ORACLE_DECOMPOSITION_2026_06_06.md
+      kind: doc
+      note: oracle-decomposition method
+    - path: docs/TRADING_FIRM_HARNESS.md
+      kind: doc
+      note: the PM/CIO meta-layer target
+    - path: src/strat/pbo_cscv.py
+      kind: code
+      note: 'PBO/CSCV deflator (Bailey-Lopez de Prado): discovery-search-level overfitting
+        probability; closes the verified DSR-only/no-PBO gap; selftest two-sided PASS'
+      lineage:
+        git_sha: 5c5e296c61f9
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T19:30:44'
+        artifact_sha256: 0d9063928223ac78
+    - path: src/strat/discovery_demo.py
+      kind: code
+      note: 'discovery-factory DEMONSTRATOR: propose->deflate(PBO)->verdict end-to-end
+        on synthetic data; proves the 06 discovery loop composes + is honest (noise
+        ''discovery'' caught by PBO). Reference scaffold for the future production
+        proposers.'
+      lineage:
+        git_sha: 5080b0713f8a
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-09T19:40:35'
+        artifact_sha256: 06d61298fcb2dfd9
+    - path: src/framework/discovery_contract.py
+      kind: code
+      note: 'DISCOVERY PREFLIGHT (stage-03 gate): coverage_report (never silently
+        miss a timeframe / exit-family) + canonicalize_grid (MA(28,29)~MA(27,30) near-dup
+        elimination); reads the stage-00 registries; selftest 5/5'
+      lineage:
+        git_sha: dc5ea3daebaa
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T15:49:52'
+        artifact_sha256: aacd16df593f2bc5
+    gate_spec:
+      cmd: python src/audit/check_invariants.py
+      pass_exit:
+      - 0
+      - 1
+  03_strat:
+    status: in_progress
+    scope: instrument
+    purpose: Build + GATE-validate strategy candidates
+    gate:
+      name: strat_gated
+      passed: false
+      evidence: ''
+    artifacts:
+    - path: src/strat/candidate_gate.py
+      kind: ref
+      note: 'ENTRY-POINT: candidates run through evaluate_candidate (engine ready)'
+    - path: docs/MARKET_FRAMEWORK/05_OPEN_THREADS.md
+      kind: ref
+      note: 'BLOCKER: A/B/C fork (#1) must be chosen before strat design'
+    - path: config/distinct_strategy_grid.yaml
+      kind: data
+      note: 'loadable deduped search grid: 852 distinct strategy specs (2MA 306/3MA
+        453/+length/threshold) in portfolio_replay format'
+      lineage:
+        git_sha: 24ef41c10757
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T16:27:48'
+        artifact_sha256: 80755a1fd98b1936
+    - path: src/strat/replay_distinct_grid.py
+      kind: code
+      note: 'BRIDGE: injects distinct configs into portfolio_replay.STRATS -> per-config
+        replay leaderboard over the deduped grid; emit-grid writes the artifact'
+      lineage:
+        git_sha: 24ef41c10757
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T16:27:49'
+        artifact_sha256: 8dd917379c9f7978
+    - path: src/strat/portfolio_analysis.py
+      kind: code
+      note: 'SOTA portfolio ANALYSIS surface: pairs strat/config inputs (distinct
+        grid / spec file / names) into portfolio_replay engine; rich descriptive metrics
+        (CAGR/Sortino/Calmar/DD-duration/exposure/rolling 1d-3d-7d) + per-config attribution;
+        composes engine, does not edit it'
+      lineage:
+        git_sha: 3b880c084357
+        git_dirty: true
+        python: 3.11.9
+        ts: '2026-06-11T17:00:35'
+        artifact_sha256: 29a42b19baf6b47d
+    gate_spec:
+      checker: ship_run_exists
+  04_bot:
+    status: todo
+    scope: instrument
+    purpose: Wrap a validated strat into a bot (sizing/risk/lifecycle)
+    gate:
+      name: bot_built
+      passed: false
+      evidence: ''
+    artifacts: []
+    gate_spec:
+      manual: true
+  05_execution:
+    status: todo
+    scope: instrument
+    purpose: Execution model (fills/costs) + paper-trade
+    gate:
+      name: execution_validated
+      passed: false
+      evidence: ''
+    artifacts: []
+    gate_spec:
+      manual: true
+  06_deployment:
+    status: todo
+    scope: instrument
+    purpose: Deploy live (monitoring/decay/kill-switch)
+    gate:
+      name: deployed
+      passed: false
+      evidence: ''
+    artifacts: []
+    gate_spec:
+      manual: true
+schema: 2

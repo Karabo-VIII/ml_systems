@@ -1,0 +1,318 @@
+{
+  "repro": {
+    "command": "python src/strat/oracle_anchor.py --assets BTC,ETH,SOL,DOGE --cadences 1d,4h,1h --window-days 14 --json",
+    "git_sha": "e05ba60",
+    "script": "src/strat/oracle_anchor.py",
+    "note": "deterministic (no RNG); re-run the command to regenerate bit-identically"
+  },
+  "params": {
+    "mode": "anchor",
+    "assets": "BTC,ETH,SOL,DOGE",
+    "cadences": "1d,4h,1h",
+    "window_days": 14,
+    "lo": 0.02,
+    "hi": 0.1
+  },
+  "results": [
+    {
+      "asset": "BTC",
+      "cad": "1d",
+      "n_windows": 161,
+      "moves_per_win": 1.8012422360248448,
+      "price_oracle_med": 10.000000000000009,
+      "ti_oracle_med": 3.5328858123013562,
+      "capture_med": 0.3725507448479406,
+      "capture_p25": 0.0,
+      "capture_p75": 0.7484254526823502,
+      "modal_cfg": [
+        [
+          "sma(5,)",
+          16
+        ],
+        [
+          "sma(8,)",
+          14
+        ],
+        [
+          "sma(13,)",
+          13
+        ]
+      ]
+    },
+    {
+      "asset": "BTC",
+      "cad": "4h",
+      "n_windows": 165,
+      "moves_per_win": 4.084848484848485,
+      "price_oracle_med": 20.04870156528449,
+      "ti_oracle_med": 4.34785933420978,
+      "capture_med": 0.22382255566452294,
+      "capture_p25": 0.06063763174976684,
+      "capture_p75": 0.4672632167786603,
+      "modal_cfg": [
+        [
+          "sma_cross(20, 50)",
+          13
+        ],
+        [
+          "sma(5,)",
+          13
+        ],
+        [
+          "sma(100,)",
+          12
+        ]
+      ]
+    },
+    {
+      "asset": "BTC",
+      "cad": "1h",
+      "n_windows": 167,
+      "moves_per_win": 6.287425149700598,
+      "price_oracle_med": 28.029915966413267,
+      "ti_oracle_med": 4.9863577916172686,
+      "capture_med": 0.1851855799918631,
+      "capture_p25": 0.06269223089962978,
+      "capture_p75": 0.3339020004299732,
+      "modal_cfg": [
+        [
+          "sma_cross(8, 21)",
+          17
+        ],
+        [
+          "sma_cross(50, 100)",
+          16
+        ],
+        [
+          "ema_cross(50, 100)",
+          15
+        ]
+      ]
+    },
+    {
+      "asset": "ETH",
+      "cad": "1d",
+      "n_windows": 164,
+      "moves_per_win": 2.073170731707317,
+      "price_oracle_med": 13.13661061009358,
+      "ti_oracle_med": 4.111353409252716,
+      "capture_med": 0.2950881961483188,
+      "capture_p25": 0.0,
+      "capture_p75": 0.8178926862002859,
+      "modal_cfg": [
+        [
+          "sma(5,)",
+          21
+        ],
+        [
+          "sma(20,)",
+          15
+        ],
+        [
+          "sma(34,)",
+          14
+        ]
+      ]
+    },
+    {
+      "asset": "ETH",
+      "cad": "4h",
+      "n_windows": 165,
+      "moves_per_win": 5.351515151515152,
+      "price_oracle_med": 31.788667201036922,
+      "ti_oracle_med": 6.157730248940174,
+      "capture_med": 0.20039422685552408,
+      "capture_p25": 0.04921308136672831,
+      "capture_p75": 0.4306834728685791,
+      "modal_cfg": [
+        [
+          "sma_cross(8, 21)",
+          18
+        ],
+        [
+          "sma(5,)",
+          14
+        ],
+        [
+          "sma(100,)",
+          12
+        ]
+      ]
+    },
+    {
+      "asset": "ETH",
+      "cad": "1h",
+      "n_windows": 167,
+      "moves_per_win": 9.263473053892216,
+      "price_oracle_med": 53.759522303852926,
+      "ti_oracle_med": 7.767049714339991,
+      "capture_med": 0.16432374461858096,
+      "capture_p25": 0.05847376069477664,
+      "capture_p75": 0.26766351751568507,
+      "modal_cfg": [
+        [
+          "sma_cross(50, 100)",
+          13
+        ],
+        [
+          "sma(5,)",
+          13
+        ],
+        [
+          "sma_cross(20, 50)",
+          13
+        ]
+      ]
+    },
+    {
+      "asset": "SOL",
+      "cad": "1d",
+      "n_windows": 148,
+      "moves_per_win": 2.4324324324324325,
+      "price_oracle_med": 18.24056955833987,
+      "ti_oracle_med": 4.547484092588161,
+      "capture_med": 0.27102309848756845,
+      "capture_p25": 0.0,
+      "capture_p75": 0.8491576310875033,
+      "modal_cfg": [
+        [
+          "sma(5,)",
+          23
+        ],
+        [
+          "sma(20,)",
+          12
+        ],
+        [
+          "sma(8,)",
+          10
+        ]
+      ]
+    },
+    {
+      "asset": "SOL",
+      "cad": "4h",
+      "n_windows": 149,
+      "moves_per_win": 8.006711409395972,
+      "price_oracle_med": 51.772830043041054,
+      "ti_oracle_med": 7.679009563619021,
+      "capture_med": 0.1703192086221099,
+      "capture_p25": 0.05856737029421567,
+      "capture_p75": 0.3474369352171475,
+      "modal_cfg": [
+        [
+          "sma(5,)",
+          17
+        ],
+        [
+          "sma(100,)",
+          10
+        ],
+        [
+          "sma_cross(20, 50)",
+          10
+        ]
+      ]
+    },
+    {
+      "asset": "SOL",
+      "cad": "1h",
+      "n_windows": 149,
+      "moves_per_win": 15.832214765100671,
+      "price_oracle_med": 91.18007352958179,
+      "ti_oracle_med": 8.976069203847858,
+      "capture_med": 0.10916547161808161,
+      "capture_p25": 0.029408583332110834,
+      "capture_p75": 0.17388237123996889,
+      "modal_cfg": [
+        [
+          "sma_cross(8, 21)",
+          13
+        ],
+        [
+          "sma(5,)",
+          11
+        ],
+        [
+          "sma_cross(20, 50)",
+          9
+        ]
+      ]
+    },
+    {
+      "asset": "DOGE",
+      "cad": "1d",
+      "n_windows": 150,
+      "moves_per_win": 2.28,
+      "price_oracle_med": 15.388194125705413,
+      "ti_oracle_med": 2.313112633037606,
+      "capture_med": 0.19680907390031993,
+      "capture_p25": 0.0,
+      "capture_p75": 0.6464391162594434,
+      "modal_cfg": [
+        [
+          "sma(5,)",
+          18
+        ],
+        [
+          "sma(20,)",
+          17
+        ],
+        [
+          "sma(8,)",
+          13
+        ]
+      ]
+    },
+    {
+      "asset": "DOGE",
+      "cad": "4h",
+      "n_windows": 151,
+      "moves_per_win": 6.874172185430464,
+      "price_oracle_med": 42.599172073476566,
+      "ti_oracle_med": 4.44950502743362,
+      "capture_med": 0.12493597906427048,
+      "capture_p25": 0.0247189786524996,
+      "capture_p75": 0.32010288163005574,
+      "modal_cfg": [
+        [
+          "sma(5,)",
+          17
+        ],
+        [
+          "sma(100,)",
+          14
+        ],
+        [
+          "sma_cross(20, 50)",
+          14
+        ]
+      ]
+    },
+    {
+      "asset": "DOGE",
+      "cad": "1h",
+      "n_windows": 151,
+      "moves_per_win": 13.52317880794702,
+      "price_oracle_med": 75.68307130280128,
+      "ti_oracle_med": 5.950612238191755,
+      "capture_med": 0.08807820908605178,
+      "capture_p25": 0.015142760757824324,
+      "capture_p75": 0.19200508677276723,
+      "modal_cfg": [
+        [
+          "sma_cross(9, 26)",
+          19
+        ],
+        [
+          "sma_cross(8, 21)",
+          14
+        ],
+        [
+          "sma_cross(50, 100)",
+          14
+        ]
+      ]
+    }
+  ]
+}

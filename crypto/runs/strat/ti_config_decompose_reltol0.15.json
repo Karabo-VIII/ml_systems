@@ -1,0 +1,1012 @@
+{
+  "rel_tol": 0.15,
+  "kind_stat": {
+    "single_length": {
+      "n_raw": 199,
+      "n_distinct": 24,
+      "reps_sample": [
+        [
+          2.0
+        ],
+        [
+          3.0
+        ],
+        [
+          4.0
+        ],
+        [
+          5.0
+        ],
+        [
+          6.0
+        ],
+        [
+          8.0
+        ],
+        [
+          10.0
+        ],
+        [
+          12.0
+        ]
+      ]
+    },
+    "ma_cross": {
+      "n_raw": 22491,
+      "n_distinct": 306,
+      "reps_sample": [
+        [
+          2.0,
+          3.0
+        ],
+        [
+          2.0,
+          4.0
+        ],
+        [
+          2.0,
+          5.0
+        ],
+        [
+          2.0,
+          6.0
+        ],
+        [
+          2.0,
+          8.0
+        ],
+        [
+          2.0,
+          10.0
+        ],
+        [
+          2.0,
+          12.0
+        ],
+        [
+          2.0,
+          15.0
+        ]
+      ]
+    },
+    "ma_triple": {
+      "n_raw": 7770,
+      "n_distinct": 1466,
+      "reps_sample": [
+        [
+          2.0,
+          3.0,
+          4.0
+        ],
+        [
+          2.0,
+          3.0,
+          5.0
+        ],
+        [
+          2.0,
+          3.0,
+          6.0
+        ],
+        [
+          2.0,
+          3.0,
+          8.0
+        ],
+        [
+          2.0,
+          3.0,
+          10.0
+        ],
+        [
+          2.0,
+          3.0,
+          12.0
+        ],
+        [
+          2.0,
+          3.0,
+          15.0
+        ],
+        [
+          2.0,
+          3.0,
+          19.0
+        ]
+      ]
+    },
+    "macd": {
+      "n_raw": 9420,
+      "n_distinct": 462,
+      "reps_sample": [
+        [
+          4.0,
+          15.0,
+          4.0
+        ],
+        [
+          4.0,
+          15.0,
+          5.0
+        ],
+        [
+          4.0,
+          15.0,
+          6.0
+        ],
+        [
+          4.0,
+          15.0,
+          8.0
+        ],
+        [
+          4.0,
+          15.0,
+          10.0
+        ],
+        [
+          4.0,
+          15.0,
+          12.0
+        ],
+        [
+          4.0,
+          15.0,
+          15.0
+        ],
+        [
+          4.0,
+          18.0,
+          4.0
+        ]
+      ]
+    },
+    "bollinger_2p": {
+      "n_raw": 1736,
+      "n_distinct": 104,
+      "reps_sample": [
+        [
+          5.0,
+          1.0
+        ],
+        [
+          5.0,
+          1.2
+        ],
+        [
+          5.0,
+          1.5
+        ],
+        [
+          5.0,
+          1.8
+        ],
+        [
+          5.0,
+          2.2
+        ],
+        [
+          5.0,
+          2.6
+        ],
+        [
+          5.0,
+          3.1
+        ],
+        [
+          5.0,
+          3.7
+        ]
+      ]
+    },
+    "stoch_2p": {
+      "n_raw": 308,
+      "n_distinct": 88,
+      "reps_sample": [
+        [
+          3.0,
+          2.0
+        ],
+        [
+          3.0,
+          3.0
+        ],
+        [
+          3.0,
+          4.0
+        ],
+        [
+          3.0,
+          5.0
+        ],
+        [
+          3.0,
+          6.0
+        ],
+        [
+          3.0,
+          8.0
+        ],
+        [
+          3.0,
+          10.0
+        ],
+        [
+          3.0,
+          12.0
+        ]
+      ]
+    },
+    "supertrend_2p": {
+      "n_raw": 612,
+      "n_distinct": 88,
+      "reps_sample": [
+        [
+          5.0,
+          1.0
+        ],
+        [
+          5.0,
+          1.25
+        ],
+        [
+          5.0,
+          1.5
+        ],
+        [
+          5.0,
+          2.0
+        ],
+        [
+          5.0,
+          2.5
+        ],
+        [
+          5.0,
+          3.0
+        ],
+        [
+          5.0,
+          3.75
+        ],
+        [
+          5.0,
+          4.5
+        ]
+      ]
+    },
+    "fixed": {
+      "n_raw": 1,
+      "n_distinct": 1,
+      "reps_sample": [
+        [
+          1.0
+        ]
+      ]
+    }
+  },
+  "families": {
+    "trend": {
+      "n_indicators": 20,
+      "family_distinct_configs": 3520,
+      "indicators": [
+        {
+          "name": "SMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": "D63",
+          "have": "X"
+        },
+        {
+          "name": "EMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": "D63",
+          "have": "C"
+        },
+        {
+          "name": "WMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "HMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "DEMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "TEMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "KAMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ZLMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ALMA",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "MACD",
+          "kind": "macd",
+          "distinct_configs": 462,
+          "dead": "D45",
+          "have": "C"
+        },
+        {
+          "name": "ADX_DMI",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "Aroon",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "Supertrend",
+          "kind": "supertrend_2p",
+          "distinct_configs": 88,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ParabolicSAR",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "Ichimoku",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "Donchian_mid",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "Vortex",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "TRIX",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "SchaffTrendCycle",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "LinRegSlope",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        }
+      ]
+    },
+    "momentum": {
+      "n_indicators": 15,
+      "family_distinct_configs": 2212,
+      "indicators": [
+        {
+          "name": "RSI",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D50/D51",
+          "have": "C"
+        },
+        {
+          "name": "Stochastic",
+          "kind": "stoch_2p",
+          "distinct_configs": 88,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "StochRSI",
+          "kind": "stoch_2p",
+          "distinct_configs": 88,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "CCI",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "WilliamsR",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ROC",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D67",
+          "have": "X"
+        },
+        {
+          "name": "CMO",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "TSI",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "UltimateOsc",
+          "kind": "ma_triple",
+          "distinct_configs": 1466,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "AwesomeOsc",
+          "kind": "ma_cross",
+          "distinct_configs": 306,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "FisherTransform",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "RVI",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ConnorsRSI",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "tested-null",
+          "have": "-"
+        },
+        {
+          "name": "KST",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "BalanceOfPower",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        }
+      ]
+    },
+    "volatility": {
+      "n_indicators": 14,
+      "family_distinct_configs": 496,
+      "indicators": [
+        {
+          "name": "ATR",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "Bollinger",
+          "kind": "bollinger_2p",
+          "distinct_configs": 104,
+          "dead": "D70",
+          "have": "C"
+        },
+        {
+          "name": "Keltner",
+          "kind": "bollinger_2p",
+          "distinct_configs": 104,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "StdDev",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "DonchianWidth",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "RealizedVol",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "YangZhang",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "GarmanKlass",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "partial"
+        },
+        {
+          "name": "Parkinson",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "partial"
+        },
+        {
+          "name": "ChaikinVol",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "UlcerIndex",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "MassIndex",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ChoppinessIndex",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "VolOfVol",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        }
+      ]
+    },
+    "volume": {
+      "n_indicators": 15,
+      "family_distinct_configs": 314,
+      "indicators": [
+        {
+          "name": "OBV",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ChaikinMoneyFlow",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "MFI",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "VWAP",
+          "kind": "fixed",
+          "distinct_configs": 1,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "VWMA",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "AccumDist",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ForceIndex",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "EaseOfMovement",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "Klinger",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "PVT",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "VolumeProfilePOC",
+          "kind": "fixed",
+          "distinct_configs": 1,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "Amihud",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "KyleLambda",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "CVD",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "TakerBuySellRatio",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        }
+      ]
+    },
+    "statistical_cycle": {
+      "n_indicators": 11,
+      "family_distinct_configs": 264,
+      "indicators": [
+        {
+          "name": "Hurst",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "Autocorrelation",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "ZScore",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "KaufmanEfficiencyRatio",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "M2-tail-driven",
+          "have": "X"
+        },
+        {
+          "name": "HilbertCycle",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "PermutationEntropy",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "FracDiff",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "KalmanVelocity",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "RealizedSkew_5m",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "RealizedKurt_5m",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "DFA",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        }
+      ]
+    },
+    "structure_sr": {
+      "n_indicators": 7,
+      "family_distinct_configs": 99,
+      "indicators": [
+        {
+          "name": "PivotPoints",
+          "kind": "fixed",
+          "distinct_configs": 1,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "Fibonacci",
+          "kind": "fixed",
+          "distinct_configs": 1,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "SwingHighLow",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "WilliamsFractals",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "ZigZag",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "-"
+        },
+        {
+          "name": "DonchianLevels",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "PriorPeriodHL",
+          "kind": "fixed",
+          "distinct_configs": 1,
+          "dead": null,
+          "have": "X"
+        }
+      ]
+    },
+    "crypto_derivatives": {
+      "n_indicators": 7,
+      "family_distinct_configs": 168,
+      "indicators": [
+        {
+          "name": "FundingRate_z",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D18/D42/D54",
+          "have": "X"
+        },
+        {
+          "name": "OpenInterest_delta",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "LongShortRatio",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D12",
+          "have": "X"
+        },
+        {
+          "name": "PerpBasis",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "Liquidations",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D47/D48/D52/D71",
+          "have": "X"
+        },
+        {
+          "name": "LiqHeatmapProximity",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "proxy-NULL 2026-06-11 -> SKIP",
+          "have": "G"
+        },
+        {
+          "name": "OptionsDVOL_skew",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D38/D64/D65",
+          "have": "G"
+        }
+      ]
+    },
+    "crypto_onchain_macro": {
+      "n_indicators": 7,
+      "family_distinct_configs": 168,
+      "indicators": [
+        {
+          "name": "ExchangeNetflow",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "G"
+        },
+        {
+          "name": "StablecoinSupply_SSR",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D69",
+          "have": "X"
+        },
+        {
+          "name": "MVRV_SOPR_NUPL",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "G"
+        },
+        {
+          "name": "ExchangeReserves_WhaleFlows",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D69",
+          "have": "X"
+        },
+        {
+          "name": "ETF_Flows",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": "D69",
+          "have": "X"
+        },
+        {
+          "name": "BTCDominance_AltSeason",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "X"
+        },
+        {
+          "name": "FearGreed",
+          "kind": "single_length",
+          "distinct_configs": 24,
+          "dead": null,
+          "have": "partial"
+        }
+      ]
+    }
+  },
+  "total_distinct": 7241,
+  "total_indicators": 96
+}

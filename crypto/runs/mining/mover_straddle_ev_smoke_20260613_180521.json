@@ -1,0 +1,816 @@
+{
+ "tool": "mover_straddle_ev",
+ "git_sha": "774c6930c047973b0c1f806089104f8938cb3c5e",
+ "seed": 7,
+ "params": {
+  "horizons_d": [
+   1,
+   3
+  ],
+  "spread_fracs": [
+   0.05,
+   0.1,
+   0.2
+  ],
+  "top_quantiles": [
+   0.3,
+   0.1
+  ],
+  "rv_win_d": 30,
+  "bs_atm_coef": 0.7978845608,
+  "fizzle_feats": [
+   "vol_compression",
+   "vol_ratio_5_60",
+   "rv15",
+   "rv60",
+   "vol_build",
+   "vol_accel",
+   "aggr_imb30",
+   "aggr_accel",
+   "liq_tot30_z",
+   "liq_ls_asym",
+   "liq_ratio",
+   "oi_d1h",
+   "oi_d4h",
+   "funding",
+   "ret15m",
+   "ret60m",
+   "path_efficiency",
+   "regime",
+   "hour_utc",
+   "overshoot",
+   "t2trig",
+   "day_run_pace",
+   "run_accel",
+   "dayvol_ratio"
+  ]
+ },
+ "n_assets": 3,
+ "alt_markup_calib": {
+  "alt_markup_m": 0.190776595262522,
+  "n_calib_days": 2026,
+  "per_asset": {
+   "BTC": {
+    "n": 1013,
+    "median_ratio": 1.248463766838424,
+    "mean_ratio": 1.269518274187945,
+    "iv_gt_rv_frac": 0.8450148075024679
+   },
+   "ETH": {
+    "n": 1013,
+    "median_ratio": 1.1397465520834813,
+    "mean_ratio": 1.1754141154648199,
+    "iv_gt_rv_frac": 0.7857847976307996
+   }
+  },
+  "note": "m = median(DVOL/RV30) - 1 over BTC+ETH TRAIN days; applied to alts"
+ },
+ "results": {
+  "H1d": {
+   "random_day_vrp_baseline": {
+    "OOS": {
+     "n": 1094,
+     "mean_abs_move": 0.022330380937121523,
+     "mean_premium": 0.025561891349903307,
+     "buyer_ev_no_spread": -0.003231510412781787,
+     "buyer_win_rate": 0.30895795246800734
+    },
+    "UNSEEN": {
+     "n": 662,
+     "mean_abs_move": 0.020458932489565783,
+     "mean_premium": 0.023155617768892932,
+     "buyer_ev_no_spread": -0.00269668527932715,
+     "buyer_win_rate": 0.3323262839879154
+    }
+   },
+   "n_priced_total": 3370,
+   "iv_src_counts": {
+    "dvol_real": 1935,
+    "rv_modeled": 1435
+   },
+   "cohorts": {
+    "OOS": {
+     "n_total": 934,
+     "n_scored": 934,
+     "spread_5pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 934,
+       "mean_abs_move": 0.027285078432698374,
+       "mean_premium": 0.03250346903224977,
+       "mean_spread_cost": 0.0016251734516124887,
+       "buyer_ev": -0.006843564051163891,
+       "buyer_ev_pct_of_premium": -0.2105487277180704,
+       "buyer_win_rate": 0.2955032119914347,
+       "median_abs_move": 0.019467789666677227,
+       "median_premium": 0.029697802033080208,
+       "rv_realized_over_implied": 0.8394512722819297
+      },
+      "FILTERED_top_30pct": {
+       "n": 280,
+       "mean_abs_move": 0.033657784673333496,
+       "mean_premium": 0.03652790274269312,
+       "mean_spread_cost": 0.0018263951371346558,
+       "buyer_ev": -0.004696513206494279,
+       "buyer_ev_pct_of_premium": -0.12857330571582704,
+       "buyer_win_rate": 0.32857142857142857,
+       "median_abs_move": 0.021719079533052577,
+       "median_premium": 0.03269222251651693,
+       "rv_realized_over_implied": 0.9214266942841729
+      },
+      "FILTERED_top_10pct": {
+       "n": 93,
+       "mean_abs_move": 0.038368809679160336,
+       "mean_premium": 0.0393535851696133,
+       "mean_spread_cost": 0.001967679258480665,
+       "buyer_ev": -0.002952454748933632,
+       "buyer_ev_pct_of_premium": -0.07502378083746629,
+       "buyer_win_rate": 0.3548387096774194,
+       "median_abs_move": 0.025133236434108586,
+       "median_premium": 0.03482453901779941,
+       "rv_realized_over_implied": 0.9749762191625339
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 280,
+       "mean_abs_move": 0.0202171232680675,
+       "mean_premium": 0.027391830506332378,
+       "mean_spread_cost": 0.0013695915253166188,
+       "buyer_ev": -0.008544298763581502,
+       "buyer_ev_pct_of_premium": -0.3119287249388555,
+       "buyer_win_rate": 0.24642857142857144,
+       "median_abs_move": 0.014149204932537907,
+       "median_premium": 0.026141666689082486,
+       "rv_realized_over_implied": 0.7380712750611447
+      }
+     },
+     "spread_10pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 934,
+       "mean_abs_move": 0.027285078432698374,
+       "mean_premium": 0.03250346903224977,
+       "mean_spread_cost": 0.0032503469032249773,
+       "buyer_ev": -0.00846873750277638,
+       "buyer_ev_pct_of_premium": -0.2605487277180704,
+       "buyer_win_rate": 0.2762312633832976,
+       "median_abs_move": 0.019467789666677227,
+       "median_premium": 0.029697802033080208,
+       "rv_realized_over_implied": 0.8394512722819297
+      },
+      "FILTERED_top_30pct": {
+       "n": 280,
+       "mean_abs_move": 0.033657784673333496,
+       "mean_premium": 0.03652790274269312,
+       "mean_spread_cost": 0.0036527902742693116,
+       "buyer_ev": -0.006522908343628936,
+       "buyer_ev_pct_of_premium": -0.17857330571582705,
+       "buyer_win_rate": 0.30357142857142855,
+       "median_abs_move": 0.021719079533052577,
+       "median_premium": 0.03269222251651693,
+       "rv_realized_over_implied": 0.9214266942841729
+      },
+      "FILTERED_top_10pct": {
+       "n": 93,
+       "mean_abs_move": 0.038368809679160336,
+       "mean_premium": 0.0393535851696133,
+       "mean_spread_cost": 0.00393535851696133,
+       "buyer_ev": -0.004920134007414297,
+       "buyer_ev_pct_of_premium": -0.1250237808374663,
+       "buyer_win_rate": 0.3333333333333333,
+       "median_abs_move": 0.025133236434108586,
+       "median_premium": 0.03482453901779941,
+       "rv_realized_over_implied": 0.9749762191625339
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 280,
+       "mean_abs_move": 0.0202171232680675,
+       "mean_premium": 0.027391830506332378,
+       "mean_spread_cost": 0.0027391830506332377,
+       "buyer_ev": -0.00991389028889812,
+       "buyer_ev_pct_of_premium": -0.3619287249388554,
+       "buyer_win_rate": 0.225,
+       "median_abs_move": 0.014149204932537907,
+       "median_premium": 0.026141666689082486,
+       "rv_realized_over_implied": 0.7380712750611447
+      }
+     },
+     "spread_20pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 934,
+       "mean_abs_move": 0.027285078432698374,
+       "mean_premium": 0.03250346903224977,
+       "mean_spread_cost": 0.006500693806449955,
+       "buyer_ev": -0.011719084406001357,
+       "buyer_ev_pct_of_premium": -0.3605487277180704,
+       "buyer_win_rate": 0.23768736616702354,
+       "median_abs_move": 0.019467789666677227,
+       "median_premium": 0.029697802033080208,
+       "rv_realized_over_implied": 0.8394512722819297
+      },
+      "FILTERED_top_30pct": {
+       "n": 280,
+       "mean_abs_move": 0.033657784673333496,
+       "mean_premium": 0.03652790274269312,
+       "mean_spread_cost": 0.007305580548538623,
+       "buyer_ev": -0.01017569861789825,
+       "buyer_ev_pct_of_premium": -0.2785733057158271,
+       "buyer_win_rate": 0.2714285714285714,
+       "median_abs_move": 0.021719079533052577,
+       "median_premium": 0.03269222251651693,
+       "rv_realized_over_implied": 0.9214266942841729
+      },
+      "FILTERED_top_10pct": {
+       "n": 93,
+       "mean_abs_move": 0.038368809679160336,
+       "mean_premium": 0.0393535851696133,
+       "mean_spread_cost": 0.00787071703392266,
+       "buyer_ev": -0.008855492524375628,
+       "buyer_ev_pct_of_premium": -0.22502378083746633,
+       "buyer_win_rate": 0.2903225806451613,
+       "median_abs_move": 0.025133236434108586,
+       "median_premium": 0.03482453901779941,
+       "rv_realized_over_implied": 0.9749762191625339
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 280,
+       "mean_abs_move": 0.0202171232680675,
+       "mean_premium": 0.027391830506332378,
+       "mean_spread_cost": 0.005478366101266475,
+       "buyer_ev": -0.012653073339531357,
+       "buyer_ev_pct_of_premium": -0.4619287249388554,
+       "buyer_win_rate": 0.175,
+       "median_abs_move": 0.014149204932537907,
+       "median_premium": 0.026141666689082486,
+       "rv_realized_over_implied": 0.7380712750611447
+      }
+     },
+     "conversion": {
+      "all": 0.2644539614561028,
+      "top30": 0.4142857142857143,
+      "top10": 0.43010752688172044
+     }
+    },
+    "UNSEEN": {
+     "n_total": 503,
+     "n_scored": 503,
+     "spread_5pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 503,
+       "mean_abs_move": 0.02253221520174271,
+       "mean_premium": 0.02876805117431078,
+       "mean_spread_cost": 0.001438402558715539,
+       "buyer_ev": -0.007674238531283607,
+       "buyer_ev_pct_of_premium": -0.26676254449020614,
+       "buyer_win_rate": 0.2783300198807157,
+       "median_abs_move": 0.016424116424116453,
+       "median_premium": 0.028692240139021535,
+       "rv_realized_over_implied": 0.7832374555097937
+      },
+      "FILTERED_top_30pct": {
+       "n": 151,
+       "mean_abs_move": 0.02462373138429942,
+       "mean_premium": 0.03217574508730291,
+       "mean_spread_cost": 0.0016087872543651455,
+       "buyer_ev": -0.009160800957368632,
+       "buyer_ev_pct_of_premium": -0.2847113853156314,
+       "buyer_win_rate": 0.26490066225165565,
+       "median_abs_move": 0.01658568558441753,
+       "median_premium": 0.031126103016811527,
+       "rv_realized_over_implied": 0.7652886146843686
+      },
+      "FILTERED_top_10pct": {
+       "n": 50,
+       "mean_abs_move": 0.019358365579030628,
+       "mean_premium": 0.03139659291176605,
+       "mean_spread_cost": 0.0015698296455883025,
+       "buyer_ev": -0.013608056978323721,
+       "buyer_ev_pct_of_premium": -0.43342463994633074,
+       "buyer_win_rate": 0.22,
+       "median_abs_move": 0.015072631078349052,
+       "median_premium": 0.03070387982211227,
+       "rv_realized_over_implied": 0.6165753600536691
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 151,
+       "mean_abs_move": 0.021233883680524725,
+       "mean_premium": 0.02600866923056059,
+       "mean_spread_cost": 0.0013004334615280295,
+       "buyer_ev": -0.006075219011563891,
+       "buyer_ev_pct_of_premium": -0.2335843851797467,
+       "buyer_win_rate": 0.2980132450331126,
+       "median_abs_move": 0.01563429807952388,
+       "median_premium": 0.023926129636832584,
+       "rv_realized_over_implied": 0.8164156148202532
+      }
+     },
+     "spread_10pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 503,
+       "mean_abs_move": 0.02253221520174271,
+       "mean_premium": 0.02876805117431078,
+       "mean_spread_cost": 0.002876805117431078,
+       "buyer_ev": -0.009112641089999146,
+       "buyer_ev_pct_of_premium": -0.3167625444902062,
+       "buyer_win_rate": 0.2544731610337972,
+       "median_abs_move": 0.016424116424116453,
+       "median_premium": 0.028692240139021535,
+       "rv_realized_over_implied": 0.7832374555097937
+      },
+      "FILTERED_top_30pct": {
+       "n": 151,
+       "mean_abs_move": 0.02462373138429942,
+       "mean_premium": 0.03217574508730291,
+       "mean_spread_cost": 0.003217574508730291,
+       "buyer_ev": -0.010769588211733776,
+       "buyer_ev_pct_of_premium": -0.3347113853156314,
+       "buyer_win_rate": 0.23841059602649006,
+       "median_abs_move": 0.01658568558441753,
+       "median_premium": 0.031126103016811527,
+       "rv_realized_over_implied": 0.7652886146843686
+      },
+      "FILTERED_top_10pct": {
+       "n": 50,
+       "mean_abs_move": 0.019358365579030628,
+       "mean_premium": 0.03139659291176605,
+       "mean_spread_cost": 0.003139659291176605,
+       "buyer_ev": -0.015177886623912028,
+       "buyer_ev_pct_of_premium": -0.4834246399463309,
+       "buyer_win_rate": 0.18,
+       "median_abs_move": 0.015072631078349052,
+       "median_premium": 0.03070387982211227,
+       "rv_realized_over_implied": 0.6165753600536691
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 151,
+       "mean_abs_move": 0.021233883680524725,
+       "mean_premium": 0.02600866923056059,
+       "mean_spread_cost": 0.002600866923056059,
+       "buyer_ev": -0.00737565247309192,
+       "buyer_ev_pct_of_premium": -0.28358438517974666,
+       "buyer_win_rate": 0.2781456953642384,
+       "median_abs_move": 0.01563429807952388,
+       "median_premium": 0.023926129636832584,
+       "rv_realized_over_implied": 0.8164156148202532
+      }
+     },
+     "spread_20pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 503,
+       "mean_abs_move": 0.02253221520174271,
+       "mean_premium": 0.02876805117431078,
+       "mean_spread_cost": 0.005753610234862156,
+       "buyer_ev": -0.011989446207430225,
+       "buyer_ev_pct_of_premium": -0.41676254449020617,
+       "buyer_win_rate": 0.21868787276341947,
+       "median_abs_move": 0.016424116424116453,
+       "median_premium": 0.028692240139021535,
+       "rv_realized_over_implied": 0.7832374555097937
+      },
+      "FILTERED_top_30pct": {
+       "n": 151,
+       "mean_abs_move": 0.02462373138429942,
+       "mean_premium": 0.03217574508730291,
+       "mean_spread_cost": 0.006435149017460582,
+       "buyer_ev": -0.013987162720464066,
+       "buyer_ev_pct_of_premium": -0.43471138531563136,
+       "buyer_win_rate": 0.2251655629139073,
+       "median_abs_move": 0.01658568558441753,
+       "median_premium": 0.031126103016811527,
+       "rv_realized_over_implied": 0.7652886146843686
+      },
+      "FILTERED_top_10pct": {
+       "n": 50,
+       "mean_abs_move": 0.019358365579030628,
+       "mean_premium": 0.03139659291176605,
+       "mean_spread_cost": 0.00627931858235321,
+       "buyer_ev": -0.01831754591508863,
+       "buyer_ev_pct_of_premium": -0.5834246399463308,
+       "buyer_win_rate": 0.16,
+       "median_abs_move": 0.015072631078349052,
+       "median_premium": 0.03070387982211227,
+       "rv_realized_over_implied": 0.6165753600536691
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 151,
+       "mean_abs_move": 0.021233883680524725,
+       "mean_premium": 0.02600866923056059,
+       "mean_spread_cost": 0.005201733846112118,
+       "buyer_ev": -0.009976519396147979,
+       "buyer_ev_pct_of_premium": -0.3835843851797467,
+       "buyer_win_rate": 0.23841059602649006,
+       "median_abs_move": 0.01563429807952388,
+       "median_premium": 0.023926129636832584,
+       "rv_realized_over_implied": 0.8164156148202532
+      }
+     },
+     "conversion": {
+      "all": 0.20675944333996024,
+      "top30": 0.31125827814569534,
+      "top10": 0.38
+     }
+    }
+   }
+  },
+  "H3d": {
+   "random_day_vrp_baseline": {
+    "OOS": {
+     "n": 1094,
+     "mean_abs_move": 0.03961581566666732,
+     "mean_premium": 0.04427449455558792,
+     "buyer_ev_no_spread": -0.0046586788889206076,
+     "buyer_win_rate": 0.3436928702010969
+    },
+    "UNSEEN": {
+     "n": 658,
+     "mean_abs_move": 0.03749050638981192,
+     "mean_premium": 0.040162398749765266,
+     "buyer_ev_no_spread": -0.0026718923599533422,
+     "buyer_win_rate": 0.36930091185410335
+    }
+   },
+   "n_priced_total": 3370,
+   "iv_src_counts": {
+    "dvol_real": 1935,
+    "rv_modeled": 1435
+   },
+   "cohorts": {
+    "OOS": {
+     "n_total": 934,
+     "n_scored": 934,
+     "spread_5pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 934,
+       "mean_abs_move": 0.04804621681625007,
+       "mean_premium": 0.05629765978609822,
+       "mean_spread_cost": 0.0028148829893049104,
+       "buyer_ev": -0.01106632595915306,
+       "buyer_ev_pct_of_premium": -0.19656813446952026,
+       "buyer_win_rate": 0.30406852248394006,
+       "median_abs_move": 0.03650188951386524,
+       "median_premium": 0.05143810199441723,
+       "rv_realized_over_implied": 0.8534318655304797
+      },
+      "FILTERED_top_30pct": {
+       "n": 280,
+       "mean_abs_move": 0.0514813832478031,
+       "mean_premium": 0.06326818344427902,
+       "mean_spread_cost": 0.0031634091722139513,
+       "buyer_ev": -0.014950209368689876,
+       "buyer_ev_pct_of_premium": -0.23629901405114134,
+       "buyer_win_rate": 0.275,
+       "median_abs_move": 0.04204338437283994,
+       "median_premium": 0.056624590410954585,
+       "rv_realized_over_implied": 0.8137009859488588
+      },
+      "FILTERED_top_10pct": {
+       "n": 93,
+       "mean_abs_move": 0.05827965978869056,
+       "mean_premium": 0.06816240897375932,
+       "mean_spread_cost": 0.003408120448687966,
+       "buyer_ev": -0.013290869633756714,
+       "buyer_ev_pct_of_premium": -0.19498826162193503,
+       "buyer_win_rate": 0.27956989247311825,
+       "median_abs_move": 0.04891628554384575,
+       "median_premium": 0.06031787092899335,
+       "rv_realized_over_implied": 0.8550117383780649
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 280,
+       "mean_abs_move": 0.04087048962555714,
+       "mean_premium": 0.04744404214928281,
+       "mean_spread_cost": 0.0023722021074641404,
+       "buyer_ev": -0.00894575463118981,
+       "buyer_ev_pct_of_premium": -0.18855380414345746,
+       "buyer_win_rate": 0.30714285714285716,
+       "median_abs_move": 0.029830017770938744,
+       "median_premium": 0.04527869490002174,
+       "rv_realized_over_implied": 0.8614461958565426
+      }
+     },
+     "spread_10pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 934,
+       "mean_abs_move": 0.04804621681625007,
+       "mean_premium": 0.05629765978609822,
+       "mean_spread_cost": 0.005629765978609821,
+       "buyer_ev": -0.01388120894845797,
+       "buyer_ev_pct_of_premium": -0.24656813446952025,
+       "buyer_win_rate": 0.29014989293361887,
+       "median_abs_move": 0.03650188951386524,
+       "median_premium": 0.05143810199441723,
+       "rv_realized_over_implied": 0.8534318655304797
+      },
+      "FILTERED_top_30pct": {
+       "n": 280,
+       "mean_abs_move": 0.0514813832478031,
+       "mean_premium": 0.06326818344427902,
+       "mean_spread_cost": 0.0063268183444279025,
+       "buyer_ev": -0.018113618540903823,
+       "buyer_ev_pct_of_premium": -0.2862990140511413,
+       "buyer_win_rate": 0.2571428571428571,
+       "median_abs_move": 0.04204338437283994,
+       "median_premium": 0.056624590410954585,
+       "rv_realized_over_implied": 0.8137009859488588
+      },
+      "FILTERED_top_10pct": {
+       "n": 93,
+       "mean_abs_move": 0.05827965978869056,
+       "mean_premium": 0.06816240897375932,
+       "mean_spread_cost": 0.006816240897375932,
+       "buyer_ev": -0.016698990082444687,
+       "buyer_ev_pct_of_premium": -0.24498826162193513,
+       "buyer_win_rate": 0.26881720430107525,
+       "median_abs_move": 0.04891628554384575,
+       "median_premium": 0.06031787092899335,
+       "rv_realized_over_implied": 0.8550117383780649
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 280,
+       "mean_abs_move": 0.04087048962555714,
+       "mean_premium": 0.04744404214928281,
+       "mean_spread_cost": 0.004744404214928281,
+       "buyer_ev": -0.011317956738653953,
+       "buyer_ev_pct_of_premium": -0.2385538041434575,
+       "buyer_win_rate": 0.29642857142857143,
+       "median_abs_move": 0.029830017770938744,
+       "median_premium": 0.04527869490002174,
+       "rv_realized_over_implied": 0.8614461958565426
+      }
+     },
+     "spread_20pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 934,
+       "mean_abs_move": 0.04804621681625007,
+       "mean_premium": 0.05629765978609822,
+       "mean_spread_cost": 0.011259531957219642,
+       "buyer_ev": -0.01951097492706779,
+       "buyer_ev_pct_of_premium": -0.34656813446952023,
+       "buyer_win_rate": 0.25374732334047106,
+       "median_abs_move": 0.03650188951386524,
+       "median_premium": 0.05143810199441723,
+       "rv_realized_over_implied": 0.8534318655304797
+      },
+      "FILTERED_top_30pct": {
+       "n": 280,
+       "mean_abs_move": 0.0514813832478031,
+       "mean_premium": 0.06326818344427902,
+       "mean_spread_cost": 0.012653636688855805,
+       "buyer_ev": -0.02444043688533173,
+       "buyer_ev_pct_of_premium": -0.38629901405114137,
+       "buyer_win_rate": 0.22142857142857142,
+       "median_abs_move": 0.04204338437283994,
+       "median_premium": 0.056624590410954585,
+       "rv_realized_over_implied": 0.8137009859488588
+      },
+      "FILTERED_top_10pct": {
+       "n": 93,
+       "mean_abs_move": 0.05827965978869056,
+       "mean_premium": 0.06816240897375932,
+       "mean_spread_cost": 0.013632481794751863,
+       "buyer_ev": -0.023515230979820622,
+       "buyer_ev_pct_of_premium": -0.3449882616219352,
+       "buyer_win_rate": 0.22580645161290322,
+       "median_abs_move": 0.04891628554384575,
+       "median_premium": 0.06031787092899335,
+       "rv_realized_over_implied": 0.8550117383780649
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 280,
+       "mean_abs_move": 0.04087048962555714,
+       "mean_premium": 0.04744404214928281,
+       "mean_spread_cost": 0.009488808429856561,
+       "buyer_ev": -0.016062360953582232,
+       "buyer_ev_pct_of_premium": -0.3385538041434575,
+       "buyer_win_rate": 0.26071428571428573,
+       "median_abs_move": 0.029830017770938744,
+       "median_premium": 0.04527869490002174,
+       "rv_realized_over_implied": 0.8614461958565426
+      }
+     },
+     "conversion": {
+      "all": 0.2644539614561028,
+      "top30": 0.4142857142857143,
+      "top10": 0.43010752688172044
+     }
+    },
+    "UNSEEN": {
+     "n_total": 503,
+     "n_scored": 503,
+     "spread_5pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 503,
+       "mean_abs_move": 0.0423131005945386,
+       "mean_premium": 0.04982772626864778,
+       "mean_spread_cost": 0.0024913863134323894,
+       "buyer_ev": -0.010006011987541573,
+       "buyer_ev_pct_of_premium": -0.2008121328594012,
+       "buyer_win_rate": 0.3359840954274354,
+       "median_abs_move": 0.034179024620077825,
+       "median_premium": 0.04969641770375241,
+       "rv_realized_over_implied": 0.8491878671405988
+      },
+      "FILTERED_top_30pct": {
+       "n": 151,
+       "mean_abs_move": 0.04617465332313635,
+       "mean_premium": 0.05573002526259333,
+       "mean_spread_cost": 0.002786501263129667,
+       "buyer_ev": -0.012341873202586666,
+       "buyer_ev_pct_of_premium": -0.2214582380760319,
+       "buyer_win_rate": 0.31125827814569534,
+       "median_abs_move": 0.0369449724618609,
+       "median_premium": 0.05391199186674048,
+       "rv_realized_over_implied": 0.8285417619239683
+      },
+      "FILTERED_top_10pct": {
+       "n": 50,
+       "mean_abs_move": 0.0442289280224729,
+       "mean_premium": 0.054380494107735676,
+       "mean_spread_cost": 0.0027190247053867837,
+       "buyer_ev": -0.012870590790649561,
+       "buyer_ev_pct_of_premium": -0.2366766062322098,
+       "buyer_win_rate": 0.26,
+       "median_abs_move": 0.03445481405524664,
+       "median_premium": 0.053180679841387316,
+       "rv_realized_over_implied": 0.8133233937677902
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 151,
+       "mean_abs_move": 0.04021144316697003,
+       "mean_premium": 0.04504833654458429,
+       "mean_spread_cost": 0.002252416827229214,
+       "buyer_ev": -0.007089310204843472,
+       "buyer_ev_pct_of_premium": -0.15737118723190122,
+       "buyer_win_rate": 0.3576158940397351,
+       "median_abs_move": 0.03029458170585997,
+       "median_premium": 0.041441272159473526,
+       "rv_realized_over_implied": 0.8926288127680987
+      }
+     },
+     "spread_10pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 503,
+       "mean_abs_move": 0.0423131005945386,
+       "mean_premium": 0.04982772626864778,
+       "mean_spread_cost": 0.004982772626864779,
+       "buyer_ev": -0.012497398300973964,
+       "buyer_ev_pct_of_premium": -0.25081213285940124,
+       "buyer_win_rate": 0.3101391650099404,
+       "median_abs_move": 0.034179024620077825,
+       "median_premium": 0.04969641770375241,
+       "rv_realized_over_implied": 0.8491878671405988
+      },
+      "FILTERED_top_30pct": {
+       "n": 151,
+       "mean_abs_move": 0.04617465332313635,
+       "mean_premium": 0.05573002526259333,
+       "mean_spread_cost": 0.005573002526259334,
+       "buyer_ev": -0.015128374465716334,
+       "buyer_ev_pct_of_premium": -0.2714582380760319,
+       "buyer_win_rate": 0.2781456953642384,
+       "median_abs_move": 0.0369449724618609,
+       "median_premium": 0.05391199186674048,
+       "rv_realized_over_implied": 0.8285417619239683
+      },
+      "FILTERED_top_10pct": {
+       "n": 50,
+       "mean_abs_move": 0.0442289280224729,
+       "mean_premium": 0.054380494107735676,
+       "mean_spread_cost": 0.005438049410773567,
+       "buyer_ev": -0.015589615496036347,
+       "buyer_ev_pct_of_premium": -0.2866766062322098,
+       "buyer_win_rate": 0.22,
+       "median_abs_move": 0.03445481405524664,
+       "median_premium": 0.053180679841387316,
+       "rv_realized_over_implied": 0.8133233937677902
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 151,
+       "mean_abs_move": 0.04021144316697003,
+       "mean_premium": 0.04504833654458429,
+       "mean_spread_cost": 0.004504833654458428,
+       "buyer_ev": -0.009341727032072686,
+       "buyer_ev_pct_of_premium": -0.2073711872319012,
+       "buyer_win_rate": 0.3576158940397351,
+       "median_abs_move": 0.03029458170585997,
+       "median_premium": 0.041441272159473526,
+       "rv_realized_over_implied": 0.8926288127680987
+      }
+     },
+     "spread_20pct": {
+      "UNFILTERED_all_triggers": {
+       "n": 503,
+       "mean_abs_move": 0.0423131005945386,
+       "mean_premium": 0.04982772626864778,
+       "mean_spread_cost": 0.009965545253729557,
+       "buyer_ev": -0.017480170927838743,
+       "buyer_ev_pct_of_premium": -0.35081213285940127,
+       "buyer_win_rate": 0.2624254473161034,
+       "median_abs_move": 0.034179024620077825,
+       "median_premium": 0.04969641770375241,
+       "rv_realized_over_implied": 0.8491878671405988
+      },
+      "FILTERED_top_30pct": {
+       "n": 151,
+       "mean_abs_move": 0.04617465332313635,
+       "mean_premium": 0.05573002526259333,
+       "mean_spread_cost": 0.011146005052518669,
+       "buyer_ev": -0.02070137699197567,
+       "buyer_ev_pct_of_premium": -0.37145823807603195,
+       "buyer_win_rate": 0.23841059602649006,
+       "median_abs_move": 0.0369449724618609,
+       "median_premium": 0.05391199186674048,
+       "rv_realized_over_implied": 0.8285417619239683
+      },
+      "FILTERED_top_10pct": {
+       "n": 50,
+       "mean_abs_move": 0.0442289280224729,
+       "mean_premium": 0.054380494107735676,
+       "mean_spread_cost": 0.010876098821547135,
+       "buyer_ev": -0.021027664906809913,
+       "buyer_ev_pct_of_premium": -0.3866766062322098,
+       "buyer_win_rate": 0.2,
+       "median_abs_move": 0.03445481405524664,
+       "median_premium": 0.053180679841387316,
+       "rv_realized_over_implied": 0.8133233937677902
+      },
+      "BOTTOM_30pct_calm": {
+       "n": 151,
+       "mean_abs_move": 0.04021144316697003,
+       "mean_premium": 0.04504833654458429,
+       "mean_spread_cost": 0.009009667308916856,
+       "buyer_ev": -0.013846560686531112,
+       "buyer_ev_pct_of_premium": -0.30737118723190116,
+       "buyer_win_rate": 0.2913907284768212,
+       "median_abs_move": 0.03029458170585997,
+       "median_premium": 0.041441272159473526,
+       "rv_realized_over_implied": 0.8926288127680987
+      }
+     },
+     "conversion": {
+      "all": 0.20675944333996024,
+      "top30": 0.31125827814569534,
+      "top10": 0.38
+     }
+    }
+   }
+  }
+ },
+ "verdict": {
+  "H1d": {
+   "OOS": {
+    "filtered_top10_buyer_ev": -0.004920134007414297,
+    "filtered_top30_buyer_ev": -0.006522908343628936,
+    "unfiltered_buyer_ev": -0.00846873750277638,
+    "calm_bottom30_buyer_ev": -0.00991389028889812,
+    "filter_adds_edge": true,
+    "buy_magnitude_positive": false,
+    "sell_vrp_on_calm_positive": true
+   },
+   "UNSEEN": {
+    "filtered_top10_buyer_ev": -0.015177886623912028,
+    "filtered_top30_buyer_ev": -0.010769588211733776,
+    "unfiltered_buyer_ev": -0.009112641089999146,
+    "calm_bottom30_buyer_ev": -0.00737565247309192,
+    "filter_adds_edge": false,
+    "buy_magnitude_positive": false,
+    "sell_vrp_on_calm_positive": true
+   },
+   "DECISION": {
+    "buy_magnitude_GO": false,
+    "filter_adds_edge_both": false,
+    "sell_vrp_GO": true
+   }
+  },
+  "H3d": {
+   "OOS": {
+    "filtered_top10_buyer_ev": -0.016698990082444687,
+    "filtered_top30_buyer_ev": -0.018113618540903823,
+    "unfiltered_buyer_ev": -0.01388120894845797,
+    "calm_bottom30_buyer_ev": -0.011317956738653953,
+    "filter_adds_edge": false,
+    "buy_magnitude_positive": false,
+    "sell_vrp_on_calm_positive": true
+   },
+   "UNSEEN": {
+    "filtered_top10_buyer_ev": -0.015589615496036347,
+    "filtered_top30_buyer_ev": -0.015128374465716334,
+    "unfiltered_buyer_ev": -0.012497398300973964,
+    "calm_bottom30_buyer_ev": -0.009341727032072686,
+    "filter_adds_edge": false,
+    "buy_magnitude_positive": false,
+    "sell_vrp_on_calm_positive": true
+   },
+   "DECISION": {
+    "buy_magnitude_GO": false,
+    "filter_adds_edge_both": false,
+    "sell_vrp_GO": true
+   }
+  }
+ },
+ "caveats": [
+  "BTC/ETH premium uses REAL DVOL (no estimation error); alts use IV=RV30*(1+m), m calibrated from BTC/ETH -- alt premia carry model error (alt-only verdict given)",
+  "ATM straddle premium via Brenner-Subrahmanyam (0.7979*IV*sqrt(T)); a full BS ATM straddle is within ~1-2% of this for short T -- conservative for the buyer test",
+  "payoff = |daily-close move over H| (held-to-expiry straddle); intraday gamma scalping / early exit NOT modeled -- a pure terminal-payoff lower bound for the buyer",
+  "option spread modeled 5/10/20% of premium; real crypto-option spreads can exceed 20% on alts -> the alt buyer case is OPTIMISTIC at 5-10%",
+  "u10 = CURRENT membership (survivorship); per-asset z; UNSEEN scored once here",
+  "DVOL coverage BTC/ETH from 2021-03-24; pre-date events use modeled IV if alt, dropped if BTC/ETH"
+ ]
+}

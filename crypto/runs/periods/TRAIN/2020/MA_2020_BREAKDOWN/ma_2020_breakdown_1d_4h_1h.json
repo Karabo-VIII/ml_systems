@@ -1,0 +1,329 @@
+{
+ "results": {
+  "1d|EMA": {
+   "TRAIN": 33.3,
+   "VAL": 9.8,
+   "OOS": 19.2,
+   "YEAR": 74.5,
+   "oos_maxdd": -9.4,
+   "oos_boot_median": 16.2,
+   "oos_boot_p05": -4.7,
+   "best_cfg": "ema_8_9_75",
+   "js_B": 0.99,
+   "best_cfg_oos": 31.5
+  },
+  "1d|SMA": {
+   "TRAIN": 9.1,
+   "VAL": 18.0,
+   "OOS": 19.6,
+   "YEAR": 53.9,
+   "oos_maxdd": -10.8,
+   "oos_boot_median": 16.0,
+   "oos_boot_p05": -6.0,
+   "best_cfg": "ema_12_22_118",
+   "js_B": 1.0,
+   "best_cfg_oos": 30.9
+  },
+  "1d|WMA": {
+   "TRAIN": 42.6,
+   "VAL": 15.3,
+   "OOS": 19.4,
+   "YEAR": 96.2,
+   "oos_maxdd": -13.4,
+   "oos_boot_median": 15.1,
+   "oos_boot_p05": -11.6,
+   "best_cfg": "ema_4_5_75",
+   "js_B": 1.0,
+   "best_cfg_oos": 26.3
+  },
+  "1d|HMA": {
+   "TRAIN": 52.4,
+   "VAL": 33.9,
+   "OOS": 30.5,
+   "YEAR": 166.3,
+   "oos_maxdd": -15.8,
+   "oos_boot_median": 25.0,
+   "oos_boot_p05": -9.6,
+   "best_cfg": "ema_5_86",
+   "js_B": 1.0,
+   "best_cfg_oos": 33.6
+  },
+  "1d|DEMA": {
+   "TRAIN": 40.2,
+   "VAL": 25.8,
+   "OOS": 22.8,
+   "YEAR": 116.4,
+   "oos_maxdd": -15.2,
+   "oos_boot_median": 18.3,
+   "oos_boot_p05": -9.8,
+   "best_cfg": "ema_12_43_75",
+   "js_B": 0.99,
+   "best_cfg_oos": 33.0
+  },
+  "1d|TEMA": {
+   "TRAIN": 46.7,
+   "VAL": 33.9,
+   "OOS": 27.6,
+   "YEAR": 150.7,
+   "oos_maxdd": -15.4,
+   "oos_boot_median": 22.7,
+   "oos_boot_p05": -7.3,
+   "best_cfg": "ema_2_5_118",
+   "js_B": 1.0,
+   "best_cfg_oos": 31.0
+  },
+  "1d|KAMA": {
+   "TRAIN": 3.8,
+   "VAL": 10.2,
+   "OOS": 16.8,
+   "YEAR": 33.6,
+   "oos_maxdd": -10.2,
+   "oos_boot_median": 13.6,
+   "oos_boot_p05": -4.5,
+   "best_cfg": "ema_2_5_118",
+   "js_B": 0.99,
+   "best_cfg_oos": 24.2
+  },
+  "1d|VIDYA": {
+   "TRAIN": 37.6,
+   "VAL": 2.0,
+   "OOS": 6.4,
+   "YEAR": 49.3,
+   "oos_maxdd": -3.7,
+   "oos_boot_median": 5.7,
+   "oos_boot_p05": -2.0,
+   "best_cfg": "ema_2_5_118",
+   "js_B": 0.98,
+   "best_cfg_oos": 37.3
+  },
+  "4h|EMA": {
+   "TRAIN": 33.8,
+   "VAL": 37.1,
+   "OOS": 27.9,
+   "YEAR": 134.6,
+   "oos_maxdd": -11.5,
+   "oos_boot_median": 25.5,
+   "oos_boot_p05": -4.5,
+   "best_cfg": "ema_3_102",
+   "js_B": 0.99,
+   "best_cfg_oos": 34.4
+  },
+  "4h|SMA": {
+   "TRAIN": 36.0,
+   "VAL": 33.3,
+   "OOS": 23.9,
+   "YEAR": 124.6,
+   "oos_maxdd": -13.7,
+   "oos_boot_median": 22.0,
+   "oos_boot_p05": -8.2,
+   "best_cfg": "ema_102_103",
+   "js_B": 0.99,
+   "best_cfg_oos": 50.8
+  },
+  "4h|WMA": {
+   "TRAIN": 37.2,
+   "VAL": 37.2,
+   "OOS": 26.4,
+   "YEAR": 138.0,
+   "oos_maxdd": -14.3,
+   "oos_boot_median": 24.1,
+   "oos_boot_p05": -9.0,
+   "best_cfg": "ema_15_65",
+   "js_B": 0.98,
+   "best_cfg_oos": 34.6
+  },
+  "4h|HMA": {
+   "TRAIN": 39.6,
+   "VAL": 36.9,
+   "OOS": 29.4,
+   "YEAR": 147.2,
+   "oos_maxdd": -12.7,
+   "oos_boot_median": 28.7,
+   "oos_boot_p05": -6.4,
+   "best_cfg": "ema_31_124",
+   "js_B": 0.99,
+   "best_cfg_oos": 36.4
+  },
+  "4h|DEMA": {
+   "TRAIN": 39.4,
+   "VAL": 37.2,
+   "OOS": 25.9,
+   "YEAR": 140.8,
+   "oos_maxdd": -13.4,
+   "oos_boot_median": 24.2,
+   "oos_boot_p05": -10.2,
+   "best_cfg": "ema_15_65",
+   "js_B": 0.98,
+   "best_cfg_oos": 33.9
+  },
+  "4h|TEMA": {
+   "TRAIN": 34.0,
+   "VAL": 40.9,
+   "OOS": 23.4,
+   "YEAR": 133.0,
+   "oos_maxdd": -11.2,
+   "oos_boot_median": 22.8,
+   "oos_boot_p05": -9.6,
+   "best_cfg": "ema_26_75",
+   "js_B": 0.99,
+   "best_cfg_oos": 35.6
+  },
+  "4h|KAMA": {
+   "TRAIN": 26.7,
+   "VAL": 34.0,
+   "OOS": 17.3,
+   "YEAR": 99.1,
+   "oos_maxdd": -12.5,
+   "oos_boot_median": 14.7,
+   "oos_boot_p05": -11.1,
+   "best_cfg": "ema_15_84_148",
+   "js_B": 0.99,
+   "best_cfg_oos": 15.7
+  },
+  "4h|VIDYA": {
+   "TRAIN": 24.7,
+   "VAL": 19.8,
+   "OOS": 18.0,
+   "YEAR": 76.2,
+   "oos_maxdd": -6.3,
+   "oos_boot_median": 16.8,
+   "oos_boot_p05": -1.3,
+   "best_cfg": "ema_4_30_67",
+   "js_B": 1.0,
+   "best_cfg_oos": 32.7
+  },
+  "1h|EMA": {
+   "TRAIN": 48.1,
+   "VAL": 26.2,
+   "OOS": 53.0,
+   "YEAR": 186.0,
+   "oos_maxdd": -10.6,
+   "oos_boot_median": 54.9,
+   "oos_boot_p05": 9.0,
+   "best_cfg": "ema_2_73",
+   "js_B": 0.98,
+   "best_cfg_oos": 50.0
+  },
+  "1h|SMA": {
+   "TRAIN": 41.3,
+   "VAL": 31.2,
+   "OOS": 53.1,
+   "YEAR": 183.7,
+   "oos_maxdd": -11.0,
+   "oos_boot_median": 56.4,
+   "oos_boot_p05": 9.1,
+   "best_cfg": "ema_8_9_75",
+   "js_B": 0.98,
+   "best_cfg_oos": 31.9
+  },
+  "1h|WMA": {
+   "TRAIN": 46.0,
+   "VAL": 30.1,
+   "OOS": 52.2,
+   "YEAR": 189.1,
+   "oos_maxdd": -11.3,
+   "oos_boot_median": 55.5,
+   "oos_boot_p05": 7.4,
+   "best_cfg": "ema_3_75_132",
+   "js_B": 0.98,
+   "best_cfg_oos": 30.3
+  },
+  "1h|HMA": {
+   "TRAIN": 37.9,
+   "VAL": 20.3,
+   "OOS": 49.0,
+   "YEAR": 147.2,
+   "oos_maxdd": -10.6,
+   "oos_boot_median": 51.6,
+   "oos_boot_p05": 6.0,
+   "best_cfg": "ema_12_14_75",
+   "js_B": 0.99,
+   "best_cfg_oos": 37.4
+  },
+  "1h|DEMA": {
+   "TRAIN": 28.3,
+   "VAL": 29.5,
+   "OOS": 47.7,
+   "YEAR": 145.4,
+   "oos_maxdd": -11.3,
+   "oos_boot_median": 49.7,
+   "oos_boot_p05": 6.9,
+   "best_cfg": "ema_10_128",
+   "js_B": 0.99,
+   "best_cfg_oos": 49.4
+  },
+  "1h|TEMA": {
+   "TRAIN": 34.7,
+   "VAL": 19.5,
+   "OOS": 49.5,
+   "YEAR": 140.5,
+   "oos_maxdd": -11.9,
+   "oos_boot_median": 50.3,
+   "oos_boot_p05": 8.8,
+   "best_cfg": "ema_73_145",
+   "js_B": 0.99,
+   "best_cfg_oos": 59.1
+  },
+  "1h|KAMA": {
+   "TRAIN": 39.0,
+   "VAL": 28.6,
+   "OOS": 43.9,
+   "YEAR": 157.3,
+   "oos_maxdd": -9.3,
+   "oos_boot_median": 46.6,
+   "oos_boot_p05": 5.4,
+   "best_cfg": "ema_44_75",
+   "js_B": 0.99,
+   "best_cfg_oos": 51.1
+  },
+  "1h|VIDYA": {
+   "TRAIN": 33.4,
+   "VAL": 23.3,
+   "OOS": 47.1,
+   "YEAR": 142.0,
+   "oos_maxdd": -8.5,
+   "oos_boot_median": 49.5,
+   "oos_boot_p05": 13.9,
+   "best_cfg": "ema_3_102",
+   "js_B": 0.93,
+   "best_cfg_oos": 62.8
+  }
+ },
+ "winners": {
+  "1d": [
+   "HMA",
+   30.5
+  ],
+  "4h": [
+   "HMA",
+   29.4
+  ],
+  "1h": [
+   "SMA",
+   53.1
+  ]
+ },
+ "oracle": {
+  "1d": {
+   "hindsight_cfg": [
+    "VIDYA:ema_2_5_118",
+    37.3
+   ],
+   "perfect_foresight_oos": 611.2
+  },
+  "4h": {
+   "hindsight_cfg": [
+    "SMA:ema_102_103",
+    50.8
+   ],
+   "perfect_foresight_oos": 8344.0
+  },
+  "1h": {
+   "hindsight_cfg": [
+    "VIDYA:ema_3_102",
+    62.8
+   ],
+   "perfect_foresight_oos": 1056755.6
+  }
+ }
+}

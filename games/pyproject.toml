@@ -1,0 +1,21 @@
+# Project metadata for the standalone games_engine. This is a SCRIPTS project: run it via
+#   python run_engines.py            (all three engines)
+#   python play_chess.py | play_connect4.py | play_atari.py   (one at a time)
+# The modules resolve via an in-file sys.path bootstrap, so no `pip install -e .` is required --
+# `pip install -r requirements.txt` is the only install step. This file exists for metadata +
+# tooling (it declares the same deps as requirements.txt).
+[project]
+name = "games_engine"
+version = "0.1.0"
+description = "AlphaZero (chess, Connect-4) + MuZero/DQN (scaled Atari) -- engines that actually play, with a turnkey terminal demo. Self-contained; no external project deps."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "torch>=2.0",
+    "python-chess>=1.11",
+    "numpy>=1.24",
+    "minatar>=1.0",
+]
+
+[project.urls]
+MinAtar = "https://github.com/kenjyoung/MinAtar"

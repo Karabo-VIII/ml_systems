@@ -1,0 +1,576 @@
+{
+ "repro": {
+  "command": "python -m strat.ironed_coarse --cadences 1d,4h,2h",
+  "git_sha": "a50efdc",
+  "cost_maker": 0.0006,
+  "split": {
+   "TRAIN": [
+    "2020-01-01",
+    "2020-07-01"
+   ],
+   "VAL": [
+    "2020-07-01",
+    "2020-10-01"
+   ],
+   "OOS": [
+    "2020-10-01",
+    "2021-01-01"
+   ]
+  },
+  "warmup": 400,
+  "vol_win": {
+   "1d": 14,
+   "4h": 84,
+   "2h": 168
+  },
+  "regime_sma": 100,
+  "min_dwell": {
+   "1d": 5,
+   "4h": 30,
+   "2h": 60
+  },
+  "generated": "20260613_235620"
+ },
+ "results": {
+  "1d": {
+   "cadence": "1d",
+   "thresholds": {
+    "breadth_hi": 0.667,
+    "breadth_lo": 0.226,
+    "regime_sma": 100,
+    "fitted_n": 151
+   },
+   "oos_regime_share": {
+    "bull": 0.402,
+    "neutral": 0.598,
+    "bear": 0.0
+   },
+   "family_n": 20,
+   "single_cfg_selected": "ema_2_73",
+   "selected_confirm_k": 0,
+   "selected_exit": "mh_trail",
+   "full_ironed_stack": "5_full_ironed",
+   "recommended_variant": "1_family",
+   "recommended_variant_oos": {
+    "compound": 49.8,
+    "ann": 396.5,
+    "maxdd": -14.1,
+    "sharpe": 3.03,
+    "n_bars": 92,
+    "coverage": 87.0,
+    "avg_exp": 0.663,
+    "turnover": 1.1,
+    "p05": 0.58
+   },
+   "benchmark_used": "VOLTGT_BH",
+   "voltgt_bh_valid": true,
+   "benchmarks_oos": {
+    "BUYHOLD": {
+     "compound": 47.4,
+     "ann": 365.8,
+     "maxdd": -20.2,
+     "sharpe": 2.34,
+     "coverage": 100.0,
+     "avg_exp": 1.0
+    },
+    "VOLTGT_BH": {
+     "compound": 49.4,
+     "ann": 392.3,
+     "maxdd": -15.5,
+     "sharpe": 2.88,
+     "coverage": 100.0,
+     "avg_exp": null
+    }
+   },
+   "ladder_oos": {
+    "0_naive_single": {
+     "compound": 42.6,
+     "ann": 308.3,
+     "maxdd": -15.1,
+     "sharpe": 2.68,
+     "n_bars": 92,
+     "coverage": 73.0,
+     "avg_exp": 0.638,
+     "turnover": 3.7,
+     "p05": -6.79
+    },
+    "1_family": {
+     "compound": 49.8,
+     "ann": 396.5,
+     "maxdd": -14.1,
+     "sharpe": 3.03,
+     "n_bars": 92,
+     "coverage": 87.0,
+     "avg_exp": 0.663,
+     "turnover": 1.1,
+     "p05": 0.58
+    },
+    "2_confirm0": {
+     "compound": 49.8,
+     "ann": 396.5,
+     "maxdd": -14.1,
+     "sharpe": 3.03,
+     "n_bars": 92,
+     "coverage": 87.0,
+     "avg_exp": 0.663,
+     "turnover": 1.1,
+     "p05": 0.58
+    },
+    "3_exit_mh_trail": {
+     "compound": 17.1,
+     "ann": 87.3,
+     "maxdd": -7.8,
+     "sharpe": 3.03,
+     "n_bars": 92,
+     "coverage": 0.0,
+     "avg_exp": 0.179,
+     "turnover": 1.2,
+     "p05": -1.72
+    },
+    "4_exit_gate": {
+     "compound": 19.9,
+     "ann": 105.4,
+     "maxdd": -17.4,
+     "sharpe": 1.5,
+     "n_bars": 92,
+     "coverage": 39.0,
+     "avg_exp": 0.533,
+     "turnover": 1.4,
+     "p05": -21.8
+    },
+    "5_full_ironed": {
+     "compound": 22.2,
+     "ann": 121.5,
+     "maxdd": -12.8,
+     "sharpe": 2.05,
+     "n_bars": 92,
+     "coverage": 39.0,
+     "avg_exp": 0.422,
+     "turnover": 2.1,
+     "p05": -13.61
+    }
+   },
+   "final_ironed": {
+    "compound": 22.2,
+    "ann": 121.5,
+    "maxdd": -12.8,
+    "sharpe": 2.05,
+    "n_bars": 92,
+    "coverage": 39.0,
+    "avg_exp": 0.422,
+    "turnover": 2.1,
+    "p05": -13.61
+   },
+   "breadth_neff_oos": {
+    "per_asset": {
+     "BTCUSDT": 84.1,
+     "ETHUSDT": 37.5,
+     "SOLUSDT": -34.5,
+     "BNBUSDT": 17.6,
+     "XRPUSDT": 8.5,
+     "DOGEUSDT": 39.5,
+     "ADAUSDT": 40.5,
+     "AVAXUSDT": -21.0,
+     "LINKUSDT": -19.8,
+     "LTCUSDT": 89.3
+    },
+    "breadth": 7,
+    "n_assets": 10,
+    "n_eff": 5.02
+   },
+   "verdict": {
+    "headline": "DEPLOY CANDIDATE [1_family] -- OOS net 49.8% approaches VOLTGT_BH 49.4% (gap +0.4pp) with maxDD -14.1 materially below BUYHOLD -20.2 and coverage 87.0% high (p05=0.58). Participates in the bull but de-risks structurally; the bear-DD-protection + cross-TF diversification payoff is a whole-cycle product the ~0%-bear 2020 bull cannot fully show.",
+    "deploy_candidate": true,
+    "recommended_variant": "1_family",
+    "oos_net": 49.8,
+    "oos_maxdd": -14.1,
+    "oos_p05": 0.58,
+    "bar_used": "VOLTGT_BH",
+    "net_gap_vs_bar": 0.4,
+    "dd_better_than_bh": true,
+    "coverage_ok": true,
+    "p05_positive": true,
+    "breadth": 7,
+    "n_eff": 5.02
+   },
+   "final_spec": {
+    "timeframe": "1d",
+    "deployable_variant": "1_family",
+    "universe": "u10 (BTC,ETH,SOL,BNB,XRP,DOGE,ADA,AVAX,LINK,LTC USDT), equal-weight book",
+    "entry_family": "slow EMA cross family, 20 configs (2MA, 60<=max_len<150); long while fast EMA > slow EMA; equal-weight across configs (crease 1: param-fragility)",
+    "filter": "none (confirm-K=0 selected; debounce did not improve TRAIN+VAL net)",
+    "exit": "crease 4: signal-flip only (NO trailing stop -- at coarse TF a trail forfeits the bull; the exits artifact: 1d trail cuts time_in 0.60->0.30, OOS net 48%->21%)",
+    "market_regime_gate": "OFF in the selected variant (the gate's bear-flat payoff cannot show in a ~0%-bear bull; it only cost participation here, so TRAIN+VAL selection did not include it)",
+    "sizing": "full size (vol-target OFF in the selected variant)",
+    "cost": "maker full-stack (MAKER_RT=0.0006), causal, positions lagged 1 bar",
+    "applied": {
+     "family": true,
+     "exit_": "none",
+     "conf_k": 0,
+     "gate": false,
+     "voltgt": false
+    }
+   }
+  },
+  "4h": {
+   "cadence": "4h",
+   "thresholds": {
+    "breadth_hi": 0.821,
+    "breadth_lo": 0.319,
+    "regime_sma": 100,
+    "fitted_n": 1033
+   },
+   "oos_regime_share": {
+    "bull": 0.112,
+    "neutral": 0.888,
+    "bear": 0.0
+   },
+   "family_n": 20,
+   "single_cfg_selected": "ema_44_75",
+   "selected_confirm_k": 2,
+   "selected_exit": "none",
+   "full_ironed_stack": "5_full_ironed",
+   "recommended_variant": "5_full_ironed",
+   "recommended_variant_oos": {
+    "compound": 40.8,
+    "ann": 288.2,
+    "maxdd": -16.0,
+    "sharpe": 3.38,
+    "n_bars": 552,
+    "coverage": 59.0,
+    "avg_exp": 0.54,
+    "turnover": 12.9,
+    "p05": 0.16
+   },
+   "benchmark_used": "VOLTGT_BH",
+   "voltgt_bh_valid": true,
+   "benchmarks_oos": {
+    "BUYHOLD": {
+     "compound": 50.6,
+     "ann": 407.8,
+     "maxdd": -22.5,
+     "sharpe": 2.46,
+     "coverage": 100.0,
+     "avg_exp": 1.0
+    },
+    "VOLTGT_BH": {
+     "compound": 49.5,
+     "ann": 393.1,
+     "maxdd": -17.2,
+     "sharpe": 3.0,
+     "coverage": 100.0,
+     "avg_exp": null
+    }
+   },
+   "ladder_oos": {
+    "0_naive_single": {
+     "compound": 37.9,
+     "ann": 258.2,
+     "maxdd": -22.2,
+     "sharpe": 2.59,
+     "n_bars": 552,
+     "coverage": 76.0,
+     "avg_exp": 0.635,
+     "turnover": 15.8,
+     "p05": -8.65
+    },
+    "1_family": {
+     "compound": 36.6,
+     "ann": 245.0,
+     "maxdd": -21.6,
+     "sharpe": 2.56,
+     "n_bars": 552,
+     "coverage": 74.0,
+     "avg_exp": 0.626,
+     "turnover": 14.7,
+     "p05": -9.67
+    },
+    "2_confirm2": {
+     "compound": 37.2,
+     "ann": 250.4,
+     "maxdd": -21.6,
+     "sharpe": 2.6,
+     "n_bars": 552,
+     "coverage": 73.0,
+     "avg_exp": 0.617,
+     "turnover": 14.2,
+     "p05": -9.07
+    },
+    "3_exit_none": {
+     "compound": 37.2,
+     "ann": 250.4,
+     "maxdd": -21.6,
+     "sharpe": 2.6,
+     "n_bars": 552,
+     "coverage": 73.0,
+     "avg_exp": 0.617,
+     "turnover": 14.2,
+     "p05": -9.07
+    },
+    "4_exit_gate": {
+     "compound": 44.0,
+     "ann": 325.1,
+     "maxdd": -22.2,
+     "sharpe": 2.88,
+     "n_bars": 552,
+     "coverage": 74.0,
+     "avg_exp": 0.637,
+     "turnover": 14.2,
+     "p05": -4.88
+    },
+    "5_full_ironed": {
+     "compound": 40.8,
+     "ann": 288.2,
+     "maxdd": -16.0,
+     "sharpe": 3.38,
+     "n_bars": 552,
+     "coverage": 59.0,
+     "avg_exp": 0.54,
+     "turnover": 12.9,
+     "p05": 0.16
+    }
+   },
+   "final_ironed": {
+    "compound": 40.8,
+    "ann": 288.2,
+    "maxdd": -16.0,
+    "sharpe": 3.38,
+    "n_bars": 552,
+    "coverage": 59.0,
+    "avg_exp": 0.54,
+    "turnover": 12.9,
+    "p05": 0.16
+   },
+   "breadth_neff_oos": {
+    "per_asset": {
+     "BTCUSDT": 126.9,
+     "ETHUSDT": 68.2,
+     "SOLUSDT": -15.2,
+     "BNBUSDT": 13.0,
+     "XRPUSDT": 60.1,
+     "DOGEUSDT": 35.5,
+     "ADAUSDT": 30.6,
+     "AVAXUSDT": -19.8,
+     "LINKUSDT": -4.5,
+     "LTCUSDT": 94.3
+    },
+    "breadth": 7,
+    "n_assets": 10,
+    "n_eff": 5.16
+   },
+   "verdict": {
+    "headline": "DEPLOY CANDIDATE [5_full_ironed] -- OOS net 40.8% approaches VOLTGT_BH 49.5% (gap -8.7pp) with maxDD -16.0 materially below BUYHOLD -22.5 and coverage 59.0% high (p05=0.16). Participates in the bull but de-risks structurally; the bear-DD-protection + cross-TF diversification payoff is a whole-cycle product the ~0%-bear 2020 bull cannot fully show.",
+    "deploy_candidate": true,
+    "recommended_variant": "5_full_ironed",
+    "oos_net": 40.8,
+    "oos_maxdd": -16.0,
+    "oos_p05": 0.16,
+    "bar_used": "VOLTGT_BH",
+    "net_gap_vs_bar": -8.7,
+    "dd_better_than_bh": true,
+    "coverage_ok": true,
+    "p05_positive": true,
+    "breadth": 7,
+    "n_eff": 5.16
+   },
+   "final_spec": {
+    "timeframe": "4h",
+    "deployable_variant": "5_full_ironed",
+    "universe": "u10 (BTC,ETH,SOL,BNB,XRP,DOGE,ADA,AVAX,LINK,LTC USDT), equal-weight book",
+    "entry_family": "slow EMA cross family, 20 configs (2MA, 60<=max_len<150); long while fast EMA > slow EMA; equal-weight across configs (crease 1: param-fragility)",
+    "filter": "confirm(K=2) debounce -- enter only after the cross holds K bars (crease 3: whipsaw)",
+    "exit": "crease 4: signal-flip only (NO trailing stop -- at coarse TF a trail forfeits the bull; the exits artifact: 1d trail cuts time_in 0.60->0.30, OOS net 48%->21%)",
+    "market_regime_gate": "book-breadth + book-trend vs SMA(100); bull->hold long (stay-long-in-confirmed-uptrend, crease 2: participation tax), neutral->1.0x (do NOT throttle in a bull), bear->flat (the whole-cycle payoff); breadth thresholds hi=0.821/lo=0.319 fit on TRAIN only; hysteresis dwell=30 bars (MARKET regime, NOT self-gate, D74)",
+    "sizing": "vol-target: exposure *= clip(median_rv/rv_lagged, 0, 1), rv lookback 84 bars (crease 5: DD control)",
+    "cost": "maker full-stack (MAKER_RT=0.0006), causal, positions lagged 1 bar",
+    "applied": {
+     "family": true,
+     "exit_": "none",
+     "conf_k": 2,
+     "gate": true,
+     "voltgt": true
+    }
+   }
+  },
+  "2h": {
+   "cadence": "2h",
+   "thresholds": {
+    "breadth_hi": 0.738,
+    "breadth_lo": 0.274,
+    "regime_sma": 100,
+    "fitted_n": 2089
+   },
+   "oos_regime_share": {
+    "bull": 0.0,
+    "neutral": 1.0,
+    "bear": 0.0
+   },
+   "family_n": 20,
+   "single_cfg_selected": "ema_86_122",
+   "selected_confirm_k": 2,
+   "selected_exit": "none",
+   "full_ironed_stack": "5_full_ironed",
+   "recommended_variant": "5_full_ironed",
+   "recommended_variant_oos": {
+    "compound": 25.9,
+    "ann": 82.3,
+    "maxdd": -15.0,
+    "sharpe": 1.68,
+    "n_bars": 1680,
+    "coverage": 39.0,
+    "avg_exp": 0.418,
+    "turnover": 431.0,
+    "p05": -12.69
+   },
+   "benchmark_used": "BUYHOLD(VOLTGT_BH broken at this TF)",
+   "voltgt_bh_valid": false,
+   "benchmarks_oos": {
+    "BUYHOLD": {
+     "compound": 59.2,
+     "ann": 236.0,
+     "maxdd": -30.8,
+     "sharpe": 1.82,
+     "coverage": 100.0,
+     "avg_exp": 1.0
+    },
+    "VOLTGT_BH": {
+     "compound": 3.3,
+     "ann": 8.8,
+     "maxdd": -21.1,
+     "sharpe": 0.41,
+     "coverage": 100.0,
+     "avg_exp": null
+    }
+   },
+   "ladder_oos": {
+    "0_naive_single": {
+     "compound": 55.7,
+     "ann": 217.0,
+     "maxdd": -25.8,
+     "sharpe": 2.25,
+     "n_bars": 1680,
+     "coverage": 62.0,
+     "avg_exp": 0.549,
+     "turnover": 554.6,
+     "p05": -5.05
+    },
+    "1_family": {
+     "compound": 17.2,
+     "ann": 51.1,
+     "maxdd": -23.7,
+     "sharpe": 1.02,
+     "n_bars": 1680,
+     "coverage": 55.0,
+     "avg_exp": 0.527,
+     "turnover": 420.7,
+     "p05": -25.71
+    },
+    "2_confirm2": {
+     "compound": 21.3,
+     "ann": 65.6,
+     "maxdd": -22.5,
+     "sharpe": 1.19,
+     "n_bars": 1680,
+     "coverage": 52.0,
+     "avg_exp": 0.518,
+     "turnover": 424.7,
+     "p05": -22.68
+    },
+    "3_exit_none": {
+     "compound": 21.3,
+     "ann": 65.6,
+     "maxdd": -22.5,
+     "sharpe": 1.19,
+     "n_bars": 1680,
+     "coverage": 52.0,
+     "avg_exp": 0.518,
+     "turnover": 424.7,
+     "p05": -22.68
+    },
+    "4_exit_gate": {
+     "compound": 21.3,
+     "ann": 65.6,
+     "maxdd": -22.5,
+     "sharpe": 1.19,
+     "n_bars": 1680,
+     "coverage": 52.0,
+     "avg_exp": 0.518,
+     "turnover": 424.7,
+     "p05": -22.68
+    },
+    "5_full_ironed": {
+     "compound": 25.9,
+     "ann": 82.3,
+     "maxdd": -15.0,
+     "sharpe": 1.68,
+     "n_bars": 1680,
+     "coverage": 39.0,
+     "avg_exp": 0.418,
+     "turnover": 431.0,
+     "p05": -12.69
+    }
+   },
+   "final_ironed": {
+    "compound": 25.9,
+    "ann": 82.3,
+    "maxdd": -15.0,
+    "sharpe": 1.68,
+    "n_bars": 1680,
+    "coverage": 39.0,
+    "avg_exp": 0.418,
+    "turnover": 431.0,
+    "p05": -12.69
+   },
+   "breadth_neff_oos": {
+    "per_asset": {
+     "BTCUSDT": 123.7,
+     "ETHUSDT": 49.6,
+     "SOLUSDT": -29.3,
+     "BNBUSDT": 7.9,
+     "XRPUSDT": 72.3,
+     "DOGEUSDT": 30.0,
+     "ADAUSDT": 27.9,
+     "AVAXUSDT": -35.5,
+     "LINKUSDT": -9.8,
+     "LTCUSDT": 78.2
+    },
+    "breadth": 7,
+    "n_assets": 10,
+    "n_eff": 4.92
+   },
+   "verdict": {
+    "headline": "NOT-YET-DEPLOY [5_full_ironed] -- remaining crease(s): net gap to BUYHOLD(VOLTGT_BH broken at this TF) too wide (-33.3pp; participation tax not fully closed); coverage 39.0% < 50% (flat too often); block-bootstrap p05 -12.69 < 0 (tail bleeds; not robust) -- the ROBUSTNESS gate. Net 25.9% / DD -15.0 / cov 39.0% / p05 -12.69. LEVER: widen the bull-hold floor / lower breadth_hi so more of the bull is held; at this TF cost (turnover) may also be eating it -> coarser family / lower churn; raise neutral participation or extend bull-hold into neutral regime; cut churn (turnover is the p05 killer at this TF: coarser family, lower cost) and/or add vol-target sizing.",
+    "deploy_candidate": false,
+    "recommended_variant": "5_full_ironed",
+    "oos_net": 25.9,
+    "oos_maxdd": -15.0,
+    "oos_p05": -12.69,
+    "bar_used": "BUYHOLD(VOLTGT_BH broken at this TF)",
+    "net_gap_vs_bar": -33.3,
+    "dd_better_than_bh": true,
+    "coverage_ok": false,
+    "p05_positive": false,
+    "breadth": 7,
+    "n_eff": 4.92
+   },
+   "final_spec": {
+    "timeframe": "2h",
+    "deployable_variant": "5_full_ironed",
+    "universe": "u10 (BTC,ETH,SOL,BNB,XRP,DOGE,ADA,AVAX,LINK,LTC USDT), equal-weight book",
+    "entry_family": "slow EMA cross family, 20 configs (2MA, 60<=max_len<150); long while fast EMA > slow EMA; equal-weight across configs (crease 1: param-fragility)",
+    "filter": "confirm(K=2) debounce -- enter only after the cross holds K bars (crease 3: whipsaw)",
+    "exit": "crease 4: signal-flip only (NO trailing stop -- at coarse TF a trail forfeits the bull; the exits artifact: 1d trail cuts time_in 0.60->0.30, OOS net 48%->21%)",
+    "market_regime_gate": "book-breadth + book-trend vs SMA(100); bull->hold long (stay-long-in-confirmed-uptrend, crease 2: participation tax), neutral->1.0x (do NOT throttle in a bull), bear->flat (the whole-cycle payoff); breadth thresholds hi=0.738/lo=0.274 fit on TRAIN only; hysteresis dwell=60 bars (MARKET regime, NOT self-gate, D74)",
+    "sizing": "vol-target: exposure *= clip(median_rv/rv_lagged, 0, 1), rv lookback 168 bars (crease 5: DD control)",
+    "cost": "maker full-stack (MAKER_RT=0.0006), causal, positions lagged 1 bar",
+    "applied": {
+     "family": true,
+     "exit_": "none",
+     "conf_k": 2,
+     "gate": true,
+     "voltgt": true
+    }
+   }
+  }
+ }
+}

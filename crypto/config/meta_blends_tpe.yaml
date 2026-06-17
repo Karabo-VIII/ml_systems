@@ -1,0 +1,115 @@
+meta_blends_tpe:
+  META_BLEND_TPE_R1_20260515_224517:
+    deploy_status: NEW_R32_TPE_META
+    search_tag: '20260515_224517'
+    search_windows: &id001
+    - u50_20260101_20260131
+    - u50_20260201_20260228
+    - u50_20260301_20260331
+    - u50_20260401_20260430
+    rank_in_search: 1
+    score: 3.048160989711975
+    sharpe_ann: 2.2235145010272315
+    worst_regime_sh: 1.7491523121976285
+    max_dd_pct: -2.0625935720242716
+    mean_corr: -0.05974069873328706
+    validation_status: FAIL
+    weights:
+      AGGRESSIVE: 0.0179
+      AGGRESSIVE_LEV_2_5X: 0.0433
+      AGGRESSIVE_LONG_ONLY: 0.0417
+      CONSERVATIVE_LONG_ONLY: 0.1505
+      DAY_TRADER: 0.6467
+      PRIME: 0.0395
+      TA_SML_DYNAMIC: 0.0604
+    caveats:
+    - TPE-optimized meta-weights; pending v3 paper-trade-replay verify
+    - Re-validate after data rebuild before any deploy promotion
+  META_BLEND_TPE_R2_20260515_224517:
+    deploy_status: NEW_R32_TPE_META
+    search_tag: '20260515_224517'
+    search_windows: *id001
+    rank_in_search: 2
+    score: 3.0452060758858304
+    sharpe_ann: 2.098061593008885
+    worst_regime_sh: 1.9717750690727698
+    max_dd_pct: -1.689706380203233
+    mean_corr: -0.05974069873328706
+    validation_status: FAIL
+    weights:
+      AGGRESSIVE: 0.023
+      AGGRESSIVE_LEV_2_5X: 0.0164
+      AGGRESSIVE_LONG_ONLY: 0.0127
+      CONSERVATIVE_LONG_ONLY: 0.1472
+      DAY_TRADER: 0.6827
+      PRIME: 0.041
+      TA_SML_DYNAMIC: 0.0771
+    caveats:
+    - TPE-optimized meta-weights; pending v3 paper-trade-replay verify
+    - Re-validate after data rebuild before any deploy promotion
+  META_BLEND_TPE_R3_20260515_224517:
+    deploy_status: NEW_R32_TPE_META
+    search_tag: '20260515_224517'
+    search_windows: *id001
+    rank_in_search: 3
+    score: 3.042932741519074
+    sharpe_ann: 2.231342613800085
+    worst_regime_sh: 1.703576285170308
+    max_dd_pct: -1.7382051537607328
+    mean_corr: -0.05974069873328706
+    validation_status: FAIL
+    weights:
+      AGGRESSIVE: 0.0349
+      AGGRESSIVE_LEV_2_5X: 0.0267
+      AGGRESSIVE_LONG_ONLY: 0.0183
+      CONSERVATIVE_LONG_ONLY: 0.1401
+      DAY_TRADER: 0.66
+      PRIME: 0.0477
+      TA_SML_DYNAMIC: 0.0723
+    caveats:
+    - TPE-optimized meta-weights; pending v3 paper-trade-replay verify
+    - Re-validate after data rebuild before any deploy promotion
+  META_BLEND_TPE_R4_20260515_224517:
+    deploy_status: NEW_R32_TPE_META
+    search_tag: '20260515_224517'
+    search_windows: *id001
+    rank_in_search: 4
+    score: 3.0364615611671937
+    sharpe_ann: 2.1944592045859768
+    worst_regime_sh: 1.7645355490855883
+    max_dd_pct: -1.7404519236078078
+    mean_corr: -0.05974069873328706
+    validation_status: FAIL
+    weights:
+      AGGRESSIVE: 0.0456
+      AGGRESSIVE_LEV_2_5X: 0.0188
+      AGGRESSIVE_LONG_ONLY: 0.0218
+      CONSERVATIVE_LONG_ONLY: 0.1399
+      DAY_TRADER: 0.6499
+      PRIME: 0.0447
+      TA_SML_DYNAMIC: 0.0792
+    caveats:
+    - TPE-optimized meta-weights; pending v3 paper-trade-replay verify
+    - Re-validate after data rebuild before any deploy promotion
+  META_BLEND_TPE_R5_20260515_224517:
+    deploy_status: NEW_R32_TPE_META
+    search_tag: '20260515_224517'
+    search_windows: *id001
+    rank_in_search: 5
+    score: 3.0322496540959682
+    sharpe_ann: 2.2537365729203547
+    worst_regime_sh: 1.6351641869822282
+    max_dd_pct: -1.7005717354052552
+    mean_corr: -0.05974069873328706
+    validation_status: FAIL
+    weights:
+      AGGRESSIVE: 0.0256
+      AGGRESSIVE_LEV_2_5X: 0.0379
+      AGGRESSIVE_LONG_ONLY: 0.0285
+      CONSERVATIVE_LONG_ONLY: 0.1327
+      DAY_TRADER: 0.6302
+      PRIME: 0.0452
+      TA_SML_DYNAMIC: 0.1
+    caveats:
+    - TPE-optimized meta-weights; pending v3 paper-trade-replay verify
+    - Re-validate after data rebuild before any deploy promotion

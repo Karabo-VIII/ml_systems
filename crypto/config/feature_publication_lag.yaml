@@ -1,0 +1,125 @@
+# Feature Publication-Lag Registry
+# =================================
+# Per-feature-FAMILY declared publication lag, in MILLISECONDS.
+#
+# THE CONTRACT
+# ------------
+# Each lag-prone source describes data for some event_time but a live trader can
+# only OBSERVE it after a vendor publish delay (and after any same-day-publication
+# race / backfill settling). The KNOWABLE-AT time is:
+#
+#       knowable_at = event_time + lag_ms
+#
+# src/pipeline/asof_join.py::asof_join_knowable() attaches a feature value to a
+# base bar ONLY when knowable_at <= base_time. Declaring the lag here is what lets
+# a producer route a lag-prone source through the bitemporal join instead of an
+# ad-hoc shift(1). This is the STRUCTURAL look-ahead defense; validate_chimera.py's
+# correlation / MI / same-day-publication-race detectors remain the reactive
+# backstop.
+#
+# WHY FAMILIES, NOT INDIVIDUAL COLUMNS
+# ------------------------------------
+# Publication lag is a property of the SOURCE (the vendor + cadence), not the
+# individual derived column. All columns derived from `etf_flows` share the ETF
+# vendor's publish schedule. Producers look up by source family.
+#
+# SCHEMA (per family)
+#   lag_ms : non-negative integer milliseconds. 0 is allowed ONLY for sources
+#            that are knowable in real time at the base bar (e.g. own-price
+#            features already shift(1)'d upstream); a positive lag is the safe
+#            default for any externally-published source.
+#   note   : human rationale -- the vendor, the cadence, and why this lag.
+#   cadence (optional) : the source's native publish cadence, documentation-only.
+#
+# CONSERVATISM RULE
+# -----------------
+# When a source's true publish delay is uncertain, ROUND UP. A lag that is too
+# LONG only costs a little freshness (a value appears one bar later than it could
+# have); a lag that is too SHORT re-opens the look-ahead it was meant to close.
+# For "varies / unknown" sources, default to >= 1 base bar (1 day at the daily
+# cadence this project trades).
+#
+# Convenience: 1 day = 86_400_000 ms; 8 h = 28_800_000 ms; 1 h = 3_600_000 ms.
+
+schema_version: "1.0.0"
+schema_version_changelog:
+  - "1.0.0 (2026-06-06): initial registry. Seeded the design-flagged lag-prone
+     families: etf_flows, wikipedia/attention, funding, onchain (defillama +
+     whale)."
+
+families:
+
+  # ETF flows: daily net creation/redemption figures are published by issuers /
+  # aggregators AFTER the US session settles -- the value referring to trading
+  # day T is not knowable until day T+1. Use 1 day (the base cadence). This is
+  # exactly the same-day-publication-race class validate_chimera flags reactively.
+  etf_flows:
+    lag_ms: 86400000        # 1 day
+    cadence: daily
+    note: >-
+      ETF net-flow figures (BTC/ETH spot ETFs) are published next-day after
+      issuers report end-of-day creations/redemptions. The day-T flow is NOT
+      knowable on bar T; it first becomes usable on bar T+1. Producer:
+      src/pipeline/ingest/etf_flows.py.
+
+  # Wikipedia / attention pageviews: the Wikimedia pageview API publishes a day's
+  # counts the FOLLOWING day (daily aggregation closes at UTC midnight, then a
+  # batch publishes). Knowable only on the next bar -> 1 day.
+  wikipedia:
+    lag_ms: 86400000        # 1 day
+    cadence: daily
+    note: >-
+      Wikimedia pageview API aggregates a calendar day's views and publishes
+      them the next day. Same for any attention/search-interest proxy. The
+      day-T attention count is knowable on bar T+1, not bar T. Producer:
+      src/pipeline/ingest/wikipedia_pageviews.py.
+
+  attention:
+    lag_ms: 86400000        # 1 day -- alias family for non-Wikipedia attention proxies
+    cadence: daily
+    note: >-
+      Generic attention / social / search-interest proxies publish daily with a
+      next-day close, same as wikipedia. Conservative 1-day lag.
+
+  # Funding rate: perpetual funding settles on an ~8h cycle on most venues
+  # (00:00 / 08:00 / 16:00 UTC). The funding figure for an interval is known at
+  # the settlement instant; to attach to a DAILY bar without a same-bar race,
+  # use the settlement-cycle length (8h) as the conservative knowable-at lag.
+  funding:
+    lag_ms: 28800000        # 8 hours
+    cadence: 8h-settlement
+    note: >-
+      Perp funding settles ~every 8h (00/08/16 UTC). The predicted/realized rate
+      for an interval is knowable at settlement; an 8h lag keeps the value from
+      attaching to a bar that opened before the funding interval closed.
+      Producers: src/pipeline/ingest/binance_funding_panel.py,
+      src/pipeline/features/funding_panel_daily.py.
+
+  # On-chain (DeFiLlama stablecoin flows, whale transfers): on-chain data is
+  # technically near-real-time at the block, but the AGGREGATED daily metrics
+  # vendors expose are revised/backfilled and publish with a delay that varies.
+  # Be conservative: 1 day. Whale/transfer aggregation shares this risk.
+  onchain:
+    lag_ms: 86400000        # 1 day (conservative; revision/backfill prone)
+    cadence: daily-aggregate
+    note: >-
+      On-chain daily aggregates (DeFiLlama stablecoin flows, whale-transfer
+      panels) are revision-prone and backfilled; the publish delay varies by
+      vendor. Conservative 1-day lag prevents a revised/backfilled value from
+      attaching to a bar that closed before the final figure existed. Producers:
+      src/pipeline/ingest/defillama_stable_flows.py,
+      src/pipeline/ingest/whale_activity.py.
+
+  defillama_stable_flows:
+    lag_ms: 86400000        # 1 day -- explicit alias for the onchain stablecoin source
+    cadence: daily-aggregate
+    note: >-
+      DeFiLlama stablecoin net-flow daily aggregate; revision/backfill prone.
+      Same 1-day conservatism as the onchain family.
+
+  whale:
+    lag_ms: 86400000        # 1 day -- explicit alias for the whale-activity source
+    cadence: daily-aggregate
+    note: >-
+      Whale-transfer / large-holder daily activity panel; on-chain aggregation
+      with backfill risk. 1-day conservative lag.

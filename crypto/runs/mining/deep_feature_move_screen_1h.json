@@ -1,0 +1,93 @@
+{
+  "cadence": "1h",
+  "n_rows": 152793,
+  "n_features": 40,
+  "max_abs_corr_with_next_move_MAGNITUDE": 0.0643,
+  "max_abs_corr_with_next_move_DIRECTION": 0.0481,
+  "top_magnitude_predictors": [
+    {
+      "feat": "norm_oi_price_divergence",
+      "corr": -0.0643
+    },
+    {
+      "feat": "norm_bar_duration",
+      "corr": -0.0329
+    },
+    {
+      "feat": "norm_yz_volatility",
+      "corr": 0.0245
+    },
+    {
+      "feat": "norm_cs_spread",
+      "corr": -0.0223
+    },
+    {
+      "feat": "norm_spread_bps",
+      "corr": 0.0194
+    },
+    {
+      "feat": "norm_vol_cluster",
+      "corr": 0.0153
+    },
+    {
+      "feat": "norm_fd_close",
+      "corr": -0.0138
+    },
+    {
+      "feat": "norm_ma_distance",
+      "corr": -0.0138
+    },
+    {
+      "feat": "xd_btc_volatility",
+      "corr": 0.0137
+    },
+    {
+      "feat": "norm_log_volume",
+      "corr": 0.0133
+    }
+  ],
+  "top_direction_predictors": [
+    {
+      "feat": "norm_fd_close",
+      "corr": -0.0481
+    },
+    {
+      "feat": "norm_ma_distance",
+      "corr": -0.0389
+    },
+    {
+      "feat": "norm_deviation",
+      "corr": -0.0329
+    },
+    {
+      "feat": "norm_return_4",
+      "corr": -0.031
+    },
+    {
+      "feat": "norm_return_16",
+      "corr": -0.0277
+    },
+    {
+      "feat": "xd_cross_return_mean",
+      "corr": -0.0274
+    },
+    {
+      "feat": "norm_oi_change",
+      "corr": -0.0211
+    },
+    {
+      "feat": "norm_flow_imbalance",
+      "corr": -0.0191
+    },
+    {
+      "feat": "norm_return_1",
+      "corr": -0.0175
+    },
+    {
+      "feat": "xd_ma_distance",
+      "corr": -0.0127
+    }
+  ],
+  "note": "DESCRIPTIVE pooled correlation, feat[t] vs ret[t->t+1]. MAGNITUDE (|ret|) is the vol-predict channel; DIRECTION (sign) is the hard alpha channel. Linear screen only; NOT gate-validated; no multiple-testing correction applied -- hypothesis generation.",
+  "_elapsed_s": 2.9
+}

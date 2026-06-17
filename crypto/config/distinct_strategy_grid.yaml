@@ -1,0 +1,4591 @@
+meta:
+  built: '2026-06-11'
+  rel_tol: 0.15
+  source: canonicalize_grid over each family's param sweep (near-dup eliminated)
+  consumed_by: src/strat/portfolio_replay.py (inject into STRATS) + any config sweep
+  counts:
+    2MA: 306
+    3MA: 453
+    ROC: 24
+    TREND: 24
+    DONCH: 24
+    RSI: 5
+    BOLL: 16
+  total: 852
+  caveats:
+  - RSI/BOLL carry threshold/mult axes (not length) -- standard set, not full sweep
+  - 'distinct != tradeable: pooled-per-cadence wins, per-asset dead (dead-list)'
+  - 'timeframe-AGNOSTIC: same set at every cadence; selection is per-cadence'
+strategies:
+  boll10_2:
+    family: BOLL
+    n: 10
+    k: 2
+  boll10_3:
+    family: BOLL
+    n: 10
+    k: 3
+  boll153_2:
+    family: BOLL
+    n: 153
+    k: 2
+  boll153_3:
+    family: BOLL
+    n: 153
+    k: 3
+  boll19_2:
+    family: BOLL
+    n: 19
+    k: 2
+  boll19_3:
+    family: BOLL
+    n: 19
+    k: 3
+  boll26_2:
+    family: BOLL
+    n: 26
+    k: 2
+  boll26_3:
+    family: BOLL
+    n: 26
+    k: 3
+  boll2_2:
+    family: BOLL
+    n: 2
+    k: 2
+  boll2_3:
+    family: BOLL
+    n: 2
+    k: 3
+  boll47_2:
+    family: BOLL
+    n: 47
+    k: 2
+  boll47_3:
+    family: BOLL
+    n: 47
+    k: 3
+  boll5_2:
+    family: BOLL
+    n: 5
+    k: 2
+  boll5_3:
+    family: BOLL
+    n: 5
+    k: 3
+  boll85_2:
+    family: BOLL
+    n: 85
+    k: 2
+  boll85_3:
+    family: BOLL
+    n: 85
+    k: 3
+  donch10:
+    family: DONCH
+    n: 10
+    exit_n: 5
+  donch102:
+    family: DONCH
+    n: 102
+    exit_n: 51
+  donch12:
+    family: DONCH
+    n: 12
+    exit_n: 6
+  donch121:
+    family: DONCH
+    n: 121
+    exit_n: 60
+  donch143:
+    family: DONCH
+    n: 143
+    exit_n: 71
+  donch15:
+    family: DONCH
+    n: 15
+    exit_n: 7
+  donch169:
+    family: DONCH
+    n: 169
+    exit_n: 84
+  donch18:
+    family: DONCH
+    n: 18
+    exit_n: 9
+  donch199:
+    family: DONCH
+    n: 199
+    exit_n: 99
+  donch2:
+    family: DONCH
+    n: 2
+    exit_n: 2
+  donch22:
+    family: DONCH
+    n: 22
+    exit_n: 11
+  donch26:
+    family: DONCH
+    n: 26
+    exit_n: 13
+  donch3:
+    family: DONCH
+    n: 3
+    exit_n: 2
+  donch31:
+    family: DONCH
+    n: 31
+    exit_n: 15
+  donch37:
+    family: DONCH
+    n: 37
+    exit_n: 18
+  donch4:
+    family: DONCH
+    n: 4
+    exit_n: 2
+  donch44:
+    family: DONCH
+    n: 44
+    exit_n: 22
+  donch5:
+    family: DONCH
+    n: 5
+    exit_n: 2
+  donch52:
+    family: DONCH
+    n: 52
+    exit_n: 26
+  donch6:
+    family: DONCH
+    n: 6
+    exit_n: 3
+  donch62:
+    family: DONCH
+    n: 62
+    exit_n: 31
+  donch73:
+    family: DONCH
+    n: 73
+    exit_n: 36
+  donch8:
+    family: DONCH
+    n: 8
+    exit_n: 4
+  donch86:
+    family: DONCH
+    n: 86
+    exit_n: 43
+  ema_102_103:
+    family: 2MA
+    type: EMA
+    fast: 102
+    slow: 103
+  ema_102_122:
+    family: 2MA
+    type: EMA
+    fast: 102
+    slow: 122
+  ema_102_144:
+    family: 2MA
+    type: EMA
+    fast: 102
+    slow: 144
+  ema_102_170:
+    family: 2MA
+    type: EMA
+    fast: 102
+    slow: 170
+  ema_102_201:
+    family: 2MA
+    type: EMA
+    fast: 102
+    slow: 201
+  ema_102_237:
+    family: 2MA
+    type: EMA
+    fast: 102
+    slow: 237
+  ema_106_118_132:
+    family: 3MA
+    type: EMA
+    fast: 106
+    mid: 118
+    slow: 132
+  ema_106_118_186:
+    family: 3MA
+    type: EMA
+    fast: 106
+    mid: 118
+    slow: 186
+  ema_106_166_186:
+    family: 3MA
+    type: EMA
+    fast: 106
+    mid: 166
+    slow: 186
+  ema_10_108:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 108
+  ema_10_11:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 11
+  ema_10_118_132:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 118
+    slow: 132
+  ema_10_118_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 118
+    slow: 186
+  ema_10_11_12:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 12
+  ema_10_11_132:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 132
+  ema_10_11_17:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 17
+  ema_10_11_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 186
+  ema_10_11_24:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 24
+  ema_10_11_34:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 34
+  ema_10_11_48:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 48
+  ema_10_11_67:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 67
+  ema_10_11_94:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 11
+    slow: 94
+  ema_10_128:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 128
+  ema_10_13:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 13
+  ema_10_151:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 151
+  ema_10_15_132:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 15
+    slow: 132
+  ema_10_15_17:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 15
+    slow: 17
+  ema_10_15_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 15
+    slow: 186
+  ema_10_15_24:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 15
+    slow: 24
+  ema_10_15_34:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 15
+    slow: 34
+  ema_10_15_48:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 15
+    slow: 48
+  ema_10_15_67:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 15
+    slow: 67
+  ema_10_15_94:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 15
+    slow: 94
+  ema_10_16:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 16
+  ema_10_166_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 166
+    slow: 186
+  ema_10_178:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 178
+  ema_10_19:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 19
+  ema_10_210:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 210
+  ema_10_22_132:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 22
+    slow: 132
+  ema_10_22_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 22
+    slow: 186
+  ema_10_22_24:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 22
+    slow: 24
+  ema_10_22_34:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 22
+    slow: 34
+  ema_10_22_48:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 22
+    slow: 48
+  ema_10_22_67:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 22
+    slow: 67
+  ema_10_22_94:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 22
+    slow: 94
+  ema_10_23:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 23
+  ema_10_248:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 248
+  ema_10_28:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 28
+  ema_10_30_132:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 30
+    slow: 132
+  ema_10_30_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 30
+    slow: 186
+  ema_10_30_34:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 30
+    slow: 34
+  ema_10_30_48:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 30
+    slow: 48
+  ema_10_30_67:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 30
+    slow: 67
+  ema_10_30_94:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 30
+    slow: 94
+  ema_10_33:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 33
+  ema_10_39:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 39
+  ema_10_43_132:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 43
+    slow: 132
+  ema_10_43_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 43
+    slow: 186
+  ema_10_43_48:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 43
+    slow: 48
+  ema_10_43_67:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 43
+    slow: 67
+  ema_10_43_94:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 43
+    slow: 94
+  ema_10_46:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 46
+  ema_10_55:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 55
+  ema_10_60_132:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 60
+    slow: 132
+  ema_10_60_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 60
+    slow: 186
+  ema_10_60_67:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 60
+    slow: 67
+  ema_10_60_94:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 60
+    slow: 94
+  ema_10_65:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 65
+  ema_10_77:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 77
+  ema_10_84_132:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 84
+    slow: 132
+  ema_10_84_186:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 84
+    slow: 186
+  ema_10_84_94:
+    family: 3MA
+    type: EMA
+    fast: 10
+    mid: 84
+    slow: 94
+  ema_10_91:
+    family: 2MA
+    type: EMA
+    fast: 10
+    slow: 91
+  ema_12_108:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 108
+  ema_12_128:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 128
+  ema_12_13:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 13
+  ema_12_151:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 151
+  ema_12_16:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 16
+  ema_12_178:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 178
+  ema_12_19:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 19
+  ema_12_210:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 210
+  ema_12_23:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 23
+  ema_12_248:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 248
+  ema_12_28:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 28
+  ema_12_33:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 33
+  ema_12_39:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 39
+  ema_12_46:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 46
+  ema_12_55:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 55
+  ema_12_65:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 65
+  ema_12_77:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 77
+  ema_12_91:
+    family: 2MA
+    type: EMA
+    fast: 12
+    slow: 91
+  ema_148_166_186:
+    family: 3MA
+    type: EMA
+    fast: 148
+    mid: 166
+    slow: 186
+  ema_14_118_132:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 118
+    slow: 132
+  ema_14_118_186:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 118
+    slow: 186
+  ema_14_15_132:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 15
+    slow: 132
+  ema_14_15_17:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 15
+    slow: 17
+  ema_14_15_186:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 15
+    slow: 186
+  ema_14_15_24:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 15
+    slow: 24
+  ema_14_15_34:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 15
+    slow: 34
+  ema_14_15_48:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 15
+    slow: 48
+  ema_14_15_67:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 15
+    slow: 67
+  ema_14_15_94:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 15
+    slow: 94
+  ema_14_166_186:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 166
+    slow: 186
+  ema_14_22_132:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 22
+    slow: 132
+  ema_14_22_186:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 22
+    slow: 186
+  ema_14_22_24:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 22
+    slow: 24
+  ema_14_22_34:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 22
+    slow: 34
+  ema_14_22_48:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 22
+    slow: 48
+  ema_14_22_67:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 22
+    slow: 67
+  ema_14_22_94:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 22
+    slow: 94
+  ema_14_30_132:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 30
+    slow: 132
+  ema_14_30_186:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 30
+    slow: 186
+  ema_14_30_34:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 30
+    slow: 34
+  ema_14_30_48:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 30
+    slow: 48
+  ema_14_30_67:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 30
+    slow: 67
+  ema_14_30_94:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 30
+    slow: 94
+  ema_14_43_132:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 43
+    slow: 132
+  ema_14_43_186:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 43
+    slow: 186
+  ema_14_43_48:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 43
+    slow: 48
+  ema_14_43_67:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 43
+    slow: 67
+  ema_14_43_94:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 43
+    slow: 94
+  ema_14_60_132:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 60
+    slow: 132
+  ema_14_60_186:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 60
+    slow: 186
+  ema_14_60_67:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 60
+    slow: 67
+  ema_14_60_94:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 60
+    slow: 94
+  ema_14_84_132:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 84
+    slow: 132
+  ema_14_84_186:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 84
+    slow: 186
+  ema_14_84_94:
+    family: 3MA
+    type: EMA
+    fast: 14
+    mid: 84
+    slow: 94
+  ema_15_108:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 108
+  ema_15_128:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 128
+  ema_15_151:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 151
+  ema_15_16:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 16
+  ema_15_178:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 178
+  ema_15_19:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 19
+  ema_15_210:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 210
+  ema_15_23:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 23
+  ema_15_248:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 248
+  ema_15_28:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 28
+  ema_15_33:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 33
+  ema_15_39:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 39
+  ema_15_46:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 46
+  ema_15_55:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 55
+  ema_15_65:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 65
+  ema_15_77:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 77
+  ema_15_91:
+    family: 2MA
+    type: EMA
+    fast: 15
+    slow: 91
+  ema_18_108:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 108
+  ema_18_128:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 128
+  ema_18_151:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 151
+  ema_18_178:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 178
+  ema_18_19:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 19
+  ema_18_210:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 210
+  ema_18_23:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 23
+  ema_18_248:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 248
+  ema_18_28:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 28
+  ema_18_33:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 33
+  ema_18_39:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 39
+  ema_18_46:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 46
+  ema_18_55:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 55
+  ema_18_65:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 65
+  ema_18_77:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 77
+  ema_18_91:
+    family: 2MA
+    type: EMA
+    fast: 18
+    slow: 91
+  ema_19_118_132:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 118
+    slow: 132
+  ema_19_118_186:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 118
+    slow: 186
+  ema_19_166_186:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 166
+    slow: 186
+  ema_19_22_132:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 22
+    slow: 132
+  ema_19_22_186:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 22
+    slow: 186
+  ema_19_22_24:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 22
+    slow: 24
+  ema_19_22_34:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 22
+    slow: 34
+  ema_19_22_48:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 22
+    slow: 48
+  ema_19_22_67:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 22
+    slow: 67
+  ema_19_22_94:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 22
+    slow: 94
+  ema_19_30_132:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 30
+    slow: 132
+  ema_19_30_186:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 30
+    slow: 186
+  ema_19_30_34:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 30
+    slow: 34
+  ema_19_30_48:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 30
+    slow: 48
+  ema_19_30_67:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 30
+    slow: 67
+  ema_19_30_94:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 30
+    slow: 94
+  ema_19_43_132:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 43
+    slow: 132
+  ema_19_43_186:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 43
+    slow: 186
+  ema_19_43_48:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 43
+    slow: 48
+  ema_19_43_67:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 43
+    slow: 67
+  ema_19_43_94:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 43
+    slow: 94
+  ema_19_60_132:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 60
+    slow: 132
+  ema_19_60_186:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 60
+    slow: 186
+  ema_19_60_67:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 60
+    slow: 67
+  ema_19_60_94:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 60
+    slow: 94
+  ema_19_84_132:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 84
+    slow: 132
+  ema_19_84_186:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 84
+    slow: 186
+  ema_19_84_94:
+    family: 3MA
+    type: EMA
+    fast: 19
+    mid: 84
+    slow: 94
+  ema_22_108:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 108
+  ema_22_128:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 128
+  ema_22_151:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 151
+  ema_22_178:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 178
+  ema_22_210:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 210
+  ema_22_23:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 23
+  ema_22_248:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 248
+  ema_22_28:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 28
+  ema_22_33:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 33
+  ema_22_39:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 39
+  ema_22_46:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 46
+  ema_22_55:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 55
+  ema_22_65:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 65
+  ema_22_77:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 77
+  ema_22_91:
+    family: 2MA
+    type: EMA
+    fast: 22
+    slow: 91
+  ema_26_105:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 105
+  ema_26_124:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 124
+  ema_26_146:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 146
+  ema_26_172:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 172
+  ema_26_203:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 203
+  ema_26_239:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 239
+  ema_26_27:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 27
+  ema_26_32:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 32
+  ema_26_38:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 38
+  ema_26_45:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 45
+  ema_26_53:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 53
+  ema_26_63:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 63
+  ema_26_75:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 75
+  ema_26_89:
+    family: 2MA
+    type: EMA
+    fast: 26
+    slow: 89
+  ema_27_118_132:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 118
+    slow: 132
+  ema_27_118_186:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 118
+    slow: 186
+  ema_27_166_186:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 166
+    slow: 186
+  ema_27_30_132:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 30
+    slow: 132
+  ema_27_30_186:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 30
+    slow: 186
+  ema_27_30_34:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 30
+    slow: 34
+  ema_27_30_48:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 30
+    slow: 48
+  ema_27_30_67:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 30
+    slow: 67
+  ema_27_30_94:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 30
+    slow: 94
+  ema_27_43_132:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 43
+    slow: 132
+  ema_27_43_186:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 43
+    slow: 186
+  ema_27_43_48:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 43
+    slow: 48
+  ema_27_43_67:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 43
+    slow: 67
+  ema_27_43_94:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 43
+    slow: 94
+  ema_27_60_132:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 60
+    slow: 132
+  ema_27_60_186:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 60
+    slow: 186
+  ema_27_60_67:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 60
+    slow: 67
+  ema_27_60_94:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 60
+    slow: 94
+  ema_27_84_132:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 84
+    slow: 132
+  ema_27_84_186:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 84
+    slow: 186
+  ema_27_84_94:
+    family: 3MA
+    type: EMA
+    fast: 27
+    mid: 84
+    slow: 94
+  ema_2_10:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 10
+  ema_2_102:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 102
+  ema_2_106_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 106
+    slow: 118
+  ema_2_106_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 106
+    slow: 166
+  ema_2_106_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 106
+    slow: 233
+  ema_2_10_11:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 11
+  ema_2_10_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 118
+  ema_2_10_15:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 15
+  ema_2_10_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 166
+  ema_2_10_22:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 22
+  ema_2_10_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 233
+  ema_2_10_30:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 30
+  ema_2_10_43:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 43
+  ema_2_10_60:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 60
+  ema_2_10_84:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 10
+    slow: 84
+  ema_2_12:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 12
+  ema_2_121:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 121
+  ema_2_143:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 143
+  ema_2_148_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 148
+    slow: 166
+  ema_2_148_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 148
+    slow: 233
+  ema_2_14_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 118
+  ema_2_14_15:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 15
+  ema_2_14_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 166
+  ema_2_14_22:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 22
+  ema_2_14_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 233
+  ema_2_14_30:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 30
+  ema_2_14_43:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 43
+  ema_2_14_60:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 60
+  ema_2_14_84:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 14
+    slow: 84
+  ema_2_15:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 15
+  ema_2_169:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 169
+  ema_2_18:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 18
+  ema_2_199:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 199
+  ema_2_19_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 19
+    slow: 118
+  ema_2_19_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 19
+    slow: 166
+  ema_2_19_22:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 19
+    slow: 22
+  ema_2_19_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 19
+    slow: 233
+  ema_2_19_30:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 19
+    slow: 30
+  ema_2_19_43:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 19
+    slow: 43
+  ema_2_19_60:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 19
+    slow: 60
+  ema_2_19_84:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 19
+    slow: 84
+  ema_2_208_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 208
+    slow: 233
+  ema_2_22:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 22
+  ema_2_235:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 235
+  ema_2_26:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 26
+  ema_2_27_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 27
+    slow: 118
+  ema_2_27_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 27
+    slow: 166
+  ema_2_27_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 27
+    slow: 233
+  ema_2_27_30:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 27
+    slow: 30
+  ema_2_27_43:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 27
+    slow: 43
+  ema_2_27_60:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 27
+    slow: 60
+  ema_2_27_84:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 27
+    slow: 84
+  ema_2_3:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 3
+  ema_2_31:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 31
+  ema_2_37:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 37
+  ema_2_38_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 38
+    slow: 118
+  ema_2_38_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 38
+    slow: 166
+  ema_2_38_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 38
+    slow: 233
+  ema_2_38_43:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 38
+    slow: 43
+  ema_2_38_60:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 38
+    slow: 60
+  ema_2_38_84:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 38
+    slow: 84
+  ema_2_3_106:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 106
+  ema_2_3_14:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 14
+  ema_2_3_148:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 148
+  ema_2_3_19:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 19
+  ema_2_3_208:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 208
+  ema_2_3_27:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 27
+  ema_2_3_38:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 38
+  ema_2_3_4:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 4
+  ema_2_3_53:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 53
+  ema_2_3_6:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 6
+  ema_2_3_75:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 75
+  ema_2_3_9:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 3
+    slow: 9
+  ema_2_4:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 4
+  ema_2_44:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 44
+  ema_2_5:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 5
+  ema_2_52:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 52
+  ema_2_53_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 53
+    slow: 118
+  ema_2_53_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 53
+    slow: 166
+  ema_2_53_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 53
+    slow: 233
+  ema_2_53_60:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 53
+    slow: 60
+  ema_2_53_84:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 53
+    slow: 84
+  ema_2_5_106:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 106
+  ema_2_5_14:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 14
+  ema_2_5_148:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 148
+  ema_2_5_19:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 19
+  ema_2_5_208:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 208
+  ema_2_5_27:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 27
+  ema_2_5_38:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 38
+  ema_2_5_53:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 53
+  ema_2_5_6:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 6
+  ema_2_5_75:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 75
+  ema_2_5_9:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 5
+    slow: 9
+  ema_2_6:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 6
+  ema_2_62:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 62
+  ema_2_73:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 73
+  ema_2_75_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 75
+    slow: 118
+  ema_2_75_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 75
+    slow: 166
+  ema_2_75_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 75
+    slow: 233
+  ema_2_75_84:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 75
+    slow: 84
+  ema_2_7_11:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 11
+  ema_2_7_118:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 118
+  ema_2_7_15:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 15
+  ema_2_7_166:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 166
+  ema_2_7_22:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 22
+  ema_2_7_233:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 233
+  ema_2_7_30:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 30
+  ema_2_7_43:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 43
+  ema_2_7_60:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 60
+  ema_2_7_8:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 8
+  ema_2_7_84:
+    family: 3MA
+    type: EMA
+    fast: 2
+    mid: 7
+    slow: 84
+  ema_2_8:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 8
+  ema_2_86:
+    family: 2MA
+    type: EMA
+    fast: 2
+    slow: 86
+  ema_31_105:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 105
+  ema_31_124:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 124
+  ema_31_146:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 146
+  ema_31_172:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 172
+  ema_31_203:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 203
+  ema_31_239:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 239
+  ema_31_32:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 32
+  ema_31_38:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 38
+  ema_31_45:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 45
+  ema_31_53:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 53
+  ema_31_63:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 63
+  ema_31_75:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 75
+  ema_31_89:
+    family: 2MA
+    type: EMA
+    fast: 31
+    slow: 89
+  ema_37_105:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 105
+  ema_37_124:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 124
+  ema_37_146:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 146
+  ema_37_172:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 172
+  ema_37_203:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 203
+  ema_37_239:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 239
+  ema_37_38:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 38
+  ema_37_45:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 45
+  ema_37_53:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 53
+  ema_37_63:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 63
+  ema_37_75:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 75
+  ema_37_89:
+    family: 2MA
+    type: EMA
+    fast: 37
+    slow: 89
+  ema_38_118_132:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 118
+    slow: 132
+  ema_38_118_186:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 118
+    slow: 186
+  ema_38_166_186:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 166
+    slow: 186
+  ema_38_43_132:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 43
+    slow: 132
+  ema_38_43_186:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 43
+    slow: 186
+  ema_38_43_48:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 43
+    slow: 48
+  ema_38_43_67:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 43
+    slow: 67
+  ema_38_43_94:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 43
+    slow: 94
+  ema_38_60_132:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 60
+    slow: 132
+  ema_38_60_186:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 60
+    slow: 186
+  ema_38_60_67:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 60
+    slow: 67
+  ema_38_60_94:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 60
+    slow: 94
+  ema_38_84_132:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 84
+    slow: 132
+  ema_38_84_186:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 84
+    slow: 186
+  ema_38_84_94:
+    family: 3MA
+    type: EMA
+    fast: 38
+    mid: 84
+    slow: 94
+  ema_3_10:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 10
+  ema_3_102:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 102
+  ema_3_106_118:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 106
+    slow: 118
+  ema_3_106_166:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 106
+    slow: 166
+  ema_3_106_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 106
+    slow: 233
+  ema_3_12:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 12
+  ema_3_121:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 121
+  ema_3_143:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 143
+  ema_3_148_166:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 148
+    slow: 166
+  ema_3_148_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 148
+    slow: 233
+  ema_3_14_118:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 118
+  ema_3_14_15:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 15
+  ema_3_14_166:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 166
+  ema_3_14_22:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 22
+  ema_3_14_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 233
+  ema_3_14_30:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 30
+  ema_3_14_43:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 43
+  ema_3_14_60:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 60
+  ema_3_14_84:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 14
+    slow: 84
+  ema_3_15:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 15
+  ema_3_169:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 169
+  ema_3_18:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 18
+  ema_3_199:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 199
+  ema_3_19_118:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 19
+    slow: 118
+  ema_3_19_166:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 19
+    slow: 166
+  ema_3_19_22:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 19
+    slow: 22
+  ema_3_19_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 19
+    slow: 233
+  ema_3_19_30:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 19
+    slow: 30
+  ema_3_19_43:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 19
+    slow: 43
+  ema_3_19_60:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 19
+    slow: 60
+  ema_3_19_84:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 19
+    slow: 84
+  ema_3_208_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 208
+    slow: 233
+  ema_3_22:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 22
+  ema_3_235:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 235
+  ema_3_26:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 26
+  ema_3_27_118:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 27
+    slow: 118
+  ema_3_27_166:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 27
+    slow: 166
+  ema_3_27_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 27
+    slow: 233
+  ema_3_27_30:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 27
+    slow: 30
+  ema_3_27_43:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 27
+    slow: 43
+  ema_3_27_60:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 27
+    slow: 60
+  ema_3_27_84:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 27
+    slow: 84
+  ema_3_31:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 31
+  ema_3_37:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 37
+  ema_3_38_118:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 38
+    slow: 118
+  ema_3_38_166:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 38
+    slow: 166
+  ema_3_38_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 38
+    slow: 233
+  ema_3_38_43:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 38
+    slow: 43
+  ema_3_38_60:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 38
+    slow: 60
+  ema_3_38_84:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 38
+    slow: 84
+  ema_3_4:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 4
+  ema_3_44:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 44
+  ema_3_4_10:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 10
+  ema_3_4_106:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 106
+  ema_3_4_14:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 14
+  ema_3_4_148:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 148
+  ema_3_4_19:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 19
+  ema_3_4_208:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 208
+  ema_3_4_27:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 27
+  ema_3_4_38:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 38
+  ema_3_4_5:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 5
+  ema_3_4_53:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 53
+  ema_3_4_7:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 7
+  ema_3_4_75:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 4
+    slow: 75
+  ema_3_5:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 5
+  ema_3_52:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 52
+  ema_3_53_118:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 53
+    slow: 118
+  ema_3_53_166:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 53
+    slow: 166
+  ema_3_53_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 53
+    slow: 233
+  ema_3_53_60:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 53
+    slow: 60
+  ema_3_53_84:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 53
+    slow: 84
+  ema_3_6:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 6
+  ema_3_62:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 62
+  ema_3_6_10:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 10
+  ema_3_6_106:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 106
+  ema_3_6_14:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 14
+  ema_3_6_148:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 148
+  ema_3_6_19:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 19
+  ema_3_6_208:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 208
+  ema_3_6_27:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 27
+  ema_3_6_38:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 38
+  ema_3_6_53:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 53
+  ema_3_6_7:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 7
+  ema_3_6_75:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 6
+    slow: 75
+  ema_3_73:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 73
+  ema_3_75_118:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 75
+    slow: 118
+  ema_3_75_166:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 75
+    slow: 166
+  ema_3_75_233:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 75
+    slow: 233
+  ema_3_75_84:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 75
+    slow: 84
+  ema_3_8:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 8
+  ema_3_86:
+    family: 2MA
+    type: EMA
+    fast: 3
+    slow: 86
+  ema_3_9_10:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 10
+  ema_3_9_106:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 106
+  ema_3_9_14:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 14
+  ema_3_9_148:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 148
+  ema_3_9_19:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 19
+  ema_3_9_208:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 208
+  ema_3_9_27:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 27
+  ema_3_9_38:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 38
+  ema_3_9_53:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 53
+  ema_3_9_75:
+    family: 3MA
+    type: EMA
+    fast: 3
+    mid: 9
+    slow: 75
+  ema_44_105:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 105
+  ema_44_124:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 124
+  ema_44_146:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 146
+  ema_44_172:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 172
+  ema_44_203:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 203
+  ema_44_239:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 239
+  ema_44_45:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 45
+  ema_44_53:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 53
+  ema_44_63:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 63
+  ema_44_75:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 75
+  ema_44_89:
+    family: 2MA
+    type: EMA
+    fast: 44
+    slow: 89
+  ema_4_10:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 10
+  ema_4_102:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 102
+  ema_4_12:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 12
+  ema_4_121:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 121
+  ema_4_143:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 143
+  ema_4_15:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 15
+  ema_4_169:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 169
+  ema_4_18:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 18
+  ema_4_199:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 199
+  ema_4_22:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 22
+  ema_4_235:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 235
+  ema_4_26:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 26
+  ema_4_31:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 31
+  ema_4_37:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 37
+  ema_4_44:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 44
+  ema_4_5:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 5
+  ema_4_52:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 52
+  ema_4_6:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 6
+  ema_4_62:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 62
+  ema_4_73:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 73
+  ema_4_8:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 8
+  ema_4_86:
+    family: 2MA
+    type: EMA
+    fast: 4
+    slow: 86
+  ema_52_105:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 105
+  ema_52_124:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 124
+  ema_52_146:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 146
+  ema_52_172:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 172
+  ema_52_203:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 203
+  ema_52_239:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 239
+  ema_52_53:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 53
+  ema_52_63:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 63
+  ema_52_75:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 75
+  ema_52_89:
+    family: 2MA
+    type: EMA
+    fast: 52
+    slow: 89
+  ema_53_118_132:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 118
+    slow: 132
+  ema_53_118_186:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 118
+    slow: 186
+  ema_53_166_186:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 166
+    slow: 186
+  ema_53_60_132:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 60
+    slow: 132
+  ema_53_60_186:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 60
+    slow: 186
+  ema_53_60_67:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 60
+    slow: 67
+  ema_53_60_94:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 60
+    slow: 94
+  ema_53_84_132:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 84
+    slow: 132
+  ema_53_84_186:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 84
+    slow: 186
+  ema_53_84_94:
+    family: 3MA
+    type: EMA
+    fast: 53
+    mid: 84
+    slow: 94
+  ema_5_10:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 10
+  ema_5_102:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 102
+  ema_5_106_118:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 106
+    slow: 118
+  ema_5_106_166:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 106
+    slow: 166
+  ema_5_106_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 106
+    slow: 233
+  ema_5_12:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 12
+  ema_5_121:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 121
+  ema_5_143:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 143
+  ema_5_148_166:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 148
+    slow: 166
+  ema_5_148_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 148
+    slow: 233
+  ema_5_14_118:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 118
+  ema_5_14_15:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 15
+  ema_5_14_166:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 166
+  ema_5_14_22:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 22
+  ema_5_14_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 233
+  ema_5_14_30:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 30
+  ema_5_14_43:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 43
+  ema_5_14_60:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 60
+  ema_5_14_84:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 14
+    slow: 84
+  ema_5_15:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 15
+  ema_5_169:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 169
+  ema_5_18:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 18
+  ema_5_199:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 199
+  ema_5_19_118:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 19
+    slow: 118
+  ema_5_19_166:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 19
+    slow: 166
+  ema_5_19_22:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 19
+    slow: 22
+  ema_5_19_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 19
+    slow: 233
+  ema_5_19_30:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 19
+    slow: 30
+  ema_5_19_43:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 19
+    slow: 43
+  ema_5_19_60:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 19
+    slow: 60
+  ema_5_19_84:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 19
+    slow: 84
+  ema_5_208_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 208
+    slow: 233
+  ema_5_22:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 22
+  ema_5_235:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 235
+  ema_5_26:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 26
+  ema_5_27_118:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 27
+    slow: 118
+  ema_5_27_166:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 27
+    slow: 166
+  ema_5_27_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 27
+    slow: 233
+  ema_5_27_30:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 27
+    slow: 30
+  ema_5_27_43:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 27
+    slow: 43
+  ema_5_27_60:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 27
+    slow: 60
+  ema_5_27_84:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 27
+    slow: 84
+  ema_5_31:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 31
+  ema_5_37:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 37
+  ema_5_38_118:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 38
+    slow: 118
+  ema_5_38_166:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 38
+    slow: 166
+  ema_5_38_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 38
+    slow: 233
+  ema_5_38_43:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 38
+    slow: 43
+  ema_5_38_60:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 38
+    slow: 60
+  ema_5_38_84:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 38
+    slow: 84
+  ema_5_44:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 44
+  ema_5_52:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 52
+  ema_5_53_118:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 53
+    slow: 118
+  ema_5_53_166:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 53
+    slow: 166
+  ema_5_53_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 53
+    slow: 233
+  ema_5_53_60:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 53
+    slow: 60
+  ema_5_53_84:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 53
+    slow: 84
+  ema_5_6:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 6
+  ema_5_62:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 62
+  ema_5_6_10:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 10
+  ema_5_6_106:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 106
+  ema_5_6_14:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 14
+  ema_5_6_148:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 148
+  ema_5_6_19:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 19
+  ema_5_6_208:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 208
+  ema_5_6_27:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 27
+  ema_5_6_38:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 38
+  ema_5_6_53:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 53
+  ema_5_6_7:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 7
+  ema_5_6_75:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 6
+    slow: 75
+  ema_5_73:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 73
+  ema_5_75_118:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 75
+    slow: 118
+  ema_5_75_166:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 75
+    slow: 166
+  ema_5_75_233:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 75
+    slow: 233
+  ema_5_75_84:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 75
+    slow: 84
+  ema_5_8:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 8
+  ema_5_86:
+    family: 2MA
+    type: EMA
+    fast: 5
+    slow: 86
+  ema_5_9_10:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 10
+  ema_5_9_106:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 106
+  ema_5_9_14:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 14
+  ema_5_9_148:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 148
+  ema_5_9_19:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 19
+  ema_5_9_208:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 208
+  ema_5_9_27:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 27
+  ema_5_9_38:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 38
+  ema_5_9_53:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 53
+  ema_5_9_75:
+    family: 3MA
+    type: EMA
+    fast: 5
+    mid: 9
+    slow: 75
+  ema_62_105:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 105
+  ema_62_124:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 124
+  ema_62_146:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 146
+  ema_62_172:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 172
+  ema_62_203:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 203
+  ema_62_239:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 239
+  ema_62_63:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 63
+  ema_62_75:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 75
+  ema_62_89:
+    family: 2MA
+    type: EMA
+    fast: 62
+    slow: 89
+  ema_6_108:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 108
+  ema_6_11:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 11
+  ema_6_128:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 128
+  ema_6_13:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 13
+  ema_6_151:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 151
+  ema_6_16:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 16
+  ema_6_178:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 178
+  ema_6_19:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 19
+  ema_6_210:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 210
+  ema_6_23:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 23
+  ema_6_248:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 248
+  ema_6_28:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 28
+  ema_6_33:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 33
+  ema_6_39:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 39
+  ema_6_46:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 46
+  ema_6_55:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 55
+  ema_6_65:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 65
+  ema_6_7:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 7
+  ema_6_77:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 77
+  ema_6_9:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 9
+  ema_6_91:
+    family: 2MA
+    type: EMA
+    fast: 6
+    slow: 91
+  ema_73_104:
+    family: 2MA
+    type: EMA
+    fast: 73
+    slow: 104
+  ema_73_123:
+    family: 2MA
+    type: EMA
+    fast: 73
+    slow: 123
+  ema_73_145:
+    family: 2MA
+    type: EMA
+    fast: 73
+    slow: 145
+  ema_73_171:
+    family: 2MA
+    type: EMA
+    fast: 73
+    slow: 171
+  ema_73_202:
+    family: 2MA
+    type: EMA
+    fast: 73
+    slow: 202
+  ema_73_238:
+    family: 2MA
+    type: EMA
+    fast: 73
+    slow: 238
+  ema_73_74:
+    family: 2MA
+    type: EMA
+    fast: 73
+    slow: 74
+  ema_73_88:
+    family: 2MA
+    type: EMA
+    fast: 73
+    slow: 88
+  ema_75_118_132:
+    family: 3MA
+    type: EMA
+    fast: 75
+    mid: 118
+    slow: 132
+  ema_75_118_186:
+    family: 3MA
+    type: EMA
+    fast: 75
+    mid: 118
+    slow: 186
+  ema_75_166_186:
+    family: 3MA
+    type: EMA
+    fast: 75
+    mid: 166
+    slow: 186
+  ema_75_84_132:
+    family: 3MA
+    type: EMA
+    fast: 75
+    mid: 84
+    slow: 132
+  ema_75_84_186:
+    family: 3MA
+    type: EMA
+    fast: 75
+    mid: 84
+    slow: 186
+  ema_75_84_94:
+    family: 3MA
+    type: EMA
+    fast: 75
+    mid: 84
+    slow: 94
+  ema_7_118_132:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 118
+    slow: 132
+  ema_7_118_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 118
+    slow: 186
+  ema_7_11_12:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 12
+  ema_7_11_132:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 132
+  ema_7_11_17:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 17
+  ema_7_11_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 186
+  ema_7_11_24:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 24
+  ema_7_11_34:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 34
+  ema_7_11_48:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 48
+  ema_7_11_67:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 67
+  ema_7_11_94:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 11
+    slow: 94
+  ema_7_15_132:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 15
+    slow: 132
+  ema_7_15_17:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 15
+    slow: 17
+  ema_7_15_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 15
+    slow: 186
+  ema_7_15_24:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 15
+    slow: 24
+  ema_7_15_34:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 15
+    slow: 34
+  ema_7_15_48:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 15
+    slow: 48
+  ema_7_15_67:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 15
+    slow: 67
+  ema_7_15_94:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 15
+    slow: 94
+  ema_7_166_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 166
+    slow: 186
+  ema_7_22_132:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 22
+    slow: 132
+  ema_7_22_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 22
+    slow: 186
+  ema_7_22_24:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 22
+    slow: 24
+  ema_7_22_34:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 22
+    slow: 34
+  ema_7_22_48:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 22
+    slow: 48
+  ema_7_22_67:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 22
+    slow: 67
+  ema_7_22_94:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 22
+    slow: 94
+  ema_7_30_132:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 30
+    slow: 132
+  ema_7_30_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 30
+    slow: 186
+  ema_7_30_34:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 30
+    slow: 34
+  ema_7_30_48:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 30
+    slow: 48
+  ema_7_30_67:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 30
+    slow: 67
+  ema_7_30_94:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 30
+    slow: 94
+  ema_7_43_132:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 43
+    slow: 132
+  ema_7_43_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 43
+    slow: 186
+  ema_7_43_48:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 43
+    slow: 48
+  ema_7_43_67:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 43
+    slow: 67
+  ema_7_43_94:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 43
+    slow: 94
+  ema_7_60_132:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 60
+    slow: 132
+  ema_7_60_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 60
+    slow: 186
+  ema_7_60_67:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 60
+    slow: 67
+  ema_7_60_94:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 60
+    slow: 94
+  ema_7_84_132:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 84
+    slow: 132
+  ema_7_84_186:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 84
+    slow: 186
+  ema_7_84_94:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 84
+    slow: 94
+  ema_7_8_106:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 106
+  ema_7_8_14:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 14
+  ema_7_8_148:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 148
+  ema_7_8_19:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 19
+  ema_7_8_208:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 208
+  ema_7_8_27:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 27
+  ema_7_8_38:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 38
+  ema_7_8_53:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 53
+  ema_7_8_75:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 75
+  ema_7_8_9:
+    family: 3MA
+    type: EMA
+    fast: 7
+    mid: 8
+    slow: 9
+  ema_86_103:
+    family: 2MA
+    type: EMA
+    fast: 86
+    slow: 103
+  ema_86_122:
+    family: 2MA
+    type: EMA
+    fast: 86
+    slow: 122
+  ema_86_144:
+    family: 2MA
+    type: EMA
+    fast: 86
+    slow: 144
+  ema_86_170:
+    family: 2MA
+    type: EMA
+    fast: 86
+    slow: 170
+  ema_86_201:
+    family: 2MA
+    type: EMA
+    fast: 86
+    slow: 201
+  ema_86_237:
+    family: 2MA
+    type: EMA
+    fast: 86
+    slow: 237
+  ema_86_87:
+    family: 2MA
+    type: EMA
+    fast: 86
+    slow: 87
+  ema_8_108:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 108
+  ema_8_11:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 11
+  ema_8_128:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 128
+  ema_8_13:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 13
+  ema_8_151:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 151
+  ema_8_16:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 16
+  ema_8_178:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 178
+  ema_8_19:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 19
+  ema_8_210:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 210
+  ema_8_23:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 23
+  ema_8_248:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 248
+  ema_8_28:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 28
+  ema_8_33:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 33
+  ema_8_39:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 39
+  ema_8_46:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 46
+  ema_8_55:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 55
+  ema_8_65:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 65
+  ema_8_77:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 77
+  ema_8_9:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 9
+  ema_8_91:
+    family: 2MA
+    type: EMA
+    fast: 8
+    slow: 91
+  roc10:
+    family: ROC
+    n: 10
+  roc102:
+    family: ROC
+    n: 102
+  roc12:
+    family: ROC
+    n: 12
+  roc121:
+    family: ROC
+    n: 121
+  roc143:
+    family: ROC
+    n: 143
+  roc15:
+    family: ROC
+    n: 15
+  roc169:
+    family: ROC
+    n: 169
+  roc18:
+    family: ROC
+    n: 18
+  roc199:
+    family: ROC
+    n: 199
+  roc2:
+    family: ROC
+    n: 2
+  roc22:
+    family: ROC
+    n: 22
+  roc26:
+    family: ROC
+    n: 26
+  roc3:
+    family: ROC
+    n: 3
+  roc31:
+    family: ROC
+    n: 31
+  roc37:
+    family: ROC
+    n: 37
+  roc4:
+    family: ROC
+    n: 4
+  roc44:
+    family: ROC
+    n: 44
+  roc5:
+    family: ROC
+    n: 5
+  roc52:
+    family: ROC
+    n: 52
+  roc6:
+    family: ROC
+    n: 6
+  roc62:
+    family: ROC
+    n: 62
+  roc73:
+    family: ROC
+    n: 73
+  roc8:
+    family: ROC
+    n: 8
+  roc86:
+    family: ROC
+    n: 86
+  rsi_20_50:
+    family: RSI
+    lo: 20
+    hi: 50
+  rsi_25_55:
+    family: RSI
+    lo: 25
+    hi: 55
+  rsi_30_50:
+    family: RSI
+    lo: 30
+    hi: 50
+  rsi_30_60:
+    family: RSI
+    lo: 30
+    hi: 60
+  rsi_35_65:
+    family: RSI
+    lo: 35
+    hi: 65
+  trend10:
+    family: TREND
+    n: 10
+  trend102:
+    family: TREND
+    n: 102
+  trend12:
+    family: TREND
+    n: 12
+  trend121:
+    family: TREND
+    n: 121
+  trend143:
+    family: TREND
+    n: 143
+  trend15:
+    family: TREND
+    n: 15
+  trend169:
+    family: TREND
+    n: 169
+  trend18:
+    family: TREND
+    n: 18
+  trend199:
+    family: TREND
+    n: 199
+  trend2:
+    family: TREND
+    n: 2
+  trend22:
+    family: TREND
+    n: 22
+  trend26:
+    family: TREND
+    n: 26
+  trend3:
+    family: TREND
+    n: 3
+  trend31:
+    family: TREND
+    n: 31
+  trend37:
+    family: TREND
+    n: 37
+  trend4:
+    family: TREND
+    n: 4
+  trend44:
+    family: TREND
+    n: 44
+  trend5:
+    family: TREND
+    n: 5
+  trend52:
+    family: TREND
+    n: 52
+  trend6:
+    family: TREND
+    n: 6
+  trend62:
+    family: TREND
+    n: 62
+  trend73:
+    family: TREND
+    n: 73
+  trend8:
+    family: TREND
+    n: 8
+  trend86:
+    family: TREND
+    n: 86

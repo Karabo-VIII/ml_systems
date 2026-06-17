@@ -1,0 +1,1823 @@
+{
+ "repro": {
+  "git_sha": "9bc7c96",
+  "span": [
+   "2020-01-01",
+   "2023-01-01"
+  ],
+  "lookback_d": 120,
+  "step_d": 30,
+  "cost_maker": 0.0006,
+  "cost_taker": 0.0024
+ },
+ "by_tf": {
+  "4h": {
+   "results": {
+    "MACD": {
+     "ti": "MACD",
+     "family": "trend",
+     "n_configs": 66,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 58.9,
+       "maxdd": -8.8
+      },
+      "2021_mixed": {
+       "net": 195.4,
+       "maxdd": -18.4
+      },
+      "2022_bear": {
+       "net": 4.9,
+       "maxdd": -14.9
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 55.3,
+       "maxdd": -9.1
+      },
+      "2021_mixed": {
+       "net": 157.3,
+       "maxdd": -17.9
+      },
+      "2022_bear": {
+       "net": -2.0,
+       "maxdd": -15.1
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 112.4,
+       "maxdd": -10.8
+      },
+      "2021_mixed": {
+       "net": 181.5,
+       "maxdd": -18.1
+      },
+      "2022_bear": {
+       "net": 6.0,
+       "maxdd": -15.1
+      }
+     },
+     "static_1_cfg": "MACD(5,100,21)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 18
+    },
+    "VORTEX": {
+     "ti": "VORTEX",
+     "family": "trend",
+     "n_configs": 4,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 58.8,
+       "maxdd": -15.5
+      },
+      "2021_mixed": {
+       "net": 215.6,
+       "maxdd": -22.9
+      },
+      "2022_bear": {
+       "net": -27.0,
+       "maxdd": -35.9
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 56.0,
+       "maxdd": -12.8
+      },
+      "2021_mixed": {
+       "net": 203.8,
+       "maxdd": -24.4
+      },
+      "2022_bear": {
+       "net": -23.6,
+       "maxdd": -34.3
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 122.3,
+       "maxdd": -14.6
+      },
+      "2021_mixed": {
+       "net": 215.1,
+       "maxdd": -22.9
+      },
+      "2022_bear": {
+       "net": -28.3,
+       "maxdd": -33.4
+      }
+     },
+     "static_1_cfg": "VORTEX(21)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 4
+    },
+    "ADX": {
+     "ti": "ADX",
+     "family": "trend",
+     "n_configs": 6,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 90.5,
+       "maxdd": -7.8
+      },
+      "2021_mixed": {
+       "net": 85.4,
+       "maxdd": -28.0
+      },
+      "2022_bear": {
+       "net": -11.1,
+       "maxdd": -22.4
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 62.4,
+       "maxdd": -5.7
+      },
+      "2021_mixed": {
+       "net": 94.8,
+       "maxdd": -15.9
+      },
+      "2022_bear": {
+       "net": -11.3,
+       "maxdd": -22.4
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 61.4,
+       "maxdd": -29.6
+      },
+      "2021_mixed": {
+       "net": 125.6,
+       "maxdd": -21.3
+      },
+      "2022_bear": {
+       "net": 4.7,
+       "maxdd": -19.1
+      }
+     },
+     "static_1_cfg": "ADX(14,25)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 5
+    },
+    "TSI": {
+     "ti": "TSI",
+     "family": "momentum",
+     "n_configs": 4,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 67.1,
+       "maxdd": -12.2
+      },
+      "2021_mixed": {
+       "net": 247.2,
+       "maxdd": -21.1
+      },
+      "2022_bear": {
+       "net": -4.1,
+       "maxdd": -20.0
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 60.7,
+       "maxdd": -12.1
+      },
+      "2021_mixed": {
+       "net": 190.5,
+       "maxdd": -20.2
+      },
+      "2022_bear": {
+       "net": -4.7,
+       "maxdd": -20.4
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 117.3,
+       "maxdd": -13.1
+      },
+      "2021_mixed": {
+       "net": 203.4,
+       "maxdd": -24.8
+      },
+      "2022_bear": {
+       "net": 2.5,
+       "maxdd": -20.0
+      }
+     },
+     "static_1_cfg": "TSI(13,7)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 4
+    },
+    "CMF": {
+     "ti": "CMF",
+     "family": "volume",
+     "n_configs": 3,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 44.0,
+       "maxdd": -12.5
+      },
+      "2021_mixed": {
+       "net": 165.5,
+       "maxdd": -19.4
+      },
+      "2022_bear": {
+       "net": -18.6,
+       "maxdd": -26.0
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 49.7,
+       "maxdd": -12.1
+      },
+      "2021_mixed": {
+       "net": 144.6,
+       "maxdd": -20.3
+      },
+      "2022_bear": {
+       "net": -17.9,
+       "maxdd": -25.4
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 73.8,
+       "maxdd": -14.9
+      },
+      "2021_mixed": {
+       "net": 172.0,
+       "maxdd": -19.4
+      },
+      "2022_bear": {
+       "net": -13.9,
+       "maxdd": -23.9
+      }
+     },
+     "static_1_cfg": "CMF(20)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 175.1,
+       "maxdd": -45.4
+      },
+      "2021_mixed": {
+       "net": 2071.3,
+       "maxdd": -52.6
+      },
+      "2022_bear": {
+       "net": -61.4,
+       "maxdd": -65.4
+      }
+     },
+     "n_distinct_picks": 3
+    },
+    "OBV": {
+     "ti": "OBV",
+     "family": "volume",
+     "n_configs": 4,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 59.6,
+       "maxdd": -14.4
+      },
+      "2021_mixed": {
+       "net": 265.2,
+       "maxdd": -21.8
+      },
+      "2022_bear": {
+       "net": -27.8,
+       "maxdd": -32.7
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 68.0,
+       "maxdd": -12.4
+      },
+      "2021_mixed": {
+       "net": 218.5,
+       "maxdd": -23.7
+      },
+      "2022_bear": {
+       "net": -27.9,
+       "maxdd": -32.4
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 111.1,
+       "maxdd": -16.4
+      },
+      "2021_mixed": {
+       "net": 297.7,
+       "maxdd": -21.8
+      },
+      "2022_bear": {
+       "net": -30.6,
+       "maxdd": -34.3
+      }
+     },
+     "static_1_cfg": "OBV(10)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 175.1,
+       "maxdd": -45.4
+      },
+      "2021_mixed": {
+       "net": 2071.3,
+       "maxdd": -52.6
+      },
+      "2022_bear": {
+       "net": -61.4,
+       "maxdd": -65.4
+      }
+     },
+     "n_distinct_picks": 4
+    },
+    "MFI": {
+     "ti": "MFI",
+     "family": "volume",
+     "n_configs": 12,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 41.9,
+       "maxdd": -16.5
+      },
+      "2021_mixed": {
+       "net": 43.2,
+       "maxdd": -12.8
+      },
+      "2022_bear": {
+       "net": 4.8,
+       "maxdd": -10.5
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 18.1,
+       "maxdd": -9.1
+      },
+      "2021_mixed": {
+       "net": 43.6,
+       "maxdd": -8.3
+      },
+      "2022_bear": {
+       "net": 1.1,
+       "maxdd": -5.9
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 102.1,
+       "maxdd": -16.1
+      },
+      "2021_mixed": {
+       "net": 119.9,
+       "maxdd": -20.6
+      },
+      "2022_bear": {
+       "net": -9.8,
+       "maxdd": -22.3
+      }
+     },
+     "static_1_cfg": "MFI(14,lo30,hi80)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 175.1,
+       "maxdd": -45.4
+      },
+      "2021_mixed": {
+       "net": 2071.3,
+       "maxdd": -52.6
+      },
+      "2022_bear": {
+       "net": -61.4,
+       "maxdd": -65.4
+      }
+     },
+     "n_distinct_picks": 7
+    },
+    "VOLIMB": {
+     "ti": "VOLIMB",
+     "family": "volume",
+     "n_configs": 12,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 48.6,
+       "maxdd": -16.0
+      },
+      "2021_mixed": {
+       "net": 160.4,
+       "maxdd": -19.1
+      },
+      "2022_bear": {
+       "net": -14.9,
+       "maxdd": -21.0
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 36.7,
+       "maxdd": -8.9
+      },
+      "2021_mixed": {
+       "net": 141.4,
+       "maxdd": -14.7
+      },
+      "2022_bear": {
+       "net": -20.7,
+       "maxdd": -24.8
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 124.3,
+       "maxdd": -16.8
+      },
+      "2021_mixed": {
+       "net": 216.6,
+       "maxdd": -20.1
+      },
+      "2022_bear": {
+       "net": -32.6,
+       "maxdd": -34.1
+      }
+     },
+     "static_1_cfg": "VOLIMB(3,thr0.5)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 175.1,
+       "maxdd": -45.4
+      },
+      "2021_mixed": {
+       "net": 2071.3,
+       "maxdd": -52.6
+      },
+      "2022_bear": {
+       "net": -61.4,
+       "maxdd": -65.4
+      }
+     },
+     "n_distinct_picks": 11
+    },
+    "SUPERTREND": {
+     "ti": "SUPERTREND",
+     "family": "trend",
+     "n_configs": 16,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 43.4,
+       "maxdd": -15.5
+      },
+      "2021_mixed": {
+       "net": 218.4,
+       "maxdd": -22.2
+      },
+      "2022_bear": {
+       "net": -13.0,
+       "maxdd": -20.5
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 51.0,
+       "maxdd": -11.9
+      },
+      "2021_mixed": {
+       "net": 194.0,
+       "maxdd": -23.1
+      },
+      "2022_bear": {
+       "net": -10.0,
+       "maxdd": -19.6
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 120.2,
+       "maxdd": -10.9
+      },
+      "2021_mixed": {
+       "net": 162.0,
+       "maxdd": -19.6
+      },
+      "2022_bear": {
+       "net": -1.7,
+       "maxdd": -21.8
+      }
+     },
+     "static_1_cfg": "ST(10,4.0)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 10
+    },
+    "PSAR": {
+     "ti": "PSAR",
+     "family": "trend",
+     "n_configs": 9,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 54.5,
+       "maxdd": -12.2
+      },
+      "2021_mixed": {
+       "net": 136.0,
+       "maxdd": -28.0
+      },
+      "2022_bear": {
+       "net": 2.7,
+       "maxdd": -17.1
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 52.1,
+       "maxdd": -11.3
+      },
+      "2021_mixed": {
+       "net": 171.6,
+       "maxdd": -22.6
+      },
+      "2022_bear": {
+       "net": 0.8,
+       "maxdd": -17.1
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 96.4,
+       "maxdd": -14.1
+      },
+      "2021_mixed": {
+       "net": 194.9,
+       "maxdd": -16.5
+      },
+      "2022_bear": {
+       "net": -0.3,
+       "maxdd": -17.1
+      }
+     },
+     "static_1_cfg": "PSAR(0.01,0.1)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 8
+    },
+    "ROC": {
+     "ti": "ROC",
+     "family": "momentum",
+     "n_configs": 16,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 68.4,
+       "maxdd": -12.4
+      },
+      "2021_mixed": {
+       "net": 202.1,
+       "maxdd": -25.7
+      },
+      "2022_bear": {
+       "net": -7.4,
+       "maxdd": -17.2
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 50.4,
+       "maxdd": -9.8
+      },
+      "2021_mixed": {
+       "net": 165.9,
+       "maxdd": -18.3
+      },
+      "2022_bear": {
+       "net": -5.7,
+       "maxdd": -18.5
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 112.1,
+       "maxdd": -14.3
+      },
+      "2021_mixed": {
+       "net": 221.0,
+       "maxdd": -19.1
+      },
+      "2022_bear": {
+       "net": -9.7,
+       "maxdd": -25.3
+      }
+     },
+     "static_1_cfg": "ROC(20,thr2.0)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 9
+    },
+    "DONCHIAN": {
+     "ti": "DONCHIAN",
+     "family": "breakout",
+     "n_configs": 9,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 54.0,
+       "maxdd": -11.3
+      },
+      "2021_mixed": {
+       "net": 102.4,
+       "maxdd": -26.0
+      },
+      "2022_bear": {
+       "net": -11.0,
+       "maxdd": -27.6
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 46.1,
+       "maxdd": -8.0
+      },
+      "2021_mixed": {
+       "net": 110.9,
+       "maxdd": -14.2
+      },
+      "2022_bear": {
+       "net": -12.6,
+       "maxdd": -29.0
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 100.5,
+       "maxdd": -11.6
+      },
+      "2021_mixed": {
+       "net": 151.5,
+       "maxdd": -13.1
+      },
+      "2022_bear": {
+       "net": -17.5,
+       "maxdd": -31.7
+      }
+     },
+     "static_1_cfg": "DONCH(30,20)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 7
+    },
+    "KELTNER": {
+     "ti": "KELTNER",
+     "family": "breakout",
+     "n_configs": 6,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 57.0,
+       "maxdd": -10.5
+      },
+      "2021_mixed": {
+       "net": 188.3,
+       "maxdd": -18.0
+      },
+      "2022_bear": {
+       "net": 0.8,
+       "maxdd": -18.1
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 56.7,
+       "maxdd": -9.1
+      },
+      "2021_mixed": {
+       "net": 168.6,
+       "maxdd": -17.5
+      },
+      "2022_bear": {
+       "net": 0.7,
+       "maxdd": -18.0
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 117.4,
+       "maxdd": -11.1
+      },
+      "2021_mixed": {
+       "net": 212.0,
+       "maxdd": -17.5
+      },
+      "2022_bear": {
+       "net": -4.4,
+       "maxdd": -20.7
+      }
+     },
+     "static_1_cfg": "KELT(30,1.5)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 6
+    },
+    "WILLR": {
+     "ti": "WILLR",
+     "family": "mean-reversion",
+     "n_configs": 12,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 11.4,
+       "maxdd": -9.8
+      },
+      "2021_mixed": {
+       "net": 31.1,
+       "maxdd": -9.6
+      },
+      "2022_bear": {
+       "net": -24.0,
+       "maxdd": -26.8
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 5.3,
+       "maxdd": -7.5
+      },
+      "2021_mixed": {
+       "net": 25.3,
+       "maxdd": -8.2
+      },
+      "2022_bear": {
+       "net": -24.5,
+       "maxdd": -27.9
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 32.3,
+       "maxdd": -9.0
+      },
+      "2021_mixed": {
+       "net": 41.7,
+       "maxdd": -9.8
+      },
+      "2022_bear": {
+       "net": -32.3,
+       "maxdd": -34.1
+      }
+     },
+     "static_1_cfg": "WILLR(14,lo-80,hi-20)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 8
+    },
+    "RSI": {
+     "ti": "RSI",
+     "family": "mean-reversion",
+     "n_configs": 27,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 3.2,
+       "maxdd": -10.8
+      },
+      "2021_mixed": {
+       "net": 57.9,
+       "maxdd": -9.4
+      },
+      "2022_bear": {
+       "net": -1.6,
+       "maxdd": -12.2
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 6.2,
+       "maxdd": -7.1
+      },
+      "2021_mixed": {
+       "net": 28.2,
+       "maxdd": -5.2
+      },
+      "2022_bear": {
+       "net": -2.8,
+       "maxdd": -12.2
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 31.1,
+       "maxdd": -10.8
+      },
+      "2021_mixed": {
+       "net": 70.7,
+       "maxdd": -9.6
+      },
+      "2022_bear": {
+       "net": -14.4,
+       "maxdd": -18.3
+      }
+     },
+     "static_1_cfg": "RSI(7,lo35,hi60)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 11
+    },
+    "STOCH": {
+     "ti": "STOCH",
+     "family": "mean-reversion",
+     "n_configs": 18,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 13.3,
+       "maxdd": -10.5
+      },
+      "2021_mixed": {
+       "net": 28.9,
+       "maxdd": -10.8
+      },
+      "2022_bear": {
+       "net": -25.0,
+       "maxdd": -28.8
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 8.4,
+       "maxdd": -8.0
+      },
+      "2021_mixed": {
+       "net": 34.3,
+       "maxdd": -8.4
+      },
+      "2022_bear": {
+       "net": -25.6,
+       "maxdd": -29.3
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 38.9,
+       "maxdd": -9.9
+      },
+      "2021_mixed": {
+       "net": 45.1,
+       "maxdd": -9.8
+      },
+      "2022_bear": {
+       "net": -32.5,
+       "maxdd": -34.4
+      }
+     },
+     "static_1_cfg": "STOCH(14,lo25,hi80)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 11
+    },
+    "BBPCT": {
+     "ti": "BBPCT",
+     "family": "mean-reversion",
+     "n_configs": 18,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 0.2,
+       "maxdd": -11.7
+      },
+      "2021_mixed": {
+       "net": 23.2,
+       "maxdd": -10.6
+      },
+      "2022_bear": {
+       "net": -16.0,
+       "maxdd": -18.7
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 5.2,
+       "maxdd": -6.2
+      },
+      "2021_mixed": {
+       "net": 11.4,
+       "maxdd": -8.4
+      },
+      "2022_bear": {
+       "net": -13.9,
+       "maxdd": -16.7
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 25.2,
+       "maxdd": -12.2
+      },
+      "2021_mixed": {
+       "net": 33.0,
+       "maxdd": -13.5
+      },
+      "2022_bear": {
+       "net": -25.8,
+       "maxdd": -28.0
+      }
+     },
+     "static_1_cfg": "BBPCT(14,lo0.2,hi0.9)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 11
+    },
+    "CCI": {
+     "ti": "CCI",
+     "family": "mean-reversion",
+     "n_configs": 18,
+     "rolling_pick": {
+      "2020_bull": {
+       "net": 9.0,
+       "maxdd": -3.2
+      },
+      "2021_mixed": {
+       "net": 6.4,
+       "maxdd": -9.9
+      },
+      "2022_bear": {
+       "net": -7.5,
+       "maxdd": -15.0
+      }
+     },
+     "band_ensemble": {
+      "2020_bull": {
+       "net": 1.1,
+       "maxdd": -6.0
+      },
+      "2021_mixed": {
+       "net": 5.6,
+       "maxdd": -9.3
+      },
+      "2022_bear": {
+       "net": -7.0,
+       "maxdd": -12.3
+      }
+     },
+     "static_1": {
+      "2020_bull": {
+       "net": 17.8,
+       "maxdd": -5.1
+      },
+      "2021_mixed": {
+       "net": 11.6,
+       "maxdd": -4.4
+      },
+      "2022_bear": {
+       "net": 1.7,
+       "maxdd": -7.6
+      }
+     },
+     "static_1_cfg": "CCI(20,lo-150,hi100)",
+     "buyhold": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_distinct_picks": 10
+    }
+   },
+   "report_rows": [
+    {
+     "ti": "MACD",
+     "family": "trend",
+     "candidate": true,
+     "score": 98.1,
+     "detail": "20:58.9 21:195.4 22:4.9 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 58.9,
+       "maxdd": -8.8
+      },
+      "2021_mixed": {
+       "net": 195.4,
+       "maxdd": -18.4
+      },
+      "2022_bear": {
+       "net": 4.9,
+       "maxdd": -14.9
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 18
+    },
+    {
+     "ti": "TSI",
+     "family": "momentum",
+     "candidate": true,
+     "score": 94.0,
+     "detail": "20:67.1 21:247.2 22:-4.1 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 67.1,
+       "maxdd": -12.2
+      },
+      "2021_mixed": {
+       "net": 247.2,
+       "maxdd": -21.1
+      },
+      "2022_bear": {
+       "net": -4.1,
+       "maxdd": -20.0
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 4
+    },
+    {
+     "ti": "KELTNER",
+     "family": "breakout",
+     "candidate": true,
+     "score": 92.4,
+     "detail": "20:57.0 21:188.3 22:0.8 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 57.0,
+       "maxdd": -10.5
+      },
+      "2021_mixed": {
+       "net": 188.3,
+       "maxdd": -18.0
+      },
+      "2022_bear": {
+       "net": 0.8,
+       "maxdd": -18.1
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 6
+    },
+    {
+     "ti": "PSAR",
+     "family": "trend",
+     "candidate": true,
+     "score": 89.0,
+     "detail": "20:54.5 21:136.0 22:2.7 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 54.5,
+       "maxdd": -12.2
+      },
+      "2021_mixed": {
+       "net": 136.0,
+       "maxdd": -28.0
+      },
+      "2022_bear": {
+       "net": 2.7,
+       "maxdd": -17.1
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 8
+    },
+    {
+     "ti": "ROC",
+     "family": "momentum",
+     "candidate": true,
+     "score": 86.9,
+     "detail": "20:68.4 21:202.1 22:-7.4 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 68.4,
+       "maxdd": -12.4
+      },
+      "2021_mixed": {
+       "net": 202.1,
+       "maxdd": -25.7
+      },
+      "2022_bear": {
+       "net": -7.4,
+       "maxdd": -17.2
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 9
+    },
+    {
+     "ti": "SUPERTREND",
+     "family": "trend",
+     "candidate": true,
+     "score": 79.8,
+     "detail": "20:43.4 21:218.4 22:-13.0 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 43.4,
+       "maxdd": -15.5
+      },
+      "2021_mixed": {
+       "net": 218.4,
+       "maxdd": -22.2
+      },
+      "2022_bear": {
+       "net": -13.0,
+       "maxdd": -20.5
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 10
+    },
+    {
+     "ti": "RSI",
+     "family": "mean-reversion",
+     "candidate": true,
+     "score": 72.8,
+     "detail": "20:3.2 21:57.9 22:-1.6 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 3.2,
+       "maxdd": -10.8
+      },
+      "2021_mixed": {
+       "net": 57.9,
+       "maxdd": -9.4
+      },
+      "2022_bear": {
+       "net": -1.6,
+       "maxdd": -12.2
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 11
+    },
+    {
+     "ti": "ADX",
+     "family": "trend",
+     "candidate": true,
+     "score": 72.7,
+     "detail": "20:90.5 21:85.4 22:-11.1 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 90.5,
+       "maxdd": -7.8
+      },
+      "2021_mixed": {
+       "net": 85.4,
+       "maxdd": -28.0
+      },
+      "2022_bear": {
+       "net": -11.1,
+       "maxdd": -22.4
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 5
+    },
+    {
+     "ti": "MFI",
+     "family": "volume",
+     "candidate": true,
+     "score": 72.6,
+     "detail": "20:41.9 21:43.2 22:4.8 (BH22 -61.4)",
+     "rp": {
+      "2020_bull": {
+       "net": 41.9,
+       "maxdd": -16.5
+      },
+      "2021_mixed": {
+       "net": 43.2,
+       "maxdd": -12.8
+      },
+      "2022_bear": {
+       "net": 4.8,
+       "maxdd": -10.5
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 175.1,
+       "maxdd": -45.4
+      },
+      "2021_mixed": {
+       "net": 2071.3,
+       "maxdd": -52.6
+      },
+      "2022_bear": {
+       "net": -61.4,
+       "maxdd": -65.4
+      }
+     },
+     "n_picks": 7
+    },
+    {
+     "ti": "DONCHIAN",
+     "family": "breakout",
+     "candidate": true,
+     "score": 69.8,
+     "detail": "20:54.0 21:102.4 22:-11.0 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 54.0,
+       "maxdd": -11.3
+      },
+      "2021_mixed": {
+       "net": 102.4,
+       "maxdd": -26.0
+      },
+      "2022_bear": {
+       "net": -11.0,
+       "maxdd": -27.6
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 7
+    },
+    {
+     "ti": "VORTEX",
+     "family": "trend",
+     "candidate": true,
+     "score": 64.0,
+     "detail": "20:58.8 21:215.6 22:-27.0 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 58.8,
+       "maxdd": -15.5
+      },
+      "2021_mixed": {
+       "net": 215.6,
+       "maxdd": -22.9
+      },
+      "2022_bear": {
+       "net": -27.0,
+       "maxdd": -35.9
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 4
+    },
+    {
+     "ti": "VOLIMB",
+     "family": "volume",
+     "candidate": true,
+     "score": 63.2,
+     "detail": "20:48.6 21:160.4 22:-14.9 (BH22 -61.4)",
+     "rp": {
+      "2020_bull": {
+       "net": 48.6,
+       "maxdd": -16.0
+      },
+      "2021_mixed": {
+       "net": 160.4,
+       "maxdd": -19.1
+      },
+      "2022_bear": {
+       "net": -14.9,
+       "maxdd": -21.0
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 175.1,
+       "maxdd": -45.4
+      },
+      "2021_mixed": {
+       "net": 2071.3,
+       "maxdd": -52.6
+      },
+      "2022_bear": {
+       "net": -61.4,
+       "maxdd": -65.4
+      }
+     },
+     "n_picks": 11
+    },
+    {
+     "ti": "CCI",
+     "family": "mean-reversion",
+     "candidate": true,
+     "score": 61.7,
+     "detail": "20:9.0 21:6.4 22:-7.5 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 9.0,
+       "maxdd": -3.2
+      },
+      "2021_mixed": {
+       "net": 6.4,
+       "maxdd": -9.9
+      },
+      "2022_bear": {
+       "net": -7.5,
+       "maxdd": -15.0
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 10
+    },
+    {
+     "ti": "OBV",
+     "family": "volume",
+     "candidate": true,
+     "score": 59.5,
+     "detail": "20:59.6 21:265.2 22:-27.8 (BH22 -61.4)",
+     "rp": {
+      "2020_bull": {
+       "net": 59.6,
+       "maxdd": -14.4
+      },
+      "2021_mixed": {
+       "net": 265.2,
+       "maxdd": -21.8
+      },
+      "2022_bear": {
+       "net": -27.8,
+       "maxdd": -32.7
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 175.1,
+       "maxdd": -45.4
+      },
+      "2021_mixed": {
+       "net": 2071.3,
+       "maxdd": -52.6
+      },
+      "2022_bear": {
+       "net": -61.4,
+       "maxdd": -65.4
+      }
+     },
+     "n_picks": 4
+    },
+    {
+     "ti": "CMF",
+     "family": "volume",
+     "candidate": true,
+     "score": 58.5,
+     "detail": "20:44.0 21:165.5 22:-18.6 (BH22 -61.4)",
+     "rp": {
+      "2020_bull": {
+       "net": 44.0,
+       "maxdd": -12.5
+      },
+      "2021_mixed": {
+       "net": 165.5,
+       "maxdd": -19.4
+      },
+      "2022_bear": {
+       "net": -18.6,
+       "maxdd": -26.0
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 175.1,
+       "maxdd": -45.4
+      },
+      "2021_mixed": {
+       "net": 2071.3,
+       "maxdd": -52.6
+      },
+      "2022_bear": {
+       "net": -61.4,
+       "maxdd": -65.4
+      }
+     },
+     "n_picks": 3
+    },
+    {
+     "ti": "BBPCT",
+     "family": "mean-reversion",
+     "candidate": true,
+     "score": 53.3,
+     "detail": "20:0.2 21:23.2 22:-16.0 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 0.2,
+       "maxdd": -11.7
+      },
+      "2021_mixed": {
+       "net": 23.2,
+       "maxdd": -10.6
+      },
+      "2022_bear": {
+       "net": -16.0,
+       "maxdd": -18.7
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 11
+    },
+    {
+     "ti": "WILLR",
+     "family": "mean-reversion",
+     "candidate": true,
+     "score": 45.6,
+     "detail": "20:11.4 21:31.1 22:-24.0 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 11.4,
+       "maxdd": -9.8
+      },
+      "2021_mixed": {
+       "net": 31.1,
+       "maxdd": -9.6
+      },
+      "2022_bear": {
+       "net": -24.0,
+       "maxdd": -26.8
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 8
+    },
+    {
+     "ti": "STOCH",
+     "family": "mean-reversion",
+     "candidate": true,
+     "score": 44.2,
+     "detail": "20:13.3 21:28.9 22:-25.0 (BH22 -70.7)",
+     "rp": {
+      "2020_bull": {
+       "net": 13.3,
+       "maxdd": -10.5
+      },
+      "2021_mixed": {
+       "net": 28.9,
+       "maxdd": -10.8
+      },
+      "2022_bear": {
+       "net": -25.0,
+       "maxdd": -28.8
+      }
+     },
+     "bh": {
+      "2020_bull": {
+       "net": 134.0,
+       "maxdd": -47.2
+      },
+      "2021_mixed": {
+       "net": 1201.3,
+       "maxdd": -60.6
+      },
+      "2022_bear": {
+       "net": -70.7,
+       "maxdd": -72.1
+      }
+     },
+     "n_picks": 11
+    }
+   ],
+   "candidates": [
+    "MACD",
+    "TSI",
+    "KELTNER",
+    "PSAR",
+    "ROC",
+    "SUPERTREND",
+    "RSI",
+    "ADX",
+    "MFI",
+    "DONCHIAN",
+    "VORTEX",
+    "VOLIMB",
+    "CCI",
+    "OBV",
+    "CMF",
+    "BBPCT",
+    "WILLR",
+    "STOCH"
+   ]
+  }
+ }
+}

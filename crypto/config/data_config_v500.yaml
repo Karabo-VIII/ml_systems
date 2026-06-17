@@ -1,0 +1,41 @@
+exchange:
+  name: binance
+  enable_rate_limit: true
+data:
+  raw_dir: ./data/raw
+  processed_dir: ./data/processed
+  start_date: '2020-01-01 00:00:00'
+system:
+  num_workers: 8
+  memory_limit_gb: 32
+assets:
+  BTC/USDT:
+    dollar_bar_size: 100000000
+    is_active: true
+  ETH/USDT:
+    dollar_bar_size: 86000000
+    is_active: true
+  SOL/USDT:
+    dollar_bar_size: 24000000
+    is_active: true
+  BNB/USDT:
+    dollar_bar_size: 4400000
+    is_active: true
+  XRP/USDT:
+    dollar_bar_size: 22000000
+    is_active: true
+  DOGE/USDT:
+    dollar_bar_size: 15000000
+    is_active: true
+  ADA/USDT:
+    dollar_bar_size: 2700000
+    is_active: true
+  AVAX/USDT:
+    dollar_bar_size: 1500000
+    is_active: true
+  LINK/USDT:
+    dollar_bar_size: 1600000
+    is_active: true
+  LTC/USDT:
+    dollar_bar_size: 1000000
+    is_active: true

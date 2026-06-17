@@ -1,0 +1,185 @@
+{
+  "asset": "BTCUSDT",
+  "cadence": "4h",
+  "start": null,
+  "end": null,
+  "n_returns": 13995,
+  "n_full_before_cap": null,
+  "small_n": false,
+  "small_n_threshold": 500,
+  "annualization_factor": 46.797,
+  "bars_per_year": 2190.0,
+  "annualization_source": "fixed (time cadence)",
+  "distribution_tails": {
+    "mean": 0.0001570386382247241,
+    "std": 0.012834642260886616,
+    "mean_annualized": 0.34391,
+    "std_annualized": 0.60063,
+    "skew": -0.7566,
+    "excess_kurtosis": 19.182,
+    "hill_alpha_left": 2.673,
+    "hill_alpha_right": 2.789,
+    "cubic_law_check": "YES -- alpha~2.73 in the crypto/cubic-law band [2,3.5] (fat-tailed, equity-like cubic regime)",
+    "jarque_bera": {
+      "stat": 215898.7637996329,
+      "p": 0.0,
+      "verdict": "NON-NORMAL (reject)"
+    }
+  },
+  "dependence_memory": {
+    "ljung_box_ret_p": 0.0,
+    "ljung_box_absret_p": 0.0,
+    "ljung_box_ret2_p": 0.0,
+    "ac1_ret": -0.0228,
+    "hurst_ret_rs": 0.5597,
+    "hurst_ret_dfa": 0.5223,
+    "hurst_absret_rs": 0.8018,
+    "hurst_absret_dfa": 0.8402,
+    "interpretation": "returns efficient in direction (LB rejects only on negligible bid-ask-bounce AC1, no edge); STRONG volatility clustering in |ret|; Hurst(ret) DFA~0.52 (random walk); Hurst(|ret|) DFA~0.84 (long memory in vol); AC1<0 (-0.023) consistent with bid-ask bounce / microstructure reversal"
+  },
+  "stationarity": {
+    "adf": {
+      "stat": -18.783051112406437,
+      "p": 2.0240729004347293e-30,
+      "verdict": "STATIONARY (reject unit root)"
+    },
+    "kpss": {
+      "stat": 0.1852966651048014,
+      "p": 0.1,
+      "verdict": "STATIONARY (cannot reject null)"
+    }
+  },
+  "jumps": {
+    "jump_fraction_bns": 0.1646,
+    "rv": 2.305549,
+    "bv": 1.926056,
+    "threshold_jump_count": 13,
+    "threshold_jump_var_share": 0.06336,
+    "k_sigma": 5.0,
+    "roll": 50
+  },
+  "volatility_process": {
+    "garch11_t": {
+      "alpha": 0.05117,
+      "beta": 0.94883,
+      "persistence": 1.0,
+      "half_life_bars": null,
+      "nu_studentt_dof": 3.042,
+      "note": "returns scaled x100 for arch optimizer; persistence/nu are scale-invariant"
+    },
+    "gjr_garch": {
+      "gamma": 0.01701,
+      "leverage_sign": "EQUITY sign (neg shocks raise vol more)"
+    }
+  },
+  "chimera_proxy_means": {
+    "garch_persistence": -0.12136688514593104,
+    "hurst": -0.1464655211203254,
+    "excess_kurtosis": 0.034676710281379065,
+    "jump_fraction": 0.07794400415191956,
+    "annualized_vol": -0.24777205798467064,
+    "predictability": -0.054503068430089646,
+    "kyle": 0.019226318233561846
+  },
+  "reconciliation": [
+    {
+      "metric": "excess_kurtosis",
+      "our_computed": 19.182,
+      "section_II_reference": "6 to 26 (daily BTC; period-dependent)",
+      "chimera_proxy_feature": "norm_return_kurtosis",
+      "chimera_proxy_mean": 0.03468,
+      "agree_with_section_II": "AGREE",
+      "note": "section II: 6-26 for daily BTC; high positive = fat tails"
+    },
+    {
+      "metric": "hill_tail_alpha_avg",
+      "our_computed": 2.731,
+      "section_II_reference": "tail index alpha ~ 2 to 3.5 (cubic-law band)",
+      "chimera_proxy_feature": null,
+      "chimera_proxy_mean": null,
+      "agree_with_section_II": "AGREE",
+      "note": "section II cubic-law band [2,3.5]; lower alpha = heavier tail"
+    },
+    {
+      "metric": "garch_persistence",
+      "our_computed": 1.0,
+      "section_II_reference": "alpha+beta ~ 1.0 (near-integrated; shocks decay slowly)",
+      "chimera_proxy_feature": "norm_vol_cluster",
+      "chimera_proxy_mean": -0.12137,
+      "agree_with_section_II": "AGREE",
+      "note": "section II: ~1.0 near-integrated; proxy norm_vol_cluster is z-scored (sign/level, not 1:1)"
+    },
+    {
+      "metric": "hurst_ret_dfa",
+      "our_computed": 0.5223,
+      "section_II_reference": "~0.5 (raw returns ~ random walk; direction near-unpredictable)",
+      "chimera_proxy_feature": "hurst_regime",
+      "chimera_proxy_mean": -0.14647,
+      "agree_with_section_II": "AGREE",
+      "note": "section II: ~0.5 random walk; proxy hurst_regime tracks Hurst level"
+    },
+    {
+      "metric": "hurst_absret_dfa",
+      "our_computed": 0.8402,
+      "section_II_reference": ">0.5 (long memory in volatility)",
+      "chimera_proxy_feature": "hurst_regime",
+      "chimera_proxy_mean": -0.14647,
+      "agree_with_section_II": "AGREE",
+      "note": "section II: >0.5 long memory in vol"
+    },
+    {
+      "metric": "ljung_box_ret_p",
+      "our_computed": 0.0,
+      "section_II_reference": "insignificant (p>0.05; direction unpredictable / efficient)",
+      "chimera_proxy_feature": "norm_perm_entropy",
+      "chimera_proxy_mean": -0.0545,
+      "agree_with_section_II": "AGREE-IN-SPIRIT (LB rejects at large-n on negligible bid-ask-bounce AC1; no directional edge)",
+      "note": "section II: insignificant/efficient; AC1=-0.0228 (|AC1| tiny => microstructure, not predictability)"
+    },
+    {
+      "metric": "ljung_box_absret_p",
+      "our_computed": 0.0,
+      "section_II_reference": "significant (p<<0.05; volatility clustering)",
+      "chimera_proxy_feature": "norm_vol_cluster",
+      "chimera_proxy_mean": -0.12137,
+      "agree_with_section_II": "AGREE",
+      "note": "section II: significant (vol clustering)"
+    },
+    {
+      "metric": "jump_fraction_bns",
+      "our_computed": 0.1646,
+      "section_II_reference": "n/a",
+      "chimera_proxy_feature": "rv_jump_frac",
+      "chimera_proxy_mean": 0.07794,
+      "agree_with_section_II": "AGREE",
+      "note": "BNS RV-vs-BV jump share; proxy rv_jump_frac is the engineered counterpart"
+    },
+    {
+      "metric": "leverage_gamma",
+      "our_computed": 0.01701,
+      "section_II_reference": "inverted/absent in BTC (gamma<=0; pos shocks raise vol more)",
+      "chimera_proxy_feature": null,
+      "chimera_proxy_mean": null,
+      "agree_with_section_II": "DISAGREE (equity-sign found)",
+      "note": "section II: BTC leverage inverted/absent (gamma<=0)"
+    },
+    {
+      "metric": "annualized_vol",
+      "our_computed": 0.60063,
+      "section_II_reference": "n/a",
+      "chimera_proxy_feature": "norm_yz_volatility",
+      "chimera_proxy_mean": -0.24777,
+      "agree_with_section_II": "INFO",
+      "note": "raw annualized sigma vs z-scored YZ-vol proxy (not a 1:1 comparison)"
+    },
+    {
+      "metric": "kyle_lambda_proxy",
+      "our_computed": null,
+      "section_II_reference": "n/a",
+      "chimera_proxy_feature": "norm_kyle_lambda",
+      "chimera_proxy_mean": 0.01923,
+      "agree_with_section_II": "INFO",
+      "note": "chimera microstructure proxy only; no whole-series canonical estimator computed"
+    }
+  ]
+}

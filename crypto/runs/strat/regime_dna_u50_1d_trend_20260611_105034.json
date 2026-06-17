@@ -1,0 +1,198 @@
+{
+ "repro": {
+  "command": "python C:\\Users\\karab\\Documents\\coding\\v4_crypto_stystem\\src\\strat\\regime_dna_lab.py --universe u50 --cadence 1d --regime trend",
+  "git_sha": "db9b5bc"
+ },
+ "result": {
+  "universe": "u50",
+  "cadence": "1d",
+  "regime_mode": "trend",
+  "n_assets": 45,
+  "regimes": [
+   "DOWN",
+   "UP"
+  ],
+  "selection": {
+   "pooled_cfg": "EMA_20_100/sig",
+   "per_asset_cfg": {
+    "BTCUSDT": "RSI14_30_50/sig",
+    "ETHUSDT": "EMA_20_100/sig",
+    "SOLUSDT": "DONCH_20_10/sig",
+    "XRPUSDT": "EMA_20_100/stop",
+    "BNBUSDT": "EMA_20_100/sig",
+    "DOGEUSDT": "EMA_20_100/sig",
+    "ZECUSDT": "RSI14_30_50/stop",
+    "TRXUSDT": "RSI14_30_50/stop",
+    "PEPEUSDT": "ROC_20/sig",
+    "ADAUSDT": "EMA_20_100/sig",
+    "LINKUSDT": "EMA_20_100/sig",
+    "SUIUSDT": "ROC_20/sig",
+    "AVAXUSDT": "DONCH_20_10/sig",
+    "TAOUSDT": "EMA_20_100/sig",
+    "FETUSDT": "DONCH_20_10/sig",
+    "ENJUSDT": "DONCH_20_10/sig",
+    "ORDIUSDT": "EMA_20_100/sig",
+    "NEARUSDT": "DONCH_20_10/sig",
+    "WLDUSDT": "EMA_20_100/sig",
+    "ENAUSDT": "EMA_20_100/sig",
+    "LTCUSDT": "EMA_20_100/sig",
+    "AAVEUSDT": "DONCH_20_10/sig",
+    "DASHUSDT": "RSI14_30_50/sig",
+    "UNIUSDT": "EMA_20_100/sig",
+    "BCHUSDT": "EMA_20_100/sig",
+    "DOTUSDT": "ROC_20/sig",
+    "TONUSDT": "EMA_20_100/sig",
+    "APTUSDT": "DONCH_20_10/sig",
+    "FILUSDT": "DONCH_20_10/sig",
+    "RENDERUSDT": "EMA_20_100/sig",
+    "HBARUSDT": "EMA_20_100/sig",
+    "ARBUSDT": "DONCH_20_10/stop",
+    "SHIBUSDT": "DONCH_20_10/sig",
+    "ALGOUSDT": "EMA_20_100/sig",
+    "BONKUSDT": "EMA_20_100/sig",
+    "WIFUSDT": "EMA_20_100/sig",
+    "ICPUSDT": "DONCH_20_10/sig",
+    "SEIUSDT": "EMA_20_100/sig",
+    "JSTUSDT": "RSI14_30_50/stop",
+    "CRVUSDT": "DONCH_20_10/sig",
+    "BLURUSDT": "EMA_20_100/sig",
+    "LDOUSDT": "DONCH_20_10/sig",
+    "OPUSDT": "DONCH_20_10/sig",
+    "ETCUSDT": "EMA_20_100/sig",
+    "SUPERUSDT": "DONCH_20_10/sig"
+   },
+   "n_regime_cells": 64
+  },
+  "systems": {
+   "SYS_C_pooled": {
+    "TRAIN": {
+     "n": 227,
+     "mean": 0.8725688802117656,
+     "median": -0.08369251700680262,
+     "win": 0.3700440528634361,
+     "pf": 9.957886588255278,
+     "sum": 198.0731358080708,
+     "jk_drop_top3_mean": 0.4135862888884985
+    },
+    "OOS": {
+     "n": 132,
+     "mean": 0.08897107122311408,
+     "median": -0.08624794037159732,
+     "win": 0.3409090909090909,
+     "pf": 1.8743451912866564,
+     "sum": 11.744181401451058,
+     "jk_drop_top3_mean": 0.0024433773163588125
+    },
+    "UNSEEN": {
+     "n": 75,
+     "mean": -0.027636602926379244,
+     "median": -0.1319054484492876,
+     "win": 0.12,
+     "pf": 0.8161285902741031,
+     "sum": -2.0727452194784433,
+     "jk_drop_top3_mean": -0.14268423900332025
+    },
+    "breadth_OOS": {
+     "pos": 13,
+     "tot": 27
+    },
+    "breadth_UNSEEN": {
+     "pos": 3,
+     "tot": 9
+    }
+   },
+   "SYS_B_per_asset": {
+    "TRAIN": {
+     "n": 518,
+     "mean": 0.41286329234049823,
+     "median": -0.022526907881647337,
+     "win": 0.41505791505791506,
+     "pf": 7.079156351811667,
+     "sum": 213.8631854323781,
+     "jk_drop_top3_mean": 0.21055024919481743
+    },
+    "OOS": {
+     "n": 300,
+     "mean": 0.05178069965880067,
+     "median": -0.06651478849697955,
+     "win": 0.34,
+     "pf": 1.6351015210328788,
+     "sum": 15.534209897640203,
+     "jk_drop_top3_mean": 0.012907483042886147
+    },
+    "UNSEEN": {
+     "n": 194,
+     "mean": -0.052273501877322985,
+     "median": -0.0562806541596018,
+     "win": 0.25773195876288657,
+     "pf": 0.32840912817519047,
+     "sum": -10.14105936420066,
+     "jk_drop_top3_mean": -0.06318325472702277
+    },
+    "breadth_OOS": {
+     "pos": 22,
+     "tot": 36
+    },
+    "breadth_UNSEEN": {
+     "pos": 4,
+     "tot": 22
+    }
+   },
+   "SYS_A_regime_sw": {
+    "TRAIN": {
+     "n": 979,
+     "mean": 0.162335889732941,
+     "median": -0.01179393939393951,
+     "win": 0.43922369765066394,
+     "pf": 4.419066936074461,
+     "sum": 158.92683604854923,
+     "jk_drop_top3_mean": 0.12494293628599927
+    },
+    "OOS": {
+     "n": 490,
+     "mean": 0.018434144685770672,
+     "median": -0.03739820732832615,
+     "win": 0.34285714285714286,
+     "pf": 1.326811443631474,
+     "sum": 9.03273089602763,
+     "jk_drop_top3_mean": 0.0027448677474332314
+    },
+    "UNSEEN": {
+     "n": 281,
+     "mean": -0.01296251625297085,
+     "median": -0.027893626593351636,
+     "win": 0.34519572953736655,
+     "pf": 0.7281874070741637,
+     "sum": -3.6424670670848087,
+     "jk_drop_top3_mean": -0.02255303933525813
+    },
+    "breadth_OOS": {
+     "pos": 18,
+     "tot": 34
+    },
+    "breadth_UNSEEN": {
+     "pos": 11,
+     "tot": 34
+    }
+   }
+  },
+  "stability_Q3": {
+   "n_cells": 64,
+   "OOS_cells_evaluable": 62,
+   "OOS_frac_positive": 0.6451612903225806,
+   "UNSEEN_cells_evaluable": 55,
+   "UNSEEN_frac_positive": 0.38181818181818183,
+   "OOS_null_frac_positive_mean": 0.5506349077043433
+  },
+  "firewall": {
+   "SYS_B_per_asset": {
+    "real_mean": 0.05178069965880067,
+    "note": "random-entry firewall deferred to full battery; breadth+jackknife are the in-line guards"
+   },
+   "SYS_A_regime_sw": {
+    "real_mean": 0.018434144685770672,
+    "note": "random-entry firewall deferred to full battery; breadth+jackknife are the in-line guards"
+   }
+  }
+ }
+}

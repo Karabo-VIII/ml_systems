@@ -1,0 +1,60 @@
+{
+ "rows": {
+  "MR_only|Jun2022_bear": {
+   "roi": -14.8,
+   "maxdd": -25.7
+  },
+  "MR_only|VAL": {
+   "roi": -12.9,
+   "maxdd": -28.9
+  },
+  "MR_only|OOS": {
+   "roi": 3.1,
+   "maxdd": -20.1
+  },
+  "BREAKOUT|Jun2022_bear": {
+   "roi": -3.1,
+   "maxdd": -2.9
+  },
+  "BREAKOUT|VAL": {
+   "roi": 19.1,
+   "maxdd": -10.7
+  },
+  "BREAKOUT|OOS": {
+   "roi": 11.0,
+   "maxdd": -15.4
+  },
+  "BO+MR_ens|Jun2022_bear": {
+   "roi": -6.5,
+   "maxdd": -9.4
+  },
+  "BO+MR_ens|VAL": {
+   "roi": 10.1,
+   "maxdd": -12.5
+  },
+  "BO+MR_ens|OOS": {
+   "roi": 9.5,
+   "maxdd": -13.8
+  }
+ },
+ "scorecard": {
+  "BREAKOUT": {
+   "oos_compound": 10.96,
+   "oos_sharpe": 0.72,
+   "heldout_p05": -21.21,
+   "unseen_n": 0
+  },
+  "MR_only": {
+   "oos_compound": 3.05,
+   "oos_sharpe": 0.28,
+   "heldout_p05": -28.86,
+   "unseen_n": 0
+  },
+  "BO+MR_ens": {
+   "oos_compound": 9.53,
+   "oos_sharpe": 0.7,
+   "heldout_p05": -17.37,
+   "unseen_n": 0
+  }
+ }
+}

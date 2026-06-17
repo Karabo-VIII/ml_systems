@@ -1,0 +1,94 @@
+{
+ "repro": {
+  "command": "python -m strat.funding_satellite_assessment ",
+  "git_sha": "3048a06",
+  "universe": "u50",
+  "k": 5
+ },
+ "assessment": {
+  "core_span": [
+   "2020-01-06",
+   "2026-05-28"
+  ],
+  "sat_span": [
+   "2020-07-09",
+   "2026-05-28"
+  ],
+  "overlap_days": 2072,
+  "overlap_span": [
+   "2020-07-09",
+   "2026-05-28"
+  ],
+  "correlation": {
+   "pearson": 0.0149,
+   "spearman": 0.0026
+  },
+  "core_stats_overlap": {
+   "n_days": 2072,
+   "compound_pct": 1969.32,
+   "ann_vol_pct": 45.09,
+   "sharpe": 1.4,
+   "maxdd_pct": -48.16,
+   "daily_mean_bps": 17.34
+  },
+  "sat_stats_overlap": {
+   "n_days": 2072,
+   "compound_pct": 62.12,
+   "ann_vol_pct": 2.09,
+   "sharpe": 4.09,
+   "maxdd_pct": -1.85,
+   "daily_mean_bps": 2.34
+  },
+  "blend_sketch": {
+   "core+0xVolSat": {
+    "n_days": 2072,
+    "compound_pct": 1969.32,
+    "ann_vol_pct": 45.09,
+    "sharpe": 1.4,
+    "maxdd_pct": -48.16,
+    "daily_mean_bps": 17.34,
+    "sat_vol_scale": 0.0,
+    "sat_risk_weight": 0.0
+   },
+   "core+0.25xVolSat": {
+    "n_days": 2072,
+    "compound_pct": 27003.74,
+    "ann_vol_pct": 46.64,
+    "sharpe": 2.35,
+    "maxdd_pct": -36.39,
+    "daily_mean_bps": 29.97,
+    "sat_vol_scale": 5.402,
+    "sat_risk_weight": 0.25
+   },
+   "core+0.5xVolSat": {
+    "n_days": 2072,
+    "compound_pct": 329571.86,
+    "ann_vol_pct": 50.71,
+    "sharpe": 3.07,
+    "maxdd_pct": -31.97,
+    "daily_mean_bps": 42.61,
+    "sat_vol_scale": 10.805,
+    "sat_risk_weight": 0.5
+   },
+   "core+1xVolSat": {
+    "n_days": 2072,
+    "compound_pct": 39313103.36,
+    "ann_vol_pct": 64.24,
+    "sharpe": 3.86,
+    "maxdd_pct": -43.16,
+    "daily_mean_bps": 67.87,
+    "sat_vol_scale": 21.61,
+    "sat_risk_weight": 1.0
+   }
+  },
+  "diversification": {
+   "low_correlation": true,
+   "core_sharpe_overlap": 1.4,
+   "best_blend": "core+1xVolSat",
+   "best_blend_sharpe": 3.86,
+   "sharpe_lift_vs_core": 2.46,
+   "best_blend_maxdd": -43.16,
+   "core_maxdd": -48.16
+  }
+ }
+}

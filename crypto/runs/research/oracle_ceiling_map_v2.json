@@ -1,0 +1,645 @@
+{
+  "cost_rt": 0.0024,
+  "min_hold_hours": 1.0,
+  "max_hold_days": 7,
+  "method": "perfect-foresight high-capture DP (entry=open[k], exit=high[j], non-overlap, hours<=hold<7d via real ts); EXACT max-compound (selftest PASS)",
+  "note_compound_degenerate": "total/UNSEEN compound explode under perfect-foresight reinvestment; use mean/median/sum net per-move % + n_moves as the ACTIONABLE ceiling.",
+  "catalog_reuse_verdict": "REFUTED: capturable_4h_catalog is a binary win-label catalog (win_3pct_12bar/win_5pct_18bar, base 0.41/0.33), not a max-capture oracle.",
+  "results": {
+    "1d": {
+      "SOL": {
+        "n_moves": 520,
+        "mean_net_per_move_pct": 9.330594870064745,
+        "median_net_per_move_pct": 5.7076994669453445,
+        "sum_net_per_move_pct": 4851.909332433668,
+        "total_capturable_compound_pct_DEGENERATE": 1.6161381446599075e+21,
+        "mean_hold_hours": 47.64549416773504,
+        "median_hold_hours": 24.704555416666665,
+        "UNSEEN": {
+          "n_moves": 34,
+          "mean_net_pct": 4.96254770751394,
+          "median_net_pct": 3.6528872716085585,
+          "sum_net_pct": 168.72662205547394,
+          "compound_pct_DEGENERATE": 407.9367760270479
+        },
+        "OOS": {
+          "n_moves": 68,
+          "mean_net_pct": 6.563942237931535,
+          "median_net_pct": 5.0165535825665035,
+          "sum_net_pct": 446.34807217934434,
+          "compound_pct_DEGENERATE": 6789.610977981475
+        },
+        "n_bars": 2083,
+        "span_days": 2081.8812321875
+      },
+      "BTC": {
+        "n_moves": 590,
+        "mean_net_per_move_pct": 4.396352978077605,
+        "median_net_per_move_pct": 2.985926237440935,
+        "sum_net_per_move_pct": 2593.848257065787,
+        "total_capturable_compound_pct_DEGENERATE": 6274047761914.528,
+        "mean_hold_hours": 47.6772579712806,
+        "median_hold_hours": 47.94746652777778,
+        "UNSEEN": {
+          "n_moves": 33,
+          "mean_net_pct": 3.645254563474176,
+          "median_net_pct": 3.4177999131950147,
+          "sum_net_pct": 120.29340059464782,
+          "compound_pct_DEGENERATE": 222.95044623191274
+        },
+        "OOS": {
+          "n_moves": 69,
+          "mean_net_pct": 2.9540521696715616,
+          "median_net_pct": 1.9681371012264706,
+          "sum_net_pct": 203.82959970733774,
+          "compound_pct_DEGENERATE": 629.2393092109646
+        },
+        "n_bars": 2334,
+        "span_days": 2332.8292280208334
+      },
+      "ETH": {
+        "n_moves": 602,
+        "mean_net_per_move_pct": 6.0193068540363965,
+        "median_net_per_move_pct": 4.0194412988189665,
+        "sum_net_per_move_pct": 3623.6227261299105,
+        "total_capturable_compound_pct_DEGENERATE": 6.405057387371218e+16,
+        "mean_hold_hours": 47.60187967977114,
+        "median_hold_hours": 47.91055388888889,
+        "UNSEEN": {
+          "n_moves": 33,
+          "mean_net_pct": 4.793651029997005,
+          "median_net_pct": 4.160703308747977,
+          "sum_net_pct": 158.19048398990117,
+          "compound_pct_DEGENERATE": 358.62262090964043
+        },
+        "OOS": {
+          "n_moves": 68,
+          "mean_net_pct": 6.027241159075472,
+          "median_net_pct": 4.308519006039697,
+          "sum_net_pct": 409.8523988171321,
+          "compound_pct_DEGENERATE": 4656.977496958174
+        },
+        "n_bars": 2326,
+        "span_days": 2324.896967638889
+      },
+      "BNB": {
+        "n_moves": 595,
+        "mean_net_per_move_pct": 5.819752300566776,
+        "median_net_per_move_pct": 3.512759381898452,
+        "sum_net_per_move_pct": 3462.7526188372312,
+        "total_capturable_compound_pct_DEGENERATE": 7894204422925350.0,
+        "mean_hold_hours": 49.180414824463114,
+        "median_hold_hours": 47.97394444444444,
+        "UNSEEN": {
+          "n_moves": 30,
+          "mean_net_pct": 3.389676254417214,
+          "median_net_pct": 3.186925470316189,
+          "sum_net_pct": 101.69028763251642,
+          "compound_pct_DEGENERATE": 170.16386994277423
+        },
+        "OOS": {
+          "n_moves": 67,
+          "mean_net_pct": 4.2780832169424485,
+          "median_net_pct": 3.1193966233047337,
+          "sum_net_pct": 286.63157553514407,
+          "compound_pct_DEGENERATE": 1480.2947790369026
+        },
+        "n_bars": 2325,
+        "span_days": 2323.6571153703703
+      },
+      "AVAX": {
+        "n_moves": 528,
+        "mean_net_per_move_pct": 9.0878842290244,
+        "median_net_per_move_pct": 5.70706076442294,
+        "sum_net_per_move_pct": 4798.402872924883,
+        "total_capturable_compound_pct_DEGENERATE": 4.691488006387839e+20,
+        "mean_hold_hours": 46.61376793034512,
+        "median_hold_hours": 47.607819444444445,
+        "UNSEEN": {
+          "n_moves": 33,
+          "mean_net_pct": 5.196598413582399,
+          "median_net_pct": 4.204444444444451,
+          "sum_net_pct": 171.48774764821917,
+          "compound_pct_DEGENERATE": 419.040520371073
+        },
+        "OOS": {
+          "n_moves": 70,
+          "mean_net_pct": 7.170831290392315,
+          "median_net_pct": 4.709511261837158,
+          "sum_net_pct": 501.9581903274621,
+          "compound_pct_DEGENERATE": 11206.969072639826
+        },
+        "n_bars": 2075,
+        "span_days": 2073.659958136574
+      }
+    },
+    "4h": {
+      "SOL": {
+        "n_moves": 3049,
+        "mean_net_per_move_pct": 3.5036433672030367,
+        "median_net_per_move_pct": 2.1015257684039184,
+        "sum_net_per_move_pct": 10682.60862660206,
+        "total_capturable_compound_pct_DEGENERATE": 3.2356782298959304e+46,
+        "mean_hold_hours": 8.194758927881637,
+        "median_hold_hours": 7.819320833333333,
+        "UNSEEN": {
+          "n_moves": 185,
+          "mean_net_pct": 2.0015407135343732,
+          "median_net_pct": 1.2586269125147223,
+          "sum_net_pct": 370.28503200385904,
+          "compound_pct_DEGENERATE": 3618.9197705218576
+        },
+        "OOS": {
+          "n_moves": 379,
+          "mean_net_pct": 2.538740842615985,
+          "median_net_pct": 1.8431959918254261,
+          "sum_net_pct": 962.1827793514583,
+          "compound_pct_DEGENERATE": 1203745.647088898
+        },
+        "n_bars": 12482,
+        "span_days": 2082.1869265740743
+      },
+      "BTC": {
+        "n_moves": 2984,
+        "mean_net_per_move_pct": 1.764969011928942,
+        "median_net_per_move_pct": 1.0098344377435355,
+        "sum_net_per_move_pct": 5266.667531595964,
+        "total_capturable_compound_pct_DEGENERATE": 2.454895629385445e+24,
+        "mean_hold_hours": 9.6873363725983,
+        "median_hold_hours": 7.993290694444445,
+        "UNSEEN": {
+          "n_moves": 177,
+          "mean_net_pct": 1.4049694713088812,
+          "median_net_pct": 0.841938831194984,
+          "sum_net_pct": 248.67959642167196,
+          "compound_pct_DEGENERATE": 1054.4471050340749
+        },
+        "OOS": {
+          "n_moves": 330,
+          "mean_net_pct": 1.2915193452117997,
+          "median_net_pct": 0.8488564074236551,
+          "sum_net_pct": 426.20138391989394,
+          "compound_pct_DEGENERATE": 6598.050226585964
+        },
+        "n_bars": 13996,
+        "span_days": 2332.8292280208334
+      },
+      "ETH": {
+        "n_moves": 3105,
+        "mean_net_per_move_pct": 2.3599331214224013,
+        "median_net_per_move_pct": 1.41305101700568,
+        "sum_net_per_move_pct": 7327.592342016555,
+        "total_capturable_compound_pct_DEGENERATE": 9.319763062287238e+32,
+        "mean_hold_hours": 9.290676820987654,
+        "median_hold_hours": 7.991314166666666,
+        "UNSEEN": {
+          "n_moves": 182,
+          "mean_net_pct": 1.7869230206299058,
+          "median_net_pct": 0.9744350443632157,
+          "sum_net_pct": 325.2199897546428,
+          "compound_pct_DEGENERATE": 2307.3404491960446
+        },
+        "OOS": {
+          "n_moves": 362,
+          "mean_net_pct": 2.2703112415939493,
+          "median_net_pct": 1.4094802331090797,
+          "sum_net_pct": 821.8526694570096,
+          "compound_pct_DEGENERATE": 300300.12676931906
+        },
+        "n_bars": 13951,
+        "span_days": 2325.2217188773147
+      },
+      "BNB": {
+        "n_moves": 3175,
+        "mean_net_per_move_pct": 2.2621706385557485,
+        "median_net_per_move_pct": 1.3318908922792263,
+        "sum_net_per_move_pct": 7182.391777414502,
+        "total_capturable_compound_pct_DEGENERATE": 1.4460157340265321e+32,
+        "mean_hold_hours": 9.154546910936133,
+        "median_hold_hours": 7.976873888888889,
+        "UNSEEN": {
+          "n_moves": 186,
+          "mean_net_pct": 1.2857294115299553,
+          "median_net_pct": 0.8297284240307359,
+          "sum_net_pct": 239.1456705445717,
+          "compound_pct_DEGENERATE": 959.1414226717768
+        },
+        "OOS": {
+          "n_moves": 350,
+          "mean_net_pct": 1.676969761756983,
+          "median_net_pct": 1.1707171123868056,
+          "sum_net_pct": 586.939416614944,
+          "compound_pct_DEGENERATE": 31738.21193620463
+        },
+        "n_bars": 13947,
+        "span_days": 2324.4996312037038
+      },
+      "AVAX": {
+        "n_moves": 3102,
+        "mean_net_per_move_pct": 3.3985810206643423,
+        "median_net_per_move_pct": 2.002148407075373,
+        "sum_net_per_move_pct": 10542.398326100789,
+        "total_capturable_compound_pct_DEGENERATE": 8.244555469798372e+45,
+        "mean_hold_hours": 7.824683462819685,
+        "median_hold_hours": 5.368075833333334,
+        "UNSEEN": {
+          "n_moves": 206,
+          "mean_net_pct": 1.9339322649750408,
+          "median_net_pct": 1.1996897658035979,
+          "sum_net_pct": 398.3900465848584,
+          "compound_pct_DEGENERATE": 4811.821095349525
+        },
+        "OOS": {
+          "n_moves": 410,
+          "mean_net_pct": 2.6332597439423857,
+          "median_net_pct": 1.7611417278691712,
+          "sum_net_pct": 1079.6364950163781,
+          "compound_pct_DEGENERATE": 3741921.7444345895
+        },
+        "n_bars": 12444,
+        "span_days": 2074.158013865741
+      }
+    },
+    "1h": {
+      "SOL": {
+        "n_moves": 9520,
+        "mean_net_per_move_pct": 1.9885505978436653,
+        "median_net_per_move_pct": 1.2470396365443628,
+        "sum_net_per_move_pct": 18931.00169147169,
+        "total_capturable_compound_pct_DEGENERATE": 1.6828220081755562e+82,
+        "mean_hold_hours": 2.6867945897233896,
+        "median_hold_hours": 2.0122156944444445,
+        "UNSEEN": {
+          "n_moves": 595,
+          "mean_net_pct": 1.0715290848286845,
+          "median_net_pct": 0.6461382657008088,
+          "sum_net_pct": 637.5598054730673,
+          "compound_pct_DEGENERATE": 54252.24344081449
+        },
+        "OOS": {
+          "n_moves": 1169,
+          "mean_net_pct": 1.430978539238345,
+          "median_net_pct": 1.0380599705063178,
+          "sum_net_pct": 1672.813912369625,
+          "compound_pct_DEGENERATE": 1455682637.5574389
+        },
+        "n_bars": 48926,
+        "span_days": 2082.2692788310187
+      },
+      "BTC": {
+        "n_moves": 8613,
+        "mean_net_per_move_pct": 1.0460994889905832,
+        "median_net_per_move_pct": 0.633107825868158,
+        "sum_net_per_move_pct": 9010.054898675893,
+        "total_capturable_compound_pct_DEGENERATE": 4.244220339439927e+40,
+        "mean_hold_hours": 3.41488540749126,
+        "median_hold_hours": 2.9757386111111113,
+        "UNSEEN": {
+          "n_moves": 513,
+          "mean_net_pct": 0.8401388413869691,
+          "median_net_pct": 0.5411493313835127,
+          "sum_net_pct": 430.9912256315152,
+          "compound_pct_DEGENERATE": 7042.261622722212
+        },
+        "OOS": {
+          "n_moves": 911,
+          "mean_net_pct": 0.7779894542474632,
+          "median_net_pct": 0.5268861241472591,
+          "sum_net_pct": 708.748392819439,
+          "compound_pct_DEGENERATE": 112976.82896480616
+        },
+        "n_bars": 55956,
+        "span_days": 2332.9140280787037
+      },
+      "ETH": {
+        "n_moves": 9534,
+        "mean_net_per_move_pct": 1.323853793661875,
+        "median_net_per_move_pct": 0.8369811075670988,
+        "sum_net_per_move_pct": 12621.622068772316,
+        "total_capturable_compound_pct_DEGENERATE": 9.374475838712299e+55,
+        "mean_hold_hours": 3.08235314025243,
+        "median_hold_hours": 2.0669444444444443,
+        "UNSEEN": {
+          "n_moves": 568,
+          "mean_net_pct": 1.0198039657082902,
+          "median_net_pct": 0.6505863902285205,
+          "sum_net_pct": 579.2486525223088,
+          "compound_pct_DEGENERATE": 30442.77454528781
+        },
+        "OOS": {
+          "n_moves": 1152,
+          "mean_net_pct": 1.2057669680673777,
+          "median_net_pct": 0.7693038932315501,
+          "sum_net_pct": 1389.043547213619,
+          "compound_pct_DEGENERATE": 89746563.60697412
+        },
+        "n_bars": 55771,
+        "span_days": 2325.259294560185
+      },
+      "BNB": {
+        "n_moves": 9674,
+        "mean_net_per_move_pct": 1.3094457683019527,
+        "median_net_per_move_pct": 0.7930168080195157,
+        "sum_net_per_move_pct": 12667.57836255309,
+        "total_capturable_compound_pct_DEGENERATE": 1.2049828332416575e+56,
+        "mean_hold_hours": 3.0584798193037463,
+        "median_hold_hours": 2.0974,
+        "UNSEEN": {
+          "n_moves": 551,
+          "mean_net_pct": 0.7873610342855543,
+          "median_net_pct": 0.5602167918001568,
+          "sum_net_pct": 433.8359298913404,
+          "compound_pct_DEGENERATE": 7286.054704192989
+        },
+        "OOS": {
+          "n_moves": 1074,
+          "mean_net_pct": 0.9554789576195967,
+          "median_net_pct": 0.6744101677985739,
+          "sum_net_pct": 1026.1844004834468,
+          "compound_pct_DEGENERATE": 2580538.5386619014
+        },
+        "n_bars": 55750,
+        "span_days": 2324.6197042824074
+      },
+      "AVAX": {
+        "n_moves": 9839,
+        "mean_net_per_move_pct": 1.9600175317090522,
+        "median_net_per_move_pct": 1.2258441337936479,
+        "sum_net_per_move_pct": 19284.612494485365,
+        "total_capturable_compound_pct_DEGENERATE": 6.675169733443478e+83,
+        "mean_hold_hours": 2.5630268064448734,
+        "median_hold_hours": 2.0091252777777777,
+        "UNSEEN": {
+          "n_moves": 689,
+          "mean_net_pct": 1.1138896221423717,
+          "median_net_pct": 0.754035785288272,
+          "sum_net_pct": 767.4699496560941,
+          "compound_pct_DEGENERATE": 195270.89398185402
+        },
+        "OOS": {
+          "n_moves": 1363,
+          "mean_net_pct": 1.462423007019648,
+          "median_net_pct": 1.0454847348687581,
+          "sum_net_pct": 1993.2825585677804,
+          "compound_pct_DEGENERATE": 34027211441.683136
+        },
+        "n_bars": 49096,
+        "span_days": 2074.158013865741
+      }
+    },
+    "30m": {
+      "SOL": {
+        "n_moves": 13858,
+        "mean_net_per_move_pct": 1.7146900141899495,
+        "median_net_per_move_pct": 1.0990715060672132,
+        "sum_net_per_move_pct": 23762.17421664432,
+        "total_capturable_compound_pct_DEGENERATE": 1.413789383582565e+103,
+        "mean_hold_hours": 1.9424254806489631,
+        "median_hold_hours": 1.5219130555555556,
+        "UNSEEN": {
+          "n_moves": 870,
+          "mean_net_pct": 0.9478305734595379,
+          "median_net_pct": 0.5944740894361435,
+          "sum_net_pct": 824.612598909798,
+          "compound_pct_DEGENERATE": 348731.54109475494
+        },
+        "OOS": {
+          "n_moves": 1753,
+          "mean_net_pct": 1.187836463784371,
+          "median_net_pct": 0.8685516844226984,
+          "sum_net_pct": 2082.2773210140026,
+          "compound_pct_DEGENERATE": 86893227376.4433
+        },
+        "n_bars": 96379,
+        "span_days": 2082.284783113426
+      },
+      "BTC": {
+        "n_moves": 12458,
+        "mean_net_per_move_pct": 0.9112012394498026,
+        "median_net_per_move_pct": 0.5847506146690342,
+        "sum_net_per_move_pct": 11351.74504106564,
+        "total_capturable_compound_pct_DEGENERATE": 5.838370081976497e+50,
+        "mean_hold_hours": 2.417837867233906,
+        "median_hold_hours": 1.9914122222222224,
+        "UNSEEN": {
+          "n_moves": 753,
+          "mean_net_pct": 0.7204342984514661,
+          "median_net_pct": 0.47833809057144655,
+          "sum_net_pct": 542.4870267339539,
+          "compound_pct_DEGENERATE": 21663.377400886606
+        },
+        "OOS": {
+          "n_moves": 1311,
+          "mean_net_pct": 0.6667127770930861,
+          "median_net_pct": 0.454051988321931,
+          "sum_net_pct": 874.0604507690358,
+          "compound_pct_DEGENERATE": 588065.3075704245
+        },
+        "n_bars": 111900,
+        "span_days": 2332.9330564583333
+      },
+      "ETH": {
+        "n_moves": 13824,
+        "mean_net_per_move_pct": 1.1518072085734783,
+        "median_net_per_move_pct": 0.7502040126670841,
+        "sum_net_per_move_pct": 15922.582851319763,
+        "total_capturable_compound_pct_DEGENERATE": 1.7809912130047603e+70,
+        "mean_hold_hours": 2.1923793024610982,
+        "median_hold_hours": 1.9590134722222223,
+        "UNSEEN": {
+          "n_moves": 801,
+          "mean_net_pct": 0.9141645347013212,
+          "median_net_pct": 0.5619480675112822,
+          "sum_net_pct": 732.2457922957583,
+          "compound_pct_DEGENERATE": 139817.73561654694
+        },
+        "OOS": {
+          "n_moves": 1665,
+          "mean_net_pct": 1.0351859736067208,
+          "median_net_pct": 0.7070244817776363,
+          "sum_net_pct": 1723.5846460551902,
+          "compound_pct_DEGENERATE": 2539135722.6055236
+        },
+        "n_bars": 111443,
+        "span_days": 2325.281017962963
+      },
+      "BNB": {
+        "n_moves": 14131,
+        "mean_net_per_move_pct": 1.138123141787102,
+        "median_net_per_move_pct": 0.7252188384090543,
+        "sum_net_per_move_pct": 16082.81811659354,
+        "total_capturable_compound_pct_DEGENERATE": 7.409700657723072e+70,
+        "mean_hold_hours": 2.153652594158627,
+        "median_hold_hours": 1.650083888888889,
+        "UNSEEN": {
+          "n_moves": 807,
+          "mean_net_pct": 0.6928814716892735,
+          "median_net_pct": 0.49422095135970984,
+          "sum_net_pct": 559.1553476532437,
+          "compound_pct_DEGENERATE": 25704.95564455876
+        },
+        "OOS": {
+          "n_moves": 1552,
+          "mean_net_pct": 0.8296691379379707,
+          "median_net_pct": 0.579505923662589,
+          "sum_net_pct": 1287.6465020797305,
+          "compound_pct_DEGENERATE": 34925795.21112895
+        },
+        "n_bars": 111160,
+        "span_days": 2324.635423888889
+      },
+      "AVAX": {
+        "n_moves": 14232,
+        "mean_net_per_move_pct": 1.7218828006561617,
+        "median_net_per_move_pct": 1.1054746409823692,
+        "sum_net_per_move_pct": 24505.836018938495,
+        "total_capturable_compound_pct_DEGENERATE": 2.4215201634793766e+106,
+        "mean_hold_hours": 1.864995398573637,
+        "median_hold_hours": 1.5121638888888889,
+        "UNSEEN": {
+          "n_moves": 973,
+          "mean_net_pct": 1.0084953849734968,
+          "median_net_pct": 0.7205122732123883,
+          "sum_net_pct": 981.2660095792126,
+          "compound_pct_DEGENERATE": 1644239.184666162
+        },
+        "OOS": {
+          "n_moves": 1973,
+          "mean_net_pct": 1.2799195659262557,
+          "median_net_pct": 0.9176846307385091,
+          "sum_net_pct": 2525.2813035725026,
+          "compound_pct_DEGENERATE": 6752165281572.143
+        },
+        "n_bars": 96540,
+        "span_days": 2074.1784060300924
+      }
+    },
+    "15m": {
+      "SOL": {
+        "n_moves": 17608,
+        "mean_net_per_move_pct": 1.6017117461790933,
+        "median_net_per_move_pct": 1.0662584546834732,
+        "sum_net_per_move_pct": 28202.940426721478,
+        "total_capturable_compound_pct_DEGENERATE": 1.931562601093606e+122,
+        "mean_hold_hours": 1.5991513326171185,
+        "median_hold_hours": 1.4620705555555555,
+        "UNSEEN": {
+          "n_moves": 1140,
+          "mean_net_pct": 0.8868495982443452,
+          "median_net_pct": 0.5888637755364259,
+          "sum_net_pct": 1011.0085419985534,
+          "compound_pct_DEGENERATE": 2240335.991992564
+        },
+        "OOS": {
+          "n_moves": 2338,
+          "mean_net_pct": 1.0606268775606296,
+          "median_net_pct": 0.7996038247362127,
+          "sum_net_pct": 2479.745639736752,
+          "compound_pct_DEGENERATE": 4613398657333.25
+        },
+        "n_bars": 188060,
+        "span_days": 2082.284783113426
+      },
+      "BTC": {
+        "n_moves": 16061,
+        "mean_net_per_move_pct": 0.8522416855740925,
+        "median_net_per_move_pct": 0.5743700846874102,
+        "sum_net_per_move_pct": 13687.8537120055,
+        "total_capturable_compound_pct_DEGENERATE": 7.293794322736985e+60,
+        "mean_hold_hours": 1.9246332114023619,
+        "median_hold_hours": 1.5114716666666668,
+        "UNSEEN": {
+          "n_moves": 950,
+          "mean_net_pct": 0.6930588033675038,
+          "median_net_pct": 0.4811944749699884,
+          "sum_net_pct": 658.4058631991287,
+          "compound_pct_DEGENERATE": 68969.69531333458
+        },
+        "OOS": {
+          "n_moves": 1693,
+          "mean_net_pct": 0.613026325564846,
+          "median_net_pct": 0.4412496092839738,
+          "sum_net_pct": 1037.8535691812842,
+          "compound_pct_DEGENERATE": 3019060.669792255
+        },
+        "n_bars": 223098,
+        "span_days": 2332.9330564583333
+      },
+      "ETH": {
+        "n_moves": 17924,
+        "mean_net_per_move_pct": 1.0690243979912195,
+        "median_net_per_move_pct": 0.7198050571823835,
+        "sum_net_per_move_pct": 19161.19330959462,
+        "total_capturable_compound_pct_DEGENERATE": 1.7036252852272723e+84,
+        "mean_hold_hours": 1.7544616099147015,
+        "median_hold_hours": 1.4977677777777778,
+        "UNSEEN": {
+          "n_moves": 1067,
+          "mean_net_pct": 0.8426108308235347,
+          "median_net_pct": 0.541992804158338,
+          "sum_net_pct": 899.0657564887115,
+          "compound_pct_DEGENERATE": 739152.4506482811
+        },
+        "OOS": {
+          "n_moves": 2203,
+          "mean_net_pct": 0.9392066400676268,
+          "median_net_pct": 0.6769085971913349,
+          "sum_net_pct": 2069.072228068982,
+          "compound_pct_DEGENERATE": 79759491654.30867
+        },
+        "n_bars": 221277,
+        "span_days": 2325.291171099537
+      },
+      "BNB": {
+        "n_moves": 17958,
+        "mean_net_per_move_pct": 1.0718566068056956,
+        "median_net_per_move_pct": 0.7172497980742556,
+        "sum_net_per_move_pct": 19248.400945016685,
+        "total_capturable_compound_pct_DEGENERATE": 3.3657732401345523e+84,
+        "mean_hold_hours": 1.7475202598656123,
+        "median_hold_hours": 1.4907977777777779,
+        "UNSEEN": {
+          "n_moves": 995,
+          "mean_net_pct": 0.670426687822727,
+          "median_net_pct": 0.5038125329120693,
+          "sum_net_pct": 667.0745543836133,
+          "compound_pct_DEGENERATE": 75520.14482007691
+        },
+        "OOS": {
+          "n_moves": 1987,
+          "mean_net_pct": 0.7672037135639249,
+          "median_net_pct": 0.5558328858339581,
+          "sum_net_pct": 1524.4337788515188,
+          "compound_pct_DEGENERATE": 369596733.7679212
+        },
+        "n_bars": 217213,
+        "span_days": 2324.635423888889
+      },
+      "AVAX": {
+        "n_moves": 17967,
+        "mean_net_per_move_pct": 1.6299024801601547,
+        "median_net_per_move_pct": 1.0864129181084217,
+        "sum_net_per_move_pct": 29284.457861037503,
+        "total_capturable_compound_pct_DEGENERATE": 8.862095883917362e+126,
+        "mean_hold_hours": 1.5463864992764513,
+        "median_hold_hours": 1.3095122222222222,
+        "UNSEEN": {
+          "n_moves": 1191,
+          "mean_net_pct": 0.9818368798885244,
+          "median_net_pct": 0.7361388286334105,
+          "sum_net_pct": 1169.3677239472327,
+          "compound_pct_DEGENERATE": 10746522.281124257
+        },
+        "OOS": {
+          "n_moves": 2503,
+          "mean_net_pct": 1.2071077794174523,
+          "median_net_pct": 0.9120737327188835,
+          "sum_net_pct": 3021.390771881883,
+          "compound_pct_DEGENERATE": 950775879370858.2
+        },
+        "n_bars": 185865,
+        "span_days": 2074.1784060300924
+      }
+    }
+  }
+}

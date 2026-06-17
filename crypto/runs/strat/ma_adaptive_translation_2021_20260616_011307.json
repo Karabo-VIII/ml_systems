@@ -1,0 +1,363 @@
+{
+ "repro": {
+  "command": "python -m strat.ma_adaptive_translation_2021 ",
+  "git_sha": "82c4e22",
+  "grid": [
+   [
+    5,
+    20
+   ],
+   [
+    10,
+    50
+   ],
+   [
+    20,
+    100
+   ],
+   [
+    5,
+    50
+   ],
+   [
+    10,
+    100
+   ],
+   [
+    30,
+    150
+   ]
+  ],
+  "tfs": [
+   "1d",
+   "4h",
+   "2h",
+   "1h",
+   "30m",
+   "15m"
+  ],
+  "win_2020": [
+   "2020-01-01",
+   "2021-01-01"
+  ],
+  "win_2021": [
+   "2021-01-01",
+   "2022-01-01"
+  ],
+  "cost_maker": 0.0006,
+  "cost_taker": 0.0024
+ },
+ "prereg": {
+  "H0": "adaptation no better than static beyond random-ER null",
+  "one_sided": true,
+  "decision": "beats static AND random-ER null AND block-bootstrap p05(adaptive-static)>0"
+ },
+ "results": {
+  "STATIC_EMA": {
+   "kind": "static",
+   "per_tf": {
+    "1d": {
+     "net2020": 17.6,
+     "net2021": 44.0,
+     "crash2021": -5.7,
+     "maxdd2021": -6.8
+    },
+    "4h": {
+     "net2020": 35.0,
+     "net2021": 29.2,
+     "crash2021": -13.8,
+     "maxdd2021": -14.6
+    },
+    "2h": {
+     "net2020": 43.1,
+     "net2021": 23.8,
+     "crash2021": -9.8,
+     "maxdd2021": -20.5
+    },
+    "1h": {
+     "net2020": 44.2,
+     "net2021": 28.1,
+     "crash2021": -6.8,
+     "maxdd2021": -18.5
+    },
+    "30m": {
+     "net2020": 32.0,
+     "net2021": 27.0,
+     "crash2021": -5.8,
+     "maxdd2021": -15.3
+    },
+    "15m": {
+     "net2020": 17.2,
+     "net2021": 20.9,
+     "crash2021": -2.7,
+     "maxdd2021": -14.4
+    }
+   }
+  },
+  "ADAPT_KAMA": {
+   "kind": "adaptive",
+   "per_tf": {
+    "1d": {
+     "net2020": 16.7,
+     "net2021": 41.5,
+     "crash2021": -3.3,
+     "maxdd2021": -7.5
+    },
+    "4h": {
+     "net2020": 27.1,
+     "net2021": 29.5,
+     "crash2021": -10.5,
+     "maxdd2021": -12.9
+    },
+    "2h": {
+     "net2020": 37.7,
+     "net2021": 23.9,
+     "crash2021": -7.2,
+     "maxdd2021": -18.8
+    },
+    "1h": {
+     "net2020": 36.7,
+     "net2021": 16.7,
+     "crash2021": -5.4,
+     "maxdd2021": -19.6
+    },
+    "30m": {
+     "net2020": 29.4,
+     "net2021": 14.8,
+     "crash2021": -5.7,
+     "maxdd2021": -19.2
+    },
+    "15m": {
+     "net2020": 18.0,
+     "net2021": 15.5,
+     "crash2021": -2.5,
+     "maxdd2021": -16.9
+    }
+   }
+  },
+  "ADAPT_VIDYA": {
+   "kind": "adaptive",
+   "per_tf": {
+    "1d": {
+     "net2020": 5.0,
+     "net2021": 17.6,
+     "crash2021": -0.5,
+     "maxdd2021": -3.1
+    },
+    "4h": {
+     "net2020": 18.0,
+     "net2021": 31.3,
+     "crash2021": -4.2,
+     "maxdd2021": -5.8
+    },
+    "2h": {
+     "net2020": 30.6,
+     "net2021": 25.6,
+     "crash2021": -5.3,
+     "maxdd2021": -11.0
+    },
+    "1h": {
+     "net2020": 37.5,
+     "net2021": 28.5,
+     "crash2021": -3.7,
+     "maxdd2021": -12.9
+    },
+    "30m": {
+     "net2020": 33.5,
+     "net2021": 26.5,
+     "crash2021": -2.5,
+     "maxdd2021": -16.4
+    },
+    "15m": {
+     "net2020": 33.0,
+     "net2021": 29.3,
+     "crash2021": -1.3,
+     "maxdd2021": -16.2
+    }
+   }
+  },
+  "ADAPT_LOOKBACK": {
+   "kind": "adaptive",
+   "per_tf": {
+    "1d": {
+     "net2020": 19.0,
+     "net2021": 44.7,
+     "crash2021": -4.6,
+     "maxdd2021": -9.2
+    },
+    "4h": {
+     "net2020": 35.0,
+     "net2021": 32.3,
+     "crash2021": -12.7,
+     "maxdd2021": -16.3
+    },
+    "2h": {
+     "net2020": 43.5,
+     "net2021": 23.9,
+     "crash2021": -10.2,
+     "maxdd2021": -22.4
+    },
+    "1h": {
+     "net2020": 44.5,
+     "net2021": 24.8,
+     "crash2021": -8.1,
+     "maxdd2021": -19.6
+    },
+    "30m": {
+     "net2020": 32.5,
+     "net2021": 24.8,
+     "crash2021": -6.9,
+     "maxdd2021": -15.6
+    },
+    "15m": {
+     "net2020": 21.8,
+     "net2021": 15.9,
+     "crash2021": -3.0,
+     "maxdd2021": -16.9
+    }
+   }
+  },
+  "NULL_RANDOM_ER": {
+   "kind": "null",
+   "per_tf": {
+    "1d": {
+     "net2020": 0.0,
+     "net2021": 0.0,
+     "crash2021": 0.0,
+     "maxdd2021": 0.0
+    },
+    "4h": {
+     "net2020": 0.0,
+     "net2021": 0.0,
+     "crash2021": 0.0,
+     "maxdd2021": 0.0
+    },
+    "2h": {
+     "net2020": 0.0,
+     "net2021": 0.0,
+     "crash2021": 0.0,
+     "maxdd2021": 0.0
+    },
+    "1h": {
+     "net2020": 0.0,
+     "net2021": 0.0,
+     "crash2021": 0.0,
+     "maxdd2021": 0.0
+    },
+    "30m": {
+     "net2020": 0.0,
+     "net2021": 0.0,
+     "crash2021": 0.0,
+     "maxdd2021": 0.0
+    },
+    "15m": {
+     "net2020": 0.0,
+     "net2021": 0.0,
+     "crash2021": 0.0,
+     "maxdd2021": 0.0
+    }
+   }
+  }
+ },
+ "verdict": {
+  "metrics": {
+   "STATIC_EMA": {
+    "worst_tf_2021": 20.9,
+    "frac_tf_positive_2021": 1.0,
+    "mean_2021": 28.8,
+    "n_tf": 6,
+    "sign_agree_2020_2021": 1.0,
+    "mean_abs_drift": 12.7,
+    "worst_crash_2021": -13.8
+   },
+   "ADAPT_KAMA": {
+    "worst_tf_2021": 14.8,
+    "frac_tf_positive_2021": 1.0,
+    "mean_2021": 23.7,
+    "n_tf": 6,
+    "sign_agree_2020_2021": 1.0,
+    "mean_abs_drift": 13.0,
+    "worst_crash_2021": -10.5
+   },
+   "ADAPT_VIDYA": {
+    "worst_tf_2021": 17.6,
+    "frac_tf_positive_2021": 1.0,
+    "mean_2021": 26.5,
+    "n_tf": 6,
+    "sign_agree_2020_2021": 1.0,
+    "mean_abs_drift": 8.4,
+    "worst_crash_2021": -5.3
+   },
+   "ADAPT_LOOKBACK": {
+    "worst_tf_2021": 15.9,
+    "frac_tf_positive_2021": 1.0,
+    "mean_2021": 27.7,
+    "n_tf": 6,
+    "sign_agree_2020_2021": 1.0,
+    "mean_abs_drift": 13.6,
+    "worst_crash_2021": -12.7
+   },
+   "NULL_RANDOM_ER": {
+    "worst_tf_2021": 0.0,
+    "frac_tf_positive_2021": 0.0,
+    "mean_2021": 0.0,
+    "n_tf": 6,
+    "sign_agree_2020_2021": 1.0,
+    "mean_abs_drift": 0.0,
+    "worst_crash_2021": 0.0
+   }
+  },
+  "verdicts": {
+   "ADAPT_KAMA": {
+    "verdict": "NULL (no translation advantage over static)",
+    "diff_p05_vs_static": -8.59,
+    "null_diff_p05_vs_static": -33.83,
+    "beats_static": false,
+    "beats_null": true,
+    "worst_tf_2021": 14.8,
+    "frac_tf_pos": 1.0,
+    "sign_agree": 1.0,
+    "drift": 13.0,
+    "worst_crash": -10.5
+   },
+   "ADAPT_VIDYA": {
+    "verdict": "NULL (no translation advantage over static)",
+    "diff_p05_vs_static": -10.33,
+    "null_diff_p05_vs_static": -33.83,
+    "beats_static": false,
+    "beats_null": true,
+    "worst_tf_2021": 17.6,
+    "frac_tf_pos": 1.0,
+    "sign_agree": 1.0,
+    "drift": 8.4,
+    "worst_crash": -5.3
+   },
+   "ADAPT_LOOKBACK": {
+    "verdict": "NULL (no translation advantage over static)",
+    "diff_p05_vs_static": -2.9,
+    "null_diff_p05_vs_static": -33.83,
+    "beats_static": false,
+    "beats_null": true,
+    "worst_tf_2021": 15.9,
+    "frac_tf_pos": 1.0,
+    "sign_agree": 1.0,
+    "drift": 13.6,
+    "worst_crash": -12.7
+   }
+  },
+  "headline": "TIME-ADAPTATION does NOT robustly close the translation gap (no contestant is REAL: beats static AND the random-ER null AND p05>0). Adaptation may smooth whipsaw (worst-TF/crash) but the genuine-timing advantage over a fake-adaptation null is not established. Consistent with the LO de-risked-beta ceiling.",
+  "any_real": [],
+  "lines": [
+   "",
+   "## VERDICT -- does TIME-ADAPTATION close the 2020->2021 MA translation gap? [VERIFIED-2021-forward]",
+   "HEADLINE: TIME-ADAPTATION does NOT robustly close the translation gap (no contestant is REAL: beats static AND the random-ER null AND p05>0). Adaptation may smooth whipsaw (worst-TF/crash) but the genuine-timing advantage over a fake-adaptation null is not established. Consistent with the LO de-risked-beta ceiling.",
+   "baseline STATIC_EMA: worst-TF-2021 20.9%, frac-TF-pos 1.0, sign-agree 1.0, |drift| 12.7, worst-crash -13.8%",
+   "planted NULL_RANDOM_ER: worst-TF-2021 0.0%, frac-TF-pos 0.0, sign-agree 1.0, |drift| 0.0",
+   "ADAPT_KAMA: worst-TF-2021 14.8% frac-pos 1.0 sign-agree 1.0 |drift| 13.0 crash -10.5% | (adaptive-static) p05=-8.59 vs null-p05=-33.83 -> NULL (no translation advantage over static)",
+   "ADAPT_VIDYA: worst-TF-2021 17.6% frac-pos 1.0 sign-agree 1.0 |drift| 8.4 crash -5.3% | (adaptive-static) p05=-10.33 vs null-p05=-33.83 -> NULL (no translation advantage over static)",
+   "ADAPT_LOOKBACK: worst-TF-2021 15.9% frac-pos 1.0 sign-agree 1.0 |drift| 13.6 crash -12.7% | (adaptive-static) p05=-2.9 vs null-p05=-33.83 -> NULL (no translation advantage over static)",
+   "",
+   "INTERPRETATION: 'translate' = close the 2020->2021 gap (cross-TF consistency + low drift), NOT beat buy-hold (refuted, 0/21). The random-ER NULL isolates genuine regime-timing from mere extra smoothing (the prior /quant catch: a test the null also wins isolates nothing). Long-only; PIT core; UNSEEN sealed."
+  ]
+ }
+}

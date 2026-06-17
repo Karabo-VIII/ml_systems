@@ -1,0 +1,44 @@
+# Standalone packaging for the autonomous engine-builder harness.
+#
+# This file makes `harness/` a pip-installable, domain-agnostic product. It is written for the EXTRACTED layout
+# (when harness/ becomes a repo root -- see README "Standalone status & extraction"): the importable package is
+# `metaop` and the run.py script sits beside it. Install + call:
+#
+#     pip install .                       # from the harness/ dir (or the extracted repo root)
+#     harness launch --objective "..." --backend cli --durable      # the console script
+#     python -m metaop.manager launch ...                           # equivalently, no install
+#
+# In THIS repo (un-extracted) the same package is also reachable as `harness.metaop` via the namespace dir.
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "metaop-harness"
+version = "0.1.0"
+description = "A local, model-portable, self-improving autonomous engine-builder loop (LangGraph plan/dispatch/judge/reflect/route with a mechanical verifier)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["agent", "autonomy", "langgraph", "llm", "self-improving", "verifier"]
+dependencies = [
+    "langgraph>=0.2",                       # the StateGraph engine (the ONE hard dependency)
+]
+
+[project.optional-dependencies]
+durable = ["langgraph-checkpoint-sqlite>=2.0"]   # --durable cross-process resume (SqliteSaver)
+litellm = ["litellm>=1.40"]                      # the unified gateway backend (any provider; local ollama)
+anthropic = ["anthropic>=0.40"]                  # --backend api
+sdk = ["claude-agent-sdk>=0.1"]                  # --backend sdk (in-process Claude, uses existing CLI auth)
+memory = ["mem0ai>=0.1"]                         # optional vector memory (semantic recall)
+evolve = ["dspy-ai>=2.4"]                        # optional planner-prompt compilation (DSPy)
+# everything-on (a local-first stack: durable resume + litellm gateway -> a local ollama model is the brain)
+all = ["langgraph-checkpoint-sqlite>=2.0", "litellm>=1.40", "anthropic>=0.40", "mem0ai>=0.1"]
+
+[project.scripts]
+harness = "metaop.manager:main"             # `harness launch/resume/status/approve/stop ...`  (the "call like a CLI" UX)
+metaop = "metaop.manager:main"              # alias
+
+[tool.setuptools]
+packages = ["metaop"]                       # harness/metaop -> the importable package
+py-modules = ["run"]                         # harness/run.py -> the one-shot demo entry

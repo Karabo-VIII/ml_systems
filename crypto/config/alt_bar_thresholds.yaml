@@ -1,0 +1,619 @@
+_meta:
+  description: Per-asset alt-bar thresholds, auto-derived from u50/u100 median_dollar_vol_30d.
+  generated_by: scripts/oracle/derive_alt_bar_thresholds.py
+  target_bars_per_day:
+    dib: 200
+    adaptive_vol_base: 50
+    tick_runs: 30
+    vol_runs: 30
+  max_bars_per_day_cap: 10000
+  min_bars_per_day_floor: 2
+  tier_scaling:
+    TIER_B: 1.0
+    TIER_C: 1.5
+    EVENT_ONLY: 2.5
+  vol_runs_recalibrated_2026_05_13: 'Recomputed vol_runs_threshold from one-time per-asset
+    aggTrades volume scan. Target 30 bars/day. Previous TIER_AVG_PRICE proxy was wrong
+    by orders of magnitude for non-u10 assets. Scan: runs/audit/per_asset_daily_volume_scan.json'
+tier_defaults:
+  dib_threshold_usd_by_tier:
+    TIER_B: 607248
+    TIER_C: 85618
+    EVENT_ONLY: 50000
+  adaptive_vol_base_threshold_usd_by_tier:
+    TIER_B: 2428993
+    TIER_C: 342474
+    EVENT_ONLY: 200000
+  tick_runs_threshold_by_tier:
+    TIER_B: 5060
+    TIER_C: 1141
+    EVENT_ONLY: 706
+  vol_runs_threshold_by_tier:
+    TIER_B: 9554
+    TIER_C: 641823
+    EVENT_ONLY: 611024
+per_asset:
+  BTCUSDT:
+    liquidity_tier: TIER_B
+    dna: BLUE
+    median_dollar_vol_30d: 1184040048
+    dib_threshold_usd: 5920200
+    adaptive_vol_base_threshold_usd: 23680800
+    tick_runs_threshold: 49335
+    vol_runs_threshold: 564
+  ETHUSDT:
+    liquidity_tier: TIER_B
+    dna: BLUE
+    median_dollar_vol_30d: 617045999
+    dib_threshold_usd: 3085229
+    adaptive_vol_base_threshold_usd: 12340919
+    tick_runs_threshold: 25710
+    vol_runs_threshold: 9554
+  SOLUSDT:
+    liquidity_tier: TIER_B
+    dna: STEADY
+    median_dollar_vol_30d: 219673349
+    dib_threshold_usd: 1098366
+    adaptive_vol_base_threshold_usd: 4393466
+    tick_runs_threshold: 9153
+    vol_runs_threshold: 86494
+  XRPUSDT:
+    liquidity_tier: TIER_B
+    dna: STEADY
+    median_dollar_vol_30d: 121449677
+    dib_threshold_usd: 607248
+    adaptive_vol_base_threshold_usd: 2428993
+    tick_runs_threshold: 5060
+    vol_runs_threshold: 2760940
+  BNBUSDT:
+    liquidity_tier: TIER_B
+    dna: STEADY
+    median_dollar_vol_30d: 64199723
+    dib_threshold_usd: 320998
+    adaptive_vol_base_threshold_usd: 1283994
+    tick_runs_threshold: 2674
+    vol_runs_threshold: 3512
+  DOGEUSDT:
+    liquidity_tier: TIER_B
+    dna: VOLATILE
+    median_dollar_vol_30d: 68003919
+    dib_threshold_usd: 340019
+    adaptive_vol_base_threshold_usd: 1360078
+    tick_runs_threshold: 2833
+    vol_runs_threshold: 30434806
+  ZECUSDT:
+    liquidity_tier: TIER_B
+    dna: DEGEN
+    median_dollar_vol_30d: 68145131
+    dib_threshold_usd: 340725
+    adaptive_vol_base_threshold_usd: 1362902
+    tick_runs_threshold: 2839
+    vol_runs_threshold: 7601
+  TRXUSDT:
+    liquidity_tier: TIER_C
+    dna: STEADY
+    median_dollar_vol_30d: 34347273
+    dib_threshold_usd: 171736
+    adaptive_vol_base_threshold_usd: 686945
+    tick_runs_threshold: 2289
+    vol_runs_threshold: 3539429
+  PEPEUSDT:
+    liquidity_tier: TIER_C
+    dna: VOLATILE
+    median_dollar_vol_30d: 32251188
+    dib_threshold_usd: 161255
+    adaptive_vol_base_threshold_usd: 645023
+    tick_runs_threshold: 2150
+    vol_runs_threshold: 346795136602
+  ADAUSDT:
+    liquidity_tier: TIER_C
+    dna: STEADY
+    median_dollar_vol_30d: 30750828
+    dib_threshold_usd: 153754
+    adaptive_vol_base_threshold_usd: 615016
+    tick_runs_threshold: 2050
+    vol_runs_threshold: 4213618
+  LINKUSDT:
+    liquidity_tier: TIER_C
+    dna: VOLATILE
+    median_dollar_vol_30d: 23064946
+    dib_threshold_usd: 115324
+    adaptive_vol_base_threshold_usd: 461298
+    tick_runs_threshold: 1537
+    vol_runs_threshold: 82604
+  SUIUSDT:
+    liquidity_tier: TIER_C
+    dna: VOLATILE
+    median_dollar_vol_30d: 23323552
+    dib_threshold_usd: 116617
+    adaptive_vol_base_threshold_usd: 466471
+    tick_runs_threshold: 1554
+    vol_runs_threshold: 897821
+  AVAXUSDT:
+    liquidity_tier: TIER_C
+    dna: VOLATILE
+    median_dollar_vol_30d: 20448324
+    dib_threshold_usd: 102241
+    adaptive_vol_base_threshold_usd: 408966
+    tick_runs_threshold: 1363
+    vol_runs_threshold: 74843
+  TAOUSDT:
+    liquidity_tier: TIER_C
+    dna: VOLATILE
+    median_dollar_vol_30d: 39574010
+    dib_threshold_usd: 197870
+    adaptive_vol_base_threshold_usd: 791480
+    tick_runs_threshold: 2638
+    vol_runs_threshold: 3774
+  FETUSDT:
+    liquidity_tier: TIER_C
+    dna: DEGEN
+    median_dollar_vol_30d: 13589386
+    dib_threshold_usd: 67946
+    adaptive_vol_base_threshold_usd: 271787
+    tick_runs_threshold: 905
+    vol_runs_threshold: 1754786
+  ENJUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 6864047
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1144
+    vol_runs_threshold: 4137281
+  NEARUSDT:
+    liquidity_tier: TIER_C
+    dna: VOLATILE
+    median_dollar_vol_30d: 13548135
+    dib_threshold_usd: 67740
+    adaptive_vol_base_threshold_usd: 270962
+    tick_runs_threshold: 903
+    vol_runs_threshold: 366543
+  WLDUSDT:
+    liquidity_tier: TIER_C
+    dna: DEGEN
+    median_dollar_vol_30d: 10829585
+    dib_threshold_usd: 54147
+    adaptive_vol_base_threshold_usd: 216591
+    tick_runs_threshold: 721
+    vol_runs_threshold: 1405920
+  ENAUSDT:
+    liquidity_tier: TIER_C
+    dna: VOLATILE
+    median_dollar_vol_30d: 12528865
+    dib_threshold_usd: 62644
+    adaptive_vol_base_threshold_usd: 250577
+    tick_runs_threshold: 835
+    vol_runs_threshold: 4547852
+  LTCUSDT:
+    liquidity_tier: TIER_C
+    dna: STEADY
+    median_dollar_vol_30d: 13799081
+    dib_threshold_usd: 68995
+    adaptive_vol_base_threshold_usd: 275981
+    tick_runs_threshold: 919
+    vol_runs_threshold: 8457
+  AAVEUSDT:
+    liquidity_tier: TIER_C
+    dna: VOLATILE
+    median_dollar_vol_30d: 12459938
+    dib_threshold_usd: 62299
+    adaptive_vol_base_threshold_usd: 249198
+    tick_runs_threshold: 830
+    vol_runs_threshold: 5909
+  DASHUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 7889397
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1314
+    vol_runs_threshold: 11015
+  UNIUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 8552561
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1425
+    vol_runs_threshold: 94993
+  BCHUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: STEADY
+    median_dollar_vol_30d: 7229481
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1204
+    vol_runs_threshold: 472
+  PENGUUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 9315674
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1552
+    vol_runs_threshold: 63935395
+  DOTUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 6920292
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1153
+    vol_runs_threshold: 199434
+  TONUSDT:
+    liquidity_tier: TIER_C
+    dna: STEADY
+    median_dollar_vol_30d: 10751245
+    dib_threshold_usd: 53756
+    adaptive_vol_base_threshold_usd: 215024
+    tick_runs_threshold: 716
+    vol_runs_threshold: 385826
+  APTUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 6160614
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1026
+    vol_runs_threshold: 309321
+  FILUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 5604068
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 934
+    vol_runs_threshold: 233193
+  RENDERUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 6082809
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1013
+    vol_runs_threshold: 105152
+  HBARUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 6990003
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1165
+    vol_runs_threshold: 2931030
+  ARBUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 5840577
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 973
+    vol_runs_threshold: 2253399
+  TRUMPUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 8919493
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1486
+    vol_runs_threshold: 154978
+  SHIBUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 5412183
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 902
+    vol_runs_threshold: 36418939519
+  ALGOUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: STEADY
+    median_dollar_vol_30d: 4707376
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 784
+    vol_runs_threshold: 1381294
+  BONKUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 4960989
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 826
+    vol_runs_threshold: 34146420528
+  WIFUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 4241411
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 706
+    vol_runs_threshold: 798977
+  ICPUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 3974898
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 662
+    vol_runs_threshold: 52704
+  SEIUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 3989105
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 664
+    vol_runs_threshold: 2337928
+  JSTUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 3096838
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 516
+    vol_runs_threshold: 1447236
+  CRVUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 3845567
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 640
+    vol_runs_threshold: 506945
+  BLURUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 2138115
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 2779668
+  LDOUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 3365857
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 560
+    vol_runs_threshold: 297502
+  OPUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 2969848
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 802524
+  ETCUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: STEADY
+    median_dollar_vol_30d: 2399852
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 12752
+  POLUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 4561607
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 760
+    vol_runs_threshold: 1749306
+  TIAUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 2173615
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 246893
+  XLMUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: STEADY
+    median_dollar_vol_30d: 6888234
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 1148
+    vol_runs_threshold: 1431141
+  EIGENUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 2159230
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 436586
+  ONDOUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 4890762
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 815
+    vol_runs_threshold: 611024
+  DYDXUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 2586188
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 906799
+  FLOKIUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 2183637
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 2853035775
+  CHZUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 4707512
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 784
+    vol_runs_threshold: 3788088
+  ARUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 2221464
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 43195
+  ZROUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 3956173
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 659
+    vol_runs_threshold: 71353
+  DEXEUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 3009668
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 9721
+  ATOMUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: STEADY
+    median_dollar_vol_30d: 1866307
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 35297
+  INJUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: STEADY
+    median_dollar_vol_30d: 2437820
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 26630
+  ZENUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: STEADY
+    median_dollar_vol_30d: 3265961
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 18475
+  MOVRUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 1156109
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 30478
+  PROMUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 1154118
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 27534
+  VIRTUALUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 4917082
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 241890
+  NEIROUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 2945590
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 1306230620
+  PNUTUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 1541875
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 1164603
+  BIOUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 3665798
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 5726163
+  DUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 4825388
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 16534495
+  XPLUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 8253865
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 2363100
+  XUSDUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: STEADY
+    median_dollar_vol_30d: 6201320
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 206703
+  WLFIUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 5607432
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 1959688
+  ASTERUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 8294986
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 412749
+  GIGGLEUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: DEGEN
+    median_dollar_vol_30d: 9231561
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 8903
+  PLUMEUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 4556477
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 12771604
+  ZBTUSDT:
+    liquidity_tier: EVENT_ONLY
+    dna: VOLATILE
+    median_dollar_vol_30d: 4151874
+    dib_threshold_usd: 50000
+    adaptive_vol_base_threshold_usd: 200000
+    tick_runs_threshold: 500
+    vol_runs_threshold: 1401881

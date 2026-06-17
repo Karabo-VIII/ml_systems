@@ -1,0 +1,65 @@
+# Track B sweep grids per architect spec 2026-05-17
+# Per-sleeve hyperparameter search spaces for Optuna TPE-driven re-tuning on clean v51 data.
+# Acceptance gate per cell: IC > 0.015 AND n_fires >= 20 AND Sharpe > 0.3 (annualized).
+# Scoring fn: 0.5 * IC + 0.3 * Sharpe_norm + 0.2 * hit_rate.
+
+defaults:
+  n_trials: 50           # Optuna TPE budget per sleeve
+  window: "OOS_3x60d"    # 3 rolling 60-day windows from OOS segment (no UNSEEN leakage)
+  min_fires: 20          # acceptance: min trades per cell
+  min_ic: 0.015          # acceptance: min rank-IC of signal vs fwd return
+  min_sharpe: 0.3        # acceptance: min annualized Sharpe of equal-weight pick basket
+  acceptance_score: 0.6  # acceptance: 0.5*IC + 0.3*Sh_norm + 0.2*hit_rate
+
+sleeves:
+
+  regime_router_sleeve:
+    params:
+      regime_thr_30d:        {type: float, low: 0.0, high: 0.05}
+      require_7d_positive:   {type: categorical, choices: [true, false]}
+      daily_kill_pct:        {type: float, low: -0.10, high: -0.01}
+      bear_target:           {type: categorical, choices: ["ta_sml", "simple_momentum", "cash_defensive"]}
+      bull_target:           {type: categorical, choices: ["simple_momentum", "ta_sml"]}
+
+  r24_p1_sleeve:
+    params:
+      K_DEGEN:               {type: int, low: 1, high: 5}
+      K_VOLATILE:            {type: int, low: 1, high: 5}
+      K_STEADY:              {type: int, low: 1, high: 5}
+      K_BLUE:                {type: int, low: 1, high: 3}
+      min_signal:            {type: float, low: 0.02, high: 0.20}
+      lookback_days:         {type: int, low: 14, high: 60}
+
+  bd_depth_flow_sleeve:
+    params:
+      K:                     {type: int, low: 1, high: 10}
+      score_threshold:       {type: float, low: 0.0, high: 2.0}
+      thin_book_gate:        {type: categorical, choices: [true, false]}
+      hold_days:             {type: int, low: 1, high: 10}
+
+  cross_lane_k5_sleeve:
+    params:
+      K:                     {type: int, low: 1, high: 10}
+      consensus_min:         {type: int, low: 1, high: 4}
+      regime_gate:           {type: categorical, choices: ["none", "btc_30d>0", "btc_30d>0_and_7d>0"]}
+
+  btc_cascade_lag_sleeve:
+    params:
+      cascade_z_thr:         {type: float, low: 1.5, high: 4.0}
+      lag_days:              {type: int, low: 1, high: 7}
+      K:                     {type: int, low: 1, high: 5}
+
+  ta_sml_sleeve:
+    # Top-level cushion + cell selection. TA_SML internal LGB hyperparams are out of scope here.
+    params:
+      threshold_cushion_x_cost: {type: float, low: 1.0, high: 3.0}
+      cadence_priority:      {type: categorical, choices: ["4h_first", "1h_first", "15m_first"]}
+      K_per_bucket:          {type: int, low: 1, high: 5}
+
+  liquidation_cascade_long_sleeve:   # NEW (Cycle 2 Track E mechanism — not yet built)
+    params:
+      z_threshold:           {type: float, low: 1.5, high: 4.0}
+      regime_filter:         {type: categorical, choices: ["any", "not_crash", "bull_only"]}
+      buckets:               {type: categorical, choices: ["all", "STEADY+VOLATILE+DEGEN", "VOLATILE+DEGEN"]}
+      hold_days:             {type: int, low: 1, high: 10}
+      K_per_day:             {type: int, low: 1, high: 5}

@@ -1,0 +1,59 @@
+{
+  "_doc": "DYNAMIC permission policy, read by .claude/hooks/permission_gate.py (a PreToolUse hook) on EVERY tool call. This file lives OUTSIDE .claude/ (a non-protected path) so the agent or user can edit it MID-SESSION with no prompt and no restart -- the change applies on the next tool call. This is the mid-session permission refresh (verified live 2026-06-05). See docs/PERMISSIONS_POLICY_2026_06_05.md.",
+  "enabled": true,
+  "mode": "allow_all_except_deny",
+  "_kill_switch": "set enabled=false to instantly restore normal Claude Code permission prompts (next tool call).",
+  "file_write_tools": [
+    "Edit",
+    "Write",
+    "NotebookEdit",
+    "MultiEdit",
+    "Update"
+  ],
+  "cmd_tools": [
+    "Bash",
+    "PowerShell"
+  ],
+  "file_deny_regex": [
+    "\\.claude[\\\\/]settings\\.json",
+    "\\.claude[\\\\/]settings\\.local\\.json",
+    "(^|[\\s\\\\/])\\.env(\\.|\\b)",
+    "config[\\\\/](api_keys|secrets|binance_keys)"
+  ],
+  "cmd_deny_regex": [
+    "rm\\s+-rf\\s+[/~]",
+    "rm\\s+-rf\\s+\\.(git|claude)",
+    "rm\\s+-rf\\s+(data|src|scripts|config|runs|logs|models|memory|docs|backups)\\b",
+    "rm\\s+-f\\s+\\.git/",
+    "git\\s+push\\s+\\S*\\s*(--force|-f\\b|--force-with-lease|--no-verify)",
+    "git\\s+push\\s+\\S+\\s+--delete",
+    "git\\s+reset\\s+--hard",
+    "git\\s+clean\\s+-[a-zA-Z]*f",
+    "git\\s+checkout\\s+--\\s",
+    "git\\s+restore\\s",
+    "git\\s+filter-branch",
+    "git\\s+reflog\\s+expire",
+    "git\\s+update-ref\\s+-d",
+    "git\\s+commit\\s+--no-verify",
+    "(?<![-\\w])(?:>>?|\\btee\\b|\\bcp\\b|\\bmv\\b)\\s+(?:[^\\s'\\\"|>]+\\s+)?\\.claude[\\\\/]settings\\.(?:local\\.)?json\\b",
+    "open\\([^)]*settings\\.(local\\.)?json[^)]*['\\\"](w|a)",
+    "(^|\\s)sudo\\s",
+    "(^|\\s)dd\\s+if=",
+    "(^|\\s)mkfs",
+    "(curl|wget)\\s+\\S+.*\\|\\s*(sh|bash)",
+    "npm\\s+publish",
+    "Invoke-Expression",
+    "Invoke-WebRequest",
+    "Invoke-RestMethod",
+    "Stop-Computer",
+    "Restart-Computer",
+    "format\\s+c:",
+    "SKIP_CDAP",
+    "(^|\\s)SKIP_INVARIANTS",
+    "(?:^|&&|;|\\||\\n)\\s*(?:cd|chdir|sl|pushd|Set-Location|Push-Location)(?=\\s|&|;|\\||$)"
+  ],
+  "url_deny_regex": [],
+  "cmd_deny_hints": {
+    "(?:^|&&|;|\\||\\n)\\s*(?:cd|chdir|sl|pushd|Set-Location|Push-Location)(?=\\s|&|;|\\||$)": "a top-level dir-change wedges the shared cwd and can lock out ALL tools; use 'git -C <dir>', absolute paths, or a subshell '(cd X && cmd)'"
+  }
+}

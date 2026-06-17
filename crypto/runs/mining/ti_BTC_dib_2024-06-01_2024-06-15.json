@@ -1,0 +1,177 @@
+{
+  "asset": "BTCUSDT",
+  "cadence": "dib",
+  "start": "2024-06-01",
+  "end": "2024-06-15",
+  "n_window_bars": 612,
+  "warmup_bars_loaded": 150,
+  "config_preset_or_path": "preset:default",
+  "config": [
+    {
+      "family": "rsi",
+      "params": {
+        "length": 14
+      },
+      "thresholds": {
+        "oversold": 30,
+        "overbought": 70
+      }
+    },
+    {
+      "family": "ma",
+      "params": {
+        "kind": "ema",
+        "fast": 20,
+        "slow": 50
+      },
+      "thresholds": {}
+    },
+    {
+      "family": "macd",
+      "params": {
+        "fast": 12,
+        "slow": 26,
+        "signal": 9
+      },
+      "thresholds": {}
+    },
+    {
+      "family": "bollinger",
+      "params": {
+        "length": 20,
+        "std": 2.0
+      },
+      "thresholds": {}
+    },
+    {
+      "family": "adx",
+      "params": {
+        "length": 14
+      },
+      "thresholds": {
+        "trend": 25
+      }
+    },
+    {
+      "family": "atr",
+      "params": {
+        "length": 14
+      },
+      "thresholds": {}
+    }
+  ],
+  "indicators": [
+    {
+      "name": "RSI-14",
+      "value": 52.3,
+      "zone": "neutral",
+      "thresholds": [
+        30,
+        70
+      ],
+      "frac_overbought": 0.106,
+      "frac_oversold": 0.181,
+      "crossed_into_overbought": 8,
+      "crossed_into_oversold": 10,
+      "summary": "RSI-14 52.3 (neutral)",
+      "family": "rsi"
+    },
+    {
+      "name": "EMA-20/50",
+      "fast_vs_slow": "BELOW (death)",
+      "fast_minus_slow_pct": -0.07,
+      "golden_crosses": [
+        "2024-06-02",
+        "2024-06-03",
+        "2024-06-07",
+        "2024-06-09",
+        "2024-06-12"
+      ],
+      "death_crosses": [
+        "2024-06-02",
+        "2024-06-06",
+        "2024-06-07",
+        "2024-06-11",
+        "2024-06-12"
+      ],
+      "summary": "EMA20/50 BELOW (death) +5gold +5death",
+      "family": "ma"
+    },
+    {
+      "name": "MACD-12/26/9",
+      "histogram": -3.44436,
+      "histogram_sign": "negative (bearish)",
+      "bull_crosses": [
+        "2024-06-02",
+        "2024-06-03",
+        "2024-06-04",
+        "2024-06-05",
+        "2024-06-06",
+        "2024-06-06",
+        "2024-06-07",
+        "2024-06-07",
+        "2024-06-07",
+        "2024-06-09",
+        "2024-06-10",
+        "2024-06-11",
+        "2024-06-11",
+        "2024-06-12",
+        "2024-06-13",
+        "2024-06-13",
+        "2024-06-14",
+        "2024-06-14"
+      ],
+      "bear_crosses": [
+        "2024-06-02",
+        "2024-06-02",
+        "2024-06-03",
+        "2024-06-04",
+        "2024-06-05",
+        "2024-06-06",
+        "2024-06-07",
+        "2024-06-07",
+        "2024-06-07",
+        "2024-06-08",
+        "2024-06-10",
+        "2024-06-10",
+        "2024-06-11",
+        "2024-06-12",
+        "2024-06-13",
+        "2024-06-13",
+        "2024-06-14",
+        "2024-06-14",
+        "2024-06-15"
+      ],
+      "summary": "MACD hist negative (bearish) +18bull +19bear",
+      "family": "macd"
+    },
+    {
+      "name": "BB-20/2.0sd",
+      "pct_b": 0.56,
+      "position": "upper-half",
+      "frac_rode_upper": 0.056,
+      "frac_rode_lower": 0.059,
+      "mean_bandwidth": 0.0161,
+      "summary": "BB %B 0.56 (upper-half)",
+      "family": "bollinger"
+    },
+    {
+      "name": "ADX-14",
+      "value": 16.4,
+      "verdict": "ranging",
+      "di_direction": "-DI>+DI (down)",
+      "trend_threshold": 25,
+      "summary": "ADX-14 16.4 (ranging, -DI>+DI (down))",
+      "family": "adx"
+    },
+    {
+      "name": "ATR-14",
+      "atr": 339.140856,
+      "atr_pct_of_price": 0.51,
+      "summary": "ATR-14 0.51% of price",
+      "family": "atr"
+    }
+  ],
+  "window_price_move_pct": -2.16,
+  "ti_consensus": "RSI-14 52.3 (neutral)  |  EMA20/50 BELOW (death) +5gold +5death  |  MACD hist negative (bearish) +18bull +19bear  |  BB %B 0.56 (upper-half)  |  ADX-14 16.4 (ranging, -DI>+DI (down))  |  ATR-14 0.51% of price"
+}

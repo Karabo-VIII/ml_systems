@@ -1,0 +1,1684 @@
+{
+ "repro": {
+  "command": "python -m strat.ml_config_recommender --cadences 1d,4h,2h,1h,30m,15m",
+  "git_sha": "a2040be",
+  "cost_maker": 0.0006,
+  "cost_taker": 0.0024,
+  "runway": [
+   "2020-01-01",
+   "2021-01-01"
+  ],
+  "splits": {
+   "TRAIN": [
+    "2020-01-01",
+    "2020-09-01"
+   ],
+   "VAL": [
+    "2020-09-01",
+    "2020-10-01"
+   ],
+   "OOS": [
+    "2020-10-01",
+    "2021-01-01"
+   ]
+  },
+  "tool_win": [
+   "2020-07-01",
+   "2021-01-01"
+  ],
+  "tool_split": "2020-10-01",
+  "candidates": [
+   "EMA",
+   "SMA",
+   "WMA",
+   "HMA",
+   "DEMA",
+   "TEMA",
+   "KAMA",
+   "VIDYA",
+   "BUYHOLD",
+   "VOLTGT_BH"
+  ],
+  "rank_metric": "NET (wealth)"
+ },
+ "results": {
+  "1d": {
+   "cadence": "1d",
+   "n_windows": 51,
+   "candidates": [
+    "EMA",
+    "SMA",
+    "WMA",
+    "HMA",
+    "DEMA",
+    "TEMA",
+    "KAMA",
+    "VIDYA",
+    "BUYHOLD",
+    "VOLTGT_BH"
+   ],
+   "features": [
+    "recent_EMA",
+    "recent_SMA",
+    "recent_WMA",
+    "recent_HMA",
+    "recent_DEMA",
+    "recent_TEMA",
+    "recent_KAMA",
+    "recent_VIDYA",
+    "recent_BUYHOLD",
+    "recent_VOLTGT_BH",
+    "regime_breadth",
+    "participation",
+    "vol_level",
+    "whipsaw",
+    "vol_regime",
+    "weekend_frac",
+    "ushours_frac"
+   ],
+   "roll_bars": 7,
+   "splits": {
+    "TRAIN": {
+     "n_windows": 35,
+     "ML": {
+      "net": 156.5,
+      "sharpe": 3.6,
+      "maxdd": -11.2,
+      "coverage": 0.96,
+      "p05": 60.52,
+      "pick_freq": {
+       "EMA": 14,
+       "VOLTGT_BH": 10,
+       "VIDYA": 7,
+       "WMA": 2,
+       "SMA": 2
+      }
+     },
+     "STATIC": {
+      "net": 105.9,
+      "sharpe": 1.66,
+      "maxdd": -60.9,
+      "coverage": 1.0,
+      "p05": -44.3,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 62.3,
+      "sharpe": 1.39,
+      "maxdd": -53.1,
+      "coverage": 0.94,
+      "p05": -45.9
+     },
+     "BUYHOLD": {
+      "net": 105.9,
+      "sharpe": 1.66,
+      "maxdd": -60.9,
+      "coverage": 1.0,
+      "p05": -44.3
+     },
+     "ORACLE": {
+      "net": 504.5,
+      "sharpe": 5.28,
+      "maxdd": -12.8,
+      "coverage": null,
+      "p05": 247.01
+     },
+     "RANDOM": {
+      "net": 80.4,
+      "sharpe": 2.45,
+      "maxdd": -15.6,
+      "coverage": null,
+      "p05": 14.48
+     },
+     "SHUFFLE_net": 30.1
+    },
+    "VAL": {
+     "n_windows": 4,
+     "ML": {
+      "net": -1.5,
+      "sharpe": -4.63,
+      "maxdd": -1.7,
+      "coverage": 0.75,
+      "p05": -2.98,
+      "pick_freq": {
+       "EMA": 2,
+       "VIDYA": 1,
+       "SMA": 1
+      }
+     },
+     "STATIC": {
+      "net": -4.3,
+      "sharpe": -0.49,
+      "maxdd": -19.3,
+      "coverage": 1.0,
+      "p05": -26.18,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": -2.9,
+      "sharpe": -0.67,
+      "maxdd": -13.0,
+      "coverage": 1.0,
+      "p05": -19.85
+     },
+     "BUYHOLD": {
+      "net": -4.3,
+      "sharpe": -0.49,
+      "maxdd": -19.3,
+      "coverage": 1.0,
+      "p05": -26.18
+     },
+     "ORACLE": {
+      "net": 5.6,
+      "sharpe": 1.47,
+      "maxdd": -14.9,
+      "coverage": null,
+      "p05": -14.22
+     },
+     "RANDOM": {
+      "net": -4.9,
+      "sharpe": -3.31,
+      "maxdd": -8.9,
+      "coverage": null,
+      "p05": -12.6
+     },
+     "SHUFFLE_net": -0.1
+    },
+    "OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 15.4,
+      "sharpe": 1.87,
+      "maxdd": -17.1,
+      "coverage": 1.0,
+      "p05": -13.05,
+      "pick_freq": {
+       "EMA": 9,
+       "VOLTGT_BH": 2,
+       "KAMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 46.0,
+      "sharpe": 2.42,
+      "maxdd": -20.2,
+      "coverage": 1.0,
+      "p05": -16.31,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 42.6,
+      "sharpe": 2.67,
+      "maxdd": -16.4,
+      "coverage": 1.0,
+      "p05": -11.5
+     },
+     "BUYHOLD": {
+      "net": 46.0,
+      "sharpe": 2.42,
+      "maxdd": -20.2,
+      "coverage": 1.0,
+      "p05": -16.31
+     },
+     "ORACLE": {
+      "net": 79.7,
+      "sharpe": 4.12,
+      "maxdd": -17.9,
+      "coverage": null,
+      "p05": 16.2
+     },
+     "RANDOM": {
+      "net": 40.9,
+      "sharpe": 3.19,
+      "maxdd": -13.5,
+      "coverage": null,
+      "p05": -0.5
+     },
+     "SHUFFLE_net": 36.9
+    },
+    "TOOL_OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 15.4,
+      "sharpe": 1.87,
+      "maxdd": -17.1,
+      "coverage": 1.0,
+      "p05": -13.05,
+      "pick_freq": {
+       "EMA": 9,
+       "VOLTGT_BH": 2,
+       "KAMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 46.0,
+      "sharpe": 2.42,
+      "maxdd": -20.2,
+      "coverage": 1.0,
+      "p05": -16.31,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 42.6,
+      "sharpe": 2.67,
+      "maxdd": -16.4,
+      "coverage": 1.0,
+      "p05": -11.5
+     },
+     "BUYHOLD": {
+      "net": 46.0,
+      "sharpe": 2.42,
+      "maxdd": -20.2,
+      "coverage": 1.0,
+      "p05": -16.31
+     },
+     "ORACLE": {
+      "net": 79.7,
+      "sharpe": 4.12,
+      "maxdd": -17.9,
+      "coverage": null,
+      "p05": 16.2
+     },
+     "RANDOM": {
+      "net": 36.7,
+      "sharpe": 3.06,
+      "maxdd": -19.4,
+      "coverage": null,
+      "p05": -5.36
+     },
+     "SHUFFLE_net": 25.7
+    }
+   },
+   "tier_selection": {
+    "a_val_net": -1.47,
+    "b_val_net": -4.92,
+    "b_backend": "lightgbm",
+    "chosen": "A"
+   },
+   "static_rule_pick": "BUYHOLD",
+   "ablation": {
+    "ALL": 15.4,
+    "no_calendar": 15.4,
+    "no_regime": 16.4,
+    "no_recent": 18.9,
+    "calendar_contribution_net": 0.0
+   }
+  },
+  "4h": {
+   "cadence": "4h",
+   "n_windows": 51,
+   "candidates": [
+    "EMA",
+    "SMA",
+    "WMA",
+    "HMA",
+    "DEMA",
+    "TEMA",
+    "KAMA",
+    "VIDYA",
+    "BUYHOLD",
+    "VOLTGT_BH"
+   ],
+   "features": [
+    "recent_EMA",
+    "recent_SMA",
+    "recent_WMA",
+    "recent_HMA",
+    "recent_DEMA",
+    "recent_TEMA",
+    "recent_KAMA",
+    "recent_VIDYA",
+    "recent_BUYHOLD",
+    "recent_VOLTGT_BH",
+    "regime_breadth",
+    "participation",
+    "vol_level",
+    "whipsaw",
+    "vol_regime",
+    "weekend_frac",
+    "ushours_frac"
+   ],
+   "roll_bars": 42,
+   "splits": {
+    "TRAIN": {
+     "n_windows": 35,
+     "ML": {
+      "net": 575.3,
+      "sharpe": 5.06,
+      "maxdd": -14.8,
+      "coverage": 0.94,
+      "p05": 209.29,
+      "pick_freq": {
+       "BUYHOLD": 17,
+       "VOLTGT_BH": 8,
+       "VIDYA": 4,
+       "EMA": 2,
+       "TEMA": 2,
+       "DEMA": 1,
+       "WMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 102.7,
+      "sharpe": 1.7,
+      "maxdd": -62.9,
+      "coverage": 1.0,
+      "p05": -39.21,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 70.9,
+      "sharpe": 1.6,
+      "maxdd": -51.2,
+      "coverage": 0.94,
+      "p05": -29.17
+     },
+     "BUYHOLD": {
+      "net": 102.7,
+      "sharpe": 1.7,
+      "maxdd": -62.9,
+      "coverage": 1.0,
+      "p05": -39.21
+     },
+     "ORACLE": {
+      "net": 693.4,
+      "sharpe": 5.85,
+      "maxdd": -14.8,
+      "coverage": null,
+      "p05": 289.44
+     },
+     "RANDOM": {
+      "net": 112.7,
+      "sharpe": 2.92,
+      "maxdd": -17.4,
+      "coverage": null,
+      "p05": 23.65
+     },
+     "SHUFFLE_net": 153.4
+    },
+    "VAL": {
+     "n_windows": 4,
+     "ML": {
+      "net": 13.5,
+      "sharpe": 3.52,
+      "maxdd": -14.4,
+      "coverage": 0.89,
+      "p05": -10.65,
+      "pick_freq": {
+       "BUYHOLD": 2,
+       "SMA": 1,
+       "VIDYA": 1
+      }
+     },
+     "STATIC": {
+      "net": -0.3,
+      "sharpe": 0.28,
+      "maxdd": -21.7,
+      "coverage": 1.0,
+      "p05": -27.27,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 1.4,
+      "sharpe": 0.62,
+      "maxdd": -14.1,
+      "coverage": 1.0,
+      "p05": -18.96
+     },
+     "BUYHOLD": {
+      "net": -0.3,
+      "sharpe": 0.28,
+      "maxdd": -21.7,
+      "coverage": 1.0,
+      "p05": -27.27
+     },
+     "ORACLE": {
+      "net": 15.9,
+      "sharpe": 4.9,
+      "maxdd": -9.0,
+      "coverage": null,
+      "p05": -4.47
+     },
+     "RANDOM": {
+      "net": -2.1,
+      "sharpe": -0.55,
+      "maxdd": -10.9,
+      "coverage": null,
+      "p05": -16.28
+     },
+     "SHUFFLE_net": 13.5
+    },
+    "OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 34.6,
+      "sharpe": 2.4,
+      "maxdd": -22.2,
+      "coverage": 0.94,
+      "p05": -24.16,
+      "pick_freq": {
+       "BUYHOLD": 4,
+       "DEMA": 3,
+       "EMA": 2,
+       "WMA": 1,
+       "KAMA": 1,
+       "TEMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 56.2,
+      "sharpe": 2.83,
+      "maxdd": -22.5,
+      "coverage": 1.0,
+      "p05": -23.51,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 52.9,
+      "sharpe": 3.05,
+      "maxdd": -19.6,
+      "coverage": 1.0,
+      "p05": -13.64
+     },
+     "BUYHOLD": {
+      "net": 56.2,
+      "sharpe": 2.83,
+      "maxdd": -22.5,
+      "coverage": 1.0,
+      "p05": -23.51
+     },
+     "ORACLE": {
+      "net": 92.4,
+      "sharpe": 5.46,
+      "maxdd": -9.5,
+      "coverage": null,
+      "p05": 22.88
+     },
+     "RANDOM": {
+      "net": 53.4,
+      "sharpe": 3.76,
+      "maxdd": -17.5,
+      "coverage": null,
+      "p05": -3.09
+     },
+     "SHUFFLE_net": 51.0
+    },
+    "TOOL_OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 34.6,
+      "sharpe": 2.4,
+      "maxdd": -22.2,
+      "coverage": 0.94,
+      "p05": -24.16,
+      "pick_freq": {
+       "BUYHOLD": 4,
+       "DEMA": 3,
+       "EMA": 2,
+       "WMA": 1,
+       "KAMA": 1,
+       "TEMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 56.2,
+      "sharpe": 2.83,
+      "maxdd": -22.5,
+      "coverage": 1.0,
+      "p05": -23.51,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 52.9,
+      "sharpe": 3.05,
+      "maxdd": -19.6,
+      "coverage": 1.0,
+      "p05": -13.64
+     },
+     "BUYHOLD": {
+      "net": 56.2,
+      "sharpe": 2.83,
+      "maxdd": -22.5,
+      "coverage": 1.0,
+      "p05": -23.51
+     },
+     "ORACLE": {
+      "net": 92.4,
+      "sharpe": 5.46,
+      "maxdd": -9.5,
+      "coverage": null,
+      "p05": 22.88
+     },
+     "RANDOM": {
+      "net": 41.5,
+      "sharpe": 3.24,
+      "maxdd": -20.6,
+      "coverage": null,
+      "p05": -6.0
+     },
+     "SHUFFLE_net": 36.3
+    }
+   },
+   "tier_selection": {
+    "a_val_net": 1.31,
+    "b_val_net": 13.45,
+    "b_backend": "lightgbm",
+    "chosen": "B"
+   },
+   "static_rule_pick": "BUYHOLD",
+   "ablation": {
+    "ALL": 30.8,
+    "no_calendar": 30.8,
+    "no_regime": 27.8,
+    "no_recent": 30.4,
+    "calendar_contribution_net": 0.0
+   }
+  },
+  "2h": {
+   "cadence": "2h",
+   "n_windows": 60,
+   "candidates": [
+    "EMA",
+    "SMA",
+    "WMA",
+    "HMA",
+    "DEMA",
+    "TEMA",
+    "KAMA",
+    "VIDYA",
+    "BUYHOLD",
+    "VOLTGT_BH"
+   ],
+   "features": [
+    "recent_EMA",
+    "recent_SMA",
+    "recent_WMA",
+    "recent_HMA",
+    "recent_DEMA",
+    "recent_TEMA",
+    "recent_KAMA",
+    "recent_VIDYA",
+    "recent_BUYHOLD",
+    "recent_VOLTGT_BH",
+    "regime_breadth",
+    "participation",
+    "vol_level",
+    "whipsaw",
+    "vol_regime",
+    "weekend_frac",
+    "ushours_frac"
+   ],
+   "roll_bars": 84,
+   "splits": {
+    "TRAIN": {
+     "n_windows": 35,
+     "ML": {
+      "net": 274.1,
+      "sharpe": 3.66,
+      "maxdd": -17.0,
+      "coverage": 0.94,
+      "p05": 87.16,
+      "pick_freq": {
+       "EMA": 14,
+       "BUYHOLD": 7,
+       "VOLTGT_BH": 7,
+       "WMA": 3,
+       "HMA": 2,
+       "VIDYA": 2
+      }
+     },
+     "STATIC": {
+      "net": 148.9,
+      "sharpe": 1.96,
+      "maxdd": -66.3,
+      "coverage": 1.0,
+      "p05": -19.52,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 95.7,
+      "sharpe": 1.9,
+      "maxdd": -54.4,
+      "coverage": 0.93,
+      "p05": -15.46
+     },
+     "BUYHOLD": {
+      "net": 148.9,
+      "sharpe": 1.96,
+      "maxdd": -66.3,
+      "coverage": 1.0,
+      "p05": -19.52
+     },
+     "ORACLE": {
+      "net": 643.1,
+      "sharpe": 5.26,
+      "maxdd": -17.0,
+      "coverage": null,
+      "p05": 276.31
+     },
+     "RANDOM": {
+      "net": 50.2,
+      "sharpe": 1.52,
+      "maxdd": -26.7,
+      "coverage": null,
+      "p05": -15.67
+     },
+     "SHUFFLE_net": 20.2
+    },
+    "VAL": {
+     "n_windows": 6,
+     "ML": {
+      "net": 18.7,
+      "sharpe": 3.97,
+      "maxdd": -5.6,
+      "coverage": 0.62,
+      "p05": -4.64,
+      "pick_freq": {
+       "VIDYA": 4,
+       "BUYHOLD": 2
+      }
+     },
+     "STATIC": {
+      "net": -18.8,
+      "sharpe": -1.86,
+      "maxdd": -35.4,
+      "coverage": 1.0,
+      "p05": -50.09,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": -18.7,
+      "sharpe": -2.92,
+      "maxdd": -24.8,
+      "coverage": 0.86,
+      "p05": -42.34
+     },
+     "BUYHOLD": {
+      "net": -18.8,
+      "sharpe": -1.86,
+      "maxdd": -35.4,
+      "coverage": 1.0,
+      "p05": -50.09
+     },
+     "ORACLE": {
+      "net": 20.3,
+      "sharpe": 4.09,
+      "maxdd": -5.3,
+      "coverage": null,
+      "p05": -4.99
+     },
+     "RANDOM": {
+      "net": 1.6,
+      "sharpe": 0.56,
+      "maxdd": -7.8,
+      "coverage": null,
+      "p05": -17.54
+     },
+     "SHUFFLE_net": 5.2
+    },
+    "OOS": {
+     "n_windows": 19,
+     "ML": {
+      "net": 70.7,
+      "sharpe": 2.95,
+      "maxdd": -18.0,
+      "coverage": 0.86,
+      "p05": -4.69,
+      "pick_freq": {
+       "VIDYA": 11,
+       "BUYHOLD": 6,
+       "VOLTGT_BH": 1,
+       "TEMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 64.4,
+      "sharpe": 1.99,
+      "maxdd": -30.8,
+      "coverage": 1.0,
+      "p05": -37.37,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 68.4,
+      "sharpe": 2.22,
+      "maxdd": -26.6,
+      "coverage": 1.0,
+      "p05": -28.93
+     },
+     "BUYHOLD": {
+      "net": 64.4,
+      "sharpe": 1.99,
+      "maxdd": -30.8,
+      "coverage": 1.0,
+      "p05": -37.37
+     },
+     "ORACLE": {
+      "net": 219.5,
+      "sharpe": 5.69,
+      "maxdd": -14.0,
+      "coverage": null,
+      "p05": 76.14
+     },
+     "RANDOM": {
+      "net": 32.7,
+      "sharpe": 1.61,
+      "maxdd": -23.7,
+      "coverage": null,
+      "p05": -24.08
+     },
+     "SHUFFLE_net": 79.1
+    },
+    "TOOL_OOS": {
+     "n_windows": 19,
+     "ML": {
+      "net": 70.7,
+      "sharpe": 2.95,
+      "maxdd": -18.0,
+      "coverage": 0.86,
+      "p05": -4.69,
+      "pick_freq": {
+       "VIDYA": 11,
+       "BUYHOLD": 6,
+       "VOLTGT_BH": 1,
+       "TEMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 64.4,
+      "sharpe": 1.99,
+      "maxdd": -30.8,
+      "coverage": 1.0,
+      "p05": -37.37,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 68.4,
+      "sharpe": 2.22,
+      "maxdd": -26.6,
+      "coverage": 1.0,
+      "p05": -28.93
+     },
+     "BUYHOLD": {
+      "net": 64.4,
+      "sharpe": 1.99,
+      "maxdd": -30.8,
+      "coverage": 1.0,
+      "p05": -37.37
+     },
+     "ORACLE": {
+      "net": 219.5,
+      "sharpe": 5.69,
+      "maxdd": -14.0,
+      "coverage": null,
+      "p05": 76.14
+     },
+     "RANDOM": {
+      "net": 32.3,
+      "sharpe": 1.7,
+      "maxdd": -28.0,
+      "coverage": null,
+      "p05": -22.96
+     },
+     "SHUFFLE_net": 78.4
+    }
+   },
+   "tier_selection": {
+    "a_val_net": 18.71,
+    "b_val_net": -12.64,
+    "b_backend": "lightgbm",
+    "chosen": "A"
+   },
+   "static_rule_pick": "BUYHOLD",
+   "ablation": {
+    "ALL": 70.7,
+    "no_calendar": 27.3,
+    "no_regime": 51.1,
+    "no_recent": 70.4,
+    "calendar_contribution_net": 43.4
+   }
+  },
+  "1h": {
+   "cadence": "1h",
+   "n_windows": 51,
+   "candidates": [
+    "EMA",
+    "SMA",
+    "WMA",
+    "HMA",
+    "DEMA",
+    "TEMA",
+    "KAMA",
+    "VIDYA",
+    "BUYHOLD",
+    "VOLTGT_BH"
+   ],
+   "features": [
+    "recent_EMA",
+    "recent_SMA",
+    "recent_WMA",
+    "recent_HMA",
+    "recent_DEMA",
+    "recent_TEMA",
+    "recent_KAMA",
+    "recent_VIDYA",
+    "recent_BUYHOLD",
+    "recent_VOLTGT_BH",
+    "regime_breadth",
+    "participation",
+    "vol_level",
+    "whipsaw",
+    "vol_regime",
+    "weekend_frac",
+    "ushours_frac"
+   ],
+   "roll_bars": 168,
+   "splits": {
+    "TRAIN": {
+     "n_windows": 35,
+     "ML": {
+      "net": 616.5,
+      "sharpe": 5.15,
+      "maxdd": -18.8,
+      "coverage": 0.95,
+      "p05": 238.38,
+      "pick_freq": {
+       "BUYHOLD": 18,
+       "VOLTGT_BH": 5,
+       "HMA": 3,
+       "TEMA": 2,
+       "DEMA": 2,
+       "WMA": 2,
+       "VIDYA": 1,
+       "EMA": 1,
+       "KAMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 109.4,
+      "sharpe": 1.67,
+      "maxdd": -66.3,
+      "coverage": 1.0,
+      "p05": -31.56,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 81.7,
+      "sharpe": 1.74,
+      "maxdd": -52.7,
+      "coverage": 0.97,
+      "p05": -19.56
+     },
+     "BUYHOLD": {
+      "net": 109.4,
+      "sharpe": 1.67,
+      "maxdd": -66.3,
+      "coverage": 1.0,
+      "p05": -31.56
+     },
+     "ORACLE": {
+      "net": 653.3,
+      "sharpe": 5.3,
+      "maxdd": -18.8,
+      "coverage": null,
+      "p05": 253.77
+     },
+     "RANDOM": {
+      "net": 70.4,
+      "sharpe": 1.85,
+      "maxdd": -25.8,
+      "coverage": null,
+      "p05": -9.7
+     },
+     "SHUFFLE_net": 231.6
+    },
+    "VAL": {
+     "n_windows": 4,
+     "ML": {
+      "net": 14.5,
+      "sharpe": 3.63,
+      "maxdd": -13.5,
+      "coverage": 0.99,
+      "p05": -10.88,
+      "pick_freq": {
+       "BUYHOLD": 2,
+       "VIDYA": 1,
+       "TEMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 0.0,
+      "sharpe": 0.35,
+      "maxdd": -23.2,
+      "coverage": 1.0,
+      "p05": -27.9,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 1.2,
+      "sharpe": 0.56,
+      "maxdd": -16.1,
+      "coverage": 1.0,
+      "p05": -20.35
+     },
+     "BUYHOLD": {
+      "net": 0.0,
+      "sharpe": 0.35,
+      "maxdd": -23.2,
+      "coverage": 1.0,
+      "p05": -27.9
+     },
+     "ORACLE": {
+      "net": 16.7,
+      "sharpe": 4.76,
+      "maxdd": -8.6,
+      "coverage": null,
+      "p05": -5.55
+     },
+     "RANDOM": {
+      "net": -3.7,
+      "sharpe": -0.82,
+      "maxdd": -14.7,
+      "coverage": null,
+      "p05": -22.71
+     },
+     "SHUFFLE_net": 14.5
+    },
+    "OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 66.8,
+      "sharpe": 3.59,
+      "maxdd": -23.4,
+      "coverage": 1.0,
+      "p05": -4.78,
+      "pick_freq": {
+       "BUYHOLD": 4,
+       "VOLTGT_BH": 3,
+       "EMA": 1,
+       "HMA": 1,
+       "SMA": 1,
+       "VIDYA": 1,
+       "TEMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 88.2,
+      "sharpe": 3.65,
+      "maxdd": -23.4,
+      "coverage": 1.0,
+      "p05": -2.0,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 75.8,
+      "sharpe": 3.95,
+      "maxdd": -19.0,
+      "coverage": 1.0,
+      "p05": 1.06
+     },
+     "BUYHOLD": {
+      "net": 88.2,
+      "sharpe": 3.65,
+      "maxdd": -23.4,
+      "coverage": 1.0,
+      "p05": -2.0
+     },
+     "ORACLE": {
+      "net": 128.1,
+      "sharpe": 6.17,
+      "maxdd": -11.5,
+      "coverage": null,
+      "p05": 40.44
+     },
+     "RANDOM": {
+      "net": 77.8,
+      "sharpe": 4.64,
+      "maxdd": -16.9,
+      "coverage": null,
+      "p05": 13.07
+     },
+     "SHUFFLE_net": 72.7
+    },
+    "TOOL_OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 66.8,
+      "sharpe": 3.59,
+      "maxdd": -23.4,
+      "coverage": 1.0,
+      "p05": -4.78,
+      "pick_freq": {
+       "BUYHOLD": 4,
+       "VOLTGT_BH": 3,
+       "EMA": 1,
+       "HMA": 1,
+       "SMA": 1,
+       "VIDYA": 1,
+       "TEMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 88.2,
+      "sharpe": 3.65,
+      "maxdd": -23.4,
+      "coverage": 1.0,
+      "p05": -2.0,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 75.8,
+      "sharpe": 3.95,
+      "maxdd": -19.0,
+      "coverage": 1.0,
+      "p05": 1.06
+     },
+     "BUYHOLD": {
+      "net": 88.2,
+      "sharpe": 3.65,
+      "maxdd": -23.4,
+      "coverage": 1.0,
+      "p05": -2.0
+     },
+     "ORACLE": {
+      "net": 128.1,
+      "sharpe": 6.17,
+      "maxdd": -11.5,
+      "coverage": null,
+      "p05": 40.44
+     },
+     "RANDOM": {
+      "net": 77.8,
+      "sharpe": 4.8,
+      "maxdd": -16.1,
+      "coverage": null,
+      "p05": 15.66
+     },
+     "SHUFFLE_net": 84.1
+    }
+   },
+   "tier_selection": {
+    "a_val_net": -4.39,
+    "b_val_net": 14.5,
+    "b_backend": "lightgbm",
+    "chosen": "B"
+   },
+   "static_rule_pick": "BUYHOLD",
+   "ablation": {
+    "ALL": 51.6,
+    "no_calendar": 52.6,
+    "no_regime": 45.0,
+    "no_recent": 64.7,
+    "calendar_contribution_net": -1.0
+   }
+  },
+  "30m": {
+   "cadence": "30m",
+   "n_windows": 51,
+   "candidates": [
+    "EMA",
+    "SMA",
+    "WMA",
+    "HMA",
+    "DEMA",
+    "TEMA",
+    "KAMA",
+    "VIDYA",
+    "BUYHOLD",
+    "VOLTGT_BH"
+   ],
+   "features": [
+    "recent_EMA",
+    "recent_SMA",
+    "recent_WMA",
+    "recent_HMA",
+    "recent_DEMA",
+    "recent_TEMA",
+    "recent_KAMA",
+    "recent_VIDYA",
+    "recent_BUYHOLD",
+    "recent_VOLTGT_BH",
+    "regime_breadth",
+    "participation",
+    "vol_level",
+    "whipsaw",
+    "vol_regime",
+    "weekend_frac",
+    "ushours_frac"
+   ],
+   "roll_bars": 336,
+   "splits": {
+    "TRAIN": {
+     "n_windows": 34,
+     "ML": {
+      "net": 218.6,
+      "sharpe": 3.76,
+      "maxdd": -15.3,
+      "coverage": 0.92,
+      "p05": 61.94,
+      "pick_freq": {
+       "EMA": 15,
+       "VIDYA": 7,
+       "BUYHOLD": 4,
+       "VOLTGT_BH": 4,
+       "KAMA": 2,
+       "TEMA": 1,
+       "HMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 175.0,
+      "sharpe": 2.14,
+      "maxdd": -66.6,
+      "coverage": 1.0,
+      "p05": -21.41,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 130.5,
+      "sharpe": 2.35,
+      "maxdd": -52.3,
+      "coverage": 0.97,
+      "p05": -4.8
+     },
+     "BUYHOLD": {
+      "net": 175.0,
+      "sharpe": 2.14,
+      "maxdd": -66.6,
+      "coverage": 1.0,
+      "p05": -21.41
+     },
+     "ORACLE": {
+      "net": 668.4,
+      "sharpe": 5.38,
+      "maxdd": -18.9,
+      "coverage": null,
+      "p05": 239.71
+     },
+     "RANDOM": {
+      "net": 81.6,
+      "sharpe": 2.05,
+      "maxdd": -28.1,
+      "coverage": null,
+      "p05": -6.27
+     },
+     "SHUFFLE_net": 139.4
+    },
+    "VAL": {
+     "n_windows": 5,
+     "ML": {
+      "net": -3.1,
+      "sharpe": -0.91,
+      "maxdd": -10.7,
+      "coverage": 0.87,
+      "p05": -18.06,
+      "pick_freq": {
+       "EMA": 4,
+       "KAMA": 1
+      }
+     },
+     "STATIC": {
+      "net": -17.6,
+      "sharpe": -1.85,
+      "maxdd": -34.4,
+      "coverage": 1.0,
+      "p05": -48.0,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": -13.9,
+      "sharpe": -2.13,
+      "maxdd": -27.8,
+      "coverage": 1.0,
+      "p05": -37.5
+     },
+     "BUYHOLD": {
+      "net": -17.6,
+      "sharpe": -1.85,
+      "maxdd": -34.4,
+      "coverage": 1.0,
+      "p05": -48.0
+     },
+     "ORACLE": {
+      "net": 9.9,
+      "sharpe": 2.28,
+      "maxdd": -11.0,
+      "coverage": null,
+      "p05": -14.22
+     },
+     "RANDOM": {
+      "net": -4.3,
+      "sharpe": -0.79,
+      "maxdd": -21.1,
+      "coverage": null,
+      "p05": -25.0
+     },
+     "SHUFFLE_net": -3.1
+    },
+    "OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 77.8,
+      "sharpe": 3.66,
+      "maxdd": -24.5,
+      "coverage": 1.0,
+      "p05": -4.89,
+      "pick_freq": {
+       "BUYHOLD": 6,
+       "VIDYA": 3,
+       "VOLTGT_BH": 2,
+       "HMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 122.3,
+      "sharpe": 4.3,
+      "maxdd": -25.3,
+      "coverage": 1.0,
+      "p05": 6.03,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 98.4,
+      "sharpe": 4.51,
+      "maxdd": -19.1,
+      "coverage": 1.0,
+      "p05": 9.35
+     },
+     "BUYHOLD": {
+      "net": 122.3,
+      "sharpe": 4.3,
+      "maxdd": -25.3,
+      "coverage": 1.0,
+      "p05": 6.03
+     },
+     "ORACLE": {
+      "net": 167.0,
+      "sharpe": 7.11,
+      "maxdd": -10.2,
+      "coverage": null,
+      "p05": 59.87
+     },
+     "RANDOM": {
+      "net": 92.8,
+      "sharpe": 5.05,
+      "maxdd": -18.3,
+      "coverage": null,
+      "p05": 19.3
+     },
+     "SHUFFLE_net": 71.4
+    },
+    "TOOL_OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 77.8,
+      "sharpe": 3.66,
+      "maxdd": -24.5,
+      "coverage": 1.0,
+      "p05": -4.89,
+      "pick_freq": {
+       "BUYHOLD": 6,
+       "VIDYA": 3,
+       "VOLTGT_BH": 2,
+       "HMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 122.3,
+      "sharpe": 4.3,
+      "maxdd": -25.3,
+      "coverage": 1.0,
+      "p05": 6.03,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 98.4,
+      "sharpe": 4.51,
+      "maxdd": -19.1,
+      "coverage": 1.0,
+      "p05": 9.35
+     },
+     "BUYHOLD": {
+      "net": 122.3,
+      "sharpe": 4.3,
+      "maxdd": -25.3,
+      "coverage": 1.0,
+      "p05": 6.03
+     },
+     "ORACLE": {
+      "net": 167.0,
+      "sharpe": 7.11,
+      "maxdd": -10.2,
+      "coverage": null,
+      "p05": 59.87
+     },
+     "RANDOM": {
+      "net": 76.7,
+      "sharpe": 4.58,
+      "maxdd": -16.0,
+      "coverage": null,
+      "p05": 10.95
+     },
+     "SHUFFLE_net": 112.6
+    }
+   },
+   "tier_selection": {
+    "a_val_net": -3.13,
+    "b_val_net": -9.4,
+    "b_backend": "lightgbm",
+    "chosen": "A"
+   },
+   "static_rule_pick": "BUYHOLD",
+   "ablation": {
+    "ALL": 77.8,
+    "no_calendar": 67.0,
+    "no_regime": 42.7,
+    "no_recent": 84.4,
+    "calendar_contribution_net": 10.8
+   }
+  },
+  "15m": {
+   "cadence": "15m",
+   "n_windows": 51,
+   "candidates": [
+    "EMA",
+    "SMA",
+    "WMA",
+    "HMA",
+    "DEMA",
+    "TEMA",
+    "KAMA",
+    "VIDYA",
+    "BUYHOLD",
+    "VOLTGT_BH"
+   ],
+   "features": [
+    "recent_EMA",
+    "recent_SMA",
+    "recent_WMA",
+    "recent_HMA",
+    "recent_DEMA",
+    "recent_TEMA",
+    "recent_KAMA",
+    "recent_VIDYA",
+    "recent_BUYHOLD",
+    "recent_VOLTGT_BH",
+    "regime_breadth",
+    "participation",
+    "vol_level",
+    "whipsaw",
+    "vol_regime",
+    "weekend_frac",
+    "ushours_frac"
+   ],
+   "roll_bars": 672,
+   "splits": {
+    "TRAIN": {
+     "n_windows": 34,
+     "ML": {
+      "net": 233.3,
+      "sharpe": 3.77,
+      "maxdd": -19.6,
+      "coverage": 0.91,
+      "p05": 59.17,
+      "pick_freq": {
+       "EMA": 16,
+       "VIDYA": 6,
+       "BUYHOLD": 4,
+       "VOLTGT_BH": 4,
+       "TEMA": 2,
+       "KAMA": 1,
+       "DEMA": 1
+      }
+     },
+     "STATIC": {
+      "net": 264.6,
+      "sharpe": 2.58,
+      "maxdd": -68.2,
+      "coverage": 1.0,
+      "p05": 10.2,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 179.5,
+      "sharpe": 2.83,
+      "maxdd": -54.7,
+      "coverage": 0.97,
+      "p05": 25.1
+     },
+     "BUYHOLD": {
+      "net": 264.6,
+      "sharpe": 2.58,
+      "maxdd": -68.2,
+      "coverage": 1.0,
+      "p05": 10.2
+     },
+     "ORACLE": {
+      "net": 857.6,
+      "sharpe": 6.08,
+      "maxdd": -19.6,
+      "coverage": null,
+      "p05": 328.89
+     },
+     "RANDOM": {
+      "net": 95.1,
+      "sharpe": 2.25,
+      "maxdd": -33.9,
+      "coverage": null,
+      "p05": -2.01
+     },
+     "SHUFFLE_net": 139.3
+    },
+    "VAL": {
+     "n_windows": 5,
+     "ML": {
+      "net": -4.8,
+      "sharpe": -1.56,
+      "maxdd": -10.4,
+      "coverage": 0.84,
+      "p05": -18.72,
+      "pick_freq": {
+       "VIDYA": 3,
+       "KAMA": 1,
+       "EMA": 1
+      }
+     },
+     "STATIC": {
+      "net": -17.6,
+      "sharpe": -1.86,
+      "maxdd": -35.1,
+      "coverage": 1.0,
+      "p05": -48.26,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": -12.8,
+      "sharpe": -1.93,
+      "maxdd": -29.3,
+      "coverage": 1.0,
+      "p05": -37.03
+     },
+     "BUYHOLD": {
+      "net": -17.6,
+      "sharpe": -1.86,
+      "maxdd": -35.1,
+      "coverage": 1.0,
+      "p05": -48.26
+     },
+     "ORACLE": {
+      "net": 12.2,
+      "sharpe": 2.82,
+      "maxdd": -12.4,
+      "coverage": null,
+      "p05": -11.63
+     },
+     "RANDOM": {
+      "net": -4.4,
+      "sharpe": -0.69,
+      "maxdd": -21.7,
+      "coverage": null,
+      "p05": -25.2
+     },
+     "SHUFFLE_net": -4.9
+    },
+    "OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 71.8,
+      "sharpe": 3.84,
+      "maxdd": -25.4,
+      "coverage": 0.96,
+      "p05": -0.75,
+      "pick_freq": {
+       "EMA": 5,
+       "VIDYA": 4,
+       "BUYHOLD": 3
+      }
+     },
+     "STATIC": {
+      "net": 151.3,
+      "sharpe": 4.84,
+      "maxdd": -26.7,
+      "coverage": 1.0,
+      "p05": 13.84,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 114.2,
+      "sharpe": 4.97,
+      "maxdd": -21.1,
+      "coverage": 1.0,
+      "p05": 14.04
+     },
+     "BUYHOLD": {
+      "net": 151.3,
+      "sharpe": 4.84,
+      "maxdd": -26.7,
+      "coverage": 1.0,
+      "p05": 13.84
+     },
+     "ORACLE": {
+      "net": 190.5,
+      "sharpe": 6.54,
+      "maxdd": -26.7,
+      "coverage": null,
+      "p05": 54.69
+     },
+     "RANDOM": {
+      "net": 101.3,
+      "sharpe": 5.43,
+      "maxdd": -16.8,
+      "coverage": null,
+      "p05": 19.75
+     },
+     "SHUFFLE_net": 100.2
+    },
+    "TOOL_OOS": {
+     "n_windows": 12,
+     "ML": {
+      "net": 71.8,
+      "sharpe": 3.84,
+      "maxdd": -25.4,
+      "coverage": 0.96,
+      "p05": -0.75,
+      "pick_freq": {
+       "EMA": 5,
+       "VIDYA": 4,
+       "BUYHOLD": 3
+      }
+     },
+     "STATIC": {
+      "net": 151.3,
+      "sharpe": 4.84,
+      "maxdd": -26.7,
+      "coverage": 1.0,
+      "p05": 13.84,
+      "pick": "BUYHOLD"
+     },
+     "VOLTGT_BH": {
+      "net": 114.2,
+      "sharpe": 4.97,
+      "maxdd": -21.1,
+      "coverage": 1.0,
+      "p05": 14.04
+     },
+     "BUYHOLD": {
+      "net": 151.3,
+      "sharpe": 4.84,
+      "maxdd": -26.7,
+      "coverage": 1.0,
+      "p05": 13.84
+     },
+     "ORACLE": {
+      "net": 190.5,
+      "sharpe": 6.54,
+      "maxdd": -26.7,
+      "coverage": null,
+      "p05": 54.69
+     },
+     "RANDOM": {
+      "net": 61.4,
+      "sharpe": 3.84,
+      "maxdd": -20.5,
+      "coverage": null,
+      "p05": -3.25
+     },
+     "SHUFFLE_net": 59.1
+    }
+   },
+   "tier_selection": {
+    "a_val_net": -4.76,
+    "b_val_net": -4.83,
+    "b_backend": "lightgbm",
+    "chosen": "A"
+   },
+   "static_rule_pick": "BUYHOLD",
+   "ablation": {
+    "ALL": 71.8,
+    "no_calendar": 71.8,
+    "no_regime": 51.1,
+    "no_recent": 54.2,
+    "calendar_contribution_net": 0.0
+   }
+  }
+ },
+ "verdict": {
+  "headline": "CONFIRMED-PARTIAL: the learned recommender BEAT VOLTGT_BH on NET at 1/6 cadences AND beat its own shuffle at 1/6 -- a real (if narrow) learned edge. Verify robustness (p05/PBO) before believing.",
+  "beat_static_cadences": [
+   "2h"
+  ],
+  "beat_voltgt_cadences": [
+   "2h"
+  ],
+  "beat_shuffle_cadences": [
+   "30m"
+  ],
+  "calendar_helps_cadences": [
+   "2h",
+   "30m"
+  ],
+  "n_cadences": 6,
+  "lines": [
+   "BAR TO BEAT: VOLTGT_BH on NET (the static-rule winner), the static-rule pick, and the same-frequency SHUFFLE -- on 2020 OOS Oct-Dec.",
+   "HEADLINE: CONFIRMED-PARTIAL: the learned recommender BEAT VOLTGT_BH on NET at 1/6 cadences AND beat its own shuffle at 1/6 -- a real (if narrow) learned edge. Verify robustness (p05/PBO) before believing.",
+   "",
+   "[1d] OOS ML 15.4% (pick {'EMA': 9, 'VOLTGT_BH': 2, 'KAMA': 1}) vs STATIC 46.0% (BUYHOLD) vs VOLTGT_BH 42.6% vs ORACLE 79.7% | shuffle 36.9% | tier A",
+   "[4h] OOS ML 34.6% (pick {'BUYHOLD': 4, 'DEMA': 3, 'EMA': 2, 'WMA': 1, 'KAMA': 1, 'TEMA': 1}) vs STATIC 56.2% (BUYHOLD) vs VOLTGT_BH 52.9% vs ORACLE 92.4% | shuffle 51.0% | tier B",
+   "[2h] OOS ML 70.7% (pick {'VIDYA': 11, 'BUYHOLD': 6, 'VOLTGT_BH': 1, 'TEMA': 1}) vs STATIC 64.4% (BUYHOLD) vs VOLTGT_BH 68.4% vs ORACLE 219.5% | shuffle 79.1% | tier A",
+   "[1h] OOS ML 66.8% (pick {'BUYHOLD': 4, 'VOLTGT_BH': 3, 'EMA': 1, 'HMA': 1, 'SMA': 1, 'VIDYA': 1, 'TEMA': 1}) vs STATIC 88.2% (BUYHOLD) vs VOLTGT_BH 75.8% vs ORACLE 128.1% | shuffle 72.7% | tier B",
+   "[30m] OOS ML 77.8% (pick {'BUYHOLD': 6, 'VIDYA': 3, 'VOLTGT_BH': 2, 'HMA': 1}) vs STATIC 122.3% (BUYHOLD) vs VOLTGT_BH 98.4% vs ORACLE 167.0% | shuffle 71.4% | tier A",
+   "[15m] OOS ML 71.8% (pick {'EMA': 5, 'VIDYA': 4, 'BUYHOLD': 3}) vs STATIC 151.3% (BUYHOLD) vs VOLTGT_BH 114.2% vs ORACLE 190.5% | shuffle 100.2% | tier A",
+   "",
+   "calendar feature HELPS OOS net at 2/6 cadences (['2h', '30m']) -- the ablation attribution.",
+   "CAVEATS: long-only; equal-weight u10; causal MtM; maker for MA families / taker-free book construction matches the static rule; OOS == the tool's Oct-Dec 2020; tier chosen on VAL (never OOS); 1d has few rolling windows (small-sample). UNSEEN N/A (2020 runway)."
+  ]
+ },
+ "best_config_oneliners": {
+  "1d": "ML best config OOS = top pick 'EMA' (freq {'EMA': 9, 'VOLTGT_BH': 2, 'KAMA': 1}); realized NET 15.4% Sharpe 1.87 maxDD -17.1% cov 1.0 | static pick 'BUYHOLD' 46.0% | VOLTGT_BH 42.6%",
+  "4h": "ML best config OOS = top pick 'BUYHOLD' (freq {'BUYHOLD': 4, 'DEMA': 3, 'EMA': 2, 'WMA': 1, 'KAMA': 1, 'TEMA': 1}); realized NET 34.6% Sharpe 2.4 maxDD -22.2% cov 0.94 | static pick 'BUYHOLD' 56.2% | VOLTGT_BH 52.9%",
+  "2h": "ML best config OOS = top pick 'VIDYA' (freq {'VIDYA': 11, 'BUYHOLD': 6, 'VOLTGT_BH': 1, 'TEMA': 1}); realized NET 70.7% Sharpe 2.95 maxDD -18.0% cov 0.86 | static pick 'BUYHOLD' 64.4% | VOLTGT_BH 68.4%",
+  "1h": "ML best config OOS = top pick 'BUYHOLD' (freq {'BUYHOLD': 4, 'VOLTGT_BH': 3, 'EMA': 1, 'HMA': 1, 'SMA': 1, 'VIDYA': 1, 'TEMA': 1}); realized NET 66.8% Sharpe 3.59 maxDD -23.4% cov 1.0 | static pick 'BUYHOLD' 88.2% | VOLTGT_BH 75.8%",
+  "30m": "ML best config OOS = top pick 'BUYHOLD' (freq {'BUYHOLD': 6, 'VIDYA': 3, 'VOLTGT_BH': 2, 'HMA': 1}); realized NET 77.8% Sharpe 3.66 maxDD -24.5% cov 1.0 | static pick 'BUYHOLD' 122.3% | VOLTGT_BH 98.4%",
+  "15m": "ML best config OOS = top pick 'EMA' (freq {'EMA': 5, 'VIDYA': 4, 'BUYHOLD': 3}); realized NET 71.8% Sharpe 3.84 maxDD -25.4% cov 0.96 | static pick 'BUYHOLD' 151.3% | VOLTGT_BH 114.2%"
+ }
+}

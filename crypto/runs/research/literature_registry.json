@@ -1,0 +1,57 @@
+{
+  "_protocol": {
+    "read_forward": "Load this file at every research-session start. Seed the literature search from confirmed entries before querying WebSearch. Never re-derive a citation already confirmed here.",
+    "write_forward": "After any new citation survives fan-out adversarial verify (K=2 probes agree), append an entry here immediately -- do NOT wait until session end.",
+    "fields": "key (slug), title, url, year, finding_1line (<=120 chars), applies_to (list of project concerns)"
+  },
+  "confirmed": [
+    {
+      "key": "dreamerv3",
+      "title": "Mastering Diverse Domains through World Models (DreamerV3)",
+      "url": "https://arxiv.org/abs/2301.04104",
+      "year": 2023,
+      "finding_1line": "RSSM + TwoHot symlog targets + KL-balancing = stable world-model training across 7 domains with no hyperparameter tuning.",
+      "applies_to": ["V1 RSSM backbone", "TwoHotSymlog bucketing", "training stability", "V3 hierarchical RSSM"]
+    },
+    {
+      "key": "mamba",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "url": "https://arxiv.org/abs/2312.00752",
+      "year": 2023,
+      "finding_1line": "Selective SSM with input-dependent transitions; linear complexity, strong on long sequences; outperforms Transformers at sub-1B scale on language.",
+      "applies_to": ["V4 Mamba-SSM", "V5 Hybrid Mamba+LocalAttn", "sequence length scaling"]
+    },
+    {
+      "key": "patchtst",
+      "title": "A Time Series is Worth 64 Words: Long-term Forecasting with Transformers (PatchTST)",
+      "url": "https://arxiv.org/abs/2211.14730",
+      "year": 2023,
+      "finding_1line": "Patch tokenization + channel-independence beats full-series attention for multi-horizon TS forecasting; reduces complexity O(L^2)->O((L/P)^2).",
+      "applies_to": ["V7 ViT patch-based", "feature tokenization strategy", "multi-horizon targets"]
+    },
+    {
+      "key": "moment",
+      "title": "MOMENT: A Family of Open Time-series Foundation Models",
+      "url": "https://arxiv.org/abs/2402.03885",
+      "year": 2024,
+      "finding_1line": "Masked-patch pre-training on 1B TS tokens yields zero-shot transfer; MOMENT validated as descriptive foundation model for narration in this project.",
+      "applies_to": ["narration engine", "pre-training strategy", "foundation-model transfer"]
+    },
+    {
+      "key": "reflexion",
+      "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+      "url": "https://arxiv.org/abs/2303.11366",
+      "year": 2023,
+      "finding_1line": "Post-failure verbal post-mortems stored in episodic memory; retry conditioned on prior failure trace; dramatically reduces repeated mistakes in multi-turn agent loops.",
+      "applies_to": ["orc SOTA upgrade #2", "failed-verify retry protocol", "autonomous loop memory"]
+    },
+    {
+      "key": "voyager",
+      "title": "Voyager: An Open-Ended Embodied Agent with Large Language Models",
+      "url": "https://arxiv.org/abs/2305.16291",
+      "year": 2023,
+      "finding_1line": "Skill library of reusable executable programs + automatic curriculum + GPT-4 verifier; monotonically expanding capability without catastrophic forgetting.",
+      "applies_to": ["orc SOTA upgrade #1 skill-library", "runs/autonomy/skill_library/INDEX.json", "reuse-before-build protocol"]
+    }
+  ]
+}
