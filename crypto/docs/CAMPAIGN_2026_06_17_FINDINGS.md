@@ -107,6 +107,42 @@ load-bearing ones are re-verified by Wave 2's fresh runs).
   paths (`src/strategy/`, `scripts/wealth_bot/`, `src/analysis/`, `config/sleeves/`) → 12 rules report "target missing,
   NOT enforced" = silently vacuous. Queue a repath/retire pass so guards are honestly enforced (no green-washing CRITICALs).
 
-Frontier status: Wave-1 ✅(5) · 2B ✅ · 2C ✅ · 2D ✅ · xex ✅ committed; **2A (A2+maker move-ride, flagship) still running.**
-Next wave (queued): s3-redirect (cross-sectional / carry-sleeve / regime-overlay) · hbr/te IC-0.13 conditioner robustness ·
-stbl_z30 + DVOL regime gates · conditional satellite sizing · CDAP invariant repath/retire.
+- **Wave-3 CDAP invariant repath/retire → DONE.** 7 silently-vacuous rules fixed: 4 RETIRED with tombstones (gen5
+  `src/strategy/sleeves` MA/EMA constraints, `stride_1_predictions`, `claim_contract_v12_import`, per-sleeve
+  `lifecycle.yaml` — genuinely gone post-reset), 3 REPATHED to successors. WARN 12→8, vacuous 7→0, 0 CRITICAL, no rule
+  broken. **2 GENUINE DRIFTS surfaced by honest re-enabling (NOT green-washed):** (i) `src/strat/oracle_walkforward.py`
+  + `train_ma_walkforward.py` LACK DSR/CSCV deflation gating; (ii) `src/wealth_bot/bot/risk_manager.py` has kill-switches
+  but NO IC-decay monitor / consecutive-DD halt. Both are pre-promotion apparatus gaps to close before any live ship.
+
+Frontier status: Wave-1 ✅(5) · 2B ✅ · 2C ✅ · 2D ✅ · xex ✅ · CDAP-repath ✅ — all committed; **2A (A2+maker move-ride,
+flagship) still running.** Next wave (queued): s3-redirect (cross-sectional/carry/regime) · hbr/te IC-0.13 conditioner
+robustness · stbl_z30 + DVOL regime gates · conditional satellite sizing · [new] DSR-gate + decay-monitor wiring.
+
+## §7 — FLAGSHIP VERDICT: move-riding (2A) — the direct test of the user's thesis
+
+**Move-riding in its strongest realizable internal-data form is NET DEAD on UNSEEN — but the kill mechanism is precise
+and one execution lever remains.** Harness `src/mining/mover_ride_a2_maker.py`; artifact
+`runs/mining/mover_ride_a2_maker_u10_20260618_002718.json`. Design = +1.5% onset (1m, u10, 2021-2026); A2 directional-
+ceiling gate (refit on TRAIN, VAL AUC **0.646** — independently reproduces 0.648); **HONEST passive-maker fill** (bid 0.8%
+below price → realized p_fill 0.34, so you only keep the ~1/3 of movers that dip back to you); swept exits; B1 sizing; vs
+**random-entry-on-the-SAME-movers** null; TRAIN/VAL-select → UNSEEN scored once.
+- TRAIN+VAL selected (ft_3_2 | A2 top-20% | B1): beat-null **+0.40%/ev**, breadth 9/10, p05 +0.13% — looked alive in-sample.
+- **UNSEEN (n=77, once): beat-null −0.46%/ev; honest seed-averaged ≈ −0.04 to −0.08%/ev (≈0, not positive). GATE FAILS 3/3.**
+- **A2's RANKING signal is DURABLE** — UNSEEN gross rises monotonically with gate tightness (top-50% −0.10% → top-20%
+  +0.08% → top-10% +0.25%; win 39→48%). The 0.648 AUC was NOT a fit-period artifact.
+- **But A2 CALIBRATION decays** (P(continue) 37.7%→30%→26% across TRAIN→VAL→UNSEEN; choppier 2024+ regime), and the
+  **kill mechanism is the honest maker fill: it adversely-selects AGAINST the fast-up continuation legs A2 picks** (they
+  run away and never fill), while the median ride is −1.3 to −1.6%. The thin, fat-tail-carried positive mean does not
+  survive to beat random-entry.
+- **Closes Wave-1's open door:** "the meat exists at 1m" = TRUE; "you can KEEP it (long-only, internal data, honest
+  cost+fill)" = FALSE. Two un-killed levers: (1) a HYBRID passive+marketable-limit fill that catches runners at some
+  slippage (A2 ranking is real enough to justify ONE bounded test → Wave-4A); (2) external whale/basis/orderbook data.
+  Do NOT chase the top-10% cell (n=42, inside-noise, post-hoc).
+
+**ANSWER to "isn't that a win?": No — not in its strongest internal-data form.** The signal that *identifies* the move
+(A2) is real and durable, but the execution you NEED to afford it (maker, to beat the taker cost that killed naive
+riding) preferentially misses the exact legs the signal selects for — **signal real, capture self-defeating at honest
+fill.** One execution lever (hybrid fill) and external data remain before final closure.
+
+Wave-4 dispatched: 4A hybrid-fill move-ride closer · 4B s3 cross-sectional/regime (the 2C redirect, n_eff-adequate) ·
+4C hbr/te/stbl/DVOL as a regime overlay (n_eff-adequate, with the IC-0.13 robustness probe first).
