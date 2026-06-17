@@ -198,5 +198,20 @@ spend); (c) the carry sleeve as the natural high-n_eff home for the real cross-s
 Reusable referee lessons banked: match conditioner cadence to n_eff; honest fill model exposes adverse-selection; IC-
 significance ≠ harvestable (regime-conditional sign-flips). PIVOT: kill-sweep → CONSTRUCTIVE build of (a).
 
-Frontier status: 4A ✅ 4B ✅ 4C ✅ — committed; **4D (WM regime gate) still running.** Next: canonical dead-list entry for
-move-riding closure, then the CONSTRUCTIVE core+satellite book build (incorporating 4D's regime-overlay verdict).
+- **4D WM-as-regime-gate (existing V1.1 f41, inference only) → WM signal REAL but cheap SMA dominates; don't replace.**
+  Checkpoint LOADS clean (0 broken keys, 41 feats align, ShIC/IC gate PASS) ⇒ the WM→strat wiring is EXECUTABLE, not broken
+  (ForecastBundle's 0 callers = unexecuted, not defective). The WM regime signal has GENUINE transition info (beats shuffled
+  null +21.9pp OOS). BUT OOS WM-gate +14.2% vs SMA +2.1% is suspect (maxDD regresses 6.7pp + OOS likely overlaps the WM's
+  2026-05 training window); **clean held-out UNSEEN: WM-gate −24.2% vs SMA −6.2% (WM_WORSE −18pp)** — the adaptive threshold
+  normalizes away the sustained-bear signal the cheap SMA (price<SMA100 level) catches. **Verdict: do NOT wire WM as a
+  regime-gate REPLACEMENT; the cheap SMA wins on the clean held-out. Safe COMPLEMENT = SMA+WM min-scalar (UNSEEN=SMA, OOS
+  maxDD −15.2%) — low-priority.** Confirms 'WM deprioritized / diagnostic'. Script `src/strat/wave4d_wm_regime_gate_probe.py`.
+
+## §10 — KILL-SWEEP / VALIDATION PHASE COMPLETE (14 items) → PIVOT to CONSTRUCTIVE + breadth
+
+Every load-bearing claim re-validated, both framings tested, the layers + chimera audited, apparatus weaknesses fixed
+(xex_, CDAP), and my own false positives killed. The earned deliverable under the binding LO+spot constraint is the
+**de-risked-beta TREND book** (the funding-carry satellite is market-neutral ⇒ LO-blocked, off the table like shorts).
+Wave 5 dispatched: **A** build+validate the deployable LO de-risked-beta book through the full gate chain (the capstone) ·
+**B** archive deep-dive for genuinely-missed insights (the user flagged the archived section) · **C** alt-bar-type setup
+probe (volume/imbalance/range bars — the "sweep all chart-types" axis untouched tonight; all prior work was time/dollar bars).
