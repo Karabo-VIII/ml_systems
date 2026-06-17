@@ -90,5 +90,23 @@ load-bearing ones are re-verified by Wave 2's fresh runs).
   3–20×. **VERDICT: real structural drawdown-insurance (de-risked beta), NOT alpha. Park TI×TF as an alpha source;
   deploy only as the core book's bear-insurance sleeve.** Script `src/strat/ti_wave2d_honest_band.py`.
 
-Frontier status: 2B ✅ 2D ✅ done+verified; **2A (A2+maker move-ride) and 2C (s3 lsr conditioner) still running**;
-Wave-3 dispatched: `xex_`→dollar-bar join-bug diagnosis+fix (correct-as-you-go).
+- **2C S3 top-trader-ratio as a per-trade conditioner → NULL (with a high-value redirect).** Pre-registered on TRAIN
+  (extreme-long top-traders → −4.84pp 20d fwd). On the trend book: contrarian direction REFUTED; pro-trend
+  (`protrend_z<-1.0`) ekes +1.54pp OOS but raw p=0.068 FAILS Bonferroni(7) and fires on <2% of OOS entries (≈1 blocked
+  trade) ⇒ not skill; global_lsr null (p=0.35). **ROOT CAUSE = n_eff mismatch:** the low-freq trend book makes only ~10
+  actual entry events/asset in 9-mo OOS, so a per-trade gate is structurally under-powered (the feature discriminates
+  arbitrary-bar fwd returns, not the specific entry bars the book sees). **REUSABLE REFEREE LESSON: never test a
+  conditioner per-trade on a ~10-trade book — match the conditioner's cadence to a book with adequate n_eff.** REDIRECT
+  (next wave): s3 as (a) cross-sectional asset-selector, (b) a modifier inside the daily-rebalanced funding-carry sleeve
+  (high n_eff), (c) a global risk-on/off book-sizing overlay — NOT a per-trade skip gate.
+  Scripts `src/strat/s3_{conditioner_test,conditioner_4h,gate_sweep,global_lsr_test}.py`.
+- **Wave-3 `xex_` fix → DONE + committed (17e5520):** root cause was a registry name-collision (two sources emit the same
+  3 cols → polars `_right` dupes), not a join/ffill limit. Removed redundant `cross_exchange_spreads` from
+  `sources_to_join`; 0 unique features lost; takes effect on next chimera rebuild (deferred).
+- **New correct-as-you-go finding (CDAP):** post-split, several `config/_invariants.yaml` globs point at moved/archived
+  paths (`src/strategy/`, `scripts/wealth_bot/`, `src/analysis/`, `config/sleeves/`) → 12 rules report "target missing,
+  NOT enforced" = silently vacuous. Queue a repath/retire pass so guards are honestly enforced (no green-washing CRITICALs).
+
+Frontier status: Wave-1 ✅(5) · 2B ✅ · 2C ✅ · 2D ✅ · xex ✅ committed; **2A (A2+maker move-ride, flagship) still running.**
+Next wave (queued): s3-redirect (cross-sectional / carry-sleeve / regime-overlay) · hbr/te IC-0.13 conditioner robustness ·
+stbl_z30 + DVOL regime gates · conditional satellite sizing · CDAP invariant repath/retire.
