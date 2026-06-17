@@ -71,3 +71,24 @@ load-bearing ones are re-verified by Wave 2's fresh runs).
 - IC-0.13 conditioner findings are period-dependent — treat as conditioner hypotheses, not edges, until robustness-probed.
 - The beat-random-entry-on-same-movers null is the arbiter for any mover strategy (it is what killed naive riding).
 - Maker p_fill ∈ [0.25,0.40], never 0.80; entering mid-move is a chase — model the fill penalty honestly.
+
+## §6 — Wave 2 results (VERIFIED, judged by overseer)
+
+- **2B Funding-dispersion block-bootstrap → SURVIVES (edge is statistically REAL).** Circular block-bootstrap,
+  BL swept 5–20 (conservative=20), pre-registered H0 (comp≤0), UNSEEN touched once. OOS p05 **+2.75%** / UNSEEN p05
+  **+2.67%**, p(boot>0) 0.994–0.998. The Sharpe~5 was NOT 5×-inflated — the level is ~right (very-low-vol series);
+  only the CI was wrong (post-deflation p50 Sharpe ~5.1–5.6). Dispersion-gate (threshold fit on SEL only):
+  MARGINAL+ (OOS ann 10.05→11.25%, Sharpe 5.19→6.66; UNSEEN ~flat); does NOT rescue the 2023-25 dip (3.2→2.3% gated).
+  n_eff OOS=51 / UNSEEN=34. Cheapest falsifier: the 2023-25 era at 3.2%/yr ⇒ honest forward expectation ~3–10%/yr with
+  wide bands, not the 10–27% headline. **VERDICT: statistically real; the binding blocker stays the LO+spot constraint
+  (market-neutral perp-short).** Script `src/mining/funding_dispersion_bootstrap.py`.
+- **2D TI band-ensemble + real bears → de-risked beta CONFIRMED; PARK as an alpha source.** Worker corrected the spec
+  (2024-H1 was +42% BULL, not a bear) and tested the REAL post-2022 bears: 2024-Jun→Oct (−26%) and 2025-Feb→May (−28%) —
+  preservation REPLICATES out-of-period (+4 to +14pp). Hyperparam sweep: only 0–25% of lb×step cells positive in 2022 ⇒
+  the (120,30) tier-A bear result was cherry-picked (inflation confirmed). Full-cycle under HP-averaging: compound
+  +97–673%, p05_bootstrap +28–141% (solidly positive vs risk-free), Sharpe 1.32–1.58 > BH 1.15 — but lags BH compound
+  3–20×. **VERDICT: real structural drawdown-insurance (de-risked beta), NOT alpha. Park TI×TF as an alpha source;
+  deploy only as the core book's bear-insurance sleeve.** Script `src/strat/ti_wave2d_honest_band.py`.
+
+Frontier status: 2B ✅ 2D ✅ done+verified; **2A (A2+maker move-ride) and 2C (s3 lsr conditioner) still running**;
+Wave-3 dispatched: `xex_`→dollar-bar join-bug diagnosis+fix (correct-as-you-go).
