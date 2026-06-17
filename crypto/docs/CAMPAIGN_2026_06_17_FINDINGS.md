@@ -215,3 +215,52 @@ Every load-bearing claim re-validated, both framings tested, the layers + chimer
 Wave 5 dispatched: **A** build+validate the deployable LO de-risked-beta book through the full gate chain (the capstone) ·
 **B** archive deep-dive for genuinely-missed insights (the user flagged the archived section) · **C** alt-bar-type setup
 probe (volume/imbalance/range bars — the "sweep all chart-types" axis untouched tonight; all prior work was time/dollar bars).
+
+## §11 — Archive deep-dive (5B): NOT exhausted — 3 re-valuable items + the dead reconfirmed
+
+Archive at `crypto/archive/restart_2026_06_04/` + `crypto/backups/`; cross-checked vs the live dead-list.
+- **RE-VALUABLE (EV-ranked):**
+  1. **4h RSI-24 breadth-bounce satellite (A4)** — the most-validated per-trade edge in the archive (pre-reset OOS
+     +4.93%/trade, PF 13, lag-robust; the deployable-breadth book OOS +6.4%, UNSEEN +0.6–0.8%). LO, BTC>SMA100-gated,
+     managed RSI>50 exit (mean-reversion-WITHIN-regime, NOT fixed-target ⇒ distinct from the dead family-E bounce). The
+     post-reset TI-trend focus UNDER-exploited it; `pooled_oversold_sweep.py`/`pooled_book_sim.py` are archive-only,
+     re-runnable. → **re-validate on post-reset UNSEEN as a candidate LO SATELLITE for the deployable book.**
+  2. **Stablecoin mint-flow sleeve (A1)** — USDT/USDC supply z-shock → top-K altcoin long; pre-reset Sharpe 2.0, NOT on
+     dead-list, mechanistically distinct from funding-dispersion (macro liquidity injection). Ingest LIVE
+     (`defillama_stable_flows.py`). TEMPERED by 4C (stbl is macro-regime-CONDITIONAL) ⇒ the honest test must control for
+     bull-beta (regime-gate + beat-random null + the UNSEEN bear).
+  3. **DIB (dollar-imbalance-bar) time-series flow duo (A3)** — DIB bars show forward IC +0.07..0.16 (vs time-bar
+     reversal); the BTC+ETH 'both-flow-positive' TIME-SERIES duo (Sharpe 3.62 pre-reset) is SCOPED-DIFFERENT from D75
+     (which killed directional flow on universe-wide TIME bars). DIB builder LIVE (`dib_bars_fast.py`). → overlaps Wave-5C;
+     verify on 2026 data.
+  - **External-data frontier (C1, never built):** Coinbase/Upbit cross-listing announcement signal (peer-reviewed Liu+2023,
+    +15–40% pumps) — only the Binance scraper exists. THE genuine open external avenue; needs scrapers + the user's
+    external-data go-ahead.
+- **TOOLS (archive-only, worth restoring for rigor):** `openbook_search.py` (honest 127-indicator search w/ DSR/Holm),
+  `coverage_manifest.py` (the 'never default a TF' lattice tracker), eigenvalue-n_eff scoring (`src/engine/scoring.py`).
+- **CONFIRMED DEAD (do not resurface):** all price-TA mining, accumulation-gate spraying, continuous funding-LEVEL, all
+  HFT/sub-day-continuous, online-stacking/dynamic-weights, 1-5%/day-from-LO-daily, stablecoin-DEPEG (synthetic labels).
+- **Net:** the archive REINFORCES the synthesis — internal price-TA is dead; the live value is **under-exploited LO
+  flow/bounce SATELLITES (A4/A1/A3, regime-gated de-risked beta)** for the book + the **EXTERNAL announcement door (C1).**
+
+## §12 — CONSTRUCTIVE CAPSTONE (5A): the deployable LONG-ONLY de-risked-beta book EXISTS + is validated
+
+`python -m strat.daily_engine --today`. Config (declarative, non-fit on eval span): voltgt core, vol_target 0.02/30d,
+max_per_name 0.15, regime_scalar {trend:1.0, chop:0.5, down:0.1} on SMA100 breadth (thresholds fit 2019-2023 ONLY), u10,
+1d, taker, lev 1.0. Spec `runs/strat/deployable_book_spec_20260618_013240.json`.
+- **Held-out (fresh):** OOS 2025 +2.14% vs BH −6.25% (maxDD −25.8% vs −46.1%, +20.2pp saved); **UNSEEN 2026-Q1 −6.16% vs
+  BH −27.9% (maxDD −7.4% vs −41.3%, +33.9pp saved, never-touched data)**; full-cycle +2656%, Sharpe 1.37, maxDD −48%
+  (structural — the 2022 −80% BTC can't be survived <30% while invested).
+- **Gate chain (all RWYB-run):** selftest / positive_control / firewall F1-F3 / param / seed-10/10 / look-ahead /
+  UNSEEN-maxDD ALL PASS; PBO 0.943 = regime-dependence (all 81 grid cfgs profitable), not overfit. **BETA gate PASS**
+  (full p05>0 + UNSEEN maxDD<30% + preservation). **ALPHA gate FAIL (expected + disclosed)** — UNSEEN compound −6.16%,
+  held-out p05 −35.99%: DRAWDOWN-INSURANCE BETA, not alpha. It PASSES the user's RISK-BOUNDED objective (robust maxDD<30%
+  new OOS/UNSEEN, 10/10 seeds, beats BH on DD by 20-34pp in every bear incl. UNSEEN); it does NOT beat BH on bull compound
+  (that IS the product).
+- **Blockers to live:** data panel 20d stale (refresh first); if routing through wealth_bot, wire the risk_manager
+  IC-decay/consec-DD halt (the CDAP-surfaced drift). NO code change needed for the book itself.
+**This is the honest deployable deliverable under LO+spot: a robust de-risked-beta book, turnkey.** Wave-6 enhancement:
+test adding the archive's validated 4h RSI-bounce LO satellite (A4) to lift bull participation.
+
+Frontier status: 5A ✅ 5B ✅ committed; **5C (alt-bar-type probe) running**; Wave-6 dispatched: A4 RSI-bounce satellite
+re-validation (+ candidate book enhancement).

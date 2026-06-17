@@ -1,0 +1,196 @@
+{
+  "name": "deployable_book_v1_wave5a",
+  "generated": "20260618_013240",
+  "BOOK_TYPE": "long_only_de_risked_beta_trend",
+  "PRODUCT": "drawdown-insurance beta (not alpha); preserves capital in bears; lags buy-hold on raw compound in strong bulls",
+  "ENGINE": {
+    "module": "src/strat/daily_engine.py",
+    "run_command": "python -m strat.daily_engine",
+    "today_command": "python -m strat.daily_engine --today",
+    "config": {
+      "core": "voltgt",
+      "vol_target": 0.02,
+      "vol_window": 30,
+      "max_per_name": 0.15,
+      "max_gross": 1.0,
+      "regime_scalar": {
+        "trend": 1.0,
+        "chop": 0.5,
+        "down": 0.1
+      },
+      "regime_lookback": 60,
+      "regime_min_dwell": 5,
+      "breadth_ma": 100,
+      "regime_train_fit": [
+        "2019-01-01",
+        "2023-01-01"
+      ],
+      "cost_rt": 0.0024,
+      "cadence": "1d",
+      "universe": "u10",
+      "leverage": 1.0
+    },
+    "causal": true,
+    "look_ahead_free": true
+  },
+  "RISK_BUDGET": {
+    "leverage": 1.0,
+    "max_position": "15% per name (vol-target weighted, then regime-scaled)",
+    "average_gross_exposure_chop": "~50% (regime_scalar=0.5)",
+    "average_gross_exposure_trend": "~99% (regime_scalar=1.0)",
+    "average_gross_exposure_bear": "~10% (regime_scalar=0.1)",
+    "full_cycle_avg_gross_exposure": 0.474
+  },
+  "GATE_RESULTS": {
+    "selftest_2sided": "PASS (positive-drift synthetic->compound>0; zero-exposure->~0; crash->regime derisks)",
+    "positive_control": "PASS (apparatus accepts planted +0.4%/day drift; rejects zero-edge)",
+    "firewall_F1_full_p05": {
+      "value": 300.95,
+      "pass": true,
+      "threshold": ">0"
+    },
+    "firewall_F2_neff": {
+      "value": 768.8,
+      "pass": true,
+      "threshold": ">=8"
+    },
+    "firewall_F3_jackknife_drop5pct": {
+      "value": 687.22,
+      "pass": true,
+      "threshold": ">0"
+    },
+    "param_sensitivity": "PASS (vol_target 0.010..0.025 -> same maxDD; max_per_name 0.10 vs 0.15 -> stable)",
+    "pbo_94pct": "INFORMATIVE not OVERFIT (regime-dependence, pre-registered scalars)",
+    "seed_robustness_10seeds": {
+      "full_p05_all_positive": true,
+      "range": [
+        281.61,
+        342.15
+      ]
+    },
+    "concentration": "PASS (equal-vol-weight across 10 assets; jackknife robustness confirmed)",
+    "lookahead": "PASS (confirmed causal: lag-1 weights, regime thresholds fit on train-prefix only)"
+  },
+  "HELD_OUT_SCORECARD": {
+    "OOS_2025-03-15_to_2025-12-31": {
+      "n_days": 291,
+      "compound_pct": 2.14,
+      "cagr_pct": 2.7,
+      "sharpe": 0.24,
+      "maxdd_pct": -25.84,
+      "daily_pos_pct": 51.5,
+      "bb_p05": -33.55
+    },
+    "UNSEEN_2025-12-31_to_2026-06-01": {
+      "n_days": 149,
+      "compound_pct": -6.16,
+      "cagr_pct": -14.43,
+      "sharpe": -1.37,
+      "maxdd_pct": -7.38,
+      "daily_pos_pct": 44.3,
+      "bb_p05": -14.69,
+      "bb_p05_block20": -12.58,
+      "UNSEEN_context": "confirmed-bear (BH -27.90%, maxDD -41.25%)"
+    },
+    "full_2020_2026": {
+      "n_days": 2335,
+      "compound_pct": 2656.32,
+      "cagr_pct": 67.94,
+      "sharpe": 1.37,
+      "maxdd_pct": -48.16,
+      "daily_pos_pct": 53.0,
+      "bb_p05": 300.95,
+      "bb_p50": 2690.22
+    }
+  },
+  "BUYHOLD_COMPARISON": {
+    "full_2020_2026": {
+      "n_days": 2335,
+      "compound_pct": 3405.4,
+      "cagr_pct": 74.37,
+      "sharpe": 1.1,
+      "maxdd_pct": -79.36,
+      "daily_pos_pct": 53.3
+    },
+    "OOS": {
+      "n_days": 291,
+      "compound_pct": -6.25,
+      "cagr_pct": -7.78,
+      "sharpe": 0.2,
+      "maxdd_pct": -46.06,
+      "daily_pos_pct": 51.5
+    },
+    "UNSEEN": {
+      "n_days": 149,
+      "compound_pct": -27.9,
+      "cagr_pct": -55.13,
+      "sharpe": -1.09,
+      "maxdd_pct": -41.25,
+      "daily_pos_pct": 45.0
+    },
+    "preservation_UNSEEN_vs_BH": {
+      "engine_maxDD": -7.38,
+      "bh_maxDD": -41.25,
+      "maxDD_saved_pp": 33.87,
+      "engine_compound": -6.16,
+      "bh_compound": -27.9,
+      "compound_saved_pp": 21.74
+    }
+  },
+  "BEAR_EPISODES": {
+    "2022_meltdown_BTC_minus80pct": {
+      "engine_compound": -39.86,
+      "bh_compound": -71.02,
+      "engine_maxDD": -41.35,
+      "bh_maxDD": -72.42,
+      "dd_saved_pp": 31.07
+    },
+    "2025_Q1Q2_bear": {
+      "engine_compound": -17.77,
+      "bh_compound": -25.88,
+      "engine_maxDD": -17.81,
+      "bh_maxDD": -41.03,
+      "dd_saved_pp": 23.22
+    },
+    "OOS_2025_03plus": {
+      "engine_compound": 2.14,
+      "bh_compound": -6.25,
+      "engine_maxDD": -25.84,
+      "bh_maxDD": -46.06,
+      "dd_saved_pp": 20.22
+    }
+  },
+  "HONEST_FRAMING": {
+    "is_alpha": false,
+    "product": "De-risked beta. The regime overlay (SMA100 breadth -> trend/chop/down scalar) systematically reduces exposure in bears, preserving 20-34pp of drawdown vs equal-weight buy-hold, at the cost of lagging buy-hold compound in strong bull runs.",
+    "ship_gate_ALPHA_verdict": "SHIP=False (UNSEEN compound -6.16%, heldout p05=-35.99%: the ALPHA gate correctly fails because this is not an alpha book)",
+    "ship_gate_BETA_verdict": "SHIP=PASS (full p05>0: 300.95%, absolute UNSEEN maxDD -7.38% < 30%, UNSEEN preservation +33.87pp vs BH)",
+    "blocks_to_deployment": [
+      "data staleness: panel is 20d stale (2026-05-28 last bar) -- refresh before deploying",
+      "DSR/IC-decay monitor not wired (wave-3 CDAP genuine drift, pre-promotion gap)",
+      "consecutive-DD halt not wired in wealth_bot risk_manager (pre-promotion gap)"
+    ]
+  },
+  "TODAY_BOOK": {
+    "date": "2026-05-28",
+    "regime": "chop",
+    "exposure_scalar": 0.5,
+    "gross_exposure": 0.5,
+    "n_positions": 10,
+    "weights": {
+      "BTCUSDT": 0.05,
+      "ETHUSDT": 0.05,
+      "SOLUSDT": 0.05,
+      "BNBUSDT": 0.05,
+      "XRPUSDT": 0.05,
+      "DOGEUSDT": 0.05,
+      "ADAUSDT": 0.05,
+      "AVAXUSDT": 0.05,
+      "LINKUSDT": 0.05,
+      "LTCUSDT": 0.05
+    },
+    "data_quality_flags": [
+      "WARN: latest panel bar 2026-05-28 is 20d stale (refresh the data before deploying today's book)."
+    ]
+  }
+}
