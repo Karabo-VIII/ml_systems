@@ -23,7 +23,7 @@ import os
 import time
 from pathlib import Path
 
-# repo root = .../v4_crypto_stystem (harness/metaop/champion.py -> parents[2])
+# repo root = .../ml_systems (harness/metaop/champion.py -> parents[2])
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_CHAMPION = _REPO_ROOT / "runs" / "autonomy" / "evolve" / "champion.json"
 

@@ -40,7 +40,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 OUT_PATH = OUT_DIR / "top_trader_ratio_daily.parquet"
 
 BASE = "https://fapi.binance.com/futures/data"
-UA = "v4_crypto_stystem-frontier/1.0"
+UA = "ml_systems-frontier/1.0"
 
 ENDPOINTS = {
     "long_acct_ratio": "topLongShortAccountRatio",

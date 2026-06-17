@@ -52,7 +52,7 @@ _MANIFEST_ROOT = OUT_DIR / "s3_metrics_manifests"
 _mm = MissingManifest(_MANIFEST_ROOT)
 
 BASE = "https://data.binance.vision/data/futures/um/daily/metrics"
-UA = "v4_crypto_stystem-frontier/1.0"
+UA = "ml_systems-frontier/1.0"
 START_DATE = "2022-01-01"  # reduce download; 2020-09 available but slow
 
 

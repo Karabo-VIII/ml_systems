@@ -25,7 +25,7 @@ sys.stdout = open(sys.stdout.fileno(), mode="w", encoding="utf8", buffering=1)
 
 import polars as pl
 
-ROOT = Path("c:/Users/karab/Documents/coding/v4_crypto_stystem")
+ROOT = Path("c:/Users/karab/Documents/coding/ml_systems")
 LOG_DIR = ROOT / "logs" / "strat_audit"
 AUDIT_DIR = ROOT / "runs" / "audit"
 

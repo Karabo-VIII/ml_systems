@@ -33,7 +33,7 @@ from harness.metaop.graph import (  # noqa: F401
 
 from .experts import ALIASES as _CRYPTO_ALIASES  # crypto role->expert-file map (auditor -> expert-auditor, ...)
 
-ROOT = Path(__file__).resolve().parents[3]                     # repo root (…/v4_crypto_stystem)
+ROOT = Path(__file__).resolve().parents[3]                     # repo root (…/ml_systems)
 _WORKSPACE = str(ROOT / "runs" / "autonomy")                   # harness trace_dir(ws) = ws/traces -> runs/autonomy/traces
 TRACE_DIR = ROOT / "runs" / "autonomy" / "traces"              # what manager.status / _proof_loop_delivers read
 _PERSONA_DIR = str(ROOT / ".claude" / "agents")                # crypto expert personas (expert mode)

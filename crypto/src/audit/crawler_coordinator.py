@@ -175,7 +175,7 @@ Use exactly that pipe-delimited format. Each finding on its own line.
 
 Total report under 400 lines. Skip generic praise. Surface real defects.
 
-Working directory: c:/Users/karab/Documents/coding/v4_crypto_stystem
+Working directory: c:/Users/karab/Documents/coding/ml_systems
 """.strip()
 
 

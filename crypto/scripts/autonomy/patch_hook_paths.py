@@ -17,7 +17,7 @@ import os
 import sys
 from datetime import datetime
 
-ROOT = "C:/Users/karab/Documents/coding/v4_crypto_stystem"
+ROOT = "C:/Users/karab/Documents/coding/ml_systems"
 SETTINGS = os.path.join(ROOT, ".claude", "settings.json")
 BACKUP_DIR = os.path.join(ROOT, "runs", "staging")
 

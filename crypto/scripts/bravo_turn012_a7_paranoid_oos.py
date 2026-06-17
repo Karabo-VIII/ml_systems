@@ -42,7 +42,7 @@ import pandas as pd
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-ROOT = Path('c:/Users/karab/Documents/coding/v4_crypto_stystem')
+ROOT = Path('c:/Users/karab/Documents/coding/ml_systems')
 
 CASCADE_LOOKBACK = 20
 CASCADE_MULT = 3.0

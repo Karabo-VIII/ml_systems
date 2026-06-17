@@ -14,7 +14,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-BASE = Path("C:/Users/karab/Documents/coding/v4_crypto_stystem")
+BASE = Path("C:/Users/karab/Documents/coding/ml_systems")
 CHIMERA_1D = BASE / "data/processed/chimera/1d"
 EVENT_SNAP = BASE / "runs/oracle_layer3/ma_ema_permutation/event_ma_snapshot.parquet"
 PAIR_SUMMARY = BASE / "runs/oracle_layer3/ma_ema_permutation/pair_summary.parquet"

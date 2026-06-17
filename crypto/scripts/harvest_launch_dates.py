@@ -32,7 +32,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CACHE_PATH = PROJECT_ROOT / "config" / "asset_launch_dates.json"
 EXCHANGE_INFO_URL = "https://fapi.binance.com/fapi/v1/exchangeInfo"
-USER_AGENT = "v4_crypto_stystem-launch-harvester/1.0"
+USER_AGENT = "ml_systems-launch-harvester/1.0"
 
 
 def fetch_exchange_info() -> dict:

@@ -31,7 +31,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 import pandas as pd
 import numpy as np
 
-ROOT = 'c:/Users/karab/Documents/coding/v4_crypto_stystem'
+ROOT = 'c:/Users/karab/Documents/coding/ml_systems'
 
 # Load blend daily returns
 blend = pd.read_csv(f'{ROOT}/logs/portfolio_aggregator/recommended_4sleeve_alpha_stack_daily.csv',

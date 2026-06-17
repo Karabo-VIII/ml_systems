@@ -42,7 +42,7 @@ STABLE_IDS = {
     "dai": 5,
 }
 
-UA = "v4_crypto_stystem-frontier/1.0 (free-tier; research)"
+UA = "ml_systems-frontier/1.0 (free-tier; research)"
 
 
 def _fetch_json(url: str, retries: int = 3) -> Any:

@@ -2,7 +2,7 @@
 per-cell OOS/UNSEEN sums, n, and the same-direction-bounce (D58) exposure.
 Mirrors regime_dna_lab.run() selection exactly. No emoji (cp1252)."""
 import os, sys
-os.chdir(r"c:/Users/karab/Documents/coding/v4_crypto_stystem")
+os.chdir(r"c:/Users/karab/Documents/coding/ml_systems")
 sys.path.insert(0, "src")
 import numpy as np, yaml
 from strat.regime_dna_lab import (

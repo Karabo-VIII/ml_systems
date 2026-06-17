@@ -28,7 +28,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 import pandas as pd
 import numpy as np
 
-ROOT = Path('c:/Users/karab/Documents/coding/v4_crypto_stystem')
+ROOT = Path('c:/Users/karab/Documents/coding/ml_systems')
 sys.path.insert(0, str(ROOT))
 
 from src.frontier.utils.event_study import run_event_study, pretty_report

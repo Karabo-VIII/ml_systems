@@ -37,7 +37,7 @@ sys.stdout = _io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 import pandas as pd
 
-ROOT = Path('c:/Users/karab/Documents/coding/v4_crypto_stystem')
+ROOT = Path('c:/Users/karab/Documents/coding/ml_systems')
 CACHE = ROOT / 'logs/frontier/announcements'
 DETAIL_URL = 'https://www.binance.com/bapi/composite/v1/public/cms/article/detail/query'
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'

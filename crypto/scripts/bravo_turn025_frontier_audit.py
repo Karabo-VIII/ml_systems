@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-ROOT = Path('c:/Users/karab/Documents/coding/v4_crypto_stystem')
+ROOT = Path('c:/Users/karab/Documents/coding/ml_systems')
 FRONTIER = ROOT / 'src/frontier'
 RESULTS_LOG = ROOT / 'docs/frontier/frontier_results_log.md'
 

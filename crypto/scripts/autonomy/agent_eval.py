@@ -59,7 +59,7 @@ import tempfile
 from collections import Counter
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]  # repo root (.../v4_crypto_stystem)
+ROOT = Path(__file__).resolve().parents[2]  # repo root (.../ml_systems)
 DEFAULT_TRACE_DIR = ROOT / "runs" / "autonomy" / "traces"
 GOLDEN_DIR = ROOT / "tests" / "agent_eval_golden"
 GOLDEN_JSON = GOLDEN_DIR / "golden.json"

@@ -58,7 +58,7 @@ import numpy as np
 import polars as pl
 import pandas as pd
 
-ROOT = Path("c:/Users/karab/Documents/coding/v4_crypto_stystem")
+ROOT = Path("c:/Users/karab/Documents/coding/ml_systems")
 sys.path.insert(0, str(ROOT / "src"))
 
 from wealth_bot.regime_router.regime_classifier import (

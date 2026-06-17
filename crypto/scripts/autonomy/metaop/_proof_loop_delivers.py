@@ -20,7 +20,7 @@ from pathlib import Path
 
 # --- make `metaop` importable exactly like the package expects (scripts/autonomy on sys.path) ----------------
 HERE = Path(__file__).resolve()
-ROOT = HERE.parents[3]                          # repo root (…/v4_crypto_stystem)
+ROOT = HERE.parents[3]                          # repo root (…/ml_systems)
 AUTONOMY = HERE.parents[1]                       # …/scripts/autonomy  (contains the `metaop` package)
 sys.path.insert(0, str(AUTONOMY))
 
