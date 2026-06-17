@@ -262,5 +262,32 @@ max_per_name 0.15, regime_scalar {trend:1.0, chop:0.5, down:0.1} on SMA100 bread
 **This is the honest deployable deliverable under LO+spot: a robust de-risked-beta book, turnkey.** Wave-6 enhancement:
 test adding the archive's validated 4h RSI-bounce LO satellite (A4) to lift bull participation.
 
-Frontier status: 5A ✅ 5B ✅ committed; **5C (alt-bar-type probe) running**; Wave-6 dispatched: A4 RSI-bounce satellite
-re-validation (+ candidate book enhancement).
+## §13 — Alt-bar-type probe (5C): bar geometry does NOT change the answer
+
+Inventory: dollar / time(1d–15m) / DIB / range chimeras BUILT (BTC+ETH for DIB/range); runs_tick (2020-22 only) /
+runs_volume / adaptive_vol have raw bars but NO chimera. Focused WMA-10/30 probe across 5 bar types (BTC, taker, fixed
+windows): **EVERY bar type FAILS the cost-matched random-entry null on held-out** (beats_held_out=False all 5; firewall
+null_p95 20-73% swamps the small-n compound). Lag-1 autocorr near-zero across all (−0.049..+0.007); DIB run-length
+marginally longer (2.17 vs ~2.0) = economically nil. **VERDICT: the de-risked-beta finding is ROBUST to bar geometry —
+NOT a time-bar artifact.** Caveat: the probe used a WMA-crossover (trend), not the richer fixed-duration SETUP frame
+(where 'N bars' differs structurally on range vs time bars) — a finer untested cut, low-EV given the convergence.
+**Correct-as-you-go data finding:** the BTC DIB chimera mixed a ~$200K-threshold 2023 partition with the calibrated $2M
+(56 vs 16 bars/day) — a real but LOW-priority bug (DIB is low-EV). Script `src/strat/alt_bar_probe.py`.
+
+## §14 — RSI-bounce satellite (Wave 6, archive A4): real OOS mechanism but regime-gated BULL beta → PARK
+
+Re-ran the archive's most-validated edge (4h RSI(14)<25 bounce, BTC>SMA100-gated, managed RSI>50 exit) on the post-reset
+canonical windows. **NOT decayed** — OOS (n=185) mean **+4.68%/trade, PF 9.70, win 0.84, beats random-entry null**, book
+p05 +35.9%, 10/10 seeds (the STRONGEST per-trade result in the post-reset live apparatus). **But UNSEEN (2026-Q1 bear)
+fails:** the regime gate fires only 25% of bear days → n=17, mean +0.96% / median −2.01% (one STOUSDT +28.85% outlier
+drives the mean; stripped −0.80%), t=0.48 p=0.64 = statistically ZERO. Without the gate: UNSEEN mean −0.01%, maxDD −41%.
+CORE+SAT(20%) lifts OOS (+0.8→+10.0%, maxDD −25.8→−18.8%) but UNSEEN stays negative (−4.6→−1.2%) AND WORSENS the book's
+UNSEEN maxDD (−6.4→−7.2%; the sat's own UNSEEN maxDD is −17.3%) → does NOT improve the robustness objective; SAT/CORE
+corr −0.21. **VERDICT: PARK (not ship, not dead)** — regime-gated BULL beta the canonical UNSEEN bear can't power-test
+(the archive's '+0.6-0.8% UNSEEN' was a different, bull, window). Do NOT add to the §12 book now. Re-test after a
+sustained bull gives power-adequate n. Script `src/strat/rsi_bounce_satellite.py`.
+
+**INVESTIGATIVE ARC COMPLETE (18 items).** → CONSOLIDATION (canonical dead-list + synthesis + project memories) + final
+report. De-prioritized low-EV remainder: A1 stablecoin (would be regime-gated bull-beta like RSI-bounce), A3 DIB (5C:
+de-risked beta + data bug). **Genuine open frontier = EXTERNAL data** (Coinbase/Upbit listing announcements — peer-reviewed,
+FREE public, never built; buildable autonomously).
