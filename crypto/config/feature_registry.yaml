@@ -45,8 +45,9 @@
 # Rule: any diff to features/, prefix:, path:, layout:, or sources_to_join MUST
 # bump schema_version. CDAP catches missing bumps via cross-version invariant on
 # the (version, last-modified-date) pair.
-schema_version: "1.5.0"
+schema_version: "1.6.0"
 schema_version_changelog:
+  - "1.6.0 (2026-06-18): BUG FIX: removed cross_exchange_spreads from sources_to_join. It produces xex_cb_bn_spread_bps/xex_by_bn_spread_bps/xex_ok_bn_spread_bps (3 cols), which are also output by xex_features -- causing a polars left-join name collision that silently adds _right-suffixed duplicates and inflates null rates on the primary cols to 67-73%. xex_features (7 cols, longer date range 2023-01-01) supersedes it with zero net feature loss. expected_new_features 142->139; expected_chimera_v51_total_features 184->181."
   - "1.5.0 (2026-05-24): T2-A SURGICAL Phase 2. Added bd_bgf_imbalance_l1 as a BAR-GRAIN attached column. NOT in sources_to_join (which is daily silver only); joined via make_dataset.attach_bargrain() at bar level. Source panel: data/processed/bar_grain/bd/<SYM>USDT_bgf.parquet. +1 feature (Phase 1 multi-perm gate green at 3.74x lift; other bd_* candidates regressed and were excluded). expected_chimera_v51_total_features 183 -> 184."
   - "1.4.0 (2026-05-24): added T2-E xex_features source (7 cols from cross_exchange_daily; sparse top-5); +7 features; expected_total_new_features 135 -> 142; expected_chimera_v51_total_features 176 -> 183"
   - "1.3.0 (2026-05-24): added T2-D premium_features source (5 cols derived from basis_features); +5 features; expected_total_new_features 130 -> 135; expected_chimera_v51_total_features 171 -> 176"
@@ -510,7 +511,9 @@ chimera_v51:
     - liq_features
     - whale_activity
     - wiki_pageviews
-    - cross_exchange_spreads
+    # cross_exchange_spreads REMOVED 2026-06-18: 3 raw cols (xex_cb/by/ok_bn_spread_bps)
+    # collided with xex_features output (same names), causing polars _right-suffix duplicates
+    # and 67-73% null rates. xex_features supersedes with 7 cols + longer 2023-01-01 coverage.
     - dvol
     - stable_flow
     - etf_flows
@@ -534,7 +537,7 @@ chimera_v51:
     liq_features: 13
     whale_activity: 5
     wiki_pageviews: 1
-    cross_exchange_spreads: 3
+    # cross_exchange_spreads: 3  REMOVED 2026-06-18 (name collision with xex_features)
     dvol: 3
     stable_flow: 13
     etf_flows: 13
@@ -547,9 +550,9 @@ chimera_v51:
     multi_venue_features: 5
     lob_proxy_daily: 12
     book_depth_profile_daily: 11
-  expected_total_new_features: 142    # daily-silver sum (frontier_consolidator)
+  expected_total_new_features: 139    # 2026-06-18: was 142; -3 (removed cross_exchange_spreads duplicate)
   expected_bargrain_features: 1       # 2026-05-24 T2-A surgical: bd_bgf_imbalance_l1
-  expected_chimera_v51_total_features: 184   # 41 v50 + 142 frontier + 1 bargrain
+  expected_chimera_v51_total_features: 181   # 2026-06-18: was 184; 41 v50 + 139 frontier + 1 bargrain
 
   cadence_materializations:
     - cadence: "1d"
