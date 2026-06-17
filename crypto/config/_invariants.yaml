@@ -934,35 +934,15 @@ required_patterns:
       Memory: [[claude-instance-state-2026-05-20-...]]
       Profile: data/processed/per_asset_ma_ema_profile.parquet
 
-  - name: per_asset_ma_ema_sleeve_constraints
-    # Ensures the per-asset MA/EMA UNION sleeve enforces user-mandated
-    # small-account safety constraints (2026-05-20): K_MAX=8, per-asset cap=10%,
-    # total deploy cap=60% (40% cash buffer always), AND confirmation gate
-    # requires ≥2 qualifying cells per asset (added 2026-05-20 evening).
-    pattern: 'TOTAL_DEPLOY_CAP = 0\.60|TOTAL_DEPLOY_CAP=0\.60'
-    files:
-      - "src/strategy/sleeves/per_asset_ma_ema_sleeve.py"
-    severity: critical
-
-  - name: per_asset_ma_ema_confirmation_gate
-    # Confirmation gate empirically delivers +18.46pp NAV / +0.61 Sortino /
-    # -5pp DD on canonical OOS (FIX_VARIANTS_REPORT.md). Removing the gate
-    # reverts to the no-gate baseline (+72.94% instead of +91.40%).
-    pattern: 'CONFIRMATION_GATE_MIN'
-    files:
-      - "src/strategy/sleeves/per_asset_ma_ema_sleeve.py"
-    severity: critical
-    rationale: |
-      User-mandated 2026-05-20: "60% max portfolio allocation, and 10% max
-      allocation per asset". The 60% cap reserves a 40% cash buffer at all
-      times for small-account safety. Removing or relaxing this constant
-      breaks the safety contract.
-
-      The sleeve also enforces PER_ASSET_CAP = 0.10 and K_MAX = 8; combined,
-      these constraints produced the OOS profile of +44.50% / Sortino +2.10 /
-      DD -17.94% / mean deploy 55.3%.
-
-      Memory: [[user-mandate-60-10-K8-cash-buffer-2026-05-20]]
+  # TOMBSTONE 2026-06-18 (3-way split + 2026-06-04 reset): src/strategy/sleeves/
+  # was part of the old gen5_growth strategy tree, archived in the 2026-06-04 reset.
+  # The per-asset MA/EMA sleeve code no longer exists; the research work moved to
+  # src/strat/ (ti_per_asset_profile.py, portfolio_replay_per_asset.py) which do
+  # not carry TOTAL_DEPLOY_CAP or CONFIRMATION_GATE_MIN constants (different arch).
+  # RETIRED -- no live successor carries these constants. Re-introduce if the
+  # per-asset sleeve is rebuilt under src/strat/ or src/wealth_bot/bot/.
+  # - name: per_asset_ma_ema_sleeve_constraints
+  # - name: per_asset_ma_ema_confirmation_gate
 
   - name: audit_script_upper_bound_sentinel
     pattern: 'UPPER_BOUND_NOT_DEPLOY_ESTIMATE'
@@ -1882,48 +1862,62 @@ trader_deploy_gates:
       gap-window incidents.
 
   # Item 4 — stride-1 predictions
-  # WM-prediction-emitting scripts must use stride=1 (post-Pattern-N fix 2026-04-14).
-  - name: trader_stride_1_predictions
-    pattern: 'stride\s*=\s*1|--stride\s+1'
-    files: ["src/wm/gen_preds.py", "src/strategy/generate_wm_predictions.py"]
-    must_match: true
-    severity: critical
-    rationale: |
-      Pattern N (2026-04-14): pre-stride-1-fix predictions were stale up to
-      95 bars; all pre-fix backtests untrusted. PRE_DEPLOY_CHECKLIST item 4.
+  # TOMBSTONE 2026-06-18: src/wm/gen_preds.py and src/strategy/generate_wm_predictions.py
+  # do not exist anywhere in the post-split repo (searched exhaustively). These were
+  # pre-reset prediction-generation scripts. No equivalent script with stride= semantics
+  # exists in the current tree. RETIRED -- re-introduce when a WM prediction-serving
+  # script is built under src/wm/ or src/wealth_bot/; must still enforce stride=1.
+  # - name: trader_stride_1_predictions
 
   # Item 6 — claim contract v1.2 import
-  # Any script emitting a SHIP-tier audit JSON must use build_ship_claim_block.
-  - name: trader_claim_contract_v12_import
-    pattern: 'from\s+wealth_bot\.framework\.claim_contract\s+import|from\s+src\.wealth_bot\.framework\.claim_contract\s+import'
-    files: ["scripts/wealth_bot/**/ship*.py", "scripts/wealth_bot/**/promote*.py", "scripts/wealth_bot/**/deploy*.py"]
-    must_match: true
-    severity: warn
-    rationale: |
-      Deploy scripts must build claim via build_ship_claim_block (claim_contract v1.2)
-      so check_wealth_bot_claims.py can validate. PRE_DEPLOY_CHECKLIST item 6.
-      Pattern-match is heuristic (not all deploy scripts named ship*/promote*/deploy*);
-      check_deploy_gates.py handles the full check.
+  # TOMBSTONE 2026-06-18: scripts/wealth_bot/ does NOT exist in the post-split tree.
+  # Deploy scripts live directly under scripts/ (deploy_all_top_strats.py,
+  # deploy_recommended_2sleeve.py, deploy_multi_universe.py) and none import
+  # claim_contract. The full check was delegated to check_deploy_gates.py;
+  # this glob-based stub is vacuous because the directory is absent.
+  # RETIRED -- when deploy scripts are reorganised into scripts/wealth_bot/ and
+  # begin emitting SHIP-tier audit JSON, restore this rule with the correct glob.
+  # - name: trader_claim_contract_v12_import
 
   # Item 11 — DSR + CSCV multi-test imports for sweep-derived strategies
+  # REPATH 2026-06-18: src/analysis/ does not exist in the post-split tree.
+  # Walk-forward code lives at src/strat/oracle_walkforward.py and
+  # src/strat/train_ma_walkforward.py. Retargeting to these; if neither
+  # contains the pattern this will surface as a genuine WARN (honest drift).
   - name: trader_dsr_cscv_used_in_walkforward
     pattern: 'deflated_sharpe|cscv_pbo|DSR_p_value'
-    files: ["src/analysis/strategy_walkforward.py", "src/analysis/strategy_universe_eval.py"]
+    files:
+      - "src/strat/oracle_walkforward.py"
+      - "src/strat/train_ma_walkforward.py"
     must_match: true
     severity: warn
     rationale: |
       Sweeps > 20 configs require DSR > 0.95 AND CSCV PBO < 0.50 at promotion.
       Walk-forward harness must compute both. PRE_DEPLOY_CHECKLIST item 11.
+      REPATH 2026-06-18: src/analysis/strategy_walkforward.py was in the
+      pre-reset src/strategy/; live successors are src/strat/oracle_walkforward.py
+      and src/strat/train_ma_walkforward.py. If neither contains DSR/CSCV,
+      WARN is GENUINE DRIFT -- these harnesses need DSR gating added.
 
   # Item 14 — decay monitor referenced by RiskController
+  # REPATH 2026-06-18: src/strategy/risk_controller.py does not exist. Risk
+  # controls were rebuilt as src/wealth_bot/bot/risk_manager.py (confirmed live).
+  # That file has kill_switch + should_halt but NOT decay_monitor. Retargeting
+  # surfaces this as a GENUINE WARN (decay monitoring not yet wired to risk_manager).
   - name: trader_risk_controller_has_decay_monitor
     pattern: 'decay_monitor|DecayMonitor|halt_IC_halflife|halt_consecutive_DD'
-    files: ["src/strategy/risk_controller.py"]
+    files: ["src/wealth_bot/bot/risk_manager.py"]
     must_match: true
     severity: warn
     rationale: |
-      RiskController.size_trade() must integrate decay monitor (per CLAUDE.md
-      and trader-skill RISK_PLAYBOOK). PRE_DEPLOY_CHECKLIST item 14.
+      risk_manager.py must integrate decay monitor (per CLAUDE.md and
+      trader-skill RISK_PLAYBOOK). PRE_DEPLOY_CHECKLIST item 14.
+      REPATH 2026-06-18: src/strategy/risk_controller.py was the pre-reset
+      target; live successor is src/wealth_bot/bot/risk_manager.py.
+      That file currently has kill_switch/should_halt (good) but LACKS
+      decay_monitor -- this WARN is a GENUINE DRIFT finding. Add
+      decay_monitor / halt_IC_halflife / halt_consecutive_DD logic to
+      risk_manager.py before live deploy.
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -2004,25 +1998,16 @@ trader_risk_sizing:
 trader_lifecycle:
 
   # Every sleeve directory must declare a lifecycle.yaml.
-  # Stub: pattern-checked here on any existing lifecycle.yaml; full
-  # directory-completeness check in check_deploy_gates.py.
-  - name: trader_lifecycle_yaml_has_required_fields
-    pattern: 'current_stage\s*:|stage_entered_at_utc\s*:|min_time_in_stage_days\s*:'
-    files: ["config/sleeves/**/lifecycle.yaml"]
-    must_match: true
-    severity: warn
-    rationale: |
-      Every sleeve's lifecycle.yaml must declare current_stage,
-      stage_entered_at_utc, and min_time_in_stage_days. LIFECYCLE.md §
-      "Lifecycle YAML (one per sleeve)".
-
-  - name: trader_lifecycle_stage_values_valid
-    pattern_must_not_contain: 'current_stage\s*:\s*(?!incubation|paper|live_small|live_scale|retired)'
-    files: ["config/sleeves/**/lifecycle.yaml"]
-    severity: warn
-    rationale: |
-      Stage must be one of: incubation | paper | live_small | live_scale | retired.
-      LIFECYCLE.md stage diagram.
+  # TOMBSTONE 2026-06-18: config/sleeves/ does NOT exist in the post-split tree.
+  # Per-sleeve lifecycle.yaml files were never created. Lifecycle state is tracked
+  # at the pillar level in config/lifecycle_registry.yaml (schema: pillars: {name:
+  # {state: ACTIVE|SUNSET|ARCHIVED, ...}}) which is enforced by the
+  # lifecycle::sunset_blend_still_in_yaml rule above via check_lifecycle_consistency().
+  # The per-sleeve lifecycle.yaml schema (current_stage / stage_entered_at_utc /
+  # min_time_in_stage_days) has no live instances. RETIRED until config/sleeves/ is
+  # populated and per-sleeve YAML is written.
+  # - name: trader_lifecycle_yaml_has_required_fields
+  # - name: trader_lifecycle_stage_values_valid
 
 
 # ─────────────────────────────────────────────────────────────────────
