@@ -1,0 +1,253 @@
+{
+  "ma_type": "TEMA",
+  "generated": "2026-06-18T14:58:13.242075",
+  "methodology": {
+    "band": "configs positive across TRAIN&VAL&OOS within-2020 (6/3/3 split)",
+    "iron": "trail(0.10)+min_hold(12)+lag1+vol_target overlay+MAKER cost (0.0006 RT)",
+    "universe": "u10 fixed-EW fillna(0).mean()",
+    "oos_definition": "2020-10-01..2021-01-01",
+    "all_weather": "rolling-from-band ensemble over 2020-01-01..2023-01-01"
+  },
+  "per_tf": {
+    "1d": {
+      "style": "long-term",
+      "band_size": 112,
+      "oos_net": 19.9,
+      "oos_p05_bootstrap": -4.6,
+      "train_val_oos": [
+        21.9,
+        22.8,
+        19.9
+      ],
+      "positive_3way": true,
+      "full_maxdd_2020": -14.2,
+      "coverage_oos": 1.0,
+      "allweather": {
+        "aw_2020_bull": 51.7,
+        "aw_2021_mixed": 260.1,
+        "aw_2022_bear": -41.0,
+        "maxdd_2020": -16.9,
+        "maxdd_2021": -22.7,
+        "maxdd_2022": -42.2
+      },
+      "movecatch": {
+        "at_5pct": {
+          "coverage": 0.329,
+          "entry_lag": 0.821,
+          "weighted_capture": 0.206,
+          "lag_delta": 0.327,
+          "pval": 0.0,
+          "n_moves": 73
+        },
+        "at_10pct": {
+          "coverage": 0.377,
+          "entry_lag": 0.783,
+          "weighted_capture": 0.227,
+          "lag_delta": 0.282,
+          "pval": 0.0
+        }
+      },
+      "turnover_rt_per_year": 5.6
+    },
+    "4h": {
+      "style": "swing",
+      "band_size": 107,
+      "oos_net": 20.0,
+      "oos_p05_bootstrap": -4.6,
+      "train_val_oos": [
+        22.7,
+        21.8,
+        20.0
+      ],
+      "positive_3way": true,
+      "full_maxdd_2020": -11.9,
+      "coverage_oos": 1.0,
+      "allweather": {
+        "aw_2020_bull": 68.6,
+        "aw_2021_mixed": 310.9,
+        "aw_2022_bear": -26.0,
+        "maxdd_2020": -11.3,
+        "maxdd_2021": -34.6,
+        "maxdd_2022": -28.1
+      },
+      "movecatch": {
+        "at_5pct": {
+          "coverage": 0.555,
+          "entry_lag": 0.73,
+          "weighted_capture": 0.241,
+          "lag_delta": 0.202,
+          "pval": 0.0,
+          "n_moves": 200
+        },
+        "at_10pct": {
+          "coverage": 0.767,
+          "entry_lag": 0.58,
+          "weighted_capture": 0.304,
+          "lag_delta": 0.064,
+          "pval": 0.038
+        }
+      },
+      "turnover_rt_per_year": 38.2
+    },
+    "2h": {
+      "style": "swing",
+      "band_size": 99,
+      "oos_net": 28.5,
+      "oos_p05_bootstrap": -3.6,
+      "train_val_oos": [
+        16.9,
+        20.5,
+        28.5
+      ],
+      "positive_3way": true,
+      "full_maxdd_2020": -12.7,
+      "coverage_oos": 1.0,
+      "allweather": {
+        "aw_2020_bull": 68.9,
+        "aw_2021_mixed": 313.5,
+        "aw_2022_bear": -43.2,
+        "maxdd_2020": -12.1,
+        "maxdd_2021": -37.3,
+        "maxdd_2022": -45.3
+      },
+      "movecatch": {
+        "at_5pct": {
+          "coverage": 0.638,
+          "entry_lag": 0.643,
+          "weighted_capture": 0.264,
+          "lag_delta": 0.104,
+          "pval": 0.0,
+          "n_moves": 279
+        },
+        "at_10pct": {
+          "coverage": 0.792,
+          "entry_lag": 0.518,
+          "weighted_capture": 0.321,
+          "lag_delta": -0.021,
+          "pval": 0.2499
+        }
+      },
+      "turnover_rt_per_year": 75.3
+    },
+    "1h": {
+      "style": "intraday",
+      "band_size": 85,
+      "oos_net": 28.0,
+      "oos_p05_bootstrap": -1.1,
+      "train_val_oos": [
+        19.3,
+        14.7,
+        28.0
+      ],
+      "positive_3way": true,
+      "full_maxdd_2020": -14.4,
+      "coverage_oos": 1.0,
+      "allweather": {
+        "aw_2020_bull": 52.0,
+        "aw_2021_mixed": 300.2,
+        "aw_2022_bear": -36.3,
+        "maxdd_2020": -17.0,
+        "maxdd_2021": -32.6,
+        "maxdd_2022": -43.6
+      },
+      "movecatch": {
+        "at_5pct": {
+          "coverage": 0.694,
+          "entry_lag": 0.584,
+          "weighted_capture": 0.304,
+          "lag_delta": 0.061,
+          "pval": 0.0039,
+          "n_moves": 294
+        },
+        "at_10pct": {
+          "coverage": 0.733,
+          "entry_lag": 0.486,
+          "weighted_capture": 0.341,
+          "lag_delta": -0.025,
+          "pval": 0.2701
+        }
+      },
+      "turnover_rt_per_year": 148.2
+    },
+    "30m": {
+      "style": "intraday",
+      "band_size": 42,
+      "oos_net": 22.8,
+      "oos_p05_bootstrap": -2.7,
+      "train_val_oos": [
+        22.2,
+        10.7,
+        22.8
+      ],
+      "positive_3way": true,
+      "full_maxdd_2020": -13.2,
+      "coverage_oos": 0.991,
+      "allweather": {
+        "aw_2020_bull": 22.8,
+        "aw_2021_mixed": 235.5,
+        "aw_2022_bear": -51.0,
+        "maxdd_2020": -20.6,
+        "maxdd_2021": -34.5,
+        "maxdd_2022": -54.3
+      },
+      "movecatch": {
+        "at_5pct": {
+          "coverage": 0.663,
+          "entry_lag": 0.566,
+          "weighted_capture": 0.295,
+          "lag_delta": 0.033,
+          "pval": 0.0514,
+          "n_moves": 350
+        },
+        "at_10pct": {
+          "coverage": 0.685,
+          "entry_lag": 0.494,
+          "weighted_capture": 0.314,
+          "lag_delta": -0.027,
+          "pval": 0.2338
+        }
+      },
+      "turnover_rt_per_year": 185.3
+    },
+    "15m": {
+      "style": "intraday",
+      "band_size": 20,
+      "oos_net": 14.6,
+      "oos_p05_bootstrap": -8.8,
+      "train_val_oos": [
+        22.2,
+        10.3,
+        14.6
+      ],
+      "positive_3way": true,
+      "full_maxdd_2020": -14.3,
+      "coverage_oos": 0.975,
+      "allweather": {
+        "aw_2020_bull": 11.0,
+        "aw_2021_mixed": 122.4,
+        "aw_2022_bear": -45.9,
+        "maxdd_2020": -21.3,
+        "maxdd_2021": -43.5,
+        "maxdd_2022": -53.0
+      },
+      "movecatch": {
+        "at_5pct": {
+          "coverage": 0.648,
+          "entry_lag": 0.562,
+          "weighted_capture": 0.292,
+          "lag_delta": 0.037,
+          "pval": 0.0279,
+          "n_moves": 389
+        },
+        "at_10pct": {
+          "coverage": null,
+          "entry_lag": null,
+          "weighted_capture": null,
+          "lag_delta": null,
+          "pval": null
+        }
+      },
+      "turnover_rt_per_year": 191.7
+    }
+  }
+}

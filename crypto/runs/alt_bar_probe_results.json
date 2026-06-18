@@ -1,0 +1,277 @@
+[
+  {
+    "label": "dollar_bar",
+    "n_bars": 6658,
+    "comps": {
+      "TRAIN": -31.21,
+      "VAL": -4.95,
+      "OOS": -0.32,
+      "UNSEEN": 8.36
+    },
+    "n_trades": {
+      "TRAIN": 140,
+      "VAL": 26,
+      "OOS": 16,
+      "UNSEEN": 5
+    },
+    "max_dd": {
+      "TRAIN": -88.25,
+      "VAL": -31.85,
+      "OOS": -21.05,
+      "UNSEEN": -4.09
+    },
+    "beats_held_out": false,
+    "firewall_per_window": {
+      "TRAIN": {
+        "real": -31.21,
+        "null_p50": 150.22,
+        "null_p95": 1004.26,
+        "beats_null": false,
+        "n_trades": 140
+      },
+      "VAL": {
+        "real": -4.95,
+        "null_p50": 7.5,
+        "null_p95": 77.44,
+        "beats_null": false,
+        "n_trades": 26
+      },
+      "OOS": {
+        "real": -0.32,
+        "null_p50": -2.72,
+        "null_p95": 53.28,
+        "beats_null": false,
+        "n_trades": 16
+      },
+      "UNSEEN": {
+        "real": 8.36,
+        "null_p50": -5.3,
+        "null_p95": 24.08,
+        "beats_null": false,
+        "n_trades": 5
+      }
+    },
+    "firewall_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+    "all_4_positive": false
+  },
+  {
+    "label": "4h_time_bar",
+    "n_bars": 6969,
+    "comps": {
+      "TRAIN": 618.26,
+      "VAL": 16.07,
+      "OOS": 16.35,
+      "UNSEEN": -8.42
+    },
+    "n_trades": {
+      "TRAIN": 129,
+      "VAL": 25,
+      "OOS": 29,
+      "UNSEEN": 9
+    },
+    "max_dd": {
+      "TRAIN": -41.67,
+      "VAL": -26.04,
+      "OOS": -14.99,
+      "UNSEEN": -17.15
+    },
+    "beats_held_out": false,
+    "firewall_per_window": {
+      "TRAIN": {
+        "real": 618.26,
+        "null_p50": 128.83,
+        "null_p95": 1027.22,
+        "beats_null": false,
+        "n_trades": 129
+      },
+      "VAL": {
+        "real": 16.07,
+        "null_p50": 7.41,
+        "null_p95": 80.15,
+        "beats_null": false,
+        "n_trades": 25
+      },
+      "OOS": {
+        "real": 16.35,
+        "null_p50": -1.96,
+        "null_p95": 43.4,
+        "beats_null": false,
+        "n_trades": 29
+      },
+      "UNSEEN": {
+        "real": -8.42,
+        "null_p50": -7.3,
+        "null_p95": 19.76,
+        "beats_null": false,
+        "n_trades": 9
+      }
+    },
+    "firewall_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+    "all_4_positive": false
+  },
+  {
+    "label": "1d_time_bar",
+    "n_bars": 2305,
+    "comps": {
+      "TRAIN": 455.16,
+      "VAL": 16.79,
+      "OOS": -9.23,
+      "UNSEEN": -2.79
+    },
+    "n_trades": {
+      "TRAIN": 39,
+      "VAL": 9,
+      "OOS": 8,
+      "UNSEEN": 4
+    },
+    "max_dd": {
+      "TRAIN": -52.56,
+      "VAL": -17.68,
+      "OOS": -24.66,
+      "UNSEEN": -7.66
+    },
+    "beats_held_out": false,
+    "firewall_per_window": {
+      "TRAIN": {
+        "real": 455.16,
+        "null_p50": 168.9,
+        "null_p95": 1539.45,
+        "beats_null": false,
+        "n_trades": 39
+      },
+      "VAL": {
+        "real": 16.79,
+        "null_p50": 7.93,
+        "null_p95": 86.06,
+        "beats_null": false,
+        "n_trades": 9
+      },
+      "OOS": {
+        "real": -9.23,
+        "null_p50": 1.05,
+        "null_p95": 44.91,
+        "beats_null": false,
+        "n_trades": 8
+      },
+      "UNSEEN": {
+        "real": -2.79,
+        "null_p50": -11.36,
+        "null_p95": 22.02,
+        "beats_null": false,
+        "n_trades": 4
+      }
+    },
+    "firewall_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+    "all_4_positive": false
+  },
+  {
+    "label": "dib_bar",
+    "n_bars": 6731,
+    "comps": {
+      "TRAIN": 872.41,
+      "VAL": 43.27,
+      "OOS": 16.72,
+      "UNSEEN": -4.07
+    },
+    "n_trades": {
+      "TRAIN": 96,
+      "VAL": 35,
+      "OOS": 31,
+      "UNSEEN": 11
+    },
+    "max_dd": {
+      "TRAIN": -39.56,
+      "VAL": -21.9,
+      "OOS": -13.97,
+      "UNSEEN": -11.5
+    },
+    "beats_held_out": false,
+    "firewall_per_window": {
+      "TRAIN": {
+        "real": 872.41,
+        "null_p50": 118.58,
+        "null_p95": 978.63,
+        "beats_null": false,
+        "n_trades": 96
+      },
+      "VAL": {
+        "real": 43.27,
+        "null_p50": 4.74,
+        "null_p95": 90.15,
+        "beats_null": false,
+        "n_trades": 35
+      },
+      "OOS": {
+        "real": 16.72,
+        "null_p50": -5.94,
+        "null_p95": 44.56,
+        "beats_null": false,
+        "n_trades": 31
+      },
+      "UNSEEN": {
+        "real": -4.07,
+        "null_p50": -5.76,
+        "null_p95": 27.75,
+        "beats_null": false,
+        "n_trades": 11
+      }
+    },
+    "firewall_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+    "all_4_positive": false
+  },
+  {
+    "label": "range_bar",
+    "n_bars": 6832,
+    "comps": {
+      "TRAIN": 421.69,
+      "VAL": 32.83,
+      "OOS": 5.38,
+      "UNSEEN": -1.66
+    },
+    "n_trades": {
+      "TRAIN": 151,
+      "VAL": 10,
+      "OOS": 10,
+      "UNSEEN": 4
+    },
+    "max_dd": {
+      "TRAIN": -46.67,
+      "VAL": -21.38,
+      "OOS": -19.1,
+      "UNSEEN": -6.89
+    },
+    "beats_held_out": false,
+    "firewall_per_window": {
+      "TRAIN": {
+        "real": 421.69,
+        "null_p50": 102.19,
+        "null_p95": 1305.58,
+        "beats_null": false,
+        "n_trades": 151
+      },
+      "VAL": {
+        "real": 32.83,
+        "null_p50": 6.03,
+        "null_p95": 102.88,
+        "beats_null": false,
+        "n_trades": 10
+      },
+      "OOS": {
+        "real": 5.38,
+        "null_p50": 0.17,
+        "null_p95": 73.26,
+        "beats_null": false,
+        "n_trades": 10
+      },
+      "UNSEEN": {
+        "real": -1.66,
+        "null_p50": -7.8,
+        "null_p95": 20.86,
+        "beats_null": false,
+        "n_trades": 4
+      }
+    },
+    "firewall_verdict": "BETA-IN-DISGUISE / no timing edge (does not beat random entries on held-out)",
+    "all_4_positive": false
+  }
+]

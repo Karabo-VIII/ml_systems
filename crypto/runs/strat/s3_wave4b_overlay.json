@@ -1,0 +1,85 @@
+{
+  "mode": "overlay",
+  "n_shuffle": 300,
+  "pre_registered": {
+    "tilt_direction": "contrarian (low top_pos_lsr -> overweight)",
+    "overlay_thresh": 1.0,
+    "best_alpha_train": 1.0
+  },
+  "ew_baseline": {
+    "TRAIN": {
+      "compound_pct": -31.928691154350574,
+      "sharpe": 0.10749093437192543,
+      "max_dd_pct": -75.34593573213303,
+      "n_days": 865
+    },
+    "VAL": {
+      "compound_pct": 20.58532743962427,
+      "sharpe": 0.5603283022765377,
+      "max_dd_pct": -52.78395872434367,
+      "n_days": 304
+    },
+    "OOS": {
+      "compound_pct": -15.759811302173365,
+      "sharpe": 0.03836797553109391,
+      "max_dd_pct": -48.53997724906103,
+      "n_days": 291
+    },
+    "UNSEEN": {
+      "compound_pct": -20.208351290612146,
+      "sharpe": -0.524632651621465,
+      "max_dd_pct": -40.751786270572715,
+      "n_days": 152
+    }
+  },
+  "tilt_results": {},
+  "ew_overlay": {
+    "TRAIN": {
+      "compound_pct": -19.256160300372184,
+      "sharpe": 0.17057518383024248,
+      "max_dd_pct": -76.19041774269508,
+      "n_days": 865
+    },
+    "VAL": {
+      "compound_pct": 3.9688348753602165,
+      "sharpe": 0.3436723530989884,
+      "max_dd_pct": -50.49766276268124,
+      "n_days": 304
+    },
+    "OOS": {
+      "compound_pct": -11.050970154499328,
+      "sharpe": 0.10205605172394282,
+      "max_dd_pct": -45.38369689763586,
+      "n_days": 291
+    },
+    "UNSEEN": {
+      "compound_pct": -21.168293738665845,
+      "sharpe": -0.5794239600661214,
+      "max_dd_pct": -40.730257150241464,
+      "n_days": 152
+    }
+  },
+  "combined": {},
+  "null": {
+    "n_shuffle": 300,
+    "oos_mean": -13.694816274998693,
+    "oos_p05": -27.832329664785338,
+    "oos_p50": -15.192217219719051,
+    "oos_p95": 4.238178965061902,
+    "p_null_ge_test_oos": 0.36,
+    "unseen_mean": -19.346668889528967,
+    "p_null_ge_test_unseen": 0.6566666666666666
+  },
+  "timing_skill_oos_pp": 2.643846120499365,
+  "timing_skill_unseen_pp": -1.821624849136878,
+  "exposure_reduction_oos_pp": 2.064995027174671,
+  "n_eff_oos": 5820,
+  "passes_bonferroni_oos": false,
+  "passes_bonferroni_unseen": false,
+  "verdict": "EXPOSURE_REDUCTION",
+  "sz_stats": {
+    "mean_scalar": 0.9389764425052158,
+    "min_scalar": 0.25,
+    "frac_below_1": 0.14693118412895226
+  }
+}

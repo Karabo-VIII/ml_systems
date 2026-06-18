@@ -1,0 +1,163 @@
+{
+ "tool": "mover_ride_hybrid_fill",
+ "version": "wave4a",
+ "git_sha": "fc3fa7f3c957dfbdadffe7c1ab9bb8ab2a422178",
+ "seed": 7,
+ "params": {
+  "T_trig": 0.015,
+  "cont_further": 0.015,
+  "maker_rt": 0.0012,
+  "taker_rt": 0.0024,
+  "fill_offset": 0.008,
+  "passive_wins_swept": [
+   3,
+   5,
+   10,
+   15
+  ],
+  "slip_bps_swept": [
+   10,
+   15,
+   20,
+   30
+  ],
+  "exits": [
+   "vt_2.0",
+   "vt_3.0",
+   "vt_4.0",
+   "ft_3_2",
+   "ft_5_3",
+   "ft_4_2",
+   "ts_120",
+   "ts_240"
+  ],
+  "a2_gate_qs": [
+   0.5,
+   0.6,
+   0.7,
+   0.8
+  ],
+  "sizing_modes": [
+   "off",
+   "b1"
+  ],
+  "features": [
+   "oi_d1h",
+   "oi_d4h",
+   "oi_d24h",
+   "liq_ratio",
+   "liq_long_z",
+   "liq_short_z",
+   "liq_ls_asym",
+   "funding",
+   "aggr_imb",
+   "aggr_accel",
+   "run_accel",
+   "overshoot",
+   "t2trig",
+   "pre_vol",
+   "dayvol_ratio",
+   "vol_surge",
+   "regime",
+   "btc_rel",
+   "btc_r24h",
+   "hour_utc"
+  ]
+ },
+ "design": "Hybrid fill: passive bid (FILL_OFFSET below price, live PASSIVE_WIN min) -> if filled: maker cost (12bps RT); if unfilled: marketable limit at onset_close*(1+SLIP_BPS) -> taker cost (24bps RT). Catches the fast-up runners at the cost of taker+slip on those fills. Null uses identical hybrid fill on same A2-gated movers; random decision minute.",
+ "n_assets": 10,
+ "n_train": 6987,
+ "n_val": 3335,
+ "n_unseen": 1815,
+ "a2_sanity": {
+  "a2_val_auc": 0.6461581765744122
+ },
+ "a2_drift": {
+  "a2_base_rate_train": 0.37741519965650494,
+  "a2_base_rate_val": 0.30044977511244375,
+  "a2_base_rate_unseen": 0.26005509641873276
+ },
+ "n_selection_configs": 1024,
+ "selected": {
+  "key": "pw15_sl10|ft_3_2|a2q0.8|sz_b1",
+  "exit": "ft_3_2",
+  "a2_q": 0.8,
+  "sizing": "b1",
+  "passive_win": 15,
+  "slip_bps": 10,
+  "trval_beatnull_mean": 0.007823228780958428,
+  "trval_stats": {
+   "n_event": 2065,
+   "n_null": 2065,
+   "ev_net_mean": 0.007640106874905166,
+   "ev_net_median": 0.023576795370474794,
+   "ev_win_rate": 0.5443099273607748,
+   "nl_net_mean": -0.00018312190605326078,
+   "beatnull_mean": 0.007823228780958428,
+   "pct_passive": 0.33801452784503633,
+   "pct_marketable": 0.6619854721549637,
+   "breadth_pos": 10,
+   "breadth_qual": 10,
+   "breadth_tot": 10,
+   "ev_net_p05": 0.005814041691535329,
+   "ev_net_p95": 0.009426355422883772,
+   "beatnull_p05": 0.0059971635975885895,
+   "beatnull_p95": 0.009609477328937034,
+   "n_clusters": 194,
+   "fill_stats_ev": {
+    "n_gated": 2065,
+    "n_filled": 2065,
+    "n_passive": 698,
+    "n_marketable": 1367,
+    "n_passive_forced": 0,
+    "pct_passive": 0.33801452784503633,
+    "pct_marketable": 0.6619854721549637,
+    "n_tooshort": 0
+   }
+  }
+ },
+ "unseen": {
+  "stats": {
+   "n_event": 363,
+   "n_null": 363,
+   "ev_net_mean": -0.00231358763208614,
+   "ev_net_median": -0.013942871967718377,
+   "ev_win_rate": 0.40771349862258954,
+   "nl_net_mean": -0.0009590808300485825,
+   "beatnull_mean": -0.0013545068020375576,
+   "pct_passive": 0.21212121212121213,
+   "pct_marketable": 0.7878787878787878,
+   "breadth_pos": 3,
+   "breadth_qual": 9,
+   "breadth_tot": 10,
+   "ev_net_p05": -0.005606005777765655,
+   "ev_net_p95": 0.0008809989119211696,
+   "beatnull_p05": -0.0046469249477170725,
+   "beatnull_p95": 0.001840079741969752,
+   "n_clusters": 42,
+   "fill_stats_ev": {
+    "n_gated": 363,
+    "n_filled": 363,
+    "n_passive": 77,
+    "n_marketable": 286,
+    "n_passive_forced": 0,
+    "pct_passive": 0.21212121212121213,
+    "pct_marketable": 0.7878787878787878,
+    "n_tooshort": 0
+   }
+  },
+  "gate": {
+   "beatnull_mean_gt0": false,
+   "breadth_ge6": false,
+   "beatnull_p05_gt0": false
+  },
+  "alive": false
+ },
+ "caveats": [
+  "u10 current membership (survivorship on absolute levels)",
+  "marketable fallback entry = onset_close*(1+slip_frac): conservative (worst-case chase price)",
+  "null = random-entry-on-same-movers; identical hybrid fill; sizing=1",
+  "UNSEEN scored exactly once with the single TRAIN+VAL-selected config",
+  "cost is fill-kind-specific: passive->12bps RT, marketable->24bps RT"
+ ]
+}

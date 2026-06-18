@@ -1,0 +1,84 @@
+{
+  "config": {
+    "col": "both",
+    "z_thresh": 1.5,
+    "atr_mult": 10.0,
+    "regime_gate": true
+  },
+  "ungated": {
+    "TRAIN": {
+      "compound_pct": 320.775,
+      "cagr": 83.45,
+      "max_dd": -73.96,
+      "n_trades": 82
+    },
+    "VAL": {
+      "compound_pct": -5.515,
+      "cagr": -6.59,
+      "max_dd": -30.23,
+      "n_trades": 26
+    },
+    "OOS": {
+      "compound_pct": -6.023,
+      "cagr": -7.5,
+      "max_dd": -18.54,
+      "n_trades": 15
+    },
+    "UNSEEN": {
+      "compound_pct": 0.0,
+      "cagr": 0.0,
+      "max_dd": 0.0,
+      "n_trades": 0
+    }
+  },
+  "gated": {
+    "TRAIN": {
+      "compound_pct": 317.893,
+      "cagr": 82.91,
+      "max_dd": -73.96,
+      "n_trades": 82
+    },
+    "VAL": {
+      "compound_pct": -6.388,
+      "cagr": -7.62,
+      "max_dd": -30.23,
+      "n_trades": 26
+    },
+    "OOS": {
+      "compound_pct": -6.551,
+      "cagr": -8.15,
+      "max_dd": -18.54,
+      "n_trades": 15
+    },
+    "UNSEEN": {
+      "compound_pct": 0.0,
+      "cagr": 0.0,
+      "max_dd": 0.0,
+      "n_trades": 0
+    }
+  },
+  "null": {
+    "n_shuffle": 200,
+    "oos_mean": -5.955089999999999,
+    "oos_p05": -6.425,
+    "oos_p50": -6.023,
+    "oos_p95": -5.171,
+    "p_shuffle_ge_gated_oos": 0.96,
+    "unseen_mean": 0.0,
+    "unseen_p50": 0.0
+  },
+  "gate_rates": {
+    "BTC": 0.14432989690721648,
+    "ETH": 0.0963855421686747,
+    "SOL": 0.04838709677419355,
+    "BNB": 0.13821138211382114,
+    "XRP": 0.1794871794871795,
+    "DOGE": 0.2,
+    "ADA": 0.18181818181818182,
+    "AVAX": 0.17307692307692307,
+    "LINK": 0.11627906976744186,
+    "LTC": 0.0
+  },
+  "exposure_reduction_oos_pp": 0.06791000000000036,
+  "timing_skill_oos_pp": -0.5959100000000008
+}

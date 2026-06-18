@@ -1,0 +1,120 @@
+{
+  "primary": {
+    "z_thresh": 1.0,
+    "label": "primary",
+    "results": {
+      "TRAIN": {
+        "ungated": 891.1440446876131,
+        "gated": 832.6362735963208,
+        "delta": -58.507771091292284,
+        "ungated_cagr": 163.4,
+        "gated_cagr": 156.72,
+        "n_ug": 494,
+        "n_g": 483,
+        "n_blocked": 11
+      },
+      "VAL": {
+        "ungated": 17.62918930141193,
+        "gated": 9.625050564004333,
+        "delta": -8.004138737407597,
+        "ungated_cagr": 21.54,
+        "gated_cagr": 11.67,
+        "n_ug": 102,
+        "n_g": 96,
+        "n_blocked": 6
+      },
+      "OOS": {
+        "ungated": -8.446573738311292,
+        "gated": -4.781953343813006,
+        "delta": 3.664620394498286,
+        "ungated_cagr": -10.49,
+        "gated_cagr": -5.97,
+        "n_ug": 97,
+        "n_g": 92,
+        "n_blocked": 5
+      },
+      "UNSEEN": {
+        "ungated": -9.362872420792312,
+        "gated": -9.984952489881394,
+        "delta": -0.6220800690890815,
+        "ungated_cagr": -21.04,
+        "gated_cagr": -22.34,
+        "n_ug": 48,
+        "n_g": 47,
+        "n_blocked": 1
+      }
+    },
+    "null": {
+      "mean": -8.155659442924668,
+      "p05": -9.535314368540254,
+      "p25": -8.985828048314723,
+      "p50": -8.387179675203132,
+      "p75": -7.357335248959954,
+      "p95": -6.268618706538192,
+      "p_sh_ge_gated": 0.0
+    },
+    "exposure_reduction_oos_pp": 0.2909142953866244,
+    "timing_skill_oos_pp": 3.3737060991116614,
+    "gate_rate_oos": 0.38845427569463176,
+    "verdict": "CONDITIONER ADDS VALUE (beats ungated AND 75th-pct shuffle -> timing skill)"
+  },
+  "secondary": {
+    "z_thresh": 1.5,
+    "label": "secondary_preregistered",
+    "results": {
+      "TRAIN": {
+        "ungated": 891.1440446876131,
+        "gated": 853.6159336012361,
+        "delta": -37.528111086377066,
+        "ungated_cagr": 163.4,
+        "gated_cagr": 159.15,
+        "n_ug": 494,
+        "n_g": 492,
+        "n_blocked": 2
+      },
+      "VAL": {
+        "ungated": 17.62918930141193,
+        "gated": 19.073739332114627,
+        "delta": 1.4445500307026968,
+        "ungated_cagr": 21.54,
+        "gated_cagr": 23.34,
+        "n_ug": 102,
+        "n_g": 100,
+        "n_blocked": 2
+      },
+      "OOS": {
+        "ungated": -8.446573738311292,
+        "gated": -9.562590754468614,
+        "delta": -1.116017016157322,
+        "ungated_cagr": -10.49,
+        "gated_cagr": -11.85,
+        "n_ug": 97,
+        "n_g": 97,
+        "n_blocked": 0
+      },
+      "UNSEEN": {
+        "ungated": -9.362872420792312,
+        "gated": -9.673846466398306,
+        "delta": -0.3109740456059935,
+        "ungated_cagr": -21.04,
+        "gated_cagr": -21.69,
+        "n_ug": 48,
+        "n_g": 47,
+        "n_blocked": 1
+      }
+    },
+    "null": {
+      "mean": -8.291488340200587,
+      "p05": -9.142679591287019,
+      "p25": -8.74208492105199,
+      "p50": -8.466445760344277,
+      "p75": -8.035622260802295,
+      "p95": -6.940386097493861,
+      "p_sh_ge_gated": 1.0
+    },
+    "exposure_reduction_oos_pp": 0.155085398110705,
+    "timing_skill_oos_pp": -1.271102414268027,
+    "gate_rate_oos": 0.2042082546533585,
+    "verdict": "CONDITIONER HURTS (worse than ungated; shuffle also mostly beats gated)"
+  }
+}

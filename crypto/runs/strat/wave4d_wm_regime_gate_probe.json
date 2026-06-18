@@ -1,0 +1,93 @@
+{
+  "load_ok": true,
+  "n_inference_ok": 4,
+  "oos": {
+    "no_overlay": {
+      "n_days": 291,
+      "compound_pct": -6.17,
+      "cagr_pct": -7.68,
+      "sharpe": 0.21,
+      "maxdd_pct": -46.06,
+      "daily_pos_rate_pct": 51.5,
+      "first_day": "2025-03-15",
+      "last_day": "2025-12-30"
+    },
+    "sma": {
+      "n_days": 291,
+      "compound_pct": 2.14,
+      "cagr_pct": 2.7,
+      "sharpe": 0.24,
+      "maxdd_pct": -25.84,
+      "daily_pos_rate_pct": 51.5,
+      "first_day": "2025-03-15",
+      "last_day": "2025-12-30"
+    },
+    "wm": {
+      "n_days": 291,
+      "compound_pct": 14.15,
+      "cagr_pct": 18.06,
+      "sharpe": 0.58,
+      "maxdd_pct": -32.58,
+      "daily_pos_rate_pct": 50.9,
+      "first_day": "2025-03-15",
+      "last_day": "2025-12-30"
+    },
+    "combined": {
+      "n_days": 291,
+      "compound_pct": 1.44,
+      "cagr_pct": 1.8,
+      "sharpe": 0.19,
+      "maxdd_pct": -15.15,
+      "daily_pos_rate_pct": 51.5,
+      "first_day": "2025-03-15",
+      "last_day": "2025-12-30"
+    },
+    "shuffled_mean": -7.782499999999999,
+    "shuffled_p05": -24.3335
+  },
+  "unseen": {
+    "no_overlay": {
+      "n_days": 149,
+      "compound_pct": -27.9,
+      "cagr_pct": -55.13,
+      "sharpe": -1.09,
+      "maxdd_pct": -41.25,
+      "daily_pos_rate_pct": 45.0,
+      "first_day": "2025-12-31",
+      "last_day": "2026-05-28"
+    },
+    "sma": {
+      "n_days": 149,
+      "compound_pct": -6.16,
+      "cagr_pct": -14.43,
+      "sharpe": -1.37,
+      "maxdd_pct": -7.38,
+      "daily_pos_rate_pct": 44.3,
+      "first_day": "2025-12-31",
+      "last_day": "2026-05-28"
+    },
+    "wm": {
+      "n_days": 149,
+      "compound_pct": -24.21,
+      "cagr_pct": -49.29,
+      "sharpe": -1.61,
+      "maxdd_pct": -34.23,
+      "daily_pos_rate_pct": 45.0,
+      "first_day": "2025-12-31",
+      "last_day": "2026-05-28"
+    },
+    "combined": {
+      "n_days": 149,
+      "compound_pct": -6.16,
+      "cagr_pct": -14.43,
+      "sharpe": -1.37,
+      "maxdd_pct": -7.38,
+      "daily_pos_rate_pct": 44.3,
+      "first_day": "2025-12-31",
+      "last_day": "2026-05-28"
+    }
+  },
+  "verdict": "WM_BETTER",
+  "wm_vs_sma_pp": 12.01,
+  "wm_vs_shuf_pp": 21.932499999999997
+}

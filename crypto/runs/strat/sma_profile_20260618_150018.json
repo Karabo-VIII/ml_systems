@@ -1,0 +1,187 @@
+{
+  "ma_type": "SMA",
+  "generated": "20260618_150018",
+  "methodology": {
+    "band": "TRAIN+VAL+OOS positive (6/3/3 within-2020)",
+    "sleeve": "MA-cross -> trail(0.10) -> min_hold(12) -> lag1 -> maker(0.0006 RT)",
+    "book": "fixed-EW fillna(0.0).mean over u10",
+    "aw": "rolling-from-band ensemble (120d lookback, 30d step) over 2020-2023",
+    "movecatch": "TRAIN window (2020-01..07), 5% threshold, causal band-ensemble"
+  },
+  "per_tf": {
+    "1d": {
+      "tf": "1d",
+      "style": "long-term",
+      "band_size": 84,
+      "band_fast_range": [
+        2,
+        102
+      ],
+      "band_slow_range": [
+        3,
+        239
+      ],
+      "train_net": 21.1,
+      "val_net": 17.9,
+      "oos_net": 23.9,
+      "oos_maxdd": -14.6,
+      "p05_bootstrap": -9.4,
+      "aw_2020_net": 34.4,
+      "aw_2020_maxdd": -12.3,
+      "aw_2021_net": 139.0,
+      "aw_2021_maxdd": -14.6,
+      "aw_2022_net": -35.8,
+      "aw_2022_maxdd": -37.1,
+      "coverage": 0.233,
+      "entry_lag": 0.855,
+      "capture_med": 0.069,
+      "weighted_capture": 0.17,
+      "turnover_rt": 0.0795
+    },
+    "4h": {
+      "tf": "4h",
+      "style": "swing",
+      "band_size": 115,
+      "band_fast_range": [
+        2,
+        102
+      ],
+      "band_slow_range": [
+        3,
+        239
+      ],
+      "train_net": 21.0,
+      "val_net": 24.0,
+      "oos_net": 25.9,
+      "oos_maxdd": -13.6,
+      "p05_bootstrap": -9.9,
+      "aw_2020_net": 55.3,
+      "aw_2020_maxdd": -12.1,
+      "aw_2021_net": 208.4,
+      "aw_2021_maxdd": -28.3,
+      "aw_2022_net": -35.1,
+      "aw_2022_maxdd": -36.1,
+      "coverage": 0.435,
+      "entry_lag": 0.747,
+      "capture_med": 0.146,
+      "weighted_capture": 0.239,
+      "turnover_rt": 0.0596
+    },
+    "2h": {
+      "tf": "2h",
+      "style": "swing",
+      "band_size": 110,
+      "band_fast_range": [
+        2,
+        102
+      ],
+      "band_slow_range": [
+        3,
+        239
+      ],
+      "train_net": 20.9,
+      "val_net": 20.4,
+      "oos_net": 28.1,
+      "oos_maxdd": -12.8,
+      "p05_bootstrap": -5.4,
+      "aw_2020_net": 55.1,
+      "aw_2020_maxdd": -12.2,
+      "aw_2021_net": 205.3,
+      "aw_2021_maxdd": -32.1,
+      "aw_2022_net": -36.9,
+      "aw_2022_maxdd": -39.8,
+      "coverage": 0.509,
+      "entry_lag": 0.684,
+      "capture_med": 0.192,
+      "weighted_capture": 0.255,
+      "turnover_rt": 0.0297
+    },
+    "1h": {
+      "tf": "1h",
+      "style": "swing-intraday",
+      "band_size": 106,
+      "band_fast_range": [
+        2,
+        102
+      ],
+      "band_slow_range": [
+        5,
+        239
+      ],
+      "train_net": 22.7,
+      "val_net": 19.5,
+      "oos_net": 31.3,
+      "oos_maxdd": -12.4,
+      "p05_bootstrap": -5.0,
+      "aw_2020_net": 59.2,
+      "aw_2020_maxdd": -11.3,
+      "aw_2021_net": 228.8,
+      "aw_2021_maxdd": -29.8,
+      "aw_2022_net": -31.2,
+      "aw_2022_maxdd": -34.3,
+      "coverage": 0.565,
+      "entry_lag": 0.594,
+      "capture_med": 0.277,
+      "weighted_capture": 0.316,
+      "turnover_rt": 0.0233
+    },
+    "30m": {
+      "tf": "30m",
+      "style": "intraday",
+      "band_size": 90,
+      "band_fast_range": [
+        2,
+        102
+      ],
+      "band_slow_range": [
+        28,
+        239
+      ],
+      "train_net": 20.9,
+      "val_net": 18.0,
+      "oos_net": 22.5,
+      "oos_maxdd": -10.4,
+      "p05_bootstrap": -8.4,
+      "aw_2020_net": 41.9,
+      "aw_2020_maxdd": -13.7,
+      "aw_2021_net": 196.9,
+      "aw_2021_maxdd": -30.8,
+      "aw_2022_net": -39.7,
+      "aw_2022_maxdd": -45.6,
+      "coverage": 0.557,
+      "entry_lag": 0.608,
+      "capture_med": 0.283,
+      "weighted_capture": 0.308,
+      "turnover_rt": 0.0191
+    },
+    "15m": {
+      "tf": "15m",
+      "style": "intraday",
+      "band_size": 52,
+      "band_fast_range": [
+        3,
+        102
+      ],
+      "band_slow_range": [
+        65,
+        239
+      ],
+      "train_net": 16.6,
+      "val_net": 17.4,
+      "oos_net": 19.4,
+      "oos_maxdd": -12.5,
+      "p05_bootstrap": -13.5,
+      "aw_2020_net": 31.2,
+      "aw_2020_maxdd": -14.7,
+      "aw_2021_net": 145.7,
+      "aw_2021_maxdd": -36.3,
+      "aw_2022_net": -45.4,
+      "aw_2022_maxdd": -52.3,
+      "coverage": 0.519,
+      "entry_lag": 0.624,
+      "capture_med": 0.28,
+      "weighted_capture": 0.292,
+      "turnover_rt": 0.0134
+    }
+  }
+}
