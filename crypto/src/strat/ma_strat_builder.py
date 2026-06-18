@@ -76,7 +76,19 @@ if str(ROOT) not in sys.path:
 from strat.ma_type_upgrade import _MA, MA_TYPES          # noqa: E402
 from strat.ma_2020_breakdown import _panel, WARMUP        # noqa: E402
 from strat.structural_fixes import cooldown as apply_cooldown, min_hold  # noqa: E402
-from strat.portfolio_replay import apply_trail_stop, MAKER_RT            # noqa: E402
+from strat.portfolio_replay import apply_trail_stop, MAKER_RT, TAKER_RT  # noqa: E402
+
+# Grading cost (round-trip). MAKER (0.0006) is the optimistic floor kept for back-compat /
+# selftest reproducibility; the dynamic_capture_engine sets COST_RT = TAKER_RT (0.0024) for
+# the honest grade. Maker-only survivors are flagged execution-contingent (D43/D76).
+COST_RT = MAKER_RT
+
+# TIER-1 REGIME GATE (the dynamic engine's primary, proven lever; D33: gating works, switching hurts).
+# None = ungated (static floor). 'sma200' = per-asset causal SMA-N gate: a long is only allowed when
+# close[t] > SMA_N[t] (past-only); below the line -> CASH. This is the no-look-ahead UP/DOWN position
+# gate; it forces risk-off in the down-regime (the 2022-bear bleed fix). Set by dynamic_capture_engine.
+REGIME_GATE = None
+REGIME_GATE_N = 200
 
 OUT = CRYPTO / "runs" / "strat"
 OUT.mkdir(parents=True, exist_ok=True)
@@ -92,10 +104,12 @@ TRAIN = ("2020-01-01", "2020-07-01")
 VAL   = ("2020-07-01", "2020-10-01")
 OOS   = ("2020-10-01", "2021-01-01")
 BPD   = {"1d": 1, "4h": 6, "2h": 12, "1h": 24, "30m": 48, "15m": 96}
+HPB   = {"1d": 24.0, "4h": 4.0, "2h": 2.0, "1h": 1.0, "30m": 0.5, "15m": 0.25}  # calendar hours/bar
 ATR14_WIN = 14
 ATR22_WIN = 22
 MOVE_THRESH = 0.05
 BEAR_SPAN  = ("2022-01-01", "2023-01-01")
+FWD_SPAN   = ("2021-01-01", "2022-01-01")   # the IRON / forward year (mixed: H1 bull, May crash, Q4 decline)
 BH_SANE_LO, BH_SANE_HI = 100.0, 200.0
 TRAIL      = 0.10
 ROLLING_LOOKBACK_D = 60
@@ -124,7 +138,11 @@ METRIC_DEFS = (
     "0=trough (early), 1=peak (late); cross-asset MEAN over TRAIN moves. "
     "beats_noskill_fixedhold: bool; winning exit beats fixed_N (similar N) on BOTH TRAIN+VAL "
     "composite net AND OOS net. "
-    "dynamic_vs_static_oosdelta: float; best-dynamic OOS net minus best-static OOS net for this cell."
+    "dynamic_vs_static_oosdelta: float; best-dynamic OOS net minus best-static OOS net for this cell. "
+    "p05_oos_bootstrap: 5th-pct of moving-block-bootstrapped OOS compound-net%; >0 => robust held-out. "
+    "hold_oos: median/p90 realized trade hold in BARS and CALENDAR HOURS on OOS (the find-exploit-exit horizon). "
+    "SELECTION: best cell chosen by max(net_train+net_val) over TRAIN+VAL-positive rows; OOS HELD OUT "
+    "(never a selection criterion); dynamic excluded from winning on short pilot windows."
 )
 
 
@@ -250,7 +268,7 @@ def _apply_exit(starts, ends, c, o, atr14, atr22, fma, sma, exit_name):
 def _net_series(h_exit, ret, ms, ms_lo, ms_hi):
     pos = np.empty_like(ret); pos[0] = 0.0; pos[1:] = h_exit[:-1].astype(float)
     flips = np.empty(len(pos)); flips[0] = abs(pos[0]); flips[1:] = np.abs(np.diff(pos))
-    net = pos * ret - flips * (MAKER_RT / 2.0)
+    net = pos * ret - flips * (COST_RT / 2.0)
     mask = (ms >= ms_lo) & (ms < ms_hi)
     if mask.sum() < 5: return None
     return pd.Series(net[mask], index=pd.to_datetime(ms[mask], unit="ms"))
@@ -294,6 +312,10 @@ def _signal_runs(c, fma, sma, mma, family, cd, mh):
     if mh > 0: h = min_hold(h, mh)
     h, _ = apply_trail_stop(h.copy(), c, TRAIL)
     h = np.asarray(h, dtype=np.int8)
+    if REGIME_GATE == "sma200":
+        # Tier-1 causal position gate: cash whenever close <= SMA_N (past-only). NaN warmup -> cash.
+        g = _MA["SMA"](c, REGIME_GATE_N)
+        h = (h.astype(bool) & (c > g)).astype(np.int8)   # NaN comparison -> False -> cash (conservative)
     d = np.diff(np.concatenate([[0], h, [0]]))
     return np.where(d == 1)[0], np.where(d == -1)[0]
 
@@ -568,10 +590,67 @@ def _capture_median(assets, configs, family, ma_type, cd, mh, exit_name, ms_lo, 
             avail = (pk - ep) / ep if ep > 0 else 0.0
             gross = (xp - ep) / ep if ep > 0 else 0.0
             if avail > 0.005:
-                all_cap.append(float(np.clip((gross - MAKER_RT) / avail, 0.0, 1.0)))
+                all_cap.append(float(np.clip((gross - COST_RT) / avail, 0.0, 1.0)))
             else:
-                all_cap.append(1.0 if gross > MAKER_RT else 0.0)
+                all_cap.append(1.0 if gross > COST_RT else 0.0)
     return float(np.median(all_cap)) if all_cap else float("nan")
+
+
+# ---------------------------------------------------------------------------
+# BLOCK-BOOTSTRAP p05 (robustness gate) -- moving-block resample of the OOS book
+# ---------------------------------------------------------------------------
+def _block_bootstrap_p05(book, n_boot=1000, block=None, seed=0):
+    """5th-percentile of the bootstrapped compound-net distribution. >0 => robust."""
+    if book is None: return None
+    x = book.dropna().to_numpy()
+    n = len(x)
+    if n < 20: return None
+    if block is None: block = max(5, int(round(n ** 0.5)))
+    if block >= n: block = max(2, n // 3)
+    rng = np.random.default_rng(seed)
+    starts_pool = np.arange(0, n - block + 1)
+    if len(starts_pool) < 1: return None
+    nblocks = int(np.ceil(n / block))
+    nets = np.empty(n_boot)
+    for b in range(n_boot):
+        st = rng.choice(starts_pool, size=nblocks, replace=True)
+        idx = np.concatenate([np.arange(s, s + block) for s in st])[:n]
+        nets[b] = (np.prod(1 + x[idx]) - 1) * 100.0
+    return float(np.percentile(nets, 5))
+
+
+# ---------------------------------------------------------------------------
+# HOLD STATS (calendar duration of trades) -- makes "24 bars != 24 days" visible
+# ---------------------------------------------------------------------------
+def _hold_stats(assets, configs, family, ma_type, cd, mh, exit_name, cad, ms_lo, ms_hi):
+    """Median/p90 realized hold in BARS and CALENDAR HOURS for the selected cell, in [ms_lo,ms_hi)."""
+    if not configs: return None
+    cfg = configs[len(configs) // 2]; maf = _MA[ma_type]
+    holds = []
+    for asset in assets:
+        c = asset["c"]; o = asset["o"]; ms = asset["ms"]
+        if ((ms >= ms_lo) & (ms < ms_hi)).sum() < 10: continue
+        if family == "2MA":
+            fast, slow = cfg; fma = maf(c, fast); sma = maf(c, slow); mma = None
+        else:
+            fast, mid, slow = cfg; fma = maf(c, fast); mma = maf(c, mid); sma = maf(c, slow)
+        starts, ends = _signal_runs(c, fma, sma, mma, family, cd, mh)
+        atr14 = _fast_atr(asset["h"], asset["l"], c, ATR14_WIN)
+        atr22 = _fast_atr(asset["h"], asset["l"], c, ATR22_WIN)
+        h_ex = _apply_exit(starts, ends, c, o, atr14, atr22, fma, sma, exit_name)
+        d_h = np.diff(np.concatenate([[0], h_ex, [0]]))
+        for s, e in zip(np.where(d_h == 1)[0], np.where(d_h == -1)[0]):
+            if s >= len(ms) or ms[s] < ms_lo or ms[s] >= ms_hi: continue
+            holds.append(int(e - s))
+    if not holds: return None
+    hpb = HPB.get(cad, 24.0)
+    med_bars = float(np.median(holds)); p90_bars = float(np.percentile(holds, 90))
+    return {
+        "median_bars": round(med_bars, 1),
+        "median_hours": round(med_bars * hpb, 1),
+        "p90_hours": round(p90_bars * hpb, 1),
+        "n_trades": len(holds),
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -587,6 +666,35 @@ def _buyhold(assets, ms_lo, ms_hi):
     return _ew_book(cells)
 
 
+def _net_on_span(cad, ma_type, best, cfgs, span):
+    """Replay the selected cell's FROZEN spec (family/config/cd/mh/exit + REGIME_GATE) on an
+    out-of-window span (e.g. 2021 forward / 2022 bear) -> EW-book net%. Respects the active gate."""
+    try:
+        assets = _load_all(cad, span[0], span[1])
+        if len(assets) < 3 or not cfgs:
+            return None
+        cfg = cfgs[len(cfgs) // 2]; maf = _MA[ma_type]
+        lo = int(pd.Timestamp(span[0]).value // 10**6)
+        hi = int(pd.Timestamp(span[1]).value // 10**6)
+        cells = []
+        for asset in assets:
+            c = asset["c"]; o = asset["o"]
+            if best["family"] == "2MA":
+                fast, slow = cfg; fma = maf(c, fast); sma = maf(c, slow); mma = None
+            else:
+                fast, mid, slow = cfg; fma = maf(c, fast); mma = maf(c, mid); sma = maf(c, slow)
+            st, en = _signal_runs(c, fma, sma, mma, best["family"], best["cooldown"], best["min_hold"])
+            atr14 = _fast_atr(asset["h"], asset["l"], c, ATR14_WIN)
+            atr22 = _fast_atr(asset["h"], asset["l"], c, ATR22_WIN)
+            h_ex = _apply_exit(st, en, c, o, atr14, atr22, fma, sma, best["exit"])
+            s = _net_series(h_ex, asset["ret"], asset["ms"], lo, hi)
+            if s is not None: cells.append(s)
+        bk = _ew_book(cells)
+        return round(_net_pct(bk), 2) if bk is not None else None
+    except Exception:
+        return None
+
+
 def buyhold_sanity(cad: str) -> float | None:
     assets = _load_all(cad)
     if not assets: return None
@@ -599,7 +707,7 @@ def buyhold_sanity(cad: str) -> float | None:
 # ---------------------------------------------------------------------------
 # MAIN PER-CELL
 # ---------------------------------------------------------------------------
-def run_cell(ma_type: str, cad: str, verbose: bool = False) -> dict:
+def run_cell(ma_type: str, cad: str, verbose: bool = False, static_only: bool = False) -> dict:
     t0 = dt.datetime.now()
     ms_lo  = int(pd.Timestamp(YEAR[0]).value  // 10**6)
     ms_hi  = int(pd.Timestamp(YEAR[1]).value  // 10**6)
@@ -634,12 +742,22 @@ def run_cell(ma_type: str, cad: str, verbose: bool = False) -> dict:
         return {"ma_type": ma_type, "cad": cad, "error": "no combos",
                 "n_assets": len(assets), "bh_net_full": bh_net}
 
-    robust3 = [r for r in all_rows if r["pos3way"]]
-    robust2 = [r for r in all_rows if r["pos2way"] and not r["pos3way"]]
-    if robust3: pool = robust3; sel_gate = "3way_positive"
-    elif robust2: pool = robust2; sel_gate = "2way_positive"
-    else: pool = all_rows; sel_gate = "unconstrained"
-    best = max(pool, key=lambda r: r["net_oos"])
+    # SELECTION: pick on DEV data (TRAIN+VAL) ONLY -- OOS is held out as confirm, never
+    # a selection criterion (selecting on net_oos was the overfit source). DYNAMIC is
+    # excluded from winning the cell on a short pilot window (reported as a sidecar delta).
+    def _eligible(r):
+        if r["mode"] == "dynamic" and r.get("dynamic_short_window", False):
+            return False
+        return True
+    elig = [r for r in all_rows if _eligible(r) and (not static_only or r["mode"] == "static")]
+    if not elig: elig = [r for r in all_rows if not static_only or r["mode"] == "static"] or all_rows
+    devpool = [r for r in elig if r["net_train"] > 0 and r["net_val"] > 0]
+    if devpool:
+        pool = devpool; sel_gate = "trainval_positive"
+    else:
+        pool = elig; sel_gate = "unconstrained_dev"
+    # criterion = TRAIN+VAL composite (held-out OOS NOT in the objective)
+    best = max(pool, key=lambda r: r["net_train"] + r["net_val"])
 
     best_st_oos = max((r["net_oos"] for r in all_rows if r["mode"] == "static"), default=0.0)
     best_dy_oos = max((r["net_oos"] for r in all_rows if r["mode"] == "dynamic"), default=0.0)
@@ -654,6 +772,21 @@ def run_cell(ma_type: str, cad: str, verbose: bool = False) -> dict:
     cap = _capture_median(assets, cfgs, best["family"], ma_type,
                           best["cooldown"], best["min_hold"], best["exit"],
                           ms_oo_lo, ms_oo_hi)
+
+    # p05 block-bootstrap on the HELD-OUT OOS book (robustness gate; >0 => robust)
+    bk_full = best.get("_bk_full")
+    p05_oos = None
+    if bk_full is not None:
+        oo_lo_ts = pd.Timestamp(ms_oo_lo * 10**6, unit="ns")
+        oo_hi_ts = pd.Timestamp(ms_oo_hi * 10**6, unit="ns")
+        bk_oos = bk_full[(bk_full.index >= oo_lo_ts) & (bk_full.index < oo_hi_ts)]
+        p05_oos = _block_bootstrap_p05(bk_oos)
+        if p05_oos is not None: p05_oos = round(p05_oos, 2)
+
+    # hold duration (calendar) on OOS -- "find-exploit-exit" horizon
+    hold = _hold_stats(assets, cfgs, best["family"], ma_type,
+                       best["cooldown"], best["min_hold"], best["exit"],
+                       cad, ms_oo_lo, ms_oo_hi)
 
     # beats_noskill
     beats_ns = False
@@ -670,39 +803,19 @@ def run_cell(ma_type: str, cad: str, verbose: bool = False) -> dict:
             if tv_b > nr["net_train"] + nr["net_val"] and oo_b > nr["net_oos"]:
                 beats_ns = True; break
 
-    # 2022 bear
-    net_bear = None
-    try:
-        bear_assets = _load_all(cad, BEAR_SPAN[0], BEAR_SPAN[1])
-        if len(bear_assets) >= 3 and cfgs:
-            cfg = cfgs[len(cfgs) // 2]; maf = _MA[ma_type]
-            ms_b_lo = int(pd.Timestamp(BEAR_SPAN[0]).value // 10**6)
-            ms_b_hi = int(pd.Timestamp(BEAR_SPAN[1]).value // 10**6)
-            bear_cells = []
-            for asset in bear_assets:
-                c = asset["c"]; o = asset["o"]
-                if best["family"] == "2MA":
-                    fast, slow = cfg; fma = maf(c, fast); sma = maf(c, slow); mma = None
-                else:
-                    fast, mid, slow = cfg; fma = maf(c, fast); mma = maf(c, mid); sma = maf(c, slow)
-                st, en = _signal_runs(c, fma, sma, mma, best["family"], best["cooldown"], best["min_hold"])
-                atr14 = _fast_atr(asset["h"], asset["l"], c, ATR14_WIN)
-                atr22 = _fast_atr(asset["h"], asset["l"], c, ATR22_WIN)
-                h_ex = _apply_exit(st, en, c, o, atr14, atr22, fma, sma, best["exit"])
-                s = _net_series(h_ex, asset["ret"], asset["ms"], ms_b_lo, ms_b_hi)
-                if s is not None: bear_cells.append(s)
-            bk_bear = _ew_book(bear_cells)
-            net_bear = round(_net_pct(bk_bear), 2) if bk_bear is not None else None
-    except Exception:
-        pass
+    # FORWARD (2021 iron year) + 2022 bear -- replay the frozen selected spec out-of-window
+    net_2021 = _net_on_span(cad, ma_type, best, cfgs, FWD_SPAN)
+    net_bear = _net_on_span(cad, ma_type, best, cfgs, BEAR_SPAN)
 
     elapsed = (dt.datetime.now() - t0).total_seconds()
     if verbose:
-        print(f"  [{ma_type:5s} {cad:4s}] gate={sel_gate:15s} "
+        hold_h = hold["median_hours"] if hold else None
+        print(f"  [{ma_type:5s} {cad:4s}] gate={sel_gate:17s} "
               f"fam={best['family']:3s} mode={best['mode']:7s} "
-              f"OOS={best['net_oos']:+6.1f}% cd={best['cooldown']} mh={best['min_hold']} "
-              f"exit={best['exit']:22s} maxDD={str(maxdd):>7} "
-              f"dyn_delta={dyn_delta:+.1f} [{elapsed:.1f}s]")
+              f"OOS={best['net_oos']:+6.1f}% p05={str(p05_oos):>7} "
+              f"cd={best['cooldown']} mh={best['min_hold']} "
+              f"exit={best['exit']:16s} hold~{str(hold_h):>6}h maxDD={str(maxdd):>7} "
+              f"dyn_dlt={dyn_delta:+.1f} [{elapsed:.1f}s]")
 
     clean_rows = [{k: v for k, v in r.items() if k != "_bk_full"} for r in all_rows]
     return {
@@ -712,14 +825,19 @@ def run_cell(ma_type: str, cad: str, verbose: bool = False) -> dict:
         "best_cooldown": best["cooldown"], "best_min_hold": best["min_hold"],
         "best_exit": best["exit"], "sel_gate": sel_gate,
         "net_train": best["net_train"], "net_val": best["net_val"], "net_oos": best["net_oos"],
+        "p05_oos_bootstrap": p05_oos,
         "maxDD_full": maxdd,
+        "hold_oos": hold,
         "coverage_train": round(cov, 3) if not np.isnan(cov) else None,
         "capture_oos_median": round(cap, 3) if not np.isnan(cap) else None,
         "entry_lag_train_mean": round(lag, 3) if not np.isnan(lag) else None,
         "beats_noskill_fixedhold": beats_ns,
         "dynamic_vs_static_oosdelta": dyn_delta,
+        "net_2021_fwd": net_2021,
         "net_bear_2022": net_bear,
-        "n_combos_total": len(all_rows), "n_combos_3way": len(robust3),
+        "n_combos_total": len(all_rows),
+        "n_combos_devpool": len(pool), "sel_pool_gate": sel_gate,
+        "n_combos_3way": sum(1 for r in all_rows if r.get("pos3way")),
         "elapsed_s": round(elapsed, 1), "metric_defs": METRIC_DEFS,
     }
 
@@ -746,19 +864,22 @@ def selftest(verbose: bool = True) -> dict:
             assert r["net_oos"] is not None
             if r["maxDD_full"] is not None:
                 assert r["maxDD_full"] <= 0.01, f"maxDD={r['maxDD_full']}"
-            assert r["sel_gate"] in ("3way_positive", "2way_positive", "unconstrained")
+            assert r["sel_gate"] in ("trainval_positive", "unconstrained_dev")
             assert r["best_family"] in ("2MA", "3MA")
             assert r["best_mode"] in ("static", "dynamic")
 
     print("\n[selftest] SUMMARY (1d):")
     print(f"  {'MA':8}  {'gate':17}  {'fam':3}  {'mode':7}  "
-          f"{'OOS%':>7}  {'TR%':>7}  {'VL%':>7}  {'maxDD':>7}  "
+          f"{'OOS%':>7}  {'p05':>6}  {'hold_h':>7}  {'maxDD':>7}  "
           f"{'cap':>5}  {'lag':>5}  {'beat_ns':>7}  {'dyn_dlt':>7}  exit")
     for r in results:
         if "error" in r:
             print(f"  {r['ma_type']:8}  ERROR: {r['error']}"); continue
+        hh = r.get("hold_oos", {})
+        hh_h = hh.get("median_hours") if isinstance(hh, dict) else None
         print(f"  {r['ma_type']:8}  {r['sel_gate']:17}  {r['best_family']:3}  {r['best_mode']:7}  "
-              f"{r['net_oos']:>7.1f}  {r['net_train']:>7.1f}  {r['net_val']:>7.1f}  "
+              f"{r['net_oos']:>7.1f}  {str(r.get('p05_oos_bootstrap','--')):>6}  "
+              f"{str(hh_h):>7}  "
               f"{str(r.get('maxDD_full','--')):>7}  "
               f"{str(r.get('capture_oos_median','--')):>5}  "
               f"{str(r.get('entry_lag_train_mean','--')):>5}  "
