@@ -1,808 +1,274 @@
 {
   "thresholds": [
-    0.05,
-    0.1,
-    0.15
+    0.05
   ],
   "tfs": [
-    "30m"
+    "15m"
   ],
   "summary": {
-    "30m": {
+    "15m": {
       "0.05": {
         "EMA": {
-          "cadence": "30m",
+          "cadence": "15m",
           "ma_type": "EMA",
           "threshold": 0.05,
-          "n_band": 94,
-          "n_moves": 350,
+          "n_band": 65,
+          "n_moves": 389,
           "n_assets_active": 7,
-          "coverage": 0.594,
-          "mean_entry_lag": 0.586,
-          "mean_null_lag": 0.533,
-          "lag_delta": 0.053,
-          "lag_delta_pval": 0.0055,
-          "raw_capture_mean": 0.308,
-          "weighted_capture_mean": 0.329,
-          "net_pct_per_trade": 3.377,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 242,
-              "coverage": 0.6033057851239669,
-              "entry_lag": 0.5942665643042117
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.56,
-              "entry_lag": 0.6226617078919249
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.442818777420135
-            }
-          }
-        },
-        "SMA": {
-          "cadence": "30m",
-          "ma_type": "SMA",
-          "threshold": 0.05,
-          "n_band": 90,
-          "n_moves": 350,
-          "n_assets_active": 7,
-          "coverage": 0.557,
-          "mean_entry_lag": 0.608,
-          "mean_null_lag": 0.533,
-          "lag_delta": 0.075,
-          "lag_delta_pval": 0.0002,
-          "raw_capture_mean": 0.283,
-          "weighted_capture_mean": 0.308,
-          "net_pct_per_trade": 3.165,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 242,
-              "coverage": 0.5578512396694215,
-              "entry_lag": 0.6205360914563479
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.5333333333333333,
-              "entry_lag": 0.6390218617024164
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.4464356343320817
-            }
-          }
-        },
-        "WMA": {
-          "cadence": "30m",
-          "ma_type": "WMA",
-          "threshold": 0.05,
-          "n_band": 79,
-          "n_moves": 350,
-          "n_assets_active": 7,
-          "coverage": 0.606,
-          "mean_entry_lag": 0.595,
-          "mean_null_lag": 0.533,
-          "lag_delta": 0.063,
-          "lag_delta_pval": 0.0012,
-          "raw_capture_mean": 0.3,
-          "weighted_capture_mean": 0.324,
-          "net_pct_per_trade": 3.327,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 242,
-              "coverage": 0.6198347107438017,
-              "entry_lag": 0.607737519949165
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.56,
-              "entry_lag": 0.6221764694999475
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.443969752795529
-            }
-          }
-        },
-        "HMA": {
-          "cadence": "30m",
-          "ma_type": "HMA",
-          "threshold": 0.05,
-          "n_band": 48,
-          "n_moves": 350,
-          "n_assets_active": 7,
-          "coverage": 0.683,
-          "mean_entry_lag": 0.57,
-          "mean_null_lag": 0.533,
-          "lag_delta": 0.037,
-          "lag_delta_pval": 0.0305,
-          "raw_capture_mean": 0.275,
-          "weighted_capture_mean": 0.287,
-          "net_pct_per_trade": 2.938,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 242,
-              "coverage": 0.6776859504132231,
-              "entry_lag": 0.5938331803162991
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.5628030326597756
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.7575757575757576,
-              "entry_lag": 0.41122930925477075
-            }
-          }
-        },
-        "DEMA": {
-          "cadence": "30m",
-          "ma_type": "DEMA",
-          "threshold": 0.05,
-          "n_band": 66,
-          "n_moves": 350,
-          "n_assets_active": 7,
-          "coverage": 0.643,
-          "mean_entry_lag": 0.588,
-          "mean_null_lag": 0.533,
-          "lag_delta": 0.055,
-          "lag_delta_pval": 0.0034,
-          "raw_capture_mean": 0.282,
-          "weighted_capture_mean": 0.299,
-          "net_pct_per_trade": 3.063,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 242,
-              "coverage": 0.6363636363636364,
-              "entry_lag": 0.6164309474058652
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.6533333333333333,
-              "entry_lag": 0.5539872445268748
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.4569265986909501
-            }
-          }
-        },
-        "TEMA": {
-          "cadence": "30m",
-          "ma_type": "TEMA",
-          "threshold": 0.05,
-          "n_band": 42,
-          "n_moves": 350,
-          "n_assets_active": 7,
-          "coverage": 0.663,
-          "mean_entry_lag": 0.566,
-          "mean_null_lag": 0.533,
-          "lag_delta": 0.033,
-          "lag_delta_pval": 0.0514,
-          "raw_capture_mean": 0.281,
-          "weighted_capture_mean": 0.295,
-          "net_pct_per_trade": 3.026,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 242,
-              "coverage": 0.6528925619834711,
-              "entry_lag": 0.5980528315405145
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.6533333333333333,
-              "entry_lag": 0.5346541554213402
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.7575757575757576,
-              "entry_lag": 0.4023988417525454
-            }
-          }
-        },
-        "KAMA": {
-          "cadence": "30m",
-          "ma_type": "KAMA",
-          "threshold": 0.05,
-          "n_band": 79,
-          "n_moves": 350,
-          "n_assets_active": 7,
-          "coverage": 0.543,
-          "mean_entry_lag": 0.622,
-          "mean_null_lag": 0.533,
-          "lag_delta": 0.089,
+          "coverage": 0.54,
+          "mean_entry_lag": 0.609,
+          "mean_null_lag": 0.525,
+          "lag_delta": 0.085,
           "lag_delta_pval": 0.0,
-          "raw_capture_mean": 0.271,
-          "weighted_capture_mean": 0.292,
-          "net_pct_per_trade": 3.005,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 242,
-              "coverage": 0.5371900826446281,
-              "entry_lag": 0.639112112231932
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.5333333333333333,
-              "entry_lag": 0.6394920991773289
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.4569466940186721
-            }
-          }
-        },
-        "VIDYA": {
-          "cadence": "30m",
-          "ma_type": "VIDYA",
-          "threshold": 0.05,
-          "n_band": 114,
-          "n_moves": 350,
-          "n_assets_active": 7,
-          "coverage": 0.491,
-          "mean_entry_lag": 0.637,
-          "mean_null_lag": 0.533,
-          "lag_delta": 0.104,
-          "lag_delta_pval": 0.0,
-          "raw_capture_mean": 0.262,
-          "weighted_capture_mean": 0.282,
-          "net_pct_per_trade": 2.904,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 242,
-              "coverage": 0.4793388429752066,
-              "entry_lag": 0.6455148368971694
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.49333333333333335,
-              "entry_lag": 0.6468881375979895
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.5757575757575758,
-              "entry_lag": 0.5498640704976784
-            }
-          }
-        }
-      },
-      "0.1": {
-        "EMA": {
-          "cadence": "30m",
-          "ma_type": "EMA",
-          "threshold": 0.1,
-          "n_band": 94,
-          "n_moves": 108,
-          "n_assets_active": 7,
-          "coverage": 0.574,
-          "mean_entry_lag": 0.568,
-          "mean_null_lag": 0.521,
-          "lag_delta": 0.047,
-          "lag_delta_pval": 0.1074,
-          "raw_capture_mean": 0.341,
-          "weighted_capture_mean": 0.352,
-          "net_pct_per_trade": 6.449,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.56,
-              "entry_lag": 0.6226617078919249
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.442818777420135
-            }
-          }
-        },
-        "SMA": {
-          "cadence": "30m",
-          "ma_type": "SMA",
-          "threshold": 0.1,
-          "n_band": 90,
-          "n_moves": 108,
-          "n_assets_active": 7,
-          "coverage": 0.556,
-          "mean_entry_lag": 0.58,
-          "mean_null_lag": 0.521,
-          "lag_delta": 0.059,
-          "lag_delta_pval": 0.0578,
-          "raw_capture_mean": 0.323,
-          "weighted_capture_mean": 0.337,
-          "net_pct_per_trade": 6.164,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.5333333333333333,
-              "entry_lag": 0.6390218617024164
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.4464356343320817
-            }
-          }
-        },
-        "WMA": {
-          "cadence": "30m",
-          "ma_type": "WMA",
-          "threshold": 0.1,
-          "n_band": 79,
-          "n_moves": 108,
-          "n_assets_active": 7,
-          "coverage": 0.574,
-          "mean_entry_lag": 0.568,
-          "mean_null_lag": 0.521,
-          "lag_delta": 0.047,
-          "lag_delta_pval": 0.1049,
-          "raw_capture_mean": 0.339,
-          "weighted_capture_mean": 0.352,
-          "net_pct_per_trade": 6.444,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.56,
-              "entry_lag": 0.6221764694999475
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.443969752795529
-            }
-          }
-        },
-        "HMA": {
-          "cadence": "30m",
-          "ma_type": "HMA",
-          "threshold": 0.1,
-          "n_band": 48,
-          "n_moves": 108,
-          "n_assets_active": 7,
-          "coverage": 0.694,
-          "mean_entry_lag": 0.516,
-          "mean_null_lag": 0.521,
-          "lag_delta": -0.004,
-          "lag_delta_pval": 0.4499,
-          "raw_capture_mean": 0.295,
-          "weighted_capture_mean": 0.3,
-          "net_pct_per_trade": 5.483,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.5628030326597756
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.7575757575757576,
-              "entry_lag": 0.41122930925477075
-            }
-          }
-        },
-        "DEMA": {
-          "cadence": "30m",
-          "ma_type": "DEMA",
-          "threshold": 0.1,
-          "n_band": 66,
-          "n_moves": 108,
-          "n_assets_active": 7,
-          "coverage": 0.657,
-          "mean_entry_lag": 0.524,
-          "mean_null_lag": 0.521,
-          "lag_delta": 0.004,
-          "lag_delta_pval": 0.4615,
-          "raw_capture_mean": 0.322,
-          "weighted_capture_mean": 0.323,
-          "net_pct_per_trade": 5.906,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
-            },
-            "10-20%": {
-              "n": 75,
-              "coverage": 0.6533333333333333,
-              "entry_lag": 0.5539872445268748
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.4569265986909501
-            }
-          }
-        },
-        "TEMA": {
-          "cadence": "30m",
-          "ma_type": "TEMA",
-          "threshold": 0.1,
-          "n_band": 42,
-          "n_moves": 108,
-          "n_assets_active": 7,
-          "coverage": 0.685,
-          "mean_entry_lag": 0.494,
-          "mean_null_lag": 0.521,
-          "lag_delta": -0.027,
-          "lag_delta_pval": 0.2338,
-          "raw_capture_mean": 0.316,
+          "raw_capture_mean": 0.305,
           "weighted_capture_mean": 0.314,
-          "net_pct_per_trade": 5.747,
+          "net_pct_per_trade": 3.035,
           "coverage_by_size": {
             "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
+              "n": 275,
+              "coverage": 0.5418181818181819,
+              "entry_lag": 0.6166647412435904
             },
             "10-20%": {
-              "n": 75,
-              "coverage": 0.6533333333333333,
-              "entry_lag": 0.5346541554213402
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.7575757575757576,
-              "entry_lag": 0.4023988417525454
-            }
-          }
-        },
-        "KAMA": {
-          "cadence": "30m",
-          "ma_type": "KAMA",
-          "threshold": 0.1,
-          "n_band": 79,
-          "n_moves": 108,
-          "n_assets_active": 7,
-          "coverage": 0.556,
-          "mean_entry_lag": 0.584,
-          "mean_null_lag": 0.521,
-          "lag_delta": 0.063,
-          "lag_delta_pval": 0.0471,
-          "raw_capture_mean": 0.308,
-          "weighted_capture_mean": 0.317,
-          "net_pct_per_trade": 5.8,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
-            },
-            "10-20%": {
-              "n": 75,
+              "n": 90,
               "coverage": 0.5333333333333333,
-              "entry_lag": 0.6394920991773289
+              "entry_lag": 0.6150972194697819
             },
             "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.4569466940186721
+              "n": 24,
+              "coverage": 0.5416666666666666,
+              "entry_lag": 0.50562324477488
             }
           }
         },
-        "VIDYA": {
-          "cadence": "30m",
-          "ma_type": "VIDYA",
-          "threshold": 0.1,
-          "n_band": 114,
-          "n_moves": 108,
+        "SMA": {
+          "cadence": "15m",
+          "ma_type": "SMA",
+          "threshold": 0.05,
+          "n_band": 52,
+          "n_moves": 389,
           "n_assets_active": 7,
           "coverage": 0.519,
-          "mean_entry_lag": 0.617,
-          "mean_null_lag": 0.521,
-          "lag_delta": 0.096,
-          "lag_delta_pval": 0.0048,
-          "raw_capture_mean": 0.294,
-          "weighted_capture_mean": 0.305,
-          "net_pct_per_trade": 5.597,
+          "mean_entry_lag": 0.624,
+          "mean_null_lag": 0.525,
+          "lag_delta": 0.099,
+          "lag_delta_pval": 0.0,
+          "raw_capture_mean": 0.28,
+          "weighted_capture_mean": 0.292,
+          "net_pct_per_trade": 2.827,
           "coverage_by_size": {
             "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
+              "n": 275,
+              "coverage": 0.509090909090909,
+              "entry_lag": 0.6372541872357447
             },
             "10-20%": {
-              "n": 75,
-              "coverage": 0.49333333333333335,
-              "entry_lag": 0.6468881375979895
+              "n": 90,
+              "coverage": 0.5444444444444444,
+              "entry_lag": 0.6128691819517804
             },
             "20%+": {
-              "n": 33,
-              "coverage": 0.5757575757575758,
-              "entry_lag": 0.5498640704976784
-            }
-          }
-        }
-      },
-      "0.15": {
-        "EMA": {
-          "cadence": "30m",
-          "ma_type": "EMA",
-          "threshold": 0.15,
-          "n_band": 94,
-          "n_moves": 54,
-          "n_assets_active": 7,
-          "coverage": 0.63,
-          "mean_entry_lag": 0.461,
-          "mean_null_lag": 0.497,
-          "lag_delta": -0.037,
-          "lag_delta_pval": 0.2615,
-          "raw_capture_mean": 0.422,
-          "weighted_capture_mean": 0.395,
-          "net_pct_per_trade": 9.698,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
-            },
-            "10-20%": {
-              "n": 21,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.4883612509832833
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.442818777420135
-            }
-          }
-        },
-        "SMA": {
-          "cadence": "30m",
-          "ma_type": "SMA",
-          "threshold": 0.15,
-          "n_band": 90,
-          "n_moves": 54,
-          "n_assets_active": 7,
-          "coverage": 0.63,
-          "mean_entry_lag": 0.471,
-          "mean_null_lag": 0.497,
-          "lag_delta": -0.026,
-          "lag_delta_pval": 0.3218,
-          "raw_capture_mean": 0.402,
-          "weighted_capture_mean": 0.379,
-          "net_pct_per_trade": 9.295,
-          "coverage_by_size": {
-            "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
-            },
-            "10-20%": {
-              "n": 21,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.5099248575195574
-            },
-            "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.4464356343320817
+              "n": 24,
+              "coverage": 0.5416666666666666,
+              "entry_lag": 0.507967559157762
             }
           }
         },
         "WMA": {
-          "cadence": "30m",
+          "cadence": "15m",
           "ma_type": "WMA",
-          "threshold": 0.15,
-          "n_band": 79,
-          "n_moves": 54,
+          "threshold": 0.05,
+          "n_band": 46,
+          "n_moves": 389,
           "n_assets_active": 7,
-          "coverage": 0.63,
-          "mean_entry_lag": 0.464,
-          "mean_null_lag": 0.497,
-          "lag_delta": -0.033,
-          "lag_delta_pval": 0.2815,
-          "raw_capture_mean": 0.417,
-          "weighted_capture_mean": 0.394,
-          "net_pct_per_trade": 9.659,
+          "coverage": 0.56,
+          "mean_entry_lag": 0.604,
+          "mean_null_lag": 0.525,
+          "lag_delta": 0.079,
+          "lag_delta_pval": 0.0,
+          "raw_capture_mean": 0.306,
+          "weighted_capture_mean": 0.316,
+          "net_pct_per_trade": 3.055,
           "coverage_by_size": {
             "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
+              "n": 275,
+              "coverage": 0.5563636363636364,
+              "entry_lag": 0.6158291941061715
             },
             "10-20%": {
-              "n": 21,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.49649319119840235
+              "n": 90,
+              "coverage": 0.5666666666666667,
+              "entry_lag": 0.5956095986343185
             },
             "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.443969752795529
+              "n": 24,
+              "coverage": 0.5833333333333334,
+              "entry_lag": 0.4986415971491492
             }
           }
         },
         "HMA": {
-          "cadence": "30m",
+          "cadence": "15m",
           "ma_type": "HMA",
-          "threshold": 0.15,
-          "n_band": 48,
-          "n_moves": 54,
+          "threshold": 0.05,
+          "n_band": 20,
+          "n_moves": 389,
           "n_assets_active": 7,
-          "coverage": 0.778,
-          "mean_entry_lag": 0.429,
-          "mean_null_lag": 0.497,
-          "lag_delta": -0.068,
-          "lag_delta_pval": 0.0923,
-          "raw_capture_mean": 0.349,
-          "weighted_capture_mean": 0.328,
-          "net_pct_per_trade": 8.003,
+          "coverage": 0.666,
+          "mean_entry_lag": 0.535,
+          "mean_null_lag": 0.525,
+          "lag_delta": 0.01,
+          "lag_delta_pval": 0.2953,
+          "raw_capture_mean": 0.297,
+          "weighted_capture_mean": 0.294,
+          "net_pct_per_trade": 2.823,
           "coverage_by_size": {
             "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
+              "n": 275,
+              "coverage": 0.68,
+              "entry_lag": 0.5398088615373074
             },
             "10-20%": {
-              "n": 21,
-              "coverage": 0.8095238095238095,
-              "entry_lag": 0.4567543888987204
+              "n": 90,
+              "coverage": 0.6222222222222222,
+              "entry_lag": 0.5566470083900716
             },
             "20%+": {
-              "n": 33,
-              "coverage": 0.7575757575757576,
-              "entry_lag": 0.41122930925477075
+              "n": 24,
+              "coverage": 0.6666666666666666,
+              "entry_lag": 0.39703206931784213
             }
           }
         },
         "DEMA": {
-          "cadence": "30m",
+          "cadence": "15m",
           "ma_type": "DEMA",
-          "threshold": 0.15,
-          "n_band": 66,
-          "n_moves": 54,
+          "threshold": 0.05,
+          "n_band": 35,
+          "n_moves": 389,
           "n_assets_active": 7,
-          "coverage": 0.685,
-          "mean_entry_lag": 0.464,
-          "mean_null_lag": 0.497,
-          "lag_delta": -0.034,
-          "lag_delta_pval": 0.266,
-          "raw_capture_mean": 0.377,
-          "weighted_capture_mean": 0.348,
-          "net_pct_per_trade": 8.527,
+          "coverage": 0.627,
+          "mean_entry_lag": 0.594,
+          "mean_null_lag": 0.525,
+          "lag_delta": 0.07,
+          "lag_delta_pval": 0.0003,
+          "raw_capture_mean": 0.296,
+          "weighted_capture_mean": 0.304,
+          "net_pct_per_trade": 2.937,
           "coverage_by_size": {
             "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
+              "n": 275,
+              "coverage": 0.6290909090909091,
+              "entry_lag": 0.6141053218064626
             },
             "10-20%": {
-              "n": 21,
-              "coverage": 0.7142857142857143,
-              "entry_lag": 0.4740683381346581
+              "n": 90,
+              "coverage": 0.6222222222222222,
+              "entry_lag": 0.5669788349778798
             },
             "20%+": {
-              "n": 33,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.4569265986909501
+              "n": 24,
+              "coverage": 0.625,
+              "entry_lag": 0.47185888555866473
             }
           }
         },
         "TEMA": {
-          "cadence": "30m",
+          "cadence": "15m",
           "ma_type": "TEMA",
-          "threshold": 0.15,
-          "n_band": 42,
-          "n_moves": 54,
+          "threshold": 0.05,
+          "n_band": 20,
+          "n_moves": 389,
           "n_assets_active": 7,
-          "coverage": 0.778,
-          "mean_entry_lag": 0.411,
-          "mean_null_lag": 0.497,
-          "lag_delta": -0.087,
-          "lag_delta_pval": 0.0455,
-          "raw_capture_mean": 0.36,
-          "weighted_capture_mean": 0.334,
-          "net_pct_per_trade": 8.166,
+          "coverage": 0.648,
+          "mean_entry_lag": 0.562,
+          "mean_null_lag": 0.525,
+          "lag_delta": 0.037,
+          "lag_delta_pval": 0.0279,
+          "raw_capture_mean": 0.29,
+          "weighted_capture_mean": 0.292,
+          "net_pct_per_trade": 2.81,
           "coverage_by_size": {
             "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
+              "n": 275,
+              "coverage": 0.6618181818181819,
+              "entry_lag": 0.570071086680876
             },
             "10-20%": {
-              "n": 21,
-              "coverage": 0.8095238095238095,
-              "entry_lag": 0.4241547392446489
+              "n": 90,
+              "coverage": 0.6,
+              "entry_lag": 0.5783187401259403
             },
             "20%+": {
-              "n": 33,
-              "coverage": 0.7575757575757576,
-              "entry_lag": 0.4023988417525454
+              "n": 24,
+              "coverage": 0.6666666666666666,
+              "entry_lag": 0.408339334427569
             }
           }
         },
         "KAMA": {
-          "cadence": "30m",
+          "cadence": "15m",
           "ma_type": "KAMA",
-          "threshold": 0.15,
-          "n_band": 79,
-          "n_moves": 54,
+          "threshold": 0.05,
+          "n_band": 47,
+          "n_moves": 389,
           "n_assets_active": 7,
-          "coverage": 0.63,
-          "mean_entry_lag": 0.473,
-          "mean_null_lag": 0.497,
-          "lag_delta": -0.025,
-          "lag_delta_pval": 0.332,
-          "raw_capture_mean": 0.38,
-          "weighted_capture_mean": 0.354,
-          "net_pct_per_trade": 8.684,
+          "coverage": 0.509,
+          "mean_entry_lag": 0.629,
+          "mean_null_lag": 0.525,
+          "lag_delta": 0.105,
+          "lag_delta_pval": 0.0,
+          "raw_capture_mean": 0.271,
+          "weighted_capture_mean": 0.281,
+          "net_pct_per_trade": 2.714,
           "coverage_by_size": {
             "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
+              "n": 275,
+              "coverage": 0.49818181818181817,
+              "entry_lag": 0.6490530620685482
             },
             "10-20%": {
-              "n": 21,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.4978862224355011
+              "n": 90,
+              "coverage": 0.5333333333333333,
+              "entry_lag": 0.6007250321873238
             },
             "20%+": {
-              "n": 33,
-              "coverage": 0.6060606060606061,
-              "entry_lag": 0.4569466940186721
+              "n": 24,
+              "coverage": 0.5416666666666666,
+              "entry_lag": 0.5092889747160686
             }
           }
         },
         "VIDYA": {
-          "cadence": "30m",
+          "cadence": "15m",
           "ma_type": "VIDYA",
-          "threshold": 0.15,
-          "n_band": 114,
-          "n_moves": 54,
+          "threshold": 0.05,
+          "n_band": 102,
+          "n_moves": 389,
           "n_assets_active": 7,
-          "coverage": 0.611,
-          "mean_entry_lag": 0.52,
-          "mean_null_lag": 0.497,
-          "lag_delta": 0.023,
-          "lag_delta_pval": 0.3426,
-          "raw_capture_mean": 0.38,
-          "weighted_capture_mean": 0.35,
-          "net_pct_per_trade": 8.601,
+          "coverage": 0.478,
+          "mean_entry_lag": 0.638,
+          "mean_null_lag": 0.525,
+          "lag_delta": 0.114,
+          "lag_delta_pval": 0.0,
+          "raw_capture_mean": 0.272,
+          "weighted_capture_mean": 0.279,
+          "net_pct_per_trade": 2.707,
           "coverage_by_size": {
             "5-10%": {
-              "n": 0,
-              "coverage": null,
-              "entry_lag": null
+              "n": 275,
+              "coverage": 0.46545454545454545,
+              "entry_lag": 0.6529538013674747
             },
             "10-20%": {
-              "n": 21,
-              "coverage": 0.6666666666666666,
-              "entry_lag": 0.4738224392808063
+              "n": 90,
+              "coverage": 0.5,
+              "entry_lag": 0.6240447784360973
             },
             "20%+": {
-              "n": 33,
-              "coverage": 0.5757575757575758,
-              "entry_lag": 0.5498640704976784
+              "n": 24,
+              "coverage": 0.5416666666666666,
+              "entry_lag": 0.5238787656382534
             }
           }
         }
