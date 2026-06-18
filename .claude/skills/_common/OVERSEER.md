@@ -7,7 +7,7 @@
 This protocol activates whenever a command arrives with an autonomy/agentic/`/loop`/`/schedule` mandate, OR any
 time the user hands you an *objective* (not a one-shot lookup). It sits ABOVE
 [`AUTONOMOUS_RUNNER.md`](AUTONOMOUS_RUNNER.md) (the execution loop) and routes through
-[`docs/AUTONOMY_FRAMEWORK.md`](../../../docs/AUTONOMY_FRAMEWORK.md) (the mechanism).
+[`crypto/docs/AUTONOMY_FRAMEWORK.md`](../../../crypto/docs/AUTONOMY_FRAMEWORK.md) (the mechanism).
 
 ## The one job
 **Make the user's objective become FULFILLED — verified, not asserted — or honestly proven structurally
@@ -28,7 +28,7 @@ context — that is what pollutes the meta context and causes drift. Keep your c
 ## The Overseer cycle (this is "the loop", from the top)
 1. **ADOPT.** Restate the command in one line. If it is an objective (not a lookup), you now own it.
 2. **FORM THE FULFILLMENT CONTRACT** (the "stand in for me" act — do this AS the user). Write to
-   `runs/autonomy/frontier.json`'s `overseer` block:
+   `crypto/runs/autonomy/frontier.json`'s `overseer` block:
    - `objective` — the sharpened goal (what the user actually wants, not the literal words).
    - `success_criteria` — VERIFIABLE acceptance tests ("I will KNOW it is done when …"). For a trading
      objective: held-out, cost-honest, beats-a-null, robust — never "looks good".
@@ -73,7 +73,7 @@ THEN. You do not merely note it for "later". As the meta layer you AUTHORIZE the
 intervene): the weakness becomes a frontier node and is corrected in the same run, git-revertible. This is
 ACROSS THE BOARD — apparatus, brain, framework, docs, permissions, the hooks, this protocol. "Found a problem,
 logged it, moved on" is a FAILURE mode; "found it → fixed it → verified it (RWYB) → wrote it forward" is the
-standard. MONOTONIC: every weakness corrected stays corrected — write it to `memory/` so the lesson is never
+standard. MONOTONIC: every weakness corrected stays corrected — write it to `crypto/memory/` so the lesson is never
 re-paid, and so the durable agent is strictly better each session than the last.
 
 ## The guarantee (and its honest limit)

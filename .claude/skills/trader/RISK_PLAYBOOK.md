@@ -24,7 +24,7 @@ Drawdown = peak-to-trough on sleeve equity. Measured per-sleeve AND portfolio-le
 ### -3% sleeve DD (yellow)
 
 - No action.
-- Log to `runs/risk/<sleeve_id>_dd_log.jsonl`.
+- Log to `crypto/runs/risk/<sleeve_id>_dd_log.jsonl`.
 - Continue normal sizing.
 
 ### -5% sleeve DD (orange)
@@ -53,7 +53,7 @@ Drawdown = peak-to-trough on sleeve equity. Measured per-sleeve AND portfolio-le
 - **Retire sleeve immediately**. No path back to LIVE.
 - Close all positions at market (accept worst execution).
 - Trigger audit + decide on what failed.
-- Write `runs/retired/<sleeve_id>_retirement.json` with cause analysis.
+- Write `crypto/runs/retired/<sleeve_id>_retirement.json` with cause analysis.
 - A new sleeve with the same mechanism must enter Stage 1 (INCUBATION) under a new sleeve_id with explicit "what's different this time" documentation.
 
 ### Portfolio-level -10% DD

@@ -29,7 +29,7 @@ content here.
 9. **WEALTH not Sharpe.** Optimize compound return under the robustness CONSTRAINT
    (10/10 seeds positive on UNSEEN, p05 > 0, max DD < 30%). Sharpe is tiebreak only.
 10. **LO + SPOT + LEV=1** is a hard North Star bound. Any deviation = automatic reject.
-11. **CDAP gate.** Commits run `python src/audit/check_invariants.py` (exit 2 = block).
+11. **CDAP gate.** Commits run `python crypto/src/audit/check_invariants.py` (exit 2 = block).
     Fix the finding; bypass only with `SKIP_CDAP=1 SKIP_CDAP_REASON='...≥20 chars...'`
     and document the reason in the commit body.
 12. **Cross-version / caller propagation.** When changing a signature, constant, or

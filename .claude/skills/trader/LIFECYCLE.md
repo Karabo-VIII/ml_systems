@@ -2,7 +2,7 @@
 
 > Every deployed sleeve traverses 5 stages. Each stage has explicit promote / demote / retire gates. Stage transitions are **the most failure-prone moment** in this project — H18 went paper -> ship in one step (commit fd0a870 / 4ba027b) without an explicit small-size buffer stage. This protocol closes that hole.
 >
-> **CDAP enforcement**: every sleeve carries a `lifecycle.yaml` at `config/sleeves/<sleeve_id>/lifecycle.yaml` with current_stage + stage_entered_at + min_time_in_stage + min_n_observations. Transitions write to `runs/lifecycle/<sleeve_id>_<from>_to_<to>_<utc>.json` with the gate evidence. The deploy_claim from `PRE_DEPLOY_CHECKLIST.md` is the transition record.
+> **CDAP enforcement**: every sleeve carries a `lifecycle.yaml` at `crypto/config/sleeves/<sleeve_id>/lifecycle.yaml` with current_stage + stage_entered_at + min_time_in_stage + min_n_observations. Transitions write to `crypto/runs/lifecycle/<sleeve_id>_<from>_to_<to>_<utc>.json` with the gate evidence. The deploy_claim from `PRE_DEPLOY_CHECKLIST.md` is the transition record.
 
 ## Stage diagram
 
@@ -49,7 +49,7 @@
 
 ## Stage 2: PAPER
 
-**What it is**: simulated live trading on REAL-TIME bars, fixed cost model, no real capital. Writes a `runs/paper_trade/<sleeve>_signals.jsonl` and decay status JSON every bar.
+**What it is**: simulated live trading on REAL-TIME bars, fixed cost model, no real capital. Writes a `crypto/runs/paper_trade/<sleeve>_signals.jsonl` and decay status JSON every bar.
 
 **Time-in-stage minimum**: 30 calendar days OR 20 trades, whichever is greater.
 **Time-in-stage maximum**: 90 days (after which sleeve must promote or be re-evaluated for INCUBATION return).
@@ -132,13 +132,13 @@
 
 **Cannot un-retire**. A reincarnated sleeve enters Stage 1 (INCUBATION) as a NEW sleeve and walks the full path.
 
-**Retire artifact**: `WEALTH_BOT_FAILURE_CATALOG.md` entry + `runs/retired/<sleeve_id>_retirement.json` with final stats, cause, and "do not retry without [list of changes]".
+**Retire artifact**: `WEALTH_BOT_FAILURE_CATALOG.md` entry + `crypto/runs/retired/<sleeve_id>_retirement.json` with final stats, cause, and "do not retry without [list of changes]".
 
 ---
 
 ## Stage transition record (canonical fields)
 
-Every transition writes `runs/lifecycle/<sleeve_id>_<from>_to_<to>_<utc>.json`:
+Every transition writes `crypto/runs/lifecycle/<sleeve_id>_<from>_to_<to>_<utc>.json`:
 
 ```jsonc
 {
@@ -162,13 +162,13 @@ Every transition writes `runs/lifecycle/<sleeve_id>_<from>_to_<to>_<utc>.json`:
 
 ## CDAP wiring
 
-Added to `config/_invariants.yaml`:
+Added to `crypto/config/_invariants.yaml`:
 
 | Rule | Severity | What it checks |
 |---|---|---|
 | `trader_lifecycle_min_time_in_stage` | critical | Stage transition JSON declares prev_stage_days >= stage minimum |
 | `trader_lifecycle_min_n_trades_paper_to_live` | critical | >= 20 paper trades before paper -> live_small |
-| `trader_lifecycle_stage_yaml_present` | critical | Every `config/sleeves/<id>/` has a `lifecycle.yaml` with current_stage |
+| `trader_lifecycle_stage_yaml_present` | critical | Every `crypto/config/sleeves/<id>/` has a `lifecycle.yaml` with current_stage |
 | `trader_lifecycle_transition_record_emitted` | warn | Recent stage transitions have a record JSON |
 
 ## Lifecycle YAML (one per sleeve)

@@ -48,7 +48,7 @@ into it.
 ### Single chart
 
 ```python
-from src.narrate import narrate
+from narrate import narrate
 nr = narrate(asset, cadence="4h", start="2025-09-01", end="2025-11-01")
 print(nr.to_text())     # prose narration
 d = nr.to_dict()        # structured (reads, events, mode_hint, foundation, coverage)
@@ -64,7 +64,7 @@ d = nr.to_dict()        # structured (reads, events, mode_hint, foundation, cove
 ### Cross-chart comparison
 
 ```python
-from src.narrate.charts import narrate_across_charts
+from narrate.charts import narrate_across_charts
 result = narrate_across_charts("BTC", start="2025-09-01", end="2025-11-01",
                                 cadences=("1d", "4h", "dollar", "dib", "range"))
 print(result.prose)
@@ -79,7 +79,7 @@ coil / accumulation signatures.
 
 ### Layer 1 -- Chimera family decomposition (always active)
 
-`src/narrate/feature_map.py` maps every chimera column to a FAMILY. `src/narrate/state.py`
+`crypto/src/narrate/feature_map.py` maps every chimera column to a FAMILY. `crypto/src/narrate/state.py`
 computes a `FamilyRead` (direction, score, intensity_pctile, salient columns) per family.
 The families, in reading order:
 
@@ -103,14 +103,14 @@ percentiles are asset-relative, not cross-sectional unless the `cross_asset` fam
 
 ### Layer 2 -- Trained artifacts (`with_artifacts=True`)
 
-`src/narrate/artifacts.py` surfaces our own trained models (LightGBM boosters, etc.) as
+`crypto/src/narrate/artifacts.py` surfaces our own trained models (LightGBM boosters, etc.) as
 DESCRIPTIVE reads on the window. Each artifact produces a one-line characterization of what
 it sees. One bad model does not break the layer. Use this when you want our own in-sample
 pattern recognition layered on top of the chimera family read.
 
 ### Layer 3 -- MOMENT foundation model (`with_foundation=True`)
 
-`src/narrate/foundation.py` wraps the MOMENT-1 time-series foundation model (AutonLab / CMU,
+`crypto/src/narrate/foundation.py` wraps the MOMENT-1 time-series foundation model (AutonLab / CMU,
 arXiv:2402.03885). It adds:
 - **Anomaly percentile**: how unusual this period's return-structure is vs the asset's own history.
 - **Analog**: the historical window with the most similar MOMENT embedding -- "this period most
@@ -123,7 +123,7 @@ MOMENT is DESCRIPTIVE, not predictive. It characterizes structure, not direction
 
 ## The strategy-archetype master map
 
-`src/narrate/strategy_archetypes.py` (rendered: `docs/MARKET_STRATEGY_ARCHETYPES.md`) is the
+`crypto/src/narrate/strategy_archetypes.py` (rendered: `crypto/docs/MARKET_STRATEGY_ARCHETYPES.md`) is the
 canonical map of trading modes. The narration's `mode_hint` output names which mode the
 described state SUITS -- it does NOT select a strategy, it describes the CONDITIONS. The
 modes, ranked by fit to the project mandate:
@@ -195,17 +195,17 @@ Do NOT invoke `narrate` when the question is about sizing, lifecycle, or executi
 
 | File | Role |
 |---|---|
-| `src/narrate/__init__.py` | Package entry; exports `narrate`, `MarketNarration` |
-| `src/narrate/narrator.py` | Combined engine: `narrate()`, `MarketNarration`, `render_prose()` |
-| `src/narrate/feature_map.py` | Chimera family taxonomy; `FAMILIES`, `FEATURES`, `classify()`, `coverage_report()` |
-| `src/narrate/state.py` | `FamilyRead`, `compute_state()` -- the per-family scoring engine |
-| `src/narrate/strategy_archetypes.py` | Master archetype map; `ARCHETYPES`, `OUR_MANDATE`, `select_for()` |
-| `src/narrate/charts.py` | `narrate_across_charts()`, `CrossChartResult`, `CHART_PROFILES` |
-| `src/narrate/foundation.py` | MOMENT foundation-model layer (Layer 3) |
-| `src/narrate/artifacts.py` | Trained-artifact layer (Layer 2) |
-| `src/narrate/crypto_context.py` | Crypto-specific caveats surfaced per family |
-| `docs/MARKET_STRATEGY_ARCHETYPES.md` | Human-readable render of the archetype master map |
-| `docs/NARRATE_FOUNDATION.md` | Package overview + module map + usage |
+| `crypto/src/narrate/__init__.py` | Package entry; exports `narrate`, `MarketNarration` |
+| `crypto/src/narrate/narrator.py` | Combined engine: `narrate()`, `MarketNarration`, `render_prose()` |
+| `crypto/src/narrate/feature_map.py` | Chimera family taxonomy; `FAMILIES`, `FEATURES`, `classify()`, `coverage_report()` |
+| `crypto/src/narrate/state.py` | `FamilyRead`, `compute_state()` -- the per-family scoring engine |
+| `crypto/src/narrate/strategy_archetypes.py` | Master archetype map; `ARCHETYPES`, `OUR_MANDATE`, `select_for()` |
+| `crypto/src/narrate/charts.py` | `narrate_across_charts()`, `CrossChartResult`, `CHART_PROFILES` |
+| `crypto/src/narrate/foundation.py` | MOMENT foundation-model layer (Layer 3) |
+| `crypto/src/narrate/artifacts.py` | Trained-artifact layer (Layer 2) |
+| `crypto/src/narrate/crypto_context.py` | Crypto-specific caveats surfaced per family |
+| `crypto/docs/MARKET_STRATEGY_ARCHETYPES.md` | Human-readable render of the archetype master map |
+| `crypto/docs/NARRATE_FOUNDATION.md` | Package overview + module map + usage |
 
 ## Gotchas
 

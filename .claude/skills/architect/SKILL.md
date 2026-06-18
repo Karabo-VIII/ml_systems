@@ -15,11 +15,11 @@ read `settings.py` + `components.py` before designing.
 $ARGUMENTS
 
 ## Key files
-- `src/wm/v{N}/v{N}_training/components.py` — neural building blocks (TwoHot, TransformerEncoder, RSSM)
-- `src/wm/v{N}/v{N}_training/world_model.py` — assembly (forward_train, get_loss, encode_sequence, dream_step)
-- `src/wm/v{N}/v{N}_training/settings.py` — hyperparameters, dimensions, loss weights, feature lists
-- `src/wm/_shared/` — shared model components; `src/frontier_ml/v1_upgrades/` — V1 upgrade variants
-- `src/wm/v1/cross_ensemble.py` — V1.E heterogeneous ensemble (index-based feature routing)
+- `crypto/src/wm/v{N}/v{N}_training/components.py` — neural building blocks (TwoHot, TransformerEncoder, RSSM)
+- `crypto/src/wm/v{N}/v{N}_training/world_model.py` — assembly (forward_train, get_loss, encode_sequence, dream_step)
+- `crypto/src/wm/v{N}/v{N}_training/settings.py` — hyperparameters, dimensions, loss weights, feature lists
+- `crypto/src/wm/_shared/` — shared model components; `crypto/src/frontier_ml/v1_upgrades/` — V1 upgrade variants
+- `crypto/src/wm/v1/cross_ensemble.py` — V1.E heterogeneous ensemble (index-based feature routing)
 
 Active WM cohort = V1 only (v1.0/1.1/1.4/1.6). All share: RSSM categorical latent,
 TwoHot return prediction (255 bins), asset embeddings (32-dim, 10 assets), seq len 96.
@@ -80,7 +80,7 @@ SOTA patterns in `/orc` (composes with orc ## SOTA upgrades #8 AlphaEvolve and t
    plateaus (ShIC stalls, IC reversal, or two successive NULL compound-return rounds on UNSEEN), do NOT hill-climb
    the existing design. Generate K=3 divergent architectural hypotheses that differ on a FUNDAMENTAL assumption
    (information bottleneck mechanism / sequence context window / loss decomposition). Each hypothesis carries a
-   FALSIFIER (the one empirical result that would refute it). Score with the `src/strat` harness; keep the top
+   FALSIFIER (the one empirical result that would refute it). Score with the `crypto/src/strat` harness; keep the top
    survivor, not the most familiar choice.
 
 3. **Self-consistency for hardware-budget calculations — [P].** For any VRAM budget claim, batch-size derivation, or
@@ -89,6 +89,6 @@ SOTA patterns in `/orc` (composes with orc ## SOTA upgrades #8 AlphaEvolve and t
    estimate has caused silent OOM failures; two independent paths closing on the same number is the minimum bar.
 
 4. **Reflexion on architectural failures — [P].** After any architecture that fails training (NaN collapse,
-   ShIC=0, IC reversal, OOM), write one line to `memory/fix_logs/INDEX.md` under the version's Cross-Cutting
+   ShIC=0, IC reversal, OOM), write one line to `crypto/memory/fix_logs/INDEX.md` under the version's Cross-Cutting
    patterns: `[VN date] <root cause> → <change that would have prevented it>`. A failure that is not written
    forward is a failure that will be re-paid in the next version.

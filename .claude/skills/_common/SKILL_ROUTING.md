@@ -18,7 +18,7 @@
 ## How to route (the command)
 
 ```
-python scripts/autonomy/skill_route.py <skill> "<one-line objective>" "<verifiable success criteria>" \
+python crypto/scripts/autonomy/skill_route.py <skill> "<one-line objective>" "<verifiable success criteria>" \
     [--backend cli|ollama|cascade|mock] [--budget N] [--parallel 1] [--no-fill-window]
 ```
 
@@ -29,7 +29,7 @@ objective therefore decomposes DIFFERENTLY per skill:
 - **audit** -> adversarial red-team nodes (gradient-flow / leakage / invariant / cross-version / repro checks);
 - **trader** -> sizing / risk / execution / portfolio / sleeve-lifecycle nodes.
 
-Inspect the injected lens without running: `python scripts/autonomy/skill_route.py <skill> --show-lens`.
+Inspect the injected lens without running: `python crypto/scripts/autonomy/skill_route.py <skill> --show-lens`.
 
 ## What stays SHARED vs what changes
 
@@ -41,5 +41,5 @@ Inspect the injected lens without running: `python scripts/autonomy/skill_route.
 | learnings channel + replanner recovery      | the learnings `channel` (= the skill name, so lanes don't pool) |
 
 Provenance: 2026-06-08 -- the user asked for the same prompt to be decomposed/solved differently by auditor vs trader
-on a shared loop. Mechanism: `scripts/autonomy/skill_route.py`; RWYB: `scripts/autonomy/_test_skill_route.py`
+on a shared loop. Mechanism: `crypto/scripts/autonomy/skill_route.py`; RWYB: `crypto/scripts/autonomy/_test_skill_route.py`
 (deterministic lens-divergence + e2e routed run + empirical ollama decomposition-divergence, ALL PASS).

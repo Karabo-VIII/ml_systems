@@ -15,7 +15,7 @@ post-2024 literature claim** — do not reason from cached training data. Cite s
 > empirical claims in "Hard-won empirical findings" below were produced on the pre-2026-06-04
 > apparatus, which had two known defects: (1) maker-not-taker cost model (undercharging costs,
 > inflating profitability), and (2) a no-op DSR gate (the family-N deflation was silently
-> bypassed). Both are FIXED in the 2026-06-05 apparatus rebuild (`src/strat/`). Findings #4
+> bypassed). Both are FIXED in the 2026-06-05 apparatus rebuild (`crypto/src/strat/`). Findings #4
 > (funding kills futures), #5 (Donchian breakout = only profitable static strategy), and #6
 > (WM not harvestable) are **HYPOTHESES to re-test on the hardened apparatus**, not established
 > facts. Findings #1-3 (IC horizon generalization, RevIN memorization) are WM-internal and
@@ -56,7 +56,7 @@ $ARGUMENTS
 2. State the literature prediction and CITE it (arxiv link).
 3. Propose 3 mechanistic explanations for the divergence.
 4. Design the discriminating experiment.
-5. Add to `memory/fix_logs/INDEX.md` as a named Pattern.
+5. Add to `crypto/memory/fix_logs/INDEX.md` as a named Pattern.
 
 Empirics ALWAYS trump literature when properly measured. The researcher's job is to investigate WHY, not defend the paper.
 
@@ -77,7 +77,7 @@ defeated literature veins, single-pass adoption of a technique). Sourced from: V
 three-lane memory, self-consistency. **[M]** = mechanized; **[P]** = protocol you run.
 
 1. **Literature registry (Voyager skill-library applied to research) — [M].**
-   `runs/research/literature_registry.json` is the confirmed-citation store.
+   `crypto/runs/research/literature_registry.json` is the confirmed-citation store.
    - **Read-forward** at every research-session start: load all `confirmed` entries and seed your search
      from them before touching WebSearch. Never re-derive a paper already in the registry.
    - **Write-forward** after every citation that survives fan-out adversarial verify (below): append a new
@@ -95,7 +95,7 @@ three-lane memory, self-consistency. **[M]** = mechanized; **[P]** = protocol yo
    results that agree with the prior conversation).
 
 3. **Three-lane memory — [P].**
-   `memory/research/findings.md` has three lanes: **CONFIRMED**, **REFUTED**, **OPEN**.
+   `crypto/memory/research/findings.md` has three lanes: **CONFIRMED**, **REFUTED**, **OPEN**.
    - **Read first** at each research session start (after the registry) — the REFUTED lane stops you from
      re-entering a defeated vein (e.g. RevIN-seemed-supported, IC-as-primary-metric).
    - **Write-forward** every finding as it settles: CONFIRMED (cite registry key), REFUTED (why + do-not-

@@ -42,7 +42,7 @@ wearing a confident number.
 - Distributions / tails: fat-tail fits, EVT for crash/liquidation tails, why Gaussian Sharpe is optimistic.
 - Time-series: stationarity (ADF/KPSS), autocorrelation, Hurst, regime detection, VRP/option-pricing sanity.
 - Estimation under limited data: shrinkage (James-Stein), block-bootstrap distribution, subperiod windows,
-  regime pooling -- all in [`src/strat/data_expansion.py`](../../../src/strat/data_expansion.py) (makes
+  regime pooling -- all in [`src/strat/data_expansion.py`](../../../crypto/src/strat/data_expansion.py) (makes
   estimation ROBUST; does NOT manufacture signal -- never claim it does).
 
 ## Binding framings (CLAUDE.md / MEMORY.md)
@@ -50,9 +50,9 @@ wearing a confident number.
   banned as a primary metric (single-candle info is the wrong unit; we trade SETUPS across moves). IC h=1 is
   a within-WM diagnostic gate only.
 - **Robustness bar:** 10/10 seeds positive on UNSEEN, p05 > 0 (block-bootstrap), max DD < 30%.
-- The repo's grading is canonical in [`src/strat/scorecard.py`](../../../src/strat/scorecard.py) -- grade with
+- The repo's grading is canonical in [`src/strat/scorecard.py`](../../../crypto/src/strat/scorecard.py) -- grade with
   it, don't hand-roll. The two-sided gate (reject ghosts AND accept a planted positive control) lives in
-  [`src/strat/firewall.py`](../../../src/strat/firewall.py) + `positive_control.py`.
+  [`src/strat/firewall.py`](../../../crypto/src/strat/firewall.py) + `positive_control.py`.
 
 ## When to invoke
 | Situation | Why |

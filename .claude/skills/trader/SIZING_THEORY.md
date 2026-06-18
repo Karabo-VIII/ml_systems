@@ -16,7 +16,7 @@ Question: what fraction f of capital to allocate?
 
 `f* = (μ - c/h) / σ²`
 
-In `src/wealth_bot/bot/position_sizer.py` (`PositionSizer.size()`) per CLAUDE.md. (Post-2026-06-04-reset home; the archived `src/strategy/` path is dead.)
+In `crypto/src/wealth_bot/bot/position_sizer.py` (`PositionSizer.size()`) per CLAUDE.md. (Post-2026-06-04-reset home; the archived `src/strategy/` path is dead.)
 
 Assumptions:
 - Returns are i.i.d.

@@ -9,8 +9,8 @@
 
 ## A. The autonomous operating model (the "brain")
 1. ✅ **End-to-end autonomous workflows as a FRAMEWORK** (instances decide direction, act agentically, self-improve;
-   the Claude brain is fixed, the autonomy is in the LOOP around it). [U8/U9/U25/U26] → `docs/AUTONOMY_FRAMEWORK.md`,
-   `scripts/autonomy/metaop/` (real LangGraph), `/orc` skill.
+   the Claude brain is fixed, the autonomy is in the LOOP around it). [U8/U9/U25/U26] → `crypto/docs/AUTONOMY_FRAMEWORK.md`,
+   `crypto/scripts/autonomy/metaop/` (real LangGraph), `/orc` skill.
 2. ✅ **The 3 loops, always launched together** = 4 concurrent roles: orchestration (the overseer = YOU), the
    langgraph SOLUTIONING loop (does the work, runs long), the meta agent, the project-wide monitor/evolution.
    [U12/U22/U24/U41] → `/orc` SKILL.md, [[feedback-orc-4-roles-dont-self-execute]].
@@ -29,7 +29,7 @@
 9. ✅ **Per-minute gap-find-and-solve / correct-as-you-go**: as the loops work, fix weaknesses in the apparatus/brain
    the moment you find them (meta-authorized). [U12/U42] → the autonomous-mode hook, this session's correct-as-you-go.
 9a. ✅ **The 60s cycle is a HEALTH + STATE check, not just liveness** [2026-06-06]: the overseer's CONSTANT 60s job is
-    diagnostics → ACT/CORRECT/INTERVENE on gaps/breakages/slowness (`scripts/autonomy/loop_health.py` + CDAP +
+    diagnostics → ACT/CORRECT/INTERVENE on gaps/breakages/slowness (`crypto/scripts/autonomy/loop_health.py` + CDAP +
     `skill_diagnostics`) AND verify the loops are PRODUCTIVE (learning = lanes growing, writing to the RIGHT
     lanes/checkpoints, loop↔meta comms stable). Attended mode = the overseer IS the meta loop → READ the loops'
     learning lanes + WRITE the meta synthesis FORWARD to `meta.jsonl`. → `/orc` 60s HEALTH+STATE clause, `loop_health.py`,
@@ -42,20 +42,20 @@
     compound-not-IC, trader/institution mindset, crypto nature, archetype-fit, explore-all-dims) → a solution PATH
     possibly different+better than asked; NEVER declare 'impossible' without the anti-impossible rail (validate numbers
     + re-frame first). And REMEMBER the rolling state across compaction (CONSTRAINTs/CORRECTIONs/PIVOTs/OPEN_Qs). →
-    `scripts/autonomy/problem_framing.py` + `scripts/autonomy/rolling_ledger.py`, `/orc` FRAME-BROADLY clause,
+    `crypto/scripts/autonomy/problem_framing.py` + `crypto/scripts/autonomy/rolling_ledger.py`, `/orc` FRAME-BROADLY clause,
     [[feedback-frame-broadly-and-roll-memory]].
 9d. ✅ **BE RESOURCEFUL — decompose the IDEAL + reverse-engineer; don't collapse the framing or quit on one test**
     [2026-06-06]: LLMs force a rigid framing, prove it fails, give up; counter with spirit-first, enumerate-framings,
     constraint-as-enabler, and decompose-the-ideal (the best-achievable WITHIN constraints = the oracle; reverse-engineer
     toward it — e.g. best adaptive-MA-per-move IS the oracle, NOT per-candle). The **self-evolution loop reflects on
     COGNITION (how Claude fails), not just artifacts**, and EXTENDS the failure-mode registry. →
-    `scripts/autonomy/resourcefulness.py`, `/orc` BE-RESOURCEFUL clause, [[feedback-be-resourceful-decompose-the-ideal]].
+    `crypto/scripts/autonomy/resourcefulness.py`, `/orc` BE-RESOURCEFUL clause, [[feedback-be-resourceful-decompose-the-ideal]].
 9e. ✅ **END EVERY TURN WITH THE NEXT VALUE-ADDING ITEM** [2026-06-06]: close every turn by surfacing THE top
     value-adding next item (top of the EV-frontier: roadmap EV-rank + hypothesis_register open frontier + rolling OPEN_Qs
     + broad lenses like trading-mindset engines / crypto research) so the user steers without asking. One line "Next
     highest-value: …" + alternatives. NOT a stop. → `/orc` END-EVERY-TURN clause, [[feedback-end-turn-with-next-value-item]].
 10. ✅ **Self-evolution dedicated time** — across the life of the project, run a self-evolution/improvement cycle
-    (close gaps, push to SOTA, fold learnings). [U43] → `docs/SELF_EVOLUTION_LEDGER.md` (now continuous via loop-2 60s).
+    (close gaps, push to SOTA, fold learnings). [U43] → `crypto/docs/SELF_EVOLUTION_LEDGER.md` (now continuous via loop-2 60s).
 11. ✅ **Resumability** — survive interruptions / subscription limits / restarts; loops are durable + independent.
     [U6/U17/U18/U45] → `resume_all.py`, per-thread SqliteSaver checkpoints.
 12. ✅ **Lessons persist across objectives/threads** — "everything is part of the same project." [U34] → learnings lanes.
@@ -87,7 +87,7 @@
     itself** — instances skip gates / forget instructions / think narrowly / mis-align objectives. [U3] → the skill +
     directive gap audits (`SKILL_GAP_AUDIT.md`, `DIRECTIVE_GAP_AUDIT.md`), `skill_diagnostics.py`.
 23. ✅ **Reproducible + harmonious components** — know the weakpoints / chokeholds / contention; harmonize parallel
-    skills/instances. [U15] → `docs/SYSTEM_TOPOLOGY.md`.
+    skills/instances. [U15] → `crypto/docs/SYSTEM_TOPOLOGY.md`.
 24. ✅ **Verify before claiming / RWYB / no false victory**; trust-but-verify a 2nd voice on load-bearing calls. [U9] →
     RWYB everywhere, the de-biased judge upgrades.
 
@@ -109,15 +109,15 @@
     configs to the current regime; regime is NOT the anchor; capture moves dynamically; MA is just the instrument;
     explore ALL cadences/chart-types. [U37/U39] → the MA-oracle decomposition (closed at daily/4h; pivots to sub-bar).
 31. ✅ **Crypto is its OWN market** (24/7, perp funding, liquidation reflexivity, BTC-beta, fragmentation) — the engines
-    must encode this. [post-compaction] → `src/narrate/crypto_context.py`.
+    must encode this. [post-compaction] → `crypto/src/narrate/crypto_context.py`.
 32. ✅ **Strategy-archetype MASTER MAP** (scalp/HFT/intraday/swing/trend/mean-rev/breakout) — pick the right MODE; don't
-    repeat the per-candle mistake. [post-compaction] → `docs/MARKET_STRATEGY_ARCHETYPES.md`.
+    repeat the per-candle mistake. [post-compaction] → `crypto/docs/MARKET_STRATEGY_ARCHETYPES.md`.
 33. ✅ **Descriptive market-intelligence FOUNDATION** — engines per chart type that narrate the WHAT of (asset, period,
     chart); decompose ALL chimera; wire our trained artifacts + a downloaded non-crypto TS foundation model (MOMENT),
     validated against what we know; max coverage + explainer. The foundation BEFORE any strat. A skill paired with
-    `trader`. [U46] → `src/narrate/`, `/narrate` skill.
+    `trader`. [U46] → `crypto/src/narrate/`, `/narrate` skill.
 34. ✅ **Research the market case BEFORE strategies** (opportunity premise; don't find the edge yet). [U20] →
-    `docs/MARKET_RESEARCH_2026_06_05.md`.
+    `crypto/docs/MARKET_RESEARCH_2026_06_05.md`.
 35. ✅ **Market Wizards series** — distil lessons, fan out the stories, one PDF. [U43] → `deliverables/Market_Wizards_Distilled.pdf`.
 
 ## E. Open gaps to action (consolidated)

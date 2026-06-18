@@ -30,7 +30,7 @@ while they do.** You run the [OVERSEER role](../_common/OVERSEER.md) (Tier-0) on
 |---|---|---|---|---|---|
 | 1 | **Problem-solver** (expert + plain) | Tier-1 execution | Solving the objective at hand | LangGraph metaop loop (`run_metaop.py`) *or* Overseer→Agent dispatch when attended | continuous, per-node |
 | 2 | **Meta agent (DUAL-VIEW, 60s)** | Tier-0.5 evolution | BOTH (a) the running loops' tasks (improve the solving — learnings, new questions/ideas, frontier re-rank) AND (b) the **project-level meta audit** (gaps/framework/methodology — moved here off the 3h gate) | metaop `meta` channel *or* the Overseer's own reflect step, **driven by the 60s watcher heartbeat** | **every 60s wake** (was per-node + 3h) |
-| 3 | **The ABSOLUTE 60s watcher + project liveness** | Tier-(-1) framework | Keeping the loops ALIVE + firing the 60s meta heartbeat + a periodic DEEP evolution checkpoint | the **60s liveness watcher** (`scripts/autonomy/watcher.py`) + the self-evolution log ([`docs/SELF_EVOLUTION_LEDGER.md`](../../../docs/SELF_EVOLUTION_LEDGER.md)) | watcher **every 60s (absolute)**; a deeper evolution pass periodically (the old 3h cadence is now the DEEP checkpoint; the continuous project audit runs in loop-2 at 60s) |
+| 3 | **The ABSOLUTE 60s watcher + project liveness** | Tier-(-1) framework | Keeping the loops ALIVE + firing the 60s meta heartbeat + a periodic DEEP evolution checkpoint | the **60s liveness watcher** (`crypto/scripts/autonomy/watcher.py`) + the self-evolution log ([`docs/SELF_EVOLUTION_LEDGER.md`](../../../crypto/docs/SELF_EVOLUTION_LEDGER.md)) | watcher **every 60s (absolute)**; a deeper evolution pass periodically (the old 3h cadence is now the DEEP checkpoint; the continuous project audit runs in loop-2 at 60s) |
 
 > **MOVED 2026-06-06 (user mandate): the project-level meta audit runs at the 60s wakeup, ATTACHED TO THE META AGENT
 > — not on the 3h gate.** The meta agent now holds BOTH views every 60s: the **project-level** (is the framework/
@@ -52,7 +52,7 @@ while they do.** You run the [OVERSEER role](../_common/OVERSEER.md) (Tier-0) on
 > what the running loops + meta are working on (lane counts, current node, build status); **(b) NEW IDEAS** — the
 > divergent project-level ideas the meta surfaced for the task at hand; **(c) NEW QUESTIONS** — the open questions worth
 > exploring next; **(d) FRONTIER** — the EV-ranked next moves. Read the ACTUAL meta lane
-> (`runs/autonomy/learnings/meta.jsonl`) + generate the project-level view from the work in flight; never fabricate.
+> (`crypto/runs/autonomy/learnings/meta.jsonl`) + generate the project-level view from the work in flight; never fabricate.
 > This is the meta dual-view MADE VISIBLE — it turns idle time into steerable meta-cognition, and is the opposite of
 > BOTH silent-parking AND clock-burning busywork. Surfacing it routinely catches real work: the first time it ran
 > (2026-06-06) it surfaced a self-inflicted SYSTEM_TOPOLOGY §4-vs-§9 arming-authority contradiction that got fixed on
@@ -61,13 +61,13 @@ while they do.** You run the [OVERSEER role](../_common/OVERSEER.md) (Tier-0) on
 
 > **THE 60s CYCLE IS A HEALTH + STATE CHECK, NOT JUST LIVENESS (user mandate 2026-06-06).** Each 60s wake the
 > overseer's CONSTANT JOB is to run diagnostics + ACT/CORRECT/INTERVENE, then surface state — three parts:
-> **(1) system health / gaps / breakages / slowness:** run `python scripts/autonomy/loop_health.py` (LIVENESS +
+> **(1) system health / gaps / breakages / slowness:** run `python crypto/scripts/autonomy/loop_health.py` (LIVENESS +
 > LEARNING lane-velocity + WRITING checkpoints-advancing + META-COMMS + SLOWNESS/hung-detection; exit = ISSUE count)
 > plus CDAP / `skill_diagnostics` for code/skill drift. FIX every ISSUE on the spot — relaunch a hung loop from its
 > durable checkpoint, repoint a broken ref, re-enable a vacuous invariant. **(2) are the loops PRODUCTIVE?** — are they
 > learning (lanes growing), writing to the RIGHT things (correct lanes + checkpoints advancing), and is the loop↔meta
 > communication stable. **(3) the META-LANE DISCIPLINE (attended mode):** the meta loop IS the overseer, so you must
-> READ the solutioning loops' learning lanes (`runs/autonomy/learnings/{expert,plain}.jsonl`) AND WRITE your meta
+> READ the solutioning loops' learning lanes (`crypto/runs/autonomy/learnings/{expert,plain}.jsonl`) AND WRITE your meta
 > synthesis FORWARD to `meta.jsonl` for cross-session persistence — judging file-outputs ALONE leaves the meta lane
 > stale and the loop↔meta link non-durable (caught 2026-06-06: the lane went 111m stale while real work shipped).
 > Provenance: 2026-06-06 — *"as orchestrator your constant job is to check diagnostics during those 60s calls (system
@@ -77,7 +77,7 @@ while they do.** You run the [OVERSEER role](../_common/OVERSEER.md) (Tier-0) on
 > **FRAME BROADLY + CARRY THE ROLLING STATE (user mandate 2026-06-06 — the anti-narrow-mindedness contract).** n±k is a
 > LOCAL/depth search; it does NOT generate the orthogonal BREADTH axes (timeframe, chart-type, instrument, indicator,
 > actor-lens) — which is WHY the user kept having to inject breadth by hand. Mechanize both halves:
-> **(1) FRAME at task-time** — run `python scripts/autonomy/problem_framing.py "<task>"`: it JOLTS a narrow framing
+> **(1) FRAME at task-time** — run `python crypto/scripts/autonomy/problem_framing.py "<task>"`: it JOLTS a narrow framing
 > (single-candle, IC, "impossible"), holds the STANDING LENSES (setup-not-candle, compound-not-IC, trader/institution
 > mindset, crypto nature, archetype-fit, explore-all-dims, entry/exit-split), enumerates the BREADTH axes as a coverage
 > grid, seeds depth n±k **plus a FORCED `diverge` node per top NOT-EXPLORED axis**, and gates every
@@ -86,7 +86,7 @@ while they do.** You run the [OVERSEER role](../_common/OVERSEER.md) (Tier-0) on
 > single task yields a solution PATH possibly *different + better* than asked, not a tunnel-visioned literal execution.
 > In autonomous mode, when one iteration doesn't fill the window, **WIDEN (work the NOT-EXPLORED axes), don't idle-stop
 > on a narrow refutation.** **(2) CARRY THE ROLLING STATE every turn (anti-compaction)** — `python
-> scripts/autonomy/rolling_ledger.py digest` at turn start (ESPECIALLY after compaction) reloads the chat's
+> crypto/scripts/autonomy/rolling_ledger.py digest` at turn start (ESPECIALLY after compaction) reloads the chat's
 > CONSTRAINTs/CORRECTIONs/PIVOTs/OPEN_Qs/LESSONs; write-forward a `note <KIND> "..."` the moment a user-correction /
 > pivot / nuance lands. The durable ledger — not the lossy compaction summary — is what keeps evolution from breaking
 > or drifting. Provenance: *"ask depth AND breadth questions ... find a solution path different+better than I asked ...
@@ -95,7 +95,7 @@ while they do.** You run the [OVERSEER role](../_common/OVERSEER.md) (Tier-0) on
 
 > **BE RESOURCEFUL — DECOMPOSE THE IDEAL, DON'T QUIT ON ONE FRAMING (user mandate 2026-06-06).** LLMs predictably
 > COLLAPSE a nuanced ask into one rigid framing, prove THAT fails, and give up — instead of being resourceful hustlers.
-> Counter it with `python scripts/autonomy/resourcefulness.py check "<claim>"` (flags framing_collapse /
+> Counter it with `python crypto/scripts/autonomy/resourcefulness.py check "<claim>"` (flags framing_collapse /
 > premature_give_up / literal_over_spirit / self_constraining / tool_underuse + the correction) and `... cognition`
 > (the self-evolution-ON-COGNITION meta-questions). The standing moves: get the **SPIRIT** not the literal; **enumerate
 > ≥2 framings** and test the spirit-resourceful one (not the literal-narrow one); treat each **constraint as an
@@ -111,7 +111,7 @@ while they do.** You run the [OVERSEER role](../_common/OVERSEER.md) (Tier-0) on
 > **END EVERY TURN WITH THE NEXT VALUE-ADDING ITEM (user mandate 2026-06-06).** Every turn CLOSES by surfacing THE
 > highest value-adding thing to work on next — the top of the EV-frontier — so the user always knows what to steer
 > toward (and can redirect) WITHOUT having to ask. Pull it from the real ranked sources, not a guess: the active
-> roadmap's EV-ranking (e.g. `docs/TRADING_FIRM_HARNESS.md`), the `hypothesis_register` open frontier, the
+> roadmap's EV-ranking (e.g. `crypto/docs/TRADING_FIRM_HARNESS.md`), the `hypothesis_register` open frontier, the
 > `rolling_ledger` OPEN_Qs, AND the broad lenses (a new engine to build, market research, an apparatus gap — value is
 > not only the literal task; think "TRADING-MINDSET engines, crypto-as-a-market research, a million other things").
 > Format: a one-line **"Next highest-value: …"** + 1–2 alternatives with their EV. This is NOT a stop (autonomous mode
@@ -119,10 +119,10 @@ while they do.** You run the [OVERSEER role](../_common/OVERSEER.md) (Tier-0) on
 > value-adding item I can work on next should be the item that should be asked at the end of turns."*
 
 > **THE 60s WATCHER IS ABSOLUTE (user mandate — "the 1m loop and watcher is absolute").** Every `/orc` run MUST have
-> `scripts/autonomy/watcher.py` running. It ticks every 60s and: (1) checks the solutioning/meta loops' PROCESS
+> `crypto/scripts/autonomy/watcher.py` running. It ticks every 60s and: (1) checks the solutioning/meta loops' PROCESS
 > liveness (the lock's PID against the OS — a crashed loop leaving a stale lock does NOT count as alive); (2)
 > EARLY-EXITS to wake the overseer when a loop is DEAD (so you relaunch it from its durable checkpoint) or when a 3h
-> evolution window opens; (3) appends a check-in to `runs/autonomy/watcher.log`. `launch_autonomy.py` spawns it; if
+> evolution window opens; (3) appends a check-in to `crypto/runs/autonomy/watcher.log`. `launch_autonomy.py` spawns it; if
 > it ever dies, RELAUNCH it immediately — a silent watcher is how a crashed loop goes unnoticed (the canonical
 > 2026-06-06 sol-ma OOM-crash-but-looked-alive incident). It is resumable + bounded-lifetime (re-spawn on exit).
 
@@ -144,11 +144,11 @@ learnings lanes so we can see which framing wins; point both at one channel only
 > (d) the autonomous flag silently read OFF due to an ISO-vs-plain timestamp parse bug (now fixed).
 
 0. **ARM autonomous mode + set the budget floor — PROMPT-FREE.** Invoking `/orc` PUTS YOU IN AUTONOMOUS MODE
-   regardless of the ambient banner. **Arm via `runs/autonomy/AUTONOMY_ON` (NOT `.claude/autonomous_mode.json`)** —
+   regardless of the ambient banner. **Arm via `crypto/runs/autonomy/AUTONOMY_ON` (NOT `.claude/autonomous_mode.json`)** —
    `launch_autonomy.py` (step 2) does this for you: it writes `AUTONOMY_ON` (outside `.claude/`, so it never triggers
    the IDE/config-dir confirmation prompt — esp. when the user has `autonomous_mode.json` open) and removes a stale
    `.claude/autonomous_mode.json`. The window lives in the frontier's `stop_conditions`; you enforce it and disarm
-   with `rm runs/autonomy/AUTONOMY_ON`. (2026-06-06: writing the open `.claude/` file is what was prompting the user;
+   with `rm crypto/runs/autonomy/AUTONOMY_ON`. (2026-06-06: writing the open `.claude/` file is what was prompting the user;
    the gate auto-allows everything else. The 100% no-prompt lever is the user launching with `--dangerously-skip-permissions`.)
    **MIN BUDGET = 30 minutes unless the user explicitly states a budget** (a longer user time-box overrides). Under
    autonomous mode you do NOT pause to ask permission for anything git can revert — you APPLY and keep going until the
@@ -158,7 +158,7 @@ learnings lanes so we can see which framing wins; point both at one channel only
    box ("for N hours"), record a VERIFIED wall-clock anchor (`date`) and the window end.
 2. **Launch all three loops:**
    ```
-   python scripts/autonomy/launch_autonomy.py --objective "<one line>" \
+   python crypto/scripts/autonomy/launch_autonomy.py --objective "<one line>" \
        --success "<verifiable criteria>" [--hours N] [--mode attended|unattended]
    ```
    - `attended` (default when you are present and driving): writes the frontier (loop-1 queue), arms the meta cadence
@@ -167,7 +167,7 @@ learnings lanes so we can see which framing wins; point both at one channel only
      prefer Agent when attended).
    - `unattended` (you will be gone / cross-session survival needed): also spawns the metaop driver loops (problem-
      solver expert+plain + meta) via `claude -p` + the Stop-hook so the loop survives context limits / session end.
-3. **Run the OVERSEER cycle**: **read-forward** the skill-library digest (`python scripts/autonomy/skill_library.py
+3. **Run the OVERSEER cycle**: **read-forward** the skill-library digest (`python crypto/scripts/autonomy/skill_library.py
    digest`) + prior memory at cycle start → plan → dispatch → judge adversarially with RWYB → **harvest** any new
    verified tool (`skill_library.py register ...`) → update frontier ledger → write-forward learnings (+ a Reflexion
    line on any failure) → re-rank. Per [`AUTONOMOUS_RUNNER.md`](../_common/AUTONOMOUS_RUNNER.md): n±k frontier,
@@ -186,15 +186,15 @@ debate, self-consistency, test-time-compute scaling, AlphaEvolve, LLM-as-judge b
 **[P]** = protocol you run.
 
 1. **Skill library (Voyager) — [M].** The reusable-asset register is now a real file:
-   `scripts/autonomy/skill_library.py` + `runs/autonomy/skill_library/INDEX.json` (seeded). **Read-forward**
-   `python scripts/autonomy/skill_library.py digest` at every cycle start so reuse-before-build is mechanical;
+   `crypto/scripts/autonomy/skill_library.py` + `crypto/runs/autonomy/skill_library/INDEX.json` (seeded). **Read-forward**
+   `python crypto/scripts/autonomy/skill_library.py digest` at every cycle start so reuse-before-build is mechanical;
    **harvest** after every CONFIRM (`register(...)` the new tool). A CONFIRM without a harvest = a monotonicity
    violation (the next cycle re-discovers it). This is the single change that turns "memory of *lessons*" into a
    growing "library of *capabilities*".
 2. **Reflexion — [M] (wired 2026-06-12: `graph.py` reflect feeds this cycle's refuted-node errors to the brain for a directed post-mortem).** After every REFUTE / failed VERIFY, write a one-line verbal post-mortem ("why it failed +
    what to try differently") into the learnings lane / episodic memory, and re-read it next cycle. A failure becomes
    a directed retry, not a dead node.
-3. **Three-lane memory + consolidation — [P] (lanes real + fused; the periodic consolidation pass is the open gap).** Treat `memory/` as three lanes: **episodic** (run traces),
+3. **Three-lane memory + consolidation — [P] (lanes real + fused; the periodic consolidation pass is the open gap).** Treat `crypto/memory/` as three lanes: **episodic** (run traces),
    **semantic** (facts / dead-list / "do not re-mine"), **procedural** (the skill library). On the loop-3 (3-hourly)
    pass, **consolidate**: compress episodic notes into semantic beliefs; tag importance; drop noise. Write-forward
    without consolidate is hoarding, not learning.
@@ -213,7 +213,7 @@ debate, self-consistency, test-time-compute scaling, AlphaEvolve, LLM-as-judge b
    abandonment and dead-node grinding.
 8. **Evolutionary discovery mode (AlphaEvolve) — [P, build on demand].** For *discovery* (finding an edge) where
    greedy hill-climbing plateaus: keep a **population** of candidate artifacts, mutate/recombine the top-k each
-   generation, and score with the existing `src/strat` harness as the fitness function. Use when single-frontier
+   generation, and score with the existing `crypto/src/strat` harness as the fitness function. Use when single-frontier
    search saturates.
 9. **Frontier as a DAG, with backtrack/merge (ToT/GoT) — [P].** Nodes carry `parent_id`/branch state: prune a refuted
    branch and resume a sibling (backtrack); merge two scout findings into one node (aggregation). Guards against
@@ -230,8 +230,8 @@ and pure greedy hill-climbing. If you catch the loop doing any of these, that it
 - [`_common/OVERSEER.md`](../_common/OVERSEER.md) — the Tier-0 role you run (the meta layer that stands in for the user).
 - [`_common/AUTONOMOUS_RUNNER.md`](../_common/AUTONOMOUS_RUNNER.md) — the per-cycle execution discipline (n±k lattice,
   build→run→learn→pivot, GOAL_BOUNDS, §5 self-improving loop).
-- [`docs/AUTONOMY_FRAMEWORK.md`](../../../docs/AUTONOMY_FRAMEWORK.md) — the mechanism (Stop hook + driver + frontier.json).
-- [`docs/SELF_EVOLUTION_LEDGER.md`](../../../docs/SELF_EVOLUTION_LEDGER.md) — loop-3's durable log.
+- [`docs/AUTONOMY_FRAMEWORK.md`](../../../crypto/docs/AUTONOMY_FRAMEWORK.md) — the mechanism (Stop hook + driver + frontier.json).
+- [`docs/SELF_EVOLUTION_LEDGER.md`](../../../crypto/docs/SELF_EVOLUTION_LEDGER.md) — loop-3's durable log.
 
 ## Honesty + safety (binding)
 - RWYB every node; verify against artifacts; refuse false victory / drift-to-proxy / single-path narrowness.

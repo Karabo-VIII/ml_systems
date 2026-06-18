@@ -63,7 +63,7 @@ seeing the first verdict; require agreement before VERIFIED. Always flag same-mo
 self-preference as a known limit (LLM-as-judge bias).
 
 **Reflexion gotcha.** On any false-PASS discovered post-hoc, write a one-line note to
-`memory/` naming the missed falsifier so the next instance does not repeat it.
+`crypto/memory/` naming the missed falsifier so the next instance does not repeat it.
 
 For high-stakes promotion/deploy claims, escalate to `/decide` (3-position debate).
 For full adversarial code review, escalate to `/audit`.

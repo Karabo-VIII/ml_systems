@@ -3,7 +3,7 @@
 When the user types `/<token>`, resolve it to one of the **13 curated skills**.
 `.claude/skills/` holds **14 directories** — the 13 invokable skills (each has a `SKILL.md`)
 plus the `_common/` shared-resources dir (not invokable).
-Matcher primitive: `python scripts/fuzzy_slash_match.py <token>`.
+Matcher primitive: `python crypto/scripts/fuzzy_slash_match.py <token>`.
 
 ## The 14 skills
 

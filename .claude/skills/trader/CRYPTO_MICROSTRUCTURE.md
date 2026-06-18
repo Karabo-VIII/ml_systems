@@ -11,7 +11,7 @@ Empirical for Binance USDT-perps:
 - p95 funding: 0.05% / 8h = ~0.15% / day = ~55% annualized.
 - p99 funding events: 0.5%+ / 8h (squeeze events, post-news pumps).
 
-**Why PERP is DEFERRED in this project**: 0.01% / 8h = ~3.6% / month funding cost alone exceeds typical model IC ≈ 0.03 edge. 0 of 1304 strategy configs profitable after funding. See `docs/futures_strategy_considerations.md`.
+**Why PERP is DEFERRED in this project**: 0.01% / 8h = ~3.6% / month funding cost alone exceeds typical model IC ≈ 0.03 edge. 0 of 1304 strategy configs profitable after funding. See `crypto/docs/futures_strategy_considerations.md`.
 
 When could PERP be reconsidered:
 - IC > 0.10 (Headline tier in the ARCHIVED WM ladder; IC is BANNED as a primary metric post-reset, kept as historical context). Then funding is small relative to edge.

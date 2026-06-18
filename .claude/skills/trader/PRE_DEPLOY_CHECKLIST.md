@@ -4,7 +4,7 @@
 >
 > **Authority**: Project empirics first. Every item below has provenance from a real failure already shipped in this codebase.
 >
-> **Enforcement**: items marked `[CDAP]` are checked by `src/audit/check_deploy_gates.py` against `config/_invariants.yaml::trader_deploy_gates`. Commit exits 2 on any CRITICAL violation. Items marked `[CLAIM]` are required fields in the deploy claim block emitted to `runs/deploy/<sleeve_id>/deploy_claim.json`.
+> **Enforcement**: items marked `[CDAP]` are checked by `crypto/src/audit/check_deploy_gates.py` against `crypto/config/_invariants.yaml::trader_deploy_gates`. Commit exits 2 on any CRITICAL violation. Items marked `[CLAIM]` are required fields in the deploy claim block emitted to `crypto/runs/deploy/<sleeve_id>/deploy_claim.json`.
 
 ## How to use
 
@@ -42,13 +42,13 @@
 
 - Deploy claim declares `p_fill_live_budget ∈ [0.25, 0.50]` and confirms sizing math used the lower bound.
 - Expected live equity is documented as 50-75% of fixed-backtest equity.
-- Provenance: empirical OHLC replay 2026-04-22 (`src/analysis/execution_sim.py`) — actual p_fill 0.21-0.40 across buckets. MakerCostModel default 0.80 is optimistic.
+- Provenance: empirical OHLC replay 2026-04-22 (`crypto/src/analysis/execution_sim.py`) — actual p_fill 0.21-0.40 across buckets. MakerCostModel default 0.80 is optimistic.
 
 ## Item 6 — Claim contract v1.2 passes [CDAP]
 
-- Deploy claim emits `ship_claim` block via `build_ship_claim_block(...)` in `src/wealth_bot/framework/claim_contract.py`.
+- Deploy claim emits `ship_claim` block via `build_ship_claim_block(...)` in `crypto/src/wealth_bot/framework/claim_contract.py`.
 - All v1.2 required fields present, `passes_strict_gate == True`, `phase1_n_eff_gate.passes == True`.
-- `python src/audit/check_wealth_bot_claims.py <claim_json>` exits 0.
+- `python crypto/src/audit/check_wealth_bot_claims.py <claim_json>` exits 0.
 - Provenance: 2026-05-25 INST-A P4_route_basis_pos_only ship-claimed with FALSE mechanism. Contract is the trust-stack layer.
 
 ## Item 7 — Mechanism falsifier verified [CLAIM]
@@ -77,7 +77,7 @@
 
 - If the sleeve was selected from a sweep of N > 20 configurations, `deflated_sharpe.DSR_p_value > 0.95` AND `cscv_pbo_pct < 0.50`.
 - Deploy claim cites the sweep size N and reports both numbers.
-- Provenance: post-2026-06-04-reset, DSR/Holm is a **caller-supplied contract** in `src/strat/battery.py` (no standalone `deflated_sharpe.py`; the archived `src/strategy/` path is dead). Math per Bailey-Lopez de Prado 2014, Bailey-Borwein-Lopez de Prado 2017.
+- Provenance: post-2026-06-04-reset, DSR/Holm is a **caller-supplied contract** in `crypto/src/strat/battery.py` (no standalone `deflated_sharpe.py`; the archived `src/strategy/` path is dead). Math per Bailey-Lopez de Prado 2014, Bailey-Borwein-Lopez de Prado 2017.
 
 ## Item 12 — Universe survivorship declared [CLAIM]
 
@@ -92,7 +92,7 @@
 
 ## Item 14 — Decay monitor configured
 
-- `RiskController.decay_monitor` is wired and writes to `runs/paper_trade/<sleeve_id>_decay_status.json` every bar.
+- `RiskController.decay_monitor` is wired and writes to `crypto/runs/paper_trade/<sleeve_id>_decay_status.json` every bar.
 - Halt thresholds declared: `IC_halflife_bars`, `consecutive_DD_days`.
 - Provenance: H18 paper-trade is the first live decay-monitor ground-truth. Deploy commit fd0a870 + 4ba027b.
 
@@ -140,7 +140,7 @@
 
 ## CDAP wiring
 
-Items 1, 2, 3, 4, 6, 9, 10, 11 = `[CDAP]` — added to `config/_invariants.yaml::trader_deploy_gates` (rule names below) and validated by `src/audit/check_deploy_gates.py`. The deploy commit is identified by file-path pattern `runs/deploy/*/deploy_claim.json` OR a `config/sleeves/*.yaml` flag change from paper -> live_*.
+Items 1, 2, 3, 4, 6, 9, 10, 11 = `[CDAP]` — added to `crypto/config/_invariants.yaml::trader_deploy_gates` (rule names below) and validated by `crypto/src/audit/check_deploy_gates.py`. The deploy commit is identified by file-path pattern `crypto/runs/deploy/*/deploy_claim.json` OR a `crypto/config/sleeves/*.yaml` flag change from paper -> live_*.
 
 | Item | Rule name in _invariants.yaml |
 |---|---|

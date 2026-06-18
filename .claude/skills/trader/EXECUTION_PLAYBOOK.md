@@ -15,7 +15,7 @@
 | Iceberg | varies | high | NOT USED — sleeve notional too small to need it |
 | Stop-market | 10 + slippage | ~100% | NOT USED — H23 refuted trail-stop pattern |
 
-Default for this project: **limit maker for entries, market taker for exits** (asymmetric). Provenance: maker fills are dip-biased winners (adverse selection ~0.3 per `config/maker_cost_calibration.yaml`); exits prioritize certainty over price.
+Default for this project: **limit maker for entries, market taker for exits** (asymmetric). Provenance: maker fills are dip-biased winners (adverse selection ~0.3 per `crypto/config/maker_cost_calibration.yaml`); exits prioritize certainty over price.
 
 ---
 
@@ -37,7 +37,7 @@ Per bucket of (asset_tier, order_type, distance_from_mid):
 
 **Critical**: backtests using MakerCostModel default `p_fill = 0.80` are 2-4x too optimistic. Real live equity expected at 50-75% of fixed-backtest equity (per CLAUDE.md MakerCostModel Invariants).
 
-Budget for `p_fill_live ∈ [0.25, 0.50]` in sizing math. Source: `src/analysis/execution_sim.py` 2026-04-22 calibration.
+Budget for `p_fill_live ∈ [0.25, 0.50]` in sizing math. Source: `crypto/src/analysis/execution_sim.py` 2026-04-22 calibration.
 
 ---
 
@@ -136,7 +136,7 @@ If portfolio grows past $50K AUM, consider:
 3. Verify API rate limit headroom (orders/sec remaining > 1).
 4. Place order with computed slice.
 5. Set timeout on each child.
-6. Log to `runs/execution/<sleeve_id>_orders.jsonl`.
+6. Log to `crypto/runs/execution/<sleeve_id>_orders.jsonl`.
 7. On fill (partial or full), update position in `RiskController`.
 8. If timeout reached on > 50% un-filled, escalate per slicer strategy.
 9. Reconcile end-of-bar: exchange position == internal position. Halt sleeve if mismatch.
@@ -152,7 +152,7 @@ Every 5 minutes:
 
 Every end-of-day:
 - Pull execution-quality stats from exchange (filled vs cancelled, average distance from mid, slippage).
-- Write to `runs/execution/<sleeve_id>_daily_<utc>.json`.
+- Write to `crypto/runs/execution/<sleeve_id>_daily_<utc>.json`.
 - Update p_fill calibration if 30+ days of data collected.
 
 ---

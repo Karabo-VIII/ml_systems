@@ -88,7 +88,7 @@ If three cycles in a row only move low-value nodes → you are over-mining; pivo
 
 - Self-summon a second opinion (`decide`) at ~25/50/75% of budget, on a posterior plateau,
   or on whiplash (a pivot that reverses a prior conclusion).
-- Capture durable findings to `docs/` + memory BEFORE context risk — not only at the end.
+- Capture durable findings to `crypto/docs/` + memory BEFORE context risk — not only at the end.
 
 ## 5. Self-improving loop — experience compounds across cycles AND sessions
 

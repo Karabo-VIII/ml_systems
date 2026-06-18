@@ -19,12 +19,12 @@ no academic answers. Work serially; cite file:line.
 > were **NOT carried over** — use the rebuilt `discover.py` / `firewall.py` / `candidate_gate.py` /
 > `positive_control.py` path, and re-port a discriminator from the archive only if a stage genuinely needs it.
 > A 3-skill consensus (oracle+auditor+validator, see
-> [`docs/FOUNDATION_2026_06_04.md`](../../../docs/FOUNDATION_2026_06_04.md) §11) placed the
+> [`docs/FOUNDATION_2026_06_04.md`](../../../crypto/docs/FOUNDATION_2026_06_04.md) §11) placed the
 > per-asset-CELL methodology below **UNDER REVIEW**: it is UNPROVEN (not refuted), and prior
 > negatives are suspect because the apparatus was broken (maker-not-taker cost + no-op DSR gate are now FIXED in
 > the rebuild; `load_panel` sub-daily→daily still to verify → prior false-negatives still possible). **Before
 > trusting any archived "dead"/"survivor" verdict, re-run it on the hardened apparatus** per
-> [`docs/APPARATUS_LOCKDOWN_SPEC_2026_06_04.md`](../../../docs/APPARATUS_LOCKDOWN_SPEC_2026_06_04.md)
+> [`docs/APPARATUS_LOCKDOWN_SPEC_2026_06_04.md`](../../../crypto/docs/APPARATUS_LOCKDOWN_SPEC_2026_06_04.md)
 > (taker baseline + maker sensitivity, working family-N/DSR gate, cost-matched random-ENTRY null,
 > bear-inclusive holdout) — treat each as a hypothesis to RE-TEST, not a fact. Whether the unit stays
 > per-asset (Fork B) or shifts to cross-section + regime-gate (Fork A) is a pending USER decision.
@@ -51,13 +51,13 @@ own closed problem space; results do NOT transfer (PEPE-non-replication is the p
 Before writing a single probe, run the narrate engine on the target asset and cadence:
 
 ```
-PYTHONPATH=src python -m narrate --asset <SYM> --cadence <CADENCE> --json
+python -m narrate --asset <SYM> --cadence <CADENCE> --json
 ```
 
 Or invoke the `/narrate` skill. Read the `mode_hint.suited_modes` field. It tells you
 which strategy archetype (swing / breakout / mean_reversion / intraday_momentum) the
 CURRENT market state suits, based on trend score, vol regime, and the master-archetype
-map (`src/narrate/strategy_archetypes.py`). Use this to seed the discrimination search
+map (`crypto/src/narrate/strategy_archetypes.py`). Use this to seed the discrimination search
 with mode-appropriate exo conditioners, not a blind sweep.
 
 Two constraints the narrate step enforces:
@@ -86,7 +86,7 @@ entry DISCRIMINATION, not detection or exits. **Resolution is a first-class axis
 return, describe by LOOK-BACK-only exo features, require the Q5–Q1 spread same-sign across
 all 4 windows AND beating its own within-window shuffle-null p95 (n_perm≥200). Tool:
 `python -m strat.discover discriminate --asset <SYM> --cadence <CADENCE>` (uses the rebuilt
-[`src/strat/discover.py`](../../../src/strat/discover.py) discrimination mode). The old
+[`src/strat/discover.py`](../../../crypto/src/strat/discover.py) discrimination mode). The old
 `event_study_discriminator.py` and `discriminator_null_calib.py` were NOT carried over in
 the reset; if a stage genuinely requires them, re-port from the archive.
 **Honesty:** ~146 feats/asset → ~7 p95-beats expected BY CHANCE. The signal is asset-level
@@ -95,13 +95,13 @@ COUNT ENRICHMENT, not individual per-feature beats.
 **3 — Harvestability proof.** The conditioner must convert to money as a GATE on a slow
 structural signal via the audited `CanonicalHarness`, swept across clocks. Tools:
 `python -m strat.discover scan --cadence dollar --filter-panel extended` (rebuilt
-[`src/strat/discover.py`](../../../src/strat/discover.py) scan mode) +
-[`src/strat/candidate_gate.py`](../../../src/strat/candidate_gate.py) (evaluate_candidate).
+[`src/strat/discover.py`](../../../crypto/src/strat/discover.py) scan mode) +
+[`src/strat/candidate_gate.py`](../../../crypto/src/strat/candidate_gate.py) (evaluate_candidate).
 The old `u100_specialist_scan.py` and `dollar_ladder.py` were NOT carried over in the reset;
 if a stage genuinely requires them, re-port from the archive.
 If nothing harvests → discrimination real but untradeable; record and stop.
 
-**4 — Robustness battery = the SHIP gate.** Import [`src/strat/battery.py`](../../../src/strat/battery.py)
+**4 — Robustness battery = the SHIP gate.** Import [`src/strat/battery.py`](../../../crypto/src/strat/battery.py)
 — do NOT re-derive these. `battery.evaluate(unseen_returns, comps, unseen_maxdd, entry_pnl_pairs)`
 returns the Lens A/B/C verdict. All must pass on UNSEEN (touched once, no re-selection):
 jackknife **K=2 AND K=3 both > 0** (K=3 is the overfit cap), bootstrap p05 > 0, maxDD < 30%,
@@ -160,23 +160,23 @@ ML is NOT an alpha source at daily/dollar-bar resolution (info-content ceiling; 
 whether to ACT on an already-discriminated entry), multi-seed (≥10), UNSEEN-only honest,
 must improve precision net of cost WITHOUT collapsing trade count. Portfolio SIZING becomes
 viable only after §5 (n_eff high enough to size). Reject ML as standalone signal / sizer on
-a thin asset / ensemble member. Full rationale: [`docs/FOUNDATION_2026_06_04.md`](../../../docs/FOUNDATION_2026_06_04.md).
+a thin asset / ensemble member. Full rationale: [`docs/FOUNDATION_2026_06_04.md`](../../../crypto/docs/FOUNDATION_2026_06_04.md).
 
 ## Bundled + canonical tools
-- [`src/strat/battery.py`](../../../src/strat/battery.py) — the audited GENERIC robustness battery: `evaluate(unseen_returns, comps, unseen_maxdd, entry_pnl_pairs)` → Lens A/B/C verdict. **Import this for every candidate.** (Not to be confused with `v3_robustness_battery.py`, which is a strategy-SPECIFIC suite for one bot — don't reuse it as the generic module.)
-- [`src/strat/discover.py`](../../../src/strat/discover.py) — stage 2 (discriminate mode) + stage 3 (scan mode). Rebuilt post-reset; replaces the archived `event_study_discriminator.py` / `discriminator_null_calib.py` / `u100_specialist_scan.py` / `dollar_ladder.py`.
-- [`src/strat/firewall.py`](../../../src/strat/firewall.py) — random_entry_null firewall.
-- [`src/strat/candidate_gate.py`](../../../src/strat/candidate_gate.py) — evaluate_candidate gate.
-- [`src/strat/positive_control.py`](../../../src/strat/positive_control.py) — verifies gate has power (rejects known-null, ships known-edge).
-- `src/wealth_bot/harness.py` — the CanonicalHarness (Pattern S/T/U-safe; the ONLY backtest path).
-- Methodology: [`docs/RETEST_PLAN_2026_06_04.md`](../../../docs/RETEST_PLAN_2026_06_04.md) + [`docs/FOUNDATION_2026_06_04.md`](../../../docs/FOUNDATION_2026_06_04.md).
+- [`src/strat/battery.py`](../../../crypto/src/strat/battery.py) — the audited GENERIC robustness battery: `evaluate(unseen_returns, comps, unseen_maxdd, entry_pnl_pairs)` → Lens A/B/C verdict. **Import this for every candidate.** (Not to be confused with `v3_robustness_battery.py`, which is a strategy-SPECIFIC suite for one bot — don't reuse it as the generic module.)
+- [`src/strat/discover.py`](../../../crypto/src/strat/discover.py) — stage 2 (discriminate mode) + stage 3 (scan mode). Rebuilt post-reset; replaces the archived `event_study_discriminator.py` / `discriminator_null_calib.py` / `u100_specialist_scan.py` / `dollar_ladder.py`.
+- [`src/strat/firewall.py`](../../../crypto/src/strat/firewall.py) — random_entry_null firewall.
+- [`src/strat/candidate_gate.py`](../../../crypto/src/strat/candidate_gate.py) — evaluate_candidate gate.
+- [`src/strat/positive_control.py`](../../../crypto/src/strat/positive_control.py) — verifies gate has power (rejects known-null, ships known-edge).
+- `crypto/src/wealth_bot/harness.py` — the CanonicalHarness (Pattern S/T/U-safe; the ONLY backtest path).
+- Methodology: [`docs/RETEST_PLAN_2026_06_04.md`](../../../crypto/docs/RETEST_PLAN_2026_06_04.md) + [`docs/FOUNDATION_2026_06_04.md`](../../../crypto/docs/FOUNDATION_2026_06_04.md).
 
 ## Skill-library reuse — check before building
 
 Before writing any new probe, harness, or discriminator script, query the registry:
 
 ```
-python scripts/autonomy/skill_library.py search "<topic>"
+python crypto/scripts/autonomy/skill_library.py search "<topic>"
 # e.g. "discrimination conditioner" or "robustness battery" or "dollar bar"
 ```
 
@@ -186,7 +186,7 @@ NEW reusable artifact (a working probe, a new harness wrapper, a discriminator v
 register it:
 
 ```
-python scripts/autonomy/skill_library.py register \
+python crypto/scripts/autonomy/skill_library.py register \
   --name <short_id> --kind <tool|probe|harness|gate> \
   --path <repo-relative path> --entrypoint <callable> \
   --signature "<sig>" --summary "<1-2 sentences>" \
@@ -194,7 +194,7 @@ python scripts/autonomy/skill_library.py register \
   --provenance-sha <git SHA> --tags "discovery,<family>"
 ```
 
-The registry lives at `runs/autonomy/skill_library/INDEX.json`. It is the mechanical
+The registry lives at `crypto/runs/autonomy/skill_library/INDEX.json`. It is the mechanical
 implementation of the AUTONOMOUS_RUNNER §5 "read-forward / write-forward" mandate —
 every validated tool is harvested back so the next discovery cycle starts with that
 knowledge already in hand, not re-paid for.

@@ -14,14 +14,14 @@ dollar-bar generation, feature engineering, and calibration. Apply
 $ARGUMENTS
 
 ## Key files
-- `src/pipeline/fetch_all.py` — downloads raw aggTrades, funding, metrics (Binance spot+futures)
-- `src/pipeline/make_dataset.py` — dollar bars, joins funding/OI, Phase 1+2 features
-- `src/pipeline/sota_shared_logic_v50.py` — feature engineering (18 base + targets + voladj)
-- `src/pipeline/refresh.py` — DAG orchestrator over self-sufficient producers (`--target X --assets ... --universe ... --force --workers N`; `--all`, `--status`, `--live`)
-- `src/pipeline/chimera_loader.py` — canonical read path: `ChimeraLoader.load(sym, cadence)` (NOT direct pl.read_parquet)
-- `src/pipeline/pre_train_gate.py` — pre-train CI gate (`--asset SYM`; exit 2 hard-fail)
-- `src/pipeline/{parquet_io,dispatch,cli}.py` — framework primitives all new producers must use
-- `config/asset_dag.yaml` — producer DAG; `config/universes/{u10,u50,u100}.yaml` — declarative universe specs
+- `crypto/src/pipeline/fetch_all.py` — downloads raw aggTrades, funding, metrics (Binance spot+futures)
+- `crypto/src/pipeline/make_dataset.py` — dollar bars, joins funding/OI, Phase 1+2 features
+- `crypto/src/pipeline/sota_shared_logic_v50.py` — feature engineering (18 base + targets + voladj)
+- `crypto/src/pipeline/refresh.py` — DAG orchestrator over self-sufficient producers (`--target X --assets ... --universe ... --force --workers N`; `--all`, `--status`, `--live`)
+- `crypto/src/pipeline/chimera_loader.py` — canonical read path: `ChimeraLoader.load(sym, cadence)` (NOT direct pl.read_parquet)
+- `crypto/src/pipeline/pre_train_gate.py` — pre-train CI gate (`--asset SYM`; exit 2 hard-fail)
+- `crypto/src/pipeline/{parquet_io,dispatch,cli}.py` — framework primitives all new producers must use
+- `crypto/config/asset_dag.yaml` — producer DAG; `crypto/config/universes/{u10,u50,u100}.yaml` — declarative universe specs
 
 ## Domain knowledge
 

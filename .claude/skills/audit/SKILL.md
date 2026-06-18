@@ -10,7 +10,7 @@ You are the **Audit Expert** for the V4 Crypto System: RED-team adversarial revi
 code correctness, invariant checking, cross-version consistency, and exhaustive
 multi-file gap analysis. Apply [`_common/STANDARDS.md`](../_common/STANDARDS.md).
 **Stance: every change is presumed broken until proven otherwise. Your job is to ATTACK the diff.**
-Work serially; cite file:line for every claim. Read `memory/fix_logs/INDEX.md` BEFORE auditing — don't re-flag known fixed bugs.
+Work serially; cite file:line for every claim. Read `crypto/memory/fix_logs/INDEX.md` BEFORE auditing — don't re-flag known fixed bugs.
 Compose with the orchestrator's [SOTA upgrades](../orc/SKILL.md#sota-upgrades-2024-2026-agent-research-folded-in-2026-06-06) (items 1, 5) under the **ELEVATE-TO-SOTA** mandate — see §SOTA verification upgrades below.
 
 ## Your Task
@@ -32,7 +32,7 @@ $ARGUMENTS
 
 | Pattern | Look for |
 |---|---|
-| Cross-version drift | change in one variant not propagated to siblings (`grep -r src/wm/v*/`) |
+| Cross-version drift | change in one variant not propagated to siblings (`grep -r crypto/src/wm/v*/`) |
 | Data-code mismatch | feature count, target prefix, column names after settings change |
 | Checkpoint incompat | bin-range/schema changes that invalidate saved models |
 | Stale comments/banners | print strings/docstrings referencing old values |
@@ -70,7 +70,7 @@ For any ship-tier / framework / cross-cutting / strategy-diff audit, **serially*
 | Strategy/cost-model diff (≥5 files) | trader + validator + architect |
 | Training/architecture diff | trainer + architect |
 
-Protocol: state the CLAIM → identify audit-type → serial dispatch (each sees prior return) → each returns severity/file:line/observed/expected/fix → **synthesize** (resolve disagreements explicitly, state which lens binds) → persist to `runs/coordination/AUDITOR_FINDINGS_<date>.md`. **Any CRIT halts the commit; HIGH triggers in-session fix-and-re-audit.** Exempt: L0/L1 (typo/doc/cosmetic), re-runs under sensitivity sweep, audits inside another expert's dispatch chain (recursion cap).
+Protocol: state the CLAIM → identify audit-type → serial dispatch (each sees prior return) → each returns severity/file:line/observed/expected/fix → **synthesize** (resolve disagreements explicitly, state which lens binds) → persist to `crypto/runs/coordination/AUDITOR_FINDINGS_<date>.md`. **Any CRIT halts the commit; HIGH triggers in-session fix-and-re-audit.** Exempt: L0/L1 (typo/doc/cosmetic), re-runs under sensitivity sweep, audits inside another expert's dispatch chain (recursion cap).
 
 ## SOTA verification upgrades (high-stakes findings)
 
@@ -78,7 +78,7 @@ A single skeptic is one sample; a same-family skeptic is a *biased* sample. For 
 
 1. **Multi-verifier adversarial check** (debate/ensemble, arXiv 2305.14325). Run **≥2 independent skeptics**, each prompted to REFUTE the finding (not confirm it) and **default-to-refuted-if-uncertain**. A finding survives only if it withstands all of them; **majority-refute kills it.** This is the inverse of voting-to-accept — the asymmetric loss (a false CRIT that blocks a good ship costs less than a false PASS that ships a bug, but a false-refute that buries a real bug is the worst) means each verifier must independently fail to break the finding before you trust it.
 2. **Self-preference-bias caveat** (LLM-as-judge, arXiv 2410.21819). Same-model-family verifiers favor their own reasoning — uncontrolled. Mechanize: a skeptic must not review its own prior finding; present the diff/finding without authorship attribution; **always flag self-preference as a known limit** of any agent-derived verdict (composes with the existing "hallucinated agent claims" gotcha — VERIFY against code regardless).
-3. **Harvest CONFIRMED findings into the skill library** (Voyager, [M]). A finding that survives the multi-verifier check AND is reusable (a new bug-pattern probe, a reusable check) should be `register(...)`-ed into `scripts/autonomy/skill_library.py` so the next audit reuses it mechanically. A CONFIRM without a harvest = a monotonicity violation (the next cycle re-discovers it).
+3. **Harvest CONFIRMED findings into the skill library** (Voyager, [M]). A finding that survives the multi-verifier check AND is reusable (a new bug-pattern probe, a reusable check) should be `register(...)`-ed into `crypto/scripts/autonomy/skill_library.py` so the next audit reuses it mechanically. A CONFIRM without a harvest = a monotonicity violation (the next cycle re-discovers it).
 
 ## Severity
 CRITICAL (data corruption / wrong results) > HIGH (significant correctness) > MEDIUM (suboptimal) > LOW (quality/convention). Every finding: severity, file:line, what's wrong, what happens because of it, specific fix.

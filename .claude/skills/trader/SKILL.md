@@ -19,13 +19,13 @@ management, execution, portfolio construction, sleeve lifecycle, live ops. Apply
 > etc.) remain **prior-experience hypotheses to RE-TEST, not facts** — they were produced by an apparatus now
 > known to be broken (maker-not-taker cost + no-op DSR gate are FIXED in the rebuild; `load_panel` sub-daily→daily
 > still to verify). The prior *conclusions* must be re-run on the hardened apparatus before any is trusted. Apply
-> [`docs/APPARATUS_LOCKDOWN_SPEC_2026_06_04.md`](../../../docs/APPARATUS_LOCKDOWN_SPEC_2026_06_04.md), see
-> [`docs/APPARATUS_AUDIT_2026_06_05.md`](../../../docs/APPARATUS_AUDIT_2026_06_05.md) for the defect→fix map, and
-> treat [`docs/FOUNDATION_2026_06_04.md`](../../../docs/FOUNDATION_2026_06_04.md) as the current source of truth.
+> [`docs/APPARATUS_LOCKDOWN_SPEC_2026_06_04.md`](../../../crypto/docs/APPARATUS_LOCKDOWN_SPEC_2026_06_04.md), see
+> [`docs/APPARATUS_AUDIT_2026_06_05.md`](../../../crypto/docs/APPARATUS_AUDIT_2026_06_05.md) for the defect→fix map, and
+> treat [`docs/FOUNDATION_2026_06_04.md`](../../../crypto/docs/FOUNDATION_2026_06_04.md) as the current source of truth.
 >
 > **🟠 STALE OPERATIONAL REFERENCES in the sub-playbooks (2026-06-06 audit — re-ground before any live use).** The
 > sub-files below were written pre-reset and were NOT swept; their operational instructions cite archived/ghost
-> state. Verified dead by `runs/autonomy/SKILL_GAP_AUDIT.md` (overseer RWYB, 2026-06-06):
+> state. Verified dead by `crypto/runs/autonomy/SKILL_GAP_AUDIT.md` (overseer RWYB, 2026-06-06):
 > - **`src/strategy/…` module paths** (cost_model / risk_controller / deflated_sharpe / position_sizer /
 >   meta_allocator) in PRE_DEPLOY_CHECKLIST, RISK_PLAYBOOK, SIZING_THEORY, DAILY_OPS, EXECUTION_PLAYBOOK — `src/strategy/`
 >   is archived AND these modules were **not** rebuilt at `src/strat/`; do not treat them as runnable. The
@@ -65,12 +65,12 @@ $ARGUMENTS
 | [TRADER_MENTAL_MODEL.md](TRADER_MENTAL_MODEL.md) | Reviewing decisions; 7 mental models + 10 behavioral guardrails + failure catalog |
 
 ## Canonical files (current)
-- `src/wealth_bot/` — the validated shipping harness (framework/, bot/, harness.py, regime_router/). The clean-slate strat layer is built on this.
-- `src/strat/` — the strat-evaluation layer, REBUILT 2026-06-05 on the wealth_bot harness: `battery.py` (robustness battery — import it), `firewall.py` + `candidate_gate.py` (the gate), `positive_control.py` (verifies the gate HAS power: rejects a known-null, ships a known-edge), `fill_model.py`, `benchmark.py` (edge-beats-beta-matched-static), `discover.py`, `selftest_all.py` (data-free regression — run it before trusting the rig). The old discovery-tool names are archived, not carried over. Strategies arrive here from the `discover` skill ready for sizing/lifecycle.
-- `src/wealth_bot/framework/claim_contract.py` — deploy claim contract (required fields: per-trade returns, top-3%, jackknife, mechanism falsifier, sample-size discipline)
-- `src/audit/check_wealth_bot_claims.py` — CDAP gate, exit 2 on claim violation
-- `config/_invariants.yaml` — CDAP rule registry (`trader_*` rules)
-- [`docs/FOUNDATION_2026_06_04.md`](../../../docs/FOUNDATION_2026_06_04.md) + [`docs/RETEST_PLAN_2026_06_04.md`](../../../docs/RETEST_PLAN_2026_06_04.md) — the current discovery→harvest→robustness→portfolio methodology that feeds candidates to this skill. (Replaces the pre-reset TI_ASSET_SHIP_METHODOLOGY_2026_05_29 doc which no longer exists.)
+- `crypto/src/wealth_bot/` — the validated shipping harness (framework/, bot/, harness.py, regime_router/). The clean-slate strat layer is built on this.
+- `crypto/src/strat/` — the strat-evaluation layer, REBUILT 2026-06-05 on the wealth_bot harness: `battery.py` (robustness battery — import it), `firewall.py` + `candidate_gate.py` (the gate), `positive_control.py` (verifies the gate HAS power: rejects a known-null, ships a known-edge), `fill_model.py`, `benchmark.py` (edge-beats-beta-matched-static), `discover.py`, `selftest_all.py` (data-free regression — run it before trusting the rig). The old discovery-tool names are archived, not carried over. Strategies arrive here from the `discover` skill ready for sizing/lifecycle.
+- `crypto/src/wealth_bot/framework/claim_contract.py` — deploy claim contract (required fields: per-trade returns, top-3%, jackknife, mechanism falsifier, sample-size discipline)
+- `crypto/src/audit/check_wealth_bot_claims.py` — CDAP gate, exit 2 on claim violation
+- `crypto/config/_invariants.yaml` — CDAP rule registry (`trader_*` rules)
+- [`docs/FOUNDATION_2026_06_04.md`](../../../crypto/docs/FOUNDATION_2026_06_04.md) + [`docs/RETEST_PLAN_2026_06_04.md`](../../../crypto/docs/RETEST_PLAN_2026_06_04.md) — the current discovery→harvest→robustness→portfolio methodology that feeds candidates to this skill. (Replaces the pre-reset TI_ASSET_SHIP_METHODOLOGY_2026_05_29 doc which no longer exists.)
 
 > **NOTE (2026-05-29):** the old `src/strategy/` sleeve zoo was archived to
 > `archive/strategy/` (reference for design intent only — not importable). The strat
@@ -80,7 +80,7 @@ $ARGUMENTS
 
 ## Trading state quick-reference
 - **Modes:** SPOT (default, 0.24% round-trip, long-only) ACTIVE · SPOT-margin OPTIONAL · PERP DEFERRED (funding > edge).
-- **Empirical (load-bearing):** per-candle trading is catastrophic after costs (1-2 day holding only proven regime); **DISCRIMINATION ≠ HARVESTABILITY** (a null-beating signal is usually untradeable — 2026-05-29, confirmed 4×); **WM is NOT a harvestable signal** even as a standalone filter (in-universe per-bar edge ~3 OOM below cost; meta-labeler-on-a-proven-gate is its only defensible role); h=1 only (h16/h64 reverse OOS); the lone harvestable edge found is PEPE whale-gated slow-SMA on coarse dollar (provisional, n_eff≈6, PEPE-specific). **PROVISIONAL -- the apparatus was broken when this was derived (maker-not-taker cost + no-op DSR gate, now fixed in the 2026-06-05 rebuild); re-test on the hardened `src/strat/` apparatus before trusting this conclusion.**
+- **Empirical (load-bearing):** per-candle trading is catastrophic after costs (1-2 day holding only proven regime); **DISCRIMINATION ≠ HARVESTABILITY** (a null-beating signal is usually untradeable — 2026-05-29, confirmed 4×); **WM is NOT a harvestable signal** even as a standalone filter (in-universe per-bar edge ~3 OOM below cost; meta-labeler-on-a-proven-gate is its only defensible role); h=1 only (h16/h64 reverse OOS); the lone harvestable edge found is PEPE whale-gated slow-SMA on coarse dollar (provisional, n_eff≈6, PEPE-specific). **PROVISIONAL -- the apparatus was broken when this was derived (maker-not-taker cost + no-op DSR gate, now fixed in the 2026-06-05 rebuild); re-test on the hardened `crypto/src/strat/` apparatus before trusting this conclusion.**
 - **Risk targets (CLAUDE.md):** max DD < 20% binding · profit factor > 1.5 · 10/10 seeds positive on UNSEEN · p05 block-bootstrap > 0 · DSR > 0.95 if sweep > 20 · Sharpe > 1.0 tiebreak.
 - **Universe:** Tier1 BTC/ETH (std Kelly) · Tier2 SOL/BNB/XRP (watch capacity) · Tier3 DOGE/ADA/AVAX/LINK/LTC (conservative) · Memecoin PEPE-class (1/16-Kelly cap).
 
@@ -98,7 +98,7 @@ These three patterns compose with the orc SOTA-upgrades (see `orc/SKILL.md` ## S
 
 1. **SELF-CONSISTENCY.** For any stage transition (incubation->paper->live) or notional size change >2x, require K=3 independent size/decision calculations (vary framing, not data). Flag divergence >20% as AMBIGUOUS — do not proceed without resolution (park with a wake-condition or escalate). This is the single cheapest robustness check against framing-sensitive sizing errors.
 
-2. **REFLEXION.** After any kill-switch trigger or a loss > 2-sigma of the expected distribution, write a one-line post-mortem to `memory/trader/post_mortems.md` (format: `[date] decision | what failed | the falsifier that should have caught it`). Read that file before making similar decisions. A failure with no post-mortem is a lesson paid for twice.
+2. **REFLEXION.** After any kill-switch trigger or a loss > 2-sigma of the expected distribution, write a one-line post-mortem to `crypto/memory/trader/post_mortems.md` (format: `[date] decision | what failed | the falsifier that should have caught it`). Read that file before making similar decisions. A failure with no post-mortem is a lesson paid for twice.
 
 3. **DE-BIASED SECOND OPINION for deploy/scale.** The sizing recommendation is judged by a second Sonnet pass that receives ONLY the inputs (edge stats, capital, risk params), not the recommendation. The second pass states its own number; then both are compared. If they diverge >20%, surface both and the gap — never silently collapse to the first answer.
 
@@ -106,7 +106,7 @@ These three patterns compose with the orc SOTA-upgrades (see `orc/SKILL.md` ## S
 
 `narrate` and `discover` explicitly defer EXIT design (trailing, fixed-horizon, volatility-scaled, signal-flip) as out of scope. Trader owns it.
 
-**Trader owns**: choosing and parameterizing the exit policy for a shipped entry edge. The four canonical types are fixed-horizon, trailing-stop, volatility-scaled hold, and signal-flip. Exit policy is a SEPARABLE design axis from the entry edge (per the per-setup framing in MEMORY.md) — the entry edge is characterized on its own merits first; the exit is then tuned on the `src/strat` harness without touching the entry logic. Entry and exit parameters MUST be held separate in the candidate JSON so they can be re-optimized independently.
+**Trader owns**: choosing and parameterizing the exit policy for a shipped entry edge. The four canonical types are fixed-horizon, trailing-stop, volatility-scaled hold, and signal-flip. Exit policy is a SEPARABLE design axis from the entry edge (per the per-setup framing in MEMORY.md) — the entry edge is characterized on its own merits first; the exit is then tuned on the `crypto/src/strat` harness without touching the entry logic. Entry and exit parameters MUST be held separate in the candidate JSON so they can be re-optimized independently.
 
 **Trader does NOT own**: per-bar risk-limit kill-switches, max-DD circuit breakers, or regime-level position zeroing — those belong to RISK_PLAYBOOK.md and trigger independently of exit-policy logic.
 

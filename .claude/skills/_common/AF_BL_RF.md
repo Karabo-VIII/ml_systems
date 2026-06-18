@@ -4,7 +4,7 @@
                  NOT pasted into the always-loaded CLAUDE.md. (19 always-on lenses would worsen the
                  instruction-budget bloat the audit identified — SOTA: ~150-instruction reliable ceiling.)
   review_status: PENDING
-  provenance: WF1 (5-lens synthesis) wf_56a1df87-c72, 2026-06-05. Anchored to docs/APPARATUS_LOCKDOWN_SPEC,
+  provenance: WF1 (5-lens synthesis) wf_56a1df87-c72, 2026-06-05. Anchored to crypto/docs/APPARATUS_LOCKDOWN_SPEC,
               FOUNDATION_2026_06_04, RETEST_PLAN. -->
 
 # META-DIRECTIVE: APPARATUS-FIRST, BEAT-LAZY, REPORT-FIRST (AF-BL-RF)

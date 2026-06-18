@@ -34,7 +34,7 @@ Check every 30-60 minutes during active periods (or every bar for high-frequency
 After every 24h window (UTC midnight or session end):
 
 1. **PnL reconciliation**: sum trade-level PnL == exchange-reported PnL within 0.1%.
-2. **Execution quality summary**: write `runs/execution/<sleeve_id>_daily_<utc>.json` with avg fill distance, fill rate, slippage, taker/maker ratio.
+2. **Execution quality summary**: write `crypto/runs/execution/<sleeve_id>_daily_<utc>.json` with avg fill distance, fill rate, slippage, taker/maker ratio.
 3. **Backtest-divergence test**: Anderson-Darling test of today's per-trade returns vs paper-trade distribution. `p < 0.01` for 3 consecutive days = halt sleeve for re-validation.
 4. **Decay-monitor update**: recompute IC half-life on last 100 bars; halt sleeve if dropped > 50% from deploy baseline.
 5. **HRP weight refresh**: recompute cross-sleeve correlation matrix on rolling 30d; update sleeve weights.
@@ -46,15 +46,15 @@ After every 24h window (UTC midnight or session end):
 2. **Lifecycle gate check**: any sleeve eligible for stage promotion / demotion?
 3. **Regime status**: REGIME_ROUTER classification of last 7 days vs deploy regime. Mismatch = re-evaluate gating.
 4. **Failure-catalog update**: any newly refuted sub-hypothesis from this week added to `WEALTH_BOT_FAILURE_CATALOG.md`.
-5. **CDAP rerun**: `python src/audit/check_invariants.py` exit 0 on master.
+5. **CDAP rerun**: `python crypto/src/audit/check_invariants.py` exit 0 on master.
 
 ## Monthly post-mortem
 
 1. **All-sleeves PnL attribution**: which sleeve made / lost money, by which mechanism.
 2. **Backtest vs live divergence summary per sleeve**: median, p25, p75 of (live - paper) per metric.
-3. **p_fill calibration update**: if 30+ trades collected, update `config/maker_cost_calibration.yaml`.
+3. **p_fill calibration update**: if 30+ trades collected, update `crypto/config/maker_cost_calibration.yaml`.
 4. **Capacity curve update**: re-estimate per-sleeve capacity from monthly aggregate.
-5. **What went right / wrong**: free-form to `memory/monthly_postmortem_<utc>.md`.
+5. **What went right / wrong**: free-form to `crypto/memory/monthly_postmortem_<utc>.md`.
 6. **Promote new candidates**: any sleeves from INCUBATION ready for PAPER? Any from PAPER ready for LIVE_SMALL?
 
 ## Continuous (event-driven) checks
@@ -76,7 +76,7 @@ def divergence_check(live_trade, paper_signal_at_same_bar):
     If live ENTERED but paper would NOT have, or vice versa: log.
     """
     if live_trade.entered != paper_signal_at_same_bar.would_enter:
-        log_to('runs/divergence/<sleeve_id>.jsonl', {
+        log_to('crypto/runs/divergence/<sleeve_id>.jsonl', {
             'utc': now(),
             'live_action': live_trade.action,
             'paper_action': paper_signal_at_same_bar.would_enter,
@@ -99,24 +99,24 @@ NOT YET IMPLEMENTED. Queue this as the next sleeve-adapter feature after H18 has
 | Custody | Hot-wallet compromise | Cold-wallet ratio: keep > 80% of AUM cold (manual rebalance monthly) |
 | Network | RPC failure, internet outage | Local data caching; automatic retry with exponential backoff |
 | Code | Sleeve adapter bug | CDAP pre-commit gate; smoke test before any sleeve code change |
-| Process | Manual error during ops | Every action logged to `runs/ops/<utc>.jsonl`; no untracked manual trades |
+| Process | Manual error during ops | Every action logged to `crypto/runs/ops/<utc>.jsonl`; no untracked manual trades |
 | Counterparty | Binance insolvency, regulatory action | Diversify venues; cap AUM per venue at 50% once multi-venue live |
 | Stablecoin | USDT/USDC depeg | Halt all sleeves on depeg > 0.5%; rebalance to fiat if available |
 
 ## Tools
 
 - `python src/strategy/risk_controller.py --live-monitor` — bar-level monitor (NOT YET BUILT, queue).
-- `python src/audit/check_invariants.py` — pre-commit gate.
-- `python src/audit/check_wealth_bot_claims.py runs/deploy/<sleeve>/deploy_claim.json` — claim contract.
-- `runs/paper_trade/<sleeve>_decay_status.json` — current decay flag (H18 example exists).
-- `runs/lifecycle/` — stage transition records.
+- `python crypto/src/audit/check_invariants.py` — pre-commit gate.
+- `python crypto/src/audit/check_wealth_bot_claims.py crypto/runs/deploy/<sleeve>/deploy_claim.json` — claim contract.
+- `crypto/runs/paper_trade/<sleeve>_decay_status.json` — current decay flag (H18 example exists).
+- `crypto/runs/lifecycle/` — stage transition records.
 
 ## CDAP wiring
 
 | Rule | Severity | Checked file |
 |---|---|---|
-| `trader_daily_ops_log_present` | warn | `runs/ops/` has entry for last 24h when live sleeves exist |
-| `trader_eod_reconciliation_writes_json` | warn | `runs/execution/<sleeve>_daily_*.json` written daily |
+| `trader_daily_ops_log_present` | warn | `crypto/runs/ops/` has entry for last 24h when live sleeves exist |
+| `trader_eod_reconciliation_writes_json` | warn | `crypto/runs/execution/<sleeve>_daily_*.json` written daily |
 | `trader_no_leverage_in_account` | critical | Account margin utilization checks in adapter code |
 
 ## Cross-references
