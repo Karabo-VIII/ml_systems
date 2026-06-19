@@ -103,6 +103,19 @@ wealth +365 AND less drawdown -35 vs -54). So the TI is NOT "nothing": as a conv
 binary timer) it makes a strictly BETTER de-risked-beta book. CAVEAT: one un-tuned MACD config on the held-out
 cycle (suggestive, not dev-selected + forward-confirmed). STILL < raw buy-hold on wealth (+549% > +370%).
 
+VALIDATION (matched-gross conviction vs a same-gross SHUFFLE NULL = random re-assignment of the conviction
+weights among gate-on assets; 4 TIs x 3 periods, 1d): the selection edge is REAL + forward-robust for the
+strongest trend TIs and survives the null OUT-OF-SAMPLE:
+- MACD: conv beats shuffle by 2-3 sigma on held-out 2020-OOS (+57.8 vs 46.8+-3.3) AND forward 2021 (+293.6 vs
+  259.7+-15.3); edge +8.6 / +18.4.
+- DONCHIAN: same (edge +12.2 / +4.9, beats null dev + forward).
+- SUPERTREND: noisy, within the null band (no reliable edge). KELTNER: positive on dev but FLIPS NEGATIVE on
+  2021 forward (overfit, doesn't translate). 2022 bear: ~zero edge for all (too few gate-on assets to select).
+CONCLUSION: a genuine within-bull asset-SELECTION skill exists for MACD/DONCHIAN (survives shuffle null OOS),
+but it is TI-dependent, modest (~6% relative), bull-only, and does NOT approach buy-hold on wealth. It is the one
+genuinely-new positive the campaign found beyond the known daily_engine gate -- a conviction-weighting refinement
+of the de-risked-beta book, not wealth alpha.
+
 ## HONEST VERDICT (campaign, corrected + adversarially verified)
 The dynamic capture engine WORKS as built (forward-validated, regime-gated, repeatable, ~24 all-weather trend cells).
 But on the binding WEALTH metric, **no internal long-only signal beats raw buy-hold** (BH +549% > strict gate +324% >
