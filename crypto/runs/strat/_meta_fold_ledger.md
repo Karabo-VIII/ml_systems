@@ -63,3 +63,40 @@ Status: DONE + **CONVERGED** (wu7fizcnf, refereed via cycle3_final_referee.py).
 === FOLD COMPLETE (3 cycles). FINAL SYNTHESIS POSTED to user. DO NOT re-arm or re-post. ===
 
 <!-- APPEND each completed cycle here: focus | winners (numbers) | losers | lessons | what cycle N+1 will test -->
+
+---
+
+# NEW LOOP (2026-06-19) — objective: an ADAPTIVE ENGINE that WINS random 7d slices (14d lookback)
+User re-arm: "trade random slices like that and win... the ENGINE should trade, not you. Random slice -> profitability on
+7d windows, 2-week lookback." STANDING RESULT to beat: EW buy-hold wins ~55% of random 7d slices (+2.9% mean); hand-coded
+momentum/breakout/gate engines = 53-54% deployed (gate HURTS per-slice win-rate by cashing the bounces). 7d direction looked
+~unpredictable from 5 angles BUT an actual LEARNED model on the full feature set is UNTRIED.
+WIN (clarified by user): an ACTIVE engine (NOT buy-hold) that is RELIABLY POSITIVE on random 7d windows — maximize the
+fraction of windows > 0 (toward NEVER-NEGATIVE) via selection + cash-timing, beating passive holding, OOS/walk-forward,
+leak-free. STRUCTURAL PHYSICS (binding): long-only spot, no leverage, no shorts -> in a market-wide DOWN week the best is
+CASH = 0% (can't be positive on falling assets w/o shorts). So literally-always-positive is IMPOSSIBLE LO-spot; the
+achievable target = NEVER-NEGATIVE (cash the down-weeks) + high positive-rate in up-weeks. That needs BOTH (i) down-week
+timing AND (ii) cross-sectional selection at 7d (both have looked ~coin-flip; the ML engine is the test). Referee verifies.
+
+## NL-CYCLE 1 — 6-ENGINE TOURNAMENT (user: "not just one engine") — RUNNING (workflow wkbi7ch91)
+Engines (parallel, OOS/walk-forward, leak-hunted): (1) ml_gbm meta-labeler; (2) ml_ensemble (logistic+RF+MLP x 3 labels,
+stacked); (3) smartweight smoothing (inverse-vol/risk-parity/quality); (4) wide universe u30/u50; (5) **regime_router** =
+the ADAPTIVE META-ENGINE that detects regime {uptrend/recovery-bounce/chop/downtrend} and ROUTES to the best sub-behavior
+(momentum-concentrate / momentum-no-gate-catch-bounces / diversified-smooth / cash) -- the literal 'adapts to conditions'
+engine; (6) non_momentum (reversal/range/vol/RSI composite). Referee = tournament judge, re-derives the winner OOS strict-
+walk-forward, hunts ML leak. WIN = an ACTIVE engine reliably-positive ABOVE buy-hold (~55%/+2.9%) OOS leak-free; never-negative.
+
+---
+# EXPANDED SCOPE + 6h AUTONOMOUS MANDATE (user, 2026-06-19, deadline Sat 05:25 SAST)
+"Expand scope, use the WHOLE project, formalise the fold framework (canonical: docs/META_FOLD_FRAMEWORK.md), run 6h
+autonomous, expect collapse/early-stopping. Skin in the game: losing is out of the picture given timeframes, chart types,
+chimera, technical indicators, different skills & experts." => the fold now searches the WHOLE space and collapses it:
+- FOLD DIMENSIONS to attack (kill dead ones fast = the collapse): {7d-frame} x {u10->u50} x {1d,4h,2h,1h,30m,15m + dollar/
+  DIB/range bars} x {price-TIs + CHIMERA families: funding/basis/ETF/on-chain/order-flow/LOB/TE/stablecoin/DVOL} x
+  {hand-rule/ML/ensemble/regime-router/expert} x {expert-discover/quant/trader/oracle/pipeline lanes}.
+- BIGGEST UNTAPPED LEVER = CHIMERA features into the ML/router engines (price-only is the current tournament; exogenous
+  signal is where the one prior held-out-positive lived = funding-dispersion). Next cycle after the price tournament.
+- WIN bar unchanged: an ACTIVE engine reliably-positive ABOVE buy-hold on random 7d slices, OOS/walk-forward, leak-free,
+  never-negative. Referee re-derives + hunts leak every cycle. Early-stop on convergence (collapse) -- do not pad to 6h.
+- NL-Cycle 1 = the 6-engine price tournament (wkbi7ch91, RUNNING). Folds: C2=chimera-feature engines; C3=multi-TF/bar-types;
+  C4=expert-skill lanes; converge.
