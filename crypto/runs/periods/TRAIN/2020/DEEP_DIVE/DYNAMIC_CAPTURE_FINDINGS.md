@@ -136,3 +136,23 @@ minimum-DD book; if it is compound wealth, buy-hold wins and the open frontier r
 - Phase 2 Tier-2: per-regime band-SUBSET (chop -> slower configs) as a refinement (low priority; dynamic
   switching is fragile -- 1/6 TFs had timing skill).
 - Bull-participation ratio vs BH per cell (characterise the de-risked-beta level).
+
+## FIX PASS (2026-06-19) -- solve the fixable weaknesses without overfitting
+ANTI-OVERFIT GATE FIRST: asset-DNA traits do NOT persist TRAIN->2021 (trend-propensity/ER rho +0.25 then -0.54
+INVERTS; vol only weakly/recently rho +0.55; autocorr unstable). => a STATIC asset-DNA label is overfit by
+construction (why "per-asset was refuted"). The defensible per-asset lever is DYNAMIC asset-STATE (trailing vol,
+current regime), not a frozen tag. Fixes tested as dynamic-state overlays (forward-validated, EW-u10, taker, net%/maxDD%):
+
+| book | 2020-OOS | 2021 | 2022 |
+|---|---|---|---|
+| strict gate-only (base) | +46.8 / -13 | +277 / -54 | -23.5 / -25 |
+| + conviction tilt | +36.7 / -12 | +309 / -35 | -17.8 / -19 |
+| + conviction + vol-target | +35.3 / -10 | +177 / -20 | -14.7 / -16 |
+| + conv + vol-target + chop | +19.4 / -10 | +154 / -11 | -10.5 / -11 |
+
+- CONVICTION TILT = real Pareto win (2021 +309 vs +277 AND DD -35 vs -54; 2022 -18 vs -24). The keeper (validated
+  shuffle-null + forward). VOL-TARGET + CHOP = clean de-risking frontier (cycle DD -54 -> -11) at a wealth cost;
+  knobs for a DD-constrained mandate, causal/not overfit.
+- FUNDAMENTAL (verticals): no free lunch -- vol-target makes vertical-capture WORSE (down-weights the high-vol
+  moonshots). Cannot capture 30-100x runs without carrying their vol risk. Structural, not internally fixable.
+- ASSET-DNA: static label overfit; brought back ONLY as dynamic asset-state (= the conviction/vol-target/chop machinery).
