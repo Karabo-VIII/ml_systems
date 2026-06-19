@@ -168,3 +168,17 @@ chimera, technical indicators, different skills & experts." => the fold now sear
   beta (beats EW by losing less in down weeks; 2022-08-16 -6.2% vs EW -12.2%); expect OOS shrinkage. Deployable: fleet_final.py 4-agent +2.44% DEV.
 - C2 (folding): the ADAPTIVE regime-conditional fleet (route agents by regime = the "adapts to conditions" vision, untested) + u100 wider bench;
   strict overfit discipline (pre-register, multi-seed, block-bootstrap). If it doesn't beat static momentum robustly -> converge on the de-risked-beta deployable for OOS handoff.
+
+## NL-C4 MOVE-CAPTURE (wayjkpshd DONE, quant-refereed) -- STRONG LEAD but on OLD OOS harness (pre-data-discipline)
+- Ungated mover engine (mover-rank top-K + MARKET circuit-breaker) TRADES THE MOVERS (2025-05-15: ETH/DOGE/LTC; gate would delete
+  DOGE/AVAX/SOL). Gate-exclusion of #1 mover = 57% of days (worse than 39%). BEATS router+BH on MEAN (+1.11 vs +0.96 vs +0.43) +
+  CAPTURE (17.3% vs 14.8%); LOSES pos-rate (46% vs 52%) = concentration cost. Market-CB recovers bear (-69%->-8/-16% maxDD) w/o excluding movers.
+- **DECISIVE NEW EVIDENCE = same-exposure SHUFFLE control: real mover-selection +1.11%/17.3% vs random-same-exposure +0.08%±0.19%/9.5% ->
+  z=5.3(mean) z=6.2(capture) p≈0.0000.** => cross-sectional mover ranking adds REAL SELECTION ALPHA above equal-exposure random, NOT just timing.
+- CAVEATS: (a) ran on OOS 2022+ (referee_harness) = HELD-OUT, pre-discipline -> MUST re-prove on DEV (<=2024-05-15). (b) Referee FALSIFIER:
+  run the shuffle STRATIFIED BY REGIME -- if selection alpha vanishes in bull (everything rises) it's a beta artifact, not skill. UNTESTED = make-or-break.
+  (c) vol_exp "p=0.032" FAILS multiple-comparisons (best-of-5); composite engine survives (shuffle z=5-6). capture mean(eng/oracle) broken -> use aggregate.
+- RECONCILE vs C1-fleet (DEV, "de-risked beta, K=1 negative"): different NULL -- C1 compared vs EW (beta); NL-C4 vs random-SAME-EXPOSURE (selection).
+  The selection null is the cleaner skill test. => DECISIVE CYCLE: re-run move-capture engine + same-exposure shuffle + REGIME-STRATIFICATION on DEV-walled fleet_lab.
+
+## DECISIVE CYCLE -- move-capture selection-alpha on DEV (regime-stratified shuffle) -- RUNNING (workflow TBD)

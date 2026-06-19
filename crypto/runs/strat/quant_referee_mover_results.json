@@ -1,0 +1,167 @@
+{
+  "vol_hi": 0.7317,
+  "bh": {
+    "pos_rate": 51.7,
+    "mean": 0.43
+  },
+  "gated_router": {
+    "pos_rate": 50.7,
+    "pos_seeds": [
+      50.0,
+      48.6,
+      53.6
+    ],
+    "mean": 0.96,
+    "median": 0.03,
+    "p05": -8.86,
+    "beat_bh": 52.8,
+    "capture": {
+      "ratio_mean_pct": -14.0,
+      "ratio_median_pct": 2.0,
+      "aggregate_pct": 14.8,
+      "pct_positive": 62.3,
+      "n": 175
+    }
+  },
+  "mover_K1": {
+    "pos_rate": 43.2,
+    "pos_seeds": [
+      39.8,
+      43.8,
+      46.0
+    ],
+    "mean": 0.65,
+    "median": -0.46,
+    "p05": -12.16,
+    "beat_bh": 49.0,
+    "capture": {
+      "ratio_mean_pct": -26.9,
+      "ratio_median_pct": 3.2,
+      "aggregate_pct": 15.0,
+      "pct_positive": 54.9,
+      "n": 175
+    },
+    "expo_oos": 0.519,
+    "expo_bear22": 0.2,
+    "comp_full": 21840.3,
+    "maxDD": -76.6,
+    "comp_2022": -3.0,
+    "shuffle_control": {
+      "pos_rate": 40.2,
+      "mean": -0.17,
+      "cap_agg": 7.6
+    },
+    "selection_alpha_mean": 0.82,
+    "selection_alpha_cap": 7.4
+  },
+  "mover_K3": {
+    "pos_rate": 46.3,
+    "pos_seeds": [
+      43.0,
+      46.8,
+      49.0
+    ],
+    "mean": 1.11,
+    "median": -0.17,
+    "p05": -8.24,
+    "beat_bh": 52.2,
+    "capture": {
+      "ratio_mean_pct": -11.2,
+      "ratio_median_pct": 4.2,
+      "aggregate_pct": 17.3,
+      "pct_positive": 57.7,
+      "n": 175
+    },
+    "expo_oos": 0.519,
+    "expo_bear22": 0.2,
+    "comp_full": 21303.0,
+    "maxDD": -50.8,
+    "comp_2022": -15.8,
+    "shuffle_control": {
+      "pos_rate": 43.8,
+      "mean": -0.02,
+      "cap_agg": 8.9
+    },
+    "selection_alpha_mean": 1.13,
+    "selection_alpha_cap": 8.4
+  },
+  "mover_K5": {
+    "pos_rate": 47.8,
+    "pos_seeds": [
+      45.2,
+      46.8,
+      51.4
+    ],
+    "mean": 0.87,
+    "median": -0.1,
+    "p05": -7.27,
+    "beat_bh": 51.9,
+    "capture": {
+      "ratio_mean_pct": -8.9,
+      "ratio_median_pct": 4.0,
+      "aggregate_pct": 15.0,
+      "pct_positive": 59.4,
+      "n": 175
+    },
+    "expo_oos": 0.519,
+    "expo_bear22": 0.2,
+    "comp_full": 7167.1,
+    "maxDD": -45.5,
+    "comp_2022": -11.8,
+    "shuffle_control": {
+      "pos_rate": 45.7,
+      "mean": 0.12,
+      "cap_agg": 9.8
+    },
+    "selection_alpha_mean": 0.75,
+    "selection_alpha_cap": 5.2
+  },
+  "oracle": {
+    "mean_7d_best_pct": 11.53,
+    "pos_rate": 78.6,
+    "n_blocks": 229
+  },
+  "gate_audit": {
+    "top1_below_own_sma200_pct": 57.1,
+    "top3_excluded_pct": 57.0,
+    "btc_is_top1_pct": 9.7,
+    "n_days": 1602
+  },
+  "spot_2025_05_15": {
+    "date": "2025-05-15",
+    "exposure": 1.0,
+    "K3_holds": [
+      "ETHUSDT",
+      "DOGEUSDT",
+      "LTCUSDT"
+    ],
+    "ranks": {
+      "DOGEUSDT": {
+        "rank": 2,
+        "fwd7d_pct": 12.1,
+        "gate": false
+      },
+      "AVAXUSDT": {
+        "rank": 5,
+        "fwd7d_pct": 7.6,
+        "gate": false
+      },
+      "SOLUSDT": {
+        "rank": 9,
+        "fwd7d_pct": 6.3,
+        "gate": false
+      },
+      "BTCUSDT": {
+        "rank": 6,
+        "fwd7d_pct": 7.7,
+        "gate": true
+      },
+      "ETHUSDT": {
+        "rank": 1,
+        "fwd7d_pct": 4.6,
+        "gate": false
+      }
+    }
+  },
+  "runtime_s": 12.5
+}
