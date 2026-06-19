@@ -147,3 +147,24 @@ chimera, technical indicators, different skills & experts." => the fold now sear
 - VERDICT: internal long-only-spot daily = de-risked-beta ceiling, NOT pos-rate alpha. Whole project exhausted (price/chimera/multi-TF/experts,
   all leak-free). Only frontiers = market-neutral funding (>=30 names, LO-blocked) + external-event data -- both off the user's constraints.
 === FOLD CONVERGED (new-loop C1->C3, ~1h of the 6h budget = the early collapse the user predicted). FINAL SYNTHESIS POSTED. DO NOT re-arm. ===
+
+## CORRECTION (user /orc challenge, 2026-06-20): engine traded BTC not MOVERS = FRAMING COLLAPSE
+- FAILURE MODE: the prior fold optimized POS-RATE/BEAR-SURVIVAL (where the per-asset SMA200 GATE wins), NOT the user's MOVE-CAPTURE
+  objective. The gate STRUCTURALLY deletes the movers: #1 forward-7d mover GATED-OUT 39% of days; mover is BTC only 9% of days; 38% of
+  top-3 movers excluded. Every engine held majors. = framing_collapse + literal-over-spirit.
+- COVERAGE: ~90% on direction/pos-rate; ~50% on the actual MOVE-CAPTURE objective. NOT >90% on the real ask.
+- ENGINES: ~24 variants built, ZERO were a true UNGATED move-capture engine judged on CAPTURE (daily-movers lane killed on risk-adjusted DD).
+- FIX (NL-C4 RUNNING wayjkpshd): UNGATED move-capture (rank all assets by move-signal, no per-asset gate, ride movers) + MARKET-LEVEL
+  circuit-breaker (scale TOTAL exposure, never exclude a mover) judged on CAPTURE + slice-profitability + bear-survival; + mover-ID + capture-oracle.
+
+## ORC FLEET-SEARCH C1 (wqwvsdhza DONE, expert-auditor refereed, DEV-walled leak-verified)
+- WALL HELD: load_wide max date 2024-05-14 < 2024-05-15; causality verified 2 ways; OOS/UNSEEN untouched. ✓ (the #1 no-repeat discipline)
+- Best agents (10-seed, 200 slices): EW 1.90% | mom14-K5 2.93% | evolve-champ(brk14+mom30+volexp-)K3 3.23% | 4-agent FLEET 2.44%.
+- FLEET beats EW robustly (+0.54pp, 10/10 seeds) but does NOT beat the best single agent mom14 (-0.48pp, 9/10) -- ensemble only buys
+  lower variance + better worst-slice. Profit-rate ~52% (≈EW) -> edge is mean-MAGNITUDE not hit-rate.
+- INFO SETS: TI momentum/breakout (mom14/mom30/brk14) = the whole signal = DE-RISKED BETA not concentratable (K=1 excess NEGATIVE,
+  peaks K=3-5). 1d chimera = ZERO univariate edge, dilutive. multi-TF 4h price = redundant. 4h-funding NOT significant (+0.18pp p=0.231).
+- OVERFIT: 300+ configs on same DEV slices; mom14 excess-over-EW block-bootstrap p=0.124 (n.s.). Honest = drawdown-de-risked momentum
+  beta (beats EW by losing less in down weeks; 2022-08-16 -6.2% vs EW -12.2%); expect OOS shrinkage. Deployable: fleet_final.py 4-agent +2.44% DEV.
+- C2 (folding): the ADAPTIVE regime-conditional fleet (route agents by regime = the "adapts to conditions" vision, untested) + u100 wider bench;
+  strict overfit discipline (pre-register, multi-seed, block-bootstrap). If it doesn't beat static momentum robustly -> converge on the de-risked-beta deployable for OOS handoff.
