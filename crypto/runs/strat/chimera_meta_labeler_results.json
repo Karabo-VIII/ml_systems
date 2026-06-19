@@ -1,0 +1,315 @@
+{
+  "meta": {
+    "oos_start": "2022-01-01",
+    "oos_end": "2026-06-01",
+    "n_slices": 5000,
+    "seeds": [
+      11,
+      23,
+      42
+    ],
+    "slice_days": 7,
+    "win_bar_bh_posrate_pct": 52.3,
+    "canonical_bh_posrate": 52.3,
+    "canonical_bh_mean_pct": 0.46
+  },
+  "coverage": {
+    "funding": {
+      "coverage_pct": 99.6,
+      "n_cols": 10
+    },
+    "basis": {
+      "coverage_pct": 98.8,
+      "n_cols": 5
+    },
+    "order_flow": {
+      "coverage_pct": 100.0,
+      "n_cols": 8
+    },
+    "lsr": {
+      "coverage_pct": 92.6,
+      "n_cols": 6
+    },
+    "stablecoin": {
+      "coverage_pct": 100.0,
+      "n_cols": 5
+    },
+    "oi_liquidations": {
+      "coverage_pct": 100.0,
+      "n_cols": 7
+    },
+    "dvol": {
+      "coverage_pct": 20.0,
+      "n_cols": 1
+    },
+    "transfer_entropy": {
+      "coverage_pct": 100.0,
+      "n_cols": 6
+    },
+    "whale": {
+      "coverage_pct": 100.0,
+      "n_cols": 3
+    },
+    "etf": {
+      "coverage_pct": 51.4,
+      "n_cols": 5
+    },
+    "realized_vol": {
+      "coverage_pct": 100.0,
+      "n_cols": 4
+    },
+    "cross_exog": {
+      "coverage_pct": 100.0,
+      "n_cols": 11
+    }
+  },
+  "exog_only": {
+    "auc_iid_biased": 0.4709,
+    "auc_block_perm": {
+      "auc": 0.4709,
+      "perm_auc_mean": 0.4993,
+      "perm_auc_p95": 0.5318,
+      "p_block_perm": 0.9175,
+      "n_obs": 16020,
+      "n_blocks": 29,
+      "block_weeks": 8
+    },
+    "configs": {
+      "exog_top3_thr0p5": {
+        "pos_rate": 46.4,
+        "pos_rate_seeds": [
+          47.5,
+          45.2,
+          46.5
+        ],
+        "mean_pct": -0.38,
+        "p05_pct": -13.37,
+        "beat_bh": 40.7,
+        "down_wk_mean": -5.95,
+        "avg_expo": 0.802
+      },
+      "exog_top2_thr0p55": {
+        "pos_rate": 43.4,
+        "pos_rate_seeds": [
+          44.7,
+          42.1,
+          43.3
+        ],
+        "mean_pct": -0.71,
+        "p05_pct": -13.4,
+        "beat_bh": 40.8,
+        "down_wk_mean": -5.44,
+        "avg_expo": 0.711
+      },
+      "exog_top1_thr0p6": {
+        "pos_rate": 38.6,
+        "pos_rate_seeds": [
+          39.8,
+          37.2,
+          38.7
+        ],
+        "mean_pct": -1.07,
+        "p05_pct": -15.38,
+        "beat_bh": 38.7,
+        "down_wk_mean": -5.24,
+        "avg_expo": 0.628
+      },
+      "exog_top5_thr0p5": {
+        "pos_rate": 45.6,
+        "pos_rate_seeds": [
+          46.7,
+          44.3,
+          45.7
+        ],
+        "mean_pct": -0.39,
+        "p05_pct": -13.27,
+        "beat_bh": 38.6,
+        "down_wk_mean": -5.77,
+        "avg_expo": 0.802
+      }
+    }
+  },
+  "exog_plus_price": {
+    "auc_iid_biased": 0.4739,
+    "auc_block_perm": {
+      "auc": 0.4739,
+      "perm_auc_mean": 0.4992,
+      "perm_auc_p95": 0.5343,
+      "p_block_perm": 0.8855,
+      "n_obs": 16020,
+      "n_blocks": 29,
+      "block_weeks": 8
+    },
+    "configs": {
+      "both_top3_thr0p5": {
+        "pos_rate": 43.3,
+        "pos_rate_seeds": [
+          44.1,
+          42.0,
+          43.9
+        ],
+        "mean_pct": -0.7,
+        "p05_pct": -14.08,
+        "beat_bh": 40.8,
+        "down_wk_mean": -5.97,
+        "avg_expo": 0.783
+      },
+      "both_top2_thr0p55": {
+        "pos_rate": 41.2,
+        "pos_rate_seeds": [
+          41.7,
+          40.4,
+          41.5
+        ],
+        "mean_pct": -1.1,
+        "p05_pct": -14.08,
+        "beat_bh": 39.5,
+        "down_wk_mean": -5.7,
+        "avg_expo": 0.708
+      },
+      "both_top1_thr0p6": {
+        "pos_rate": 35.5,
+        "pos_rate_seeds": [
+          36.1,
+          35.0,
+          35.4
+        ],
+        "mean_pct": -1.48,
+        "p05_pct": -14.74,
+        "beat_bh": 37.8,
+        "down_wk_mean": -5.51,
+        "avg_expo": 0.627
+      },
+      "both_top5_thr0p5": {
+        "pos_rate": 43.1,
+        "pos_rate_seeds": [
+          44.1,
+          41.5,
+          43.8
+        ],
+        "mean_pct": -0.53,
+        "p05_pct": -13.99,
+        "beat_bh": 41.1,
+        "down_wk_mean": -5.81,
+        "avg_expo": 0.783
+      }
+    }
+  },
+  "feature_importance_exog_only": {
+    "by_family": {
+      "funding": 0.0012,
+      "basis": 0.0001,
+      "order_flow": 0.0024,
+      "lsr": 0.0,
+      "stablecoin": 0.0055,
+      "oi_liquidations": 0.0121,
+      "dvol": 0.0042,
+      "transfer_entropy": 0.0302,
+      "whale": 0.006,
+      "etf": 0.0,
+      "realized_vol": 0.0038,
+      "cross_exog": 0.0234
+    },
+    "top10": [
+      [
+        "te_out_btc",
+        0.0145
+      ],
+      [
+        "liq_total_usd",
+        0.0118
+      ],
+      [
+        "te_in_btc",
+        0.0081
+      ],
+      [
+        "xd_cross_return_mean",
+        0.0066
+      ],
+      [
+        "xd_cross_vol_mean",
+        0.006
+      ],
+      [
+        "stbl_total_delta_30d_pct",
+        0.0055
+      ],
+      [
+        "te_btc_imb",
+        0.005
+      ],
+      [
+        "xd_btc_return",
+        0.0046
+      ],
+      [
+        "wh_whale_buy_usd",
+        0.0043
+      ],
+      [
+        "dv_dvol_close",
+        0.0042
+      ]
+    ]
+  },
+  "feature_importance_exog_plus_price": {
+    "by_family": {
+      "funding": 0.0019,
+      "basis": 0.0,
+      "order_flow": 0.0016,
+      "lsr": 0.0,
+      "stablecoin": 0.0162,
+      "oi_liquidations": 0.0098,
+      "dvol": 0.0023,
+      "transfer_entropy": 0.0268,
+      "whale": 0.0065,
+      "etf": 0.0,
+      "realized_vol": 0.0015,
+      "cross_exog": 0.0052
+    },
+    "top10": [
+      [
+        "te_btc_imb",
+        0.0124
+      ],
+      [
+        "liq_total_usd",
+        0.0082
+      ],
+      [
+        "stbl_total_delta_7d_pct",
+        0.0078
+      ],
+      [
+        "te_out_btc",
+        0.0077
+      ],
+      [
+        "stbl_total_delta_30d_pct",
+        0.0072
+      ],
+      [
+        "rsi14",
+        0.0065
+      ],
+      [
+        "wh_whale_sell_usd",
+        0.0051
+      ],
+      [
+        "mom14",
+        0.0049
+      ],
+      [
+        "dist_sma50",
+        0.0045
+      ],
+      [
+        "te_in_btc",
+        0.0035
+      ]
+    ]
+  },
+  "runtime_s": 85.0
+}

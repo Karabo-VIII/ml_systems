@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "oos": [
+      "2022-01-01",
+      "2026-06-01"
+    ],
+    "n_slices": 5000,
+    "seeds": [
+      11,
+      23,
+      42
+    ],
+    "description": "Funding-signal LO referee extension (NL-CYCLE 2)",
+    "runtime_s": 147.4
+  },
+  "bh": {
+    "pos_rate": 52.3,
+    "mean_pct": 0.46
+  },
+  "rank_ic": {
+    "n_dates": 1601,
+    "rank_IC_mean": -0.0627,
+    "rank_IC_std": 0.3471,
+    "rank_IC_p": 0.0,
+    "low_fund_7d_ret_mean": 0.53,
+    "low_fund_7d_ret_p": 0.0181,
+    "high_fund_7d_ret_mean": 0.13,
+    "high_fund_7d_ret_p": 0.6058,
+    "lo_minus_hi_mean": 0.4,
+    "interpretation": "low-fund OUTPERFORMS high-fund"
+  },
+  "selection": {
+    "K5_rebal7_gate": {
+      "pos_rate": 38.1,
+      "pos_rate_seeds": [
+        38.5,
+        37.1,
+        38.8
+      ],
+      "mean_pct": 0.45,
+      "beat_bh_pct": 48.6,
+      "avg_expo": 0.75
+    },
+    "K5_rebal7_nogate": {
+      "pos_rate": 50.8,
+      "pos_rate_seeds": [
+        51.7,
+        49.5,
+        51.3
+      ],
+      "mean_pct": 0.51,
+      "beat_bh_pct": 50.0,
+      "avg_expo": 1.0
+    },
+    "K3_rebal7_gate": {
+      "pos_rate": 38.2,
+      "pos_rate_seeds": [
+        38.6,
+        36.9,
+        39.0
+      ],
+      "mean_pct": 0.32,
+      "beat_bh_pct": 46.2,
+      "avg_expo": 0.75
+    },
+    "K10_rebal7_gate": {
+      "pos_rate": 38.5,
+      "pos_rate_seeds": [
+        38.9,
+        37.3,
+        39.3
+      ],
+      "mean_pct": 0.33,
+      "beat_bh_pct": 42.8,
+      "avg_expo": 0.75
+    },
+    "K5_rebal3_gate": {
+      "pos_rate": 39.8,
+      "pos_rate_seeds": [
+        40.0,
+        39.2,
+        40.1
+      ],
+      "mean_pct": 0.58,
+      "beat_bh_pct": 49.1,
+      "avg_expo": 0.76
+    },
+    "K5_rebal14_gate": {
+      "pos_rate": 39.7,
+      "pos_rate_seeds": [
+        40.2,
+        38.8,
+        40.0
+      ],
+      "mean_pct": 0.71,
+      "beat_bh_pct": 50.1,
+      "avg_expo": 0.75
+    },
+    "K5_HIGH_gate": {
+      "pos_rate": 37.9,
+      "pos_rate_seeds": [
+        38.4,
+        36.6,
+        38.7
+      ],
+      "mean_pct": 0.27,
+      "beat_bh_pct": 44.5,
+      "avg_expo": 0.75
+    }
+  },
+  "timing": {
+    "entry25_exit85": {
+      "pos_rate": 37.0,
+      "pos_rate_seeds": [
+        37.6,
+        36.4,
+        37.0
+      ],
+      "mean_pct": -0.23,
+      "beat_bh_pct": 41.2,
+      "down_wk_mean": -4.83,
+      "avg_expo": 0.63
+    },
+    "entry15_exit90": {
+      "pos_rate": 37.8,
+      "pos_rate_seeds": [
+        38.5,
+        37.4,
+        37.5
+      ],
+      "mean_pct": -0.23,
+      "beat_bh_pct": 40.4,
+      "down_wk_mean": -4.99,
+      "avg_expo": 0.66
+    },
+    "entry35_exit75": {
+      "pos_rate": 34.8,
+      "pos_rate_seeds": [
+        35.6,
+        34.0,
+        34.7
+      ],
+      "mean_pct": -0.31,
+      "beat_bh_pct": 43.6,
+      "down_wk_mean": -4.19,
+      "avg_expo": 0.57
+    },
+    "entry50_exit95": {
+      "pos_rate": 39.4,
+      "pos_rate_seeds": [
+        40.0,
+        39.0,
+        39.3
+      ],
+      "mean_pct": -0.04,
+      "beat_bh_pct": 40.1,
+      "down_wk_mean": -5.19,
+      "avg_expo": 0.7
+    }
+  },
+  "shuffle_control": {
+    "strategy_pr": 36.9,
+    "strategy_mn": 0.26,
+    "shuffle_pr_mean": 36.1,
+    "shuffle_pr_p05": 33.8,
+    "shuffle_pr_p95": 37.7,
+    "shuffle_mn_mean": -0.44,
+    "p_posrate": 0.267,
+    "p_mean": 0.0,
+    "n_shuffles": 30,
+    "verdict": "SELECTION SKILL"
+  },
+  "ls_reference": {
+    "pos_rate": 51.3,
+    "mean_pct": 0.21,
+    "blocked": true
+  }
+}

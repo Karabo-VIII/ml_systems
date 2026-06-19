@@ -1,0 +1,135 @@
+{
+  "desc": "Pure smoothing lane -- win-rate ceiling",
+  "n_slices": 500,
+  "slice_len_days": 7,
+  "lookback_days": 14,
+  "period": "2020-01-01 to 2026-01-01",
+  "results": [
+    {
+      "win_rate": 0.576,
+      "mean_ret": 2.3495327310350933,
+      "median_ret": 1.1761679032921468,
+      "std_ret": 11.980397978943133,
+      "p25": -4.286660779714888,
+      "p75": 8.2778648412855,
+      "n": 500,
+      "book": "EW_BH (standing baseline)"
+    },
+    {
+      "win_rate": 0.576,
+      "mean_ret": 2.2659543778358233,
+      "median_ret": 1.1516983944091952,
+      "std_ret": 11.781487974129993,
+      "p25": -3.868159791640677,
+      "p75": 7.4808370139419935,
+      "n": 500,
+      "book": "VOL_TARGET (1/vol weights)"
+    },
+    {
+      "win_rate": 0.576,
+      "mean_ret": 2.265954375122404,
+      "median_ret": 1.1516984022268417,
+      "std_ret": 11.781487968936492,
+      "p25": -3.86815978134189,
+      "p75": 7.4808369971396065,
+      "n": 500,
+      "book": "RISK_PARITY (equal risk)"
+    },
+    {
+      "win_rate": 0.574,
+      "mean_ret": 2.15390656657994,
+      "median_ret": 1.0621354267365657,
+      "std_ret": 11.620301796092072,
+      "p25": -3.5805586995381917,
+      "p75": 7.14053831961961,
+      "n": 500,
+      "book": "IVP (1/var weights)"
+    },
+    {
+      "win_rate": 0.568,
+      "mean_ret": 2.2765402737928597,
+      "median_ret": 1.2289216904298073,
+      "std_ret": 12.014628442646954,
+      "p25": -4.801086920732383,
+      "p75": 8.237412886563227,
+      "n": 500,
+      "book": "MIN_CORR (low-corr upweighted)"
+    },
+    {
+      "win_rate": 0.536,
+      "mean_ret": 1.8565160937383332,
+      "median_ret": 0.8376546202998991,
+      "std_ret": 11.226715554437643,
+      "p25": -4.790133579871209,
+      "p75": 8.841052962386081,
+      "n": 500,
+      "book": "BARBELL (top3+bot3 mom14)"
+    },
+    {
+      "win_rate": 0.482,
+      "mean_ret": 1.3126999525942433,
+      "median_ret": 0.0,
+      "std_ret": 9.62381706726207,
+      "p25": -3.2590436230007347,
+      "p75": 5.492818389755788,
+      "n": 500,
+      "book": "GATED_IVP (1/var weights)"
+    },
+    {
+      "win_rate": 0.476,
+      "mean_ret": 1.3943993573372548,
+      "median_ret": 0.0,
+      "std_ret": 10.041597490727264,
+      "p25": -3.582896536393812,
+      "p75": 5.694850983366573,
+      "n": 500,
+      "book": "GATED_VOL_TARGET (1/vol weights)"
+    },
+    {
+      "win_rate": 0.476,
+      "mean_ret": 1.3943993555519962,
+      "median_ret": 0.0,
+      "std_ret": 10.041597482683926,
+      "p25": -3.582896521411877,
+      "p75": 5.694850989724065,
+      "n": 500,
+      "book": "GATED_RISK_PARITY (equal risk)"
+    },
+    {
+      "win_rate": 0.472,
+      "mean_ret": 1.4802312725106346,
+      "median_ret": 0.0,
+      "std_ret": 10.547677296100137,
+      "p25": -3.7932341310817046,
+      "p75": 6.000670458850527,
+      "n": 500,
+      "book": "GATED_EW_BH (standing baseline)"
+    },
+    {
+      "win_rate": 0.466,
+      "mean_ret": 1.4861522675715775,
+      "median_ret": 0.0,
+      "std_ret": 10.582130279570617,
+      "p25": -3.8085860323997744,
+      "p75": 5.8928095681664345,
+      "n": 500,
+      "book": "GATED_MIN_CORR (low-corr upweighted)"
+    },
+    {
+      "win_rate": 0.436,
+      "mean_ret": 1.211716958327613,
+      "median_ret": 0.0,
+      "std_ret": 10.352204516200427,
+      "p25": -3.974531449214597,
+      "p75": 6.2119539449933034,
+      "n": 500,
+      "book": "GATED_BARBELL (top3+bot3 mom14)"
+    }
+  ],
+  "verdict": {
+    "best_ungated_winrate": 0.576,
+    "best_ungated_mean_ret": 2.3495,
+    "beats_55pct": true,
+    "beats_2p9pct": false
+  }
+}

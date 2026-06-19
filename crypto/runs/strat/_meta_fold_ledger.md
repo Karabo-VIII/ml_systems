@@ -100,3 +100,50 @@ chimera, technical indicators, different skills & experts." => the fold now sear
   never-negative. Referee re-derives + hunts leak every cycle. Early-stop on convergence (collapse) -- do not pad to 6h.
 - NL-Cycle 1 = the 6-engine price tournament (wkbi7ch91, RUNNING). Folds: C2=chimera-feature engines; C3=multi-TF/bar-types;
   C4=expert-skill lanes; converge.
+
+## NL-CYCLE 1 RESULT (wkbi7ch91 DONE, canonical leak-free referee_harness.py, N=5000, OOS 2022+) + NL-C2 PLAN
+- LEADERBOARD pos-rate: EW buy-hold **52.3%**/+0.46% mean; inv-vol 52.9% (TIE, pure smoothing perm-p 0.71); **regime-router
+  50.6%/+0.83% mean/down-wk -3.0%/58% expo** (BEST mean+tail, BELOW BH pos-rate); ML 46% (anti-selective); gated ~40% (cash kills pos-rate).
+- NO active engine beats BH pos-rate OOS leak-free. ML: NO LEAK (strict-WF AUC 0.509) NO SKILL (date-block perm p=0.146; iid p=0.018
+  = autocorrelation trap). 7d direction UNFORECASTABLE from PRICE features.
+- STRUCTURAL: pos-rate is the WRONG objective LO-spot (cash=0=non-positive -> gating LOWERS pos-rate to 30.4%); only MEAN+TAIL liftable.
+  "55%" was a bull-window artifact (canonical BH 52.3% on 2022+).
+- ROUTER = real de-risked beta: selection survives same-exposure shuffle p=0.000; MEAN +0.83 vs +0.46 (+80%); TAIL -3% vs -7% (2022 -8% vs -71%).
+- NL-C2 (the whole-project expansion; referee named EXOGENOUS signal as the only pos-rate lever): (1) CHIMERA-feature ML meta-labeler
+  (funding/basis/ETF-flow/on-chain/order-flow/stablecoin/DVOL/TE; skip xex_) -- does exogenous signal FORECAST 7d direction where price
+  can't (date-block-perm AUC)? = the RIGHT pos-rate lever (predict UP, don't cash). (2) chimera regime-conditioner on the router (mean/tail).
+  (3) HARDEN router (x inv-vol + BTC 10% floor to recover pos-rate ~BH w/o forfeiting tail). (4) revisit funding-dispersion. Referee
+  re-derives + date-block-permutation. If chimera ALSO fails -> internal+exogenous exhausted for 7d direction -> re-baseline to wealth/maxDD/mean.
+
+## NL-CYCLE 2 — chimera exogenous features + router hardening — RUNNING (workflow wg38jr7wi)
+
+## NL-CYCLE 2 RESULT (wg38jr7wi DONE, refereed, leak-hunted) + NL-C3 PLAN
+- CHIMERA LEAK HUNT: **NO LEAK** (4 vectors clean: date bit-identical, no forward-fill, z-scores backward-looking, ETF zero-weight).
+  Strict-WF AUC reproduced 0.4705 vs lane 0.4709.
+- CHIMERA 7d DIRECTION: **NO** (exog-only AUC 0.47, block-perm two-sided p=0.15 = indistinguishable from 0; sub-0.5 = base-rate artifact).
+  pos-rate 38-46% < BH. EXOGENOUS also can't forecast 7d. Conditioner on router = NOISE (Δpos -1.1pp, p=0.95 worse; redundant w/ price-regime).
+- ROUTER HARDENING = hard Pareto TRILEMMA: pos-rate OR mean+tail, never both (downtrend=47% OOS, cash=non-positive). Deployable points:
+  Router plain 50.6%/+0.83% mean/p05 -9.83%/+211% comp; BLEND α=0.6 52.0%/+0.66%/+99% comp (closest to BH pos-rate keeping mean>BH).
+- FUNDING: real but tiny (rank-IC -0.063, ICIR -0.18, p=7e-13, low-fund outperforms) -- LO-blocked; +7.9% prior was large-universe LS;
+  u10 insufficient dispersion. ≥30-name MARKET-NEUTRAL falsifier separates "no edge" from "LO-blocked harvestable" (MN=no-shorts=off-scope).
+- VERDICT: **7d pos-rate NOT beatable above BH 52.3% with internal OR exogenous signal -- both EXHAUSTED for 7d direction** (structural:
+  LO-spot can't be positive in down-weeks w/o cash, cash=non-positive). The ROUTER is the validated winner on MEAN+TAIL (shuffle p=0.0000).
+- NL-C3 (FINAL whole-project sweep = the "different skills & experts" dimension): EXPERT lanes (expert-discover/oracle/trader each PROPOSE+TEST
+  a novel angle the price+chimera cycles missed) + chimera-as-EXIT/SIZING on router winners (untested placement) + multi-TF entry-timing within
+  the 7d window. If all fold -> CONVERGE: router = ship-grade internal-data ceiling; pos-rate needs market-neutral/external (off-scope).
+
+## NL-CYCLE 3 — FINAL whole-project sweep: EXPERT lanes + multi-TF/exit threads — RUNNING (workflow wfxp03z74)
+
+## NL-CYCLE 3 RESULT (wfxp03z74 DONE) — CONVERGED (capstone)
+- NO expert angle beat BH pos-rate or improved the router leak-free. Trader "profit-lock 52.3%" used a LEAKED threshold (0.010 OOS-peeked;
+  real calibrated 0.0338 -> pos 50.8-51.7% = ties BH). MC: 0 discoveries (best perm-vs-BH p=0.052; BH needs <=0.005). The real pos-rate lift
+  is MECHANICAL (Pareto reshaping: buy pos-rate by selling mean), not alpha. multitf-4h caught a min-close leak then failed null p=1.0.
+- STRUCTURAL CEILING PROVEN 3 ways. **CASH THEOREM**: cash=0=non-positive, so week-timing can NEVER raise pos-rate above the in-market basket
+  up-rate (~51-52%) -- DIMENSION-INVARIANT (holds for any TF/bar-type/signal, so chart-types can't escape it either). P(7d>0)>50% for BTC only
+  (51.5%); all alts <50% (pump-and-bleed). EW-basket up-rate 51.15%; best in-sample-cherry basket 52.83% (needs the dead direction signal).
+  **>52.3% reliably-positive is STRUCTURALLY IMPOSSIBLE long-only-spot.**
+- DEPLOYABLE = the ROUTER (adaptive_meta_engine.py): pos 50.73% / mean +0.96% / p05 -8.86% / down-wk -3.03% / expo 0.58 vs BH 51.73% /
+  +0.43% / -13.14% / -6.50% / 1.00. Trades -1pp pos-rate for +0.53pp mean + 4.28pp tighter tail; real selection skill (shuffle p=0.0000). Ship plain router.
+- VERDICT: internal long-only-spot daily = de-risked-beta ceiling, NOT pos-rate alpha. Whole project exhausted (price/chimera/multi-TF/experts,
+  all leak-free). Only frontiers = market-neutral funding (>=30 names, LO-blocked) + external-event data -- both off the user's constraints.
+=== FOLD CONVERGED (new-loop C1->C3, ~1h of the 6h budget = the early collapse the user predicted). FINAL SYNTHESIS POSTED. DO NOT re-arm. ===

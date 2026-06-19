@@ -1,0 +1,78 @@
+{
+  "lane": "a",
+  "base_router": {
+    "pos_rate": 50.73,
+    "mean_pct": 0.96,
+    "p05_pct": -8.86,
+    "median_pct": 0.027,
+    "beat_bh": 52.8,
+    "down_wk_mean": -3.03
+  },
+  "rules": {
+    "open": {
+      "pos_rate": 50.53,
+      "mean_pct": 0.907,
+      "p05_pct": -8.8,
+      "median_pct": 0.023,
+      "beat_bh": 52.3,
+      "down_wk_mean": -3.0
+    },
+    "minclose": {
+      "pos_rate": 55.0,
+      "mean_pct": 1.67,
+      "p05_pct": -7.58,
+      "median_pct": 0.12,
+      "beat_bh": 63.8,
+      "down_wk_mean": -2.36
+    },
+    "limit_dip_0.01": {
+      "pos_rate": 49.6,
+      "mean_pct": 0.667,
+      "p05_pct": -8.87,
+      "median_pct": -0.01,
+      "beat_bh": 49.3,
+      "down_wk_mean": -3.09
+    },
+    "limit_dip_0.02": {
+      "pos_rate": 49.27,
+      "mean_pct": 0.7,
+      "p05_pct": -8.54,
+      "median_pct": -0.007,
+      "beat_bh": 50.7,
+      "down_wk_mean": -3.01
+    },
+    "limit_dip_0.03": {
+      "pos_rate": 49.67,
+      "mean_pct": 0.677,
+      "p05_pct": -8.31,
+      "median_pct": 0.007,
+      "beat_bh": 50.3,
+      "down_wk_mean": -2.95
+    },
+    "limit_dip_0.05": {
+      "pos_rate": 49.93,
+      "mean_pct": 0.727,
+      "p05_pct": -8.38,
+      "median_pct": 0.01,
+      "beat_bh": 50.4,
+      "down_wk_mean": -2.88
+    },
+    "breakout": {
+      "pos_rate": 50.0,
+      "mean_pct": 0.84,
+      "p05_pct": -8.34,
+      "median_pct": 0.003,
+      "beat_bh": 51.1,
+      "down_wk_mean": -2.85
+    }
+  },
+  "referee_rule": "breakout",
+  "referee": {
+    "real_metric": 0.4,
+    "perm_mean": 0.646,
+    "perm_p95": 0.713,
+    "p_value": 1.0,
+    "n_perm": 200
+  },
+  "runtime_s": 34.4
+}

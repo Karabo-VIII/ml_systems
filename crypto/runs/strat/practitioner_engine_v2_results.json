@@ -1,0 +1,305 @@
+{
+  "oos": [
+    "2022-01-01",
+    "2026-06-01"
+  ],
+  "n_slices": 500,
+  "seeds": [
+    11,
+    23,
+    42
+  ],
+  "strategies": {
+    "lever_B_optimized": {
+      "description": "Router + profit-lock thr=0.010 (training-optimal)",
+      "pos_rate": 54.0,
+      "pos_rate_seeds": [
+        53.2,
+        52.4,
+        56.4
+      ],
+      "mean_pct": 0.54,
+      "p05_pct": -7.09,
+      "beat_bh": 50.1,
+      "down_wk_mean": -2.11,
+      "down_wk_posrate": 19.7,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -5.03,
+        "null_mean": -7.37,
+        "p_one_sided": 0.197,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 0.5,
+        "null_mean": -5.64,
+        "p_one_sided": 0.057,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "lever_B_scale30": {
+      "description": "Router + profit-lock thr=0.010 scale=0.3",
+      "pos_rate": 56.3,
+      "pos_rate_seeds": [
+        55.2,
+        55.6,
+        58.2
+      ],
+      "mean_pct": 0.29,
+      "p05_pct": -7.24,
+      "beat_bh": 48.5,
+      "down_wk_mean": -1.92,
+      "down_wk_posrate": 24.4,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -8.22,
+        "null_mean": -11.39,
+        "p_one_sided": 0.211,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": -2.69,
+        "null_mean": -9.66,
+        "p_one_sided": 0.068,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "lever_B_scale50": {
+      "description": "Router + profit-lock thr=0.010 scale=0.5",
+      "pos_rate": 54.0,
+      "pos_rate_seeds": [
+        53.2,
+        52.4,
+        56.4
+      ],
+      "mean_pct": 0.54,
+      "p05_pct": -7.09,
+      "beat_bh": 50.1,
+      "down_wk_mean": -2.11,
+      "down_wk_posrate": 19.7,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -5.03,
+        "null_mean": -7.37,
+        "p_one_sided": 0.197,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 0.5,
+        "null_mean": -5.64,
+        "p_one_sided": 0.057,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "lever_B_scale70": {
+      "description": "Router + profit-lock thr=0.010 scale=0.7",
+      "pos_rate": 52.3,
+      "pos_rate_seeds": [
+        52.0,
+        49.2,
+        55.8
+      ],
+      "mean_pct": 0.71,
+      "p05_pct": -7.55,
+      "beat_bh": 51.2,
+      "down_wk_mean": -2.48,
+      "down_wk_posrate": 16.3,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -2.98,
+        "null_mean": -4.35,
+        "p_one_sided": 0.216,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 2.55,
+        "null_mean": -2.62,
+        "p_one_sided": 0.067,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "lever_E_monday_delay": {
+      "description": "Router + Mon-delay (if BTC Mon ret < -0.5%, hold 50% position)",
+      "pos_rate": 50.1,
+      "pos_rate_seeds": [
+        49.2,
+        48.4,
+        52.8
+      ],
+      "mean_pct": 0.96,
+      "p05_pct": -8.95,
+      "beat_bh": 52.2,
+      "down_wk_mean": -3.0,
+      "down_wk_posrate": 12.0,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -0.4,
+        "null_mean": -0.51,
+        "p_one_sided": 0.43,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 5.13,
+        "null_mean": 1.22,
+        "p_one_sided": 0.099,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "lever_E_mon_tight": {
+      "description": "Router + Mon-delay tight (BTC Mon ret < -1%, hold 30%)",
+      "pos_rate": 50.1,
+      "pos_rate_seeds": [
+        49.0,
+        48.4,
+        53.0
+      ],
+      "mean_pct": 0.96,
+      "p05_pct": -8.9,
+      "beat_bh": 52.4,
+      "down_wk_mean": -2.99,
+      "down_wk_posrate": 12.6,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -0.37,
+        "null_mean": -0.32,
+        "p_one_sided": 0.513,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 5.16,
+        "null_mean": 1.42,
+        "p_one_sided": 0.106,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "lever_F_blend_60": {
+      "description": "Blend 60% router + 40% BH",
+      "pos_rate": 50.4,
+      "pos_rate_seeds": [
+        49.0,
+        48.8,
+        53.4
+      ],
+      "mean_pct": 0.76,
+      "p05_pct": -10.32,
+      "beat_bh": 53.4,
+      "down_wk_mean": -4.41,
+      "down_wk_posrate": 4.3,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -2.21,
+        "null_mean": -0.69,
+        "p_one_sided": 0.9,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 3.32,
+        "null_mean": 1.04,
+        "p_one_sided": 0.1,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "lever_F_blend_70": {
+      "description": "Blend 70% router + 30% BH",
+      "pos_rate": 50.6,
+      "pos_rate_seeds": [
+        48.6,
+        49.2,
+        54.0
+      ],
+      "mean_pct": 0.81,
+      "p05_pct": -9.46,
+      "beat_bh": 53.3,
+      "down_wk_mean": -4.06,
+      "down_wk_posrate": 5.4,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -1.66,
+        "null_mean": -0.52,
+        "p_one_sided": 0.9,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 3.87,
+        "null_mean": 1.21,
+        "p_one_sided": 0.1,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "lever_F_blend_80": {
+      "description": "Blend 80% router + 19% BH",
+      "pos_rate": 50.7,
+      "pos_rate_seeds": [
+        48.4,
+        48.8,
+        54.8
+      ],
+      "mean_pct": 0.86,
+      "p05_pct": -8.74,
+      "beat_bh": 53.3,
+      "down_wk_mean": -3.71,
+      "down_wk_posrate": 6.8,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -1.11,
+        "null_mean": -0.35,
+        "p_one_sided": 0.9,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 4.42,
+        "null_mean": 1.39,
+        "p_one_sided": 0.1,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    },
+    "combo_blend70_lock": {
+      "description": "70% router blend + profit-lock thr=0.010",
+      "pos_rate": 56.2,
+      "pos_rate_seeds": [
+        53.4,
+        55.6,
+        59.6
+      ],
+      "mean_pct": 0.48,
+      "p05_pct": -7.5,
+      "beat_bh": 51.1,
+      "down_wk_mean": -2.85,
+      "down_wk_posrate": 16.0,
+      "avg_expo": 1.0,
+      "perm_vs_router": {
+        "observed_mean_delta_bps": -5.5,
+        "null_mean": -7.0,
+        "p_one_sided": 0.3,
+        "n_oos": 1609,
+        "significant_p05": false
+      },
+      "perm_vs_bh": {
+        "observed_mean_delta_bps": 0.03,
+        "null_mean": -5.26,
+        "p_one_sided": 0.052,
+        "n_oos": 1609,
+        "significant_p05": false
+      }
+    }
+  },
+  "runtime_s": 11.5
+}

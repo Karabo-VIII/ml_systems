@@ -1,0 +1,94 @@
+{
+  "lane": "b",
+  "base_router": {
+    "pos_rate": 50.73,
+    "mean_pct": 0.96,
+    "p05_pct": -8.86,
+    "median_pct": 0.027,
+    "beat_bh": 52.8,
+    "down_wk_mean": -3.03,
+    "expo": 0.578
+  },
+  "bh": {
+    "pos_rate": 51.73,
+    "mean_pct": 0.43,
+    "p05_pct": -13.14,
+    "median_pct": 0.15,
+    "beat_bh": 0.0,
+    "down_wk_mean": -6.5
+  },
+  "configs": {
+    "thr0.8_trim1.0": {
+      "pos_rate": 51.87,
+      "mean_pct": 0.933,
+      "p05_pct": -9.22,
+      "median_pct": 0.057,
+      "beat_bh": 53.9,
+      "down_wk_mean": -2.99,
+      "expo": 0.57
+    },
+    "thr0.85_trim1.0": {
+      "pos_rate": 51.53,
+      "mean_pct": 0.957,
+      "p05_pct": -8.87,
+      "median_pct": 0.053,
+      "beat_bh": 53.0,
+      "down_wk_mean": -3.02,
+      "expo": 0.576
+    },
+    "thr0.9_trim1.0": {
+      "pos_rate": 50.73,
+      "mean_pct": 0.96,
+      "p05_pct": -8.86,
+      "median_pct": 0.027,
+      "beat_bh": 52.8,
+      "down_wk_mean": -3.02,
+      "expo": 0.577
+    },
+    "thr0.8_trim0.5": {
+      "pos_rate": 51.13,
+      "mean_pct": 0.943,
+      "p05_pct": -9.02,
+      "median_pct": 0.043,
+      "beat_bh": 53.7,
+      "down_wk_mean": -3.01,
+      "expo": 0.574
+    },
+    "thr0.9_trim0.5": {
+      "pos_rate": 50.73,
+      "mean_pct": 0.963,
+      "p05_pct": -8.86,
+      "median_pct": 0.027,
+      "beat_bh": 52.8,
+      "down_wk_mean": -3.03,
+      "expo": 0.577
+    },
+    "thr0.95_trim1.0": {
+      "pos_rate": 50.73,
+      "mean_pct": 0.957,
+      "p05_pct": -8.86,
+      "median_pct": 0.027,
+      "beat_bh": 52.7,
+      "down_wk_mean": -3.03,
+      "expo": 0.578
+    }
+  },
+  "best_config": {
+    "thr": 0.9,
+    "trim": 0.5,
+    "pos_rate": 50.73,
+    "mean_pct": 0.963,
+    "p05_pct": -8.86,
+    "median_pct": 0.027,
+    "beat_bh": 52.8,
+    "down_wk_mean": -3.03
+  },
+  "referee": {
+    "real_metric": 0.006,
+    "perm_mean": 1.025,
+    "perm_p95": 1.05,
+    "p_value": 1.0,
+    "n_perm": 200
+  },
+  "runtime_s": 33.4
+}
