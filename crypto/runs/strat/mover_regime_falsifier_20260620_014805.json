@@ -1,0 +1,109 @@
+{
+  "dev_end": "2024-05-15",
+  "n_assets": 50,
+  "date_range": [
+    "2020-01-03",
+    "2024-05-14"
+  ],
+  "vol_hi": 0.04604,
+  "hold": 7,
+  "cost_rt": 0.0024,
+  "n_ctrl_seeds": 20,
+  "by_K": {
+    "K3": {
+      "overall": {
+        "n": 1376,
+        "real_mean_pp": 2.249,
+        "ctrl_mean_pp": 1.577,
+        "mean_excess_pp": 0.672,
+        "z": 2.23,
+        "win_rate_pct": 44.1,
+        "avg_exposure": 0.555
+      },
+      "per_regime": {
+        "bull": {
+          "n": 474,
+          "real_mean_pp": 6.789,
+          "ctrl_mean_pp": 4.641,
+          "mean_excess_pp": 2.147,
+          "z": 2.56,
+          "win_rate_pct": 48.1,
+          "avg_exposure": 0.962
+        },
+        "chop": {
+          "n": 460,
+          "real_mean_pp": 0.075,
+          "ctrl_mean_pp": 0.132,
+          "mean_excess_pp": -0.057,
+          "z": -0.24,
+          "win_rate_pct": 40.9,
+          "avg_exposure": 0.476
+        },
+        "bear": {
+          "n": 442,
+          "real_mean_pp": -0.356,
+          "ctrl_mean_pp": -0.205,
+          "mean_excess_pp": -0.151,
+          "z": -2.18,
+          "win_rate_pct": 43.2,
+          "avg_exposure": 0.2
+        }
+      },
+      "regime_counts": {
+        "bull": 474,
+        "chop": 460,
+        "bear": 442
+      }
+    },
+    "K5": {
+      "overall": {
+        "n": 1376,
+        "real_mean_pp": 2.297,
+        "ctrl_mean_pp": 1.637,
+        "mean_excess_pp": 0.66,
+        "z": 2.94,
+        "win_rate_pct": 46.2,
+        "avg_exposure": 0.555
+      },
+      "per_regime": {
+        "bull": {
+          "n": 474,
+          "real_mean_pp": 6.944,
+          "ctrl_mean_pp": 4.742,
+          "mean_excess_pp": 2.201,
+          "z": 3.52,
+          "win_rate_pct": 54.2,
+          "avg_exposure": 0.962
+        },
+        "chop": {
+          "n": 460,
+          "real_mean_pp": 0.015,
+          "ctrl_mean_pp": 0.214,
+          "mean_excess_pp": -0.199,
+          "z": -1.2,
+          "win_rate_pct": 43.0,
+          "avg_exposure": 0.476
+        },
+        "bear": {
+          "n": 442,
+          "real_mean_pp": -0.31,
+          "ctrl_mean_pp": -0.211,
+          "mean_excess_pp": -0.099,
+          "z": -1.77,
+          "win_rate_pct": 41.0,
+          "avg_exposure": 0.2
+        }
+      },
+      "regime_counts": {
+        "bull": 474,
+        "chop": 460,
+        "bear": 442
+      }
+    }
+  },
+  "verdicts": {
+    "K3": "BULL-ONLY ARTIFACT -- alpha present in bull (z=2.56) but NOT in chop/bear",
+    "K5": "BULL-ONLY ARTIFACT -- alpha present in bull (z=3.52) but NOT in chop/bear"
+  },
+  "runtime_s": 19.3
+}

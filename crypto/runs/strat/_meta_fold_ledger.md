@@ -181,4 +181,40 @@ chimera, technical indicators, different skills & experts." => the fold now sear
 - RECONCILE vs C1-fleet (DEV, "de-risked beta, K=1 negative"): different NULL -- C1 compared vs EW (beta); NL-C4 vs random-SAME-EXPOSURE (selection).
   The selection null is the cleaner skill test. => DECISIVE CYCLE: re-run move-capture engine + same-exposure shuffle + REGIME-STRATIFICATION on DEV-walled fleet_lab.
 
-## DECISIVE CYCLE -- move-capture selection-alpha on DEV (regime-stratified shuffle) -- RUNNING (workflow TBD)
+## DECISIVE CYCLE -- move-capture selection-alpha on DEV (regime-stratified shuffle) -- RUNNING (workflow wh20zajez)
+
+---
+
+## DECISIVE CYCLE -- move-capture selection-alpha on DEV (regime-stratified shuffle) -- VERDICT: ARTIFACT (2026-06-20 01:58 SAST, workflow wh20zajez)
+
+**Pre-registered decisive test FAILED -> internal-data 1d mover-selection CLOSED (converge).**
+
+The NL-C4 lead (ungated mover engine beats random-same-exposure by z=5-6) was re-proven on DEV-walled fleet_lab
+(<=2024-05-15) with the regime-stratified same-exposure shuffle + honest non-overlapping (stride=7) z + moving-block
+bootstrap. Referee (expert-quant) independently re-derived (`quant_referee_mover_dev.py`).
+
+- **DEV WALL HELD** (verified 3 layers; every result JSON caps at 2024-05-14; oos_validate never called).
+- **The z=5-6 was a POOLING + OVERLAPPING-WINDOW artifact.** Honest pooled z = 1.5 (n_eff=197), and it is ENTIRELY bull.
+- **DECISIVE (regime-stratified paired same-exposure, K=3 derivations unanimous):**
+  - bull: +2.11pp, honest z=1.74, block-boot p05=+0.25pp, frac>0=0.96  -- marginally real, bull-ONLY
+  - chop: -0.08pp, z=-0.83, p05=**-1.20pp**, frac>0=0.22  -- ARTIFACT (selection NEGATIVE)
+  - bear: -0.16pp, z=-0.56, p05=**-0.29pp**, frac>0=0.30  -- ARTIFACT (selection NEGATIVE)
+  Outside a confirmed bull tape, mover-selection ACTIVELY UNDERPERFORMS the same-exposure no-skill control.
+- **Aggregate capture** (honest, dollar-wtd, K=3): engine 7.91% vs shuffle 7.14% = +0.77pp, INSIDE seed noise (5.5/8.3/7.7).
+- **Identification AUC = 0.549** (p=1.6e-5): real but economically trivial (random=0.5). Real-but-unharvestable -- the
+  project's recurring signature, now confirmed for mover-selection.
+- **Deployable** mover_capture_K3 full-DEV: comp +3784% but **maxDD -86.5%** -> FAILS the <30% DD bar = leveraged-into-bull
+  beta, NOT a risk-controlled book. vol_hi calibration-sensitive (q75-pre2022=0.83 vs q80-1H=0.046) = not robust.
+- **One dissenting lane REFUTED:** move_capture_fleet.py:578 `z_delta` = difference of two BH-relative t-stats, never forms
+  the paired same-exposure diff -> its "chop z=+2.22 REAL" has no valid null. Distrust any z=5-6 without the regime split.
+
+**The honest residue:** within a CONFIRMED bull tape the composite picks ~+2-3.8pp/7d above a same-exposure market
+portfolio (survives beta-decontamination so not PURE beta-loading) -- a regime-GATED bull-beta ENHANCER, sub-2sigma,
+the same participate-preserve / de-risked-beta wall, NOT the breakthrough. The -86% DD is fixable ONLY by regime-gating
+to cash in chop/bear (= the participate-preserve book, with the mover-selection as its bull leg).
+
+**FOLD -> next cycle (FRAME-BROADLY, the user's explicit not-explored axis):** the entire fleet campaign has been 1d-only.
+The user REPEATEDLY asked for SUB-DAILY (<1d) + multi-timeframe + chart-types ("24 4h bars < 24 days"). Chimera has
+15m/30m/1h/4h + dollar/dib/range on disk. CYCLE = extend fleet_lab to sub-daily TFs and re-run the move-capture +
+regime-stratified test there: does faster-cadence move-capture beat the same-exposure shuffle ACROSS regimes (where 1d
+failed), or is the de-risked-beta wall TIMEFRAME-INVARIANT? This is the genuine widening, not a manufactured cycle.
