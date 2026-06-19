@@ -58,36 +58,45 @@ The engine TRANSLATES forward:
 - Mean-reversion (RSI/STOCH/CCI/BBPCT/WILLR) does NOT translate to 2021 -> dead lane (consistent w/ prior "MR flat").
 - Fine TFs (1h/30m/15m): 0 all-weather (over-gated + cost-bound). Volume TIs deferred. Artifacts ti_capture_phase1_*.
 
-## THE KILLER NULL -- gate-only buy-hold DOMINATES the engine on WEALTH (the decisive finding)
-Continuous full-cycle replay 2020-10-01 .. 2022-12-31 (held-out: OOS bull tail -> 2021 mixed -> 2022 bear), EW-u10, taker:
+## THE DECISIVE NULL -- CORRECTED 2026-06-19 (adversarial verification caught 2 real bugs)
+**RETRACTION.** An earlier pass claimed the SMA200-gated buy-hold (+937.5%) DOMINATED buy-hold on wealth. That
++937.5% was an **SMA-200 INITIALISATION ARTIFACT**: `_sma` used `min_periods=1`, so the 3 late-listing assets
+(SOL=17, DOGE=43, AVAX=9 pre-window daily bars) got a partial-window average that hugged their listing pump instead
+of a true 200-bar trend filter. 100% of the +937->+324 gap localises to those 3 names (the 7 established assets are
+bit-identical). FIXED: the gate now uses a STRICT SMA200 (`min_periods=N` -> young asset = cash). A second, orthogonal
+leak (`ma_strat_builder.py:404` selected the static band on `oo>0` = OOS-in-band) inflated reported `net_oos` by
++0.6..+6pp; also FIXED (band is now TRAIN+VAL-only). Both verified bit-exactly; gate number reproduced independently.
 
-| strategy | full-cycle net% | maxDD% | return/maxDD |
-|---|---:|---:|---:|
-| GATE-ONLY (SMA200-timed buy-hold) | +937.5 | -54.1 | 17.3 |
-| raw buy-hold | +548.6 | -79.4 | 6.9 |
-| engine ADX/base 1d | +200.4 | -18.8 | 10.7 |
-| engine SUPERTREND/base 1d | +194.4 | -17.4 | 11.2 |
-| engine MACD/iron 1d | +186.2 | -15.3 | 12.2 |
-| engine DONCHIAN/iron 1d | +184.0 | -13.3 | 13.8 |
+CORRECTED continuous full-cycle 2020-10-01..2022-12-31 (EW-u10, taker 0.0024, long-only spot, NO leverage):
 
-- **On WEALTH the engine LOSES to a trivial SMA200-timed buy-hold by ~4.7x** (+937 vs +190). The move-capture TI
-  signal OVER-de-risks: it gives up far more bull participation than its extra bear-preservation is worth.
-- **Only the GATE beats raw buy-hold** (+937 vs +549) -- the simple market-timing overlay (= the daily_engine thesis).
-  The TI move-capture signal adds NOTHING on wealth (it underperforms even raw BH).
-- On risk-adjusted (return/maxDD) gate-only STILL wins (17.3 vs ~11-14).
-- **The engine's ONLY genuine edge = lowest drawdown** (-13..-19% vs gate -54% vs BH -79%). It wins ONLY under a
-  HARD maxDD cap (<~20%) that disqualifies gate-only -- i.e. for a risk-bounded mandate that cannot tolerate >20% DD,
-  the DONCHIAN/MACD cells (+185%, -13..-15% DD) are the best admissible option.
+| strategy | full-cycle net% | maxDD% |
+|---|---:|---:|
+| **raw buy-hold** | **+548.6** | -79.4 |
+| GATE-only STRICT SMA200 | +324.1 | -54.1 |
+| engine cells (ADX/MACD/DONCHIAN/SUPERTREND 1d, strict) | +115..+179 | -12..-25 |
 
-## HONEST VERDICT (campaign)
-The dynamic capture engine WORKS as built (forward-validated, ~24 all-weather MA+trend-TI cells, regime-gated,
-repeatable). But on the binding WEALTH metric it is **de-risked beta dominated by a trivial SMA200-timed buy-hold**;
-its move-capture signal over-de-risks. The ONLY thing that beats buy-hold on wealth is the GATE alone (the daily_engine
-overlay, already owned). The engine's unique value is **minimum-drawdown insurance**, realisable only under a tight
-maxDD cap. This re-earns -- per-TI, forward-validated, cell-by-cell with the gate baseline as the arbiter -- the prior
-"no internal long-only signal beats buy-hold on wealth; the harvestable value is drawdown-preservation" conclusion.
-Trend-following TIs (MA + ADX/MACD/DONCHIAN/SUPERTREND/...) all collapse to the same de-risked-beta point; MR is dead;
-fine TFs are dead. Move CAPTURE (discrimination) is real; harvestable WEALTH alpha over buy-hold is not.
+- **On WEALTH, raw buy-hold WINS.** No internal long-only signal beats it: BH +549% > strict gate +324% > engine
+  +115..+179%. The gate gives up wealth to cut DD (-79->-54%); the engine gives up MORE wealth for MORE DD reduction.
+- The TI move-capture signal adds **nothing on wealth** over a plain trend gate -- it over-de-risks (binary cash-out
+  during continuing bull moves). The "gate dominates buy-hold" headline is RETRACTED.
+- **The engine's only genuine, harvestable property = minimum DRAWDOWN** (-12..-25% vs gate -54% vs BH -79%),
+  realisable only under a hard maxDD / Sharpe / leverage-budget objective, never under unconstrained wealth.
+- Held-out evidence to trust = the NEGATIVE `p05_oos_bootstrap` everywhere + the forward 2021/2022 translation SIGN
+  (not the in-sample-inflated `net_oos`). Fixed-EW u10 inflates ALL wealth figures via the 2021 small-cap melt-up;
+  cap-weighting ~halves every number (state weighting explicitly).
+
+## HONEST VERDICT (campaign, corrected + adversarially verified)
+The dynamic capture engine WORKS as built (forward-validated, regime-gated, repeatable, ~24 all-weather trend cells).
+But on the binding WEALTH metric, **no internal long-only signal beats raw buy-hold** (BH +549% > strict gate +324% >
+engine +115..+179%). The move-capture signal over-de-risks (binary cash-out during continuing bull moves) and adds
+nothing on wealth over a plain trend gate; even the gate gives up wealth to buy drawdown. The engine's only genuine,
+harvestable property is **minimum drawdown** -- a de-risked-beta / drawdown-insurance allocator, valuable only under a
+hard maxDD-constrained mandate. This RE-EARNS -- per-TI, forward-validated, cell-by-cell, with TWO real bugs caught
+and fixed by adversarial verification -- the standing "no internal long-only wealth alpha; harvestable value =
+drawdown-preservation" conclusion. Trend-following TIs (MA + ADX/MACD/DONCHIAN/SUPERTREND/...) all collapse to the same
+de-risked-beta point; mean-reversion is dead; fine TFs are dead. **Move CAPTURE (discrimination) is real; harvestable
+WEALTH alpha over buy-hold is not.** If the user's objective is drawdown-constrained return, the engine is a real
+minimum-DD book; if it is compound wealth, buy-hold wins and the open frontier remains EXTERNAL data.
 
 ## Next
 - Phase 1: non-MA TI expansion (22 TIs via plug-in adapter) -- prior work says non-MA TIs preserve bears

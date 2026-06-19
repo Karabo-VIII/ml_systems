@@ -313,8 +313,10 @@ def _signal_runs(c, fma, sma, mma, family, cd, mh):
     h, _ = apply_trail_stop(h.copy(), c, TRAIL)
     h = np.asarray(h, dtype=np.int8)
     if REGIME_GATE == "sma200":
-        # Tier-1 causal position gate: cash whenever close <= SMA_N (past-only). NaN warmup -> cash.
-        g = _MA["SMA"](c, REGIME_GATE_N)
+        # Tier-1 causal position gate: cash whenever close <= SMA_N (past-only). STRICT min_periods=N:
+        # a young asset with < N bars has NaN SMA -> cash (NOT a partial-window avg that hugs the listing
+        # pump -- that init artifact fabricated a fake trend filter on SOL/DOGE/AVAX; verified 2026-06-19).
+        g = pd.Series(c).rolling(REGIME_GATE_N, min_periods=REGIME_GATE_N).mean().to_numpy()
         h = (h.astype(bool) & (c > g)).astype(np.int8)   # NaN comparison -> False -> cash (conservative)
     d = np.diff(np.concatenate([[0], h, [0]]))
     return np.where(d == 1)[0], np.where(d == -1)[0]
@@ -399,9 +401,10 @@ def _run_family(assets, configs, family, ma_type,
                 for ci, bk in cfg_bks_vl: net_per_cfg.setdefault(ci, {})["vl"] = _net_pct(bk)
                 for ci, bk in cfg_bks_oo: net_per_cfg.setdefault(ci, {})["oo"] = _net_pct(bk)
 
+                # band selected on TRAIN+VAL ONLY (OOS held out). Including oo>0 here was an OOS-in-band
+                # leak that inflated the reported net_oos by +0.6..+6pp (caught by adversarial audit 2026-06-19).
                 band_cis = [ci for ci, ns in net_per_cfg.items()
-                            if ns.get("tr", -999) > 0 and ns.get("vl", -999) > 0
-                            and ns.get("oo", -999) > 0]
+                            if ns.get("tr", -999) > 0 and ns.get("vl", -999) > 0]
                 if not band_cis:
                     # fallback: top-3 by train net
                     by_tr = sorted(net_per_cfg.items(), key=lambda x: -x[1].get("tr", -999))[:3]

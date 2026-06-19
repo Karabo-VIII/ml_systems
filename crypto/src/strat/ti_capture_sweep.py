@@ -61,7 +61,9 @@ def _gated_held(A, held_fn, params, gate, cd, mh):
     h, _ = apply_trail_stop(h.copy(), c, TRAIL)
     h = np.asarray(h, dtype=np.int8)
     if gate:
-        g = _sma(c, GATE_N)
+        # STRICT SMA200 gate (min_periods=N): young assets (<N bars) -> NaN -> cash, NOT a partial-window
+        # avg that hugs the listing pump (the SOL/DOGE/AVAX init artifact; verified+fixed 2026-06-19).
+        g = pd.Series(c).rolling(GATE_N, min_periods=GATE_N).mean().to_numpy()
         h = (h.astype(bool) & (c > g)).astype(np.int8)   # NaN -> False -> cash (conservative, causal)
     return h
 
