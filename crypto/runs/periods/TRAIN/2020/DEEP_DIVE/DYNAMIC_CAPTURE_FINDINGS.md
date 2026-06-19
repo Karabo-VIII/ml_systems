@@ -85,13 +85,32 @@ CORRECTED continuous full-cycle 2020-10-01..2022-12-31 (EW-u10, taker 0.0024, lo
   (not the in-sample-inflated `net_oos`). Fixed-EW u10 inflates ALL wealth figures via the 2021 small-cap melt-up;
   cap-weighting ~halves every number (state weighting explicitly).
 
+## RESCUE-B -- conviction-scaled exposure (does the TI have within-bull SELECTION skill?)
+The verdict above used the TI as a BINARY cash-out. RESCUE-B instead uses it as a CONVICTION TILT on the strict
+gate: per-asset weight = 0 (gate-off) / 0.5 (gate-on, TI-off) / 1.0 (gate-on, TI-on); MACD-iron(12,26,9) as the TI.
+Continuous 2020-10..2022-12, EW-u10, taker, strict gate, positions lagged (causal):
+
+| book | net% | maxDD% |
+|---|---:|---:|
+| strict gate-only | +330.8 | -54.1 |
+| conviction-RAW (0/.5/1, reduced gross) | +364.8 | -35.4 |
+| conviction-NORM (matched gross = pure SELECTION) | +370.5 | -54.8 |
+| raw buy-hold (ref) | +548.6 | -79.4 |
+
+FINDING: the TI move-capture signal DOES have a real (if modest) WITHIN-BULL SELECTION skill -- at MATCHED gross
+the conviction tilt beats gate-only by +40pp (+370 vs +331); and conviction-RAW PARETO-IMPROVES gate-only (MORE
+wealth +365 AND less drawdown -35 vs -54). So the TI is NOT "nothing": as a conviction/selection overlay (not a
+binary timer) it makes a strictly BETTER de-risked-beta book. CAVEAT: one un-tuned MACD config on the held-out
+cycle (suggestive, not dev-selected + forward-confirmed). STILL < raw buy-hold on wealth (+549% > +370%).
+
 ## HONEST VERDICT (campaign, corrected + adversarially verified)
 The dynamic capture engine WORKS as built (forward-validated, regime-gated, repeatable, ~24 all-weather trend cells).
 But on the binding WEALTH metric, **no internal long-only signal beats raw buy-hold** (BH +549% > strict gate +324% >
-engine +115..+179%). The move-capture signal over-de-risks (binary cash-out during continuing bull moves) and adds
-nothing on wealth over a plain trend gate; even the gate gives up wealth to buy drawdown. The engine's only genuine,
-harvestable property is **minimum drawdown** -- a de-risked-beta / drawdown-insurance allocator, valuable only under a
-hard maxDD-constrained mandate. This RE-EARNS -- per-TI, forward-validated, cell-by-cell, with TWO real bugs caught
+engine +115..+179% > conviction-tilt +370%). As a BINARY cash-out the move-capture signal over-de-risks and adds
+nothing on wealth over a plain gate; but as a CONVICTION TILT (rescue-B) it has a real within-bull SELECTION skill
+that PARETO-improves the gate (+365% / -35% DD vs +331% / -54%) -- a strictly better de-risked-beta book, still < BH
+on wealth. The engine's genuine harvestable value is therefore a **minimum-drawdown de-risked-beta allocator with a
+modest TI selection edge**, valuable only under a hard maxDD-constrained mandate. This RE-EARNS -- per-TI, forward-validated, cell-by-cell, with TWO real bugs caught
 and fixed by adversarial verification -- the standing "no internal long-only wealth alpha; harvestable value =
 drawdown-preservation" conclusion. Trend-following TIs (MA + ADX/MACD/DONCHIAN/SUPERTREND/...) all collapse to the same
 de-risked-beta point; mean-reversion is dead; fine TFs are dead. **Move CAPTURE (discrimination) is real; harvestable
