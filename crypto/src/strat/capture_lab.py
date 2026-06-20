@@ -102,8 +102,14 @@ def regime_series(lab, tf="1d", w_days=50):
 
 
 def fired_matrix(lab, ti, thr=None):
-    """Boolean DataFrame: where TI signals a move is ONSET/underway (causal, per-asset, cross-sectional where needed)."""
+    """Boolean DataFrame: where TI signals a move is ONSET/underway (causal, per-asset, cross-sectional where needed).
+    If the stored feature is already a boolean DataFrame (pre-computed gate), return it directly."""
     F = lab["F"]; X = F[ti]
+    # pre-computed boolean gate (e.g. combined price-TI x exo conditioner) -- return as-is
+    if hasattr(X, "dtype") and X.dtype == bool:
+        return X.fillna(False)
+    if hasattr(X, "dtypes") and (X.dtypes == bool).all():
+        return X.fillna(False)
     if ti in ("mom7", "mom14", "mom30", "accel", "brk14"):
         return X > (0.0 if thr is None else thr)               # positive momentum / fresh breakout
     if ti == "rsi14":

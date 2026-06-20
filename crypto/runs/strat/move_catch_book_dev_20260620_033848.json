@@ -1,0 +1,108 @@
+{
+  "spec": {
+    "version": "move_catch_book_v1.0",
+    "date_frozen": "2026-06-20",
+    "dev_wall": "2024-05-15",
+    "component_A": {
+      "TIs": [
+        "mom14",
+        "brk14"
+      ],
+      "combine": "equal_weight_zscore_composite",
+      "K": 5,
+      "hold_days": 7,
+      "tf": "1d",
+      "rebalance": "every_hold"
+    },
+    "component_B": {
+      "amplifier_flags": [
+        "liq_capitulation",
+        "liq_short_panic"
+      ],
+      "mode": "OR",
+      "size_up_factor": 1.5,
+      "regimes_active": [
+        "bull",
+        "chop"
+      ]
+    },
+    "component_C": {
+      "gate": "causal_regime_series",
+      "participate": [
+        "bull",
+        "chop"
+      ],
+      "de_risk": {
+        "bear": 0.0
+      },
+      "regime_window_days": 50
+    },
+    "cost_rt": 0.0024,
+    "position_sizing": "equal_weight_within_K",
+    "max_position": 0.2
+  },
+  "dev_window": {
+    "start": "2020-01-03",
+    "end": "2024-05-14",
+    "n_bars": 1594,
+    "n_assets": 50
+  },
+  "n_slices": 221,
+  "full_period": {
+    "book_compound_pct": 16926.5,
+    "bh_compound_pct": 823.47,
+    "book_maxdd_pct": -56.54,
+    "bh_maxdd_pct": -83.36,
+    "dd_saved_pp": 26.8
+  },
+  "by_regime": {
+    "bull": {
+      "n_slices": 67,
+      "profit_rate": 50.7,
+      "mean_roi_pct": 6.16,
+      "worst_slice_pct": -27.22,
+      "compound_pct": 2022.94
+    },
+    "chop": {
+      "n_slices": 53,
+      "profit_rate": 58.5,
+      "mean_roi_pct": 5.13,
+      "worst_slice_pct": -31.11,
+      "compound_pct": 702.03
+    },
+    "bear": {
+      "n_slices": 101,
+      "profit_rate": 0.0,
+      "mean_roi_pct": 0.0,
+      "worst_slice_pct": 0.0,
+      "compound_pct": 0.0
+    }
+  },
+  "bh_by_regime": {
+    "bull": {
+      "compound_pct": 1487.65,
+      "maxdd_pct": -28.51
+    },
+    "chop": {
+      "compound_pct": 525.2,
+      "maxdd_pct": -40.68
+    },
+    "bear": {
+      "compound_pct": -90.7,
+      "maxdd_pct": -92.24
+    }
+  },
+  "bear_preservation": {
+    "bear_book_maxdd_pct": 0.0,
+    "bear_bh_maxdd_pct": -92.24,
+    "dd_saved_pp": 92.2,
+    "n_bear_slices": 101
+  },
+  "liq_amplifier": {
+    "n_liq_slices": 108,
+    "n_no_liq_slices": 12,
+    "mean_roi_liq_pct": 5.96,
+    "mean_roi_no_liq_pct": 3.44,
+    "amplifier_premium_pp": 2.52
+  }
+}

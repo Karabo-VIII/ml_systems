@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "script": "mover_capture_oracle.py",
+    "oos": [
+      "2022-01-01",
+      "2026-06-01"
+    ],
+    "n_slices": 500,
+    "seeds": [
+      11,
+      23,
+      42
+    ],
+    "runtime_s": 12.8
+  },
+  "gate_diagnosis": {
+    "top1_excluded_pct": 57.1,
+    "top3_excluded_frac_mean_pct": 57.0,
+    "top1_is_btc_pct": 9.7,
+    "n_days_oos": 1602,
+    "diagnosis": "Top-1 mover excluded by SMA200 gate: 57.1% of OOS days | Top-3 exclusion rate: 57.0% | BTC is top mover: 9.7%"
+  },
+  "capture_rates": {
+    "oracle_top3": {
+      "n_windows": 229,
+      "n_pos_oracle_windows": 166,
+      "pooled_capture_rate": 1.0,
+      "median_capture_rate": 1.0,
+      "mean_capture_rate": 1.0,
+      "oracle_mean_7d": 6.74,
+      "oracle_median_7d": 3.91,
+      "engine_mean_7d": 6.74,
+      "engine_median_7d": 3.91
+    },
+    "oracle_top1": {
+      "n_windows": 229,
+      "n_pos_oracle_windows": 166,
+      "pooled_capture_rate": 1.4591,
+      "median_capture_rate": 1.198,
+      "mean_capture_rate": 0.4378,
+      "oracle_mean_7d": 6.74,
+      "oracle_median_7d": 3.91,
+      "engine_mean_7d": 10.95,
+      "engine_median_7d": 6.38
+    },
+    "ungated_bare_top3": {
+      "n_windows": 229,
+      "n_pos_oracle_windows": 166,
+      "pooled_capture_rate": 0.3698,
+      "median_capture_rate": 0.5412,
+      "mean_capture_rate": 0.9628,
+      "oracle_mean_7d": 6.74,
+      "oracle_median_7d": 3.91,
+      "engine_mean_7d": 0.48,
+      "engine_median_7d": -0.69
+    },
+    "ungated_cb_top3": {
+      "n_windows": 229,
+      "n_pos_oracle_windows": 166,
+      "pooled_capture_rate": 0.2418,
+      "median_capture_rate": 0.2278,
+      "mean_capture_rate": 0.4663,
+      "oracle_mean_7d": 6.74,
+      "oracle_median_7d": 3.91,
+      "engine_mean_7d": 0.62,
+      "engine_median_7d": -0.24
+    },
+    "ungated_cb_top1": {
+      "n_windows": 229,
+      "n_pos_oracle_windows": 166,
+      "pooled_capture_rate": 0.2833,
+      "median_capture_rate": 0.2603,
+      "mean_capture_rate": 0.588,
+      "oracle_mean_7d": 6.74,
+      "oracle_median_7d": 3.91,
+      "engine_mean_7d": 0.76,
+      "engine_median_7d": -0.44
+    },
+    "ungated_cb_top5": {
+      "n_windows": 229,
+      "n_pos_oracle_windows": 166,
+      "pooled_capture_rate": 0.2282,
+      "median_capture_rate": 0.1998,
+      "mean_capture_rate": 0.4084,
+      "oracle_mean_7d": 6.74,
+      "oracle_median_7d": 3.91,
+      "engine_mean_7d": 0.52,
+      "engine_median_7d": -0.23
+    },
+    "carry_stop_top3": {
+      "n_windows": 229,
+      "n_pos_oracle_windows": 166,
+      "pooled_capture_rate": 0.2321,
+      "median_capture_rate": 0.2363,
+      "mean_capture_rate": 0.5627,
+      "oracle_mean_7d": 6.74,
+      "oracle_median_7d": 3.91,
+      "engine_mean_7d": 0.65,
+      "engine_median_7d": -0.17
+    },
+    "gated_router": {
+      "n_windows": 229,
+      "n_pos_oracle_windows": 166,
+      "pooled_capture_rate": 0.2485,
+      "median_capture_rate": 0.0972,
+      "mean_capture_rate": 0.2946,
+      "oracle_mean_7d": 6.74,
+      "oracle_median_7d": 3.91,
+      "engine_mean_7d": 0.76,
+      "engine_median_7d": -0.04
+    }
+  },
+  "slice_stats": {
+    "oracle_top3": {
+      "pos_rate": 71.8,
+      "pos_rate_seeds": [
+        70.0,
+        71.4,
+        74.0
+      ],
+      "mean_pct": 6.95,
+      "beat_bh": 97.1
+    },
+    "ungated_bare_top3": {
+      "pos_rate": 48.2,
+      "pos_rate_seeds": [
+        46.8,
+        47.2,
+        50.6
+      ],
+      "mean_pct": 0.58,
+      "beat_bh": 48.9
+    },
+    "ungated_cb_top3": {
+      "pos_rate": 46.7,
+      "pos_rate_seeds": [
+        45.4,
+        45.6,
+        49.0
+      ],
+      "mean_pct": 0.79,
+      "beat_bh": 51.1
+    },
+    "ungated_cb_top1": {
+      "pos_rate": 45.3,
+      "pos_rate_seeds": [
+        44.6,
+        46.8,
+        44.6
+      ],
+      "mean_pct": 0.98,
+      "beat_bh": 48.6
+    },
+    "ungated_cb_top5": {
+      "pos_rate": 47.2,
+      "pos_rate_seeds": [
+        46.2,
+        45.4,
+        50.0
+      ],
+      "mean_pct": 0.72,
+      "beat_bh": 52.1
+    },
+    "carry_stop_top3": {
+      "pos_rate": 48.4,
+      "pos_rate_seeds": [
+        46.8,
+        48.0,
+        50.4
+      ],
+      "mean_pct": 0.86,
+      "beat_bh": 50.6
+    },
+    "gated_router": {
+      "pos_rate": 50.7,
+      "pos_rate_seeds": [
+        50.0,
+        48.6,
+        53.6
+      ],
+      "mean_pct": 0.96,
+      "beat_bh": 52.8
+    }
+  },
+  "bh_baseline": {
+    "pos_rate": 51.7,
+    "mean_pct": 0.43
+  },
+  "regime_capture": {
+    "ungated_bare_top3": {
+      "BULL": {
+        "n": 75,
+        "pooled_capture": 0.4075,
+        "median_capture": 0.5094,
+        "engine_mean_7d_pct": 3.4,
+        "oracle_mean_7d_pct": 11.82,
+        "engine_pos_rate": 54.7
+      },
+      "BEAR": {
+        "n": 107,
+        "pooled_capture": 0.2827,
+        "median_capture": 0.5272,
+        "engine_mean_7d_pct": -1.43,
+        "oracle_mean_7d_pct": 3.82,
+        "engine_pos_rate": 42.1
+      },
+      "CHOP": {
+        "n": 47,
+        "pooled_capture": 0.4189,
+        "median_capture": 0.6025,
+        "engine_mean_7d_pct": 0.14,
+        "oracle_mean_7d_pct": 5.27,
+        "engine_pos_rate": 42.6
+      }
+    },
+    "ungated_cb_top3": {
+      "BULL": {
+        "n": 75,
+        "pooled_capture": 0.3597,
+        "median_capture": 0.4071,
+        "engine_mean_7d_pct": 2.86,
+        "oracle_mean_7d_pct": 11.82,
+        "engine_pos_rate": 52.0
+      },
+      "BEAR": {
+        "n": 107,
+        "pooled_capture": 0.0646,
+        "median_capture": 0.1299,
+        "engine_mean_7d_pct": -0.57,
+        "oracle_mean_7d_pct": 3.82,
+        "engine_pos_rate": 43.0
+      },
+      "CHOP": {
+        "n": 47,
+        "pooled_capture": 0.223,
+        "median_capture": 0.2961,
+        "engine_mean_7d_pct": -0.22,
+        "oracle_mean_7d_pct": 5.27,
+        "engine_pos_rate": 38.3
+      }
+    },
+    "gated_router": {
+      "BULL": {
+        "n": 75,
+        "pooled_capture": 0.3807,
+        "median_capture": 0.4364,
+        "engine_mean_7d_pct": 3.28,
+        "oracle_mean_7d_pct": 11.82,
+        "engine_pos_rate": 60.0
+      },
+      "BEAR": {
+        "n": 107,
+        "pooled_capture": -0.0229,
+        "median_capture": 0.0393,
+        "engine_mean_7d_pct": -0.43,
+        "oracle_mean_7d_pct": 3.82,
+        "engine_pos_rate": 45.8
+      },
+      "CHOP": {
+        "n": 47,
+        "pooled_capture": 0.3591,
+        "median_capture": 0.6515,
+        "engine_mean_7d_pct": -0.56,
+        "oracle_mean_7d_pct": 5.27,
+        "engine_pos_rate": 36.2
+      }
+    }
+  },
+  "reverse_engineer": {
+    "signal_aucs": {
+      "mom7_rank": 0.5103,
+      "mom14_rank": 0.5171,
+      "mom30_rank": 0.5072,
+      "rsi14_rank": 0.5201,
+      "mom14": 0.5171,
+      "mom7": 0.5103,
+      "range_pos": 0.5206
+    },
+    "n_obs": 16010,
+    "n_pos": 4803,
+    "mom14_p_vs_date_block_null": 0.0,
+    "null_auc_mean": 0.5046,
+    "null_auc_p95": 0.509,
+    "best_signal": "range_pos",
+    "best_auc": 0.5206
+  },
+  "bear_survival": {
+    "bear_2022": {
+      "bh": -71.2,
+      "ungated_bare_top3": -70.5,
+      "ungated_cb_top3": -29.1,
+      "gated_router": -8.0
+    },
+    "bull_2023": {
+      "bh": 152.0,
+      "ungated_bare_top3": 158.2,
+      "ungated_cb_top3": 88.5,
+      "gated_router": 119.1
+    },
+    "correction_2024q1": {
+      "bh": -3.7,
+      "ungated_bare_top3": -21.6,
+      "ungated_cb_top3": -15.2,
+      "gated_router": -9.0
+    },
+    "bull_2024q4": {
+      "bh": 79.4,
+      "ungated_bare_top3": 166.7,
+      "ungated_cb_top3": 141.0,
+      "gated_router": 114.5
+    },
+    "correction_2025": {
+      "bh": -15.4,
+      "ungated_bare_top3": -3.2,
+      "ungated_cb_top3": -10.8,
+      "gated_router": -33.9
+    }
+  },
+  "verdict": {
+    "oracle_mean_7d_pct": 6.74,
+    "best_causal_mean_7d_pct": 0.62,
+    "pooled_capture_rate_causal_cb": 0.2418,
+    "gap_pct_of_oracle": 90.8,
+    "best_signal_for_oracle": "range_pos",
+    "best_signal_auc": 0.5206,
+    "mom14_auc": 0.5171,
+    "mom14_significant": true
+  }
+}

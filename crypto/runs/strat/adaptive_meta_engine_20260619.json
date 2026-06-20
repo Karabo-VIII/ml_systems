@@ -1,0 +1,67 @@
+{
+  "engine": "adaptive_meta_engine",
+  "description": "BTC-trend x breadth x vol regime routing -> 4 sub-behaviors (momentum/recovery/invol/defensive)",
+  "eval_start": "2022-01-01",
+  "n_slices_400": {
+    "n_slices": 400,
+    "eng_positive_rate": 48.2,
+    "bh_positive_rate": 46.5,
+    "eng_mean_7d_pct": 0.82,
+    "bh_mean_7d_pct": 0.03,
+    "eng_median_7d_pct": -0.02,
+    "bh_median_7d_pct": -0.52,
+    "n_down_bh_weeks": 214,
+    "eng_on_down_bh_mean": -2.89,
+    "eng_on_down_bh_positive_rate": 13.1,
+    "eng_p5_7d_pct": -9.28,
+    "bh_p5_7d_pct": -13.26
+  },
+  "n_slices_2000": {
+    "n_slices": 2000,
+    "eng_positive_rate": 49.5,
+    "bh_positive_rate": 50.7,
+    "eng_mean_7d_pct": 0.82,
+    "bh_mean_7d_pct": 0.29,
+    "eng_median_7d_pct": -0.01,
+    "bh_median_7d_pct": 0.15,
+    "n_down_bh_weeks": 986,
+    "eng_on_down_bh_mean": -3.12,
+    "eng_on_down_bh_positive_rate": 12.6,
+    "eng_p5_7d_pct": -9.98,
+    "bh_p5_7d_pct": -13.32
+  },
+  "full_period": {
+    "label": "adaptive_meta_engine",
+    "comp_2020": 188.9,
+    "comp_2021": 870.5,
+    "comp_2022": -8.1,
+    "comp_full": 8608.5,
+    "maxDD": -53.8,
+    "green_all": 54.0,
+    "green_2021": 60.0,
+    "green_2022": 40.0,
+    "avg_expo": 0.58,
+    "avg_turnover": 0.169,
+    "n_blocks_inmkt": 281
+  },
+  "regime_dist_oos_pct": {
+    "downtrend": 46.9,
+    "clean-uptrend": 27.7,
+    "chop": 9.9,
+    "recovery-bounce": 15.5
+  },
+  "down_market_behavior": {
+    "n_slices": 986,
+    "bh_mean_pct": -6.61,
+    "eng_mean_pct": -3.12,
+    "eng_positive_rate_pct": 12.6,
+    "preservation_ratio": 0.471
+  },
+  "up_market_behavior": {
+    "n_slices": 1014,
+    "bh_mean_pct": 6.99,
+    "eng_mean_pct": 4.64,
+    "eng_positive_rate_pct": 85.4
+  },
+  "vol_hi_threshold": 0.7317
+}

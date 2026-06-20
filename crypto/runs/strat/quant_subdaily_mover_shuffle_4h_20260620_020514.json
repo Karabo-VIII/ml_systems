@@ -1,0 +1,81 @@
+{
+  "tf": "4h",
+  "generated": "2026-06-20 02:05:12.156299",
+  "cost_rt": 0.0024,
+  "runs": {
+    "fixed": {
+      "tf": "4h",
+      "exit": "fixed",
+      "exit_cfg": {
+        "mode": "fixed"
+      },
+      "K": 3,
+      "blend": {
+        "mom14": 0.45,
+        "brk14": 0.3,
+        "volexp": 0.25
+      },
+      "hold_bars": 42,
+      "hold_days": 7,
+      "vol_hi": 0.8411,
+      "n_slices_per_seed": 150,
+      "ctrl_seeds": 20,
+      "block": 7,
+      "regime_mix": {
+        "bear": 3849,
+        "bull": 2391,
+        "chop": 1872
+      },
+      "eval_range": [
+        "2020-09-01 00:00:00",
+        "2024-05-14 20:00:00"
+      ],
+      "regimes": {
+        "bull": {
+          "n": 148,
+          "real_net_pct": 7.395,
+          "ctrl_net_pct": 4.562,
+          "alpha_net_pp": 2.833,
+          "boot_p05_pp": 0.929,
+          "boot_frac_gt0": 0.996,
+          "real_gross_pct": 7.622,
+          "cost_drag_pp": 0.226,
+          "real_pos_rate": 65.5,
+          "verdict": "REAL"
+        },
+        "chop": {
+          "n": 97,
+          "real_net_pct": 0.104,
+          "ctrl_net_pct": 0.338,
+          "alpha_net_pp": -0.234,
+          "boot_p05_pp": -0.793,
+          "boot_frac_gt0": 0.185,
+          "real_gross_pct": 0.215,
+          "cost_drag_pp": 0.112,
+          "real_pos_rate": 46.4,
+          "verdict": "ARTIFACT"
+        },
+        "bear": {
+          "n": 205,
+          "real_net_pct": 0.13,
+          "ctrl_net_pct": 0.029,
+          "alpha_net_pp": 0.102,
+          "boot_p05_pp": -0.068,
+          "boot_frac_gt0": 0.843,
+          "real_gross_pct": 0.178,
+          "cost_drag_pp": 0.048,
+          "real_pos_rate": 55.1,
+          "verdict": "ARTIFACT"
+        }
+      },
+      "pooled": {
+        "n": 450,
+        "alpha_net_pp": 0.928,
+        "boot_p05_pp": 0.234,
+        "boot_frac_gt0": 0.984,
+        "verdict": "REAL"
+      },
+      "runtime_s": 2.6
+    }
+  }
+}

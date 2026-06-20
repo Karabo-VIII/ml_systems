@@ -1,0 +1,378 @@
+{
+  "dev_end": "2024-05-15",
+  "vol_hi_threshold": 0.8284,
+  "regime_counts": {
+    "bear": 746,
+    "chop": 425,
+    "bull": 423
+  },
+  "bh": {
+    "pos_rate": 59.9,
+    "mean_pct": 2.53
+  },
+  "mover": {
+    "K1": {
+      "overall": {
+        "pos_rate": 41.7,
+        "mean_pct": 2.69,
+        "p05_pct": -23.75,
+        "beat_bh_pct": 43.1,
+        "z_vs_bh": 0.13
+      },
+      "equity": {
+        "label": "mover_K1",
+        "comp_full": 169.8,
+        "comp_2020": 70.6,
+        "comp_2021": 1019.5,
+        "comp_2022": -58.6,
+        "comp_2023": -10.4,
+        "maxDD": -98.8,
+        "avg_expo": 0.496
+      },
+      "regime": {
+        "bull": {
+          "n": 107,
+          "pos_rate": 49.3,
+          "mean_pct": 7.7,
+          "p05_pct": -31.35,
+          "beat_bh_pct": 44.5,
+          "z_vs_bh": 0.9
+        },
+        "chop": {
+          "n": 99,
+          "pos_rate": 44.8,
+          "mean_pct": 4.07,
+          "p05_pct": -21.67,
+          "beat_bh_pct": 47.6,
+          "z_vs_bh": 0.58
+        },
+        "bear": {
+          "n": 194,
+          "pos_rate": 35.9,
+          "mean_pct": -0.67,
+          "p05_pct": -7.21,
+          "beat_bh_pct": 40.0,
+          "z_vs_bh": -2.92
+        },
+        "all": {
+          "n": 400,
+          "pos_rate": 41.7,
+          "mean_pct": 2.69,
+          "p05_pct": -23.75,
+          "beat_bh_pct": 43.1,
+          "z_vs_bh": 0.13
+        }
+      }
+    },
+    "K3": {
+      "overall": {
+        "pos_rate": 46.0,
+        "mean_pct": 2.58,
+        "p05_pct": -13.59,
+        "beat_bh_pct": 45.9,
+        "z_vs_bh": 0.07
+      },
+      "equity": {
+        "label": "mover_K3",
+        "comp_full": 3783.8,
+        "comp_2020": 142.0,
+        "comp_2021": 1220.7,
+        "comp_2022": -34.5,
+        "comp_2023": 113.0,
+        "maxDD": -86.5,
+        "avg_expo": 0.496
+      },
+      "regime": {
+        "bull": {
+          "n": 107,
+          "pos_rate": 56.3,
+          "mean_pct": 7.2,
+          "p05_pct": -20.59,
+          "beat_bh_pct": 49.9,
+          "z_vs_bh": 1.71
+        },
+        "chop": {
+          "n": 99,
+          "pos_rate": 45.0,
+          "mean_pct": 2.81,
+          "p05_pct": -13.86,
+          "beat_bh_pct": 45.4,
+          "z_vs_bh": 0.07
+        },
+        "bear": {
+          "n": 194,
+          "pos_rate": 40.9,
+          "mean_pct": -0.06,
+          "p05_pct": -4.13,
+          "beat_bh_pct": 44.0,
+          "z_vs_bh": -2.27
+        },
+        "all": {
+          "n": 400,
+          "pos_rate": 46.0,
+          "mean_pct": 2.58,
+          "p05_pct": -13.59,
+          "beat_bh_pct": 45.9,
+          "z_vs_bh": 0.07
+        }
+      }
+    },
+    "K5": {
+      "overall": {
+        "pos_rate": 49.1,
+        "mean_pct": 2.63,
+        "p05_pct": -11.39,
+        "beat_bh_pct": 47.4,
+        "z_vs_bh": 0.2
+      },
+      "equity": {
+        "label": "mover_K5",
+        "comp_full": 6394.8,
+        "comp_2020": 188.6,
+        "comp_2021": 1270.0,
+        "comp_2022": -34.7,
+        "comp_2023": 118.2,
+        "maxDD": -76.1,
+        "avg_expo": 0.496
+      },
+      "regime": {
+        "bull": {
+          "n": 107,
+          "pos_rate": 64.1,
+          "mean_pct": 6.94,
+          "p05_pct": -16.81,
+          "beat_bh_pct": 55.8,
+          "z_vs_bh": 2.32
+        },
+        "chop": {
+          "n": 99,
+          "pos_rate": 46.5,
+          "mean_pct": 3.09,
+          "p05_pct": -11.91,
+          "beat_bh_pct": 44.9,
+          "z_vs_bh": 0.39
+        },
+        "bear": {
+          "n": 194,
+          "pos_rate": 42.3,
+          "mean_pct": 0.03,
+          "p05_pct": -4.23,
+          "beat_bh_pct": 44.0,
+          "z_vs_bh": -2.13
+        },
+        "all": {
+          "n": 400,
+          "pos_rate": 49.1,
+          "mean_pct": 2.63,
+          "p05_pct": -11.39,
+          "beat_bh_pct": 47.4,
+          "z_vs_bh": 0.2
+        }
+      }
+    }
+  },
+  "shuffle_control": {
+    "K1": {
+      "bull": {
+        "n": 107,
+        "pos_rate": 47.0,
+        "mean_pct": 0.93,
+        "p05_pct": -18.24,
+        "beat_bh_pct": 34.4,
+        "z_vs_bh": -2.81
+      },
+      "chop": {
+        "n": 99,
+        "pos_rate": 40.6,
+        "mean_pct": 0.26,
+        "p05_pct": -15.05,
+        "beat_bh_pct": 38.9,
+        "z_vs_bh": -2.68
+      },
+      "bear": {
+        "n": 194,
+        "pos_rate": 40.4,
+        "mean_pct": -0.05,
+        "p05_pct": -4.82,
+        "beat_bh_pct": 42.8,
+        "z_vs_bh": -2.18
+      },
+      "all": {
+        "n": 400,
+        "pos_rate": 42.2,
+        "mean_pct": 0.29,
+        "p05_pct": -14.24,
+        "beat_bh_pct": 39.6,
+        "z_vs_bh": -4.24
+      }
+    },
+    "K3": {
+      "bull": {
+        "n": 107,
+        "pos_rate": 51.1,
+        "mean_pct": 1.4,
+        "p05_pct": -16.5,
+        "beat_bh_pct": 30.2,
+        "z_vs_bh": -3.77
+      },
+      "chop": {
+        "n": 99,
+        "pos_rate": 45.6,
+        "mean_pct": 1.06,
+        "p05_pct": -13.23,
+        "beat_bh_pct": 39.3,
+        "z_vs_bh": -2.15
+      },
+      "bear": {
+        "n": 194,
+        "pos_rate": 44.0,
+        "mean_pct": -0.13,
+        "p05_pct": -4.37,
+        "beat_bh_pct": 42.8,
+        "z_vs_bh": -2.35
+      },
+      "all": {
+        "n": 400,
+        "pos_rate": 46.2,
+        "mean_pct": 0.58,
+        "p05_pct": -12.33,
+        "beat_bh_pct": 38.7,
+        "z_vs_bh": -4.4
+      }
+    },
+    "K5": {
+      "bull": {
+        "n": 107,
+        "pos_rate": 55.7,
+        "mean_pct": 2.29,
+        "p05_pct": -14.79,
+        "beat_bh_pct": 32.3,
+        "z_vs_bh": -3.4
+      },
+      "chop": {
+        "n": 99,
+        "pos_rate": 45.3,
+        "mean_pct": 1.01,
+        "p05_pct": -11.59,
+        "beat_bh_pct": 36.2,
+        "z_vs_bh": -2.45
+      },
+      "bear": {
+        "n": 194,
+        "pos_rate": 43.7,
+        "mean_pct": -0.03,
+        "p05_pct": -3.76,
+        "beat_bh_pct": 43.0,
+        "z_vs_bh": -2.2
+      },
+      "all": {
+        "n": 400,
+        "pos_rate": 47.2,
+        "mean_pct": 0.84,
+        "p05_pct": -11.16,
+        "beat_bh_pct": 38.4,
+        "z_vs_bh": -4.18
+      }
+    }
+  },
+  "selection_alpha": {
+    "K1": {
+      "bull": {
+        "mean_alpha_pp": 6.77,
+        "beat_bh_delta": 10.1,
+        "z_delta": 3.71
+      },
+      "chop": {
+        "mean_alpha_pp": 3.81,
+        "beat_bh_delta": 8.7,
+        "z_delta": 3.26
+      },
+      "bear": {
+        "mean_alpha_pp": -0.62,
+        "beat_bh_delta": -2.8,
+        "z_delta": -0.74
+      },
+      "all": {
+        "mean_alpha_pp": 2.4,
+        "beat_bh_delta": 3.5,
+        "z_delta": 4.37
+      }
+    },
+    "K3": {
+      "bull": {
+        "mean_alpha_pp": 5.8,
+        "beat_bh_delta": 19.7,
+        "z_delta": 5.48
+      },
+      "chop": {
+        "mean_alpha_pp": 1.75,
+        "beat_bh_delta": 6.1,
+        "z_delta": 2.22
+      },
+      "bear": {
+        "mean_alpha_pp": 0.07,
+        "beat_bh_delta": 1.2,
+        "z_delta": 0.08
+      },
+      "all": {
+        "mean_alpha_pp": 2.0,
+        "beat_bh_delta": 7.2,
+        "z_delta": 4.47
+      }
+    },
+    "K5": {
+      "bull": {
+        "mean_alpha_pp": 4.65,
+        "beat_bh_delta": 23.5,
+        "z_delta": 5.72
+      },
+      "chop": {
+        "mean_alpha_pp": 2.08,
+        "beat_bh_delta": 8.7,
+        "z_delta": 2.84
+      },
+      "bear": {
+        "mean_alpha_pp": 0.06,
+        "beat_bh_delta": 1.0,
+        "z_delta": 0.07
+      },
+      "all": {
+        "mean_alpha_pp": 1.79,
+        "beat_bh_delta": 9.0,
+        "z_delta": 4.38
+      }
+    }
+  },
+  "runtime_s": 11.6,
+  "agent_spec": {
+    "name": "mover_capture_K3",
+    "feats": [
+      "mom14",
+      "rangepos",
+      "volexp",
+      "accel"
+    ],
+    "K": 3,
+    "hold": 7,
+    "signs": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "weights": [
+      0.35,
+      0.25,
+      0.2,
+      0.2
+    ],
+    "description": "Mover-capture: rank assets by composite(mom14 35%+rangepos 25%+volexp 20%+accel 20%), hold top-3 EW, scale total exposure by market circuit-breaker (bear 20%/chop40-70%/bull 100%). DEV-calibrated vol_hi_threshold applied at inference time."
+  },
+  "oos_handoff_fn": "strat.move_capture_fleet.oos_validate_slice",
+  "oos_handoff_args": {
+    "oos_start": "2024-05-15",
+    "K": 3,
+    "vol_hi_threshold": 0.8284,
+    "n_slices": 200
+  }
+}
