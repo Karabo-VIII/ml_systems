@@ -365,3 +365,5 @@ Cheapest deployable falsifier: recompute liq_short_panic vs mom/brk pool with LI
 it was micro-cap listing-age beta proxying as a flush signal).
 
 _maxDD RECONCILED (2026-06-20): the -27.5/-42.3/-56.5 spread = three portfolios, NOT a bug. Frozen K=5 book full-period maxDD = -56.5% (vs BH -83.4%, +26.8pp saved); gate-alone EW = -42.3% (+41pp); bear-only book 0% cash (vs BH -92.2%, +92pp). The -14pp gap (book vs gate-EW) = the CONCENTRATION COST (K=5 + 1.5x amplifier buy participation at deeper DD). Canonical numbers from run_dev. Capstone doc: docs/MOVE_CATCH_CAMPAIGN_CAPSTONE.md._
+
+_v2 FASTGATE HARDENING RUNNING (workflow w35o5k3wn, launched 2026-06-20 03:4x SAST): build move_catch_book_v2 (separate module; v1 stays frozen) with a faster bear gate (dual-window / intra-hold regime-flip exit) to cut the #1 HIGH risk -- the ~3.3wk bear-ENTRY lag inflating v1 maxDD -56.5%. Adversarially guarded vs curve-fitting to DEV bears + whipsaw participation loss. Lanes: build_v2 / validate_v2 + referee._
