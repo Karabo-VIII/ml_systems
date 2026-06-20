@@ -47,6 +47,9 @@ wait for a confirmed setup, enter, exit by policy. Rank by **WEALTH** (compound 
 - **Build first, evaluate honestly.** Gates: no-skill fixed-hold baseline, random-entry null, block-bootstrap p05,
   select on TRAIN/VAL not OOS. Discrimination != harvestability. Rank by net WEALTH, not Sharpe.
 - **Deliver end-to-end, artifacts where the user looks** (`runs/periods/...`), nothing pending. Plain talk, no preamble.
+- **Respect the clock — measure it, never feel it.** No internal clock: ground any time / elapsed / ETA claim on a
+  fresh `date` (files via stat/git log), tag VERIFIED/REPORTED/INFERRED, re-ground after any gap; timed / loop /
+  schedule runs record a VERIFIED start once, then report `date − start`. (`.claude/skills/_common/WALL_CLOCK.md`)
 
 ## THE HONEST FALLBACK (when the surface is genuinely exhausted)
 Long-only internal-data alpha may not exist — the standing premise, not a failure. The constructive default is

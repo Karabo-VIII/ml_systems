@@ -31,6 +31,9 @@ null on that shadow and quits at the verdict, reporting the whole mandate dead. 
 9. **Claude MANAGES; do not defer a revertible decision to the user.** Decide, state reasoning, proceed; git is the
    revert net. Escalate only for genuinely irreversible real-world actions.
 10. **Deliver end-to-end, artifacts where the user looks** (`runs/periods/...`), nothing pending. Plain talk, no preamble.
+11. **Respect the clock.** No internal clock — measure time with a fresh `date` (files via stat/git log), tag
+    VERIFIED/REPORTED/INFERRED, re-ground after any gap; timed/loop runs record a VERIFIED start then report
+    `date − start`. Never narrate elapsed/remaining from feel. Spec: `.claude/skills/_common/WALL_CLOCK.md`.
 
 ## The honest fallback (when the surface is genuinely exhausted)
 Long-only internal-data alpha may not exist — the standing premise, not a failure. The constructive default is

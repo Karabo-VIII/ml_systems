@@ -12,6 +12,14 @@ one shared `.claude/`. From here you can focus on any one sub-project, or ship o
 > (dead-list, lessons, survivors, archive, git bundle) is mapped in [`crypto/KNOWLEDGE_MAP.md`](crypto/KNOWLEDGE_MAP.md).
 > This is the 4-pillar operating model that fixes "instances can't build constructively on prior work + my intent."
 
+> **🟢 WALL-CLOCK GROUNDING (binding, ALL instances + all three sub-projects).** You have NO internal clock — current
+> time, elapsed, "X hours in / left", "last modified", "N days ago" are unknowable by feel and MUST be measured with a
+> fresh `date` (files via `stat` / `git log`). Tag every time claim **VERIFIED / REPORTED / INFERRED**; for elapsed show
+> the subtraction (fresh `date` − VERIFIED start). Re-ground after any gap (resume, context summary, long/background
+> tool call, new turn). Timed / autonomous / `/loop` / `/schedule` runs record a VERIFIED start once, then `date − start`
+> on every progress claim — never narrate the passage of time, read it. Full spec + the 2026-06-03 fabrication incident:
+> [`.claude/skills/_common/WALL_CLOCK.md`](.claude/skills/_common/WALL_CLOCK.md).
+
 | Sub-project | Path | What it is | Its own doc |
 |---|---|---|---|
 | **Crypto** | [`crypto/`](crypto/) | The V4 crypto system (pipeline, world-models, strat, mining, oracle, wealth_bot, audit, framework). | **[`crypto/CLAUDE.md`](crypto/CLAUDE.md) — READ THIS for any crypto work; all the binding crypto invariants live there.** |
