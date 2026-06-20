@@ -297,3 +297,33 @@ runs the full battery + BOTH directions + causality audit: does any EXOGENOUS fe
 or bear-positive)? If no -> internal EXHAUSTED, external (Coinbase/Upbit) is the charter-blessed redirect.
 
 _v51 exogenous move-CATCH cycle RUNNING (workflow wob5hmhhu, launched 2026-06-20 02:5x SAST)._
+
+---
+
+## v51 EXOGENOUS MOVE-CATCH CYCLE -- VERDICT: WALL IS EXOGENOUS-INVARIANT -> CONVERGE ON INTERNAL (2026-06-20 03:3x SAST, workflow wob5hmhhu)
+
+**No v51 exogenous feature breaks the de-risked-beta wall. Internal infra EXHAUSTED. External data = charter-blessed next frontier.**
+
+Full hardened battery (block bootstrap + regime-shuffle + reverse-score + Holm) on 20 exogenous v51 features x both directions:
+- **BEAR-POSITIVE: 0 of 12** cells. Best bear = norm_funding|top block_p_le0 ~0.12 (NOT sig); s3_smart_vs_retail_z|top +0.81pp @ 0.22.
+  Every bear cell block_p05 < 0.
+- **Holm (30 continuous tests): 0 survivors.** smallest raw p = bs_basis_xsec_z|bottom|chop 0.009 -> p_holm 0.27.
+- **The 3 "regime_conditional" shuffle flags are ARTIFACTS** (autopsy + reproduced): the regime-shuffle detects cross-regime
+  SIGN ASYMMETRY, not a tradeable bear edge. norm_oi_change flagged p_shuf=0.010 while its bear edge is NEGATIVE (-0.70pp,
+  own bear block_p_le0=0.886). KEY LESSON: regime-shuffle p must be paired with the regime's OWN block_p_le0>0 to mean anything.
+- **Conditioners do NOT rescue bear** (best mom14 AND smart_z_bot -> bear +1.50pp but block_p_le0=0.225; dies under MCC).
+- **The only MCC-surviving real exo edge:** liq_capitulation/liq_short_panic (flush->bounce, time-exit 7d) = bull +3.23/+3.30pp
+  (block_p05>0), chop +3.15/+3.43pp (block_p05>0), BUT bear -0.10/-0.08pp (p_le0~0.53). A real bull+chop CONTINUATION
+  AMPLIFIER (regime-gate OFF in bear) -- EXTENDS the de-risked-beta book, does NOT break it.
+- CAUSALITY AUDIT PASSED at source (robust_normalize=trailing rolling(200); liq z=shift(1).rolling; no forward/target leak).
+  DEV wall held (max 2024-05-14). K=3 re-derivation reproduces the null bit-for-bit. stbl_* fired zero (single global metric
+  broadcast XS -> tercile trigger degenerate; needs absolute-threshold redesign, noted for any external-data cycle).
+
+**CONVERGENCE (meta-fold framework): the internal-data question is HONESTLY ANSWERED across ALL axes.** Price-TI selection,
+move-capture 1d/4h/1h, capture-rate (churn-immune null), AND v51 exogenous -- ALL hit the same wall: NO regime-conditional or
+bear-positive move-catch edge exists in internal data. The ONLY harvestable edge is up-regime momentum/breakout continuation +
+the liq-flush amplifier (both bull+chop, dead in bear) = a regime-aware DE-RISKED-BETA book. The cash theorem (LO-spot cash=0)
+means "reliably positive on any 7d slice" is structurally impossible; the SOTA-honest deliverable = a regime-aware book that
+PARTICIPATES in bull/chop (momentum/breakout + liq-flush amplifier) and PRESERVES in bear (de-risk to cash), with the user
+validating OOS. External data (Coinbase/Upbit announcements, on-chain inflows not in v51) = the next frontier, DEFERRED per the
+charter (needs new data + user involvement). NEXT: synthesize+validate the deployable from the validated components + OOS-handoff.
