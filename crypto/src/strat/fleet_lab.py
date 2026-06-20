@@ -22,9 +22,12 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 CRYPTO = ROOT.parent
-DEV_END = "2024-05-15"          # <<< THE WALL: TRAIN+VAL only. Never load/eval >= this.
+DEV_END = "2024-05-15"          # <<< THE WALL: TRAIN+VAL only. Never load/eval >= this. (calendar date -> TF-agnostic)
 COST = 0.0024                   # taker RT
-CHIM_DIR = CRYPTO / "data" / "processed" / "chimera" / "1d"
+CHIM_BASE = CRYPTO / "data" / "processed" / "chimera"
+CHIM_DIR = CHIM_BASE / "1d"     # default; load_wide(tf=...) repoints for sub-daily
+BARS_PER_DAY = {"1d": 1, "4h": 6, "2h": 12, "1h": 24, "30m": 48, "15m": 96}   # for days<->bars at sub-daily
+PANDAS_FREQ = {"1d": "D", "4h": "4h", "2h": "2h", "1h": "1h", "30m": "30min", "15m": "15min"}  # floor-to-bar-grid
 
 
 def _rsi(s, n=14):
@@ -32,15 +35,21 @@ def _rsi(s, n=14):
     return 100 - 100 / (1 + up / (dn + 1e-12))
 
 
-def load_wide(n=50, start="2019-01-01", end=DEV_END, min_bars=400):
-    """DEV-window wide universe. HARD cap at `end` (<= DEV_END). Returns features dict (all causal)."""
+def load_wide(n=50, start="2019-01-01", end=DEV_END, min_bars=400, tf="1d"):
+    """DEV-window wide universe at timeframe `tf`. HARD cap at `end` (<= DEV_END). Returns features dict (all causal).
+
+    tf in {1d,4h,2h,1h,30m,15m}. The wall is a CALENDAR date so it caps any TF identically. For sub-daily the index is
+    floored to the bar grid (NOT to the day) so intraday bars don't collapse. Feature windows are in BARS (caller rescales
+    for calendar semantics via BARS_PER_DAY)."""
     assert pd.Timestamp(end) <= pd.Timestamp(DEV_END), f"WALL VIOLATION: end {end} >= DEV_END {DEV_END}"
+    assert tf in BARS_PER_DAY, f"unknown tf {tf}"
     import polars as pl
+    chim_dir = CHIM_BASE / tf
     s_ms = pd.Timestamp(start).value // 10**6; e_ms = pd.Timestamp(end).value // 10**6
     want = ["timestamp", "open", "high", "low", "close", "volume_usd", "buy_vol", "sell_vol",
             "norm_vpin", "norm_deviation", "norm_fd_close"]
     rows = []
-    for f in sorted(glob.glob(str(CHIM_DIR / "*.parquet"))):
+    for f in sorted(glob.glob(str(chim_dir / "*.parquet"))):
         sym = Path(f).stem.split("_")[0].upper()
         try:
             cols = [c for c in want if c in pl.read_parquet_schema(f)]
@@ -52,7 +61,8 @@ def load_wide(n=50, start="2019-01-01", end=DEV_END, min_bars=400):
         if m.sum() < min_bars:
             continue
         d = df.filter(pl.Series(m))
-        idx = pd.to_datetime(d["timestamp"].to_numpy(), unit="ms").normalize()   # floor to daily grid so assets ALIGN
+        # floor raw (jittered, end-of-bar) stamps to the TF bar-grid so assets ALIGN in the wide join.
+        idx = pd.to_datetime(d["timestamp"].to_numpy(), unit="ms").floor(PANDAS_FREQ[tf])
         rows.append((sym, idx, {c: d[c].to_numpy() for c in cols if c != "timestamp"}, int(m.sum())))
     rows = sorted(rows, key=lambda r: -r[3])[:n]            # top-n by DEV-window coverage
     syms = [r[0] for r in rows]
@@ -124,11 +134,13 @@ def slice_dates(lab, n=200, hold=7, seed=0):
     return sorted(rng.choice(valid, min(n, len(valid)), replace=False))
 
 
-def selftest():
-    print(f"[selftest] fleet_lab -- DEV wall <= {DEV_END}")
-    lab = load_wide(n=50)
+def selftest(tf="1d"):
+    bpd = BARS_PER_DAY[tf]
+    hold = 7 * bpd                  # 7 CALENDAR days in bars (the slice horizon is calendar-fixed across TFs)
+    print(f"[selftest] fleet_lab tf={tf} ({bpd} bars/day) -- DEV wall <= {DEV_END}, hold={hold} bars (7d)")
+    lab = load_wide(n=50, min_bars=200 * bpd if tf != "1d" else 400, tf=tf)
     C = lab["C"]
-    print(f"  loaded {len(lab['syms'])} assets; date range {C.index.min().date()} -> {C.index.max().date()}  (must be <= {DEV_END})")
+    print(f"  loaded {len(lab['syms'])} assets; range {C.index.min()} -> {C.index.max()}  (must be < {DEV_END})")
     assert C.index.max() < pd.Timestamp(DEV_END), "WALL VIOLATION"
     print(f"  features: {list(lab['F'].keys())}")
     # invoke a few sample agents (different info sets) on random DEV slices
@@ -139,13 +151,13 @@ def selftest():
         "breakout+volexp":   {"feats": ["brk14", "volexp"]},
         "chimera-only(ofi,vpin,dev)": {"feats": ["ofi", "vpin", "dev"]},
     }
-    ds = slice_dates(lab, 150)
-    print(f"\n  SLICE-INVOCATION TEST ({len(ds)} random DEV 7d slices, top-5):")
+    ds = slice_dates(lab, 150, hold=hold)
+    print(f"\n  SLICE-INVOCATION TEST ({len(ds)} random DEV 7d slices = {hold} bars, top-5):")
     print(f"  {'agent':30}{'profit%':>9}{'mean':>8}{'beatEW':>8}")
-    ew = [np.mean([C[s].iloc[d+7]/C[s].iloc[d]-1 for s in C.columns if pd.notna(C[s].iloc[d]) and pd.notna(C[s].iloc[d+7])]) for d in ds]
+    ew = [np.mean([C[s].iloc[d+hold]/C[s].iloc[d]-1 for s in C.columns if pd.notna(C[s].iloc[d]) and pd.notna(C[s].iloc[d+hold])]) for d in ds]
     ew = np.array(ew)
     for name, a in agents.items():
-        rr = [invoke(lab, a["feats"], d, 7, 5) for d in ds]; rr = np.array([x for x in rr if x is not None])
+        rr = [invoke(lab, a["feats"], d, hold, 5) for d in ds]; rr = np.array([x for x in rr if x is not None])
         if len(rr) < 3: print(f"  {name:30}  (insufficient)"); continue
         print(f"  {name:30}{100*np.mean(rr>0):>8.0f}%{100*rr.mean():>8.2f}{100*np.mean(rr[:len(ew)]>ew[:len(rr)]):>7.0f}%")
     print(f"  {'EW buy-hold (ref)':30}{100*np.mean(ew>0):>8.0f}%{100*ew.mean():>8.2f}")
@@ -155,5 +167,6 @@ def selftest():
 
 if __name__ == "__main__":
     import argparse
-    ap = argparse.ArgumentParser(); ap.add_argument("--selftest", action="store_true")
-    raise SystemExit(selftest() if ap.parse_args().selftest else 0)
+    ap = argparse.ArgumentParser(); ap.add_argument("--selftest", action="store_true"); ap.add_argument("--tf", default="1d")
+    a = ap.parse_args()
+    raise SystemExit(selftest(a.tf) if a.selftest else 0)
