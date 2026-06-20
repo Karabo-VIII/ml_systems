@@ -22,10 +22,15 @@ regime->config-set switching, chimera x TI conditioning, the ironed FINE-TF band
 fine-TF band; under-participation does). The held-out POSITIVE so far is funding-dispersion carry (dollar-neutral perps;
 boxed pending the user). External-listing-data is the open user-gated frontier.
 
-## NEXT ACTIONS
-1. Run the u100 x 7d x all-TF move-capture sweep through `move_catch_book` + `oracle_capture_lab` capture KPI.
-2. Build the 2%+ daily-move coverage manifest (realized/available per cell).
-3. Honest gates (fixed-hold null, random-entry, p05); rank survivors by WEALTH; aggregate the book.
+## NEXT ACTIONS (MA engine build)
+**1st VERIFIED SUCCESS — committed efb23a4b (2026-06-20).** MA drawdown-insurance sleeve at **1d/4h** over u100:
+HALVES portfolio maxDD (~-35% vs HODL -82%) via GENUINE same-exposure timing skill (+6..15.5pp beyond a phi-matched
+churn-immune dumb book, z up to +3.5), robust across 4 selloffs (COVID/May-2021/2022/2023-chop), all 8 MA types.
+NOT alpha (zero up-mkt timing alpha) = capital-preservation within long-only (the charter's honest fallback, now
+EARNED). 15m BROKEN. Aggressively red-teamed GO; leak-free; survivorship widens the gap. Doc:
+`docs/MA_DRAWDOWN_INSURANCE_FINDINGS.md`. (2 fabrications caught by the gates en route: +5828% MtM-look, +4854pp baseline.)
+OPEN (un-verified, artifacts on disk — verify before use): `val_forward_*.json` (held-out forward windows),
+`decoupled_7slice_14lb_*.json` (7d-slice/14d-lookback). AWAITING user's next instruction.
 
 ## DO NOT
 Collapse to one asset. Default a single TF. Propose the short side. Stop at a "de-risked beta, done" verdict without a
