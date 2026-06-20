@@ -40,6 +40,34 @@ def time_return_matrix(C, hold):
     return C.shift(-hold) / C - 1.0 - COST
 
 
+def block_edge_p(rows_f, vals_f, rows_p, vals_p, n_bars, block_bars=21, n_boot=1500, seed=1):
+    """HONEST date-block moving-block bootstrap of the edge (mean fired - mean pool). Resamples contiguous bar-blocks
+    (respects the heavy 7d-hold/cross-asset overlap) -- unlike iid entry-resampling, which deflates SE ~2-3.6x (the
+    referee's root-cause fix, 2026-06-20). rows_* are bar-row indices into C.index; block_bars = ~21 calendar days in bars."""
+    from collections import defaultdict
+    rng = np.random.default_rng(seed)
+    fd = defaultdict(list); pdd = defaultdict(list)
+    for v, d in zip(vals_f, rows_f): fd[int(d)].append(v)
+    for v, d in zip(vals_p, rows_p): pdd[int(d)].append(v)
+    obs = float(np.mean(vals_f) - np.mean(vals_p))
+    n_blocks = max(1, n_bars // block_bars)
+    boots = []
+    for _ in range(n_boot):
+        starts = rng.integers(0, max(1, n_bars - block_bars + 1), size=n_blocks)
+        fv = []; pv = []
+        for s in starts:
+            for d in range(int(s), int(s) + block_bars):
+                if d in fd: fv.extend(fd[d])
+                if d in pdd: pv.extend(pdd[d])
+        if len(fv) >= 5 and len(pv) >= 5:
+            boots.append(np.mean(fv) - np.mean(pv))
+    boots = np.array(boots)
+    return {"obs_edge_pp": round(100 * obs, 3),
+            "block_p05_pp": round(100 * float(np.percentile(boots, 5)), 3) if len(boots) else None,
+            "block_p_le0": round(float(np.mean(boots <= 0)), 4) if len(boots) else None,
+            "n_eff_dates": int(len(np.unique(rows_f)))}
+
+
 def exit_return(path, p0, trail=None, target=None):
     """Realized long net return on a price path (entry p0, path = C[di+1..di+hold]) with a MECHANISM exit.
     trail = trailing-stop frac (e.g. 0.05); target = profit-target frac. time-stop = hold to end. Causal (forward path)."""
@@ -89,9 +117,10 @@ def fired_matrix(lab, ti, thr=None):
 
 # ---------- the capture-rate evaluation (TI vs random-ENTRY null) ----------
 def evaluate_ti(lab, ti, tf="1d", hold=None, exit_kind="time", min_move=0.03, warm=40,
-                n_null=300, seed=0, thr=None, by_regime=False, max_entries=12000):
+                n_null=300, seed=0, thr=None, by_regime=False, max_entries=12000, block=False):
     """Capture-rate of a TI vs a matched RANDOM-ENTRY null. exit_kind in {time, trail2, trail5, target8}.
-    The 'time' exit is fully vectorized; mechanism exits loop per-entry (sub-sampled to max_entries for tractability)."""
+    The 'time' exit is fully vectorized; mechanism exits loop per-entry (sub-sampled to max_entries for tractability).
+    block=True adds an HONEST date-block bootstrap p (the iid p_vs_random deflates SE 2-3.6x on overlapping entries)."""
     C = lab["C"]; bpd = fl.BARS_PER_DAY[tf]
     hold = hold if hold is not None else 7 * bpd
     MFE = mfe_matrix(C, hold); TIME = time_return_matrix(C, hold)
@@ -144,17 +173,25 @@ def evaluate_ti(lab, ti, tf="1d", hold=None, exit_kind="time", min_move=0.03, wa
            "edge_vs_random_pp": round(100 * float(real.mean() - nullmeans.mean()), 2),
            "p_vs_random": round(p_real, 4),
            "capture_rate": round(cap_agg, 3)}        # aggregate sum(realized)/sum(MFE) in [.,1]
+    if block:                                         # HONEST date-block bootstrap (overlap-aware p)
+        out["block"] = block_edge_p(real_rows, real, pool_rows, pool_real, len(C.index), block_bars=21 * bpd)
     if by_regime:                                        # DECISIVE: realized vs random-ENTRY null WITHIN each regime
         ra = reg.to_numpy()
         per = {}
         for rg in ("bull", "chop", "bear"):
-            rr = real[ra[real_rows] == rg]; pr = pool_real[ra[pool_rows] == rg]
+            fmask = ra[real_rows] == rg; pmask = ra[pool_rows] == rg
+            rr = real[fmask]; pr = pool_real[pmask]
             if len(rr) < 20 or len(pr) < 20: per[rg] = None; continue
-            nm = np.array([rng.choice(pr, size=len(rr), replace=False).mean() for _ in range(n_null)])
-            per[rg] = {"n": int(len(rr)), "realized_net": round(100 * float(rr.mean()), 2),
-                       "null_net": round(100 * float(nm.mean()), 2),
-                       "edge_pp": round(100 * float(rr.mean() - nm.mean()), 2),
-                       "p_vs_random": round(float(np.mean(nm >= rr.mean())), 4)}
+            # use replace=True when pool is smaller than sample (bear pool can be thin)
+            rep = len(pr) < len(rr)
+            nm = np.array([rng.choice(pr, size=len(rr), replace=rep).mean() for _ in range(n_null)])
+            d = {"n": int(len(rr)), "realized_net": round(100 * float(rr.mean()), 2),
+                 "null_net": round(100 * float(nm.mean()), 2),
+                 "edge_pp": round(100 * float(rr.mean() - nm.mean()), 2),
+                 "p_vs_random": round(float(np.mean(nm >= rr.mean())), 4)}
+            if block:                                    # honest overlap-aware p per regime
+                d["block"] = block_edge_p(real_rows[fmask], rr, pool_rows[pmask], pr, len(C.index), block_bars=21 * bpd)
+            per[rg] = d
         out["by_regime"] = per
     return out
 
