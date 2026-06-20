@@ -396,3 +396,28 @@ v2 OOS-gate (if ever): UNSEEN bear maxDD beats v1 by >10pp AND paired ROI-delta 
 **CAMPAIGN STATE: internal objective COMPLETE. v1 = the validated deployable. All remaining frontier (OOS validate, external
 data) is USER-GATED.** Last internal hygiene: the referee's named falsifier (liq amplifier vs listing-age) to finalize whether
 the OPTIONAL amplifier ships, then present.
+
+---
+
+## LIQ AMPLIFIER -- LISTING-AGE FALSIFIER (2026-06-20 03:5x SAST, OVERSEER inline, DEV-walled)
+
+**The amplifier is NOT young-asset/listing-age beta (passes the falsifier), but is NOT robust either -> confirmed OPTIONAL, not essential.**
+
+Referee's named "cheapest falsifier of the whole deployable": flush (liq_short_panic|liq_capitulation) realized vs the
+NON-flush mom/brk continuation pool, WITHIN listing-age terciles (bull+chop, time-exit, date-block bootstrap):
+- young (<895d): edge +1.04pp, p05 -1.67, p_le0=0.271 (NOT sig)
+- mid (895-1208d): edge -1.27pp, p05 -3.51, p_le0=0.815 (NEGATIVE)
+- old  (>1208d): edge +4.05pp, p05 +0.32, p_le0=0.034 (POSITIVE, sig -- but Holm x3 ~0.10 marginal)
+The edge is concentrated in OLD (established) assets, NOT young -> the OPPOSITE of the listing-age-beta hypothesis = the
+amplifier is NOT a micro-cap/young-asset artifact. BUT it is significant in only 1 of 3 buckets, non-monotonic, and fails
+Holm -> NOT a robust flush signal over the continuation pool either. Combined with the referee's 93%-redundancy + per-regime
+ambiguity: the liq amplifier is MARGINAL = keep OPTIONAL, documented, NOT a headline/essential component. The CORE validated
+deployable = mom/brk continuation + the regime gate; the amplifier is a defensible-but-droppable +.
+
+## CAMPAIGN COMPLETE (internal). Final deliverable composition FROZEN:
+- **v1 move_catch_book** (top-K=5 z(mom14,brk14) + regime gate; liq amplifier OPTIONAL) = the validated deployable (CONDITIONAL_GO).
+- **v2 move_catch_book_v2** = a labeled preservation frontier point (NOT a strict improvement; one-slice maxDD, net -0.5pp/slice).
+- Methodology hardened (churn-immune null + date-block bootstrap + regime-shuffle-artifact lesson). Wall proven invariant across
+  selection / TF (1d,4h,1h) / capture-rate / v51 exogenous / deployment-hardening. Cash theorem binds (slice-rate ceiling ~0.34).
+- ALL remaining frontier is USER-GATED: (1) run oos_validate("2024-05-15") -- the decisive unseen falsifier (user); (2) EXTERNAL
+  data (Coinbase/Upbit announcements) with the pre-registered Holm bear-gate (user greenlight). I touch NEITHER autonomously.
