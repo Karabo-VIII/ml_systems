@@ -421,3 +421,21 @@ deployable = mom/brk continuation + the regime gate; the amplifier is a defensib
   selection / TF (1d,4h,1h) / capture-rate / v51 exogenous / deployment-hardening. Cash theorem binds (slice-rate ceiling ~0.34).
 - ALL remaining frontier is USER-GATED: (1) run oos_validate("2024-05-15") -- the decisive unseen falsifier (user); (2) EXTERNAL
   data (Coinbase/Upbit announcements) with the pre-registered Holm bear-gate (user greenlight). I touch NEITHER autonomously.
+
+---
+
+## u100 BREADTH CHECK -- the last FRAME-BROADLY axis -- WALL HOLDS, u50 representative (2026-06-20 04:10 SAST, OVERSEER inline)
+
+The user named "u50/u100". load_wide(n=100) yields only 51 DEV-QUALIFIED assets (>=400 bars <=2024-05-15; the other ~53
+are late-listed/thin). On those 51 the capture battery is IDENTICAL to u50: mom14 bull +0.60 vs +0.62, chop +0.97 vs +0.98,
+bear -0.38 BOTH; brk14 matches. The wall is universe-size-invariant within the available data; widening does NOT break it
+or change participation. u50 is representative -> the deliverable's basis is sound.
+
+**ALL FRAME-BROADLY AXES NOW SWEPT:** timeframe (1d/4h/1h), chart-type (dollar-bar v51), universe (u50/u100=u51),
+indicator (price-TIs + v51 exogenous), actor-lens (funding/liq/whale/ETF/smart-money). The de-risked-beta wall holds on
+every one. Internal data is EXHAUSTIVELY converged. No breadth axis remains.
+
+## CAMPAIGN TERMINUS (2026-06-20 04:10 SAST): objective verified DELIVERED, autonomous mode DISARMED.
+Deliverable = move_catch_book.py v1 (CONDITIONAL_GO) + oos_validate handoff + capstone doc + skill-library harvest +
+consolidated memory. All remaining frontier (OOS validate, external data) is USER-GATED. Per the IDLE-STOP discipline
+(no clock-burning after convergence), disarming runs/autonomy/AUTONOMY_ON. User re-invokes /orc to greenlight external data.
