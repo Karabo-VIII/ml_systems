@@ -1,0 +1,186 @@
+{
+ "DEMA": {
+  "ma_type": "DEMA",
+  "n_assets": 56,
+  "n_bars": 1594,
+  "data_range": [
+   "2020-01-03 00:00:00",
+   "2024-05-14 00:00:00"
+  ],
+  "wall_ok": true,
+  "selection_rule": "TRAIN.net>0 AND VAL.net>0 (OOS field NOT read)",
+  "selection_oos_clean": true,
+  "sub_band_n": 114,
+  "rederived_maker_lag1": {
+   "engine_compound_pct": 4580.75,
+   "hodl_compound_pct": 465.09,
+   "alwayslong_compound_pct": 2137.11,
+   "maxdd_engine_pct": -43.5,
+   "maxdd_hodl_pct": -82.3,
+   "maxdd_alwayslong_pct": -83.0,
+   "bear2022_preservation_pp": 49.7,
+   "upmkt_timing_alpha_pp": -2964.95
+  },
+  "attack2_lag0_leak_probe": {
+   "engine_compound_pct": 2636237.8,
+   "maxdd_engine_pct": -16.9,
+   "bear2022_preservation_pp": 263.63,
+   "delta_maxdd_lag0_minus_lag1": 26.59,
+   "delta_compound_lag0_minus_lag1": 2631657.05
+  },
+  "attack3_taker_cost": {
+   "engine_compound_pct": 4101.75,
+   "maxdd_engine_pct": -44.3,
+   "maxdd_hodl_pct": -82.3,
+   "bear2022_preservation_pp": 47.95,
+   "maxdd_still_halved_vs_hodl": true
+  },
+  "attack1_survivorship_hodl_dead_injection": {
+   "dead_0": {
+    "hodl_compound_pct": 465.09,
+    "maxdd_hodl_pct": -82.3
+   },
+   "dead_10": {
+    "hodl_compound_pct": 379.47,
+    "maxdd_hodl_pct": -82.6
+   },
+   "dead_20": {
+    "hodl_compound_pct": 316.38,
+    "maxdd_hodl_pct": -82.8
+   },
+   "dead_30": {
+    "hodl_compound_pct": 267.97,
+    "maxdd_hodl_pct": -83.1
+   }
+  },
+  "attack1_engine_maxdd_fixed": -43.5,
+  "attack1_shared_panel_names": true,
+  "attack1_dead_names_in_chimera": "NONE (LUNA/FTT/UST absent; panel is 2024-survivor-selected)",
+  "committed": {
+   "maxdd_engine": -43.5,
+   "maxdd_hodl": -82.3,
+   "bear2022_preservation_pp": 49.7,
+   "upmkt_timing_alpha_pp": -2964.95,
+   "engine_compound": 4580.75,
+   "hodl_compound": 465.09
+  }
+ },
+ "EMA": {
+  "ma_type": "EMA",
+  "n_assets": 56,
+  "n_bars": 1594,
+  "data_range": [
+   "2020-01-03 00:00:00",
+   "2024-05-14 00:00:00"
+  ],
+  "wall_ok": true,
+  "selection_rule": "TRAIN.net>0 AND VAL.net>0 (OOS field NOT read)",
+  "selection_oos_clean": true,
+  "sub_band_n": 105,
+  "rederived_maker_lag1": {
+   "engine_compound_pct": 3609.82,
+   "hodl_compound_pct": 465.09,
+   "alwayslong_compound_pct": 2137.11,
+   "maxdd_engine_pct": -37.5,
+   "maxdd_hodl_pct": -82.3,
+   "maxdd_alwayslong_pct": -83.0,
+   "bear2022_preservation_pp": 56.06,
+   "upmkt_timing_alpha_pp": -4682.05
+  },
+  "attack2_lag0_leak_probe": {
+   "engine_compound_pct": 68476.04,
+   "maxdd_engine_pct": -20.3,
+   "bear2022_preservation_pp": 94.73,
+   "delta_maxdd_lag0_minus_lag1": 17.18,
+   "delta_compound_lag0_minus_lag1": 64866.22
+  },
+  "attack3_taker_cost": {
+   "engine_compound_pct": 3423.05,
+   "maxdd_engine_pct": -38.7,
+   "maxdd_hodl_pct": -82.3,
+   "bear2022_preservation_pp": 55.56,
+   "maxdd_still_halved_vs_hodl": true
+  },
+  "attack1_survivorship_hodl_dead_injection": {
+   "dead_0": {
+    "hodl_compound_pct": 465.09,
+    "maxdd_hodl_pct": -82.3
+   },
+   "dead_10": {
+    "hodl_compound_pct": 379.47,
+    "maxdd_hodl_pct": -82.6
+   },
+   "dead_20": {
+    "hodl_compound_pct": 316.38,
+    "maxdd_hodl_pct": -82.8
+   },
+   "dead_30": {
+    "hodl_compound_pct": 267.97,
+    "maxdd_hodl_pct": -83.1
+   }
+  },
+  "attack1_engine_maxdd_fixed": -37.5,
+  "attack1_shared_panel_names": true,
+  "attack1_dead_names_in_chimera": "NONE (LUNA/FTT/UST absent; panel is 2024-survivor-selected)",
+  "committed": {}
+ },
+ "KAMA": {
+  "ma_type": "KAMA",
+  "n_assets": 56,
+  "n_bars": 1594,
+  "data_range": [
+   "2020-01-03 00:00:00",
+   "2024-05-14 00:00:00"
+  ],
+  "wall_ok": true,
+  "selection_rule": "TRAIN.net>0 AND VAL.net>0 (OOS field NOT read)",
+  "selection_oos_clean": true,
+  "sub_band_n": 74,
+  "rederived_maker_lag1": {
+   "engine_compound_pct": 1780.17,
+   "hodl_compound_pct": 465.09,
+   "alwayslong_compound_pct": 2137.11,
+   "maxdd_engine_pct": -34.8,
+   "maxdd_hodl_pct": -82.3,
+   "maxdd_alwayslong_pct": -83.0,
+   "bear2022_preservation_pp": 56.46,
+   "upmkt_timing_alpha_pp": -6978.3
+  },
+  "attack2_lag0_leak_probe": {
+   "engine_compound_pct": 26772.1,
+   "maxdd_engine_pct": -16.1,
+   "bear2022_preservation_pp": 94.36,
+   "delta_maxdd_lag0_minus_lag1": 18.72,
+   "delta_compound_lag0_minus_lag1": 24991.93
+  },
+  "attack3_taker_cost": {
+   "engine_compound_pct": 1701.4,
+   "maxdd_engine_pct": -36.2,
+   "maxdd_hodl_pct": -82.3,
+   "bear2022_preservation_pp": 56.0,
+   "maxdd_still_halved_vs_hodl": true
+  },
+  "attack1_survivorship_hodl_dead_injection": {
+   "dead_0": {
+    "hodl_compound_pct": 465.09,
+    "maxdd_hodl_pct": -82.3
+   },
+   "dead_10": {
+    "hodl_compound_pct": 379.47,
+    "maxdd_hodl_pct": -82.6
+   },
+   "dead_20": {
+    "hodl_compound_pct": 316.38,
+    "maxdd_hodl_pct": -82.8
+   },
+   "dead_30": {
+    "hodl_compound_pct": 267.97,
+    "maxdd_hodl_pct": -83.1
+   }
+  },
+  "attack1_engine_maxdd_fixed": -34.8,
+  "attack1_shared_panel_names": true,
+  "attack1_dead_names_in_chimera": "NONE (LUNA/FTT/UST absent; panel is 2024-survivor-selected)",
+  "committed": {}
+ }
+}

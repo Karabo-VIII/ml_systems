@@ -161,7 +161,17 @@ def _mask(ms, window):
 
 
 def run(universe, cadence, strat_names, window, cost_rt, use_spine, vol_target, max_per_name,
-        trail_stop=0.0):
+        trail_stop=0.0, hold_provider=None, wall_end=None):
+    """Replay a TI book as ONE risk-budgeted portfolio over `universe`.
+
+    hold_provider (MA move-CATCH engine hook, 2026-06-20): an optional callable
+    `hold_provider(sym, o, h, l, c) -> np.ndarray[int8]` that supplies a PRE-COMPUTED per-asset
+    holding-state (1 while long), bypassing the named-`holding_state` library. Used by the MA
+    move-CATCH engine to feed the fixed-EW ma_cross BAND ENSEMBLE holds (majority-of-band long)
+    into the SAME MtM/sizing/allocation machinery -- no fork of the replay loop. When set, the
+    single synthetic strat name in `strat_names` is what the provider's holds are keyed under.
+    wall_end (DEV wall, e.g. fleet_lab.DEV_END): if set, every asset's bars are HARD-CAPPED at
+    `< wall_end` BEFORE any computation so the wealth leg can never peek OOS/UNSEEN."""
     import pandas as pd
     spec = yaml.safe_load(open(ROOT.parent / "config" / "universes" / f"{universe}.yaml"))
     if "assets" in spec:
@@ -170,21 +180,53 @@ def run(universe, cadence, strat_names, window, cost_rt, use_spine, vol_target, 
         u50 = yaml.safe_load(open(ROOT.parent / "config" / "universes" / "u50.yaml"))
         syms = [a["symbol"] for a in u50["assets"]] + [a["symbol"] for a in spec.get("extra_assets", [])]
         syms = [s for s in dict.fromkeys(syms) if s not in set(spec.get("excluded_assets") or [])]
+    _wall_ms = int(pd.Timestamp(wall_end).value // 10**6) if wall_end else None
 
     # DATE-ALIGNED panels: floor each ts to the cadence boundary + dedup so ALL assets share
     # ONE index (the union-grid drift bug otherwise explodes the index ~Nx).
-    freq = {"1d": "D", "4h": "4h", "1h": "h", "30m": "30min", "15m": "15min"}.get(cadence, "D")
+    freq = {"1d": "D", "4h": "4h", "2h": "2h", "1h": "h", "30m": "30min", "15m": "15min"}.get(cadence, "D")
+    # 2h has NO native chimera dir (ChimeraLoader cadences = 1d/4h/1h/30m/15m/...). SYNTHESIZE the 2h panel
+    # from native 1h by the canonical non-overlapping CAUSAL OHLC aggregation (ma_2020_breakdown._panel /
+    # fleet_lab._synth_2h_row recipe: O=first H=max L=min C=last per 2h bucket = floor(ms_1h / 7_200_000)).
+    # WEALTH-leg parity with the capture leg (fleet_lab.load_wide synthesizes 2h identically). Causal: a 2h bar
+    # [t,t+2h) uses ONLY its two 1h bars, so no look-ahead. (Per-cadence fix for the MA move-CATCH engines.)
+    _synth_2h = (cadence == "2h")
+    _load_cad = "1h" if _synth_2h else cadence
+    _2H_MS = 7_200_000
     closes, rets, vols, mus = {}, {}, {}, {}
     holds = {nm: {} for nm in strat_names}
     for sym in syms:
         try:
-            df = ChimeraLoader().load(_norm_sym(sym), cadence=cadence, features=["open", "high", "low", "close"])
+            df = ChimeraLoader().load(_norm_sym(sym), cadence=_load_cad, features=["open", "high", "low", "close"])
         except Exception:
             continue
-        dates = pd.to_datetime(df["timestamp"].to_numpy(), unit="ms").floor(freq)
+        if _synth_2h:                                  # native-1h -> non-overlapping causal 2h OHLC
+            _ts1h = df["timestamp"].to_numpy()
+            _b = (_ts1h // _2H_MS).astype("int64")
+            _pdf = pd.DataFrame({"open": df["open"].to_numpy().astype(float),
+                                 "high": df["high"].to_numpy().astype(float),
+                                 "low": df["low"].to_numpy().astype(float),
+                                 "close": df["close"].to_numpy().astype(float), "__b": _b})
+            _g = _pdf.groupby("__b", sort=True).agg(open=("open", "first"), high=("high", "max"),
+                                                    low=("low", "min"), close=("close", "last"))
+            import polars as _pl
+            df = _pl.DataFrame({"timestamp": (_g.index.to_numpy() * _2H_MS).astype("int64"),
+                                "open": _g["open"].to_numpy(), "high": _g["high"].to_numpy(),
+                                "low": _g["low"].to_numpy(), "close": _g["close"].to_numpy()})
+        ts = df["timestamp"].to_numpy()
+        if _wall_ms is not None:                       # DEV WALL: cap bars < wall_end before any compute
+            keep = ts < _wall_ms
+            if keep.sum() < 31:
+                continue
+            df = df.filter(__import__("polars").Series(keep)) if hasattr(df, "filter") else df[keep]
+            ts = ts[keep]
+        dates = pd.to_datetime(ts, unit="ms").floor(freq)
         o = df["open"].to_numpy().astype(float); h = df["high"].to_numpy().astype(float)
         l = df["low"].to_numpy().astype(float); c = df["close"].to_numpy().astype(float)
-        hser = {nm: holding_state(nm, o, h, l, c).astype(float) for nm in strat_names}
+        if hold_provider is not None:                  # MA move-CATCH ensemble holds (fixed-EW band)
+            hser = {strat_names[0]: hold_provider(sym, o, h, l, c).astype(float)}
+        else:
+            hser = {nm: holding_state(nm, o, h, l, c).astype(float) for nm in strat_names}
         sub = pd.DataFrame({"c": c, **{f"h_{nm}": hser[nm] for nm in strat_names}}, index=dates)
         sub = sub[~sub.index.duplicated(keep="last")].sort_index()
         sc = sub["c"]
