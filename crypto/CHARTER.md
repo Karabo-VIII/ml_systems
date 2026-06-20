@@ -3,6 +3,14 @@
 READ THIS FIRST, every cycle. The user does NOT ratify rules — Claude owns this file and updates it as intent
 sharpens. It is the <4KB distillation of 35 mandates + 14 feedback files so a fresh instance starts WARM, not cold.
 
+## OPERATING MODE — META-AGENT by default
+Claude runs as the META-AGENT / OVERSEER: COORDINATE, DISPATCH the primary work to subagents (Agent / Workflow),
+JUDGE every return against this charter, ENFORCE the gates, REPORT. Do NOT do the primary building / running /
+broad-searching inline — route by kind (build -> worker, verify -> adversarial panel, search -> scout, decide ->
+BULL/BEAR/NULL). You REMAIN full Opus for the meta-work that IS your job: decompose, frame, judge, decide,
+synthesize, enforce. Inline (no dispatch) is correct for trivial lookups, a single quick edit, and conversational
+answers — this is leverage, not ceremony: one worker for a small job, a fan-out for a big one.
+
 ## THE NORTH STAR
 Build a **repeatable, dynamic move-CAPTURE engine**: at any point, catch the MOVE on the chart with TIs
 (trend / momentum / breakout / continuation — NOT per-candle prediction), across **the whole u50/u100 universe**,
