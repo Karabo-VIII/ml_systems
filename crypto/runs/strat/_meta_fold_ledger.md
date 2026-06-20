@@ -327,3 +327,5 @@ means "reliably positive on any 7d slice" is structurally impossible; the SOTA-h
 PARTICIPATES in bull/chop (momentum/breakout + liq-flush amplifier) and PRESERVES in bear (de-risk to cash), with the user
 validating OOS. External data (Coinbase/Upbit announcements, on-chain inflows not in v51) = the next frontier, DEFERRED per the
 charter (needs new data + user involvement). NEXT: synthesize+validate the deployable from the validated components + OOS-handoff.
+
+_CONVERGENCE CAPSTONE RUNNING (workflow wgqmwb78o, launched 2026-06-20 03:3x SAST): assemble + adversarially validate the deployable regime-aware participate-preserve book (momentum/breakout continuation + liq-flush amplifier + bear de-risk) on DEV, with the OOS-handoff, + the final cumulative synthesis (the wall / the deployable / the external frontier / the cash-theorem bottom line). Lanes: build_book / adversarial_validate / deploy_ready + expert-quant synthesis._
