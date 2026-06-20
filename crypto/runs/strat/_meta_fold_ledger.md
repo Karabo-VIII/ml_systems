@@ -367,3 +367,32 @@ it was micro-cap listing-age beta proxying as a flush signal).
 _maxDD RECONCILED (2026-06-20): the -27.5/-42.3/-56.5 spread = three portfolios, NOT a bug. Frozen K=5 book full-period maxDD = -56.5% (vs BH -83.4%, +26.8pp saved); gate-alone EW = -42.3% (+41pp); bear-only book 0% cash (vs BH -92.2%, +92pp). The -14pp gap (book vs gate-EW) = the CONCENTRATION COST (K=5 + 1.5x amplifier buy participation at deeper DD). Canonical numbers from run_dev. Capstone doc: docs/MOVE_CATCH_CAMPAIGN_CAPSTONE.md._
 
 _v2 FASTGATE HARDENING RUNNING (workflow w35o5k3wn, launched 2026-06-20 03:4x SAST): build move_catch_book_v2 (separate module; v1 stays frozen) with a faster bear gate (dual-window / intra-hold regime-flip exit) to cut the #1 HIGH risk -- the ~3.3wk bear-ENTRY lag inflating v1 maxDD -56.5%. Adversarially guarded vs curve-fitting to DEV bears + whipsaw participation loss. Lanes: build_v2 / validate_v2 + referee._
+
+---
+
+## v2 FASTGATE HARDENING -- VERDICT: NOT a strict improvement; v1 STANDS (2026-06-20 03:5x SAST, workflow w35o5k3wn)
+
+**The bear-entry lag is NOT cleanly fixable on internal data without a return cost = the participate-preserve wall at the deployment level.**
+
+move_catch_book_v2 (C2 = intra-hold regime-flip stop) was built + adversarially validated. Referee (expert-quant) independently
+re-derived + REJECTED the shipped framing:
+- **C2's 2022 "preservation" is essentially ONE SLICE.** Only 4 of ~35 2022 slices touched by the stop; the -31.6->-17.1%
+  maxDD gain is driven by a single trough slice (2022-11-02 -31.1->-13.6%). JACKKNIFE: drop that slice and C2's 2022 maxDD
+  (-14.2%) is WORSE than v1 (-11.2%). The stop doesn't move the trough, just softens one bar = path-dependent/gameable maxDD.
+- **C2 is NET-RETURN-NEGATIVE:** paired per-slice block-bootstrap (C2-v1, 21d blocks) mean -0.530pp/slice, p05 -1.40pp,
+  P(delta>=0)=0.148; full-period additive ROI v1 +684.6% vs C2 +567.3% (-117pp). Chop slice-rate erodes 58.5->52.8% (-5.7pp whipsaw).
+- **C2 does NOT even fix the lag** -- it leaves the entry gate + the 13.7-bar lag UNCHANGED (only C1/C3 touch the lag, and
+  those are knife-edge / window-fragile). The build lane's "improves maxDD consistently across all 3 episodes" was OVERSTATED
+  (2020 unchanged, 2021_Q4 window-fragile, 2022 = one slice). Causality verified (intra-hold exit truncation-invariant, 165/165 bit-identical).
+- C2's 2022 fast-window robustness IS a genuine flat plateau (-17.1% across fast_w 12-25d) -- not knife-edge -- but that's moot
+  given the one-slice + net-negative findings.
+
+**RECOMMENDATION (adopted): keep v1 as the deployable; C2 = a LABELED preservation frontier point only** ("softens the single
+deepest 2022 drawdown slice ~17pp at a cost of ~0.5pp/slice return + 5.7pp chop hit"). Do NOT headline v2 maxDD (one-slice
+artifact) or lag-reduction (C2 doesn't). This REINFORCES convergence: even the deployment-level hardening hits the
+participate-preserve tradeoff -- you cannot preserve more without giving up participation = the de-risked-beta wall, again.
+v2 OOS-gate (if ever): UNSEEN bear maxDD beats v1 by >10pp AND paired ROI-delta block-p05 > -0.8pp; else v2 underperforms v1.
+
+**CAMPAIGN STATE: internal objective COMPLETE. v1 = the validated deployable. All remaining frontier (OOS validate, external
+data) is USER-GATED.** Last internal hygiene: the referee's named falsifier (liq amplifier vs listing-age) to finalize whether
+the OPTIONAL amplifier ships, then present.

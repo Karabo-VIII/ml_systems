@@ -1,0 +1,425 @@
+{
+  "dev_window": {
+    "start": "2020-01-03",
+    "end": "2024-05-14",
+    "n_bars": 1594,
+    "n_assets": 50
+  },
+  "pre_registered": {
+    "candidates": [
+      "v1",
+      "C1_dual",
+      "C2_intrahold",
+      "C3_combo"
+    ],
+    "fast_w_days": 15,
+    "fast_breadth_thr": 0.4,
+    "bear_episodes": {
+      "2020_COVID": [
+        "2020-01-20",
+        "2020-05-01"
+      ],
+      "2021_Q4": [
+        "2021-11-01",
+        "2022-02-15"
+      ],
+      "2022_bear": [
+        "2022-04-01",
+        "2022-11-30"
+      ]
+    }
+  },
+  "results": {
+    "v1": {
+      "n_slices": 221,
+      "full_maxdd_pct": -56.54,
+      "bh_maxdd_pct": -83.36,
+      "n_cash": 101,
+      "n_participate": 120,
+      "by_regime": {
+        "bull": {
+          "n_participate": 67,
+          "n_cash": 0,
+          "n_total": 67,
+          "slice_rate_pct": 50.7,
+          "mean_roi_pct": 6.16,
+          "participation_pct": 100.0
+        },
+        "chop": {
+          "n_participate": 53,
+          "n_cash": 0,
+          "n_total": 53,
+          "slice_rate_pct": 58.5,
+          "mean_roi_pct": 5.13,
+          "participation_pct": 100.0
+        },
+        "bear": {
+          "n_participate": 0,
+          "n_cash": 101,
+          "n_total": 101,
+          "slice_rate_pct": 0.0,
+          "mean_roi_pct": 0.0,
+          "participation_pct": 0.0
+        }
+      },
+      "episodes": {
+        "2020_COVID": {
+          "n_slices": 12,
+          "book_maxdd_pct": -2.41,
+          "bh_maxdd_pct": -58.43,
+          "dd_saved_vs_bh_pp": 56.0
+        },
+        "2021_Q4": {
+          "n_slices": 15,
+          "book_maxdd_pct": -6.65,
+          "bh_maxdd_pct": -49.96,
+          "dd_saved_vs_bh_pp": 43.3
+        },
+        "2022_bear": {
+          "n_slices": 35,
+          "book_maxdd_pct": -31.56,
+          "bh_maxdd_pct": -69.43,
+          "dd_saved_vs_bh_pp": 37.9
+        }
+      },
+      "bear_entry_lag": {
+        "per_episode_bars": {
+          "2020_COVID": 20,
+          "2021_Q4": 8,
+          "2022_bear": 13
+        },
+        "mean_bars": 13.7
+      }
+    },
+    "C1_dual": {
+      "n_slices": 221,
+      "full_maxdd_pct": -42.07,
+      "bh_maxdd_pct": -83.36,
+      "n_cash": 125,
+      "n_participate": 96,
+      "by_regime": {
+        "bull": {
+          "n_participate": 54,
+          "n_cash": 13,
+          "n_total": 67,
+          "slice_rate_pct": 51.9,
+          "mean_roi_pct": 6.4,
+          "participation_pct": 80.6
+        },
+        "chop": {
+          "n_participate": 42,
+          "n_cash": 11,
+          "n_total": 53,
+          "slice_rate_pct": 59.5,
+          "mean_roi_pct": 3.82,
+          "participation_pct": 79.2
+        },
+        "bear": {
+          "n_participate": 0,
+          "n_cash": 101,
+          "n_total": 101,
+          "slice_rate_pct": 0.0,
+          "mean_roi_pct": 0.0,
+          "participation_pct": 0.0
+        }
+      },
+      "episodes": {
+        "2020_COVID": {
+          "n_slices": 12,
+          "book_maxdd_pct": -2.41,
+          "bh_maxdd_pct": -58.43,
+          "dd_saved_vs_bh_pp": 56.0
+        },
+        "2021_Q4": {
+          "n_slices": 15,
+          "book_maxdd_pct": -6.65,
+          "bh_maxdd_pct": -49.96,
+          "dd_saved_vs_bh_pp": 43.3
+        },
+        "2022_bear": {
+          "n_slices": 35,
+          "book_maxdd_pct": -31.11,
+          "bh_maxdd_pct": -69.43,
+          "dd_saved_vs_bh_pp": 38.3
+        }
+      },
+      "bear_entry_lag": {
+        "per_episode_bars": {
+          "2020_COVID": 8,
+          "2021_Q4": 7,
+          "2022_bear": 8
+        },
+        "mean_bars": 7.7
+      }
+    },
+    "C2_intrahold": {
+      "n_slices": 221,
+      "full_maxdd_pct": -44.78,
+      "bh_maxdd_pct": -83.36,
+      "n_cash": 101,
+      "n_participate": 120,
+      "by_regime": {
+        "bull": {
+          "n_participate": 67,
+          "n_cash": 0,
+          "n_total": 67,
+          "slice_rate_pct": 49.3,
+          "mean_roi_pct": 4.79,
+          "participation_pct": 100.0
+        },
+        "chop": {
+          "n_participate": 53,
+          "n_cash": 0,
+          "n_total": 53,
+          "slice_rate_pct": 52.8,
+          "mean_roi_pct": 4.65,
+          "participation_pct": 100.0
+        },
+        "bear": {
+          "n_participate": 0,
+          "n_cash": 101,
+          "n_total": 101,
+          "slice_rate_pct": 0.0,
+          "mean_roi_pct": 0.0,
+          "participation_pct": 0.0
+        }
+      },
+      "episodes": {
+        "2020_COVID": {
+          "n_slices": 12,
+          "book_maxdd_pct": -2.41,
+          "bh_maxdd_pct": -58.43,
+          "dd_saved_vs_bh_pp": 56.0
+        },
+        "2021_Q4": {
+          "n_slices": 15,
+          "book_maxdd_pct": -5.56,
+          "bh_maxdd_pct": -49.96,
+          "dd_saved_vs_bh_pp": 44.4
+        },
+        "2022_bear": {
+          "n_slices": 35,
+          "book_maxdd_pct": -17.14,
+          "bh_maxdd_pct": -69.43,
+          "dd_saved_vs_bh_pp": 52.3
+        }
+      },
+      "bear_entry_lag": {
+        "per_episode_bars": {
+          "2020_COVID": 20,
+          "2021_Q4": 8,
+          "2022_bear": 13
+        },
+        "mean_bars": 13.7
+      }
+    },
+    "C3_combo": {
+      "n_slices": 221,
+      "full_maxdd_pct": -41.59,
+      "bh_maxdd_pct": -83.36,
+      "n_cash": 125,
+      "n_participate": 96,
+      "by_regime": {
+        "bull": {
+          "n_participate": 54,
+          "n_cash": 13,
+          "n_total": 67,
+          "slice_rate_pct": 50.0,
+          "mean_roi_pct": 5.47,
+          "participation_pct": 80.6
+        },
+        "chop": {
+          "n_participate": 42,
+          "n_cash": 11,
+          "n_total": 53,
+          "slice_rate_pct": 52.4,
+          "mean_roi_pct": 4.28,
+          "participation_pct": 79.2
+        },
+        "bear": {
+          "n_participate": 0,
+          "n_cash": 101,
+          "n_total": 101,
+          "slice_rate_pct": 0.0,
+          "mean_roi_pct": 0.0,
+          "participation_pct": 0.0
+        }
+      },
+      "episodes": {
+        "2020_COVID": {
+          "n_slices": 12,
+          "book_maxdd_pct": -2.41,
+          "bh_maxdd_pct": -58.43,
+          "dd_saved_vs_bh_pp": 56.0
+        },
+        "2021_Q4": {
+          "n_slices": 15,
+          "book_maxdd_pct": -5.56,
+          "bh_maxdd_pct": -49.96,
+          "dd_saved_vs_bh_pp": 44.4
+        },
+        "2022_bear": {
+          "n_slices": 35,
+          "book_maxdd_pct": -13.62,
+          "bh_maxdd_pct": -69.43,
+          "dd_saved_vs_bh_pp": 55.8
+        }
+      },
+      "bear_entry_lag": {
+        "per_episode_bars": {
+          "2020_COVID": 8,
+          "2021_Q4": 7,
+          "2022_bear": 8
+        },
+        "mean_bars": 7.7
+      }
+    }
+  },
+  "window_perturbation_C1": {
+    "fast_10d": {
+      "full_maxdd_pct": -54.06,
+      "episodes": {
+        "2020_COVID": 56.0,
+        "2021_Q4": 43.3,
+        "2022_bear": 60.4
+      },
+      "bull": {
+        "n_participate": 53,
+        "n_cash": 14,
+        "n_total": 67,
+        "slice_rate_pct": 50.9,
+        "mean_roi_pct": 6.89,
+        "participation_pct": 79.1
+      },
+      "chop": {
+        "n_participate": 41,
+        "n_cash": 12,
+        "n_total": 53,
+        "slice_rate_pct": 63.4,
+        "mean_roi_pct": 6.22,
+        "participation_pct": 77.4
+      }
+    },
+    "fast_12d": {
+      "full_maxdd_pct": -54.06,
+      "episodes": {
+        "2020_COVID": 56.0,
+        "2021_Q4": 43.3,
+        "2022_bear": 38.3
+      },
+      "bull": {
+        "n_participate": 56,
+        "n_cash": 11,
+        "n_total": 67,
+        "slice_rate_pct": 51.8,
+        "mean_roi_pct": 7.09,
+        "participation_pct": 83.6
+      },
+      "chop": {
+        "n_participate": 43,
+        "n_cash": 10,
+        "n_total": 53,
+        "slice_rate_pct": 60.5,
+        "mean_roi_pct": 4.96,
+        "participation_pct": 81.1
+      }
+    },
+    "fast_15d": {
+      "full_maxdd_pct": -42.07,
+      "episodes": {
+        "2020_COVID": 56.0,
+        "2021_Q4": 43.3,
+        "2022_bear": 38.3
+      },
+      "bull": {
+        "n_participate": 54,
+        "n_cash": 13,
+        "n_total": 67,
+        "slice_rate_pct": 51.9,
+        "mean_roi_pct": 6.4,
+        "participation_pct": 80.6
+      },
+      "chop": {
+        "n_participate": 42,
+        "n_cash": 11,
+        "n_total": 53,
+        "slice_rate_pct": 59.5,
+        "mean_roi_pct": 3.82,
+        "participation_pct": 79.2
+      }
+    },
+    "fast_18d": {
+      "full_maxdd_pct": -54.06,
+      "episodes": {
+        "2020_COVID": 56.0,
+        "2021_Q4": 43.3,
+        "2022_bear": 38.3
+      },
+      "bull": {
+        "n_participate": 56,
+        "n_cash": 11,
+        "n_total": 67,
+        "slice_rate_pct": 50.0,
+        "mean_roi_pct": 5.32,
+        "participation_pct": 83.6
+      },
+      "chop": {
+        "n_participate": 41,
+        "n_cash": 12,
+        "n_total": 53,
+        "slice_rate_pct": 61.0,
+        "mean_roi_pct": 4.16,
+        "participation_pct": 77.4
+      }
+    },
+    "fast_20d": {
+      "full_maxdd_pct": -54.06,
+      "episodes": {
+        "2020_COVID": 56.0,
+        "2021_Q4": 43.3,
+        "2022_bear": 38.3
+      },
+      "bull": {
+        "n_participate": 60,
+        "n_cash": 7,
+        "n_total": 67,
+        "slice_rate_pct": 51.7,
+        "mean_roi_pct": 6.27,
+        "participation_pct": 89.6
+      },
+      "chop": {
+        "n_participate": 41,
+        "n_cash": 12,
+        "n_total": 53,
+        "slice_rate_pct": 61.0,
+        "mean_roi_pct": 4.16,
+        "participation_pct": 77.4
+      }
+    }
+  },
+  "causality": {
+    "causal": true,
+    "probes": [
+      {
+        "bar": 90,
+        "match": true
+      },
+      {
+        "bar": 453,
+        "match": true
+      },
+      {
+        "bar": 817,
+        "match": true
+      },
+      {
+        "bar": 1180,
+        "match": true
+      },
+      {
+        "bar": 1544,
+        "match": true
+      }
+    ]
+  }
+}
