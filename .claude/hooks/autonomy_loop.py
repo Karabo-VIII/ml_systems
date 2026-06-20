@@ -300,7 +300,9 @@ def _gg_coverage(now_ts, symbols=None, runs_root=None):
                 except Exception:
                     continue
                 for s in syms:
-                    if s != "BTC" and s not in found and re.search(r"\b" + re.escape(s) + r"\b", txt):
+                    # match bare 'BCH' AND quote-suffixed 'BCHUSDT'/'BCHUSD'/'BCHUSDC' (artifacts use the suffixed
+                    # form; a bare \b match silently undercounts -> false-positive blocks). 2026-06-20 fix.
+                    if s != "BTC" and s not in found and re.search(r"\b" + re.escape(s) + r"(?:USDT|USDC|BUSD|USD)?\b", txt):
                         found.add(s)
                 if len(found) >= ASSET_FLOOR:
                     return len(found)

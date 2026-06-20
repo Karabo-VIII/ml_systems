@@ -110,6 +110,14 @@ def test_coverage():
         n = al._gg_coverage(_t.time(), symbols=syms, runs_root=d)
         check("coverage counts >=floor on a 25-symbol sweep", n >= al.ASSET_FLOOR)
 
+    # 2026-06-20 regression: artifacts write SUFFIXED tickers (BCHUSDT); a bare \b match undercounts -> false block
+    with tempfile.TemporaryDirectory() as d:
+        bases = {"BX%02d" % i for i in range(25)}
+        Path(d, "engine.json").write_text(json.dumps({"admitted_symbols": [b + "USDT" for b in bases]}), encoding="utf-8")
+        import time as _t
+        n = al._gg_coverage(_t.time(), symbols=bases | {"BTC"}, runs_root=d)
+        check("coverage counts USDT-suffixed tickers (BXxxUSDT)", n >= al.ASSET_FLOOR)
+
     with tempfile.TemporaryDirectory() as d:
         Path(d, "btc_only.csv").write_text("BTC,BTC,BTC\n", encoding="utf-8")
         import time as _t
