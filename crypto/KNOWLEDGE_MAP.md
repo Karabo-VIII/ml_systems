@@ -25,6 +25,7 @@ Regenerate with `python crypto/scripts/knowledge/build_map.py`; `--check` fails 
 | Structural registries (invariants/features/models/universes) | crypto/config/_invariants.yaml, feature_registry.yaml, model_registry.yaml | Grep |
 | Universe / data / split truth | crypto/config/universes/u10.yaml,u50.yaml,u100.yaml, crypto/config/data_config.yaml | Read ; ChimeraLoader.load(sym,cadence) |
 | Move-catch survivors + how to run | crypto/src/strat/move_catch_book.py (+ _v2), crypto/src/wealth_bot/harness.py | Read header |
+| MA/TI canonical configs (BAND grid; ensemble-not-#1; u10-tuned) | crypto/runs/periods/TRAIN/2020/DEEP_DIVE/config_leaderboard.json + robust_ma_runners.json ; src/strat/ma_2020_config_leaderboard.py, robust_ma_runners.py, working_band_rolling.py | Read ; grid[(type,TF)].band.band_configs ; WEALTH leg -> portfolio_replay.run(universe=u100) |
 
 ## TIER 3 -- cold storage, retrievable WITH the embedded recipe (these are the traps)
 | what | where | how to query |

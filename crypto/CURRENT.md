@@ -13,6 +13,7 @@ project's move-catch infra. This is the live acid test: it must NOT collapse to 
 - [ ] WINDOW: 7d lookback as a real executed parameter.
 - [ ] COVERAGE: the 2%+ daily-move set enumerated/measured (a coverage manifest: realized vs available capture).
 - [ ] INFRA: extend `src/strat/move_catch_book.py` / `oracle_capture_lab.py` / chimera loader — not a fresh BTC script.
+  - For **MA/TI** work specifically: canonical configs = the BAND grid at `runs/periods/TRAIN/2020/DEEP_DIVE/config_leaderboard.json` (+ `robust_ma_runners.json`), via `src/strat/{ma_2020_config_leaderboard,robust_ma_runners,working_band_rolling}.py`. Use the fixed-EW ENSEMBLE of `band.band_configs` per (type,TF), NEVER `ranked[0]` (hindsight). WEALTH leg must run u100 via `portfolio_replay.run(universe="u100")` (the u10-hardwired sleeve is a breadth trap).
 
 ## STANDING TRUTH (the floor, not the verdict)
 Internal long-only TI work has repeatedly landed on **de-risked beta** (preserves bears, doesn't beat buy-hold on net).
