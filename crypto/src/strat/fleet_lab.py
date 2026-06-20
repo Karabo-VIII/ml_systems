@@ -35,6 +35,53 @@ def _rsi(s, n=14):
     return 100 - 100 / (1 + up / (dn + 1e-12))
 
 
+# columns aggregated by SUM when down-sampling raw bars (volumes are extensive). OHLC is first/max/min/last.
+_SUM_COLS = ("volume_usd", "buy_vol", "sell_vol")
+# pre-normalized chimera features: rolling-z-scored against a NATIVE-cadence baseline (VPIN intra-bar flow
+# toxicity, deviation-from-local-trend, fractal-dim of the path). They are NOT honestly reconstructible by
+# aggregating two native-1h normalized values -> a synthesized-2h bar has no native-2h normalization baseline.
+# We set them to NaN at synthesized-2h (UNAVAILABLE, not silently wrong) so a feature/agent that uses them is
+# transparently absent at 2h rather than fed a meaningless number. ofi/dvol are recomputed from summed raw vols.
+_CHIM_NORM_COLS = ("norm_vpin", "norm_deviation", "norm_fd_close")
+_2H_MS = 7_200_000   # 2h bucket width in ms (matches ma_2020_breakdown._panel)
+
+
+def _synth_2h_row(sym, idx_1h, data_1h, n_1h):
+    """Aggregate ONE symbol's native-1h row -> a non-overlapping CAUSAL 2h row, REUSING the OHLC aggregation
+    of ma_2020_breakdown._panel (O=first, H=max, L=min, C=last per 2h bucket). Volumes summed; pre-normalized
+    chimera features set NaN (no native-2h baseline -> not reconstructible). idx_1h is the FLOORED 1h grid
+    (so bucket boundaries land on the 2h grid); a 2h bar covering [t, t+2h) uses ONLY its two 1h bars (causal,
+    no future bar leaks back -- the stamp is the bar grid-floor, value available at bar-close). Returns the same
+    (sym, idx2h, {col: np.array}, n2h) tuple shape the native glob loop produces, or None if too few bars."""
+    ms_1h = (idx_1h.asi8 // 10**6).astype(np.int64)        # floored 1h grid -> ms
+    bucket = ms_1h // _2H_MS                                # 2h bucket id (same arithmetic as the canonical _panel)
+    cols = list(data_1h.keys())
+    df = pd.DataFrame({c: data_1h[c] for c in cols})
+    df["__b"] = bucket
+    agg = {}
+    if "open" in cols:   agg["open"] = ("open", "first")
+    if "high" in cols:   agg["high"] = ("high", "max")
+    if "low" in cols:    agg["low"] = ("low", "min")
+    if "close" in cols:  agg["close"] = ("close", "last")
+    for c in _SUM_COLS:
+        if c in cols:    agg[c] = (c, "sum")
+    g = df.groupby("__b", sort=True).agg(**agg)
+    idx2h = pd.to_datetime(g.index.to_numpy() * _2H_MS, unit="ms")   # bucket-id -> 2h grid stamp (bar-open/floor)
+    out = {c: g[c].to_numpy() for c in g.columns}
+    n2h = len(g)
+    # pre-normalized chimera features are UNAVAILABLE at synthesized-2h -> NaN (documented; never silently wrong)
+    for c in _CHIM_NORM_COLS:
+        if c in cols:
+            out[c] = np.full(n2h, np.nan)
+    return (sym, idx2h, out, n2h)
+
+
+def _native_2h_present():
+    """True iff a native 2h chimera dir with at least one parquet exists (else synthesize from 1h)."""
+    d = CHIM_BASE / "2h"
+    return d.is_dir() and bool(glob.glob(str(d / "*.parquet")))
+
+
 def load_wide(n=50, start="2019-01-01", end=DEV_END, min_bars=400, tf="1d"):
     """DEV-window wide universe at timeframe `tf`. HARD cap at `end` (<= DEV_END). Returns features dict (all causal).
 
@@ -44,7 +91,14 @@ def load_wide(n=50, start="2019-01-01", end=DEV_END, min_bars=400, tf="1d"):
     assert pd.Timestamp(end) <= pd.Timestamp(DEV_END), f"WALL VIOLATION: end {end} >= DEV_END {DEV_END}"
     assert tf in BARS_PER_DAY, f"unknown tf {tf}"
     import polars as pl
-    chim_dir = CHIM_BASE / tf
+    # 2h has NO native chimera dir (verified on disk: 2h ABSENT) -> SYNTHESIZE from native 1h by 2-bar OHLC
+    # aggregation (the canonical ma_2020_breakdown._panel recipe). NEVER 1h relabeled: bars are HALVED.
+    synth_2h = (tf == "2h" and not _native_2h_present())
+    read_tf = "1h" if synth_2h else tf                     # which native dir we actually read parquet from
+    floor_freq = PANDAS_FREQ[read_tf]                      # 1h grid for synth (so 2h buckets land on the 2h grid)
+    # min_bars is a 2h-cadence floor; the native 1h source has ~2x as many bars per the same window
+    read_min_bars = (min_bars * 2 if synth_2h else min_bars)
+    chim_dir = CHIM_BASE / read_tf
     s_ms = pd.Timestamp(start).value // 10**6; e_ms = pd.Timestamp(end).value // 10**6
     want = ["timestamp", "open", "high", "low", "close", "volume_usd", "buy_vol", "sell_vol",
             "norm_vpin", "norm_deviation", "norm_fd_close"]
@@ -58,12 +112,18 @@ def load_wide(n=50, start="2019-01-01", end=DEV_END, min_bars=400, tf="1d"):
             continue
         ms = df["timestamp"].to_numpy()
         m = (ms >= s_ms) & (ms < e_ms)                     # WALL: strictly < end
-        if m.sum() < min_bars:
+        if m.sum() < read_min_bars:
             continue
         d = df.filter(pl.Series(m))
-        # floor raw (jittered, end-of-bar) stamps to the TF bar-grid so assets ALIGN in the wide join.
-        idx = pd.to_datetime(d["timestamp"].to_numpy(), unit="ms").floor(PANDAS_FREQ[tf])
-        rows.append((sym, idx, {c: d[c].to_numpy() for c in cols if c != "timestamp"}, int(m.sum())))
+        # floor raw (jittered, end-of-bar) stamps to the bar-grid so assets ALIGN in the wide join.
+        idx = pd.to_datetime(d["timestamp"].to_numpy(), unit="ms").floor(floor_freq)
+        data = {c: d[c].to_numpy() for c in cols if c != "timestamp"}
+        if synth_2h:                                       # native-1h row -> non-overlapping causal 2h row
+            row = _synth_2h_row(sym, idx, data, int(m.sum()))
+            if row is not None and row[3] >= min_bars:
+                rows.append(row)
+        else:
+            rows.append((sym, idx, data, int(m.sum())))
     rows = sorted(rows, key=lambda r: -r[3])[:n]            # top-n by DEV-window coverage
     syms = [r[0] for r in rows]
     def wide(col):
@@ -88,11 +148,16 @@ def load_wide(n=50, start="2019-01-01", end=DEV_END, min_bars=400, tf="1d"):
         "ofi": (bv - sv) / (bv + sv + 1e-9),                                  # order-flow imbalance
         "dev": wide("norm_deviation"),
         "fdclose": wide("norm_fd_close"),
-        "dvol": wide("volume_usd").pct_change(),                              # $-volume change
+        "dvol": wide("volume_usd").pct_change(fill_method=None),              # $-volume change
     }
     # shift-1 every feature to guarantee causality at decision bar (value known at d used for d->d+h)
     F = {k: v.reindex(index=C.index, columns=C.columns) for k, v in F.items()}
-    return {"C": C, "O": O, "H": H, "L": L, "R": R, "F": F, "syms": syms, "end": end}
+    # feature availability: at synthesized-2h the pre-normalized chimera features are NaN (no native-2h baseline)
+    unavailable = list(_CHIM_NORM_COLS) if synth_2h else []
+    return {"C": C, "O": O, "H": H, "L": L, "R": R, "F": F, "syms": syms, "end": end,
+            "tf": tf, "synth_2h": synth_2h, "n_admitted": len(syms),
+            "feats_unavailable": ["vpin", "dev", "fdclose"] if synth_2h else [],
+            "n_native_files": len(glob.glob(str((CHIM_BASE / read_tf) / "*.parquet")))}
 
 
 # ---- AGENT: a feature-subset + combine -> per-asset score -> top-K positions ----
