@@ -101,9 +101,42 @@ def regime_series(lab, tf="1d", w_days=50):
     return reg
 
 
+def ma_cross_ensemble(lab, band_configs, ma_type="EMA", thr=0.5):
+    """STEP 1 MA move-CATCH gate: per asset, the fixed-EW ENSEMBLE of the canonical EMA|1d band.
+
+    For each band member `ema_a_b[_c]` we compute held_cross (long when MA(a)>MA(b)[>MA(c)]) on that asset's own
+    finite price segment (causal: value at t uses close[:t+1]). We AVERAGE the int8 ON-state across all band members
+    -> ensemble ON-fraction in [0,1] (the fixed-EW ensemble; NEVER ranked[0] hindsight). 'fired' = majority of the
+    band is long (>thr, default 0.5) = the asset's MA structure says a move is underway. Returns a boolean DataFrame
+    aligned to lab['C'] (NaN/pre-listing bars -> False)."""
+    from strat.ma_type_upgrade import held_cross, _nums
+    C = lab["C"]
+    periods_list = [_nums(name) for name in band_configs]              # e.g. 'ema_3_4_38' -> [3,4,38]
+    out = pd.DataFrame(False, index=C.index, columns=C.columns)
+    for sym in C.columns:
+        s = C[sym]
+        fin = s.to_numpy()
+        m = np.isfinite(fin)
+        if m.sum() < 5:
+            continue
+        cseg = fin[m]                                                  # finite price segment (no leading NaN poison)
+        on_sum = np.zeros(len(cseg), dtype=np.float64)
+        for periods in periods_list:
+            on_sum += held_cross(cseg, periods, ma_type)              # int8 ON-state for this band member
+        frac = on_sum / len(periods_list)                             # fixed-EW ensemble ON-fraction in [0,1]
+        col = np.zeros(len(fin), dtype=bool)
+        col[m] = frac > thr                                           # majority of the band is long
+        out[sym] = col
+    return out
+
+
 def fired_matrix(lab, ti, thr=None):
     """Boolean DataFrame: where TI signals a move is ONSET/underway (causal, per-asset, cross-sectional where needed).
     If the stored feature is already a boolean DataFrame (pre-computed gate), return it directly."""
+    if ti == "ma_cross":                                              # STEP 1: MA band-ensemble move-CATCH gate
+        band = lab.get("ma_band_configs"); ma_t = lab.get("ma_type", "EMA")
+        assert band, "ma_cross requires lab['ma_band_configs'] (the canonical EMA|1d band)"
+        return ma_cross_ensemble(lab, band, ma_t, thr=(0.5 if thr is None else thr))
     F = lab["F"]; X = F[ti]
     # pre-computed boolean gate (e.g. combined price-TI x exo conditioner) -- return as-is
     if hasattr(X, "dtype") and X.dtype == bool:
