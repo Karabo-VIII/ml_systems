@@ -218,3 +218,5 @@ The user REPEATEDLY asked for SUB-DAILY (<1d) + multi-timeframe + chart-types ("
 15m/30m/1h/4h + dollar/dib/range on disk. CYCLE = extend fleet_lab to sub-daily TFs and re-run the move-capture +
 regime-stratified test there: does faster-cadence move-capture beat the same-exposure shuffle ACROSS regimes (where 1d
 failed), or is the de-risked-beta wall TIMEFRAME-INVARIANT? This is the genuine widening, not a manufactured cycle.
+
+_Sub-daily cycle RUNNING (workflow w3bbolocj, launched 2026-06-20 02:0x SAST): 4h/1h move-capture + regime-stratified shuffle + exit-mechanism lever + TF-invariance referee. Foundation: fleet_lab TF-parametric, smoke-verified @4h._
