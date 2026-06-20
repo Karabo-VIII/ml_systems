@@ -39,7 +39,10 @@ future cycle.
 - **Selection (component A):** top-K=5 by EW z-composite of {mom14, brk14}, hold 7d, time-exit, 1d, rebalance every hold.
 - **Amplifier (component B):** {liq_capitulation OR liq_short_panic} → size-up 1.5×, **bull/chop only**. *Real but ~93%
   redundant with A (flush fires inside the mom/brk pool 93% of the time); a within-continuation amplifier, NOT an
-  independent onset detector. Premium ≈ +2.5pp/slice. Treat as OPTIONAL.*
+  independent onset detector. Premium ≈ +2.5pp/slice.* **Listing-age falsifier (run 2026-06-20): the flush edge over the
+  continuation pool is NOT young-asset/listing-age beta (it's concentrated in OLD assets, +4.05pp p_le0=0.034, vs young
+  +1.04pp ns) — so not a micro-cap artifact — but it is significant in only 1 of 3 age buckets, non-monotonic, and fails
+  Holm (×3 ≈ 0.10). NET: MARGINAL/OPTIONAL, defensibly droppable. The core validated engine is A + C (mom/brk + gate).**
 - **Gate (component C):** causal `regime_series(w_days=50)` — bull/chop participate; **bear → cash (0% exposure)**.
   Thresholds structural (breadth 0.5, trend 0.0), not fitted. **This is an EXPOSURE CONTROL, not a signal — its value is
   reducing exposure in bad periods, and it is the decay vector (if bear rallies emerge, the gate stays out of them too).**
@@ -68,9 +71,14 @@ trades upside for a shallower drawdown (−42% vs −56%); pick per risk toleran
 
 OOS-handoff is mechanically sound (5/5 wall checks pass: `load_wide` hard-asserts on end ≥ 2024-05-15; `oos_validate`
 rejects pre-DEV starts; FROZEN_CONFIG is a constant; no refit path). Residual risks:
-- **HIGH:** ~23.5-bar (≈3.3 week) mean bear-ENTRY lag — holds losing positions before the gate flips (v2: faster bear
-  detection / an intra-hold stop). Data 20d stale (refresh before any live use). No DSR/IC-decay monitor; no
-  consecutive-DD halt wired.
+- **HIGH:** ~23.5-bar (≈3.3 week) mean bear-ENTRY lag — holds losing positions before the gate flips. **v2 attempted
+  (`move_catch_book_v2.py`): a faster dual-window gate + intra-hold regime-flip stop. Verdict — NOT a strict improvement.
+  The intra-hold stop's 2022 maxDD gain is essentially ONE slice (jackknife: drop 2022-11-02 and v2's 2022 maxDD is *worse*
+  than v1), it's net-return-negative (−0.5pp/slice, −117pp full-period, chop slice-rate −5.7pp), and it doesn't even fix the
+  entry lag (the lag-fixing candidates are knife-edge/window-fragile). The bear lag is not cleanly fixable on internal data
+  without a return cost = the participate-preserve wall at the deployment level. v2 is kept only as a labeled preservation
+  frontier point (softens the single deepest 2022 slice ~17pp at a return cost); v1 stands as primary.** Data 20d stale
+  (refresh before any live use). No DSR/IC-decay monitor; no consecutive-DD halt wired.
 - **MEDIUM:** bear whipsaw (55.6% of bear episodes < 10 bars → add a 3–5 bar dwell filter); the gate-is-exposure-control
   decay vector.
 
