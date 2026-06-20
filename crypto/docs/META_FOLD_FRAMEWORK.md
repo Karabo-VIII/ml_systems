@@ -44,6 +44,15 @@ CONVERGENCE  -- 2 cycles with no new edge, OR a pre-registered decisive test fai
   inflates significance). Correct for multiple comparisons (Holm) across any sweep.
 - **The right NULL** -- shuffle for a quick check, but a serial-correlation-aware MOVING-BLOCK BOOTSTRAP for the verdict
   (iid shuffle understates variance ~6x on autocorrelated returns). Always compare to the passive baseline (buy-hold).
+  **BROKEN-NULL WARNING (2026-06-20, sub-daily cycle w3bbolocj):** the SAME-EXPOSURE RANDOM-K SHUFFLE is a *broken* null
+  for any strategy that RE-SELECTS positions per bar -- the random control eats a per-bar reshuffle-variance penalty the
+  real (smoother) book doesn't, so `real - control` manufactures fake "alpha" (quantified: 4h-chop control -10.99 bp/bar
+  vs real -2.75 bp/bar, both negative gross). It scales with bar-count, so it BLOOMS at sub-daily. The HONEST null is
+  **HOLD-TO-MATURITY** (pick top-K, hold the slice, ~1 RT) + four churn cross-checks that any real selection edge must
+  pass: (1) hold-to-maturity p05>0; (2) survives a REGIME-LABEL shuffle test = FAIL (real edge dies when labels destroyed);
+  (3) REVERSE-SCORE (worst-K) goes negative (direction-sensitive, not concentration); (4) alpha/day is CALENDAR-INVARIANT,
+  not growing with bar-count. Cheapest falsifier: re-run any cell with the hold-to-maturity null (`meta_tf_invariance_audit.py` S3).
+  For move-CATCH questions use the CAPTURE-RATE null (realized/available move vs random-ENTRY at matched frequency) -- also churn-immune.
 - **No sugarcoat, no manufactured cycles** -- converge when the question is honestly answered; report the wall if it's a wall.
 
 ## The search space (the "whole project" -- expand the lab/lanes across these)

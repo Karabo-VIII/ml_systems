@@ -220,3 +220,40 @@ regime-stratified test there: does faster-cadence move-capture beat the same-exp
 failed), or is the de-risked-beta wall TIMEFRAME-INVARIANT? This is the genuine widening, not a manufactured cycle.
 
 _Sub-daily cycle RUNNING (workflow w3bbolocj, launched 2026-06-20 02:0x SAST): 4h/1h move-capture + regime-stratified shuffle + exit-mechanism lever + TF-invariance referee. Foundation: fleet_lab TF-parametric, smoke-verified @4h._
+
+---
+
+## SUB-DAILY CYCLE -- move-capture @ 4h/1h -- VERDICT: ARTIFACT, the wall is TIMEFRAME-INVARIANT (2026-06-20 02:2x SAST, workflow w3bbolocj)
+
+**The de-risked-beta wall holds at EVERY cadence. Sub-daily is the same wall at a faster clock. CONVERGE on selection-vs-shuffle.**
+
+Per-regime selection-alpha under the HONEST hold-to-maturity null (block-boot p05), across TFs:
+| regime | 1d | 4h | 1h |
+|---|---|---|---|
+| bull | +0.93 REAL | +1.72 REAL | +0.87 REAL |
+| chop | -0.11 ARTIFACT | -0.30 ARTIFACT | -0.55 ARTIFACT |
+| bear | -0.40 ARTIFACT | -0.16 ARTIFACT | -0.27 ARTIFACT |
+Only BULL survives at any TF = long-beta concentration in a rising tape. Chop/bear NEGATIVE everywhere.
+
+**METHODOLOGY BUG FOUND + FIXED (bigger than this cycle): the same-exposure random-K SHUFFLE is a BROKEN NULL.**
+Re-drawing K names every bar, the random control eats a per-bar reshuffle-variance penalty that smoother books don't.
+Quantified (meta_tf_stress): 4h-chop control -10.99 bp/bar vs real book -2.75 bp/bar -- BOTH negative gross; the
+"+3.36pp alpha" was ENTIRELY the control being churn-penalized, NOT skill. The NL-C4 z=5-6 lived on this broken null.
+**The HONEST null = HOLD-TO-MATURITY (top-K, hold the slice, ~1 RT) + 4 cross-checks, all of which killed it:**
+  1. hold-to-maturity null: chop/bear ARTIFACT at every TF (decisive)
+  2. regime-label shuffle: "alpha" survives shuffling regime labels = regime-INDEPENDENT churn (4h chop +4.86 ~ bull +4.89)
+  3. reverse-score: WORST-K stays positive (+4.3pp chop 4h) = direction-blind concentration/compounding, not selection
+  4. calendar-day scaling: chop alpha/day grows -0.02 -> +0.48 -> +1.98 pp/day with bar-count = compounding-of-churn fingerprint
+Shift-2 retention ~100% rules out feature look-ahead -- the artifact is the RESHUFFLE mechanic. Cheapest falsifier for any
+revived sub-daily selection: re-run the cell with the hold-to-maturity null (S3 in meta_tf_invariance_audit.py); p05 stays <0.
+
+OTHER: exit mechanisms do NOT rescue chop/bear (worsen bear; lone chop positive flips REAL->ARTIFACT on a 1pp trail-width
+change, killed by BH q=0.10). Cost is the secondary executioner (16->40->80%/yr taker drag 1d->4h->1h). ID AUC DEGRADES with
+cadence (0.549->0.522->0.487, anti-predictive @1h) -- "more bars to confirm onset" REFUTED.
+
+**FOLD -> CONVERGENCE on selection-vs-shuffle (internal TIs x {1d,4h,1h} x {fixed,trail,target,time,ATR} exhausted).**
+PIVOT to the USER'S BINDING DIRECTIVE + the referee's lever #2, which is the SAME axis: the **TI move-CATCH thesis judged by
+CAPTURE-RATE** (realized/available move within the signal window) -- a DIFFERENT, churn-IMMUNE null (per-signal entry/exit,
+no per-bar reselection). NOT selection-vs-random-portfolio. This is the charter's deferred move-CATCH product space
+(TI x [Chimera] x Asset x TF x exit-mechanism), and it sidesteps the exact artifact that broke every shuffle lane.
+EXTERNAL data (Coinbase/Upbit) stays DEFERRED behind internal move-CATCH per the standing directive.
