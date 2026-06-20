@@ -363,3 +363,5 @@ persist; the +0.87pp/step selection edge is the part most likely to decay) + pre
 < 0.05) BEFORE acquiring ONE external feed (Coinbase/Upbit listing announcements rank first = cleanest exogenous-onset prior).
 Cheapest deployable falsifier: recompute liq_short_panic vs mom/brk pool with LISTING-AGE stratification (if +2.72pp collapses
 it was micro-cap listing-age beta proxying as a flush signal).
+
+_maxDD RECONCILED (2026-06-20): the -27.5/-42.3/-56.5 spread = three portfolios, NOT a bug. Frozen K=5 book full-period maxDD = -56.5% (vs BH -83.4%, +26.8pp saved); gate-alone EW = -42.3% (+41pp); bear-only book 0% cash (vs BH -92.2%, +92pp). The -14pp gap (book vs gate-EW) = the CONCENTRATION COST (K=5 + 1.5x amplifier buy participation at deeper DD). Canonical numbers from run_dev. Capstone doc: docs/MOVE_CATCH_CAMPAIGN_CAPSTONE.md._
