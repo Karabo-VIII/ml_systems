@@ -265,3 +265,35 @@ regime-label-shuffle check on the chop move-catch lead, 1d time-exit, DEV-walled
 - _chop edge SURVIVES independent (non-overlapping) samples: mom14 +0.98pp p(<=0)=0.003 (p05 +0.41), brk14 +2.42pp p~0 (p05 +1.37), rsi14 +1.42pp p=0.0003. Bear NEGATIVE (mom14 -0.38, brk14 -2.13) -- wall holds in bear._
 - _REVERSE-SCORE (worst-momentum mom14<0) LOSES in chop (-1.41pp, p=1.0) => the edge is DIRECTION-SENSITIVE = REAL trend-continuation, NOT the direction-blind concentration churn that killed the sub-daily shuffle lane (where reverse-score stayed positive). This is the key contrast: the churn-immune null + direction-sensitivity distinguishes a real momentum-catch from the prior artifact._
 - _Regime-label shuffle does NOT vanish (+2.14pp) => the edge is GENERAL (positive in bull AND chop), not chop-SPECIFIC. The claim sharpens from "chop edge" to "a general direction-sensitive momentum/breakout move-catch, positive in non-bear, that the BROKEN shuffle null had masked in chop." CAVEAT held for referee: the MFE>3% conditioning isolates timing-skill-GIVEN-a-move; the UNCONDITIONAL tradeable P&L (when the TI fires, how often a move occurs + net) is the open deployability question for the exit/sweep lanes._
+
+---
+
+## MOVE-CATCH CAPTURE-RATE CYCLE -- VERDICT: SAME WALL UNDER A NEW LENS (2026-06-20 02:5x SAST, workflow w9wj1w70h)
+
+**The chop move-catch "edge" is up-regime continuation, NOT regime-conditional. De-risked-beta wall re-confirmed via capture-rate.**
+
+The churn-immune random-ENTRY null DID show chop momentum/breakout beating random entry (mom14 +0.98pp, brk14 +2.42pp,
+honest date-block p_le0 ~0.02) -- survives block-bootstrap AND reverse-score (direction-sensitive). BUT the two decisive kills:
+- **REGIME-LABEL SHUFFLE (done correctly: pool re-drawn under rotated labels) FAILS.** Real chop edge sits BELOW the
+  label-destroyed mean (p_shuf>=real = 0.79-0.83 for mom14/brk14/rsi14). Destroying regime labels makes the edge BIGGER
+  (rotation imports bull entries) = the signature of NON-regime-conditional up-regime continuation, not a chop signal.
+- **CALENDAR-INVARIANCE FAILS.** mom14 chop +0.98 (1d) -> +0.54 (4h) -> -0.15pp (1h); brk14 +2.42 -> +0.69 -> -0.23.
+  Edge decays to NEGATIVE with bar density = overlap/selection signature, not a stable per-day economic edge.
+- Holm across the non-bull family: only rsi14_chop_4h survives block-p (0.048) but FAILS regime-shuffle (p=0.55) = moot.
+- BEAR: 0 survivors, all reverse-score direction FALSE = genuinely anti-predictive. brk14 bear -2.1..-2.9pp (bear-traps).
+- Chimera CONDITIONERS add nothing (<=+0.02pp; 3-gate stack drops chop +0.98->+0.08pp by thinning).
+- Mechanism exits: time-stop has the HIGHEST capture (0.59-0.63); trail/target REDUCE it (crypto tails); none rescue bear.
+The only real component = a faint UNIVERSAL momentum-continuation tilt (reverse-score) positive in up-regimes, negative in
+bear = the de-risked-beta wall exactly. NOT a breach. Methodology fix applied: wired the date-block bootstrap into
+capture_lab.evaluate_ti(block=True) (iid deflated SE 2-3.6x); reproduces referee (mom14 chop n_eff=317).
+
+**FOLD -> the LAST untested INTERNAL axis (charter-mandated before external): the WASTED v51 EXOGENOUS features.**
+The "chimera dead" verdict was on 4 features (vpin/dev/fd) at 1d. The dollar-bar files carry the v51 chimera (~250 cols):
+funding, basis, liquidations, ETF/whale flow, stablecoin shocks, order-flow (kyle/hawkes), transfer-entropy, listing-age.
+Built v51_feature_lab (resamples these to a causal daily grid -> capture_lab's hardened battery). FIRST READ: exogenous
+features show DIFFERENT regime patterns than price-TIs -- norm_funding positive in ALL regimes incl bear +0.54; s3_smart_
+vs_retail_z FLIPS to +0.82 in bear; liq_capitulation/short_panic +3.2pp chop. None yet bear-significant. CYCLE wob5hmhhu
+runs the full battery + BOTH directions + causality audit: does any EXOGENOUS feature break the wall (regime-conditional
+or bear-positive)? If no -> internal EXHAUSTED, external (Coinbase/Upbit) is the charter-blessed redirect.
+
+_v51 exogenous move-CATCH cycle RUNNING (workflow wob5hmhhu, launched 2026-06-20 02:5x SAST)._
