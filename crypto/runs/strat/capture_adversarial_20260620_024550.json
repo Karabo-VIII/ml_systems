@@ -1,0 +1,293 @@
+{
+  "K1_block_boot": [
+    {
+      "ti": "mom30",
+      "tf": "1d",
+      "regime": "chop",
+      "n_fired": 3580,
+      "obs_edge_pp": 1.33,
+      "boot_mean_pp": 1.349,
+      "boot_std_pp": 0.478,
+      "boot_p05": 0.609,
+      "p_block_boot": 0.005,
+      "n_boot_valid": 400
+    },
+    {
+      "ti": "rangepos",
+      "tf": "1d",
+      "regime": "chop",
+      "n_fired": 2814,
+      "obs_edge_pp": 1.885,
+      "boot_mean_pp": 1.901,
+      "boot_std_pp": 0.672,
+      "boot_p05": 0.778,
+      "p_block_boot": 0.0025,
+      "n_boot_valid": 400
+    },
+    {
+      "ti": "rsi14",
+      "tf": "1d",
+      "regime": "chop",
+      "n_fired": 3136,
+      "obs_edge_pp": 1.421,
+      "boot_mean_pp": 1.441,
+      "boot_std_pp": 0.536,
+      "boot_p05": 0.537,
+      "p_block_boot": 0.0,
+      "n_boot_valid": 400
+    },
+    {
+      "ti": "brk14",
+      "tf": "1d",
+      "regime": "chop",
+      "n_fired": 1048,
+      "obs_edge_pp": 2.418,
+      "boot_mean_pp": 2.418,
+      "boot_std_pp": 0.87,
+      "boot_p05": 0.986,
+      "p_block_boot": 0.0025,
+      "n_boot_valid": 400
+    },
+    {
+      "ti": "mom14",
+      "tf": "1d",
+      "regime": "chop",
+      "n_fired": 4153,
+      "obs_edge_pp": 0.985,
+      "boot_mean_pp": 1.018,
+      "boot_std_pp": 0.399,
+      "boot_p05": 0.386,
+      "p_block_boot": 0.0,
+      "n_boot_valid": 400
+    },
+    {
+      "ti": "mom14",
+      "tf": "4h",
+      "regime": "bear",
+      "n_fired": 47104,
+      "obs_edge_pp": -0.657,
+      "boot_mean_pp": -0.663,
+      "boot_std_pp": 0.285,
+      "boot_p05": -1.11,
+      "p_block_boot": 0.985,
+      "n_boot_valid": 400
+    },
+    {
+      "ti": "volexp",
+      "tf": "4h",
+      "regime": "bear",
+      "n_fired": 26967,
+      "obs_edge_pp": 0.199,
+      "boot_mean_pp": 0.195,
+      "boot_std_pp": 0.408,
+      "boot_p05": -0.498,
+      "p_block_boot": 0.3,
+      "n_boot_valid": 400
+    },
+    {
+      "ti": "rsi14",
+      "tf": "4h",
+      "regime": "bear",
+      "n_fired": 34049,
+      "obs_edge_pp": -0.773,
+      "boot_mean_pp": -0.788,
+      "boot_std_pp": 0.368,
+      "boot_p05": -1.36,
+      "p_block_boot": 0.985,
+      "n_boot_valid": 400
+    },
+    {
+      "ti": "rangepos",
+      "tf": "4h",
+      "regime": "bear",
+      "n_fired": 32695,
+      "obs_edge_pp": -0.49,
+      "boot_mean_pp": -0.5,
+      "boot_std_pp": 0.326,
+      "boot_p05": -1.047,
+      "p_block_boot": 0.94,
+      "n_boot_valid": 400
+    }
+  ],
+  "K2_reverse_score": [
+    {
+      "ti": "mom30",
+      "tf": "1d",
+      "regime": "chop",
+      "top_edge_pp": 1.335,
+      "top_p": 0.0,
+      "bot_edge_pp": -1.438,
+      "bot_p": 1.0,
+      "direction_test_PASS": true
+    },
+    {
+      "ti": "rangepos",
+      "tf": "1d",
+      "regime": "chop",
+      "top_edge_pp": 1.881,
+      "top_p": 0.0,
+      "bot_edge_pp": -2.609,
+      "bot_p": 1.0,
+      "direction_test_PASS": true
+    },
+    {
+      "ti": "rsi14",
+      "tf": "1d",
+      "regime": "chop",
+      "top_edge_pp": 1.408,
+      "top_p": 0.0,
+      "bot_edge_pp": -1.164,
+      "bot_p": 1.0,
+      "direction_test_PASS": true
+    },
+    {
+      "ti": "brk14",
+      "tf": "1d",
+      "regime": "chop",
+      "top_edge_pp": 2.389,
+      "top_p": 0.0,
+      "bot_edge_pp": -0.519,
+      "bot_p": 1.0,
+      "direction_test_PASS": true
+    },
+    {
+      "ti": "mom14",
+      "tf": "1d",
+      "regime": "chop",
+      "top_edge_pp": 0.996,
+      "top_p": 0.0,
+      "bot_edge_pp": -1.403,
+      "bot_p": 1.0,
+      "direction_test_PASS": true
+    }
+  ],
+  "K3_regime_shuffle": [
+    {
+      "ti": "mom30",
+      "tf": "1d",
+      "real_chop_edge_pp": 1.33,
+      "shuffle_mean_pp": 2.283,
+      "shuffle_p05_pp": 3.883,
+      "p_shuffle": 0.872,
+      "LABEL_SHUFFLE_KILL": true
+    },
+    {
+      "ti": "rangepos",
+      "tf": "1d",
+      "real_chop_edge_pp": 1.885,
+      "shuffle_mean_pp": 2.82,
+      "shuffle_p05_pp": 4.845,
+      "p_shuffle": 0.78,
+      "LABEL_SHUFFLE_KILL": true
+    },
+    {
+      "ti": "rsi14",
+      "tf": "1d",
+      "real_chop_edge_pp": 1.421,
+      "shuffle_mean_pp": 2.364,
+      "shuffle_p05_pp": 3.951,
+      "p_shuffle": 0.828,
+      "LABEL_SHUFFLE_KILL": true
+    },
+    {
+      "ti": "brk14",
+      "tf": "1d",
+      "real_chop_edge_pp": 2.418,
+      "shuffle_mean_pp": 3.832,
+      "shuffle_p05_pp": 6.267,
+      "p_shuffle": 0.832,
+      "LABEL_SHUFFLE_KILL": true
+    },
+    {
+      "ti": "mom14",
+      "tf": "1d",
+      "real_chop_edge_pp": 0.985,
+      "shuffle_mean_pp": 1.818,
+      "shuffle_p05_pp": 3.131,
+      "p_shuffle": 0.872,
+      "LABEL_SHUFFLE_KILL": true
+    }
+  ],
+  "K4_calendar": [
+    {
+      "ti": "mom30",
+      "regime": "chop",
+      "hold_days": 7,
+      "1d": {
+        "edge_pp": 1.29,
+        "edge_per_day": 0.184,
+        "p": 0.0
+      },
+      "4h": {
+        "edge_pp": 0.85,
+        "edge_per_day": 0.121,
+        "p": 0.0
+      },
+      "calendar_consistent": true
+    },
+    {
+      "ti": "rangepos",
+      "regime": "chop",
+      "hold_days": 7,
+      "1d": {
+        "edge_pp": 1.89,
+        "edge_per_day": 0.27,
+        "p": 0.0
+      },
+      "4h": {
+        "edge_pp": 0.28,
+        "edge_per_day": 0.04,
+        "p": 0.0
+      },
+      "calendar_consistent": false
+    },
+    {
+      "ti": "rsi14",
+      "regime": "chop",
+      "hold_days": 7,
+      "1d": {
+        "edge_pp": 1.39,
+        "edge_per_day": 0.199,
+        "p": 0.0
+      },
+      "4h": {
+        "edge_pp": 0.7,
+        "edge_per_day": 0.1,
+        "p": 0.0
+      },
+      "calendar_consistent": true
+    },
+    {
+      "ti": "brk14",
+      "regime": "chop",
+      "hold_days": 7,
+      "1d": {
+        "edge_pp": 2.41,
+        "edge_per_day": 0.344,
+        "p": 0.0
+      },
+      "4h": {
+        "edge_pp": 0.68,
+        "edge_per_day": 0.097,
+        "p": 0.0
+      },
+      "calendar_consistent": false
+    },
+    {
+      "ti": "mom14",
+      "regime": "chop",
+      "hold_days": 7,
+      "1d": {
+        "edge_pp": 1.0,
+        "edge_per_day": 0.143,
+        "p": 0.0
+      },
+      "4h": {
+        "edge_pp": 0.54,
+        "edge_per_day": 0.077,
+        "p": 0.0
+      },
+      "calendar_consistent": true
+    }
+  ]
+}

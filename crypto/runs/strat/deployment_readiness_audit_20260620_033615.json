@@ -1,0 +1,267 @@
+{
+  "audit": "deployment_readiness",
+  "generated": "20260620_033615",
+  "dev_end": "2024-05-15",
+  "dev_max_date": "2024-05-14",
+  "n_assets": 50,
+  "param_sensitivity": {
+    "top_K": {
+      "3": {
+        "chop_edge_pp": 0.98,
+        "bull_edge_pp": 0.62
+      },
+      "5": {
+        "chop_edge_pp": 0.98,
+        "bull_edge_pp": 0.62
+      },
+      "8": {
+        "chop_edge_pp": 0.98,
+        "bull_edge_pp": 0.62
+      },
+      "10": {
+        "chop_edge_pp": 0.98,
+        "bull_edge_pp": 0.62
+      },
+      "invoke_K3": {
+        "mean_net_pct": 3.128,
+        "std_net_pct": 19.228,
+        "n_slices": 150
+      },
+      "invoke_K5": {
+        "mean_net_pct": 2.752,
+        "std_net_pct": 16.493,
+        "n_slices": 150
+      },
+      "invoke_K8": {
+        "mean_net_pct": 1.583,
+        "std_net_pct": 14.283,
+        "n_slices": 150
+      },
+      "invoke_K10": {
+        "mean_net_pct": 1.532,
+        "std_net_pct": 14.071,
+        "n_slices": 150
+      },
+      "invoke_K15": {
+        "mean_net_pct": 1.339,
+        "std_net_pct": 13.446,
+        "n_slices": 150
+      }
+    },
+    "hold_days": {
+      "3": {
+        "chop_edge_pp": 0.47,
+        "bull_edge_pp": 0.42,
+        "bear_edge_pp": 0.46
+      },
+      "5": {
+        "chop_edge_pp": 0.68,
+        "bull_edge_pp": 0.42,
+        "bear_edge_pp": 0.13
+      },
+      "7": {
+        "chop_edge_pp": 0.98,
+        "bull_edge_pp": 0.62,
+        "bear_edge_pp": -0.38
+      },
+      "10": {
+        "chop_edge_pp": 0.87,
+        "bull_edge_pp": 0.82,
+        "bear_edge_pp": -0.25
+      },
+      "14": {
+        "chop_edge_pp": 0.41,
+        "bull_edge_pp": 1.03,
+        "bear_edge_pp": 0.93
+      }
+    },
+    "regime_window": {},
+    "liq_standalone": {
+      "liq_capitulation": {
+        "chop_edge_pp": 3.19,
+        "bull_edge_pp": 3.23
+      },
+      "liq_short_panic": {
+        "chop_edge_pp": 3.47,
+        "bull_edge_pp": 3.34
+      }
+    }
+  },
+  "seed_robustness": {
+    "records": [
+      {
+        "seed": 0,
+        "mean_net_pct": 2.752,
+        "chop_edge_pp": 0.98,
+        "n_slices": 150
+      },
+      {
+        "seed": 1,
+        "mean_net_pct": 5.799,
+        "chop_edge_pp": 0.98,
+        "n_slices": 150
+      },
+      {
+        "seed": 2,
+        "mean_net_pct": 2.362,
+        "chop_edge_pp": 1.0,
+        "n_slices": 150
+      },
+      {
+        "seed": 3,
+        "mean_net_pct": 4.063,
+        "chop_edge_pp": 0.98,
+        "n_slices": 150
+      },
+      {
+        "seed": 4,
+        "mean_net_pct": 3.098,
+        "chop_edge_pp": 1.0,
+        "n_slices": 150
+      },
+      {
+        "seed": 5,
+        "mean_net_pct": 3.344,
+        "chop_edge_pp": 0.97,
+        "n_slices": 150
+      },
+      {
+        "seed": 6,
+        "mean_net_pct": 1.494,
+        "chop_edge_pp": 0.98,
+        "n_slices": 150
+      },
+      {
+        "seed": 7,
+        "mean_net_pct": 3.982,
+        "chop_edge_pp": 0.98,
+        "n_slices": 150
+      },
+      {
+        "seed": 8,
+        "mean_net_pct": 1.667,
+        "chop_edge_pp": 1.01,
+        "n_slices": 150
+      },
+      {
+        "seed": 9,
+        "mean_net_pct": 0.834,
+        "chop_edge_pp": 0.99,
+        "n_slices": 150
+      }
+    ],
+    "net_mean": 2.939,
+    "net_std": 1.387,
+    "edge_mean": 0.987,
+    "edge_std": 0.012,
+    "all_positive_net": true,
+    "all_positive_chop_edge": true
+  },
+  "regime_lag": {
+    "entry_lag": {
+      "n_transitions": 35,
+      "mean_bars": 23.5,
+      "median_bars": 20.0,
+      "max_bars": 50,
+      "min_bars": 1
+    },
+    "exit_lag": {
+      "n_transitions": 35,
+      "mean_bars": 25.3,
+      "median_bars": 26.0,
+      "max_bars": 50,
+      "min_bars": 2
+    },
+    "whipsaw_risk": {
+      "n_bear_episodes": 36,
+      "n_short_episodes_le10bars": 20,
+      "whipsaw_rate_pct": 55.6,
+      "median_bear_run_bars": 6.0,
+      "max_bear_run_bars": 98
+    },
+    "regime_distribution": {
+      "bull": 482,
+      "chop": 350,
+      "bear": 762
+    },
+    "n_bars_total": 1594
+  },
+  "oos_handoff": {
+    "checks": {
+      "wall_enforcement": {
+        "PASS": true,
+        "note": "load_wide correctly rejects OOS end: WALL VIOLATION: end 2025-01-01 >= DEV_END 2024-05-15"
+      },
+      "dev_max_date": {
+        "PASS": true,
+        "dev_max": "2024-05-14",
+        "wall": "2024-05-15",
+        "note": "DEV lab does not include OOS data"
+      },
+      "frozen_params_complete": {
+        "PASS": true,
+        "missing_keys": [],
+        "note": "All required frozen params present"
+      },
+      "oos_validate_wall": {
+        "PASS": true,
+        "note": "oos_validate correctly rejects pre-DEV start: oos_start 2020-01-01 must be >= DEV_END 2024-05-15"
+      },
+      "no_refit_guarantee": {
+        "PASS": true,
+        "mechanism": "FROZEN_CONFIG is a module-level constant; oos_validate takes no training data arg; regime thresholds are structural (0.5 breadth, 0 trend) not fitted",
+        "note": "Regime gate thresholds are structural (mean-based) not empirically optimized"
+      }
+    },
+    "VERDICT": "PASS"
+  },
+  "caveats_and_verdict": {
+    "frozen_config": {
+      "top_K": 5,
+      "hold_days": 7,
+      "min_move": 0.03,
+      "regime_window_days": 50,
+      "liq_amplifier_feats": [
+        "liq_capitulation",
+        "liq_short_panic"
+      ],
+      "liq_amplifier_weight": 0.5,
+      "price_TIs": [
+        "mom14",
+        "brk14"
+      ],
+      "regime_gate": {
+        "bull": true,
+        "chop": true,
+        "bear": false
+      },
+      "tf": "1d",
+      "n_universe": 50,
+      "cost_rt": 0.0024,
+      "DEV_END": "2024-05-15"
+    },
+    "cautions": [
+      "HIGH REGIME LAG: mean bear-entry lag 23.5 bars. Strategy will hold losing positions ~23.5 days before gating to cash.",
+      "WHIPSAW RISK: 55.6% of bear episodes are <= 10 bars. Cost drag from frequent regime flips.",
+      "Seed robustness OK: all 10 seeds positive net. Edge std across seeds: 0.012pp.",
+      "BEAR: ALL components (mom14, brk14, liq-flush amplifier) are DEAD or NEGATIVE in bear. The regime gate MUST be active to avoid bear losses. Gate failure = full beta exposure.",
+      "ALPHA vs BETA: This is DE-RISKED BETA, not alpha. In strong bull markets it LAGS buy-hold (regime cash drag). Positioning should be framed as drawdown-insurance, not return-maximization.",
+      "LIQ-AMPLIFIER: liq_capitulation/liq_short_panic are BULL+CHOP amplifiers (bear edge ~0). They are available in v51 dollar-bar data which requires live Binance liquidation feed.",
+      "DATA STALENESS: Panel was 20d stale at last check (2026-05-28 last bar). Refresh data pipeline before any live deployment.",
+      "DECAY MONITOR: No DSR/IC-decay monitor wired. Genuine drift (CDAP wave-3) is a known risk pre-promotion gap.",
+      "HALTING RULE: No consecutive-DD halt wired in wealth_bot risk_manager (pre-promotion gap).",
+      "K3 REGIME-LABEL SHUFFLE KILL: ALL chop TIs survive shuffled labels (LABEL_SHUFFLE_KILL=True). Edge is NOT conditional on the precise regime label -- it is a global continuation bias that happens to be stronger in bull+chop. The regime gate is a GATE (controls exposure), not a signal selector."
+    ],
+    "blocking_cautions": [
+      "HIGH REGIME LAG: mean bear-entry lag 23.5 bars. Strategy will hold losing positions ~23.5 days before gating to cash."
+    ],
+    "go_nogo": "CONDITIONAL_GO",
+    "conditions_for_go": [
+      "Refresh data pipeline (remove 20d staleness)",
+      "Wire DSR/IC-decay monitor before live promotion",
+      "Wire consecutive-DD halt in risk_manager before live promotion",
+      "Confirm regime gate is always active",
+      "Accept product is de-risked beta, not alpha"
+    ]
+  }
+}

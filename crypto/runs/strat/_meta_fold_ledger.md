@@ -329,3 +329,37 @@ validating OOS. External data (Coinbase/Upbit announcements, on-chain inflows no
 charter (needs new data + user involvement). NEXT: synthesize+validate the deployable from the validated components + OOS-handoff.
 
 _CONVERGENCE CAPSTONE RUNNING (workflow wgqmwb78o, launched 2026-06-20 03:3x SAST): assemble + adversarially validate the deployable regime-aware participate-preserve book (momentum/breakout continuation + liq-flush amplifier + bear de-risk) on DEV, with the OOS-handoff, + the final cumulative synthesis (the wall / the deployable / the external frontier / the cash-theorem bottom line). Lanes: build_book / adversarial_validate / deploy_ready + expert-quant synthesis._
+
+---
+
+## CONVERGENCE CAPSTONE -- VERDICT: internal objective MET, deployable delivered (2026-06-20 03:4x SAST, workflow wgqmwb78o)
+
+**The DEV-walled move-catch campaign is COMPLETE. The de-risked-beta wall is REAL + bear-invariant across every axis. A validated participate-preserve deployable + OOS-handoff is delivered. External data = the user's call.**
+
+THE DEPLOYABLE: `src/strat/move_catch_book.py` (FROZEN 2026-06-20) -- top-K=5 by EW z(mom14,brk14), hold 7d, time-exit;
+liq_capitulation/short_panic 1.5x amplifier bull/chop-only; causal regime gate (bull/chop participate, BEAR->cash). DEV:
+bull 50.7% slice-rate +6.16%/slice, chop 58.5% +5.13%, bear 0/0/0 (cash). `oos_validate(oos_start)` = the frozen
+OOS-handoff (USER runs; wall asserts; no refit). GO/NO-GO = CONDITIONAL_GO.
+
+REFEREE HONESTY CORRECTIONS (override the lane headlines -- record these so they are not re-inflated):
+- **DO NOT report the compound number** (+16,926% etc): frictionless EW-of-selected-pool concurrency artifact; a
+  same-exposure RANDOM pick compounds to 1,226,164% in the identical steps. Real selection edge over same-exposure random
+  = only **+0.87pp/step (p05 +0.12, p_le0 0.030) = barely real**. Deliverable metrics = maxDD-SAVED + cash-bounded slice-rate.
+- **maxDD INCONSISTENCY (load-bearing, flag):** spec -56.5% vs adversarial-harness -27.5% (concentrated book) vs gate-alone
+  EW **-42.3% (41pp saved, the honest capacity-free number)**. Quote maxDD as **-42% to -57%**, NOT a single point. [RECONCILE NEXT]
+- **liq amplifier is REAL but ~93% REDUNDANT** with mom/brk (flush fires INSIDE the pool 93%; outside-pool flush has NO
+  edge). Per-regime liq_cap-chop AMBIGUOUS (block p05 -0.294, p_le0 0.074). = within-continuation amplifier, NOT independent onset.
+- **THE GATE IS EXPOSURE CONTROL, NOT SIGNAL SKILL** (the decay vector): label-shuffle-KILL True for all chop TIs (p_shuffle
+  0.78-0.87). Edge = global continuation bias weaker in bear, captured by REDUCING EXPOSURE in bad periods. If structure
+  changes (bear rallies), the gate keeps you out of those too. Structurally-sound de-risked beta, NOT regime-conditional skill.
+- **CASH THEOREM (binding):** all-slice profit-rate ceiling = in_market 0.538 x up_rate 0.84 ~= **0.34**. "Win ANY 7d slice"
+  is STRUCTURALLY IMPOSSIBLE LO-spot. ACHIEVABLE = participate-preserve (drawdown-insurance, honestly labeled).
+
+RESIDUAL RISKS (HIGH): 23.5-bar (~3.3wk) mean bear-ENTRY LAG (holds losers before gating); data 20d stale; no DSR/IC-decay
+monitor; no consecutive-DD halt. (MEDIUM): bear-whipsaw (<10-bar episodes 55.6% -> add 3-5 bar dwell); gate-is-exposure-control decay.
+
+SINGLE HIGHEST-EV NEXT STEP (user): run `oos_validate("2024-05-15")` ONCE (cheap decisive falsifier -- preservation should
+persist; the +0.87pp/step selection edge is the part most likely to decay) + pre-register the Holm bear-gate (bear block_p_le0
+< 0.05) BEFORE acquiring ONE external feed (Coinbase/Upbit listing announcements rank first = cleanest exogenous-onset prior).
+Cheapest deployable falsifier: recompute liq_short_panic vs mom/brk pool with LISTING-AGE stratification (if +2.72pp collapses
+it was micro-cap listing-age beta proxying as a flush signal).
