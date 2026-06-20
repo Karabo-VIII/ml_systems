@@ -257,3 +257,5 @@ CAPTURE-RATE** (realized/available move within the signal window) -- a DIFFERENT
 no per-bar reselection). NOT selection-vs-random-portfolio. This is the charter's deferred move-CATCH product space
 (TI x [Chimera] x Asset x TF x exit-mechanism), and it sidesteps the exact artifact that broke every shuffle lane.
 EXTERNAL data (Coinbase/Upbit) stays DEFERRED behind internal move-CATCH per the standing directive.
+
+_Move-CATCH capture-rate cycle RUNNING (workflow w9wj1w70h, launched 2026-06-20 02:1x SAST): tests whether the chop momentum/breakout move-catch edge (churn-immune random-ENTRY null; mom14 +0.98pp/1d chop, p~0 iid) survives the full adversarial battery (date-block moving-block bootstrap + reverse-score + regime-label shuffle + calendar-invariance) -- REAL non-bull edge or wall under a new lens. Lanes: chop_battery / product_sweep / chimera_conditioner / exit_mechanism + expert-quant referee. Foundation: capture_lab.py (DEV-walled, aggregate capture, regime split), verified 1d+4h._
