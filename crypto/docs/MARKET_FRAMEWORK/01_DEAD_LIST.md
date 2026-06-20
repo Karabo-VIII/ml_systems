@@ -9,7 +9,7 @@ re-test only if the named condition changes). Consolidated from `DEAD_STRATEGIES
 > Post-reset framing caveat: prior "exhausted/impossible" verdicts were sometimes scoped to daily/4h/dollar +
 > LO+spot+lev=1. Those are SCOPED, not global. The HARD ones are mechanism-level and final.
 
-## The register (D01–D76)
+## The register (D01–D80)
 
 | ID | REFUTED THEORY | CLAIM | HOW FALSIFIED | KEY NUMBER | SCOPE | SOURCE |
 |---|---|---|---|---|---|---|
@@ -95,6 +95,11 @@ re-test only if the named condition changes). Consolidated from `DEAD_STRATEGIES
 
 | D76 | Intraday mover-RIDING with an INTERNAL AUC>0.58 continuation signal + honest execution (SHARPENS D72) | D72 said the wall is INFORMATION (need a trigger-time AUC>~0.58 continuation signal, "external data only"); test whether an internal signal that DOES clear 0.58 makes riding net-positive | the 2026-06-17 campaign FOUND the internal signal D72 demanded — A2 "price reaches +1.5% further beyond onset" OOS AUC **0.648** (>0.58), durable into UNSEEN (gross monotone in gate tightness) — and riding STILL fails net. Tested all 3 execution forms (unconditional-taker / A2-gated passive-maker / A2-gated HYBRID passive+marketable; 1024 cfgs; beat-random-entry-on-SAME-movers null; UNSEEN once): TRAIN+VAL alive (beat-null +0.40..+0.78%/ev) → UNSEEN beat-null **−0.135..−0.46%/ev, GATE FAILS 3/3**. KILL = EXECUTION not information: the honest passive-maker fill (bid 0.8% below, p_fill 0.34) ADVERSELY-SELECTS against the fast-runner legs A2 picks (they run away, never fill); the hybrid that chases them pays taker+slip the thin gross can't cover (worse in the choppier 2024+ regime: 79% marketable fills); median ride −1.3..−1.6%, the positive mean is fat-tail-carried + best-of-1024 overfit | beat-null <0 UNSEEN even at AUC 0.648 | **HARD (execution-mechanism)** at 1m LO+spot, ALL internal-data execution forms — SHARPENS D72: internal move-IDENTIFICATION IS possible (A2 real+durable), but the only AFFORDABLE execution (maker) adverse-selects against the exact legs the signal selects. Un-killed levers are OUT OF SCOPE: maker-only sub-minute (data unbuilt), external whale/basis/orderbook | CAMPAIGN_2026_06_17_FINDINGS §7+§14; mover_ride_a2_maker.py / mover_ride_hybrid_fill.py |
 
+| D77 | A move-CATCH edge ANYWHERE in internal data (regime-conditional / capture-rate lens / v51 exogenous panel / deployment hardening) | a dynamic TI×TF×asset move-CAPTURE engine beats the de-risked-beta wall on SOME internal axis | the 7h DEV-walled move-CATCH campaign (2026-06-18→20) swept EVERY internal axis — cross-sectional selection, move-capture @1d/4h/1h, the capture-RATE lens (realized/available move), the ~250-feature v51 exogenous panel (funding/liq/basis/whale/stablecoin/flow/listing-age), AND deployment-level hardening — the de-risked-beta wall (preserves bears, NEVER beats buy-hold on net) is INVARIANT across all of them | de-risked beta on every axis (0 net-positive) | **HARD** (internal data, LO+spot) — no regime-conditional or bear-positive internal move-catch edge | MOVE_CATCH_CAMPAIGN_CAPSTONE; project-movecatch-campaign-complete-2026-06-20 |
+| D78 | "Trade ANY slice" / win every profitable setup across u100 (the LITERAL framing) — **CASH THEOREM** | a setup-chaser can capture any/every profitable slice across the universe | LO-spot with cash=0 means capital is ALWAYS fully deployed somewhere, so the all-slice profit-rate is bounded by in_market(0.538) × up_rate(0.84) ≈ **0.34** — you structurally CANNOT be in every winning slice. The LITERAL "win any 7-day slice" is impossible LO-spot. NB: the HONORED ask = the best within-budget chaser across the FULL u100×window surface + capital-preservation, NOT every slice (decompose-the-ideal) | ceiling ≈ 0.34 (0.538×0.84) | **HARD** (structural bound, LO+spot) — permanent kill of the LITERAL framing; do not chase it, reframe it | MOVE_CATCH_CAMPAIGN_CAPSTONE:11; _meta_fold_ledger:355 |
+| D79 | liq_capitulation / short_panic as a move-catch AMPLIFIER | liq-cascade / short-panic features amplify the move-catch book beyond momentum-breakout | 93% redundant with momentum-breakout; marginal in only 1/3 buckets and FAILS the Holm correction → optional, not a listing-age beta | fails Holm (1/3 buckets) | SCOPED — marginal/optional, not a strict add | ledger 8bddd97 |
+| D80 | move_catch_book_v2 "fastgate" as a strict improvement over v1 | a faster entry gate strictly improves the move-catch book | NOT a strict improvement — one-slice maxDD WORSE, net −0.5pp/slice; v1 STANDS as the book | net −0.5pp/slice | SCOPED — v1 is the deployable book | ledger a943005 |
+
 ## Measurement / simulator artifacts that invalidated whole result-sets
 | ID | Artifact | Scope / impact |
 |---|---|---|
@@ -106,12 +111,14 @@ re-test only if the named condition changes). Consolidated from `DEAD_STRATEGIES
 | A6 | Daily liq/funding as 4h gate (.shift(1) intraday leak) | daily feature forward-filled to all 6 4h bars leaks 5/6; Δ +67% leaked vs −40% clean |
 | A7 | Flat-30bps + resample-own-returns null | both LIE; must use tiered-cost + cost-matched random-entry null |
 | A8 | DPO indicator (pandas-ta centered=True) | uses future data; TRAIN inflation +6e9%; leak-magnitude guard added |
+| A9 | Same-exposure random-K SHUFFLE null (churn-penalized) | a BROKEN null for per-bar-RESELECTION strats: it forces churn the real strat doesn't pay → UNDER-rejects, blooming a false z=5–6 at sub-daily. Use HOLD-TO-MATURITY + a churn-immune random-ENTRY null + date-block bootstrap instead (project-broken-same-exposure-shuffle-null-2026-06-20) |
 
 ## The 5 HARDEST vs 5 SOFTEST refutations
 **HARDEST (mechanism-level; final):** (1) D01/A1 MtM double-count (pure accounting bug); (2) D55 direction unpredictable
 at every canonical TF (linear+tree, 100+ assets); (3) D44 1–5%/day via daily-bar prediction (math-infeasible, IC~0 six
 ways); (4) D48/D49 buy-the-extreme is anti-edge (3 independent angles, random-null beats it); (5) D37 crypto pairs
-unconditional MR (crypto trends not reverts).
+unconditional MR (crypto trends not reverts); (6) D78 CASH THEOREM (LO-spot all-slice profit-rate ceiling ≈0.34 —
+"win any/every slice" is structurally impossible; reframe to best-within-budget chaser + capital-preservation).
 **SOFTEST (scoped; re-testable if the named condition changes):** (1) D04/D05 bidirectional-perp/regime-router in bull
 (revive in confirmed bear); (2) D13 IC-as-primary (a paradigm ruling, never tested at tick resolution); (3) D61
 exit-timing for daily breakouts (regime-cond/take-profit/4h-sub-bar exit genuinely untested); (4) D28 per-regime LGBM

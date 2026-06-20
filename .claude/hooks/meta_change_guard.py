@@ -32,6 +32,7 @@ META_PREFIXES = (
 # Known selftests: file (suffix match) -> command (argv, cwd=ROOT=parent root). py_compile is always run first.
 SELFTESTS = {
     ".claude/hooks/permission_gate.py":     [sys.executable, ".claude/hooks/test_permission_gate.py"],
+    ".claude/hooks/autonomy_loop.py":       [sys.executable, ".claude/hooks/test_give_up_gate.py"],
     "crypto/scripts/mandatory_gate.py":     [sys.executable, "crypto/scripts/mandatory_gate.py"],
     "crypto/src/audit/check_dsr_holm.py":   [sys.executable, "crypto/src/audit/check_dsr_holm.py", "--selftest"],
     "crypto/src/strat/__init__.py":         [sys.executable, "crypto/src/strat/selftest_all.py"],

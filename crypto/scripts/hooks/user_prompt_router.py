@@ -190,6 +190,36 @@ def build_fuzzy_context(token: str) -> str | None:
     )
 
 
+def build_state_context() -> "str | None":
+    """Operating-model PILLAR 1: inject the live intent contract (crypto/CHARTER.md) + current state
+    (crypto/CURRENT.md) into EVERY turn so a fresh instance starts WARM, not cold. This is the mechanism that
+    transmits the user's standing intent (don't collapse the breadth surface; don't stop at a verdict) to the
+    instance doing the work -- the fix for "intent is captured everywhere but transmitted nowhere it acts".
+    Reads two small committed files; fail-soft to None. Keeps well under the hook timeout."""
+    root = repo_root()  # crypto/ sub-project root
+    parts: list[str] = []
+    for fn, cap, label in (("CHARTER.md", 6000, "BINDING INTENT -- honor it; relaxing a constraint = a shortcut"),
+                           ("CURRENT.md", 4000, "LIVE STATE -- where we are, what to cover next")):
+        try:
+            p = root / fn
+            if not p.exists():
+                continue
+            txt = p.read_text(encoding="utf-8", errors="replace").strip()
+            if len(txt) > cap:
+                txt = txt[:cap].rstrip() + f"\n...[truncated -- read crypto/{fn} in full]"
+            parts.append(f"=== crypto/{fn} : {label} ===\n{txt}")
+        except Exception:
+            continue
+    if not parts:
+        return None
+    return (
+        "[OPERATING-MODEL STATE SPINE -- the user's standing intent + live state, injected every turn. "
+        "Read it before acting. Do NOT collapse the breadth surface (e.g. u100 -> BTC); a null is honest "
+        "ONLY if the full surface was attempted; do NOT stop at a verdict -- build within the ceiling.]\n\n"
+        + "\n\n".join(parts)
+    )
+
+
 def main() -> int:
     try:
         data = json.load(sys.stdin)
@@ -213,6 +243,12 @@ def main() -> int:
         fuzzy_ctx = build_fuzzy_context(token)
         if fuzzy_ctx is not None:
             contexts.append(fuzzy_ctx)
+
+    # Layer 3: operating-model state spine (CHARTER + CURRENT) -- inject the user's standing intent + live
+    # state into every turn (PILLAR 1). Placed last so it reads as standing context under the turn's notices.
+    state_ctx = build_state_context()
+    if state_ctx is not None:
+        contexts.append(state_ctx)
 
     if not contexts:
         print(json.dumps({}))

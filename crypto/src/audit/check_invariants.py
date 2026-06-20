@@ -310,6 +310,33 @@ def check_framework_store() -> list:
     return findings
 
 
+def check_knowledge_map_fresh() -> list:
+    """PILLAR 3 freshness gate: crypto/KNOWLEDGE_MAP.md must match the live dead-list head (kills the 'D63 vs D76'
+    pointer rot -- a scheduled regenerator alone rots; the pre-commit gate is the real guarantee). Runs
+    build_map.py --check; CRITICAL only when it cleanly reports STALE (exit 2). FAIL-SAFE: a build_map that cannot
+    run is advisory (info), never blocks a commit."""
+    import os as _os
+    import subprocess
+    import sys as _sys
+    script = str(PROJECT_ROOT / "scripts" / "knowledge" / "build_map.py")
+    if not _os.path.exists(script):
+        return [Finding(severity="info", category="knowledge_map", name="absent",
+                        detail="build_map.py not present; skipping the map-freshness check")]
+    try:
+        r = subprocess.run([_sys.executable, script, "--check"], capture_output=True, text=True, timeout=30,
+                           creationflags=(subprocess.CREATE_NO_WINDOW if _os.name == "nt" else 0))
+    except Exception as e:
+        return [Finding(severity="info", category="knowledge_map", name="run_error",
+                        detail=f"build_map --check failed to run: {type(e).__name__}: {e}")]
+    if r.returncode == 2:
+        return [Finding(severity="critical", category="knowledge_map", name="stale_map",
+                        file="crypto/KNOWLEDGE_MAP.md",
+                        detail="KNOWLEDGE_MAP.md is STALE vs the dead-list head -- run "
+                               "`python crypto/scripts/knowledge/build_map.py` and stage it. "
+                               + (r.stderr or "").strip()[:200])]
+    return []
+
+
 def check_dag(rules: list) -> list:
     """Run-pipeline DAG ordering rules (string-grep over run_pipeline.py)."""
     findings = []
@@ -919,6 +946,7 @@ def run_audit() -> tuple:
     findings.extend(check_pattern_must_contain(spec.get("bitemporal_asof", []), "bitemporal_asof"))
     findings.extend(check_report_claims_staged())  # honest-reporting gate (#1 correction): untagged perf numbers in staged reports
     findings.extend(check_framework_store())  # solutioning-pipeline store-accuracy gate (workspaces/ paths+refs resolve)
+    findings.extend(check_knowledge_map_fresh())  # PILLAR 3: KNOWLEDGE_MAP.md must match the live dead-list head
 
     # 2026-05-28 trader-skill upgrade: 3 new sections wired into CDAP.
     # Each section has mixed rule types (some `pattern` + must_match, some

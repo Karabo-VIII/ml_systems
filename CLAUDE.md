@@ -3,6 +3,15 @@
 This directory is a **parent workspace** holding three self-contained sub-projects under one git repo and
 one shared `.claude/`. From here you can focus on any one sub-project, or ship one off on its own.
 
+> **🟢 OPERATING MODEL (2026-06-20) — READ FIRST for crypto work.** The user's binding intent + live state live in
+> **[`crypto/CHARTER.md`](crypto/CHARTER.md)** (what the user wants + the permanent constraints) and
+> **[`crypto/CURRENT.md`](crypto/CURRENT.md)** (where we are + the surface to cover next). Both are auto-injected
+> every turn by the prompt router. A give-up / scope-collapse **gate** in
+> [`.claude/hooks/autonomy_loop.py`](.claude/hooks/autonomy_loop.py) mechanically blocks a close that collapses the
+> breadth surface (e.g. u100 → BTC) or quits at a verdict without attempting the full surface. Historical knowledge
+> (dead-list, lessons, survivors, archive, git bundle) is mapped in [`crypto/KNOWLEDGE_MAP.md`](crypto/KNOWLEDGE_MAP.md).
+> This is the 4-pillar operating model that fixes "instances can't build constructively on prior work + my intent."
+
 | Sub-project | Path | What it is | Its own doc |
 |---|---|---|---|
 | **Crypto** | [`crypto/`](crypto/) | The V4 crypto system (pipeline, world-models, strat, mining, oracle, wealth_bot, audit, framework). | **[`crypto/CLAUDE.md`](crypto/CLAUDE.md) — READ THIS for any crypto work; all the binding crypto invariants live there.** |

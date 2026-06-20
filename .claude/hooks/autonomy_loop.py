@@ -34,7 +34,10 @@ import datetime
 import time
 import json
 import os
+import re
 import sys
+import hashlib
+import subprocess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # .claude/hooks -> parent root
 CRYPTO = os.path.join(ROOT, "crypto")  # crypto sub-project root after the 3-way split (runs/scripts live here)
@@ -175,6 +178,262 @@ def block(reason):
     sys.exit(0)
 
 
+# ======================================================================================================
+# GIVE-UP / SCOPE-COLLAPSE GATE (2026-06-20) -- the anti-collapse centerpiece of the 4-pillar operating
+# model. Fires on EVERY Stop (before the arming checks) so it protects PLAIN prompts too -- the u100->BTC
+# incident ran unarmed. Blocks a close that (a) concludes give-up/collapse/shortcut on a BREADTH-scoped goal
+# while (b) artifacts show NARROW strategy work (1..floor-1 distinct non-BTC symbols = collapsed below the
+# breadth floor) and (c) it is not a proven-DONE close. The block hands back the decompose-the-ideal reframe
+# so the NEXT forced turn restarts from the reframe, not a fresh collapse. Conjunctive + coverage-gated =
+# false-positive-safe: a conversational mention of "impossible/BTC" (0 strategy symbols) and an honest full-
+# surface null (>=floor symbols) both PASS. Fail-OPEN on any error. Bounded to GIVEUP_BLOCK_CEILING/objective.
+# ======================================================================================================
+CHARTER_MD = os.path.join(CRYPTO, "CHARTER.md")
+CURRENT_MD = os.path.join(CRYPTO, "CURRENT.md")
+GIVEUP_STATE = os.path.join(CRYPTO, "runs", "autonomy", "giveup_gate.json")
+COLLAPSE_FLAG = os.path.join(CRYPTO, "runs", "autonomy", "COLLAPSE_FLAG.json")
+U100_YAML = os.path.join(CRYPTO, "config", "universes", "u100.yaml")
+GIVEUP_BLOCK_CEILING = 2
+COVERAGE_WINDOW_SECS = 12 * 3600
+ASSET_FLOOR = 20
+
+_BREADTH_RE = re.compile(
+    r"u50|u100|any asset|any setup|all (assets|tfs|timeframes)|across (the )?(whole )?universe|"
+    r"every (asset|slice)|trade any slice|all-?slice", re.I)
+_GIVEUP_RE = re.compile(
+    r"\b(impossible|unreachable|infeasible|not feasible|can'?t be (done|solved|achieved)"
+    r"|no (tradeable|harvestable|real|active|viable) (edge|signal|setup|alpha|chaser|book)"
+    r"|de-?risked beta|nothing beats buy.?hold|the ceiling is|is exhausted|mandate (is )?dead"
+    r"|gave up|no (viable )?path|not (achievable|possible))\b", re.I)
+_COLLAPSE_RE = re.compile(
+    r"\b(btc[- ]only|only (trade|use|focus on|run|test|backtest) (on )?btc|just (use|trade|test) btc"
+    r"|btc (is|as) (a |the )?(representative|proxy|sufficient|enough)|single[- ]asset|one asset (is|suffices))\b", re.I)
+_SHORTCUT_RE = re.compile(
+    r"\b(needs? (a |the )?short\b|enable (the )?short|long-short|market-neutral|the unlock is"
+    r"|only works if we (drop|relax|lift|enable|remove))\b", re.I)
+_DONE_RE = re.compile(r"\b(VERIFIED|SOLVED|shipped|DONE|fully complete|all (tests )?pass(es|ed)?)\b", re.I)
+_SHA_RE = re.compile(r"\b[0-9a-f]{7,40}\b")
+_RUNPATH_RE = re.compile(r"\b(?:crypto/)?runs/[\w./\-]+")
+
+
+def _gg_read_last_text(transcript_path):
+    """P1: accumulate text across the final MAIN-THREAD assistant turn-group (thinking-only end_turn records
+    are SEPARATE from the text record), walking backward to the preceding user record. Byte-bounded + fail-open."""
+    try:
+        if not transcript_path or not os.path.exists(transcript_path):
+            return ""
+        size = os.path.getsize(transcript_path)
+        with open(transcript_path, "rb") as fh:
+            if size > 256 * 1024:
+                fh.seek(size - 256 * 1024)
+                fh.readline()  # drop the partial first line
+            raw = fh.read().decode("utf-8", "replace")
+        out = []
+        for ln in reversed(raw.splitlines()[-400:]):
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                rec = json.loads(ln)
+            except Exception:
+                continue
+            t = rec.get("type")
+            if t == "user":
+                break  # reached the start of the final assistant turn-group
+            if t != "assistant" or rec.get("isSidechain"):
+                continue
+            content = (rec.get("message", {}) or {}).get("content", [])
+            if isinstance(content, str):
+                out.append(content)
+            elif isinstance(content, list):
+                for b in content:
+                    if isinstance(b, dict) and b.get("type") == "text":
+                        out.append(b.get("text", ""))
+        out.reverse()
+        return "\n".join(s for s in out if s)
+    except Exception:
+        return ""
+
+
+def _gg_read(path):
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            return fh.read()
+    except Exception:
+        return ""
+
+
+def _gg_universe_symbols():
+    """Distinct ticker symbols from u100.yaml (best-effort line scan, no yaml dep). Fail-soft to a core set."""
+    syms = set()
+    try:
+        for ln in _gg_read(U100_YAML).splitlines():
+            for m in re.findall(r"\b([A-Z]{2,6})(?:USDT|USD|/)?\b", ln):
+                syms.add(m)
+    except Exception:
+        pass
+    for junk in ("USDT", "USD", "USDC", "TRUE", "FALSE", "DNA", "YAML"):
+        syms.discard(junk)
+    return syms or {"ETH", "SOL", "BNB", "XRP", "ADA", "AVAX", "DOGE", "LINK", "DOT", "MATIC"}
+
+
+def _gg_coverage(now_ts, symbols=None, runs_root=None):
+    """Distinct NON-BTC u100 symbols referenced in recently-modified crypto/runs/** STRATEGY output (EXCLUDES
+    runs/autonomy logs/transcripts/traces). The discriminator: 0 = no strategy work this session (a planning/
+    lookup turn -> EXEMPT); 1..floor-1 = work attempted but collapsed below the breadth floor (-> BLOCK);
+    >=floor = a genuine full-surface attempt (-> EXEMPT). Best-effort, byte-bounded, fail-soft to 0."""
+    syms = symbols if symbols is not None else _gg_universe_symbols()
+    root = runs_root if runs_root is not None else os.path.join(CRYPTO, "runs")
+    found = set()
+    try:
+        for dp, _dn, files in os.walk(root):
+            if (os.sep + "autonomy") in (dp + os.sep):
+                continue  # never count autonomy transcripts/traces/task-outputs as strategy coverage
+            for fn in files:
+                if not fn.lower().endswith((".json", ".jsonl", ".csv", ".md", ".txt", ".yaml", ".yml", ".tsv")):
+                    continue
+                fp = os.path.join(dp, fn)
+                try:
+                    if now_ts - os.path.getmtime(fp) > COVERAGE_WINDOW_SECS:
+                        continue
+                    txt = _gg_read(fp)[:200000]
+                except Exception:
+                    continue
+                for s in syms:
+                    if s != "BTC" and s not in found and re.search(r"\b" + re.escape(s) + r"\b", txt):
+                        found.add(s)
+                if len(found) >= ASSET_FLOOR:
+                    return len(found)
+    except Exception:
+        pass
+    return len(found)
+
+
+def _gg_done_override(last_text):
+    """A DONE/VERIFIED/SOLVED close is honoured ONLY with resolvable proof: a real git object OR a runs/ path
+    that exists on disk. Bare 'VERIFIED' does not override (anti-self-congratulation guard)."""
+    if not _DONE_RE.search(last_text):
+        return False
+    for sha in _SHA_RE.findall(last_text):
+        try:
+            r = subprocess.run(["git", "cat-file", "-e", sha + "^{commit}"], cwd=ROOT, capture_output=True,
+                               timeout=3, creationflags=(subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0))
+            if r.returncode == 0:
+                return True
+        except Exception:
+            pass
+    for rp in _RUNPATH_RE.findall(last_text):
+        rp2 = rp[len("crypto/"):] if rp.startswith("crypto/") else rp
+        if os.path.exists(os.path.join(CRYPTO, rp2)) or os.path.exists(os.path.join(ROOT, rp)):
+            return True
+    return False
+
+
+def _gg_load_state():
+    try:
+        with open(GIVEUP_STATE, encoding="utf-8") as fh:
+            return json.load(fh)
+    except Exception:
+        return {}
+
+
+def _gg_save_state(st):
+    try:
+        os.makedirs(os.path.dirname(GIVEUP_STATE), exist_ok=True)
+        tmp = "%s.%d.tmp" % (GIVEUP_STATE, os.getpid())
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(st, fh)
+        os.replace(tmp, GIVEUP_STATE)
+    except Exception:
+        pass
+
+
+def _gg_decision(last_text, breadth, assets_touched):
+    """PURE decision: (block: bool, signal: str). Block IFF a give-up/collapse/shortcut SIGNAL is present AND
+    (shortcut -> always; give-up/collapse -> breadth-scoped AND 1..floor-1 assets touched). Conjunctive +
+    coverage-gated keeps it false-positive-safe. DONE-override is checked by the caller BEFORE this."""
+    if not last_text:
+        return (False, "")
+    if _SHORTCUT_RE.search(last_text):
+        # relaxing a binding constraint as 'the answer' is never legitimate -> block regardless of coverage
+        return (True, "constraint-relaxation shortcut (short / long-short / market-neutral)")
+    sig = ""
+    if _GIVEUP_RE.search(last_text):
+        sig = "give-up / premature verdict"
+    elif breadth and _COLLAPSE_RE.search(last_text):
+        sig = "scope-collapse to a single asset on a breadth mandate"
+    if not sig:
+        return (False, "")
+    if breadth and 1 <= assets_touched < ASSET_FLOOR:
+        return (True, sig)
+    return (False, "")
+
+
+def give_up_gate(data):
+    """Orchestrator. Reads the close text + CHARTER/CURRENT + artifact coverage; blocks a collapse/give-up
+    close with the decompose-the-ideal reframe. Bounded to GIVEUP_BLOCK_CEILING per objective. Fail-OPEN."""
+    try:
+        last_text = _gg_read_last_text(data.get("transcript_path", ""))
+        if not last_text:
+            return
+        # cheap pre-filter: skip ALL further file I/O unless a give-up/collapse/shortcut word is even present
+        if not (_GIVEUP_RE.search(last_text) or _COLLAPSE_RE.search(last_text) or _SHORTCUT_RE.search(last_text)):
+            return
+        if _gg_done_override(last_text):
+            return
+        current_txt = _gg_read(CURRENT_MD)
+        breadth = bool(_BREADTH_RE.search(current_txt) or _BREADTH_RE.search(_gg_read(CHARTER_MD)))
+        is_shortcut = bool(_SHORTCUT_RE.search(last_text))
+        assets = 0
+        if breadth and not is_shortcut:
+            assets = _gg_coverage(datetime.datetime.now().timestamp())
+        do_block, sig = _gg_decision(last_text, breadth, assets)
+        if not do_block:
+            return
+        # block ceiling -- never wedge a session forever; after the cap, RELEASE but drop a COLLAPSE_FLAG so the
+        # next session's CHARTER-load surfaces the unresolved collapse loudly instead of silently inheriting it.
+        obj_key = hashlib.md5(current_txt[:400].encode("utf-8", "replace")).hexdigest()[:12]
+        st = _gg_load_state()
+        n = int(st.get(obj_key, 0))
+        if n >= GIVEUP_BLOCK_CEILING:
+            try:
+                with open(COLLAPSE_FLAG, "w", encoding="utf-8") as fh:
+                    json.dump({"signal": sig, "assets_touched": assets,
+                               "when": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, fh)
+            except Exception:
+                pass
+            return  # released after the cap (with a flag) -- a truly-stuck close must not be trapped
+        st[obj_key] = n + 1
+        _gg_save_state(st)
+        try:
+            sys.path.insert(0, os.path.join(CRYPTO, "scripts", "autonomy"))
+            import resourcefulness
+            reframe = resourcefulness.PROTOCOLS[0].move
+        except Exception:
+            reframe = ("Decompose the IDEAL achievable WITHIN the constraints, decompose its DNA, reverse-"
+                       "engineer a realizable model toward it; the gap is the honest ceiling.")
+        if is_shortcut:
+            cov_line = "You relaxed a binding constraint as 'the answer' -- that is the shortcut, not the solution."
+        else:
+            cov_line = (f"Artifacts show only {assets} distinct non-BTC u100 symbol(s) touched this session "
+                        f"(floor is {ASSET_FLOOR}) -- you collapsed the breadth surface.")
+        block(
+            "[GIVE-UP GATE -- mechanical anti-collapse block; a summary/verdict is NOT a stop while the mandate is "
+            "un-attempted. You cannot talk past this; the NEXT turn must start from the reframe below.]\n"
+            f"DETECTED: {sig}.\n{cov_line}\n"
+            "Per crypto/CHARTER.md: a null is honest ONLY if the FULL surface was attempted (>=20 u100 assets AND "
+            "the lookback window AND existing move-catch infra), proven by run-output artifacts -- not on a 1-asset "
+            "shadow. The short / long-short / market-neutral move is OFF THE TABLE; the honest move is capital-"
+            "preservation WITHIN long-only.\n"
+            f"RESOURCEFUL DEFAULT (do this now): {reframe}\n"
+            "Re-attempt the FULL u100 x window x whole-project surface, OR -- if you have genuinely covered it -- "
+            "restate the verdict WITH the artifact evidence (symbols/window/infra) that proves the full attempt. "
+            "Then STOP; this gate re-checks."
+        )
+    except Exception:
+        return  # fail-OPEN: a broken gate must never trap a session
+
+
 def _wait_mode_block(jobs, env_end, source):
     """P0: bounded WAIT-MODE. A tracked long job is alive and the window is open -- do ONE health check, then END
     the turn. Do NOT spin, do NOT manufacture work, do NOT grow the frontier. Re-engagement is the NEXT cycle."""
@@ -206,6 +465,11 @@ def main():
     # explicit kill switch
     if os.environ.get("AUTONOMY_LOOP", "").lower() == "off":
         return allow_stop()
+
+    # GIVE-UP / SCOPE-COLLAPSE GATE (2026-06-20): fire BEFORE the arming checks so it protects PLAIN prompts too
+    # (the u100->BTC incident ran unarmed). Blocks a collapse/give-up close; fail-open + coverage-gated; bounded.
+    # Returns normally when there is nothing to block, so the normal autonomy logic below is unaffected.
+    give_up_gate(data)
 
     # 2 + 3. master switch. AUTHORITY: .claude/autonomous_mode.json (one place to arm/disarm -- W3 in
     # docs/SYSTEM_TOPOLOGY.md). AUTONOMY_ON is a LEGACY fallback that arms ONLY when autonomous_mode.json is
