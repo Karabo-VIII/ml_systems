@@ -1,0 +1,154 @@
+{
+ "ma_type": "HMA",
+ "window": "14d",
+ "by_tf": {
+  "1d": {
+   "ma_type": "HMA",
+   "tf": "1d",
+   "window": "14d",
+   "cost_rt": 0.0006,
+   "selection_rule": "TRAIN.net>0 AND VAL.net>0 (OOS field NOT read)",
+   "n_sub_band": 108,
+   "n_assets": 56,
+   "panel_range": [
+    "2020-01-03 00:00:00",
+    "2024-05-14 00:00:00"
+   ],
+   "split": "DEV forward sub-windows, all < 2024-05-15; OOS+UNSEEN SEALED",
+   "basis": "SAME driver panel+weights (ma_wealth_driver), per-window recompound. ENGINE/ALWAYS-LONG = masked net stream recompounded. HODL = RE-ANCHORED buy-and-hold within the window (buy each name once at its first in-window bar, 1/N share, drift, no rebal). maxDD = within-window peak-to-trough rebased to window open. lag-1, maker 0.0006, DEV wall, TRAIN+VAL sub-band.",
+   "windows": {
+    "2021": {
+     "window": "2021",
+     "range": [
+      "2021-01-01",
+      "2022-01-01"
+     ],
+     "n_bars": 365,
+     "engine_compound_pct": 525.54,
+     "hodl_compound_pct": 709.99,
+     "alwayslong_rebal_compound_pct": 807.23,
+     "vs_hodl_pp": -184.45,
+     "upmkt_timing_alpha_pp": -281.69,
+     "maxdd_engine_pct": -14.0,
+     "maxdd_hodl_pct": -65.2,
+     "maxdd_alwayslong_pct": -65.0,
+     "n_entered": 38,
+     "beats_hodl": false,
+     "upmkt_alpha_nonpos": true
+    },
+    "2022": {
+     "window": "2022",
+     "range": [
+      "2022-01-01",
+      "2023-01-01"
+     ],
+     "n_bars": 365,
+     "engine_compound_pct": -6.57,
+     "hodl_compound_pct": -74.59,
+     "alwayslong_rebal_compound_pct": -75.98,
+     "vs_hodl_pp": 68.01,
+     "upmkt_timing_alpha_pp": 69.41,
+     "maxdd_engine_pct": -23.1,
+     "maxdd_hodl_pct": -75.0,
+     "maxdd_alwayslong_pct": -77.3,
+     "n_entered": 41,
+     "beats_hodl": true,
+     "upmkt_alpha_nonpos": false
+    },
+    "2023_24tail": {
+     "window": "2023_24tail",
+     "range": [
+      "2023-01-01",
+      "2024-05-15"
+     ],
+     "n_bars": 500,
+     "engine_compound_pct": 160.0,
+     "hodl_compound_pct": 210.37,
+     "alwayslong_rebal_compound_pct": 239.91,
+     "vs_hodl_pp": -50.37,
+     "upmkt_timing_alpha_pp": -79.91,
+     "maxdd_engine_pct": -28.1,
+     "maxdd_hodl_pct": -38.0,
+     "maxdd_alwayslong_pct": -43.8,
+     "n_entered": 56,
+     "beats_hodl": false,
+     "upmkt_alpha_nonpos": true
+    }
+   }
+  },
+  "4h": {
+   "ma_type": "HMA",
+   "tf": "4h",
+   "window": "14d",
+   "cost_rt": 0.0006,
+   "selection_rule": "TRAIN.net>0 AND VAL.net>0 (OOS field NOT read)",
+   "n_sub_band": 109,
+   "n_assets": 56,
+   "panel_range": [
+    "2020-01-03 20:00:00",
+    "2024-05-14 20:00:00"
+   ],
+   "split": "DEV forward sub-windows, all < 2024-05-15; OOS+UNSEEN SEALED",
+   "basis": "SAME driver panel+weights (ma_wealth_driver), per-window recompound. ENGINE/ALWAYS-LONG = masked net stream recompounded. HODL = RE-ANCHORED buy-and-hold within the window (buy each name once at its first in-window bar, 1/N share, drift, no rebal). maxDD = within-window peak-to-trough rebased to window open. lag-1, maker 0.0006, DEV wall, TRAIN+VAL sub-band.",
+   "windows": {
+    "2021": {
+     "window": "2021",
+     "range": [
+      "2021-01-01",
+      "2022-01-01"
+     ],
+     "n_bars": 2190,
+     "engine_compound_pct": 195.5,
+     "hodl_compound_pct": 768.15,
+     "alwayslong_rebal_compound_pct": 769.14,
+     "vs_hodl_pp": -572.65,
+     "upmkt_timing_alpha_pp": -573.64,
+     "maxdd_engine_pct": -30.6,
+     "maxdd_hodl_pct": -67.0,
+     "maxdd_alwayslong_pct": -66.1,
+     "n_entered": 38,
+     "beats_hodl": false,
+     "upmkt_alpha_nonpos": true
+    },
+    "2022": {
+     "window": "2022",
+     "range": [
+      "2022-01-01",
+      "2023-01-01"
+     ],
+     "n_bars": 2190,
+     "engine_compound_pct": -26.8,
+     "hodl_compound_pct": -74.24,
+     "alwayslong_rebal_compound_pct": -75.12,
+     "vs_hodl_pp": 47.44,
+     "upmkt_timing_alpha_pp": 48.32,
+     "maxdd_engine_pct": -37.5,
+     "maxdd_hodl_pct": -76.1,
+     "maxdd_alwayslong_pct": -77.9,
+     "n_entered": 41,
+     "beats_hodl": true,
+     "upmkt_alpha_nonpos": false
+    },
+    "2023_24tail": {
+     "window": "2023_24tail",
+     "range": [
+      "2023-01-01",
+      "2024-05-15"
+     ],
+     "n_bars": 3000,
+     "engine_compound_pct": 56.82,
+     "hodl_compound_pct": 212.84,
+     "alwayslong_rebal_compound_pct": 232.07,
+     "vs_hodl_pp": -156.02,
+     "upmkt_timing_alpha_pp": -175.25,
+     "maxdd_engine_pct": -28.3,
+     "maxdd_hodl_pct": -39.5,
+     "maxdd_alwayslong_pct": -45.7,
+     "n_entered": 56,
+     "beats_hodl": false,
+     "upmkt_alpha_nonpos": true
+    }
+   }
+  }
+ }
+}

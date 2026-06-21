@@ -28,8 +28,11 @@ HALVES portfolio maxDD (~-35% vs HODL -82%) via GENUINE same-exposure timing ski
 churn-immune dumb book, z up to +3.5), robust across 4 selloffs (COVID/May-2021/2022/2023-chop), all 8 MA types.
 NOT alpha (zero up-mkt timing alpha) = capital-preservation within long-only (the charter's honest fallback, now
 EARNED). 15m BROKEN. Aggressively red-teamed GO; leak-free; survivorship widens the gap. Doc:
-`docs/MA_DRAWDOWN_INSURANCE_FINDINGS.md`. (2 fabrications caught by the gates en route: +5828% MtM-look, +4854pp baseline.)
-OPEN (un-verified, artifacts on disk — verify before use): `val_forward_*.json` (held-out forward windows),
+`docs/engines/V1_ma_drawdown_insurance.md` (index `docs/engines/ENGINE_BUILDS.md`); artifacts:
+`runs/engines/V1_ma_drawdown_insurance/` (engines/ verification/ step1/ slices/ outoffit/ = VERIFIED; README.md manifest).
+(2 fabrications caught by the gates en route: +5828% MtM-look, +4854pp baseline.)
+OPEN (un-verified, artifacts on disk — verify before use):
+`runs/engines/V1_ma_drawdown_insurance/open_unverified/` — `val_forward_*.json` (held-out forward windows),
 `decoupled_7slice_14lb_*.json` (7d-slice/14d-lookback). AWAITING user's next instruction.
 
 ## DO NOT

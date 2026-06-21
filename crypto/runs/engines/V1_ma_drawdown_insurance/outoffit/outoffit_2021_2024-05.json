@@ -1,0 +1,213 @@
+{
+ "window": "2021-01-01 -> 2024-05-15 (OUT-OF-FIT; 2020 in-sample fit-year EXCLUDED)",
+ "method": "post-hoc slice of the VERIFIED run_wealth MtM equity curves; re-based compounding to sub-window start; NO new accounting; maker 0.0006 RT; DEV wall < 2024-05-15 (OOS/UNSEEN sealed)",
+ "selection_note": "MA working band was selected on 2020 TRAIN; this sub-window EXCLUDES that fit-year. Drawdown-insurance is driven by 2021 (May-21 selloff), 2022 (full bear), 2023 (chop) -- 3 out-of-fit selloffs -- so the property should survive.",
+ "all_fidelity_gates_pass": true,
+ "cells": [
+  {
+   "ma_type": "EMA",
+   "tf": "1d",
+   "window": "7d",
+   "engine_maxDD_pct": -37.5,
+   "hodl_maxDD_pct": -82.3,
+   "engine_compound_pct": 1379.51,
+   "hodl_compound_pct": 279.0,
+   "full_engine_maxDD_pct": -37.5,
+   "full_hodl_maxDD_pct": -82.3,
+   "full_engine_compound_pct": 3609.82,
+   "full_hodl_compound_pct": 465.09,
+   "sub_n_bars": 1230,
+   "sub_date_range": [
+    "2021-01-01 00:00:00",
+    "2024-05-14 00:00:00"
+   ],
+   "n_assets": 56,
+   "n_total_admitted": 56,
+   "fidelity_gate": {
+    "eng_compound_recon": 3609.82,
+    "eng_compound_committed": 3609.82,
+    "eng_dd_recon": -37.5,
+    "eng_dd_committed": -37.5,
+    "hodl_compound_recon": 465.09,
+    "hodl_compound_committed": 465.09,
+    "hodl_dd_recon": -82.3,
+    "hodl_dd_committed": -82.3,
+    "n_assets_recon_wealth_panel": 56,
+    "n_symbols_committed_capture_leg": 56,
+    "n_assets_note": "clean.json n_symbols is the CAPTURE-leg admitted count (type-specific); the WEALTH panel (what is sliced here) is the type-independent u100 loader = 56 for all cells, matching run_wealth's own n_assets. NOT compared in the gate (different quantities).",
+    "PASS": true
+   }
+  },
+  {
+   "ma_type": "EMA",
+   "tf": "4h",
+   "window": "7d",
+   "engine_maxDD_pct": -32.5,
+   "hodl_maxDD_pct": -82.8,
+   "engine_compound_pct": 1049.95,
+   "hodl_compound_pct": 273.33,
+   "full_engine_maxDD_pct": -32.5,
+   "full_hodl_maxDD_pct": -82.8,
+   "full_engine_compound_pct": 3157.56,
+   "full_hodl_compound_pct": 465.55,
+   "sub_n_bars": 7380,
+   "sub_date_range": [
+    "2021-01-01 00:00:00",
+    "2024-05-14 20:00:00"
+   ],
+   "n_assets": 56,
+   "n_total_admitted": 56,
+   "fidelity_gate": {
+    "eng_compound_recon": 3157.56,
+    "eng_compound_committed": 3157.56,
+    "eng_dd_recon": -32.5,
+    "eng_dd_committed": -32.5,
+    "hodl_compound_recon": 465.55,
+    "hodl_compound_committed": 465.55,
+    "hodl_dd_recon": -82.8,
+    "hodl_dd_committed": -82.8,
+    "n_assets_recon_wealth_panel": 56,
+    "n_symbols_committed_capture_leg": 56,
+    "n_assets_note": "clean.json n_symbols is the CAPTURE-leg admitted count (type-specific); the WEALTH panel (what is sliced here) is the type-independent u100 loader = 56 for all cells, matching run_wealth's own n_assets. NOT compared in the gate (different quantities).",
+    "PASS": true
+   }
+  },
+  {
+   "ma_type": "HMA",
+   "tf": "1d",
+   "window": "7d",
+   "engine_maxDD_pct": -28.1,
+   "hodl_maxDD_pct": -82.3,
+   "engine_compound_pct": 1417.36,
+   "hodl_compound_pct": 279.0,
+   "full_engine_maxDD_pct": -28.1,
+   "full_hodl_maxDD_pct": -82.3,
+   "full_engine_compound_pct": 4007.93,
+   "full_hodl_compound_pct": 465.09,
+   "sub_n_bars": 1230,
+   "sub_date_range": [
+    "2021-01-01 00:00:00",
+    "2024-05-14 00:00:00"
+   ],
+   "n_assets": 56,
+   "n_total_admitted": 56,
+   "fidelity_gate": {
+    "eng_compound_recon": 4007.93,
+    "eng_compound_committed": 4007.93,
+    "eng_dd_recon": -28.1,
+    "eng_dd_committed": -28.1,
+    "hodl_compound_recon": 465.09,
+    "hodl_compound_committed": 465.09,
+    "hodl_dd_recon": -82.3,
+    "hodl_dd_committed": -82.3,
+    "n_assets_recon_wealth_panel": 56,
+    "n_symbols_committed_capture_leg": 51,
+    "n_assets_note": "clean.json n_symbols is the CAPTURE-leg admitted count (type-specific); the WEALTH panel (what is sliced here) is the type-independent u100 loader = 56 for all cells, matching run_wealth's own n_assets. NOT compared in the gate (different quantities).",
+    "PASS": true
+   }
+  },
+  {
+   "ma_type": "HMA",
+   "tf": "4h",
+   "window": "7d",
+   "engine_maxDD_pct": -43.8,
+   "hodl_maxDD_pct": -82.8,
+   "engine_compound_pct": 238.14,
+   "hodl_compound_pct": 273.33,
+   "full_engine_maxDD_pct": -43.8,
+   "full_hodl_maxDD_pct": -82.8,
+   "full_engine_compound_pct": 687.32,
+   "full_hodl_compound_pct": 465.55,
+   "sub_n_bars": 7380,
+   "sub_date_range": [
+    "2021-01-01 00:00:00",
+    "2024-05-14 20:00:00"
+   ],
+   "n_assets": 56,
+   "n_total_admitted": 56,
+   "fidelity_gate": {
+    "eng_compound_recon": 687.32,
+    "eng_compound_committed": 687.32,
+    "eng_dd_recon": -43.8,
+    "eng_dd_committed": -43.8,
+    "hodl_compound_recon": 465.55,
+    "hodl_compound_committed": 465.55,
+    "hodl_dd_recon": -82.8,
+    "hodl_dd_committed": -82.8,
+    "n_assets_recon_wealth_panel": 56,
+    "n_symbols_committed_capture_leg": 58,
+    "n_assets_note": "clean.json n_symbols is the CAPTURE-leg admitted count (type-specific); the WEALTH panel (what is sliced here) is the type-independent u100 loader = 56 for all cells, matching run_wealth's own n_assets. NOT compared in the gate (different quantities).",
+    "PASS": true
+   }
+  },
+  {
+   "ma_type": "TEMA",
+   "tf": "1d",
+   "window": "7d",
+   "engine_maxDD_pct": -27.7,
+   "hodl_maxDD_pct": -82.3,
+   "engine_compound_pct": 1185.42,
+   "hodl_compound_pct": 279.0,
+   "full_engine_maxDD_pct": -27.7,
+   "full_hodl_maxDD_pct": -82.3,
+   "full_engine_compound_pct": 3447.36,
+   "full_hodl_compound_pct": 465.09,
+   "sub_n_bars": 1230,
+   "sub_date_range": [
+    "2021-01-01 00:00:00",
+    "2024-05-14 00:00:00"
+   ],
+   "n_assets": 56,
+   "n_total_admitted": 56,
+   "fidelity_gate": {
+    "eng_compound_recon": 3447.36,
+    "eng_compound_committed": 3447.36,
+    "eng_dd_recon": -27.7,
+    "eng_dd_committed": -27.7,
+    "hodl_compound_recon": 465.09,
+    "hodl_compound_committed": 465.09,
+    "hodl_dd_recon": -82.3,
+    "hodl_dd_committed": -82.3,
+    "n_assets_recon_wealth_panel": 56,
+    "n_symbols_committed_capture_leg": 51,
+    "n_assets_note": "clean.json n_symbols is the CAPTURE-leg admitted count (type-specific); the WEALTH panel (what is sliced here) is the type-independent u100 loader = 56 for all cells, matching run_wealth's own n_assets. NOT compared in the gate (different quantities).",
+    "PASS": true
+   }
+  },
+  {
+   "ma_type": "TEMA",
+   "tf": "4h",
+   "window": "7d",
+   "engine_maxDD_pct": -30.3,
+   "hodl_maxDD_pct": -82.8,
+   "engine_compound_pct": 373.8,
+   "hodl_compound_pct": 273.33,
+   "full_engine_maxDD_pct": -30.3,
+   "full_hodl_maxDD_pct": -82.8,
+   "full_engine_compound_pct": 1069.97,
+   "full_hodl_compound_pct": 465.55,
+   "sub_n_bars": 7380,
+   "sub_date_range": [
+    "2021-01-01 00:00:00",
+    "2024-05-14 20:00:00"
+   ],
+   "n_assets": 56,
+   "n_total_admitted": 56,
+   "fidelity_gate": {
+    "eng_compound_recon": 1069.97,
+    "eng_compound_committed": 1069.97,
+    "eng_dd_recon": -30.3,
+    "eng_dd_committed": -30.3,
+    "hodl_compound_recon": 465.55,
+    "hodl_compound_committed": 465.55,
+    "hodl_dd_recon": -82.8,
+    "hodl_dd_committed": -82.8,
+    "n_assets_recon_wealth_panel": 56,
+    "n_symbols_committed_capture_leg": 58,
+    "n_assets_note": "clean.json n_symbols is the CAPTURE-leg admitted count (type-specific); the WEALTH panel (what is sliced here) is the type-independent u100 loader = 56 for all cells, matching run_wealth's own n_assets. NOT compared in the gate (different quantities).",
+    "PASS": true
+   }
+  }
+ ],
+ "git_sha_source": "a4184bd330bd37517030b5d64505309344766f25"
+}
