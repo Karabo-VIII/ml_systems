@@ -1,7 +1,7 @@
 # CURRENT — live state (Claude-written each cycle; committed; <2KB)
 
-PHASE: BUILD
-UPDATED: 2026-06-20
+PHASE: BUILD (V1.1 fine-TF campaign LIVE)
+UPDATED: 2026-06-21
 
 ## CURRENT GOAL
 Build the ability to **trade ANY SLICE** — any setup from any asset across the **u100 universe** — compounding, with
@@ -33,7 +33,16 @@ EARNED). 15m BROKEN. Aggressively red-teamed GO; leak-free; survivorship widens 
 (2 fabrications caught by the gates en route: +5828% MtM-look, +4854pp baseline.)
 OPEN (un-verified, artifacts on disk — verify before use):
 `runs/engines/V1_ma_drawdown_insurance/open_unverified/` — `val_forward_*.json` (held-out forward windows),
-`decoupled_7slice_14lb_*.json` (7d-slice/14d-lookback). AWAITING user's next instruction.
+`decoupled_7slice_14lb_*.json` (7d-slice/14d-lookback).
+
+**V1 DOCUMENTED + REORGANIZED — committed dd1c7b8f (2026-06-21).** Out-of-fit (2021→2024-05, 2020 excluded):
+maxDD-halving HOLDS in all 6/6 cells (39-55pp cut); HMA|4h compound flips below HODL → compound is NEVER the headline.
+
+**V1.1 FINE-TF CAMPAIGN — LIVE (4h autonomous run, VERIFIED start 2026-06-21 02:27 SAST).** Goal: make 2h/1h/30m
+(salvage 15m) PROFITABLE in 7d slices via an EXIT HARNESS + mechanical interventions (entry de-bounce, HTF-confirm).
+Wave 1 running (workflow `wf_e5401786-223`): diagnose fine-TF loss → build `src/strat/exit_harness.py` → sweep on
+2020 DEV → adversarial verify. Wave 2 = iron winners on **2021 (OOS; 2022+ SEALED)** + retrofit exits onto 1d/4h +
+all 8 engines. Live ledger: `runs/engines/V1.1_finetf_exits/CAMPAIGN_LEDGER.md`.
 
 ## DO NOT
 Collapse to one asset. Default a single TF. Propose the short side. Stop at a "de-risked beta, done" verdict without a
