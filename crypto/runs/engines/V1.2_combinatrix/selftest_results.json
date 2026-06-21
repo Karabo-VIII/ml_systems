@@ -1,0 +1,74 @@
+{
+ "a_identity": {
+  "pass": true,
+  "ref": {
+   "val_net": 26.8,
+   "net": 20.1,
+   "worst": 20.1,
+   "sharpe": 2.39,
+   "maxdd": -10.2,
+   "drift": -6.6,
+   "robust": true,
+   "time_in": 0.31,
+   "n_trades": 4.7
+  },
+  "got": {
+   "val_net": 26.8,
+   "net": 20.1,
+   "worst": 20.1,
+   "sharpe": 2.39,
+   "maxdd": -10.2,
+   "drift": -6.6,
+   "robust": true,
+   "time_in": 0.31,
+   "n_trades": 4.7
+  }
+ },
+ "b_overfit_pbo": {
+  "pass": true,
+  "pbo": 0.4246,
+  "n_partitions": 252,
+  "M": 50,
+  "S": 10,
+  "median_logit": 1.073
+ },
+ "c_genuine_pbo": {
+  "pass": true,
+  "pbo": 0.1349,
+  "n_partitions": 252,
+  "M": 50,
+  "S": 10,
+  "median_logit": 3.199
+ },
+ "d_deflation": {
+  "pass": true,
+  "n1": {
+   "dsr": 0.3668,
+   "obs_sr_perbar": -0.017,
+   "exp_max_sr0": 0.0,
+   "n_trials": 1,
+   "T": 400,
+   "ann_sr": -0.33
+  },
+  "n20": {
+   "dsr": 0.0342,
+   "obs_sr_perbar": -0.017,
+   "exp_max_sr0": 0.0741,
+   "n_trials": 20,
+   "T": 400,
+   "ann_sr": -0.33
+  },
+  "n500": {
+   "dsr": 0.0009,
+   "obs_sr_perbar": -0.017,
+   "exp_max_sr0": 0.1389,
+   "n_trials": 500,
+   "T": 400,
+   "ann_sr": -0.33
+  }
+ },
+ "summary": {
+  "n_pass": 4,
+  "n_total": 4
+ }
+}

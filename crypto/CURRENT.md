@@ -1,15 +1,20 @@
 # CURRENT — live state (Claude-written each cycle; committed; <2KB)
 
-PHASE: BUILD (V1.2 COMBINATRIX campaign LIVE — 8h autonomous, VERIFIED start 2026-06-21 23:44 SAST)
-UPDATED: 2026-06-21
+PHASE: BUILD (V1.2 COMBINATRIX — DONE, disciplined null; 8h autonomous VERIFIED start 2026-06-21 23:44 SAST)
+UPDATED: 2026-06-22
 
-## V1.2 COMBINATRIX (LIVE) — engine-per-TI library (families 1/2/3) + combinatrix (a/ab/abc/a1a2)
-8h autonomous. Wave 1 (wmo59izfm): inventory existing per-TI engines (deep2020_ti_pipeline already ran ~12) ->
-fill families-1-3 gaps -> consolidate the engine library. Wave 2: combinatrix with DISCIPLINE (PBO/CSCV +
-VAL-select/OOS-confirm + block-bootstrap + deflated metric; survivors-only BEAM search, NOT brute-force all
-C(N,3); regime-gate = the project's validated conditioning). 2020 DEV / 2021 IRON / 2022+ SEALED. Honest prior:
-price-TI families = de-risked beta; expect overfit, report it + any genuine survivor. Ledger:
-runs/engines/V1.2_combinatrix/CAMPAIGN_LEDGER.md.
+## V1.2 COMBINATRIX — DONE (disciplined NULL; dead-list D82)
+Engine library: 30 engines, one per families-1/2/3 indicator (deep2020_ti_pipeline, 27 point-in-time u100 names,
+n_names recorded) — ALL DE-RISKED BETA, best 0.77x BH VAL / 0.58-0.67x OOS; none beats buy-hold on net.
+Combinatrix: 275 combos (75 pairs + 192 beam-triples + 8 a1a2) over the clean 5-mechanism seed
+(CKSP/KELTNER/AO/RSI/ULCER), with VAL-select/OOS-report/2021-IRON-confirm + block-bootstrap p05 + CSCV-PBO +
+deflated-Sharpe + White's Reality Check. VERDICT: **0 survivors** — PBO=0.71 (overfit), RC p=0.89; no combo beats
+buy-hold or even the best single OOS+IRON after deflation. The de-risked-beta WALL HOLDS under combination. Only
+conditioning/regime-gating survives = drawdown-insurance (cuts maxDD ~85-95% WITHOUT net = V1 efb23a4b). Apparatus
+KEPT: `src/strat/combinatrix.py` (CSCV/PBO/deflated-Sharpe/RC, reusable). 3 defects caught en route (VAL-select leak,
+deflation units bug, + an OVERSEER breadth FABRICATION rebutting the gate — owned + fixed). Doc:
+`docs/engines/V1.2_combinatrix.md`. NEXT FRONTIER (honest): families 1-3 price-TIs EXHAUSTED; the genuine surface is
+crypto-native §7-8 (funding/OI/on-chain) — USER-GATED; do NOT chase more price-TI combinatorics (the over-mining trap).
 
 ## CURRENT GOAL
 Build the ability to **trade ANY SLICE** — any setup from any asset across the **u100 universe** — compounding, with

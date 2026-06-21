@@ -92,3 +92,55 @@
   (rest are post-2020 listings, 0 bars); SYMS 10->27; all 30 engines re-run; n_names recorded in every artifact.
   Also fixed the VAL-select/OOS-report leak (25/30 configs changed). 8/8 re-verify PASS. CLEAN foundation -> Wave 2
   seeds on survivor_seed.json (CKSP/KELTNER/AO/STOCHRSI[+RSI alt]/ULCER), NOT the leaky 9-entry set.
+- 00:41 SAST (date-start=~10min) — WAVE 2 COMBINATRIX BUILT + RUN. `src/strat/combinatrix.py` (top-of-file
+  __contract__): combines per-asset hold-masks from the 7 cross-MECHANISM survivor inputs (CKSP@1d trend /
+  KELTNER@4h breakout / AO@4h momentum / RSI@1h MR-robust-alt / ULCER@1d vol-sizing + ADX@4h 2nd-trend + BBSQZ@1d
+  2nd-vol) via OPERATORS (AND_K, OR, MAJORITY, REGIME_GATE directed, WEIGHTED) -> combined mask -> the deep2020
+  wealth/_metrics. Cross-TF inputs as-of aligned onto a 1d combo grid (strictly causal + lag-1). REUSES deep2020
+  signal-builders + IDENTICAL stack (signal->trail10->minhold->lag1->maker) + wealth/_metrics (IDENTITY self-test
+  reproduces the single-engine metrics EXACTLY: CKSP val=26.8/oos=20.1/dd=-10.2/sh=2.39). DISCIPLINE module:
+  CSCV-PBO (Bailey-LdP), White's Reality Check + deflated-Sharpe (n_trials=#combos), circular block-bootstrap p05
+  (funding_dispersion pattern). SELF-TEST 4/4 PASS: (a) IDENTITY exact; (b) overfit PBO=0.42 (~0.5); (c) genuine
+  PBO=0.13 (~0); (d) deflation shrinks best-of-N (sr0 0->1.48->2.78 as n 1->20->500). SPLIT enforced: 2020 VAL
+  SELECT / 2020 OOS REPORT / 2021 IRON CONFIRM / 2022+ SEALED (assertion fires on violation, VERIFIED). 16 combos,
+  n_names=27 recorded on every result. RESULT = a DISCIPLINED NULL (prior-consistent, honest): VAL-selected combo
+  AND_2 OOS=22.4 BEATS best single (20.1) but LOSES to buy-hold (32.5); p05 vs BH=-48 + vs single=-8.8 (both <0);
+  PBO=0.70 (overfit); White's RC p=0.91 (best combo AND_3 does NOT survive multiple-comparisons deflation);
+  IRON-2021 nothing beats the +62% H2 bull. NO combo beats best-single AND buy-hold on OOS+IRON net after
+  deflation. The de-risked-beta wall holds under combination. FRONTIER (the VALIDATED conditioning use):
+  GATE[ULCER|CKSP] OOSdd -9.2 (BH -15.6) net 16.2 IRON 18.9 robust; GATE[RSI|CKSP] dd -2.9 net 8.7 IRON 10.7 --
+  regime/AND gating CUTS maxDD ~40-80% + robustifies WITHOUT beating net (consistent w/ the drawdown-insurance
+  sleeve, efb23a4b). Artifacts: combinatrix_results.json + selftest_results.json. NOT committed.
+- 00:46 SAST (date-start=~2min) — STRUCTURED SEARCH RUN (the mandated singles/pairs/beam-triples/a1a2 enumeration,
+  superseding the 16 all-input combos). `run_structured_campaign()` added to combinatrix.py (reuses every
+  primitive; precomputes each input's combo-aligned mask ONCE per window, subsets index in). 275 combos:
+  (a) SINGLES recap = the 7 inputs, all de-risked betas (OOS 0.30-0.62xBH); (b) PAIRS = all C(7,2)=21 pairs x
+  operators = 75 combos, VAL-select each pair's best op; (c) BEAM-TRIPLES = top-8 pairs by VAL net -> add each
+  remaining input x ops -> keep top-8 = 192 combos / 24 distinct triples; (d) 8 a1a2 within-indicator config-combos
+  (CKSP/KELTNER fast+slow, FLAGGED REDUNDANT). n_names=27 recorded on EVERY row; 2022+ seal re-VERIFIED to fire.
+  Self-test re-run 4/4 PASS (IDENTITY still exact). DISCIPLINE: CSCV-PBO over all 275 = 0.7063 (OVERFIT);
+  White's Reality Check best combo vs BH p=0.893 (FAILS multiple-comparisons deflation, n_trials=275 -> DSR=0 for
+  ALL combos = the data-snoop deflation working). VERDICT = DISCIPLINED NULL, 0 SURVIVORS: NO combo beats its best
+  constituent single AND buy-hold on OOS+IRON net after deflation with p05>0 + PBO<0.5. Top-1 by raw OOS+IRON =
+  OR(CKSP@1d+KELTNER@4h) OOS=23.9(0.735xBH) IRON=50.5(0.816xBH) dd=-13.3 robust BUT p05vsBH=-43.7 p05vsBH_iron=-153
+  p05vsSGL=-6.9 (all<0). A few combos beat BH on VAL/in-sample (OR[CKSP+ULCER] val 1.156xBH, OR[CKSP+BBSQZ] 1.06,
+  OR[CKSP+ADX] 0.98) -> ALL collapse to 0.55-0.65xBH OOS = the textbook in-sample-best-fails-OOS trap the gate
+  catches. CONDITIONING FRONTIER (validated DD-insurance use, robust + cuts OOS maxDD vs BH -15.6 WITHOUT beating
+  net): AND_3[CKSP+RSI+ADX] dd -1.1 net 4.4 IRON 7.4; AND_2[RSI+ADX] dd -2.2 net 5.3 IRON 6.6; AND_2[CKSP+RSI] dd
+  -2.9 net 8.7 IRON 10.7 -- regime/AND-gating CUTS maxDD ~85-95% + robustifies (consistent w/ efb23a4b). Artifacts:
+  combinatrix_results.json (275-row leaderboard) + combinatrix_leaderboard.md (top-25 + verdict + frontier). NOT committed.
+- 00:52 SAST (date-start=68min) — WAVE 2 (combinatrix) DONE. 275 combos (75 pairs + 192 beam-triples + 8 a1a2),
+  7 cross-mechanism inputs, n_names=27. Self-tests 4/4 PASS. VERDICT = DISCIPLINED NULL, 0 survivors: no combo
+  beats its best single AND buy-hold on OOS+IRON net after deflation. Best OR(CKSP+KELTNER) OOS 0.735xBH / IRON
+  0.816xBH (beats single, NOT BH); CSCV-PBO=0.71 (overfit); p05 vs BH deeply negative; in-sample-best collapses
+  OOS (the data-snoop trap the discipline caught). De-risked-beta wall HOLDS under combination. CONDITIONING
+  FRONTIER (validated): regime/AND-gating cuts OOS maxDD ~85-95% + robustifies WITHOUT net alpha = the V1
+  drawdown-insurance property (efb23a4b), now confirmed via TI conditioning. Wave-2 verify caught a deflated-Sharpe
+  UNITS bug (order-stat not scaled by se -> over-deflated to 0; FIXED, canonical DSR top combo 0.072 < 0.95, null
+  unchanged). Re-running with the fix for a clean leaderboard. -> Wave 3: doc + dead-list D82 + commit.
+- 00:58 SAST — SELF-INFLICTED: my deflation-fix re-run used `--run` (run_campaign, 16 combos) which CLOBBERED the
+  275-combo combinatrix_results.json (the structured search is `--structured`/run_structured_campaign, not --run).
+  Verdict unaffected (null in both). RECOVERY: re-running `--structured` (275 combos) with the fixed deflation to
+  regenerate results.json + leaderboard.md cleanly. Lesson: check the actual CLI entrypoint before re-running.
+- Wave-3 docs DONE: docs/engines/V1.2_combinatrix.md (full synthesis) + V1.2 row in ENGINE_BUILDS + dead-list D82
+  (combinatrix = disciplined null). Commit pending the clean --structured artifacts.

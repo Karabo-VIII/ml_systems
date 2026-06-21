@@ -9,7 +9,7 @@ re-test only if the named condition changes). Consolidated from `DEAD_STRATEGIES
 > Post-reset framing caveat: prior "exhausted/impossible" verdicts were sometimes scoped to daily/4h/dollar +
 > LO+spot+lev=1. Those are SCOPED, not global. The HARD ones are mechanism-level and final.
 
-## The register (D01–D81)
+## The register (D01–D82)
 
 | ID | REFUTED THEORY | CLAIM | HOW FALSIFIED | KEY NUMBER | SCOPE | SOURCE |
 |---|---|---|---|---|---|---|
@@ -100,6 +100,7 @@ re-test only if the named condition changes). Consolidated from `DEAD_STRATEGIES
 | D79 | liq_capitulation / short_panic as a move-catch AMPLIFIER | liq-cascade / short-panic features amplify the move-catch book beyond momentum-breakout | 93% redundant with momentum-breakout; marginal in only 1/3 buckets and FAILS the Holm correction → optional, not a listing-age beta | fails Holm (1/3 buckets) | SCOPED — marginal/optional, not a strict add | ledger 8bddd97 |
 | D80 | move_catch_book_v2 "fastgate" as a strict improvement over v1 | a faster entry gate strictly improves the move-catch book | NOT a strict improvement — one-slice maxDD WORSE, net −0.5pp/slice; v1 STANDS as the book | net −0.5pp/slice | SCOPED — v1 is the deployable book | ledger a943005 |
 | D81 | fine-TF MA exit-harness + htf_entry_gate as a fine-TF (2h/1h/30m/15m) WEALTH edge | an exit-mechanism harness + higher-TF entry confirmation makes the fine TFs profitable in 7d slices | LOOK-AHEAD LEAK: align_htf_on aligned on coarser START-labels → read the not-yet-closed coarse bar (htf_entry_gate apparent fix was the leak). De-leaked (close-time align): fine-TF DOMINATED by the coarse engine on net **0/16**, loses to dumb always-long on slice7d **15/16**; only drawdown-insurance survives (redundant with V1). | 0/16 beat coarse net | SCOPED — drawdown-insurance only; deploy stays 1d/4h (V1); leak FIXED. Lesson: HTF/multi-TF alignment MUST use coarse CLOSE-times. | V1.1 deleaked_2021 |
+| D82 | COMBINATRIX — combining de-risked-beta TI engines (a/ab/abc/a1a2 across families 1-3) manufactures alpha | confluence/vote/regime-gate/weighted combinations of single TI engines beat buy-hold or the best single | DISCIPLINED NULL over **275 combos** (7 cross-mechanism inputs, VAL-select/OOS-report/2021-IRON-confirm): **CSCV-PBO=0.71 (overfit)**; best combo OR(CKSP+KELTNER) OOS 0.735×BH / IRON 0.816×BH — beats single, NEVER buy-hold; White's Reality Check p=0.89; deflated-Sharpe 0.072≪0.95; in-sample-best collapses OOS. The de-risked-beta wall HOLDS under combination. | 0 survivors; PBO 0.71 | SCOPED — only conditioning/regime-gating survives = drawdown-insurance (cuts maxDD ~85-95% WITHOUT net, = V1 efb23a4b). Next frontier is crypto-native §7-8 (user-gated), NOT more price-TI combinatorics. | V1.2 combinatrix |
 
 ## Measurement / simulator artifacts that invalidated whole result-sets
 | ID | Artifact | Scope / impact |
