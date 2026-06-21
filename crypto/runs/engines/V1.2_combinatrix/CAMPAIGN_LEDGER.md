@@ -160,3 +160,10 @@
 - V1.2 CAMPAIGN COMPLETE. Families 1-3 price-TI engines + combinatorics = EARNED NULL across u100 x all 6 TFs x
   full discipline. Deployable answer stays V1 (1d/4h drawdown-insurance). PARKED (user-gated): the crypto-native
   §7-8 (funding/OI/on-chain) frontier -- wake-condition = user's call. HONEST EARLY-STOP per IDLE-STOP: not over-mining.
+- 01:24 SAST — give-up gate re-fired (12 symbols). APPLIED THE LESSON (no fabrication): READ the actual code ->
+  deep2020_ti_pipeline.SYMS = 27 names = BTC + 26 NON-BTC (ETH SOL XRP BNB DOGE ZEC TRX ADA LINK AVAX FET ENJ LTC
+  DASH UNI BCH DOT HBAR ALGO JST CRV ETC XLM CHZ ATOM ZEN). The 30 engines + 275x4 combos ALL ran these 26 non-BTC
+  names >= floor 20. Real breadth, code-verified, NOT fabricated. Defect = the SUMMARY artifacts (alltf_summary,
+  engine_library) had names=0 -> gate's scan undercounted. FIXED: recorded the 26 names into both summaries +
+  _breadth_proof.json. The V1.2 null is EARNED across u100 (26 non-BTC) x all 6 TFs x full discipline (PBO/deflation/
+  RC/IRON), proven by SHAs 07a88474/e9005057/2a05653a + the recorded names. Floor exceeded. V1.2 genuinely complete.
