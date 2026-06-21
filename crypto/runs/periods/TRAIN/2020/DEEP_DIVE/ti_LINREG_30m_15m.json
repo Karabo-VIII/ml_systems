@@ -1,0 +1,290 @@
+{
+ "30m": {
+  "buyhold": {
+   "net": 41.6,
+   "sharpe": 2.11,
+   "maxdd": -18.2
+  },
+  "voltgt_bh": {
+   "net": 39.6,
+   "sharpe": 2.28,
+   "maxdd": -16.4
+  },
+  "n_names": 27,
+  "names": [
+   "BTCUSDT",
+   "ETHUSDT",
+   "SOLUSDT",
+   "XRPUSDT",
+   "BNBUSDT",
+   "DOGEUSDT",
+   "ZECUSDT",
+   "TRXUSDT",
+   "ADAUSDT",
+   "LINKUSDT",
+   "AVAXUSDT",
+   "FETUSDT",
+   "ENJUSDT",
+   "LTCUSDT",
+   "DASHUSDT",
+   "UNIUSDT",
+   "BCHUSDT",
+   "DOTUSDT",
+   "HBARUSDT",
+   "ALGOUSDT",
+   "JSTUSDT",
+   "CRVUSDT",
+   "ETCUSDT",
+   "XLMUSDT",
+   "CHZUSDT",
+   "ATOMUSDT",
+   "ZENUSDT"
+  ],
+  "rows": [
+   {
+    "cfg": "LINREG(50)",
+    "base": {
+     "val_net": 18.3,
+     "net": 24.6,
+     "worst": 18.3,
+     "sharpe": 2.17,
+     "maxdd": -8.5,
+     "drift": 6.3,
+     "robust": true,
+     "time_in": 0.5,
+     "n_trades": 67.6
+    },
+    "iron": {
+     "val_net": 8.0,
+     "net": 15.0,
+     "worst": 8.0,
+     "sharpe": 1.66,
+     "maxdd": -8.5,
+     "drift": 7.0,
+     "robust": true,
+     "time_in": 0.38,
+     "n_trades": 89.4
+    }
+   },
+   {
+    "cfg": "LINREG(100)",
+    "base": {
+     "val_net": 10.2,
+     "net": 23.4,
+     "worst": 10.2,
+     "sharpe": 2.33,
+     "maxdd": -8.7,
+     "drift": 13.2,
+     "robust": false,
+     "time_in": 0.43,
+     "n_trades": 35.6
+    },
+    "iron": {
+     "val_net": 9.3,
+     "net": 9.2,
+     "worst": 9.2,
+     "sharpe": 1.11,
+     "maxdd": -8.2,
+     "drift": -0.1,
+     "robust": true,
+     "time_in": 0.37,
+     "n_trades": 76.5
+    }
+   },
+   {
+    "cfg": "LINREG(25)",
+    "base": {
+     "val_net": -3.3,
+     "net": -0.6,
+     "worst": -3.3,
+     "sharpe": 0.18,
+     "maxdd": -14.4,
+     "drift": 2.7,
+     "robust": true,
+     "time_in": 0.54,
+     "n_trades": 136.0
+    },
+    "iron": {
+     "val_net": 4.1,
+     "net": 2.2,
+     "worst": 2.2,
+     "sharpe": 0.42,
+     "maxdd": -11.0,
+     "drift": -1.9,
+     "robust": true,
+     "time_in": 0.36,
+     "n_trades": 117.6
+    }
+   },
+   {
+    "cfg": "LINREG(14)",
+    "base": {
+     "val_net": -12.9,
+     "net": -1.1,
+     "worst": -12.9,
+     "sharpe": 0.16,
+     "maxdd": -16.0,
+     "drift": 11.9,
+     "robust": false,
+     "time_in": 0.59,
+     "n_trades": 229.9
+    },
+    "iron": {
+     "val_net": -2.2,
+     "net": 0.2,
+     "worst": -2.2,
+     "sharpe": 0.18,
+     "maxdd": -10.2,
+     "drift": 2.3,
+     "robust": true,
+     "time_in": 0.36,
+     "n_trades": 166.5
+    }
+   }
+  ]
+ },
+ "15m": {
+  "buyhold": {
+   "net": 43.2,
+   "sharpe": 2.16,
+   "maxdd": -17.9
+  },
+  "voltgt_bh": {
+   "net": 40.0,
+   "sharpe": 2.33,
+   "maxdd": -16.2
+  },
+  "n_names": 27,
+  "names": [
+   "BTCUSDT",
+   "ETHUSDT",
+   "SOLUSDT",
+   "XRPUSDT",
+   "BNBUSDT",
+   "DOGEUSDT",
+   "ZECUSDT",
+   "TRXUSDT",
+   "ADAUSDT",
+   "LINKUSDT",
+   "AVAXUSDT",
+   "FETUSDT",
+   "ENJUSDT",
+   "LTCUSDT",
+   "DASHUSDT",
+   "UNIUSDT",
+   "BCHUSDT",
+   "DOTUSDT",
+   "HBARUSDT",
+   "ALGOUSDT",
+   "JSTUSDT",
+   "CRVUSDT",
+   "ETCUSDT",
+   "XLMUSDT",
+   "CHZUSDT",
+   "ATOMUSDT",
+   "ZENUSDT"
+  ],
+  "rows": [
+   {
+    "cfg": "LINREG(100)",
+    "base": {
+     "val_net": 17.0,
+     "net": 22.8,
+     "worst": 17.0,
+     "sharpe": 2.2,
+     "maxdd": -8.2,
+     "drift": 5.8,
+     "robust": true,
+     "time_in": 0.45,
+     "n_trades": 61.6
+    },
+    "iron": {
+     "val_net": 3.8,
+     "net": 23.2,
+     "worst": 3.8,
+     "sharpe": 2.56,
+     "maxdd": -5.8,
+     "drift": 19.4,
+     "robust": false,
+     "time_in": 0.38,
+     "n_trades": 142.9
+    }
+   },
+   {
+    "cfg": "LINREG(50)",
+    "base": {
+     "val_net": 6.9,
+     "net": 5.0,
+     "worst": 5.0,
+     "sharpe": 0.66,
+     "maxdd": -11.4,
+     "drift": -1.9,
+     "robust": true,
+     "time_in": 0.5,
+     "n_trades": 126.5
+    },
+    "iron": {
+     "val_net": 4.3,
+     "net": 2.7,
+     "worst": 2.7,
+     "sharpe": 0.48,
+     "maxdd": -8.6,
+     "drift": -1.6,
+     "robust": true,
+     "time_in": 0.38,
+     "n_trades": 165.3
+    }
+   },
+   {
+    "cfg": "LINREG(25)",
+    "base": {
+     "val_net": -12.5,
+     "net": -3.1,
+     "worst": -12.5,
+     "sharpe": -0.05,
+     "maxdd": -13.9,
+     "drift": 9.4,
+     "robust": true,
+     "time_in": 0.53,
+     "n_trades": 248.1
+    },
+    "iron": {
+     "val_net": -0.6,
+     "net": -0.4,
+     "worst": -0.6,
+     "sharpe": 0.1,
+     "maxdd": -9.3,
+     "drift": 0.2,
+     "robust": true,
+     "time_in": 0.36,
+     "n_trades": 216.3
+    }
+   },
+   {
+    "cfg": "LINREG(14)",
+    "base": {
+     "val_net": -17.2,
+     "net": -36.3,
+     "worst": -36.3,
+     "sharpe": -2.84,
+     "maxdd": -38.7,
+     "drift": -19.1,
+     "robust": false,
+     "time_in": 0.6,
+     "n_trades": 421.1
+    },
+    "iron": {
+     "val_net": -7.6,
+     "net": -17.3,
+     "worst": -17.3,
+     "sharpe": -2.11,
+     "maxdd": -19.2,
+     "drift": -9.7,
+     "robust": true,
+     "time_in": 0.36,
+     "n_trades": 309.7
+    }
+   }
+  ]
+ }
+}

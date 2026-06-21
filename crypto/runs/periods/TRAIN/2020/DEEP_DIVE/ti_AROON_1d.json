@@ -1,0 +1,116 @@
+{
+ "1d": {
+  "buyhold": {
+   "net": 47.4,
+   "sharpe": 2.34,
+   "maxdd": -20.2
+  },
+  "voltgt_bh": {
+   "net": 49.3,
+   "sharpe": 2.93,
+   "maxdd": -14.9
+  },
+  "rows": [
+   {
+    "cfg": "AROON(14)",
+    "base": {
+     "val_net": 24.7,
+     "net": 36.5,
+     "worst": 24.7,
+     "sharpe": 2.49,
+     "maxdd": -18.3,
+     "drift": 11.8,
+     "robust": false,
+     "time_in": 0.62,
+     "n_trades": 6.2
+    },
+    "iron": {
+     "val_net": 19.6,
+     "net": 36.3,
+     "worst": 19.6,
+     "sharpe": 3.34,
+     "maxdd": -12.1,
+     "drift": 16.7,
+     "robust": false,
+     "time_in": 0.41,
+     "n_trades": 5.3
+    }
+   },
+   {
+    "cfg": "AROON(21)",
+    "base": {
+     "val_net": 33.2,
+     "net": 43.2,
+     "worst": 33.2,
+     "sharpe": 3.42,
+     "maxdd": -13.3,
+     "drift": 10.0,
+     "robust": false,
+     "time_in": 0.42,
+     "n_trades": 3.0
+    },
+    "iron": {
+     "val_net": 27.5,
+     "net": 31.9,
+     "worst": 27.5,
+     "sharpe": 3.2,
+     "maxdd": -12.1,
+     "drift": 4.4,
+     "robust": true,
+     "time_in": 0.34,
+     "n_trades": 3.2
+    }
+   },
+   {
+    "cfg": "AROON(25)",
+    "base": {
+     "val_net": 22.6,
+     "net": 34.2,
+     "worst": 22.6,
+     "sharpe": 3.02,
+     "maxdd": -13.3,
+     "drift": 11.6,
+     "robust": false,
+     "time_in": 0.41,
+     "n_trades": 2.8
+    },
+    "iron": {
+     "val_net": 20.0,
+     "net": 28.4,
+     "worst": 20.0,
+     "sharpe": 3.02,
+     "maxdd": -12.1,
+     "drift": 8.4,
+     "robust": true,
+     "time_in": 0.34,
+     "n_trades": 3.0
+    }
+   },
+   {
+    "cfg": "AROON(50)",
+    "base": {
+     "val_net": 10.1,
+     "net": 19.4,
+     "worst": 10.1,
+     "sharpe": 2.24,
+     "maxdd": -14.5,
+     "drift": 9.3,
+     "robust": true,
+     "time_in": 0.23,
+     "n_trades": 1.6
+    },
+    "iron": {
+     "val_net": 9.9,
+     "net": 25.1,
+     "worst": 9.9,
+     "sharpe": 3.1,
+     "maxdd": -9.7,
+     "drift": 15.2,
+     "robust": false,
+     "time_in": 0.22,
+     "n_trades": 2.0
+    }
+   }
+  ]
+ }
+}

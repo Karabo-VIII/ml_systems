@@ -1,0 +1,290 @@
+{
+ "30m": {
+  "buyhold": {
+   "net": 41.6,
+   "sharpe": 2.11,
+   "maxdd": -18.2
+  },
+  "voltgt_bh": {
+   "net": 39.6,
+   "sharpe": 2.28,
+   "maxdd": -16.4
+  },
+  "n_names": 27,
+  "names": [
+   "BTCUSDT",
+   "ETHUSDT",
+   "SOLUSDT",
+   "XRPUSDT",
+   "BNBUSDT",
+   "DOGEUSDT",
+   "ZECUSDT",
+   "TRXUSDT",
+   "ADAUSDT",
+   "LINKUSDT",
+   "AVAXUSDT",
+   "FETUSDT",
+   "ENJUSDT",
+   "LTCUSDT",
+   "DASHUSDT",
+   "UNIUSDT",
+   "BCHUSDT",
+   "DOTUSDT",
+   "HBARUSDT",
+   "ALGOUSDT",
+   "JSTUSDT",
+   "CRVUSDT",
+   "ETCUSDT",
+   "XLMUSDT",
+   "CHZUSDT",
+   "ATOMUSDT",
+   "ZENUSDT"
+  ],
+  "rows": [
+   {
+    "cfg": "ULCER(20,q100)",
+    "base": {
+     "val_net": -3.5,
+     "net": -0.4,
+     "worst": -3.5,
+     "sharpe": 0.21,
+     "maxdd": -14.3,
+     "drift": 3.1,
+     "robust": true,
+     "time_in": 0.55,
+     "n_trades": 113.1
+    },
+    "iron": {
+     "val_net": 1.7,
+     "net": 7.0,
+     "worst": 1.7,
+     "sharpe": 1.14,
+     "maxdd": -7.0,
+     "drift": 5.3,
+     "robust": true,
+     "time_in": 0.31,
+     "n_trades": 108.6
+    }
+   },
+   {
+    "cfg": "ULCER(20,q50)",
+    "base": {
+     "val_net": -3.5,
+     "net": -0.4,
+     "worst": -3.5,
+     "sharpe": 0.21,
+     "maxdd": -14.3,
+     "drift": 3.1,
+     "robust": true,
+     "time_in": 0.55,
+     "n_trades": 113.1
+    },
+    "iron": {
+     "val_net": -1.9,
+     "net": 3.3,
+     "worst": -1.9,
+     "sharpe": 0.61,
+     "maxdd": -8.5,
+     "drift": 5.2,
+     "robust": true,
+     "time_in": 0.29,
+     "n_trades": 115.1
+    }
+   },
+   {
+    "cfg": "ULCER(14,q100)",
+    "base": {
+     "val_net": -3.5,
+     "net": -0.4,
+     "worst": -3.5,
+     "sharpe": 0.21,
+     "maxdd": -14.3,
+     "drift": 3.1,
+     "robust": true,
+     "time_in": 0.55,
+     "n_trades": 113.1
+    },
+    "iron": {
+     "val_net": -1.3,
+     "net": -1.3,
+     "worst": -1.3,
+     "sharpe": -0.07,
+     "maxdd": -8.9,
+     "drift": -0.1,
+     "robust": true,
+     "time_in": 0.31,
+     "n_trades": 126.3
+    }
+   },
+   {
+    "cfg": "ULCER(14,q50)",
+    "base": {
+     "val_net": -3.5,
+     "net": -0.4,
+     "worst": -3.5,
+     "sharpe": 0.21,
+     "maxdd": -14.3,
+     "drift": 3.1,
+     "robust": true,
+     "time_in": 0.55,
+     "n_trades": 113.1
+    },
+    "iron": {
+     "val_net": -0.5,
+     "net": -6.8,
+     "worst": -6.8,
+     "sharpe": -1.0,
+     "maxdd": -12.2,
+     "drift": -6.3,
+     "robust": true,
+     "time_in": 0.29,
+     "n_trades": 131.4
+    }
+   }
+  ]
+ },
+ "15m": {
+  "buyhold": {
+   "net": 43.2,
+   "sharpe": 2.16,
+   "maxdd": -17.9
+  },
+  "voltgt_bh": {
+   "net": 40.0,
+   "sharpe": 2.33,
+   "maxdd": -16.2
+  },
+  "n_names": 27,
+  "names": [
+   "BTCUSDT",
+   "ETHUSDT",
+   "SOLUSDT",
+   "XRPUSDT",
+   "BNBUSDT",
+   "DOGEUSDT",
+   "ZECUSDT",
+   "TRXUSDT",
+   "ADAUSDT",
+   "LINKUSDT",
+   "AVAXUSDT",
+   "FETUSDT",
+   "ENJUSDT",
+   "LTCUSDT",
+   "DASHUSDT",
+   "UNIUSDT",
+   "BCHUSDT",
+   "DOTUSDT",
+   "HBARUSDT",
+   "ALGOUSDT",
+   "JSTUSDT",
+   "CRVUSDT",
+   "ETCUSDT",
+   "XLMUSDT",
+   "CHZUSDT",
+   "ATOMUSDT",
+   "ZENUSDT"
+  ],
+  "rows": [
+   {
+    "cfg": "ULCER(14,q100)",
+    "base": {
+     "val_net": -3.4,
+     "net": 7.9,
+     "worst": -3.4,
+     "sharpe": 0.87,
+     "maxdd": -12.3,
+     "drift": 11.2,
+     "robust": false,
+     "time_in": 0.57,
+     "n_trades": 204.6
+    },
+    "iron": {
+     "val_net": -5.4,
+     "net": -4.3,
+     "worst": -5.4,
+     "sharpe": -0.51,
+     "maxdd": -8.9,
+     "drift": 1.1,
+     "robust": true,
+     "time_in": 0.31,
+     "n_trades": 229.9
+    }
+   },
+   {
+    "cfg": "ULCER(14,q50)",
+    "base": {
+     "val_net": -3.4,
+     "net": 7.9,
+     "worst": -3.4,
+     "sharpe": 0.87,
+     "maxdd": -12.3,
+     "drift": 11.2,
+     "robust": false,
+     "time_in": 0.57,
+     "n_trades": 204.6
+    },
+    "iron": {
+     "val_net": -3.7,
+     "net": -5.0,
+     "worst": -5.0,
+     "sharpe": -0.65,
+     "maxdd": -9.1,
+     "drift": -1.4,
+     "robust": true,
+     "time_in": 0.3,
+     "n_trades": 243.4
+    }
+   },
+   {
+    "cfg": "ULCER(20,q100)",
+    "base": {
+     "val_net": -3.4,
+     "net": 7.9,
+     "worst": -3.4,
+     "sharpe": 0.87,
+     "maxdd": -12.3,
+     "drift": 11.2,
+     "robust": false,
+     "time_in": 0.57,
+     "n_trades": 204.6
+    },
+    "iron": {
+     "val_net": -3.7,
+     "net": -6.9,
+     "worst": -6.9,
+     "sharpe": -1.05,
+     "maxdd": -9.9,
+     "drift": -3.2,
+     "robust": true,
+     "time_in": 0.31,
+     "n_trades": 199.6
+    }
+   },
+   {
+    "cfg": "ULCER(20,q50)",
+    "base": {
+     "val_net": -3.4,
+     "net": 7.9,
+     "worst": -3.4,
+     "sharpe": 0.87,
+     "maxdd": -12.3,
+     "drift": 11.2,
+     "robust": false,
+     "time_in": 0.57,
+     "n_trades": 204.6
+    },
+    "iron": {
+     "val_net": -5.3,
+     "net": -12.0,
+     "worst": -12.0,
+     "sharpe": -2.05,
+     "maxdd": -13.8,
+     "drift": -6.8,
+     "robust": true,
+     "time_in": 0.29,
+     "n_trades": 213.3
+    }
+   }
+  ]
+ }
+}

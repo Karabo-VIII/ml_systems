@@ -1,7 +1,15 @@
 # CURRENT — live state (Claude-written each cycle; committed; <2KB)
 
-PHASE: BUILD (V1.1 fine-TF campaign LIVE)
+PHASE: BUILD (V1.2 COMBINATRIX campaign LIVE — 8h autonomous, VERIFIED start 2026-06-21 23:44 SAST)
 UPDATED: 2026-06-21
+
+## V1.2 COMBINATRIX (LIVE) — engine-per-TI library (families 1/2/3) + combinatrix (a/ab/abc/a1a2)
+8h autonomous. Wave 1 (wmo59izfm): inventory existing per-TI engines (deep2020_ti_pipeline already ran ~12) ->
+fill families-1-3 gaps -> consolidate the engine library. Wave 2: combinatrix with DISCIPLINE (PBO/CSCV +
+VAL-select/OOS-confirm + block-bootstrap + deflated metric; survivors-only BEAM search, NOT brute-force all
+C(N,3); regime-gate = the project's validated conditioning). 2020 DEV / 2021 IRON / 2022+ SEALED. Honest prior:
+price-TI families = de-risked beta; expect overfit, report it + any genuine survivor. Ledger:
+runs/engines/V1.2_combinatrix/CAMPAIGN_LEDGER.md.
 
 ## CURRENT GOAL
 Build the ability to **trade ANY SLICE** — any setup from any asset across the **u100 universe** — compounding, with

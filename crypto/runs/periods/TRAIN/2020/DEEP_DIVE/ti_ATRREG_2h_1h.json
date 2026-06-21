@@ -1,0 +1,290 @@
+{
+ "2h": {
+  "buyhold": {
+   "net": 37.6,
+   "sharpe": 1.97,
+   "maxdd": -19.4
+  },
+  "voltgt_bh": {
+   "net": 38.0,
+   "sharpe": 2.29,
+   "maxdd": -15.7
+  },
+  "n_names": 27,
+  "names": [
+   "BTCUSDT",
+   "ETHUSDT",
+   "SOLUSDT",
+   "XRPUSDT",
+   "BNBUSDT",
+   "DOGEUSDT",
+   "ZECUSDT",
+   "TRXUSDT",
+   "ADAUSDT",
+   "LINKUSDT",
+   "AVAXUSDT",
+   "FETUSDT",
+   "ENJUSDT",
+   "LTCUSDT",
+   "DASHUSDT",
+   "UNIUSDT",
+   "BCHUSDT",
+   "DOTUSDT",
+   "HBARUSDT",
+   "ALGOUSDT",
+   "JSTUSDT",
+   "CRVUSDT",
+   "ETCUSDT",
+   "XLMUSDT",
+   "CHZUSDT",
+   "ATOMUSDT",
+   "ZENUSDT"
+  ],
+  "rows": [
+   {
+    "cfg": "ATRREG(20,q100)",
+    "base": {
+     "val_net": 13.8,
+     "net": 15.4,
+     "worst": 13.8,
+     "sharpe": 1.46,
+     "maxdd": -11.0,
+     "drift": 1.5,
+     "robust": true,
+     "time_in": 0.52,
+     "n_trades": 29.8
+    },
+    "iron": {
+     "val_net": 4.9,
+     "net": 2.6,
+     "worst": 2.6,
+     "sharpe": 0.57,
+     "maxdd": -8.4,
+     "drift": -2.3,
+     "robust": true,
+     "time_in": 0.28,
+     "n_trades": 35.6
+    }
+   },
+   {
+    "cfg": "ATRREG(20,q50)",
+    "base": {
+     "val_net": 13.8,
+     "net": 15.4,
+     "worst": 13.8,
+     "sharpe": 1.46,
+     "maxdd": -11.0,
+     "drift": 1.5,
+     "robust": true,
+     "time_in": 0.52,
+     "n_trades": 29.8
+    },
+    "iron": {
+     "val_net": 11.3,
+     "net": -0.1,
+     "worst": -0.1,
+     "sharpe": 0.1,
+     "maxdd": -8.1,
+     "drift": -11.4,
+     "robust": false,
+     "time_in": 0.29,
+     "n_trades": 36.8
+    }
+   },
+   {
+    "cfg": "ATRREG(14,q100)",
+    "base": {
+     "val_net": 13.8,
+     "net": 15.4,
+     "worst": 13.8,
+     "sharpe": 1.46,
+     "maxdd": -11.0,
+     "drift": 1.5,
+     "robust": true,
+     "time_in": 0.52,
+     "n_trades": 29.8
+    },
+    "iron": {
+     "val_net": 4.7,
+     "net": -0.4,
+     "worst": -0.4,
+     "sharpe": 0.05,
+     "maxdd": -8.2,
+     "drift": -5.1,
+     "robust": true,
+     "time_in": 0.29,
+     "n_trades": 38.7
+    }
+   },
+   {
+    "cfg": "ATRREG(14,q50)",
+    "base": {
+     "val_net": 13.8,
+     "net": 15.4,
+     "worst": 13.8,
+     "sharpe": 1.46,
+     "maxdd": -11.0,
+     "drift": 1.5,
+     "robust": true,
+     "time_in": 0.52,
+     "n_trades": 29.8
+    },
+    "iron": {
+     "val_net": 13.6,
+     "net": -3.6,
+     "worst": -3.6,
+     "sharpe": -0.42,
+     "maxdd": -11.5,
+     "drift": -17.2,
+     "robust": false,
+     "time_in": 0.3,
+     "n_trades": 39.9
+    }
+   }
+  ]
+ },
+ "1h": {
+  "buyhold": {
+   "net": 39.1,
+   "sharpe": 2.02,
+   "maxdd": -19.0
+  },
+  "voltgt_bh": {
+   "net": 39.4,
+   "sharpe": 2.3,
+   "maxdd": -16.0
+  },
+  "n_names": 27,
+  "names": [
+   "BTCUSDT",
+   "ETHUSDT",
+   "SOLUSDT",
+   "XRPUSDT",
+   "BNBUSDT",
+   "DOGEUSDT",
+   "ZECUSDT",
+   "TRXUSDT",
+   "ADAUSDT",
+   "LINKUSDT",
+   "AVAXUSDT",
+   "FETUSDT",
+   "ENJUSDT",
+   "LTCUSDT",
+   "DASHUSDT",
+   "UNIUSDT",
+   "BCHUSDT",
+   "DOTUSDT",
+   "HBARUSDT",
+   "ALGOUSDT",
+   "JSTUSDT",
+   "CRVUSDT",
+   "ETCUSDT",
+   "XLMUSDT",
+   "CHZUSDT",
+   "ATOMUSDT",
+   "ZENUSDT"
+  ],
+  "rows": [
+   {
+    "cfg": "ATRREG(20,q50)",
+    "base": {
+     "val_net": 16.0,
+     "net": 16.9,
+     "worst": 16.0,
+     "sharpe": 1.53,
+     "maxdd": -11.6,
+     "drift": 0.9,
+     "robust": true,
+     "time_in": 0.53,
+     "n_trades": 56.5
+    },
+    "iron": {
+     "val_net": 11.5,
+     "net": 6.5,
+     "worst": 6.5,
+     "sharpe": 1.09,
+     "maxdd": -6.9,
+     "drift": -5.0,
+     "robust": true,
+     "time_in": 0.31,
+     "n_trades": 75.0
+    }
+   },
+   {
+    "cfg": "ATRREG(14,q50)",
+    "base": {
+     "val_net": 16.0,
+     "net": 16.9,
+     "worst": 16.0,
+     "sharpe": 1.53,
+     "maxdd": -11.6,
+     "drift": 0.9,
+     "robust": true,
+     "time_in": 0.53,
+     "n_trades": 56.5
+    },
+    "iron": {
+     "val_net": 14.7,
+     "net": 5.2,
+     "worst": 5.2,
+     "sharpe": 0.94,
+     "maxdd": -7.3,
+     "drift": -9.5,
+     "robust": true,
+     "time_in": 0.32,
+     "n_trades": 80.7
+    }
+   },
+   {
+    "cfg": "ATRREG(14,q100)",
+    "base": {
+     "val_net": 16.0,
+     "net": 16.9,
+     "worst": 16.0,
+     "sharpe": 1.53,
+     "maxdd": -11.6,
+     "drift": 0.9,
+     "robust": true,
+     "time_in": 0.53,
+     "n_trades": 56.5
+    },
+    "iron": {
+     "val_net": 14.2,
+     "net": 5.2,
+     "worst": 5.2,
+     "sharpe": 0.96,
+     "maxdd": -8.0,
+     "drift": -9.0,
+     "robust": true,
+     "time_in": 0.3,
+     "n_trades": 74.9
+    }
+   },
+   {
+    "cfg": "ATRREG(20,q100)",
+    "base": {
+     "val_net": 16.0,
+     "net": 16.9,
+     "worst": 16.0,
+     "sharpe": 1.53,
+     "maxdd": -11.6,
+     "drift": 0.9,
+     "robust": true,
+     "time_in": 0.53,
+     "n_trades": 56.5
+    },
+    "iron": {
+     "val_net": 9.8,
+     "net": -1.4,
+     "worst": -1.4,
+     "sharpe": -0.14,
+     "maxdd": -9.8,
+     "drift": -11.2,
+     "robust": false,
+     "time_in": 0.29,
+     "n_trades": 68.1
+    }
+   }
+  ]
+ }
+}

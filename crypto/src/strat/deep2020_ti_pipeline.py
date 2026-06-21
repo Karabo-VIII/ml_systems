@@ -34,7 +34,14 @@ from strat.deep2020_osc import _rsi, _stoch, _bbpct, _cci, _mr_held
 
 WIN = ("2020-07-01", "2021-01-01"); SPLIT = "2020-10-01"
 WARMUP = 400
-SYMS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT", "DOGEUSDT", "ADAUSDT", "AVAXUSDT", "LINKUSDT", "LTCUSDT"]
+# u100 names that ACTUALLY have 2020-DEV-window data (>=30 window bars + val>=5 + oos>=5 at every TF
+# {1d,4h,2h,1h,30m,15m}, probed 2026-06-22). The other ~50 u100 names are post-2020 listings (PEPE/SUI/WLD/...)
+# with 0 bars in this window, so 27 is the breadth CEILING for the 2020 DEV / 2021 IRON split. This satisfies the
+# charter >=20-distinct-u100-names breadth floor (the prior hardcoded 10-name list FAILED it). Source: config/universes
+# {u50,u100}.yaml filtered to data-on-disk for the window.
+SYMS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT", "BNBUSDT", "DOGEUSDT", "ZECUSDT", "TRXUSDT", "ADAUSDT",
+        "LINKUSDT", "AVAXUSDT", "FETUSDT", "ENJUSDT", "LTCUSDT", "DASHUSDT", "UNIUSDT", "BCHUSDT", "DOTUSDT",
+        "HBARUSDT", "ALGOUSDT", "JSTUSDT", "CRVUSDT", "ETCUSDT", "XLMUSDT", "CHZUSDT", "ATOMUSDT", "ZENUSDT"]
 VOLWIN = {"1d": 14, "4h": 84, "2h": 168, "1h": 336, "30m": 672, "15m": 1344}
 DRIFT_TOL = 10.0
 
@@ -43,7 +50,7 @@ DRIFT_TOL = 10.0
 def load_ohlc(cad):
     s_ms = pd.Timestamp(WIN[0]).value // 10**6; e_ms = pd.Timestamp(WIN[1]).value // 10**6
     split_ms = pd.Timestamp(SPLIT).value // 10**6
-    vw = VOLWIN[cad]; assets = []; rv_meds = []
+    vw = VOLWIN[cad]; assets = []; rv_meds = []; names = []
     for sym in SYMS:
         try:
             o, h, l, c, ms = _panel(sym, cad)
@@ -62,8 +69,9 @@ def load_ohlc(cad):
         assets.append({"o": o2, "h": h2, "l": l2, "c": c2, "ret": ret, "win": win, "idx": idx, "rv": rv})
         vm = (ms2 >= s_ms) & (ms2 < split_ms)
         rv_meds.append(np.nanmedian(rv[vm]) if vm.sum() > 5 else np.nan)
+        names.append(sym)
     vt = float(np.nanmedian(rv_meds)) if rv_meds and not np.all(np.isnan(rv_meds)) else None
-    return assets, vt
+    return assets, vt, names
 
 
 def load_ohlcv(cad):
@@ -73,7 +81,7 @@ def load_ohlcv(cad):
     import polars as pl
     s_ms = pd.Timestamp(WIN[0]).value // 10**6; e_ms = pd.Timestamp(WIN[1]).value // 10**6
     split_ms = pd.Timestamp(SPLIT).value // 10**6
-    vw = VOLWIN[cad]; assets = []; rv_meds = []
+    vw = VOLWIN[cad]; assets = []; rv_meds = []; names = []
     for sym in SYMS:
         fs = sorted(glob.glob(f"data/processed/chimera/{cad}/{sym.lower()}*.parquet"))
         if not fs:
@@ -97,8 +105,9 @@ def load_ohlcv(cad):
                        "idx": pd.to_datetime(ms2[win], unit="ms"), "rv": rv})
         vm = (ms2 >= s_ms) & (ms2 < split_ms)
         rv_meds.append(np.nanmedian(rv[vm]) if vm.sum() > 5 else np.nan)
+        names.append(sym)
     vt = float(np.nanmedian(rv_meds)) if rv_meds and not np.all(np.isnan(rv_meds)) else None
-    return assets, vt
+    return assets, vt, names
 
 
 # ============================ the common stack -> book -> metrics ============================
@@ -543,6 +552,326 @@ def cmf_iron(A, p):
     return (held & up).astype(np.int8)
 
 
+# ============================ GAP-FILL: families 1-3 causal/Safe indicators (V1.2 combinatrix) ============================
+# All formulas below are CAUSAL as written (rolling/trailing, no centered/full-sample windows). The harness shifts
+# position by 1 bar (pos[1:]=held[:-1]) so no intrabar peek. LA-UNSAFE excluded: STC + Fisher (R, intrabar-repaint
+# smoothing), Ichimoku cloud (U, senkou plotted +26), Connors-RSI (D-list null). Their causal cores are NOT used.
+
+# ---- TREND gaps ----
+def _aroon_up_dn(A, n):
+    h, l = A["h"], A["l"]
+    hs = pd.Series(h); ls = pd.Series(l)
+    # bars since the rolling n-bar high/low (causal argmax over trailing window incl current)
+    up = hs.rolling(n + 1, min_periods=1).apply(lambda x: (len(x) - 1 - np.argmax(x)), raw=True).to_numpy()
+    dn = ls.rolling(n + 1, min_periods=1).apply(lambda x: (len(x) - 1 - np.argmin(x)), raw=True).to_numpy()
+    aroon_up = 100.0 * (n - up) / n; aroon_dn = 100.0 * (n - dn) / n
+    return aroon_up, aroon_dn
+
+
+def aroon_base(A, p):
+    au, ad = _aroon_up_dn(A, p[0]); return np.nan_to_num(au > ad).astype(np.int8)
+
+
+def aroon_iron(A, p):
+    au, ad = _aroon_up_dn(A, p[0]); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (np.nan_to_num(au > ad).astype(np.int8) & up).astype(np.int8)
+
+
+def _trix_val(A, p):
+    n = p[0]; c = A["c"]
+    e = _ema(_ema(_ema(c, n), n), n)
+    return np.concatenate([[0.0], (e[1:] / (e[:-1] + 1e-12) - 1.0) * 100.0])
+
+
+def trix_base(A, p):
+    return np.nan_to_num(_trix_val(A, p) > 0).astype(np.int8)
+
+
+def trix_iron(A, p):
+    held = np.nan_to_num(_trix_val(A, p) > 0).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (held & up).astype(np.int8)
+
+
+def _linreg_slope(A, n):
+    """Causal trailing-window OLS slope of close over n bars (sign = trend direction)."""
+    c = A["c"]; x = np.arange(n); xm = x.mean(); xd = x - xm; denom = (xd ** 2).sum() + 1e-12
+    def _sl(w):
+        return float((xd * (w - w.mean())).sum() / denom)
+    return pd.Series(c).rolling(n, min_periods=n).apply(_sl, raw=True).to_numpy()
+
+
+def linreg_base(A, p):
+    return np.nan_to_num(_linreg_slope(A, p[0]) > 0).astype(np.int8)
+
+
+def linreg_iron(A, p):
+    held = np.nan_to_num(_linreg_slope(A, p[0]) > 0).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (held & up).astype(np.int8)
+
+
+def _cksp(A, p):
+    """Chande-Kroll stop: ATR-trailing long stop; held=1 while close>long_stop. p=(n, x_mult)."""
+    n, x = p; h, l, c = A["h"], A["l"], A["c"]
+    atr = _atr(h, l, c, n)
+    hh = pd.Series(h).rolling(n, min_periods=1).max().to_numpy()
+    long_stop_raw = hh - x * atr
+    long_stop = pd.Series(long_stop_raw).rolling(n, min_periods=1).max().to_numpy()  # highest stop over n (Chande-Kroll)
+    return (c > long_stop).astype(np.int8)
+
+
+def cksp_base(A, p):
+    return _cksp(A, p)
+
+
+def cksp_iron(A, p):
+    held = _cksp(A, p); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (held & up).astype(np.int8)
+
+
+# ---- MOMENTUM gaps ----
+def _stochrsi(A, p):
+    n = p[0]; r = _rsi(A["c"], n)
+    rmin = pd.Series(r).rolling(n, min_periods=1).min().to_numpy(); rmax = pd.Series(r).rolling(n, min_periods=1).max().to_numpy()
+    return 100.0 * (r - rmin) / (rmax - rmin + 1e-12)
+
+
+def _mk_stochrsi():
+    def base(A, p):
+        n, lo, hi = p; return _mr_held(_stochrsi(A, (n,)), lo, hi)
+    def iron(A, p):
+        n, lo, hi = p; held = _mr_held(_stochrsi(A, (n,)), lo, hi); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+        return (held & up).astype(np.int8)
+    return base, iron
+
+
+def _cmo_val(A, n):
+    c = A["c"]; d = np.diff(c, prepend=c[0])
+    up = pd.Series(np.where(d > 0, d, 0.0)).rolling(n, min_periods=1).sum().to_numpy()
+    dn = pd.Series(np.where(d < 0, -d, 0.0)).rolling(n, min_periods=1).sum().to_numpy()
+    return 100.0 * (up - dn) / (up + dn + 1e-12)
+
+
+def _mk_cmo():
+    def base(A, p):
+        n, lo, hi = p; return _mr_held(_cmo_val(A, n), lo, hi)
+    def iron(A, p):
+        n, lo, hi = p; held = _mr_held(_cmo_val(A, n), lo, hi); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+        return (held & up).astype(np.int8)
+    return base, iron
+
+
+def _uo_val(A, p):
+    """Ultimate Oscillator (Larry Williams). p=(n1,n2,n3). Causal."""
+    n1, n2, n3 = p; h, l, c = A["h"], A["l"], A["c"]
+    pc = np.concatenate([[c[0]], c[:-1]])
+    bp = c - np.minimum(l, pc); tr = np.maximum(h, pc) - np.minimum(l, pc) + 1e-12
+    def avg(k):
+        return pd.Series(bp).rolling(k, min_periods=1).sum().to_numpy() / (pd.Series(tr).rolling(k, min_periods=1).sum().to_numpy() + 1e-12)
+    return 100.0 * (4 * avg(n1) + 2 * avg(n2) + avg(n3)) / 7.0
+
+
+def _mk_uo():
+    def base(A, p):
+        n1, n2, n3, lo, hi = p; return _mr_held(_uo_val(A, (n1, n2, n3)), lo, hi)
+    def iron(A, p):
+        n1, n2, n3, lo, hi = p; held = _mr_held(_uo_val(A, (n1, n2, n3)), lo, hi); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+        return (held & up).astype(np.int8)
+    return base, iron
+
+
+def _ao_val(A, p):
+    """Awesome Oscillator: SMA(median_price,fast) - SMA(median_price,slow). p=(fast,slow). Zero-cross momentum."""
+    fast, slow = p; mp = (A["h"] + A["l"]) / 2.0
+    return _sma(mp, fast) - _sma(mp, slow)
+
+
+def ao_base(A, p):
+    return np.nan_to_num(_ao_val(A, p) > 0).astype(np.int8)
+
+
+def ao_iron(A, p):
+    held = np.nan_to_num(_ao_val(A, p) > 0).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (held & up).astype(np.int8)
+
+
+def _rvi_val(A, p):
+    """Relative Vigor Index: SWMA(close-open) / SWMA(high-low), then n-smooth. p=(n,). long when rvi>signal."""
+    n = p[0]; o, h, l, c = A["o"], A["h"], A["l"], A["c"]
+    num = c - o; den = h - l + 1e-12
+    sn = pd.Series(num).rolling(n, min_periods=1).mean().to_numpy(); sd = pd.Series(den).rolling(n, min_periods=1).mean().to_numpy()
+    rvi = sn / (sd + 1e-12)
+    sig = pd.Series(rvi).rolling(4, min_periods=1).mean().to_numpy()
+    return rvi, sig
+
+
+def rvi_base(A, p):
+    rvi, sig = _rvi_val(A, p); return np.nan_to_num(rvi > sig).astype(np.int8)
+
+
+def rvi_iron(A, p):
+    rvi, sig = _rvi_val(A, p); held = np.nan_to_num(rvi > sig).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (held & up).astype(np.int8)
+
+
+def _kst_val(A, p):
+    """Know Sure Thing: weighted sum of 4 smoothed ROCs. p=(r1,r2,r3,r4). long when kst>signal."""
+    r1, r2, r3, r4 = p; c = A["c"]
+    def roc(k):
+        out = np.zeros(len(c)); out[k:] = (c[k:] / c[:-k] - 1.0) * 100.0; return out
+    def sm(x, k):
+        return pd.Series(x).rolling(k, min_periods=1).mean().to_numpy()
+    kst = sm(roc(r1), 10) * 1 + sm(roc(r2), 10) * 2 + sm(roc(r3), 10) * 3 + sm(roc(r4), 15) * 4
+    sig = pd.Series(kst).rolling(9, min_periods=1).mean().to_numpy()
+    return kst, sig
+
+
+def kst_base(A, p):
+    kst, sig = _kst_val(A, p); return np.nan_to_num(kst > sig).astype(np.int8)
+
+
+def kst_iron(A, p):
+    kst, sig = _kst_val(A, p); held = np.nan_to_num(kst > sig).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (held & up).astype(np.int8)
+
+
+def _bop_val(A, p):
+    """Balance of Power = (c-o)/(h-l), n-smoothed. p=(n,). long when bop>0."""
+    n = p[0]; o, h, l, c = A["o"], A["h"], A["l"], A["c"]
+    bop = (c - o) / (h - l + 1e-12)
+    return pd.Series(bop).rolling(n, min_periods=1).mean().to_numpy()
+
+
+def bop_base(A, p):
+    return np.nan_to_num(_bop_val(A, p) > 0).astype(np.int8)
+
+
+def bop_iron(A, p):
+    held = np.nan_to_num(_bop_val(A, p) > 0).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (held & up).astype(np.int8)
+
+
+# ---- VOLATILITY gaps (the most under-covered family per the inventory; regime/sizing not direction) ----
+def _atr_pct(A, n):
+    """ATR as % of close -- a volatility-regime measure (causal)."""
+    return _atr(A["h"], A["l"], A["c"], n) / (A["c"] + 1e-12) * 100.0
+
+
+def _atrreg_held(A, p):
+    """ATR-regime trend engine: long in uptrend (c>SMA100) ONLY while ATR%% below its rolling median (calm trend);
+    cash when ATR spikes (vol-shock de-risk). p=(n, qwin). This is the 'bet regime not direction' volatility use."""
+    n, qwin = p
+    atrp = _atr_pct(A, n)
+    med = pd.Series(atrp).rolling(qwin, min_periods=max(5, qwin // 4)).median().shift(1).to_numpy()
+    calm = (atrp <= med).astype(np.int8)
+    up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (calm & up).astype(np.int8)
+
+
+def atrreg_base(A, p):
+    # base = the uptrend without the calm-vol gate (so the iron's CONTRIBUTION = the vol-regime gate)
+    return (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+
+
+def atrreg_iron(A, p):
+    return _atrreg_held(A, p)
+
+
+def _chop_val(A, n):
+    """Choppiness Index (0-100): high = ranging/choppy, low = trending. Causal."""
+    h, l, c = A["h"], A["l"], A["c"]
+    atr1 = _atr(h, l, c, 1)
+    sum_atr = pd.Series(atr1).rolling(n, min_periods=1).sum().to_numpy()
+    hh = pd.Series(h).rolling(n, min_periods=1).max().to_numpy(); ll = pd.Series(l).rolling(n, min_periods=1).min().to_numpy()
+    rng = hh - ll + 1e-12
+    return 100.0 * np.log10(sum_atr / rng + 1e-12) / np.log10(n)
+
+
+def chop_base(A, p):
+    # base = uptrend only (no chop screen) so iron contribution = the trend-vs-range gate
+    return (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+
+
+def chop_iron(A, p):
+    """IRON: long in uptrend ONLY when NOT choppy (CHOP<thr = trending regime). p=(n, thr)."""
+    n, thr = p; chop = _chop_val(A, n)
+    trending = (chop < thr).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (trending & up).astype(np.int8)
+
+
+def _ulcer_val(A, n):
+    """Ulcer Index: RMS of percent drawdown over trailing n. Causal. High = deep/persistent DD."""
+    c = A["c"]; cs = pd.Series(c)
+    roll_max = cs.rolling(n, min_periods=1).max().to_numpy()
+    dd_pct = 100.0 * (c - roll_max) / (roll_max + 1e-12)
+    return np.sqrt(pd.Series(dd_pct ** 2).rolling(n, min_periods=1).mean().to_numpy())
+
+
+def ulcer_base(A, p):
+    return (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+
+
+def ulcer_iron(A, p):
+    """IRON: long in uptrend ONLY when Ulcer (DD-depth) below its rolling median (low-stress) -- a drawdown gate. p=(n, qwin)."""
+    n, qwin = p; ui = _ulcer_val(A, n)
+    med = pd.Series(ui).rolling(qwin, min_periods=max(5, qwin // 4)).median().shift(1).to_numpy()
+    low_stress = (ui <= med).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (low_stress & up).astype(np.int8)
+
+
+def _bbwidth(A, n, k=2.0):
+    c = A["c"]; m = pd.Series(c).rolling(n, min_periods=1).mean().to_numpy(); sd = pd.Series(c).rolling(n, min_periods=1).std().to_numpy()
+    return (2 * k * sd) / (m + 1e-12)
+
+
+def _bbsqz_held(A, p):
+    """Bollinger squeeze->expansion breakout: fire long when bandwidth expands out of a rolling-low squeeze AND
+    close breaks the upper band (causal). p=(n, qwin)."""
+    n, qwin = p; c = A["c"]
+    m = pd.Series(c).rolling(n, min_periods=1).mean().to_numpy(); sd = pd.Series(c).rolling(n, min_periods=1).std().to_numpy()
+    upper = m + 2.0 * sd
+    bw = (4.0 * sd) / (m + 1e-12)
+    bw_lo = pd.Series(bw).rolling(qwin, min_periods=max(5, qwin // 4)).quantile(0.25).shift(1).to_numpy()
+    squeeze_prev = np.concatenate([[False], (bw[:-1] <= np.nan_to_num(bw_lo[:-1], nan=1e9))])
+    held = np.zeros(len(c), np.int8); cur = 0
+    for i in range(len(c)):
+        if cur == 0 and squeeze_prev[i] and c[i] > upper[i]:
+            cur = 1
+        elif cur == 1 and c[i] < m[i]:
+            cur = 0
+        held[i] = cur
+    return held
+
+
+def bbsqz_base(A, p):
+    return _bbsqz_held(A, p)
+
+
+def bbsqz_iron(A, p):
+    held = _bbsqz_held(A, p); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (held & up).astype(np.int8)
+
+
+def _massi_val(A, p):
+    """Mass Index: sum over n2 of EMA(h-l,n1)/EMA(EMA(h-l,n1),n1). Reversal bulge >27. p=(n1,n2)."""
+    n1, n2 = p; h, l = A["h"], A["l"]
+    rng = h - l
+    e1 = _ema(rng, n1); e2 = _ema(e1, n1)
+    ratio = e1 / (e2 + 1e-12)
+    return pd.Series(ratio).rolling(n2, min_periods=1).sum().to_numpy()
+
+
+def massi_base(A, p):
+    # base = uptrend; iron adds the reversal-bulge gate (cash when a vol-bulge reversal looms)
+    return (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+
+
+def massi_iron(A, p):
+    """IRON: long in uptrend ONLY when Mass Index below the reversal-bulge threshold (no setup-reversal looming). p=(n1,n2,thr)."""
+    n1, n2, thr = p; mi = _massi_val(A, (n1, n2))
+    calm = (mi < thr).astype(np.int8); up = (A["c"] > _sma(A["c"], 100)).astype(np.int8)
+    return (calm & up).astype(np.int8)
+
+
 INDICATORS = {
     "MACD": {"family": "trend", "base": macd_base, "iron": macd_iron, "grid": macd_grid, "minhold": 12,
              "name": lambda p: f"MACD({p[0]},{p[1]},{p[2]})"},
@@ -574,7 +903,50 @@ INDICATORS = {
                 "name": lambda p: f"KELT({p[0]},{p[1]})"},
     "WILLR": {"family": "mean-reversion", "base": willr_base, "iron": willr_iron, "grid": willr_grid, "minhold": 6,
               "name": lambda p: f"WILLR({p[0]},lo{p[1]},hi{p[2]})"},
+    # ----- V1.2 GAP-FILL: TREND -----
+    "AROON": {"family": "trend", "base": aroon_base, "iron": aroon_iron, "minhold": 12,
+              "grid": lambda: [(n,) for n in (14, 21, 25, 50)], "name": lambda p: f"AROON({p[0]})"},
+    "TRIX": {"family": "trend", "base": trix_base, "iron": trix_iron, "minhold": 12,
+             "grid": lambda: [(n,) for n in (9, 12, 15, 21)], "name": lambda p: f"TRIX({p[0]})"},
+    "LINREG": {"family": "trend", "base": linreg_base, "iron": linreg_iron, "minhold": 12,
+               "grid": lambda: [(n,) for n in (14, 25, 50, 100)], "name": lambda p: f"LINREG({p[0]})"},
+    "CKSP": {"family": "trend", "base": cksp_base, "iron": cksp_iron, "minhold": 12,
+             "grid": lambda: [(n, x) for n in (10, 14, 20) for x in (1.0, 2.0, 3.0)], "name": lambda p: f"CKSP({p[0]},{p[1]})"},
+    # ----- V1.2 GAP-FILL: MOMENTUM -----
+    "AO": {"family": "momentum", "base": ao_base, "iron": ao_iron, "minhold": 12,
+           "grid": lambda: [(f, s) for f, s in ((5, 34), (5, 21), (10, 34), (3, 21))], "name": lambda p: f"AO({p[0]},{p[1]})"},
+    "RVI": {"family": "momentum", "base": rvi_base, "iron": rvi_iron, "minhold": 12,
+            "grid": lambda: [(n,) for n in (7, 10, 14, 21)], "name": lambda p: f"RVI({p[0]})"},
+    "KST": {"family": "momentum", "base": kst_base, "iron": kst_iron, "minhold": 12,
+            "grid": lambda: [(10, 15, 20, 30), (6, 10, 15, 25), (15, 20, 25, 40)], "name": lambda p: f"KST({p[0]},{p[1]},{p[2]},{p[3]})"},
+    "BOP": {"family": "momentum", "base": bop_base, "iron": bop_iron, "minhold": 12,
+            "grid": lambda: [(n,) for n in (7, 14, 21, 28)], "name": lambda p: f"BOP({p[0]})"},
+    # ----- V1.2 GAP-FILL: VOLATILITY (regime/sizing, not direction) -----
+    "ATRREG": {"family": "volatility", "base": atrreg_base, "iron": atrreg_iron, "minhold": 12,
+               "grid": lambda: [(n, q) for n in (14, 20) for q in (50, 100)], "name": lambda p: f"ATRREG({p[0]},q{p[1]})"},
+    "CHOP": {"family": "volatility", "base": chop_base, "iron": chop_iron, "minhold": 12,
+             "grid": lambda: [(n, thr) for n in (14, 20) for thr in (38.2, 50.0, 61.8)], "name": lambda p: f"CHOP({p[0]},{p[1]})"},
+    "ULCER": {"family": "volatility", "base": ulcer_base, "iron": ulcer_iron, "minhold": 12,
+              "grid": lambda: [(n, q) for n in (14, 20) for q in (50, 100)], "name": lambda p: f"ULCER({p[0]},q{p[1]})"},
+    "BBSQZ": {"family": "volatility", "base": bbsqz_base, "iron": bbsqz_iron, "minhold": 12,
+              "grid": lambda: [(n, q) for n in (20, 30) for q in (50, 100)], "name": lambda p: f"BBSQZ({p[0]},q{p[1]})"},
+    "MASSI": {"family": "volatility", "base": massi_base, "iron": massi_iron, "minhold": 12,
+              "grid": lambda: [(9, n2, thr) for n2 in (20, 25) for thr in (26.5, 27.0)], "name": lambda p: f"MASSI(9,{p[1]},{p[2]})"},
 }
+for _k in ("STOCHRSI", "CMO", "UO"):
+    _b, _i = {"STOCHRSI": _mk_stochrsi, "CMO": _mk_cmo, "UO": _mk_uo}[_k]()
+    if _k == "STOCHRSI":
+        INDICATORS[_k] = {"family": "mean-reversion", "base": _b, "iron": _i, "minhold": 6,
+                          "grid": lambda: [(n, lo, hi) for n in (14, 21) for lo in (15, 20, 25) for hi in (75, 80)],
+                          "name": lambda p: f"STOCHRSI({p[0]},lo{p[1]},hi{p[2]})"}
+    elif _k == "CMO":
+        INDICATORS[_k] = {"family": "mean-reversion", "base": _b, "iron": _i, "minhold": 6,
+                          "grid": lambda: [(n, lo, hi) for n in (9, 14, 21) for lo in (-50, -40) for hi in (0, 40)],
+                          "name": lambda p: f"CMO({p[0]},lo{p[1]},hi{p[2]})"}
+    else:  # UO
+        INDICATORS[_k] = {"family": "mean-reversion", "base": _b, "iron": _i, "minhold": 6,
+                          "grid": lambda: [(7, 14, 28, lo, hi) for lo in (25, 30) for hi in (55, 70)],
+                          "name": lambda p: f"UO({p[0]},{p[1]},{p[2]},lo{p[3]},hi{p[4]})"}
 for _k in ("RSI", "STOCH", "BBPCT", "CCI"):
     _b, _i = _mk_osc(_k)
     INDICATORS[_k] = {"family": "mean-reversion", "base": _b, "iron": _i,
@@ -588,7 +960,7 @@ def run_indicator(ind_key, cads):
     loader = load_ohlcv if ind.get("loader") == "ohlcv" else load_ohlc
     export = {}
     for cad in cads:
-        assets, vt = loader(cad)
+        assets, vt, names = loader(cad)
         if not assets:
             print(f"## {cad}: no assets"); continue
         bh = _buyhold(assets); vbh = _buyhold(assets, vt)
@@ -605,9 +977,9 @@ def run_indicator(ind_key, cads):
             rows.append({"cfg": ind["name"](p), "base": mb, "iron": mi})
         if not rows:
             continue
-        export[cad] = {"buyhold": bh, "voltgt_bh": vbh, "rows": rows}
+        export[cad] = {"buyhold": bh, "voltgt_bh": vbh, "n_names": len(names), "names": names, "rows": rows}
         # ---- print: top-10 by WEALTH (ironed OOS net), base vs ironed side by side ----
-        print(f"\n########## {ind_key} @ {cad}   BUYHOLD net {bh['net']}% Sh {bh['sharpe']} DD {bh['maxdd']}% | "
+        print(f"\n########## {ind_key} @ {cad}   n_names {len(names)}  BUYHOLD net {bh['net']}% Sh {bh['sharpe']} DD {bh['maxdd']}% | "
               f"VOLTGT_BH net {vbh['net']}% Sh {vbh['sharpe']} ##########")
         rows.sort(key=lambda r: -r["iron"]["net"])
         print(f"   TOP-10 by WEALTH (ironed OOS net). cfg | BASE net/Sh/DD/drift | IRONED net/Sh/DD/drift/robust")

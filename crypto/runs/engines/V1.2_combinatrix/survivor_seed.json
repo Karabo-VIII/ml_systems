@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "title": "V1.2 combinatrix CLEAN survivor seed (Wave-2)",
+    "derived": "2026-06-22, corrected VAL-select/OOS-report consolidation + 27-name breadth fix",
+    "selection": "best per mechanism by VAL net (leak-free); robust_frac>=0.6; n_names>=20 distinct u100 names",
+    "mechanisms": [
+      "trend",
+      "breakout",
+      "momentum",
+      "mean-reversion",
+      "volatility-sizing"
+    ],
+    "universe": "27 u100 names with 2020-DEV-window data (BTC ETH SOL XRP BNB DOGE ZEC TRX ADA LINK AVAX FET ENJ LTC DASH UNI BCH DOT HBAR ALGO JST CRV ETC XLM CHZ ATOM ZEN)",
+    "honest_verdict": "ALL 5 representatives are de-risked betas (OOS xBH < 1.0 = none beats long-only buy-hold net). Seed for combining, not standalone alpha.",
+    "note_mean_reversion": "primary STOCHRSI is the max-VAL pick but rf=0.681 (weakest) and OOS=8.6; RSI is the robustness-preferred alternate (rf=0.975, OOS=18.2, val=15.0)."
+  },
+  "survivor_seed": [
+    {
+      "indicator": "CKSP",
+      "family": "1-TREND",
+      "mechanism": "trend",
+      "best_tf": "1d",
+      "best_cfg": "CKSP(14,2.0)",
+      "val_net": 26.8,
+      "oos_net": 20.1,
+      "val_net_xbh": 0.768,
+      "oos_net_xbh": 0.576,
+      "maxdd": -10.2,
+      "sharpe": 2.39,
+      "robust_frac": 0.889,
+      "n_names": 27
+    },
+    {
+      "indicator": "KELTNER",
+      "family": "1-TREND",
+      "mechanism": "breakout",
+      "best_tf": "4h",
+      "best_cfg": "KELT(30,1.5)",
+      "val_net": 22.5,
+      "oos_net": 16.3,
+      "val_net_xbh": 0.634,
+      "oos_net_xbh": 0.459,
+      "maxdd": -8.0,
+      "sharpe": 1.85,
+      "robust_frac": 1.0,
+      "n_names": 27
+    },
+    {
+      "indicator": "AO",
+      "family": "2-MOMENTUM",
+      "mechanism": "momentum",
+      "best_tf": "4h",
+      "best_cfg": "AO(3,21)",
+      "val_net": 24.5,
+      "oos_net": 18.1,
+      "val_net_xbh": 0.69,
+      "oos_net_xbh": 0.51,
+      "maxdd": -8.4,
+      "sharpe": 1.93,
+      "robust_frac": 1.0,
+      "n_names": 27
+    },
+    {
+      "indicator": "STOCHRSI",
+      "family": "2-MOMENTUM",
+      "mechanism": "mean-reversion",
+      "best_tf": "2h",
+      "best_cfg": "STOCHRSI(14,lo25,hi80)",
+      "val_net": 16.7,
+      "oos_net": 8.6,
+      "val_net_xbh": 0.444,
+      "oos_net_xbh": 0.229,
+      "maxdd": -8.1,
+      "sharpe": 1.44,
+      "robust_frac": 0.681,
+      "n_names": 27
+    },
+    {
+      "indicator": "ULCER",
+      "family": "3-VOLATILITY",
+      "mechanism": "volatility-sizing",
+      "best_tf": "1d",
+      "best_cfg": "ULCER(14,q50)",
+      "val_net": 21.5,
+      "oos_net": 16.1,
+      "val_net_xbh": 0.616,
+      "oos_net_xbh": 0.461,
+      "maxdd": -9.8,
+      "sharpe": 2.21,
+      "robust_frac": 1.0,
+      "n_names": 27
+    }
+  ],
+  "alternates": {
+    "mean-reversion": {
+      "note": "primary rf<0.85; robustness-preferred alternate",
+      "alt": {
+        "indicator": "RSI",
+        "family": "2-MOMENTUM",
+        "mechanism": "mean-reversion",
+        "best_tf": "1h",
+        "best_cfg": "RSI(7,lo35,hi60)",
+        "val_net": 15.0,
+        "oos_net": 18.2,
+        "val_net_xbh": 0.384,
+        "oos_net_xbh": 0.465,
+        "maxdd": -5.6,
+        "sharpe": 3.24,
+        "robust_frac": 0.975,
+        "n_names": 27
+      }
+    }
+  }
+}
