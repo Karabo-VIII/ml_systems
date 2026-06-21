@@ -841,16 +841,23 @@ def _eval_subset(sub_idx, inputs, dev_assets, dev_vt, dev_pim, iron_assets, iron
     return rows
 
 
-def run_structured_campaign(use_alternates=True, n_boot=2000, beam_width=8):
+def run_structured_campaign(use_alternates=True, n_boot=2000, beam_width=8, combo_cad="1d",
+                            out_name="combinatrix_results.json", md_name="combinatrix_leaderboard.md"):
     """The mandated structured search: SINGLES -> PAIRS (all C(N,2) x ops, VAL-select per pair) -> BEAM TRIPLES
     -> a1a2 config-combos. VAL-select on 2020-VAL net / OOS-report on 2020-OOS / IRON-CONFIRM on 2021. Every
     reported combo carries: operator, inputs, val/oos/iron net (all xBH), maxdd, p05 (vs best-single AND vs BH),
-    PBO, deflated_net, n_names. Rank the leaderboard by deflated OOS+IRON net. Writes combinatrix_results.json
-    (all combos) + combinatrix_leaderboard.md. Reuses every primitive; 2022+ asserted never loaded."""
+    PBO, deflated_net, n_names. Rank the leaderboard by deflated OOS+IRON net. Writes `out_name` (all combos)
+    + `md_name`. Reuses every primitive; 2022+ asserted never loaded.
+
+    combo_cad: the cadence to evaluate combo wealth on {1d,4h,2h,1h,30m,15m}. Each input's native-TF held state
+    is as-of forward-filled onto the combo grid (strictly causal: native held known by its close, lag-1 in
+    _combo_book) -- this works whether the native TF is coarser (1d->4h ffill) or equal to the combo grid. The
+    charter requires ALL TFs; a finer combo grid churns more, so the prior expects the de-risked-beta null to hold
+    AT LEAST as hard (PBO high, 0 survivors). out_name/md_name let a caller write per-cadence artifacts
+    incrementally (combinatrix_alltf_<cad>.json) so a stall is salvageable."""
     inputs, alternates = load_inputs()
     if use_alternates:
         inputs = inputs + alternates
-    combo_cad = "1d"
     N = len(inputs)
     print("=" * 96)
     print("V1.2 COMBINATRIX -- STRUCTURED SEARCH (singles / pairs / beam-triples / a1a2) under the data-snoop trap")
@@ -1128,21 +1135,22 @@ def run_structured_campaign(use_alternates=True, n_boot=2000, beam_width=8):
         "frontier_dd_cut": [r["combo"] for r in frontier[:8]],
         "leaderboard": leaderboard,
     }
-    out = OUT_DIR / "combinatrix_results.json"
+    out = OUT_DIR / out_name
     json.dump(payload, open(out, "w"), indent=1, default=str)
     print(f"\n[json] {out}  ({len(leaderboard)} combos, n_names recorded on every row)")
 
-    # ---- combinatrix_leaderboard.md (top by deflated OOS+IRON net, with PBO) ----
-    _write_leaderboard_md(payload, bh_dev_m, bh_iron_m, frontier, survivors)
+    # ---- leaderboard md (top by deflated OOS+IRON net, with PBO) ----
+    _write_leaderboard_md(payload, bh_dev_m, bh_iron_m, frontier, survivors, md_name=md_name)
     print("=" * 96)
     return payload
 
 
-def _write_leaderboard_md(payload, bh_dev_m, bh_iron_m, frontier, survivors):
+def _write_leaderboard_md(payload, bh_dev_m, bh_iron_m, frontier, survivors, md_name="combinatrix_leaderboard.md"):
     lb = payload["leaderboard"]
     pbo = payload["pbo"]["pbo"]; rc = payload["whites_reality_check"]["rc_pvalue"]
     L = []
-    L.append("# V1.2 COMBINATRIX -- LEADERBOARD (structured search: singles / pairs / beam-triples / a1a2)\n")
+    L.append(f"# V1.2 COMBINATRIX -- LEADERBOARD (structured search: singles / pairs / beam-triples / a1a2)  "
+             f"[combo_cad={payload['combo_cad']}]\n")
     L.append("> Ranked by DEFLATED (OOS+IRON)/2 net wealth. Every combo gated: block-bootstrap p05 (vs best-single")
     L.append("> AND vs buy-hold), CSCV-PBO, White's Reality Check + deflated-Sharpe (n_trials = #combos tried).")
     L.append("> 2020 VAL = SELECT / 2020 OOS = REPORT / 2021 IRON = CONFIRM / 2022+ SEALED (asserted never loaded).\n")
@@ -1196,7 +1204,7 @@ def _write_leaderboard_md(payload, bh_dev_m, bh_iron_m, frontier, survivors):
         L.append(f"| `{r['combo']}` | {r['maxdd']} | {r['oos_net']} | "
                  f"{r['iron_net'] if r['iron_net'] is not None else 'NA'} | {r['robust']} |")
     L.append("")
-    out = OUT_DIR / "combinatrix_leaderboard.md"
+    out = OUT_DIR / md_name
     out.write_text("\n".join(L), encoding="utf-8")
     print(f"[md]   {out}")
 
@@ -1283,10 +1291,26 @@ if __name__ == "__main__":
         sys.exit(0 if r["summary"]["n_pass"] == 4 else 1)
     if "--structured" in sys.argv:
         use_alt = "--no-alternates" not in sys.argv
-        run_structured_campaign(use_alternates=use_alt)
+        # --combo-cad <cad> (default 1d). For a non-1d cadence, write per-cadence artifacts
+        # (combinatrix_alltf_<cad>.json + .md) so a stall is salvageable; 1d keeps the committed filenames.
+        cad = "1d"
+        if "--combo-cad" in sys.argv:
+            i = sys.argv.index("--combo-cad")
+            if i + 1 < len(sys.argv):
+                cad = sys.argv[i + 1]
+        valid = {"1d", "4h", "2h", "1h", "30m", "15m"}
+        if cad not in valid:
+            print(f"ERROR: --combo-cad {cad!r} not in {sorted(valid)}"); sys.exit(2)
+        if cad == "1d" and "--alltf-name" not in sys.argv:
+            run_structured_campaign(use_alternates=use_alt, combo_cad="1d")
+        else:
+            run_structured_campaign(use_alternates=use_alt, combo_cad=cad,
+                                    out_name=f"combinatrix_alltf_{cad}.json",
+                                    md_name=f"combinatrix_alltf_{cad}.md")
         sys.exit(0)
     if "--run" in sys.argv:
         use_alt = "--no-alternates" not in sys.argv
         run_campaign(use_alternates=use_alt)
         sys.exit(0)
-    print("use --selftest (self-tests) | --run (all-input campaign) | --structured (pairs/beam-triples/a1a2)")
+    print("use --selftest (self-tests) | --run (all-input campaign) | "
+          "--structured [--combo-cad 1d|4h|2h|1h|30m|15m] (pairs/beam-triples/a1a2)")

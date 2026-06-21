@@ -144,3 +144,19 @@
   regenerate results.json + leaderboard.md cleanly. Lesson: check the actual CLI entrypoint before re-running.
 - Wave-3 docs DONE: docs/engines/V1.2_combinatrix.md (full synthesis) + V1.2 row in ENGINE_BUILDS + dead-list D82
   (combinatrix = disciplined null). Commit pending the clean --structured artifacts.
+- 01:02 SAST — V1.2 COMMITTED e9005057 (combinatrix null + D82). CHARTER CHECK before stopping: the combinatrix ran
+  ONLY on combo_cad=1d -> it SILENTLY DEFAULTED a cadence (the charter forbids this, flagged 2x). A null is earned
+  only if the full surface incl. ALL TFs was attempted -> the 1d-only null is NOT yet fully earned. So NOT stopping;
+  the right (non-over-mining) continuation = confirm the null across combo-cadences. Dispatched all-TF worker
+  (a920d1e173c514b61): parametrize combo_cad + re-run the structured combinatrix at 4h/2h/1h (incremental) ->
+  per-cadence PBO/RC/#survivors. Expect the null holds AT LEAST as hard at finer grids (more churn). This EARNS the
+  all-TF null. After it lands: finalize V1.2 (all-TF) + memory shard + park the user-gated crypto-native frontier.
+- 01:19 SAST (date-start=1h35m) — ALL-TF combinatrix CONFIRMED. 0 survivors at EVERY combo-cadence {1d,4h,2h,1h}:
+  PBO 0.71/0.21/0.25/0.08; RC p 0.89/0.71/0.47/0.25; p05-vs-single negative; IRON never beats the bull. 1d re-run
+  reproduced the committed result bit-identical (RWYB). The all-TF-EARNED null. CADENCE ARTIFACT caught + red-teamed
+  (4th V1.2 defect): _combo_book lags at the COMBO cadence -> coarse signal on a fine grid reacts ~23h faster (hidden
+  latency re-clock + Jensen), inflating finer-grid gross. It biases TOWARD a survivor -> still 0, so the null is MORE
+  robust + the committed 1d (coarsest) is clean. Future fix: lag at native TF. Doc/memory/CURRENT updated.
+- V1.2 CAMPAIGN COMPLETE. Families 1-3 price-TI engines + combinatorics = EARNED NULL across u100 x all 6 TFs x
+  full discipline. Deployable answer stays V1 (1d/4h drawdown-insurance). PARKED (user-gated): the crypto-native
+  §7-8 (funding/OI/on-chain) frontier -- wake-condition = user's call. HONEST EARLY-STOP per IDLE-STOP: not over-mining.

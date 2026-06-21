@@ -1,0 +1,59 @@
+{
+ "campaign": "V1.2 combinatrix -- ALL combo-cadences (the all-TF-earned null)",
+ "provenance": {
+  "mandate": "/orc 2026-06-22: the structured combinatrix had silently defaulted ONE combo-cadence (1d). The charter requires ALL timeframes; a null is earned only if the full surface (incl. all TFs) was attempted. Confirm the disciplined null holds across the combo-cadences.",
+  "code": "src/strat/combinatrix.py run_structured_campaign (now parametrized: combo_cad + per-cadence out_name/md_name; CLI --combo-cad). 1d behavior identical (RWYB identity below).",
+  "run": "python -m strat.combinatrix --structured --combo-cad {1d|4h|2h|1h}; SEQUENTIAL, in-process, NO LLM fan-out.",
+  "split": "2020 VAL Jul-Sep SELECT / 2020 Oct-Dec OOS REPORT / 2021 IRON CONFIRM / 2022+ SEALED (asserted never loaded).",
+  "breadth": "27 point-in-time u100 names with 2020-DEV-window data (n_names recorded on every result row).",
+  "wall_clock_start_SAST": "2026-06-22 01:06:26",
+  "committed": false
+ },
+ "rwyb_identity_1d": {
+  "note": "Re-running --combo-cad 1d reproduced the committed combinatrix_results.json BIT-IDENTICAL (the JSON git-diff is empty; only the .md header gained a [combo_cad=1d] tag). Confirms the parametrization preserved 1d behavior exactly.",
+  "pbo": 0.7063,
+  "rc_pvalue": 0.893,
+  "n_combos": 275,
+  "n_survivors": 0
+ },
+ "per_cadence": [
+  {"combo_cad": "1d", "n_combos": 275, "n_names": 27, "pbo": 0.7063, "rc_pvalue": 0.893,
+   "n_survivors": 0, "bh_oos_net": 32.5, "bh_iron_net": 61.9,
+   "best_nonredundant_combo": "OR(KELTNER@4h+ULCER@1d+BBSQZ@1d)", "best_oos_xbh": 0.815, "best_iron_xbh": 0.746,
+   "best_p05_vs_bh_oos": -43.086, "verdict": "NULL"},
+  {"combo_cad": "4h", "n_combos": 269, "n_names": 27, "pbo": 0.2143, "rc_pvalue": 0.7045,
+   "n_survivors": 0, "bh_oos_net": 35.2, "bh_iron_net": 63.3,
+   "best_nonredundant_combo": "OR(CKSP@1d+BBSQZ@1d)", "best_oos_xbh": 1.202, "best_iron_xbh": 1.363,
+   "best_p05_vs_bh_oos": -34.731, "verdict": "NULL (xBH>1 is GRID-SCORING ARTIFACT, see below)"},
+  {"combo_cad": "2h", "n_combos": 285, "n_names": 27, "pbo": 0.25, "rc_pvalue": 0.468,
+   "n_survivors": 0, "bh_oos_net": 38.0, "bh_iron_net": 63.9,
+   "best_nonredundant_combo": "OR(KELTNER@4h+ADX@4h)", "best_oos_xbh": 1.589, "best_iron_xbh": 1.789,
+   "best_p05_vs_bh_oos": -5.345, "verdict": "NULL (xBH>1 is GRID-SCORING ARTIFACT)"},
+  {"combo_cad": "1h", "n_combos": 285, "n_names": 27, "pbo": 0.0754, "rc_pvalue": 0.245,
+   "n_survivors": 0, "bh_oos_net": 39.4, "bh_iron_net": 64.3,
+   "best_nonredundant_combo": "OR(KELTNER@4h+ADX@4h)", "best_oos_xbh": 2.051, "best_iron_xbh": 2.697,
+   "best_p05_vs_bh_oos": 13.024, "verdict": "NULL (xBH>1 AND p05_vs_bh_oos>0 are GRID-SCORING ARTIFACT; red-teamed below)"}
+ ],
+ "overall_verdict": {
+  "headline": "DISCIPLINED NULL holds across ALL combo-cadences {1d,4h,2h,1h}: 0 survivors at every cadence. The all-TF-earned null is CONFIRMED.",
+  "survivor_definition": "beats best constituent single AND buy-hold on OOS+IRON net AND block-bootstrap p05>0 (vs both) AND CSCV-PBO<0.5 AND White's Reality Check p<0.05.",
+  "why_null_holds": "White's Reality Check FAILS at every cadence (p=0.89/0.70/0.47/0.25, never <0.05 -> best combo does not survive the multiple-comparisons deflation, n_trials=#combos). p05 vs best-single is NEGATIVE at every cadence for every contender. IRON-2021 never beats the bull. The de-risked-beta wall holds under combination at ALL combo grids.",
+  "de_risked_beta": "Confirms TI_FAMILIES + dead-list D82 (combinatorial TI mining = disciplined null) across the full combo-cadence surface, not just 1d."
+ },
+ "cadence_anomaly_GRID_SCORING_ARTIFACT": {
+  "flag": "FLAGGED -- a real, important measurement finding (NOT a survivor).",
+  "observation": "As the combo grid fines (1d->4h->2h->1h), PBO DROPS (0.71->0.21->0.25->0.08) and raw xBH RISES (some combos exceed 1.0xBH; at 1h the best non-redundant combo shows oos_xbh=2.05, iron_xbh=2.70, and even a POSITIVE p05_vs_bh_oos=+13.0). This is the OPPOSITE of the prior expectation (finer = more churn = PBO stays HIGH).",
+  "root_cause": "GRID-SCORING ARTIFACT, not edge. _combo_book applies the lag-1 at the COMBO cadence (pos=held_lead[:-1], combinatrix.py:222), so a coarse-native signal (e.g. CKSP@1d) ffilled onto a fine combo grid silently reacts ~23h FASTER at every flip (a hidden change of execution latency), compounded by a within-day Jensen term on partial-exposure days. The strategy's TRIGGERS are identical across grids (same n_trades=4.7, same time_in~0.31) but its FILLS are re-clocked finer.",
+  "proof_1_same_strategy_inflates": "CKSP@1d single, IDENTICAL trades/exposure on every grid: OOS net 20.1(1d)/43.3(4h)/51.3(1h); Sharpe 2.39/4.11/4.62. GROSS (no vol-target, no cost): 24.2/52.2/59.9 -- so the inflation is NOT cost and NOT vol-target.",
+  "proof_2_falsifier_restores_invariance": "Re-score with the lag-1 applied at the NATIVE 1d cadence (ffill the ALREADY-lagged position) -> gross OOS is GRID-INVARIANT: 24.2/24.1/24.9/25.6 across 1d/4h/2h/1h (residual ~6% = benign within-day Jensen). This isolates the artifact to the combo-cadence lag exactly as predicted.",
+  "proof_3_anomaly_combo_is_artifact": "OR(KELTNER@4h+ADX@4h) (both 4h-native) scored across grids: oos_xbh 0.295(1d)/0.685(4h-its-native)/1.589(2h)/2.051(1h); p05_vs_bh_oos -63.1/-45.5/-5.3/+13.0. At its HONEST 4h native cadence it LOSES to BH by a mile (p05=-45.5); the +13 p05 at 1h is purely the finer-grid re-clock. p05 vs best-single stays NEGATIVE (-7.7) even at 1h, and robust=False at 1h.",
+  "differential_favoring": "The artifact flatters IN/OUT strategies (flips + partial exposure) and is ZERO for always-in buy-hold (pos==1 -> daily compounding is grid-invariant). So xBH is NOT apples-to-apples across cadences: BH inflates only +21% (32.5->39.4, pure Jensen) while the trend single inflates +155% (20.1->51.3). The xBH crossover above 1.0 is a metric artifact, not a real beat.",
+  "implications": [
+   "The finer-cadence xBH numbers MUST carry a heavy caveat -- do NOT report 'combo beats BH at 1h' as real edge.",
+   "PBO=0.08 at 1h is CONTAMINATED (the grid-stable artifact dilutes the IS->OOS rank-instability PBO measures); do NOT cite it as robustness.",
+   "The 0-survivor verdict is UNAFFECTED and HONEST: White's RC (built on the same grid, deflated by M) + the negative p05-vs-single + IRON-confirm catch the artifact at every cadence. The gate worked two-sided.",
+   "For honest cross-cadence comparison of a coarse-native input, the lag must be applied at the NATIVE TF BEFORE ffill, not at the combo cadence after (combinatrix.py:222). This is the one code note worth a future fix; it does not change THIS null."
+  ],
+  "red_team_status": "Red-teamed (expert-quant + 3 direct falsifier probes). The 1h positive-p05 combo is a confirmed artifact, NOT a survivor. No genuine edge surfaced at any cadence."
+ }
+}

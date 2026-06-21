@@ -8,8 +8,10 @@ Engine library: 30 engines, one per families-1/2/3 indicator (deep2020_ti_pipeli
 n_names recorded) — ALL DE-RISKED BETA, best 0.77x BH VAL / 0.58-0.67x OOS; none beats buy-hold on net.
 Combinatrix: 275 combos (75 pairs + 192 beam-triples + 8 a1a2) over the clean 5-mechanism seed
 (CKSP/KELTNER/AO/RSI/ULCER), with VAL-select/OOS-report/2021-IRON-confirm + block-bootstrap p05 + CSCV-PBO +
-deflated-Sharpe + White's Reality Check. VERDICT: **0 survivors** — PBO=0.71 (overfit), RC p=0.89; no combo beats
-buy-hold or even the best single OOS+IRON after deflation. The de-risked-beta WALL HOLDS under combination. Only
+deflated-Sharpe + White's Reality Check, at EVERY combo-cadence {1d,4h,2h,1h} (all-TF-earned). VERDICT: **0 survivors
+at every cadence** — PBO 0.71@1d, RC p>=0.25 everywhere; no combo beats buy-hold or even the best single OOS+IRON
+after deflation. (A cross-cadence lag-at-combo-grid artifact inflates finer-grid gross but BIASES TOWARD a survivor +
+still finds 0 -> the gates are two-sided sound; noted future fix = lag at native TF.) The de-risked-beta WALL HOLDS. Only
 conditioning/regime-gating survives = drawdown-insurance (cuts maxDD ~85-95% WITHOUT net = V1 efb23a4b). Apparatus
 KEPT: `src/strat/combinatrix.py` (CSCV/PBO/deflated-Sharpe/RC, reusable). 3 defects caught en route (VAL-select leak,
 deflation units bug, + an OVERSEER breadth FABRICATION rebutting the gate — owned + fixed). Doc:
