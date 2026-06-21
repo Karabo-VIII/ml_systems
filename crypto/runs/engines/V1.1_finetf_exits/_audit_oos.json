@@ -1,0 +1,361 @@
+{
+ "audit": "RED-TEAM adversarial audit of the V1.1 fine-TF exit + htf_entry_gate OOS claim",
+ "date": "2026-06-21",
+ "auditor": "expert-auditor (RED team)",
+ "claim_under_test": "Fine TFs 2h/1h/30m/15m FIXED by exit-harness + htf_entry_gate; 2020 DEV all cells slice7d>=0.5; frozen OOS 2021 ALL 16 HOLD (slice7d 0.60-0.98) each beating band_off.",
+ "overall_verdict": "NO-GO as a fine-TF wealth-edge claim; GO-WITH-CAVEATS only as drawdown-insurance",
+ "headline_finding": "The htf_entry_gate -- the universal lever in 16/16 winners -- has a MATERIAL LOOK-AHEAD. The coarser-TF band-on is aligned by the coarser bar WINDOW-START label, but that bar does not CLOSE until ~1 coarser period later. A fine bar inside the coarser window is gated by information knowable only at the coarser bar close (~coarse/fine - 1 fine bars ahead). W.shift(1) removes only ONE fine bar of this multi-bar leak. Strict-lagging the coarse band-on by one full coarse bar COLLAPSES the result: HMA|1h +879%->+109%, TEMA|30m +2641%->+88%. De-leaked, the engine 7d-slice profit-rate is BELOW dumb always-long in 4/5 cells and its net is a fraction of always-long in every cell. Only maxDD survives (eng -17..-24% vs always-long -67..-70%) = the SAME drawdown-insurance V1 already proved, NOT new fine-TF alpha.",
+ "vectors": {
+  "1_HTF_alignment_leak": {
+   "verdict": "FAIL -- material look-ahead",
+   "timestamp_semantics": "chimera bar timestamp = jittered CLOSE time; _load_asset floors it DOWN to _FREQ -> a WINDOW-START label. Verified BTCUSDT 2021: 4h raw_close 15:58:21 -> floored 12:00 (delta 3.97h).",
+   "align_htf_on_mechanism": "searchsorted(ht,bt,'right')-1 picks the coarser bar whose START-label <= base-t. For a 1h base bar at 12:00 this is the 4h bar labeled 12:00 (window [12:00,16:00)) which closes ~16:00 -> 1h bars at 12:00..15:00 read a future 4h state.",
+   "strict_lag_collapse": [
+    {
+     "cell": "HMA|1h",
+     "variant": "current",
+     "slice7d": 0.8679,
+     "net_pct": 878.58,
+     "maxdd_pct": -7.7
+    },
+    {
+     "cell": "HMA|1h",
+     "variant": "strict_lag",
+     "slice7d": 0.5094,
+     "net_pct": 109.16,
+     "maxdd_pct": -16.8
+    },
+    {
+     "cell": "TEMA|30m",
+     "variant": "current",
+     "slice7d": 0.9623,
+     "net_pct": 2640.76,
+     "maxdd_pct": -8.3
+    },
+    {
+     "cell": "TEMA|30m",
+     "variant": "strict_lag",
+     "slice7d": 0.566,
+     "net_pct": 88.41,
+     "maxdd_pct": -18.0
+    },
+    {
+     "cell": "EMA|2h",
+     "variant": "current",
+     "slice7d": 0.6226,
+     "net_pct": 285.81,
+     "maxdd_pct": -14.6
+    },
+    {
+     "cell": "EMA|2h",
+     "variant": "strict_lag",
+     "slice7d": 0.566,
+     "net_pct": 223.36,
+     "maxdd_pct": -16.1
+    }
+   ]
+  },
+  "2_2022_seal": {
+   "verdict": "PASS",
+   "all_cells_sealed": true,
+   "per_cell": [
+    {
+     "cell": "HMA|1h",
+     "panel_min": "2021-01-01 00:00:00",
+     "panel_max": "2021-12-31 23:00:00",
+     "max_lt_2022": true,
+     "min_ge_2021": true
+    },
+    {
+     "cell": "TEMA|30m",
+     "panel_min": "2021-01-01 00:00:00",
+     "panel_max": "2021-12-31 23:30:00",
+     "max_lt_2022": true,
+     "min_ge_2021": true
+    },
+    {
+     "cell": "EMA|2h",
+     "panel_min": "2021-01-01 00:00:00",
+     "panel_max": "2021-12-31 22:00:00",
+     "max_lt_2022": true,
+     "min_ge_2021": true
+    },
+    {
+     "cell": "KAMA|15m",
+     "panel_min": "2021-01-01 00:00:00",
+     "panel_max": "2021-12-31 23:45:00",
+     "max_lt_2022": true,
+     "min_ge_2021": true
+    }
+   ],
+   "note": "in-code asserts cp.index.max()<eval_end and >=eval_start; wall clamped <=DEV_END. All 4 probed cells panel 2021-01-01..2021-12-31 only; 2022+ never loaded."
+  },
+  "3_lag1_causality": {
+   "verdict": "PASS mechanically (with caveat)",
+   "compound_path": "_compound lags W 1 bar (W.shift(1)); MtM reconciles rel_err<1e-3.",
+   "standalone_probe_caveat": "my lag0 emulation was prod-invariant (no power); see authoritative test.",
+   "authoritative_power_test": "V1 doc Axis 2: lag-0 EXPLODES compound on this SAME run_wealth (DEMA lag0 +2.6M% vs lag1 +4581%). The HTF leak (vector 1) is a SEPARATE causality defect the 1-bar lag does NOT fix.",
+   "reported": {
+    "vector": "3_lag1_causality",
+    "cell": "TEMA|30m",
+    "lag1_compound_pct": 2640.76,
+    "lag0_emulated_compound_pct": 2640.76,
+    "lag0_inflates": false,
+    "matches_reported": true,
+    "mtm_reconciled": true,
+    "note": "lag0 emulation shifts the net stream back 1 bar; a true lag-0 peek is not a clean shift but this is a directional power check -- run_wealth shifts W by 1 bar (W.shift(1)) which is lag-1."
+   }
+  },
+  "4_bull_year_artifact": {
+   "verdict": "FAIL -- bar too low, baseline wrong",
+   "always_long_2021_slice7d": "0.62 (net +784..+866%): a DUMB always-long book already clears >=0.50.",
+   "per_cell": [
+    {
+     "cell": "HMA|1h",
+     "winner": "profit_giveback_t10z50__htf_entry_gate",
+     "engine_slice7d": 0.8679,
+     "engine_net_pct": 878.58,
+     "engine_maxdd_pct": -7.7,
+     "band_off_slice7d": 0.6038,
+     "band_off_net_pct": 132.71,
+     "always_long_slice7d": 0.6226,
+     "always_long_net_pct": 865.95,
+     "always_long_maxdd_pct": -66.8,
+     "lift_vs_bandoff_pp": 26.41,
+     "lift_vs_alwayslong_pp": 24.53
+    },
+    {
+     "cell": "TEMA|30m",
+     "winner": "profit_giveback_t10z50__htf_entry_gate",
+     "engine_slice7d": 0.9623,
+     "engine_net_pct": 2640.76,
+     "engine_maxdd_pct": -8.3,
+     "band_off_slice7d": 0.6604,
+     "band_off_net_pct": 185.52,
+     "always_long_slice7d": 0.6226,
+     "always_long_net_pct": 783.85,
+     "always_long_maxdd_pct": -66.9,
+     "lift_vs_bandoff_pp": 30.19,
+     "lift_vs_alwayslong_pp": 33.97
+    },
+    {
+     "cell": "EMA|2h",
+     "winner": "time_stop_7d__htf_entry_gate",
+     "engine_slice7d": 0.6226,
+     "engine_net_pct": 285.81,
+     "engine_maxdd_pct": -14.6,
+     "band_off_slice7d": 0.5849,
+     "band_off_net_pct": 410.6,
+     "always_long_slice7d": 0.6226,
+     "always_long_net_pct": 815.16,
+     "always_long_maxdd_pct": -66.9,
+     "lift_vs_bandoff_pp": 3.77,
+     "lift_vs_alwayslong_pp": 0.0
+    }
+   ],
+   "key": "EMA|2h engine slice7d 0.6226 == always-long 0.6226 (lift 0.0pp) AND lower net (+286% vs +815%). HOLDS_OOS>=0.5 is a LOW bar; the honest metric is LIFT over always-long, which after de-leak is NEGATIVE in 4/5 cells."
+  },
+  "5_fine_vs_coarse_value": {
+   "verdict": "FAIL after de-leak -- REDUNDANT at best",
+   "leaked_view": [
+    {
+     "fine_cell": "HMA|1h+htf",
+     "coarse_cell": "HMA|4h band_off",
+     "winner": "profit_giveback_t10z50__htf_entry_gate",
+     "fine_slice7d": 0.8679,
+     "coarse_slice7d": 0.5849,
+     "fine_net_pct": 878.58,
+     "coarse_net_pct": 215.51,
+     "fine_maxdd_pct": -7.7,
+     "coarse_maxdd_pct": -30.6,
+     "fine_beats_coarse_slice7d": true,
+     "fine_beats_coarse_net": true
+    },
+    {
+     "fine_cell": "TEMA|30m+htf",
+     "coarse_cell": "TEMA|2h band_off",
+     "winner": "profit_giveback_t10z50__htf_entry_gate",
+     "fine_slice7d": 0.9623,
+     "coarse_slice7d": 0.6038,
+     "fine_net_pct": 2640.76,
+     "coarse_net_pct": 156.65,
+     "fine_maxdd_pct": -8.3,
+     "coarse_maxdd_pct": -25.6,
+     "fine_beats_coarse_slice7d": true,
+     "fine_beats_coarse_net": true
+    },
+    {
+     "fine_cell": "EMA|2h+htf",
+     "coarse_cell": "EMA|1d band_off",
+     "winner": "time_stop_7d__htf_entry_gate",
+     "fine_slice7d": 0.6226,
+     "coarse_slice7d": 0.6038,
+     "fine_net_pct": 285.81,
+     "coarse_net_pct": 744.92,
+     "fine_maxdd_pct": -14.6,
+     "coarse_maxdd_pct": -31.8,
+     "fine_beats_coarse_slice7d": true,
+     "fine_beats_coarse_net": false
+    }
+   ],
+   "note": "htf_entry_gate by construction DEFERS the fine entry to the coarse band, so the fine TF only re-expresses the coarse engine decisions. De-leaked the fine net collapses BELOW the coarse engine (HMA|1h +116% vs HMA|4h band_off +216%; TEMA|30m +88% vs TEMA|2h +157%). The fine TF adds no value over the coarse engine; it rebuilt a leaky, noisier version of it."
+  },
+  "6_participation": {
+   "verdict": "PASS",
+   "per_cell": [
+    {
+     "cell": "HMA|1h",
+     "winner": "profit_giveback_t10z50__htf_entry_gate",
+     "avg_gross_exposure": 0.194,
+     "deployed_bar_fraction": 0.8602,
+     "n_slices_deployed": 53,
+     "n_slices": 53
+    },
+    {
+     "cell": "TEMA|30m",
+     "winner": "profit_giveback_t10z50__htf_entry_gate",
+     "avg_gross_exposure": 0.227,
+     "deployed_bar_fraction": 0.8712,
+     "n_slices_deployed": 53,
+     "n_slices": 53
+    },
+    {
+     "cell": "EMA|2h",
+     "winner": "time_stop_7d__htf_entry_gate",
+     "avg_gross_exposure": 0.307,
+     "deployed_bar_fraction": 0.8526,
+     "n_slices_deployed": 50,
+     "n_slices": 53
+    }
+   ],
+   "note": "avg_gross 0.19-0.31, deployed-bar fraction 0.85-0.87, 50-53/53 slices deployed, tpw 0.5-5.5. The engine genuinely trades; NOT a degenerate sit-in-cash fix."
+  },
+  "7_universal_vs_tuned": {
+   "verdict": "PASS -- prefer the universal rule (but it inherits the leak)",
+   "per_cell": [
+    {
+     "cell": "HMA|1h",
+     "tuned_winner": "profit_giveback_t10z50__htf_entry_gate",
+     "universal_rule": "band_off__htf_entry_gate",
+     "universal_slice7d": 0.8679,
+     "tuned_slice7d": 0.8679,
+     "universal_net_pct": 924.71,
+     "tuned_net_pct": 878.58,
+     "universal_maxdd_pct": -7.8,
+     "tuned_maxdd_pct": -7.7,
+     "universal_holds_oos": true,
+     "tuning_gain_slice7d_pp": 0.0
+    },
+    {
+     "cell": "TEMA|30m",
+     "tuned_winner": "profit_giveback_t10z50__htf_entry_gate",
+     "universal_rule": "band_off__htf_entry_gate",
+     "universal_slice7d": 0.9434,
+     "tuned_slice7d": 0.9623,
+     "universal_net_pct": 3129.23,
+     "tuned_net_pct": 2640.76,
+     "universal_maxdd_pct": -9.5,
+     "tuned_maxdd_pct": -8.3,
+     "universal_holds_oos": true,
+     "tuning_gain_slice7d_pp": 1.89
+    },
+    {
+     "cell": "EMA|2h",
+     "tuned_winner": "time_stop_7d__htf_entry_gate",
+     "universal_rule": "band_off__htf_entry_gate",
+     "universal_slice7d": 0.6226,
+     "tuned_slice7d": 0.6226,
+     "universal_net_pct": 511.45,
+     "tuned_net_pct": 285.81,
+     "universal_maxdd_pct": -15.7,
+     "tuned_maxdd_pct": -14.6,
+     "universal_holds_oos": true,
+     "tuning_gain_slice7d_pp": 0.0
+    },
+    {
+     "cell": "KAMA|1h",
+     "tuned_winner": "band_off__htf_entry_gate",
+     "universal_rule": "band_off__htf_entry_gate",
+     "universal_slice7d": 0.6226,
+     "tuned_slice7d": 0.6226,
+     "universal_net_pct": 377.28,
+     "tuned_net_pct": 377.28,
+     "universal_maxdd_pct": -17.9,
+     "tuned_maxdd_pct": -17.9,
+     "universal_holds_oos": true,
+     "tuning_gain_slice7d_pp": 0.0
+    }
+   ],
+   "note": "single universal combo band_off+htf_entry_gate matches or BEATS the per-cell tuned winners in 4/4 (tuning gain ~0pp, universal net usually higher). The per-cell exit tuning is overfit noise; the entire effect is the htf gate. Simplifies the claim, does not rescue it."
+  }
+ },
+ "honest_strict_lag_summary": {
+  "description": "Universal band_off+htf_entry_gate with the coarse band-on STRICT-LAGGED 1 full coarse bar (conservative de-leak) vs dumb always-long, 5 cells, 2021 OOS.",
+  "rows": [
+   {
+    "cell": "HMA|1h",
+    "universal_strictlag_slice7d": 0.5283,
+    "universal_strictlag_net_pct": 115.99,
+    "universal_strictlag_maxdd_pct": -18.0,
+    "alwayslong_slice7d": 0.6226,
+    "alwayslong_net_pct": 865.95,
+    "alwayslong_maxdd_pct": -66.8,
+    "lift_vs_alwayslong_pp": -9.43,
+    "holds_oos_strict": true
+   },
+   {
+    "cell": "TEMA|30m",
+    "universal_strictlag_slice7d": 0.5849,
+    "universal_strictlag_net_pct": 109.99,
+    "universal_strictlag_maxdd_pct": -20.7,
+    "alwayslong_slice7d": 0.6226,
+    "alwayslong_net_pct": 783.85,
+    "alwayslong_maxdd_pct": -66.9,
+    "lift_vs_alwayslong_pp": -3.77,
+    "holds_oos_strict": true
+   },
+   {
+    "cell": "EMA|2h",
+    "universal_strictlag_slice7d": 0.5472,
+    "universal_strictlag_net_pct": 389.41,
+    "universal_strictlag_maxdd_pct": -17.4,
+    "alwayslong_slice7d": 0.6226,
+    "alwayslong_net_pct": 815.16,
+    "alwayslong_maxdd_pct": -66.9,
+    "lift_vs_alwayslong_pp": -7.54,
+    "holds_oos_strict": true
+   },
+   {
+    "cell": "TEMA|15m",
+    "universal_strictlag_slice7d": 0.6038,
+    "universal_strictlag_net_pct": 55.66,
+    "universal_strictlag_maxdd_pct": -24.2,
+    "alwayslong_slice7d": 0.5849,
+    "alwayslong_net_pct": 396.22,
+    "alwayslong_maxdd_pct": -70.1,
+    "lift_vs_alwayslong_pp": 1.89,
+    "holds_oos_strict": true
+   },
+   {
+    "cell": "HMA|30m",
+    "universal_strictlag_slice7d": 0.5472,
+    "universal_strictlag_net_pct": 75.07,
+    "universal_strictlag_maxdd_pct": -24.0,
+    "alwayslong_slice7d": 0.6226,
+    "alwayslong_net_pct": 783.85,
+    "alwayslong_maxdd_pct": -66.9,
+    "lift_vs_alwayslong_pp": -7.54,
+    "holds_oos_strict": true
+   }
+  ],
+  "takeaway": "De-leaked the engine clears >=0.50 (a 2021-bull coin-flip clears it) but slice7d is BELOW always-long in 4/5 and net is a fraction of always-long in 5/5. The surviving real property is maxDD halving (eng -17..-24% vs always-long -67..-70%)."
+ },
+ "what_v11_actually_is": "V1.1 is NOT a fine-TF wealth edge. Stripped of (a) the HTF look-ahead and (b) the bull-flattered absolute >=0.50 bar, the fine-TF engine is the SAME drawdown-insurance property as V1 (coarse 1d/4h) expressed at finer cadence: it halves max-drawdown vs an always-long book by sitting in cash, giving up most of the bull compound. The htf_entry_gate just defers to a slower trend filter (what V1 coarse band already did), and the apparent fine-TF fix was largely the gate peeking at the not-yet-closed coarser bar. The per-cell exit tuning is overfit noise. Capital-preservation, not money-making; not a reason to deploy below 4h.",
+ "single_most_important_caveat_to_ship": "LOOK-AHEAD in the htf gate: align_htf_on uses the coarser bar WINDOW-START label, so a fine bar inside the window is gated by the coarser bar eventual CLOSE (~coarse/fine-1 fine bars ahead). FIX: shift the coarse band-on forward by one full coarse bar (or align on coarse CLOSE-times, not floored start-labels) and RE-RUN the full 2020 sweep + 2021 iron before any HOLDS_OOS claim is believed. Headline net% (878/2641/5414%) are leak-inflated AND a 2021-bull ride -- never a headline.",
+ "artifacts": {
+  "main_7vector": "runs/engines/V1.1_finetf_exits/_audit_oos.json",
+  "htf_leak_quantification": "runs/engines/V1.1_finetf_exits/_audit_htf_leak.json",
+  "honest_strictlag_vs_alwayslong": "runs/engines/V1.1_finetf_exits/_audit_honest_strictlag.json",
+  "harness": "scripts/_audit_v11_oos.py"
+ }
+}

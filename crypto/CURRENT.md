@@ -38,11 +38,16 @@ OPEN (un-verified, artifacts on disk — verify before use):
 **V1 DOCUMENTED + REORGANIZED — committed dd1c7b8f (2026-06-21).** Out-of-fit (2021→2024-05, 2020 excluded):
 maxDD-halving HOLDS in all 6/6 cells (39-55pp cut); HMA|4h compound flips below HODL → compound is NEVER the headline.
 
-**V1.1 FINE-TF CAMPAIGN — LIVE (4h autonomous run, VERIFIED start 2026-06-21 02:27 SAST).** Goal: make 2h/1h/30m
-(salvage 15m) PROFITABLE in 7d slices via an EXIT HARNESS + mechanical interventions (entry de-bounce, HTF-confirm).
-Wave 1 running (workflow `wf_e5401786-223`): diagnose fine-TF loss → build `src/strat/exit_harness.py` → sweep on
-2020 DEV → adversarial verify. Wave 2 = iron winners on **2021 (OOS; 2022+ SEALED)** + retrofit exits onto 1d/4h +
-all 8 engines. Live ledger: `runs/engines/V1.1_finetf_exits/CAMPAIGN_LEDGER.md`.
+**V1.1 FINE-TF CAMPAIGN — HONEST NULL + a real leak FIX (2026-06-21).** Goal was: make 2h/1h/30m (salvage 15m)
+profitable in 7d slices via an exit harness + mechanical interventions. Built `src/strat/exit_harness.py` (8 exits +
+entry de-bounce + HTF-confirm) + a two-sided eval window on `run_wealth` (2022+ loader-sealed). 2020 sweep + 2021
+iron looked like ALL 16 fine-TF cells FIXED/HOLD — **but the red-team caught a LOOK-AHEAD LEAK**: `htf_entry_gate`'s
+`align_htf_on` aligned on coarser START-labels → read the not-yet-closed coarse bar (HMA|1h +879%→+109% de-leaked).
+**FIXED** (close-time alignment; selftest causal; verified vs auditor). HONEST de-leaked verdict: fine-TF exit-harness
+is **DOMINATED by the coarse engine on net 0/16**, loses to always-long slice7d 15/16; only drawdown-insurance
+survives (redundant with V1). **EARNED NULL = D81; deployable scope STAYS 1d/4h (V1, unaffected).** 3rd fabrication
+caught by the operating model. Doc: `docs/engines/V1.1_finetf_exits.md`; artifacts `runs/engines/V1.1_finetf_exits/`
+(deleaked_2021/ = honest; sweep_2020/sweep_2021/ = leak-inflated, caveat attached). Ledger: CAMPAIGN_LEDGER.md.
 
 ## DO NOT
 Collapse to one asset. Default a single TF. Propose the short side. Stop at a "de-risked beta, done" verdict without a

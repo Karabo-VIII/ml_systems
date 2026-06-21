@@ -97,9 +97,15 @@ def _u100_symbols() -> list[str]:
     return [s for s in dict.fromkeys(syms) if s not in excl]
 
 
-def _load_asset(sym: str, tf: str, wall_ms: int):
+def _load_asset(sym: str, tf: str, wall_ms: int, floor_ms: int | None = None):
     """Load one asset's DEV-walled OHLC at `tf` (2h synthesized from native 1h, causal). Returns
-    (dates, o, h, l, c) or None. Mirrors portfolio_replay / fleet_lab exactly so the panel matches."""
+    (dates, o, h, l, c) or None. Mirrors portfolio_replay / fleet_lab exactly so the panel matches.
+
+    EVAL WINDOW (V1.1, surgical): `wall_ms` is the UPPER wall (bars with ts < wall_ms are kept -- defaults to
+    DEV_END so 2022+ etc. is capped). `floor_ms` (optional) is the LOWER floor (bars with ts >= floor_ms are
+    kept). floor_ms=None => no lower floor (== exact prior behavior). With floor_ms=2020-01-01 ms and
+    wall_ms=2021-01-01 ms, ONLY 2020 bars load -> 2021+ (incl. all of 2022+) is NEVER touched. The window only
+    RESTRICTS the panel; it changes NO accounting."""
     load_cad = "1h" if tf == "2h" else tf
     try:
         df = ChimeraLoader().load(_norm_sym(sym), cadence=load_cad, features=["open", "high", "low", "close"])
@@ -120,7 +126,9 @@ def _load_asset(sym: str, tf: str, wall_ms: int):
         ts = df["timestamp"].to_numpy()
         o = df["open"].to_numpy().astype(float); h = df["high"].to_numpy().astype(float)
         l = df["low"].to_numpy().astype(float); c = df["close"].to_numpy().astype(float)
-    keep = ts < wall_ms                                         # DEV WALL: cap bars < DEV_END before any compute
+    keep = ts < wall_ms                                         # DEV WALL (upper): cap bars < DEV_END/eval_end
+    if floor_ms is not None:                                    # EVAL FLOOR (lower): drop bars before eval_start
+        keep = keep & (ts >= floor_ms)
     if keep.sum() < 31:
         return None
     dates = pd.to_datetime(ts[keep], unit="ms").floor(_FREQ.get(tf, "D"))
@@ -210,6 +218,7 @@ def _window_compound(W: pd.DataFrame, R: pd.DataFrame, cost_rt: float, mask: np.
 
 
 def run_wealth(ma_type: str, tf: str, window: str, *, cost_rt: float = MAKER_RT,
+               exit_fn=None, eval_start: str | None = None, eval_end: str | None = None,
                verbose: bool = False) -> dict:
     """THE ONE wealth cell. (ma_type, tf, window e.g. '7d') -> dict, RANKABLE for the 8-engine leaderboard:
         engine_compound_pct                  (PRIMARY engine net -- verified MtM, unchanged)
@@ -230,10 +239,32 @@ def run_wealth(ma_type: str, tf: str, window: str, *, cost_rt: float = MAKER_RT,
       ALWAYS-LONG = the EXISTING `listed/n_listed` book REBALANCED every bar = a DAILY-REBALANCED EW index
                     (harvests a rebalance/vol premium). It is NOT a buy-hold. Kept ONLY as the timing-skill
                     control: engine-vs-always-long isolates the in/out decisions from the rebalance premium.
+
+    exit_fn (V1.1 EXIT-HARNESS HOOK, optional): a causal POST-PROCESSOR on the engine hold-mask with signature
+      exit_fn(sym, o, h, l, c, base_mask) -> int8 mask. When given, the band ensemble's per-asset hold-mask is
+      replaced by exit_fn's output BEFORE any sizing/MtM. exit_fn MUST be a pure boolean-mask transform (e.g.
+      strat.exit_harness.build_exit_fn(...)) -- it NEVER touches wealth; ALL the MtM-no-double-count / lag-1 /
+      maker-RT / TRUE-HODL / DEV-wall accounting below is reused UNTOUCHED. exit_fn=None reproduces the committed
+      engine exactly (band_off exit). This keeps run_wealth the single authoritative wealth path (the charter's
+      hard rule -- 2 fabrications were caught because workers hand-rolled MtM; the harness must not).
+
+    eval_start / eval_end (V1.1 TWO-SIDED EVAL WINDOW, optional date strings): RESTRICT the loaded panel to bars in
+      [eval_start, eval_end). eval_start=None => no lower floor; eval_end=None => the DEV_END wall (== EXACT prior
+      behavior). For the 2020 sweep pass eval_start="2020-01-01", eval_end="2021-01-01" so 2021+ (incl. all of
+      2022+) is NEVER loaded. The eval_end wall is ALWAYS clamped to <= DEV_END (cannot reach OOS/UNSEEN). The
+      window only RESTRICTS the panel -- it changes NO accounting (MtM / lag-1 / maker-RT / TRUE-HODL all intact).
     """
     window_days = int(str(window).rstrip("d"))
     bpd = fl.BARS_PER_DAY[tf]
-    wall_ms = int(pd.Timestamp(fl.DEV_END).value // 10 ** 6)
+    # UPPER WALL: eval_end if given else DEV_END; ALWAYS clamped to <= DEV_END (OOS/UNSEEN can never load).
+    dev_wall_ms = int(pd.Timestamp(fl.DEV_END).value // 10 ** 6)
+    if eval_end is not None:
+        req_wall_ms = int(pd.Timestamp(eval_end).value // 10 ** 6)
+        wall_ms = min(req_wall_ms, dev_wall_ms)                 # never above the DEV wall
+    else:
+        wall_ms = dev_wall_ms
+    # LOWER FLOOR: eval_start if given else none (no floor == exact prior behavior).
+    floor_ms = int(pd.Timestamp(eval_start).value // 10 ** 6) if eval_start is not None else None
 
     # selection + ensemble hold provider = the COMMITTED capture infra (TRAIN+VAL sub-band, OOS never read).
     sub_band, sel_meta = select_band_trainval(ma_type, tf)
@@ -243,11 +274,14 @@ def run_wealth(ma_type: str, tf: str, window: str, *, cost_rt: float = MAKER_RT,
 
     closes, holds = {}, {}
     for sym in _u100_symbols():
-        rec = _load_asset(sym, tf, wall_ms)
+        rec = _load_asset(sym, tf, wall_ms, floor_ms=floor_ms)
         if rec is None:
             continue
         dates, o, h, l, c = rec
-        hh = provider(sym, o, h, l, c).astype(float)
+        base_mask = provider(sym, o, h, l, c)
+        # V1.1 EXIT-HARNESS SEAM: post-process the band hold-mask with a causal exit/entry transform if supplied.
+        # exit_fn is a pure boolean-mask transform (no wealth); None == the committed band_off engine (identity).
+        hh = (exit_fn(sym, o, h, l, c, base_mask) if exit_fn is not None else base_mask).astype(float)
         s = pd.DataFrame({"c": c, "h": hh}, index=dates)
         s = s[~s.index.duplicated(keep="last")].sort_index()
         closes[sym] = s["c"]; holds[sym] = s["h"]
@@ -263,6 +297,14 @@ def run_wealth(ma_type: str, tf: str, window: str, *, cost_rt: float = MAKER_RT,
 
     # NO LOOK-AHEAD: returns are pct_change of close (causal); the DEV wall already removed all >= DEV_END bars.
     assert cp.index.max() < pd.Timestamp(fl.DEV_END), "WALL VIOLATION (panel index >= DEV_END)"
+    # EVAL-WINDOW WALL (V1.1): when an upper eval_end is set, PROVE the panel never reached it (e.g. 2022+ sealed).
+    if eval_end is not None:
+        _eval_end_ts = pd.Timestamp(eval_end)
+        assert cp.index.max() < _eval_end_ts, (
+            f"EVAL-WINDOW VIOLATION: panel max {cp.index.max()} >= eval_end {_eval_end_ts} (window not sealed)")
+    if eval_start is not None:
+        assert cp.index.min() >= pd.Timestamp(eval_start), (
+            f"EVAL-WINDOW VIOLATION: panel min {cp.index.min()} < eval_start {eval_start}")
     R = cp.pct_change(fill_method=None).fillna(0.0)
     listed = cp.notna().astype(float)                          # 1 while the asset is listed (has a close)
     held = hp * listed                                         # long-while-held AND listed
@@ -326,6 +368,9 @@ def run_wealth(ma_type: str, tf: str, window: str, *, cost_rt: float = MAKER_RT,
     out = {
         "cell": f"{ma_type}|{tf}|{window}",
         "ma_type": ma_type, "tf": tf, "window": window, "window_days": window_days, "hold_bars": window_days * bpd,
+        # --- V1.1 exit-harness provenance (band_off baseline when exit_fn is None) ---
+        "exit_harness": (getattr(exit_fn, "__exit_meta__", {"exit_type": "custom_exit_fn"})
+                         if exit_fn is not None else {"exit_type": "band_off", "entry_type": "entry_none"}),
         # --- the leaderboard reads (rankable) ---
         "engine_compound_pct": round(eng_pct, 2),                      # PRIMARY engine net (unchanged, verified MtM)
         "hodl_compound_pct": round(hodl_pct, 2),                       # PRIMARY baseline: TRUE buy-and-hold
@@ -368,6 +413,13 @@ def run_wealth(ma_type: str, tf: str, window: str, *, cost_rt: float = MAKER_RT,
         "n_sub_band": len(sub_band),
         "split": f"DEV (TRAIN+VAL, < {fl.DEV_END}); OOS+UNSEEN SEALED",
         "data_range": [str(cp.index.min()), str(cp.index.max())],
+        # --- V1.1 eval window (provenance for the 7d-slice metric; None,None == prior full-DEV behavior) ---
+        "eval_window": {"eval_start": eval_start, "eval_end": eval_end,
+                        "floor_ms": floor_ms, "wall_ms": wall_ms,
+                        "panel_min": str(cp.index.min()), "panel_max": str(cp.index.max())},
+        # --- the DATED engine equity curve (for the 7d-slice acid metric); JSON-serializable [iso, value] pairs ---
+        "engine_equity": [[d.isoformat(), float(v)] for d, v in zip(cp.index, eng_eq)],
+        "engine_net_stream": [[d.isoformat(), float(v)] for d, v in zip(cp.index, eng_net)],
     }
     if derisked_beta_confirmed:
         out["interpretation"] = (

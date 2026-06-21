@@ -1,0 +1,57 @@
+{
+ "cell": "TEMA|30m",
+ "ma_type": "TEMA",
+ "tf": "30m",
+ "frozen_from_2020": {
+  "exit": "profit_giveback_t10z50",
+  "entry": "htf_entry_gate",
+  "exit_params": {
+   "target": 10.0,
+   "Z": 50.0
+  },
+  "entry_params": {},
+  "label_2020": "profit_giveback_t10z50__htf_entry_gate",
+  "slice7d_2020": 0.9423
+ },
+ "iron_window": {
+  "start": "2021-01-01",
+  "end": "2022-01-01",
+  "note": "2022+ NEVER loaded"
+ },
+ "baseline_2021": {
+  "status": "ok",
+  "net_compound_pct": 185.52,
+  "maxdd_pct": -35.1,
+  "trades_per_week": 1.883,
+  "mtm_reconciled": true,
+  "data_range": [
+   "2021-01-01 00:00:00",
+   "2021-12-31 23:30:00"
+  ],
+  "n_slices": 53,
+  "slice7d_profit_rate": 0.6604,
+  "loss_slice_rate": 0.3019,
+  "median_7d_net_pct": 2.22,
+  "when_deployed_profit_rate": 0.6604,
+  "n_slices_deployed": 53
+ },
+ "winner_2021": {
+  "status": "ok",
+  "net_compound_pct": 2640.76,
+  "maxdd_pct": -8.3,
+  "trades_per_week": 3.247,
+  "mtm_reconciled": true,
+  "data_range": [
+   "2021-01-01 00:00:00",
+   "2021-12-31 23:30:00"
+  ],
+  "n_slices": 53,
+  "slice7d_profit_rate": 0.9623,
+  "loss_slice_rate": 0.0,
+  "median_7d_net_pct": 5.535,
+  "when_deployed_profit_rate": 0.9623,
+  "n_slices_deployed": 53
+ },
+ "lift_slice7d_pp_2021": 0.3019,
+ "verdict_oos": "HOLDS_OOS"
+}

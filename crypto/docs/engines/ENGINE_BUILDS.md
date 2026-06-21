@@ -17,6 +17,7 @@ Dead veins (never re-mine): [`../MARKET_FRAMEWORK/01_DEAD_LIST.md`](../MARKET_FR
 | Version | Name | Doc (detail home) | Status | Scope | Landing commit |
 |---|---|---|---|---|---|
 | **V1** | `V1_ma_drawdown_insurance` | [`V1_ma_drawdown_insurance.md`](V1_ma_drawdown_insurance.md) (supersedes the old [`../MA_DRAWDOWN_INSURANCE_FINDINGS.md`](../MA_DRAWDOWN_INSURANCE_FINDINGS.md), now a redirect) | **1st VERIFIED SUCCESS** (red-teamed GO; DEV-window incubation, not live-validated) | **1d / 4h** over **u100** (56 of 100 point-in-time names; >=20 floor met). Fine TFs (2h/1h/30m/15m) NOT in scope — 15m BROKEN. | `efb23a4b` |
+| **V1.1** | `V1.1_finetf_exits` | [`V1.1_finetf_exits.md`](V1.1_finetf_exits.md) | **REFUTED as a fine-TF wealth edge** (the htf_entry_gate "fix" was a LOOK-AHEAD leak, caught + FIXED) — earned null (D81); reusable exit_harness + run_wealth eval-window KEPT | **2h/1h/30m/15m** over **u100** (16 cells; de-leaked). De-leaked: dominated by the coarse engine on net 0/16; drawdown-insurance only. | (this commit) |
 | _V2+ (template)_ | `V<N>_<short_name>` | `V<N>_<short_name>.md` | _PROPOSED / BUILDING / VERIFIED / REFUTED_ | _universe + the {1d,4h,2h,1h,30m,15m} cadences touched + lookback window_ | _commit SHA once landed_ |
 
 **V1 one-line claim** (cite verbatim, never the full-window compound): at 1d/4h, an EW u100 sleeve that is long while

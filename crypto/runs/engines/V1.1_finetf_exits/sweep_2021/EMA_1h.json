@@ -1,0 +1,56 @@
+{
+ "cell": "EMA|1h",
+ "ma_type": "EMA",
+ "tf": "1h",
+ "frozen_from_2020": {
+  "exit": "chandelier_atr_3",
+  "entry": "htf_entry_gate",
+  "exit_params": {
+   "k": 3.0
+  },
+  "entry_params": {},
+  "label_2020": "chandelier_atr_3__htf_entry_gate",
+  "slice7d_2020": 0.7308
+ },
+ "iron_window": {
+  "start": "2021-01-01",
+  "end": "2022-01-01",
+  "note": "2022+ NEVER loaded"
+ },
+ "baseline_2021": {
+  "status": "ok",
+  "net_compound_pct": 347.04,
+  "maxdd_pct": -36.1,
+  "trades_per_week": 0.557,
+  "mtm_reconciled": true,
+  "data_range": [
+   "2021-01-01 00:00:00",
+   "2021-12-31 23:00:00"
+  ],
+  "n_slices": 53,
+  "slice7d_profit_rate": 0.566,
+  "loss_slice_rate": 0.3396,
+  "median_7d_net_pct": 1.456,
+  "when_deployed_profit_rate": 0.566,
+  "n_slices_deployed": 53
+ },
+ "winner_2021": {
+  "status": "ok",
+  "net_compound_pct": 129.17,
+  "maxdd_pct": -5.3,
+  "trades_per_week": 2.997,
+  "mtm_reconciled": true,
+  "data_range": [
+   "2021-01-01 00:00:00",
+   "2021-12-31 23:00:00"
+  ],
+  "n_slices": 53,
+  "slice7d_profit_rate": 0.6792,
+  "loss_slice_rate": 0.1321,
+  "median_7d_net_pct": 1.045,
+  "when_deployed_profit_rate": 0.6792,
+  "n_slices_deployed": 53
+ },
+ "lift_slice7d_pp_2021": 0.1132,
+ "verdict_oos": "HOLDS_OOS"
+}
