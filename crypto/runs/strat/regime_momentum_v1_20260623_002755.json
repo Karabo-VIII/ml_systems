@@ -1,0 +1,33 @@
+{
+  "version": "regime_momentum_v1",
+  "period": "2024-01-01 to 2026-05-28",
+  "overall": {
+    "n_days": 879,
+    "compound": -0.13465053096751878,
+    "mean_daily_pct": 0.08044134844561686,
+    "sharpe": 0.33841152740949604,
+    "max_dd": -0.7747416156461352,
+    "calmar": 0.37897915369065305,
+    "win_rate": 0.2787258248009101
+  },
+  "bull_only": {
+    "n_days": 520,
+    "compound": -0.13465053096751878,
+    "mean_daily_pct": 0.1359768178532639
+  },
+  "bear_cash": {
+    "n_days": 328
+  },
+  "btc_buyhold": {
+    "compound": 0.6637111257425266,
+    "max_dd": -0.4958476104634902,
+    "calmar": 0.6593802819456707
+  },
+  "config": {
+    "fast_sma": 50,
+    "slow_sma": 100,
+    "hysteresis": 0.02,
+    "max_positions": 10,
+    "vol_target": 0.03
+  }
+}
