@@ -1,0 +1,120 @@
+{
+  "overfit_probe": [
+    {
+      "lookback": 3,
+      "label": "BB|1d lb3",
+      "linwk": 3.79,
+      "al_linwk": 1.458,
+      "edge_pp": 2.333,
+      "maxdd": -31.3,
+      "daily_vol_pct": 5.76,
+      "sharpe_ann": 1.8
+    },
+    {
+      "lookback": 5,
+      "label": "BB|1d lb5",
+      "linwk": 3.475,
+      "al_linwk": 1.458,
+      "edge_pp": 2.017,
+      "maxdd": -39.5,
+      "daily_vol_pct": 5.713,
+      "sharpe_ann": 1.66
+    },
+    {
+      "lookback": 7,
+      "label": "BB|1d lb7",
+      "linwk": 3.839,
+      "al_linwk": 1.458,
+      "edge_pp": 2.381,
+      "maxdd": -42.6,
+      "daily_vol_pct": 5.671,
+      "sharpe_ann": 1.85
+    },
+    {
+      "lookback": 10,
+      "label": "BB|1d lb10",
+      "linwk": 3.953,
+      "al_linwk": 1.458,
+      "edge_pp": 2.495,
+      "maxdd": -31.9,
+      "daily_vol_pct": 5.704,
+      "sharpe_ann": 1.89
+    },
+    {
+      "lookback": 14,
+      "label": "BB|1d lb14",
+      "linwk": 3.936,
+      "al_linwk": 1.458,
+      "edge_pp": 2.478,
+      "maxdd": -30.6,
+      "daily_vol_pct": 5.685,
+      "sharpe_ann": 1.89
+    },
+    {
+      "lookback": 21,
+      "label": "BB|1d lb21",
+      "linwk": 3.882,
+      "al_linwk": 1.458,
+      "edge_pp": 2.424,
+      "maxdd": -32.8,
+      "daily_vol_pct": 5.673,
+      "sharpe_ann": 1.87
+    }
+  ],
+  "ensemble": [
+    {
+      "label": "MA WMA|4h (alone)",
+      "linwk": 4.282,
+      "al_linwk": 1.547,
+      "edge_pp": 2.736,
+      "maxdd": -38.5,
+      "daily_vol_pct": 5.884,
+      "sharpe_ann": 1.99
+    },
+    {
+      "label": "RSI|4h (alone)",
+      "linwk": 2.352,
+      "al_linwk": 1.547,
+      "edge_pp": 0.806,
+      "maxdd": -37.0,
+      "daily_vol_pct": 4.102,
+      "sharpe_ann": 1.57
+    },
+    {
+      "label": "Bollinger|1d (alone)",
+      "linwk": 3.839,
+      "al_linwk": 1.458,
+      "edge_pp": 2.381,
+      "maxdd": -42.6,
+      "daily_vol_pct": 5.671,
+      "sharpe_ann": 1.85
+    },
+    {
+      "label": "ENSEMBLE (EW of 3)",
+      "linwk": 3.486,
+      "al_linwk": 1.547,
+      "edge_pp": 1.939,
+      "maxdd": -38.5,
+      "daily_vol_pct": 4.835,
+      "sharpe_ann": 1.97
+    }
+  ],
+  "engine_corr": {
+    "MA": {
+      "MA": 1.0,
+      "RSI": 0.685,
+      "BB": 0.957
+    },
+    "RSI": {
+      "MA": 0.685,
+      "RSI": 1.0,
+      "BB": 0.649
+    },
+    "BB": {
+      "MA": 0.957,
+      "RSI": 0.649,
+      "BB": 1.0
+    }
+  },
+  "timestamp": "20260624_160605"
+}

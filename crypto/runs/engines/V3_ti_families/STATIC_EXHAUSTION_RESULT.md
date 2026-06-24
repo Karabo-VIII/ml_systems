@@ -95,3 +95,63 @@ the opposite: pulling the proper levers REVEALED **two new validated static engi
 The user's gate is satisfied in principle: static demonstrably works (3 validated engines),
 so dynamic has a real foundation to build on. But the lookback/overfit probes + the
 ensemble-combination test should close out the static phase first.
+
+
+---
+
+# Static Closeout — overfit probe + ensemble (2026-06-24)
+
+## Part A — Overfit probe (Bollinger|1d lookback sensitivity): PASS
+| lookback (d) | 3 | 5 | 7 | 10 | 14 | 21 |
+|---|---|---|---|---|---|---|
+| OOS edge pp | +2.33 | +2.02 | +2.38 | +2.50 | +2.48 | +2.42 |
+
+Edge is positive at EVERY lookback, std 0.16 vs mean 2.36 — a **smooth plateau, not a
+spike**. Bollinger|1d is robust to its hyperparameter, confirming it is NOT overfit.
+(RSI|4h uses no confirmation layer → lookback-independent; its robustness is the
+threshold-sweep, which already beat AL at all four thresholds.)
+
+## Part B — Ensemble combination (MA WMA|4h + RSI|4h + Bollinger|1d)
+| Engine | linwk | edge vs AL | MaxDD | daily vol | Sharpe(ann) |
+|---|---|---|---|---|---|
+| MA WMA\|4h alone     | +4.28% | +2.74pp | -38.5% | 5.88% | 1.99 |
+| RSI\|4h alone        | +2.35% | +0.81pp | -37.0% | 4.10% | 1.57 |
+| Bollinger\|1d alone  | +3.84% | +2.38pp | -42.6% | 5.67% | 1.85 |
+| **ENSEMBLE (EW/3)**  | +3.49% | +1.94pp | -38.5% | 4.84% | 1.97 |
+
+**Engine return correlations:**
+```
+       MA   RSI    BB
+  MA  1.00  0.68  0.96
+  RSI 0.68  1.00  0.65
+  BB  0.96  0.65  1.00
+```
+
+### Reading
+- The naive EW ensemble does NOT beat the best single engine on return (it averages
+  toward the middle, as expected). Its value is lower vol (4.84% vs 5.88%) → Sharpe 1.97
+  ≈ the MA engine's 1.99 at lower drawdown-ish risk.
+- **The correlation matrix is the real finding:** MA and Bollinger are 0.96 correlated —
+  both are trend-following, so they are nearly REDUNDANT. RSI is the genuine diversifier
+  (0.65-0.68 with both). A smarter combination is **MA + RSI** (drop Bollinger as
+  redundant with MA), or a vol-weighted / Sharpe-weighted blend rather than naive EW.
+
+## STATIC PHASE — CLOSED
+The user's gate is fully satisfied. Static demonstrably works and is now exhausted to a
+defensible degree:
+- **3 validated static engines:** MA family (WMA|4h +2.74pp), Bollinger|1d (+2.38pp,
+  overfit-probe clean), RSI|4h (+0.81pp, the diversifier).
+- 1 borderline (ADX|4h, 93rd-pct null), 1 rejected (MACD|1h OOS-fit), 4 null.
+- Edges are DEV/OOS consistent, beat random-null at 100th pct, and are robust to
+  hyperparameters. These are real, not artifacts.
+
+### Optional remaining static refinements (low priority, not blocking)
+- Sharpe/vol-weighted ensemble instead of naive EW (the corr matrix says MA+RSI).
+- ADX|4h lookback revisit to see if it crosses the 95th-pct bar.
+
+### Phase 2 readiness
+Static now provides a working multi-engine base with a KNOWN structure (trend-follow
+cluster = MA/Bollinger; mean-reversion diversifier = RSI). Dynamic/adaptive engines now
+have a real foundation AND a clear target: adapt the cluster the static engines already
+prove carries edge, and improve the RSI diversifier's selectivity. Phase 2 is justified
+when the user chooses to proceed — see docs/PHASE2_DYNAMIC_ENGINES_PLAN.md.

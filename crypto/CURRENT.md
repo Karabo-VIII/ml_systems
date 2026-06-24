@@ -16,9 +16,11 @@ Random-entry null: PASSED (100th percentile, all 3 types)
 Per-week: 56-59% profitable, median +3-4%/week, deployment 35% in 4h layer
 
 ## ACTIVE CAMPAIGN
-Rebuild TI-based trading engines for max profitability within 7d windows.
-Target: per-slice profit at {30m, 1h, 2h, 4h, 1d} × {EMA, HMA, DEMA} × {7d, 14d lookback}.
-The decoupled architecture (14d signal, 7d trade) is UNTESTED at sub-day cadences.
+STATIC PHASE — CLOSED (2026-06-24). 3 validated static engines: MA WMA|4h, Bollinger|1d,
+RSI|4h. Bollinger overfit-probe clean (smooth plateau across lookback 3-21). Ensemble:
+MA & Bollinger 0.96 corr (redundant trend-follow); RSI is the real diversifier (0.65).
+Naive EW ensemble Sharpe 1.97 at lower vol. Next refinement (optional): MA+RSI Sharpe-
+weighted blend. Phase 2 (dynamic) has a working foundation but is NOT started — user gate.
 
 ## WHAT EXISTS (verified, committed)
 - V1 MA drawdown-insurance: 8 types × {1d, 4h} = VERIFIED (halves DD, -35% vs -82%)
