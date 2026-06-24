@@ -13,3 +13,23 @@
 - [04:52:38]     SMA|4h|7d: 56% prof, median +2.02%
 - [04:52:38]     VIDYA|2h|14d: 56% prof, median +1.43%
 - [04:52:38] Phase 2: 3d slices on EMA/DEMA at 2h/4h
+- [04:57:07]   Phase 2 done: 3d slice results
+- [04:57:07]     DEMA|2h|lb7d|sl3d: 55% prof, median +0.98%
+- [04:57:07]     EMA|4h|lb14d|sl3d: 55% prof, median +0.92%
+- [04:57:07]     DEMA|4h|lb14d|sl3d: 55% prof, median +0.91%
+- [04:57:07]     DEMA|4h|lb7d|sl3d: 55% prof, median +0.87%
+- [04:57:07]     EMA|4h|lb7d|sl3d: 55% prof, median +0.82%
+- [04:57:07]     DEMA|2h|lb14d|sl3d: 55% prof, median +0.76%
+- [04:57:07]     EMA|2h|lb7d|sl3d: 54% prof, median +0.74%
+- [04:57:07]     EMA|2h|lb14d|sl3d: 54% prof, median +0.65%
+- [04:57:07] Phase 3: Random-entry null comparison
+- [04:57:07]     SMA|2h|7d: vs always-long = +4834.1pp
+- [04:57:07]     SMA|2h|14d: vs always-long = +1750.8pp
+- [04:57:07]     SMA|4h|7d: vs always-long = +8664.3pp
+- [04:57:07]     SMA|4h|14d: vs always-long = +996.6pp
+- [04:57:07]     WMA|2h|7d: vs always-long = +8258.8pp
+- [04:57:07] 
+============================================================
+- [04:57:07] COMPLETE in 23.4 minutes
+- [04:57:07] ============================================================
+- [04:57:07] Saved final summary to V2_subtf_decoupled/summary/final_sweep_summary.json

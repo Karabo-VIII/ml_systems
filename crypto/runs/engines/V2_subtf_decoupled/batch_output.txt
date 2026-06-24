@@ -894,3 +894,240 @@ C:\Users\karab\Documents\coding\ml_systems\crypto/src\strat\ma_type_upgrade.py:1
   cmo = np.where((su + sd) > 1e-12, np.abs(su - sd) / (su + sd), 0.0)
 C:\Users\karab\Documents\coding\ml_systems\crypto/src\strat\ma_type_upgrade.py:106: RuntimeWarning: invalid value encountered in divide
   cmo = np.where((su + sd) > 1e-12, np.abs(su - sd) / (su + sd), 0.0)
+[04:33:43] ============================================================
+[04:33:43] FULL TI ENGINE SWEEP ÔÇö AUTONOMOUS BATCH
+[04:33:43] ============================================================
+[04:33:43] Phase 1: Remaining MA types at 2h/4h
+================================================================================
+TI ENGINE MULTI-TF SWEEP
+MA types: ['SMA', 'WMA', 'TEMA', 'KAMA', 'VIDYA']
+TFs: ['2h', '4h']
+Lookbacks: [7, 14]d | Slices: [7]d
+================================================================================
+
+[1/20] SMA|2h|lb7d|sl7d
+  [SMA|2h|lb7d|sl7d] lookback=84bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 57% | Median: +3.06% | vs AL: +4834.1pp | [22.3s]
+
+[2/20] SMA|2h|lb14d|sl7d
+  [SMA|2h|lb14d|sl7d] lookback=168bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 56% | Median: +2.58% | vs AL: +1750.8pp | [22.2s]
+
+[3/20] SMA|4h|lb7d|sl7d
+  [SMA|4h|lb7d|sl7d] lookback=42bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 56% | Median: +2.02% | vs AL: +8664.3pp | [14.4s]
+
+[4/20] SMA|4h|lb14d|sl7d
+  [SMA|4h|lb14d|sl7d] lookback=84bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 55% | Median: +2.05% | vs AL: +996.6pp | [17.8s]
+
+[5/20] WMA|2h|lb7d|sl7d
+  [WMA|2h|lb7d|sl7d] lookback=84bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 56% | Median: +3.79% | vs AL: +8258.8pp | [30.1s]
+
+[6/20] WMA|2h|lb14d|sl7d
+  [WMA|2h|lb14d|sl7d] lookback=168bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 57% | Median: +2.73% | vs AL: +3543.7pp | [31.7s]
+
+[7/20] WMA|4h|lb7d|sl7d
+  [WMA|4h|lb7d|sl7d] lookback=42bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 59% | Median: +4.03% | vs AL: +21031.9pp | [17.4s]
+
+[8/20] WMA|4h|lb14d|sl7d
+  [WMA|4h|lb14d|sl7d] lookback=84bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 58% | Median: +3.26% | vs AL: +5993.2pp | [15.9s]
+
+[9/20] TEMA|2h|lb7d|sl7d
+  [TEMA|2h|lb7d|sl7d] lookback=84bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 48% | Median: -0.76% | vs AL: -2591.6pp | [31.9s]
+
+[10/20] TEMA|2h|lb14d|sl7d
+  [TEMA|2h|lb14d|sl7d] lookback=168bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 50% | Median: -0.24% | vs AL: -2438.7pp | [41.5s]
+
+[11/20] TEMA|4h|lb7d|sl7d
+  [TEMA|4h|lb7d|sl7d] lookback=42bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 47% | Median: -0.86% | vs AL: -415.8pp | [27.2s]
+
+[12/20] TEMA|4h|lb14d|sl7d
+  [TEMA|4h|lb14d|sl7d] lookback=84bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 47% | Median: -0.54% | vs AL: +589.9pp | [28.8s]
+
+[13/20] KAMA|2h|lb7d|sl7d
+  [KAMA|2h|lb7d|sl7d] lookback=84bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 52% | Median: +1.33% | vs AL: -2290.2pp | [162.4s]
+
+[14/20] KAMA|2h|lb14d|sl7d
+  [KAMA|2h|lb14d|sl7d] lookback=168bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 53% | Median: +1.10% | vs AL: -2373.0pp | [134.8s]
+
+[15/20] KAMA|4h|lb7d|sl7d
+  [KAMA|4h|lb7d|sl7d] lookback=42bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 54% | Median: +1.02% | vs AL: -913.1pp | [57.6s]
+
+[16/20] KAMA|4h|lb14d|sl7d
+  [KAMA|4h|lb14d|sl7d] lookback=84bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 53% | Median: +1.78% | vs AL: -1633.8pp | [68.6s]
+
+[17/20] VIDYA|2h|lb7d|sl7d
+  [VIDYA|2h|lb7d|sl7d] lookback=84bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 55% | Median: +1.44% | vs AL: -1721.5pp | [132.3s]
+
+[18/20] VIDYA|2h|lb14d|sl7d
+  [VIDYA|2h|lb14d|sl7d] lookback=168bars, slice=84bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 56% | Median: +1.43% | vs AL: -2180.0pp | [128.0s]
+
+[19/20] VIDYA|4h|lb7d|sl7d
+  [VIDYA|4h|lb7d|sl7d] lookback=42bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 53% | Median: +2.30% | vs AL: +6604.2pp | [69.6s]
+
+[20/20] VIDYA|4h|lb14d|sl7d
+  [VIDYA|4h|lb14d|sl7d] lookback=84bars, slice=42bars
+    Loaded 56 assets
+    Slices: 227 | Profitable: 55% | Median: +2.51% | vs AL: -1077.5pp | [80.4s]
+
+================================================================================
+SWEEP RESULTS
+================================================================================
+
+Cell                 Slices  %Prof   Median     Mean     vsAL  Deploy
+---------------------------------------------------------------------------
+WMA|4h|7d               227   59%   +4.03%   +3.53% +21031.9  90.2%
+WMA|2h|7d               227   56%   +3.79%   +3.29% +8258.8  91.6%
+WMA|4h|14d              227   58%   +3.26%   +3.05% +5993.2  90.9%
+SMA|2h|7d               227   57%   +3.06%   +3.05% +4834.1  90.1%
+WMA|2h|14d              227   57%   +2.73%   +3.04% +3543.7  90.6%
+SMA|2h|14d              227   56%   +2.58%   +2.80% +1750.8  90.0%
+VIDYA|4h|14d            227   55%   +2.51%   +2.14% -1077.5  87.9%
+VIDYA|4h|7d             227   53%   +2.30%   +3.04% +6604.2  85.0%
+SMA|4h|14d              227   55%   +2.05%   +2.52%  +996.6  89.5%
+SMA|4h|7d               227   56%   +2.02%   +3.10% +8664.3  87.9%
+KAMA|4h|14d             227   53%   +1.78%   +1.91% -1633.8  89.8%
+VIDYA|2h|7d             227   55%   +1.44%   +2.08% -1721.5  88.6%
+VIDYA|2h|14d            227   56%   +1.43%   +1.76% -2180.0  90.4%
+KAMA|2h|7d              227   52%   +1.33%   +1.80% -2290.2  90.3%
+KAMA|2h|14d             227   53%   +1.10%   +1.61% -2373.0  89.5%
+KAMA|4h|7d              227   54%   +1.02%   +2.30%  -913.1  88.8%
+TEMA|2h|14d             227   50%   -0.24%   +1.91% -2438.7  83.5%
+TEMA|4h|14d             227   47%   -0.54%   +3.04%  +589.9  85.9%
+TEMA|2h|7d              227   48%   -0.76%   +1.41% -2591.6  86.5%
+TEMA|4h|7d              227   47%   -0.86%   +2.84%  -415.8  88.2%
+
+BEST by median slice ROI: WMA|4h|7d = +4.03%
+BEST by % profitable: WMA|4h|7d = 59%
+BEST vs always-long: WMA|4h|7d = +21031.9pp
+[04:52:38]   Phase 1 done: 9 cells with >55% profitable
+[04:52:38]     WMA|4h|7d: 59% prof, median +4.03%
+[04:52:38]     WMA|2h|7d: 56% prof, median +3.79%
+[04:52:38]     WMA|4h|14d: 58% prof, median +3.26%
+[04:52:38]     SMA|2h|7d: 57% prof, median +3.06%
+[04:52:38]     WMA|2h|14d: 57% prof, median +2.73%
+[04:52:38]     SMA|2h|14d: 56% prof, median +2.58%
+[04:52:38]     SMA|4h|14d: 55% prof, median +2.05%
+[04:52:38]     SMA|4h|7d: 56% prof, median +2.02%
+[04:52:38]     VIDYA|2h|14d: 56% prof, median +1.43%
+[04:52:38] Phase 2: 3d slices on EMA/DEMA at 2h/4h
+================================================================================
+TI ENGINE MULTI-TF SWEEP
+MA types: ['EMA', 'DEMA']
+TFs: ['2h', '4h']
+Lookbacks: [7, 14]d | Slices: [3]d
+================================================================================
+
+[1/8] EMA|2h|lb7d|sl3d
+  [EMA|2h|lb7d|sl3d] lookback=84bars, slice=36bars
+    Loaded 56 assets
+    Slices: 530 | Profitable: 54% | Median: +0.74% | vs AL: +207.0pp | [42.5s]
+
+[2/8] EMA|2h|lb14d|sl3d
+  [EMA|2h|lb14d|sl3d] lookback=168bars, slice=36bars
+    Loaded 56 assets
+    Slices: 530 | Profitable: 54% | Median: +0.65% | vs AL: -642.4pp | [41.5s]
+
+[3/8] EMA|4h|lb7d|sl3d
+  [EMA|4h|lb7d|sl3d] lookback=42bars, slice=18bars
+    Loaded 56 assets
+    Slices: 530 | Profitable: 55% | Median: +0.82% | vs AL: +7644.7pp | [24.3s]
+
+[4/8] EMA|4h|lb14d|sl3d
+  [EMA|4h|lb14d|sl3d] lookback=84bars, slice=18bars
+    Loaded 56 assets
+    Slices: 530 | Profitable: 55% | Median: +0.92% | vs AL: -14.7pp | [30.5s]
+
+[5/8] DEMA|2h|lb7d|sl3d
+  [DEMA|2h|lb7d|sl3d] lookback=84bars, slice=36bars
+    Loaded 56 assets
+    Slices: 530 | Profitable: 55% | Median: +0.98% | vs AL: +964.9pp | [47.8s]
+
+[6/8] DEMA|2h|lb14d|sl3d
+  [DEMA|2h|lb14d|sl3d] lookback=168bars, slice=36bars
+    Loaded 56 assets
+    Slices: 530 | Profitable: 55% | Median: +0.76% | vs AL: +593.0pp | [38.2s]
+
+[7/8] DEMA|4h|lb7d|sl3d
+  [DEMA|4h|lb7d|sl3d] lookback=42bars, slice=18bars
+    Loaded 56 assets
+    Slices: 530 | Profitable: 55% | Median: +0.87% | vs AL: +41872.8pp | [22.2s]
+
+[8/8] DEMA|4h|lb14d|sl3d
+  [DEMA|4h|lb14d|sl3d] lookback=84bars, slice=18bars
+    Loaded 56 assets
+    Slices: 530 | Profitable: 55% | Median: +0.91% | vs AL: +18643.2pp | [22.6s]
+
+================================================================================
+SWEEP RESULTS
+================================================================================
+
+Cell                 Slices  %Prof   Median     Mean     vsAL  Deploy
+---------------------------------------------------------------------------
+DEMA|2h|7d              530   55%   +0.98%   +1.16%  +964.9  90.1%
+EMA|4h|14d              530   55%   +0.92%   +1.01%   -14.7  91.2%
+DEMA|4h|14d             530   55%   +0.91%   +1.50% +18643.2  89.8%
+DEMA|4h|7d              530   55%   +0.87%   +1.64% +41872.8  91.0%
+EMA|4h|7d               530   55%   +0.82%   +1.28% +7644.7  89.7%
+DEMA|2h|14d             530   55%   +0.76%   +1.14%  +593.0  87.9%
+EMA|2h|7d               530   54%   +0.74%   +1.03%  +207.0  91.8%
+EMA|2h|14d              530   54%   +0.65%   +0.97%  -642.4  91.8%
+
+BEST by median slice ROI: DEMA|2h|7d = +0.98%
+BEST by % profitable: EMA|4h|7d = 55%
+BEST vs always-long: DEMA|4h|7d = +41872.8pp
+[04:57:07]   Phase 2 done: 3d slice results
+[04:57:07]     DEMA|2h|lb7d|sl3d: 55% prof, median +0.98%
+[04:57:07]     EMA|4h|lb14d|sl3d: 55% prof, median +0.92%
+[04:57:07]     DEMA|4h|lb14d|sl3d: 55% prof, median +0.91%
+[04:57:07]     DEMA|4h|lb7d|sl3d: 55% prof, median +0.87%
+[04:57:07]     EMA|4h|lb7d|sl3d: 55% prof, median +0.82%
+[04:57:07]     DEMA|2h|lb14d|sl3d: 55% prof, median +0.76%
+[04:57:07]     EMA|2h|lb7d|sl3d: 54% prof, median +0.74%
+[04:57:07]     EMA|2h|lb14d|sl3d: 54% prof, median +0.65%
+[04:57:07] Phase 3: Random-entry null comparison
+[04:57:07]     SMA|2h|7d: vs always-long = +4834.1pp
+[04:57:07]     SMA|2h|14d: vs always-long = +1750.8pp
+[04:57:07]     SMA|4h|7d: vs always-long = +8664.3pp
+[04:57:07]     SMA|4h|14d: vs always-long = +996.6pp
+[04:57:07]     WMA|2h|7d: vs always-long = +8258.8pp
+[04:57:07] 
+============================================================
+[04:57:07] COMPLETE in 23.4 minutes
+[04:57:07] ============================================================
+[04:57:07] Saved final summary to V2_subtf_decoupled/summary/final_sweep_summary.json
