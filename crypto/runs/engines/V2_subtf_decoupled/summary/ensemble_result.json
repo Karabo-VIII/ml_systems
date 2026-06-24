@@ -1,0 +1,20 @@
+{
+  "architecture": "Ensemble majority vote (EMA+WMA+DEMA, 2/3 agree to hold)",
+  "cadence": "4h",
+  "lookback_days": 7,
+  "slice_days": 7,
+  "n_assets": 56,
+  "n_slices": 227,
+  "pct_profitable": 0.60,
+  "median_slice_pct": 4.11,
+  "full_compound_pct": 37253,
+  "maxdd_pct": -90.0,
+  "deployment_rate": 0.902,
+  "note": "Requires V1 regime gate for MaxDD control. Combined with gate: expected MaxDD -42-45%.",
+  "vs_individual_types": {
+    "EMA_alone": {"pct_prof": 0.56, "median": 3.09},
+    "WMA_alone": {"pct_prof": 0.59, "median": 4.10},
+    "DEMA_alone": {"pct_prof": 0.58, "median": 2.95}
+  },
+  "improvement": "Ensemble raises win-rate from 56-59% to 60%, and median from 2.95-4.10% to 4.11%"
+}
