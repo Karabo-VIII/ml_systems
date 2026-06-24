@@ -77,15 +77,16 @@ def compute_rsi(close: np.ndarray, period: int = 14) -> np.ndarray:
 def rsi_held_state(close: np.ndarray, period: int = 14, 
                    oversold: float = 30.0, overbought: float = 70.0,
                    lookback_bars: int = 42, slice_bars: int = 42,
-                   confirm_rising: int = 2) -> np.ndarray:
+                   confirm_rising: int = 2, mode: str = "trend") -> np.ndarray:
     """Compute RSI-based held state with decoupled lookback/slice.
     
-    Entry: RSI crosses ABOVE oversold AND is rising for `confirm_rising` bars
-    Exit: RSI crosses BELOW overbought OR slice boundary OR signal lost
+    Two modes:
+    - "reversion": Entry on RSI crossing ABOVE oversold (V1, FAILED)
+    - "trend": Entry when RSI > 50 AND rising (V1.1, trend-confirmation)
     
-    The decoupled architecture:
-    - lookback_bars: minimum bars of history needed for valid RSI signal
-    - slice_bars: maximum hold duration per position
+    The "trend" mode aligns with the proven MA mechanism: continuation > reversion.
+    Instead of "buy when oversold" (catching falling knives), it's "be long when
+    momentum is confirmed" (riding trends). This is structurally different.
     """
     n = len(close)
     held = np.zeros(n, dtype=np.int8)
@@ -96,52 +97,80 @@ def rsi_held_state(close: np.ndarray, period: int = 14,
     
     rsi = compute_rsi(close, period)
     
-    # Signal: RSI above oversold AND rising (momentum confirmation)
-    above_oversold = rsi > oversold
-    rsi_rising = np.zeros(n, dtype=bool)
-    for i in range(confirm_rising, n):
-        if all(rsi[i-j] >= rsi[i-j-1] for j in range(confirm_rising)):
-            rsi_rising[i] = True
-    
-    # Not overbought (don't enter at top)
-    not_overbought = rsi < overbought
-    
-    # Combined entry signal: turned up from oversold zone + rising + not overbought
-    # "Turned up" = was below oversold recently (within lookback) and now above
-    was_oversold = np.zeros(n, dtype=bool)
-    lookback_check = min(lookback_bars, period * 3)  # how far back to check for oversold
-    for i in range(lookback_check, n):
-        if np.any(rsi[max(0, i-lookback_check):i] < oversold):
-            was_oversold[i] = True
-    
-    confirmed_long = above_oversold & rsi_rising & not_overbought & was_oversold & fin
-    
-    # Slice-based holding (same as MA decoupled)
-    i = 0
-    while i < n:
-        if i >= period and confirmed_long[i]:
-            end = min(i + slice_bars, n)
-            j = i
-            while j < end:
-                # Exit early if overbought OR signal lost
-                if rsi[j] > overbought:
-                    held[j] = 1  # hold this last bar, exit next
+    if mode == "trend":
+        # V1.1: TREND CONFIRMATION
+        # Long when RSI > 50 (bullish momentum) AND rising over confirm_rising bars
+        # Exit when RSI < 45 (momentum fading) OR overbought OR slice end
+        above_midline = rsi > 50.0
+        rsi_rising = np.zeros(n, dtype=bool)
+        for i in range(confirm_rising, n):
+            if all(rsi[i-j] >= rsi[i-j-1] for j in range(confirm_rising)):
+                rsi_rising[i] = True
+        
+        not_overbought = rsi < overbought
+        confirmed_long = above_midline & rsi_rising & not_overbought & fin
+        
+        # Decoupled slice holding
+        i = period  # start after RSI warmup
+        while i < n:
+            if confirmed_long[i]:
+                end = min(i + slice_bars, n)
+                j = i
+                while j < end:
+                    # Exit if RSI drops below 45 (momentum lost)
+                    if rsi[j] < 45.0:
+                        break
+                    # Exit if overbought
+                    if rsi[j] > overbought:
+                        held[j] = 1
+                        j += 1
+                        break
+                    held[j] = 1
                     j += 1
-                    break
-                if not confirmed_long[j] and j > i + 3:  # grace period of 3 bars
-                    break
-                held[j] = 1
-                j += 1
-            i = j
-        else:
-            i += 1
+                i = j
+            else:
+                i += 1
+    else:
+        # V1: REVERSION (original, FAILED)
+        above_oversold = rsi > oversold
+        rsi_rising = np.zeros(n, dtype=bool)
+        for i in range(confirm_rising, n):
+            if all(rsi[i-j] >= rsi[i-j-1] for j in range(confirm_rising)):
+                rsi_rising[i] = True
+        
+        not_overbought = rsi < overbought
+        was_oversold = np.zeros(n, dtype=bool)
+        lookback_check = min(lookback_bars, period * 3)
+        for i in range(lookback_check, n):
+            if np.any(rsi[max(0, i-lookback_check):i] < oversold):
+                was_oversold[i] = True
+        
+        confirmed_long = above_oversold & rsi_rising & not_overbought & was_oversold & fin
+        
+        i = 0
+        while i < n:
+            if i >= period and confirmed_long[i]:
+                end = min(i + slice_bars, n)
+                j = i
+                while j < end:
+                    if rsi[j] > overbought:
+                        held[j] = 1
+                        j += 1
+                        break
+                    if not confirmed_long[j] and j > i + 3:
+                        break
+                    held[j] = 1
+                    j += 1
+                i = j
+            else:
+                i += 1
     
     return held
 
 
 def run_rsi_cell(tf: str, period: int = 14, oversold: float = 30.0, 
                  overbought: float = 70.0, lookback_days: int = 7,
-                 slice_days: int = 7) -> dict:
+                 slice_days: int = 7, mode: str = "trend") -> dict:
     """Run one RSI engine cell."""
     t0 = time.time()
     bpd = BARS_PER_DAY[tf]
@@ -161,7 +190,7 @@ def run_rsi_cell(tf: str, period: int = 14, oversold: float = 30.0,
         dates, o, h, l, c = rec
         
         fin = np.asarray(c, dtype=float)
-        held = rsi_held_state(fin, period, oversold, overbought, lookback_bars, slice_bars)
+        held = rsi_held_state(fin, period, oversold, overbought, lookback_bars, slice_bars, mode=mode)
         
         close_dict[sym] = pd.Series(c, index=dates)
         held_dict[sym] = pd.Series(held, index=dates)
@@ -270,15 +299,15 @@ def run_rsi_sweep():
                   f"{r['pct_profitable']:.0%} prof, median {r['median_slice_pct']:+.2f}%, "
                   f"deploy {r['deployment_rate']:.1%}")
     
-    # Use standard config (14, 30/70) for the full sweep
+    # Use standard config (14, 30/70) for the full sweep — TREND MODE (V1.1)
     best_cfg = {"period": 14, "oversold": 30, "overbought": 70}
     
-    print(f"\n--- Full TF sweep (RSI {best_cfg['period']}, {best_cfg['oversold']}/{best_cfg['overbought']}) ---")
+    print(f"\n--- Full TF sweep — V1.1 TREND MODE (RSI>50 + rising) ---")
     print(f"{'TF':<6} {'%Prof':>6} {'Median':>8} {'Compound':>10} {'vsAL':>8} {'MaxDD':>7} {'Deploy':>7}")
     print("-" * 55)
     
     for tf in tfs:
-        r = run_rsi_cell(tf, **best_cfg)
+        r = run_rsi_cell(tf, **best_cfg, mode="trend")
         results.append(r)
         if r["status"] == "OK":
             print(f"{tf:<6} {r['pct_profitable']:>5.0%} {r['median_slice_pct']:>+7.2f}% "
