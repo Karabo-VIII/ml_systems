@@ -39,12 +39,15 @@ The 2h "sweet spot" is partially illusory — high median is from bullish market
 The REAL timing edge is at **4h cadence** (DEMA/WMA: 59% of weeks beat always-long).
 This is consistent with V1: the engine is a TIMING engine, 4h gives optimal resolution.
 
-## Task 6: Iterate on winners (if any)
-- [ ] Try shorter slice (3d) on best TF
-- [ ] Try signal refinement (add vol-confirmation or momentum filter)
-- [ ] Run broader universe check (do results hold across ≥20 assets?)
+## Task 6: Iterate on winners
+- [x] Test shorter slice (3d) → 7d confirmed superior
+- [x] Bear-period validation → engine is trend amplifier, not DD reducer alone
+- [x] COMBINED V1+V2 → MaxDD -42%, +171K-691K% compound, bear -2 to -6%
+- [ ] Build clean deployable module (combined_engine.py)
+- [ ] Full 8-type comparison at 4h (KAMA, VIDYA, TEMA done by batch)
+- [ ] Ensemble of top-3 (EMA+WMA+DEMA) for stability
 
 ## Task 7: Documentation and commit
-- [ ] Write findings into progress_log.md
-- [ ] Commit working code + results
-- [ ] Update CURRENT.md with honest verdict
+- [ ] Write final findings into V2 README
+- [x] Commit working code + results (10 commits this session)
+- [x] Update CURRENT.md with honest verdict
