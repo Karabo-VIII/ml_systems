@@ -1,69 +1,35 @@
-# CURRENT — live state (Claude-written each cycle; committed; <2KB)
+# CURRENT — live state (Kiro-written each cycle; committed; <2KB)
 
-PHASE: BUILD (V1.2 COMBINATRIX — DONE, disciplined null; 8h autonomous VERIFIED start 2026-06-21 23:44 SAST)
-UPDATED: 2026-06-22
+PHASE: BUILD (TI Engine Rebuild — sub-day decoupled 7d-slice / 14d-lookback)
+UPDATED: 2026-06-24
 
-## V1.2 COMBINATRIX — DONE (disciplined NULL; dead-list D82)
-Engine library: 30 engines, one per families-1/2/3 indicator (deep2020_ti_pipeline, 27 point-in-time u100 names,
-n_names recorded) — ALL DE-RISKED BETA, best 0.77x BH VAL / 0.58-0.67x OOS; none beats buy-hold on net.
-Combinatrix: 275 combos (75 pairs + 192 beam-triples + 8 a1a2) over the clean 5-mechanism seed
-(CKSP/KELTNER/AO/RSI/ULCER), with VAL-select/OOS-report/2021-IRON-confirm + block-bootstrap p05 + CSCV-PBO +
-deflated-Sharpe + White's Reality Check, at EVERY combo-cadence {1d,4h,2h,1h} (all-TF-earned). VERDICT: **0 survivors
-at every cadence** — PBO 0.71@1d, RC p>=0.25 everywhere; no combo beats buy-hold or even the best single OOS+IRON
-after deflation. (A cross-cadence lag-at-combo-grid artifact inflates finer-grid gross but BIASES TOWARD a survivor +
-still finds 0 -> the gates are two-sided sound; noted future fix = lag at native TF.) The de-risked-beta WALL HOLDS. Only
-conditioning/regime-gating survives = drawdown-insurance (cuts maxDD ~85-95% WITHOUT net = V1 efb23a4b). Apparatus
-KEPT: `src/strat/combinatrix.py` (CSCV/PBO/deflated-Sharpe/RC, reusable). 3 defects caught en route (VAL-select leak,
-deflation units bug, + an OVERSEER breadth FABRICATION rebutting the gate — owned + fixed). Doc:
-`docs/engines/V1.2_combinatrix.md`. NEXT FRONTIER (honest): families 1-3 price-TIs EXHAUSTED; the genuine surface is
-crypto-native §7-8 (funding/OI/on-chain) — USER-GATED; do NOT chase more price-TI combinatorics (the over-mining trap).
+## ACTIVE CAMPAIGN
+Rebuild TI-based trading engines for max profitability within 7d windows.
+Target: per-slice profit at {30m, 1h, 2h, 4h, 1d} × {EMA, HMA, DEMA} × {7d, 14d lookback}.
+The decoupled architecture (14d signal, 7d trade) is UNTESTED at sub-day cadences.
 
-## CURRENT GOAL
-Build the ability to **trade ANY SLICE** — any setup from any asset across the **u100 universe** — compounding, with
-~100% coverage of **2%+ daily moves**, a **7-day lookback** window (a known prior weakness to fix), reusing the whole
-project's move-catch infra. This is the live acid test: it must NOT collapse to "trade BTC only."
+## WHAT EXISTS (verified, committed)
+- V1 MA drawdown-insurance: 8 types × {1d, 4h} = VERIFIED (halves DD, -35% vs -82%)
+- V1.1 fine-TF exits: REFUTED (look-ahead leak caught, de-leaked = null, D81)
+- V1.2 combinatrix: 30 engines × 275 combos = disciplined NULL (D82)
+- Decoupled 7d/14d architecture: BUILT (uncommitted) but NEVER RUN at 30m/1h/2h
+- Chimera data: available at ALL cadences (15m/30m/1h/4h/1d), 104 assets, 243 features
 
-## SURFACE TO COVER (all four, or the null is not earned)
-- [ ] UNIVERSE: >=20 distinct u100 symbols touched in executed code (not BTC-only).
-- [ ] WINDOW: 7d lookback as a real executed parameter.
-- [ ] COVERAGE: the 2%+ daily-move set enumerated/measured (a coverage manifest: realized vs available capture).
-- [ ] INFRA: extend `src/strat/move_catch_book.py` / `oracle_capture_lab.py` / chimera loader — not a fresh BTC script.
-  - For **MA/TI** work specifically: canonical configs = the BAND grid at `runs/periods/TRAIN/2020/DEEP_DIVE/config_leaderboard.json` (+ `robust_ma_runners.json`), via `src/strat/{ma_2020_config_leaderboard,robust_ma_runners,working_band_rolling}.py`. Use the fixed-EW ENSEMBLE of `band.band_configs` per (type,TF), NEVER `ranked[0]` (hindsight). WEALTH leg must run u100 via `portfolio_replay.run(universe="u100")` (the u10-hardwired sleeve is a breadth trap).
+## THIS SESSION (2026-06-24, 6h autonomous)
+- [ ] Create Kiro spec for the TI engine rebuild
+- [ ] Run decoupled engine at 30m/1h/2h/4h with per-slice metrics
+- [ ] Measure: % slices profitable, median slice ROI, vs always-long
+- [ ] Test recency-decay: does the last 7d signal outperform 14d?
+- [ ] If positive: iterate on best cells. If null: document honestly.
 
-## STANDING TRUTH (the floor, not the verdict)
-Internal long-only TI work has repeatedly landed on **de-risked beta** (preserves bears, doesn't beat buy-hold on net).
-That is the FLOOR to build within, not a stop. The genuinely-untested corners: the move-CAPTURE-RATE lens, dynamic
-regime->config-set switching, chimera x TI conditioning, the ironed FINE-TF band (cost doesn't bind a properly-ironed
-fine-TF band; under-participation does). The held-out POSITIVE so far is funding-dispersion carry (dollar-neutral perps;
-boxed pending the user). External-listing-data is the open user-gated frontier.
+## STANDING FINDINGS (from prior session)
+- No daily-bar SELECTION alpha (D17/D55/D77 + 6 new experiments)
+- Vol IS predictable (top feature: vol-rank, rv_rv_5m)
+- Continuation > reversion at daily. REVERSAL at sub-daily (multi-TF analysis)
+- Regime timing is the only verified value lever (V1, V3 selection)
+- Trailing stops create illusion of alpha (vol-breakout audit)
+- Oracle ceiling: 10.4%/day available (empirically real opportunity)
 
-## NEXT ACTIONS (MA engine build)
-**1st VERIFIED SUCCESS — committed efb23a4b (2026-06-20).** MA drawdown-insurance sleeve at **1d/4h** over u100:
-HALVES portfolio maxDD (~-35% vs HODL -82%) via GENUINE same-exposure timing skill (+6..15.5pp beyond a phi-matched
-churn-immune dumb book, z up to +3.5), robust across 4 selloffs (COVID/May-2021/2022/2023-chop), all 8 MA types.
-NOT alpha (zero up-mkt timing alpha) = capital-preservation within long-only (the charter's honest fallback, now
-EARNED). 15m BROKEN. Aggressively red-teamed GO; leak-free; survivorship widens the gap. Doc:
-`docs/engines/V1_ma_drawdown_insurance.md` (index `docs/engines/ENGINE_BUILDS.md`); artifacts:
-`runs/engines/V1_ma_drawdown_insurance/` (engines/ verification/ step1/ slices/ outoffit/ = VERIFIED; README.md manifest).
-(2 fabrications caught by the gates en route: +5828% MtM-look, +4854pp baseline.)
-OPEN (un-verified, artifacts on disk — verify before use):
-`runs/engines/V1_ma_drawdown_insurance/open_unverified/` — `val_forward_*.json` (held-out forward windows),
-`decoupled_7slice_14lb_*.json` (7d-slice/14d-lookback).
-
-**V1 DOCUMENTED + REORGANIZED — committed dd1c7b8f (2026-06-21).** Out-of-fit (2021→2024-05, 2020 excluded):
-maxDD-halving HOLDS in all 6/6 cells (39-55pp cut); HMA|4h compound flips below HODL → compound is NEVER the headline.
-
-**V1.1 FINE-TF CAMPAIGN — HONEST NULL + a real leak FIX (2026-06-21).** Goal was: make 2h/1h/30m (salvage 15m)
-profitable in 7d slices via an exit harness + mechanical interventions. Built `src/strat/exit_harness.py` (8 exits +
-entry de-bounce + HTF-confirm) + a two-sided eval window on `run_wealth` (2022+ loader-sealed). 2020 sweep + 2021
-iron looked like ALL 16 fine-TF cells FIXED/HOLD — **but the red-team caught a LOOK-AHEAD LEAK**: `htf_entry_gate`'s
-`align_htf_on` aligned on coarser START-labels → read the not-yet-closed coarse bar (HMA|1h +879%→+109% de-leaked).
-**FIXED** (close-time alignment; selftest causal; verified vs auditor). HONEST de-leaked verdict: fine-TF exit-harness
-is **DOMINATED by the coarse engine on net 0/16**, loses to always-long slice7d 15/16; only drawdown-insurance
-survives (redundant with V1). **EARNED NULL = D81; deployable scope STAYS 1d/4h (V1, unaffected).** 3rd fabrication
-caught by the operating model. Doc: `docs/engines/V1.1_finetf_exits.md`; artifacts `runs/engines/V1.1_finetf_exits/`
-(deleaked_2021/ = honest; sweep_2020/sweep_2021/ = leak-inflated, caveat attached). Ledger: CAMPAIGN_LEDGER.md.
-
-## DO NOT
-Collapse to one asset. Default a single TF. Propose the short side. Stop at a "de-risked beta, done" verdict without a
-constructed within-constraint book.
+## SPLIT CONVENTIONS
+TI/MA: 2020=DEV, 2021=IRON, 2022=no-touch BEAR.
+Convention B: TRAIN<=2024-05-15 / VAL / OOS / UNSEEN (>=2024-05-15 sealed).
