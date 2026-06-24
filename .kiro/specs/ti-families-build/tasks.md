@@ -1,12 +1,12 @@
 # Tasks: TI Families Build (8 Families)
 
-## Family 1: RSI
-- [ ] V1: Define RSI signal logic (oversold/overbought bands, trend confirmation)
-- [ ] V1: Build band-config generator using pandas_ta RSI
-- [ ] V1: Run multi-TF sweep {1d, 4h, 2h, 1h, 30m}
-- [ ] V1.1: Iterate on best TF (threshold tuning, signal refinement)
-- [ ] Validate: per-slice metrics, vs always-long, random-null (DEV only)
-- [ ] Commit + document results
+## Family 1: RSI — COMPLETE (HONEST NULL)
+- [x] V1: Define RSI signal logic (oversold/overbought bands, trend confirmation)
+- [x] V1: Build band-config generator using pandas_ta RSI
+- [x] V1: Run multi-TF sweep {1d, 4h, 2h, 1h, 30m}
+- [x] V1.1: Iterate — trend-confirmation mode (RSI>50+rising vs oversold bounce)
+- [x] Validate: BOTH modes fail (reversion=dead, trend=95% deploy=no timing)
+- [x] Commit + document: HONEST NULL (D50/D51/D52/D53 confirmed independently)
 
 ## Family 2: MACD
 - [ ] V1: Define MACD signal logic (signal-line cross, histogram)
