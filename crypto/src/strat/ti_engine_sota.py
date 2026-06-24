@@ -154,6 +154,45 @@ STOCHASTIC_CONFIGS = [
     (14, 5, 80, 20), (21, 3, 80, 20), (21, 5, 70, 30),
 ]
 
+# Family 5: ADX (trend strength) — long when ADX > threshold (strong trend)
+# Uses the chimera's norm_efficiency as a proxy for ADX/trend-strength
+ADX_CONFIGS = [
+    # (lookback_period, adx_threshold) — proxy via price efficiency ratio
+    (7, 0.3), (7, 0.4), (7, 0.5),
+    (14, 0.3), (14, 0.4), (14, 0.5),
+    (21, 0.3), (21, 0.4), (21, 0.5),
+    (10, 0.35), (10, 0.45), (10, 0.55),
+]
+
+# Family 6: Supertrend (ATR-based trend direction)
+SUPERTREND_CONFIGS = [
+    # (atr_period, multiplier) — long when price > supertrend line
+    (7, 1.5), (7, 2.0), (7, 2.5), (7, 3.0),
+    (10, 1.5), (10, 2.0), (10, 2.5), (10, 3.0),
+    (14, 2.0), (14, 2.5), (14, 3.0),
+    (20, 2.0), (20, 3.0),
+]
+
+# Family 7: Funding-rate extreme (crypto-native, uses chimera norm_funding)
+FUNDING_CONFIGS = [
+    # (lookback, z_threshold_long, z_threshold_exit)
+    # Long when funding z < -threshold (contrarian: negative funding = short crowded)
+    (7, -1.0, 0.0), (7, -1.5, 0.0), (7, -2.0, 0.5),
+    (14, -1.0, 0.0), (14, -1.5, 0.0), (14, -2.0, 0.5),
+    (21, -1.0, 0.0), (21, -1.5, 0.0), (21, -2.0, 0.5),
+    (7, -0.5, 0.5), (14, -0.5, 0.5), (21, -0.5, 0.5),
+]
+
+# Family 8: OI-Price Divergence (crypto-native)
+OI_DIVERGENCE_CONFIGS = [
+    # (lookback, divergence_threshold)
+    # Long when OI rising but price flat/down (accumulation)
+    (7, 0.3), (7, 0.5), (7, 0.7),
+    (14, 0.3), (14, 0.5), (14, 0.7),
+    (21, 0.3), (21, 0.5), (21, 0.7),
+    (10, 0.4), (10, 0.6), (10, 0.8),
+]
+
 
 # =============================================================================
 # PER-CONFIG HELD STATE (one binary signal per config)
@@ -225,16 +264,132 @@ def stochastic_single_held(close: np.ndarray, high: np.ndarray, low: np.ndarray,
     return held
 
 
+def adx_single_held(close: np.ndarray, lookback: int, threshold: float) -> np.ndarray:
+    """ADX proxy via efficiency ratio: |net move| / sum(|bar moves|). 
+    Long when efficiency > threshold (price trending efficiently)."""
+    n = len(close)
+    held = np.zeros(n, dtype=np.int8)
+    
+    for i in range(lookback, n):
+        window = close[i-lookback:i+1]
+        net_move = abs(window[-1] - window[0])
+        sum_moves = np.sum(np.abs(np.diff(window)))
+        if sum_moves > 1e-10:
+            efficiency = net_move / sum_moves
+        else:
+            efficiency = 0
+        # Also check direction: only long if trending UP
+        if efficiency > threshold and window[-1] > window[0]:
+            held[i] = 1
+    return held
+
+
+def supertrend_single_held(close: np.ndarray, high: np.ndarray, low: np.ndarray,
+                           atr_period: int, multiplier: float) -> np.ndarray:
+    """Supertrend: ATR-based trend direction. Long when price > supertrend line."""
+    n = len(close)
+    held = np.zeros(n, dtype=np.int8)
+    
+    # Compute ATR
+    tr = np.zeros(n)
+    for i in range(1, n):
+        tr[i] = max(high[i] - low[i], abs(high[i] - close[i-1]), abs(low[i] - close[i-1]))
+    
+    atr = pd.Series(tr).rolling(atr_period, min_periods=atr_period).mean().values
+    
+    # Supertrend
+    upper_band = np.zeros(n)
+    lower_band = np.zeros(n)
+    supertrend = np.zeros(n)
+    direction = np.ones(n, dtype=int)  # 1 = up, -1 = down
+    
+    for i in range(atr_period, n):
+        mid = (high[i] + low[i]) / 2
+        upper_band[i] = mid + multiplier * atr[i]
+        lower_band[i] = mid - multiplier * atr[i]
+        
+        if i > atr_period:
+            # Band continuity
+            if lower_band[i] < lower_band[i-1] and close[i-1] > lower_band[i-1]:
+                lower_band[i] = lower_band[i-1]
+            if upper_band[i] > upper_band[i-1] and close[i-1] < upper_band[i-1]:
+                upper_band[i] = upper_band[i-1]
+            
+            # Direction
+            if close[i] > upper_band[i-1]:
+                direction[i] = 1
+            elif close[i] < lower_band[i-1]:
+                direction[i] = -1
+            else:
+                direction[i] = direction[i-1]
+        
+        held[i] = 1 if direction[i] == 1 else 0
+    
+    return held
+
+
+def funding_single_held(close: np.ndarray, lookback: int, 
+                        z_long: float, z_exit: float) -> np.ndarray:
+    """Funding-rate proxy: use price momentum as funding proxy.
+    In reality this would use norm_funding from chimera.
+    Here we proxy with: negative momentum = "shorts are crowded" = contrarian long."""
+    n = len(close)
+    held = np.zeros(n, dtype=np.int8)
+    
+    # Proxy: rolling z-score of returns (negative = oversold = contrarian long)
+    rets = np.zeros(n)
+    rets[1:] = np.diff(close) / close[:-1]
+    
+    state = 0
+    for i in range(lookback, n):
+        window = rets[i-lookback:i]
+        if np.std(window) > 1e-10:
+            z = (rets[i] - np.mean(window)) / np.std(window)
+        else:
+            z = 0
+        
+        if state == 0 and z < z_long:  # negative z = contrarian long signal
+            state = 1
+        elif state == 1 and z > z_exit:  # z recovered = exit
+            state = 0
+        held[i] = state
+    return held
+
+
+def oi_divergence_single_held(close: np.ndarray, lookback: int, 
+                              threshold: float) -> np.ndarray:
+    """OI-Price divergence proxy: long when price is range-bound but trending up slightly.
+    In reality this would use norm_oi_price_divergence from chimera.
+    Proxy: price efficiency low (range-bound) + slight upward bias."""
+    n = len(close)
+    held = np.zeros(n, dtype=np.int8)
+    
+    for i in range(lookback, n):
+        window = close[i-lookback:i+1]
+        net_move = window[-1] - window[0]
+        sum_moves = np.sum(np.abs(np.diff(window)))
+        
+        if sum_moves > 1e-10:
+            efficiency = abs(net_move) / sum_moves
+            # Low efficiency = range-bound, slight positive = accumulation
+            if efficiency < threshold and net_move > 0:
+                held[i] = 1
+    
+    return held
+
+
 # =============================================================================
 # ENSEMBLE PROVIDER (majority vote across configs = selectivity)
 # =============================================================================
 
-def make_ensemble_provider(family: str, configs: list, threshold: float = 0.5):
+def make_ensemble_provider(family: str, configs: list, vote_threshold: float = 0.5):
     """Build an ensemble provider: majority of configs must agree to be long.
     
     Returns: provider(sym, o, h, l, c) -> int8 held array
     Same interface as the MA make_hold_provider.
     """
+    _vote_thr = vote_threshold  # capture in closure
+    
     def provider(sym, o, h, l, c):
         close = np.asarray(c, dtype=float)
         high = np.asarray(h, dtype=float)
@@ -258,6 +413,18 @@ def make_ensemble_provider(family: str, configs: list, threshold: float = 0.5):
                     k_period, d_period, overbought, oversold = cfg
                     held = stochastic_single_held(close, high, low, 
                                                   k_period, d_period, overbought, oversold)
+                elif family == "ADX":
+                    lookback, thr = cfg
+                    held = adx_single_held(close, lookback, thr)
+                elif family == "SUPERTREND":
+                    atr_period, multiplier = cfg
+                    held = supertrend_single_held(close, high, low, atr_period, multiplier)
+                elif family == "FUNDING":
+                    lookback, z_long, z_exit = cfg
+                    held = funding_single_held(close, lookback, z_long, z_exit)
+                elif family == "OI_DIVERGENCE":
+                    lookback, thr = cfg
+                    held = oi_divergence_single_held(close, lookback, thr)
                 else:
                     continue
                 votes += held.astype(float)
@@ -270,7 +437,7 @@ def make_ensemble_provider(family: str, configs: list, threshold: float = 0.5):
         
         # Majority vote: held when > threshold fraction of configs agree
         frac = votes / n_valid
-        return (frac > threshold).astype(np.int8)
+        return (frac > _vote_thr).astype(np.int8)
     
     return provider
 
@@ -474,7 +641,7 @@ def run_family_sweep(family: str, configs: list, threshold: float = 0.5):
     if family == "STOCHASTIC":
         provider = make_stochastic_ensemble_provider(configs, threshold)
     else:
-        provider = make_ensemble_provider(family, configs, threshold)
+        provider = make_ensemble_provider(family, configs, vote_threshold=threshold)
     
     tfs = ["1d", "4h", "2h", "1h", "30m"]
     results = []
@@ -505,28 +672,32 @@ def run_family_sweep(family: str, configs: list, threshold: float = 0.5):
 
 
 def main():
-    """Run all 4 SOTA TI families."""
+    """Run all TI families."""
     all_results = {}
     
     all_results["RSI"] = run_family_sweep("RSI", RSI_CONFIGS, threshold=0.5)
     all_results["MACD"] = run_family_sweep("MACD", MACD_CONFIGS, threshold=0.5)
     all_results["BOLLINGER"] = run_family_sweep("BOLLINGER", BOLLINGER_CONFIGS, threshold=0.5)
     all_results["STOCHASTIC"] = run_family_sweep("STOCHASTIC", STOCHASTIC_CONFIGS, threshold=0.5)
+    all_results["ADX"] = run_family_sweep("ADX", ADX_CONFIGS, threshold=0.5)
+    all_results["SUPERTREND"] = run_family_sweep("SUPERTREND", SUPERTREND_CONFIGS, threshold=0.5)
+    all_results["FUNDING"] = run_family_sweep("FUNDING", FUNDING_CONFIGS, threshold=0.5)
+    all_results["OI_DIVERGENCE"] = run_family_sweep("OI_DIVERGENCE", OI_DIVERGENCE_CONFIGS, threshold=0.5)
     
     # Summary
     print(f"\n\n{'='*80}")
     print("CROSS-FAMILY COMPARISON (4h, the proven sweet spot)")
     print(f"{'='*80}")
-    print(f"  {'Family':<12} {'%Prof':>6} {'Median':>8} {'vsAL':>8} {'Deploy':>7}")
-    print(f"  {'-'*45}")
+    print(f"  {'Family':<15} {'%Prof':>6} {'Median':>8} {'vsAL':>10} {'Deploy':>7} {'MaxDD':>7}")
+    print(f"  {'-'*55}")
     
     for fam, results in all_results.items():
         r4h = next((r for r in results if r.get("status") == "OK" and r.get("tf") == "4h"), None)
         if r4h:
-            print(f"  {fam:<12} {r4h['pct_profitable']:>5.0%} {r4h['median_slice_pct']:>+7.2f}% "
-                  f"{r4h['vs_al_pp']:>+7.1f} {r4h['deployment_rate']:>6.1%}")
+            print(f"  {fam:<15} {r4h['pct_profitable']:>5.0%} {r4h['median_slice_pct']:>+7.2f}% "
+                  f"{r4h['vs_al_pp']:>+9.1f} {r4h['deployment_rate']:>6.1%} {r4h['maxdd_pct']:>6.1f}%")
     
-    print(f"\n  Reference: MA family at 4h = 59% prof, +4.03% median, 35% deploy")
+    print(f"\n  Reference: MA family at 4h = 59% prof, +4.03% median, 35% deploy, -38.8% MaxDD (OOS)")
 
 
 if __name__ == "__main__":
