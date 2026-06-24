@@ -1,0 +1,12 @@
+{
+  "test": "Random-null validation for SOTA TI families at 4h",
+  "method": "20 random seeds, same deploy rate (~57%), same BTC regime gate",
+  "results": {
+    "RSI": {"engine_compound_pct": 47017, "random_p95_pct": 22882, "beats_p95": true, "percentile": 100, "status": "GENUINE SIGNAL"},
+    "MACD": {"engine_compound_pct": 94352, "random_p95_pct": 21773, "beats_p95": true, "percentile": 100, "status": "GENUINE SIGNAL"},
+    "BOLLINGER": {"engine_compound_pct": 83873, "random_p95_pct": 21491, "beats_p95": true, "percentile": 100, "status": "GENUINE SIGNAL"}
+  },
+  "interpretation": "TI ensemble signals produce 2-4x the compound of random at same deploy rate. The timing value is genuine.",
+  "validated_families": ["MA (prior session)", "RSI", "MACD", "BOLLINGER"],
+  "unvalidated": ["Stochastic (fails at 4h)", "ADX (only 1d)", "Supertrend (pending)", "Funding (BROKEN proxy)", "OI-Divergence (proxy)"]
+}
