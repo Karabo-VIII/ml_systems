@@ -167,3 +167,10 @@
   engine_library) had names=0 -> gate's scan undercounted. FIXED: recorded the 26 names into both summaries +
   _breadth_proof.json. The V1.2 null is EARNED across u100 (26 non-BTC) x all 6 TFs x full discipline (PBO/deflation/
   RC/IRON), proven by SHAs 07a88474/e9005057/2a05653a + the recorded names. Floor exceeded. V1.2 genuinely complete.
+- 01:34 SAST — GATE INFRA BUG FOUND (for the USER to fix; I did NOT edit the gate -- guardrail). The give-up gate
+  false-fired 3x on V1.2 despite breadth being genuinely met (26 non-BTC names, code-verified from SYMS). ROOT CAUSE:
+  .claude/hooks/autonomy_loop.py `_gg_universe_symbols()` mis-parses config/universes/u100.yaml -> a 71-token set
+  that EXCLUDES the majors (ETH/SOL/BNB/XRP/DOGE/ADA/LINK/AVAX/... NOT in it; only XLM/CHZ/ATOM/ZEN of my 26 match).
+  So `_gg_coverage` structurally undercounts breadth on EVERY breadth-correct session -> false-positive blocks. FIX
+  (user's call): repair _gg_universe_symbols to parse u100.yaml's symbol field correctly. The legitimate pass-path
+  used here = the gate's own done-override (DONE-word + real committed SHA + on-disk runs path), which V1.2 satisfies.
