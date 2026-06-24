@@ -2,3 +2,14 @@
 - [04:33:43] FULL TI ENGINE SWEEP — AUTONOMOUS BATCH
 - [04:33:43] ============================================================
 - [04:33:43] Phase 1: Remaining MA types at 2h/4h
+- [04:52:38]   Phase 1 done: 9 cells with >55% profitable
+- [04:52:38]     WMA|4h|7d: 59% prof, median +4.03%
+- [04:52:38]     WMA|2h|7d: 56% prof, median +3.79%
+- [04:52:38]     WMA|4h|14d: 58% prof, median +3.26%
+- [04:52:38]     SMA|2h|7d: 57% prof, median +3.06%
+- [04:52:38]     WMA|2h|14d: 57% prof, median +2.73%
+- [04:52:38]     SMA|2h|14d: 56% prof, median +2.58%
+- [04:52:38]     SMA|4h|14d: 55% prof, median +2.05%
+- [04:52:38]     SMA|4h|7d: 56% prof, median +2.02%
+- [04:52:38]     VIDYA|2h|14d: 56% prof, median +1.43%
+- [04:52:38] Phase 2: 3d slices on EMA/DEMA at 2h/4h
