@@ -1,0 +1,808 @@
+{
+  "results": {
+    "RSI": [
+      {
+        "status": "OK",
+        "family": "RSI",
+        "tf": "4h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 1385,
+        "n_oos_days": 230.8,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": 50.75,
+          "linear_sum_pct": 67.89,
+          "linear_daily_pct": 0.2941,
+          "linear_weekly_pct": 2.0588,
+          "maxdd_pct": -49.9,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.438,
+          "median_slice_pct": -1.1,
+          "win_rate_bar": 0.49
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 38.99,
+          "linear_sum_pct": 54.4,
+          "linear_daily_pct": 0.2356,
+          "linear_weekly_pct": 1.6495,
+          "maxdd_pct": -49.9,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.469,
+          "median_slice_pct": -0.1,
+          "win_rate_bar": 0.534
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 61.68,
+          "linear_sum_pct": 68.36,
+          "linear_daily_pct": 0.2962,
+          "linear_weekly_pct": 2.0731,
+          "maxdd_pct": -45.4,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.329
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 42.77,
+          "btc_buyhold_compound_pct": 51.19,
+          "btc_engine_linear_pct": 38.75,
+          "btc_deploy_rate": 0.001
+        },
+        "combined_edge_vs_al_linwk_pp": 0.4236,
+        "elapsed_s": 8.3
+      },
+      {
+        "status": "OK",
+        "family": "RSI",
+        "tf": "2h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 2771,
+        "n_oos_days": 230.9,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": 6.47,
+          "linear_sum_pct": 32.99,
+          "linear_daily_pct": 0.1429,
+          "linear_weekly_pct": 1.0,
+          "maxdd_pct": -53.3,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.531,
+          "median_slice_pct": 1.56,
+          "win_rate_bar": 0.492
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 40.12,
+          "linear_sum_pct": 54.0,
+          "linear_daily_pct": 0.2338,
+          "linear_weekly_pct": 1.6369,
+          "maxdd_pct": -50.1,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.531,
+          "median_slice_pct": 0.56,
+          "win_rate_bar": 0.526
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": -8.89,
+          "linear_sum_pct": 11.28,
+          "linear_daily_pct": 0.0488,
+          "linear_weekly_pct": 0.3418,
+          "maxdd_pct": -53.3,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.333
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 24.03,
+          "btc_buyhold_compound_pct": 51.76,
+          "btc_engine_linear_pct": 24.66,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": -1.2951,
+        "elapsed_s": 14.9
+      },
+      {
+        "status": "OK",
+        "family": "RSI",
+        "tf": "1h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 5543,
+        "n_oos_days": 231.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": -24.58,
+          "linear_sum_pct": 4.84,
+          "linear_daily_pct": 0.021,
+          "linear_weekly_pct": 0.1468,
+          "maxdd_pct": -58.1,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.438,
+          "median_slice_pct": -2.09,
+          "win_rate_bar": 0.485
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 42.38,
+          "linear_sum_pct": 56.08,
+          "linear_daily_pct": 0.2428,
+          "linear_weekly_pct": 1.6997,
+          "maxdd_pct": -51.2,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.531,
+          "median_slice_pct": 0.46,
+          "win_rate_bar": 0.523
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": -6.68,
+          "linear_sum_pct": 19.63,
+          "linear_daily_pct": 0.085,
+          "linear_weekly_pct": 0.595,
+          "maxdd_pct": -58.1,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.327
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 27.22,
+          "btc_buyhold_compound_pct": 52.51,
+          "btc_engine_linear_pct": 27.26,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": -1.1047,
+        "elapsed_s": 26.3
+      },
+      {
+        "status": "OK",
+        "family": "RSI",
+        "tf": "1d",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 63,
+        "n_oos_bars": 230,
+        "n_oos_days": 230.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": 95.1,
+          "linear_sum_pct": 89.8,
+          "linear_daily_pct": 0.3904,
+          "linear_weekly_pct": 2.7329,
+          "maxdd_pct": -45.0,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.594,
+          "median_slice_pct": 2.45,
+          "win_rate_bar": 0.487
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 34.7,
+          "linear_sum_pct": 47.89,
+          "linear_daily_pct": 0.2082,
+          "linear_weekly_pct": 1.4575,
+          "maxdd_pct": -45.3,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.562,
+          "median_slice_pct": 0.53,
+          "win_rate_bar": 0.496
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 13.07,
+          "linear_sum_pct": 28.44,
+          "linear_daily_pct": 0.1236,
+          "linear_weekly_pct": 0.8655,
+          "maxdd_pct": -51.9,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.375,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.304
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 32.35,
+          "btc_buyhold_compound_pct": 41.39,
+          "btc_engine_linear_pct": 31.67,
+          "btc_deploy_rate": 0.004
+        },
+        "combined_edge_vs_al_linwk_pp": -0.592,
+        "elapsed_s": 3.3
+      },
+      {
+        "status": "OK",
+        "family": "RSI",
+        "tf": "30m",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 11087,
+        "n_oos_days": 231.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": -30.41,
+          "linear_sum_pct": -0.36,
+          "linear_daily_pct": -0.0016,
+          "linear_weekly_pct": -0.011,
+          "maxdd_pct": -74.3,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.406,
+          "median_slice_pct": -6.05,
+          "win_rate_bar": 0.478
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 44.16,
+          "linear_sum_pct": 57.74,
+          "linear_daily_pct": 0.25,
+          "linear_weekly_pct": 1.7498,
+          "maxdd_pct": -52.0,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.5,
+          "median_slice_pct": 0.11,
+          "win_rate_bar": 0.524
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 7.06,
+          "linear_sum_pct": 35.79,
+          "linear_daily_pct": 0.155,
+          "linear_weekly_pct": 1.0847,
+          "maxdd_pct": -60.5,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.25,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.32
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 1.29,
+          "btc_buyhold_compound_pct": 51.62,
+          "btc_engine_linear_pct": 4.56,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": -0.6651,
+        "elapsed_s": 49.6
+      }
+    ],
+    "MACD": [
+      {
+        "status": "OK",
+        "family": "MACD",
+        "tf": "4h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 1385,
+        "n_oos_days": 230.8,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": 13.18,
+          "linear_sum_pct": 36.24,
+          "linear_daily_pct": 0.157,
+          "linear_weekly_pct": 1.0989,
+          "maxdd_pct": -51.0,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.469,
+          "median_slice_pct": -1.39,
+          "win_rate_bar": 0.503
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 38.99,
+          "linear_sum_pct": 54.4,
+          "linear_daily_pct": 0.2356,
+          "linear_weekly_pct": 1.6495,
+          "maxdd_pct": -49.9,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.469,
+          "median_slice_pct": -0.1,
+          "win_rate_bar": 0.534
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 23.4,
+          "linear_sum_pct": 38.21,
+          "linear_daily_pct": 0.1655,
+          "linear_weekly_pct": 1.1588,
+          "maxdd_pct": -46.5,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.328
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 24.1,
+          "btc_buyhold_compound_pct": 51.19,
+          "btc_engine_linear_pct": 25.04,
+          "btc_deploy_rate": 0.001
+        },
+        "combined_edge_vs_al_linwk_pp": -0.4907,
+        "elapsed_s": 5.0
+      },
+      {
+        "status": "OK",
+        "family": "MACD",
+        "tf": "2h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 2771,
+        "n_oos_days": 230.9,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": -19.33,
+          "linear_sum_pct": 4.05,
+          "linear_daily_pct": 0.0175,
+          "linear_weekly_pct": 0.1227,
+          "maxdd_pct": -66.6,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.562,
+          "median_slice_pct": 0.51,
+          "win_rate_bar": 0.504
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 40.12,
+          "linear_sum_pct": 54.0,
+          "linear_daily_pct": 0.2338,
+          "linear_weekly_pct": 1.6369,
+          "maxdd_pct": -50.1,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.531,
+          "median_slice_pct": 0.56,
+          "win_rate_bar": 0.526
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 35.51,
+          "linear_sum_pct": 48.79,
+          "linear_daily_pct": 0.2113,
+          "linear_weekly_pct": 1.479,
+          "maxdd_pct": -47.9,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.438,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.339
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 10.23,
+          "btc_buyhold_compound_pct": 51.76,
+          "btc_engine_linear_pct": 13.52,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": -0.1579,
+        "elapsed_s": 8.3
+      },
+      {
+        "status": "OK",
+        "family": "MACD",
+        "tf": "1h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 5543,
+        "n_oos_days": 231.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": 61.1,
+          "linear_sum_pct": 80.36,
+          "linear_daily_pct": 0.3479,
+          "linear_weekly_pct": 2.4355,
+          "maxdd_pct": -62.9,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.438,
+          "median_slice_pct": -1.8,
+          "win_rate_bar": 0.502
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 42.38,
+          "linear_sum_pct": 56.08,
+          "linear_daily_pct": 0.2428,
+          "linear_weekly_pct": 1.6997,
+          "maxdd_pct": -51.2,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.531,
+          "median_slice_pct": 0.46,
+          "win_rate_bar": 0.523
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 121.31,
+          "linear_sum_pct": 104.48,
+          "linear_daily_pct": 0.4524,
+          "linear_weekly_pct": 3.1667,
+          "maxdd_pct": -40.8,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.344,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.335
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 23.11,
+          "btc_buyhold_compound_pct": 52.51,
+          "btc_engine_linear_pct": 24.96,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": 1.467,
+        "elapsed_s": 13.0
+      },
+      {
+        "status": "OK",
+        "family": "MACD",
+        "tf": "1d",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 63,
+        "n_oos_bars": 230,
+        "n_oos_days": 230.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": 30.62,
+          "linear_sum_pct": 45.95,
+          "linear_daily_pct": 0.1998,
+          "linear_weekly_pct": 1.3986,
+          "maxdd_pct": -51.3,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.5,
+          "median_slice_pct": -0.88,
+          "win_rate_bar": 0.465
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 34.7,
+          "linear_sum_pct": 47.89,
+          "linear_daily_pct": 0.2082,
+          "linear_weekly_pct": 1.4575,
+          "maxdd_pct": -45.3,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.562,
+          "median_slice_pct": 0.53,
+          "win_rate_bar": 0.496
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 31.76,
+          "linear_sum_pct": 41.77,
+          "linear_daily_pct": 0.1816,
+          "linear_weekly_pct": 1.2711,
+          "maxdd_pct": -50.9,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.296
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 29.67,
+          "btc_buyhold_compound_pct": 41.39,
+          "btc_engine_linear_pct": 29.71,
+          "btc_deploy_rate": 0.004
+        },
+        "combined_edge_vs_al_linwk_pp": -0.1864,
+        "elapsed_s": 2.8
+      },
+      {
+        "status": "OK",
+        "family": "MACD",
+        "tf": "30m",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 11087,
+        "n_oos_days": 231.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": -74.05,
+          "linear_sum_pct": -103.95,
+          "linear_daily_pct": -0.45,
+          "linear_weekly_pct": -3.1502,
+          "maxdd_pct": -86.4,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.281,
+          "median_slice_pct": -8.23,
+          "win_rate_bar": 0.481
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 44.16,
+          "linear_sum_pct": 57.74,
+          "linear_daily_pct": 0.25,
+          "linear_weekly_pct": 1.7498,
+          "maxdd_pct": -52.0,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.5,
+          "median_slice_pct": 0.11,
+          "win_rate_bar": 0.524
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": -44.01,
+          "linear_sum_pct": -34.21,
+          "linear_daily_pct": -0.1481,
+          "linear_weekly_pct": -1.0367,
+          "maxdd_pct": -70.6,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.219,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.324
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 12.28,
+          "btc_buyhold_compound_pct": 51.62,
+          "btc_engine_linear_pct": 15.63,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": -2.7865,
+        "elapsed_s": 23.3
+      }
+    ],
+    "BOLLINGER": [
+      {
+        "status": "OK",
+        "family": "BOLLINGER",
+        "tf": "4h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 1385,
+        "n_oos_days": 230.8,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": 1.04,
+          "linear_sum_pct": 26.72,
+          "linear_daily_pct": 0.1158,
+          "linear_weekly_pct": 0.8103,
+          "maxdd_pct": -47.6,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.469,
+          "median_slice_pct": -0.5,
+          "win_rate_bar": 0.485
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 38.99,
+          "linear_sum_pct": 54.4,
+          "linear_daily_pct": 0.2356,
+          "linear_weekly_pct": 1.6495,
+          "maxdd_pct": -49.9,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.469,
+          "median_slice_pct": -0.1,
+          "win_rate_bar": 0.534
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": -13.07,
+          "linear_sum_pct": 4.6,
+          "linear_daily_pct": 0.0199,
+          "linear_weekly_pct": 0.1395,
+          "maxdd_pct": -49.5,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.321
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 51.52,
+          "btc_buyhold_compound_pct": 51.19,
+          "btc_engine_linear_pct": 45.48,
+          "btc_deploy_rate": 0.001
+        },
+        "combined_edge_vs_al_linwk_pp": -1.51,
+        "elapsed_s": 7.9
+      },
+      {
+        "status": "OK",
+        "family": "BOLLINGER",
+        "tf": "2h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 2771,
+        "n_oos_days": 230.9,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": -22.88,
+          "linear_sum_pct": -0.23,
+          "linear_daily_pct": -0.001,
+          "linear_weekly_pct": -0.0068,
+          "maxdd_pct": -62.2,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.5,
+          "median_slice_pct": -0.04,
+          "win_rate_bar": 0.503
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 40.12,
+          "linear_sum_pct": 54.0,
+          "linear_daily_pct": 0.2338,
+          "linear_weekly_pct": 1.6369,
+          "maxdd_pct": -50.1,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.531,
+          "median_slice_pct": 0.56,
+          "win_rate_bar": 0.526
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 2.17,
+          "linear_sum_pct": 21.31,
+          "linear_daily_pct": 0.0923,
+          "linear_weekly_pct": 0.6461,
+          "maxdd_pct": -52.3,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.339
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 52.66,
+          "btc_buyhold_compound_pct": 51.76,
+          "btc_engine_linear_pct": 46.22,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": -0.9908,
+        "elapsed_s": 13.9
+      },
+      {
+        "status": "OK",
+        "family": "BOLLINGER",
+        "tf": "1h",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 5543,
+        "n_oos_days": 231.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": -30.45,
+          "linear_sum_pct": -7.45,
+          "linear_daily_pct": -0.0323,
+          "linear_weekly_pct": -0.2258,
+          "maxdd_pct": -68.6,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.375,
+          "median_slice_pct": -2.61,
+          "win_rate_bar": 0.493
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 42.38,
+          "linear_sum_pct": 56.08,
+          "linear_daily_pct": 0.2428,
+          "linear_weekly_pct": 1.6997,
+          "maxdd_pct": -51.2,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.531,
+          "median_slice_pct": 0.46,
+          "win_rate_bar": 0.523
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 16.27,
+          "linear_sum_pct": 37.63,
+          "linear_daily_pct": 0.1629,
+          "linear_weekly_pct": 1.1405,
+          "maxdd_pct": -47.4,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.331
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 12.51,
+          "btc_buyhold_compound_pct": 52.51,
+          "btc_engine_linear_pct": 15.92,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": -0.5592,
+        "elapsed_s": 24.0
+      },
+      {
+        "status": "OK",
+        "family": "BOLLINGER",
+        "tf": "1d",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 63,
+        "n_oos_bars": 230,
+        "n_oos_days": 230.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": 115.31,
+          "linear_sum_pct": 102.73,
+          "linear_daily_pct": 0.4467,
+          "linear_weekly_pct": 3.1266,
+          "maxdd_pct": -37.8,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.562,
+          "median_slice_pct": 2.85,
+          "win_rate_bar": 0.496
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 34.7,
+          "linear_sum_pct": 47.89,
+          "linear_daily_pct": 0.2082,
+          "linear_weekly_pct": 1.4575,
+          "maxdd_pct": -45.3,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.562,
+          "median_slice_pct": 0.53,
+          "win_rate_bar": 0.496
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": 83.57,
+          "linear_sum_pct": 80.46,
+          "linear_daily_pct": 0.3498,
+          "linear_weekly_pct": 2.4487,
+          "maxdd_pct": -38.6,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.375,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.322
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 52.45,
+          "btc_buyhold_compound_pct": 41.39,
+          "btc_engine_linear_pct": 46.38,
+          "btc_deploy_rate": 0.004
+        },
+        "combined_edge_vs_al_linwk_pp": 0.9912,
+        "elapsed_s": 3.3
+      },
+      {
+        "status": "OK",
+        "family": "BOLLINGER",
+        "tf": "30m",
+        "oos_window": "2024-05-15 to 2025-01-01",
+        "n_assets": 64,
+        "n_oos_bars": 11087,
+        "n_oos_days": 231.0,
+        "engine": {
+          "label": "engine (no gate)",
+          "compound_pct": -79.75,
+          "linear_sum_pct": -127.02,
+          "linear_daily_pct": -0.5499,
+          "linear_weekly_pct": -3.8494,
+          "maxdd_pct": -91.7,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.312,
+          "median_slice_pct": -6.78,
+          "win_rate_bar": 0.477
+        },
+        "always_long": {
+          "label": "always-long",
+          "compound_pct": 44.16,
+          "linear_sum_pct": 57.74,
+          "linear_daily_pct": 0.25,
+          "linear_weekly_pct": 1.7498,
+          "maxdd_pct": -52.0,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.5,
+          "median_slice_pct": 0.11,
+          "win_rate_bar": 0.524
+        },
+        "combined": {
+          "label": "combined (regime-gated)",
+          "compound_pct": -47.43,
+          "linear_sum_pct": -38.07,
+          "linear_daily_pct": -0.1648,
+          "linear_weekly_pct": -1.1537,
+          "maxdd_pct": -78.4,
+          "n_slices": 32,
+          "pct_slices_profitable": 0.25,
+          "median_slice_pct": 0.0,
+          "win_rate_bar": 0.32
+        },
+        "btc_single_asset": {
+          "btc_engine_compound_pct": 2.34,
+          "btc_buyhold_compound_pct": 51.62,
+          "btc_engine_linear_pct": 6.37,
+          "btc_deploy_rate": 0.0
+        },
+        "combined_edge_vs_al_linwk_pp": -2.9035,
+        "elapsed_s": 44.3
+      }
+    ]
+  },
+  "oos_window": "2024-05-15 to 2025-01-01",
+  "cost_rt": 0.0006,
+  "timestamp": "20260624_132249"
+}

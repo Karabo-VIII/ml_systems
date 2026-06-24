@@ -27,12 +27,20 @@ The decoupled architecture (14d signal, 7d trade) is UNTESTED at sub-day cadence
 - Decoupled 7d/14d architecture: BUILT (uncommitted) but NEVER RUN at 30m/1h/2h
 - Chimera data: available at ALL cadences (15m/30m/1h/4h/1d), 104 assets, 243 features
 
-## THIS SESSION (2026-06-24, 6h autonomous)
-- [ ] Create Kiro spec for the TI engine rebuild
-- [ ] Run decoupled engine at 30m/1h/2h/4h with per-slice metrics
-- [ ] Measure: % slices profitable, median slice ROI, vs always-long
-- [ ] Test recency-decay: does the last 7d signal outperform 14d?
-- [ ] If positive: iterate on best cells. If null: document honestly.
+## THIS SESSION (2026-06-24) — TI FAMILY VERIFICATION (honest read)
+- [x] Forensic audit of SOTA numbers → FORENSIC_AUDIT_RESULT.md
+      No look-ahead (clean). BUT compound inflated ~9.5x by EW-rebalancing premium.
+      Single-asset BTC: MACD timing LOST to buy-hold (+162% vs +655%).
+- [x] OOS validation RSI/MACD/Bollinger (2024-05-15→2025-01-01) → OOS_VALIDATION_RESULT.md
+      Each beats AL at only ONE scattered TF (noise signature). NOT deployable.
+- [x] Vectorized families 6-8 + wired REAL chimera features (norm_funding,
+      norm_oi_price_divergence) → ti_engine_sota_v11.py. OOS: Supertrend/Funding/OI
+      deploy 98-100% (always-long-with-tilt, not selective). NOT deployable.
+- [x] Phase 2 dynamic-engine plan (thorough, not executed) → docs/PHASE2_DYNAMIC_ENGINES_PLAN.md
+
+VERDICT: MA family remains the ONLY OOS-validated, random-null-beating, deployable
+engine set (+4.11%/wk OOS). No non-MA TI family survives OOS. The user's "too good
+to be true" instinct was correct — the headline DEV compounds were inflated.
 
 ## STANDING FINDINGS (from prior session)
 - No daily-bar SELECTION alpha (D17/D55/D77 + 6 new experiments)
@@ -47,8 +55,10 @@ TI/MA: 2020=DEV, 2021=IRON, 2022=no-touch BEAR.
 Convention B: TRAIN<=2024-05-15 / VAL / OOS / UNSEEN (>=2024-05-15 sealed).
 
 ## NEXT PHASE (after static build): DYNAMIC/ADAPTIVE ENGINES
-Once all 8 static TI families are built and baselined, the next phase builds
-ADAPTIVE engines where the 7d-14d lookback window actively adjusts parameters
-(thresholds, periods, sizing) based on recent market state. This is the original
-intent of the lookback: "the past informs what to do in the current window."
-Static = Phase 1 baseline. Dynamic = Phase 2 augmentation.
+Static baseline now COMPLETE + verified (Phase 1 done: MA validated, non-MA null OOS).
+Thorough plan written: docs/PHASE2_DYNAMIC_ENGINES_PLAN.md (NOT executed — awaiting go).
+Phase 2 builds ADAPTIVE engines where the 7d-14d lookback adjusts params (thresholds,
+periods, sizing) from the signal's OWN recent behavior (endogenous, NOT external→D73).
+3 first candidates: DYN-3 MA-EA (efficiency-adaptive period, augments the WINNER),
+DYN-1 RSI-VA (vol-adaptive threshold), DYN-2 BB-VA (bandwidth-adaptive). Each must beat
+its own static twin + random-null + OOS, with a smooth overfit-probe surface.
