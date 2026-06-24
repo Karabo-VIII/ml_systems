@@ -46,3 +46,13 @@ Build TI-based trading engines that are **PROFITABLE within the smallest time wi
 If all TI × TF × window cells are null: the verified V1 drawdown-insurance (capital preservation
 at 1d/4h) stands as the deployable ceiling. But: sub-day (30m/1h/2h) with decoupled lookback/hold
 is GENUINELY UNTESTED with the correct (de-leaked) architecture. Test it before accepting null.
+
+## FUTURE: DYNAMIC/ADAPTIVE ENGINES (noted, not yet built)
+After the static engine build is complete (8 TI families × 5 TFs), the NEXT phase is:
+**Adaptive engines that USE the lookback window to ADAPT their parameters** — not just confirm
+a fixed signal, but actively adjust thresholds/periods based on recent regime/vol/momentum.
+The 7d-14d lookback was designed for this: the past informs current-window decisions.
+D73 killed weekly config-mapping with EXTERNAL factors, but per-bar adaptation using the
+SIGNAL'S OWN recent behavior (e.g., RSI threshold widens in high-vol, Bollinger adapts bandwidth)
+is a genuinely different mechanism — untested. This is the Phase 2 (ML-augmented) track from the
+WEALTH_BOT_DEVELOPMENT_FRAMEWORK. Build the static baseline FIRST, then augment.

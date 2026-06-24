@@ -35,3 +35,11 @@ Regenerate with `python crypto/scripts/knowledge/build_map.py`; `--check` fails 
 | Older in-place archives (~2500 files) | crypto/archive/analysis,strategy,scripts,skills,runs_logs/ | read each subdir's _ARCHIVED_INDEX.md FIRST |
 | Pre-split git history (2219 commits; 514 dead-vein subjects) | archive/presplit_git_history/*.bundle [local only] | git --git-dir=.git fetch BUNDLE 'refs/heads/*:refs/presplit/*' then git log refs/presplit/* (grep dead/null/refut/D-numbers) |
 | Out-of-repo auto-memory (feedback-*.md + project-*.md) | C:/Users/karab/.claude/projects/c--Users-karab-Documents-coding-ml-systems/memory/ | Grep ; index MEMORY.md (truncates >24.4KB) |
+
+## FUTURE PHASE: DYNAMIC/ADAPTIVE ENGINES
+| what | where | how to query |
+|---|---|---|
+| Dynamic engine requirement (adaptive params from lookback window) | crypto/CHARTER.md §FUTURE + crypto/CURRENT.md §NEXT PHASE | Read |
+| D73 (weekly config-mapping killed) — the constraint on adaptation | crypto/docs/MARKET_FRAMEWORK/01_DEAD_LIST.md | Grep D73 |
+| WEALTH_BOT_DEVELOPMENT_FRAMEWORK Phase 2 (ML augmentation) | crypto/docs/WEALTH_BOT_DEVELOPMENT_FRAMEWORK.md | Read §Phase 2 |
+| Per-bar adaptation (untested with decoupled architecture) | NOT YET BUILT — the next campaign after static baseline | — |

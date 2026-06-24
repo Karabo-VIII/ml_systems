@@ -45,3 +45,10 @@ The decoupled architecture (14d signal, 7d trade) is UNTESTED at sub-day cadence
 ## SPLIT CONVENTIONS
 TI/MA: 2020=DEV, 2021=IRON, 2022=no-touch BEAR.
 Convention B: TRAIN<=2024-05-15 / VAL / OOS / UNSEEN (>=2024-05-15 sealed).
+
+## NEXT PHASE (after static build): DYNAMIC/ADAPTIVE ENGINES
+Once all 8 static TI families are built and baselined, the next phase builds
+ADAPTIVE engines where the 7d-14d lookback window actively adjusts parameters
+(thresholds, periods, sizing) based on recent market state. This is the original
+intent of the lookback: "the past informs what to do in the current window."
+Static = Phase 1 baseline. Dynamic = Phase 2 augmentation.
