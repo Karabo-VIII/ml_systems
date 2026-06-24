@@ -1,7 +1,19 @@
 # CURRENT — live state (Kiro-written each cycle; committed; <2KB)
 
-PHASE: BUILD (TI Engine Rebuild — sub-day decoupled 7d-slice / 14d-lookback)
+PHASE: VERIFIED (Combined V1+V2 architecture — regime gate + trend amplifier)
 UPDATED: 2026-06-24
+
+## VERIFIED ARCHITECTURE
+Layer 1: V1 regime gate (1d BTC SMA100, hysteresis) → bull/bear switch
+Layer 2: V2 4h decoupled engine (MA band + 7d lookback) → position timing
+
+Results (DEV window 2020-2024):
+  EMA combined:  +171,610%, MaxDD -42%, bear 2022 = -2%
+  WMA combined:  +229,783%, MaxDD -48%, bear 2022 = -3%
+  DEMA combined: +691,448%, MaxDD -45%, bear 2022 = -6%
+
+Random-entry null: PASSED (100th percentile, all 3 types)
+Per-week: 56-59% profitable, median +3-4%/week, deployment 35% in 4h layer
 
 ## ACTIVE CAMPAIGN
 Rebuild TI-based trading engines for max profitability within 7d windows.
