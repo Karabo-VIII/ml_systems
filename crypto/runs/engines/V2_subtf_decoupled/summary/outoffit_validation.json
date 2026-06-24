@@ -1,0 +1,36 @@
+{
+  "test": "out-of-fit validation",
+  "purpose": "Does the edge survive without the 2020-2021 mega-bull?",
+  "results": {
+    "full_window_2020_2024": {
+      "note": "includes 2020-2021 bull (+783% passive)",
+      "EMA": {"pct_prof": 0.56, "median_pct": 3.09, "compound_pct": 17592, "beats_al": 0.57},
+      "WMA": {"pct_prof": 0.59, "median_pct": 4.10, "compound_pct": 40588, "beats_al": 0.59},
+      "DEMA": {"pct_prof": 0.59, "median_pct": 3.19, "compound_pct": 78627, "beats_al": 0.60}
+    },
+    "outoffit_2021_06_onwards": {
+      "note": "excludes 2020-2021H1, 154 slices",
+      "EMA": {"pct_prof": 0.53, "median_pct": 1.41, "compound_pct": 35, "beats_al": 0.54},
+      "WMA": {"pct_prof": 0.55, "median_pct": 1.30, "compound_pct": 93, "beats_al": 0.55},
+      "DEMA": {"pct_prof": 0.53, "median_pct": 0.61, "compound_pct": 63, "beats_al": 0.56}
+    },
+    "hardest_2022_onwards": {
+      "note": "bear-dominant, 2.3 years",
+      "EMA": {"pct_prof": 0.49, "median_pct": -0.01, "compound_pct": 9, "al_compound": -17, "edge_pp": 26, "beats_al": 0.53},
+      "WMA": {"pct_prof": 0.50, "median_pct": 0.00, "compound_pct": -9, "al_compound": -17, "edge_pp": 8, "beats_al": 0.52},
+      "DEMA": {"pct_prof": 0.50, "median_pct": 0.28, "compound_pct": -48, "al_compound": -17, "edge_pp": -32, "beats_al": 0.56}
+    }
+  },
+  "honest_verdict": {
+    "full_window_median_inflated_by_2020_bull": true,
+    "genuine_timing_edge_exists": true,
+    "edge_magnitude_post_2021": "modest (+0.6-1.4%/week, not 3-4%/week)",
+    "bear_preservation_value": "real (EMA: +9% vs AL -17% in bear-dominant window)",
+    "realistic_forward_expectation": {
+      "bull_regime": "+1-2%/week",
+      "bear_regime": "~0% (cash via regime gate)",
+      "full_cycle": "positive (bear avoidance preserves bull gains for compounding)"
+    },
+    "comparison_to_v1": "Consistent with V1 verified finding: capital-preservation, not alpha"
+  }
+}
