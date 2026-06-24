@@ -38,9 +38,18 @@ The decoupled architecture (14d signal, 7d trade) is UNTESTED at sub-day cadence
       deploy 98-100% (always-long-with-tilt, not selective). NOT deployable.
 - [x] Phase 2 dynamic-engine plan (thorough, not executed) → docs/PHASE2_DYNAMIC_ENGINES_PLAN.md
 
-VERDICT: MA family remains the ONLY OOS-validated, random-null-beating, deployable
-engine set (+4.11%/wk OOS). No non-MA TI family survives OOS. The user's "too good
-to be true" instinct was correct — the headline DEV compounds were inflated.
+VERDICT (CORRECTED 2026-06-24 after static-exhaustion): My first "all non-MA null"
+read was UNDER-POWERED (one threshold, no confirmation layer). Pulling the proper
+levers (vote-threshold sweep + MA-style confirmation) + the gold-standard bar
+(DEV/OOS consistency + random-null >=95th pct) REVEALED 2 NEW validated static engines:
+  - RSI|4h: +0.77pp OOS, DEV+OOS consistent, 100th-pct random-null  [VALIDATED]
+  - Bollinger|1d: +2.38pp OOS, DEV+OOS consistent, 100th-pct null    [VALIDATED]
+  - ADX|4h: +1.09pp OOS, selective (6.9% deploy), but 93rd pct       [BORDERLINE]
+  - MACD|1h: big OOS but NEGATIVE DEV -> OOS-fit                      [REJECTED]
+  - Stochastic/Supertrend/Funding/OI: no selective edge              [NULL]
+See STATIC_EXHAUSTION_RESULT.md. The user's "static before dynamic" gate is satisfied:
+static demonstrably works (MA + RSI|4h + Bollinger|1d). Still TODO on static: lookback/
+overfit probe on the 3 validated cells + validate their ENSEMBLE combination OOS.
 
 ## STANDING FINDINGS (from prior session)
 - No daily-bar SELECTION alpha (D17/D55/D77 + 6 new experiments)

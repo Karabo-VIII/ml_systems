@@ -1,0 +1,45 @@
+{
+  "results": [
+    {
+      "family": "MACD",
+      "tf": "1h",
+      "threshold": 0.6,
+      "confirm": true,
+      "dev_edge_pp": -0.62,
+      "oos_edge_pp": 3.236,
+      "dev_oos_consistent": false,
+      "null_mean_pp": -0.084,
+      "null_sd": 0.437,
+      "real_vs_null_pct": 100.0,
+      "random_null_pass": true
+    },
+    {
+      "family": "BOLLINGER",
+      "tf": "1d",
+      "threshold": 0.6,
+      "confirm": true,
+      "dev_edge_pp": 0.506,
+      "oos_edge_pp": 2.381,
+      "dev_oos_consistent": true,
+      "null_mean_pp": -0.683,
+      "null_sd": 0.308,
+      "real_vs_null_pct": 100.0,
+      "random_null_pass": true
+    },
+    {
+      "family": "RSI",
+      "tf": "4h",
+      "threshold": 0.7,
+      "confirm": false,
+      "dev_edge_pp": 1.228,
+      "oos_edge_pp": 0.769,
+      "dev_oos_consistent": true,
+      "null_mean_pp": -0.363,
+      "null_sd": 0.382,
+      "real_vs_null_pct": 100.0,
+      "random_null_pass": true
+    }
+  ],
+  "n_null": 200,
+  "timestamp": "20260624_151149"
+}
