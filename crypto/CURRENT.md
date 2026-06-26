@@ -126,8 +126,11 @@ overfit probe on the 3 validated cells + validate their ENSEMBLE combination OOS
 TI/MA: 2020=DEV, 2021=IRON, 2022=no-touch BEAR.
 Convention B: TRAIN<=2024-05-15 / VAL / OOS / UNSEEN (>=2024-05-15 sealed).
 
-## NEXT: PHASE 2 — DYNAMIC/ADAPTIVE ENGINES (user go-ahead given 2026-06-25)
-Static is exhausted. Dynamic builds ADAPTIVE engines where the 7d lookback ADAPTS params
-from the signal's OWN recent behavior (endogenous, NOT external → D73 safe). Design at:
-→ docs/PHASE2_DYNAMIC_ENGINES_DESIGN.md (rigorous, V1.1-standard)
-First candidates: DYN-3 MA-EA (adapt the WINNER), DYN-4 ADX-EA (adapt the V6 discovery).
+## DYN-5 RESULT (2026-06-26): NULL for MA family (structurally correlated configs)
+DYN-5 (conviction-on-agreement) tested on MA family at 4h: deploy 95-97% even at
+conviction 0.8, top-K=5. The mechanism cannot create selectivity because MA crossover
+configs are STRUCTURALLY CORRELATED — in a trend, all fast>slow variants agree.
+Conviction-on-agreement requires INDEPENDENT signals that occasionally disagree; MA
+configs don't provide that. The framework is architecturally sound for less-correlated
+signal sets (e.g., mixed TI families), but within one MA family it's null.
+→ runs/engines/V7_dynamic/dyn5_conviction_VAL_*.json
