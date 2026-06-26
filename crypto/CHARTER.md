@@ -42,17 +42,39 @@ Build TI-based trading engines that are **PROFITABLE within the smallest time wi
   `capture_lab`, `fleet_lab`, `ChimeraLoader`.
 - Commit working code. Tag findings honestly.
 
+## ENGINE BUILD RIGOR (BINDING — the V1.1 MA standard, 2026-06-25)
+Every TI engine, regardless of family, MUST be built to the same rigor as the validated
+MA family (V1.1/V2). This is NOT optional — it was a CORRECTIVE after the V3/V4 campaigns
+produced under-powered builds. The requirements, per engine:
+
+1. **SYSTEMATIC CONFIG GRID** — 50-100+ parameter combinations, not 12 hand-picked
+   round numbers. Sweep the full meaningful range per indicator (period/threshold/multiplier).
+2. **DECOUPLED LOOKBACK WINDOW** — the signal uses only the trailing 7d or 14d of bars
+   to decide, not the full history. Signal relevance decays; recent > stale.
+3. **MULTI-LAYER CONFIRMATION** — raw signal AND close > EMA(lookback_bars) AND EMA rising.
+   This confirmation layer is what makes engines SELECTIVE (35% deploy, not 95%+).
+4. **PORTFOLIO REPLAY via `ma_wealth_driver.run_wealth()`** (or equivalent audited harness) —
+   proper lag-1 positions, MtM reconciliation, maker cost, WALL assertion.
+5. **ALL 5 TIMEFRAMES** — {1d, 4h, 2h, 1h, 30m}. Do NOT optimise for one TF. Report all.
+6. **TRAIN→VAL iteration** — tune on TRAIN (≤2023-07-01), validate on VAL (..2024-05-15),
+   iterate, then freeze. Only after freezing: single OOS test on 2024 remainder.
+7. **RANDOM-NULL (n≥100)** — engine must beat random ensemble at same deploy rate under
+   same gate at ≥95th percentile. This isolates TI timing from being-long-under-the-gate.
+8. **OVERFIT PROBE** — the hyperparameter surface around the best cell must be a SMOOTH
+   plateau, not an isolated spike. Sensitivity = suspect; plateau = robust.
+
+If ANY engine build does not meet these 8 requirements, it is INCOMPLETE and cannot be
+claimed as validated. This applies to ALL current and future builds.
+
 ## THE HONEST FALLBACK
 If all TI × TF × window cells are null: the verified V1 drawdown-insurance (capital preservation
 at 1d/4h) stands as the deployable ceiling. But: sub-day (30m/1h/2h) with decoupled lookback/hold
 is GENUINELY UNTESTED with the correct (de-leaked) architecture. Test it before accepting null.
 
-## FUTURE: DYNAMIC/ADAPTIVE ENGINES (noted, not yet built)
-After the static engine build is complete (8 TI families × 5 TFs), the NEXT phase is:
-**Adaptive engines that USE the lookback window to ADAPT their parameters** — not just confirm
-a fixed signal, but actively adjust thresholds/periods based on recent regime/vol/momentum.
-The 7d-14d lookback was designed for this: the past informs current-window decisions.
-D73 killed weekly config-mapping with EXTERNAL factors, but per-bar adaptation using the
-SIGNAL'S OWN recent behavior (e.g., RSI threshold widens in high-vol, Bollinger adapts bandwidth)
-is a genuinely different mechanism — untested. This is the Phase 2 (ML-augmented) track from the
-WEALTH_BOT_DEVELOPMENT_FRAMEWORK. Build the static baseline FIRST, then augment.
+## FUTURE: DYNAMIC/ADAPTIVE ENGINES (Phase 2 — ACTIVE, design approved 2026-06-25)
+Design: docs/PHASE2_DYNAMIC_ENGINES_DESIGN.md (supersedes the earlier PLAN).
+Build order: DYN-3 MA-EA (augment winner) → DYN-4 ADX-EA (augment V6 discovery) →
+DYN-1 RSI-VA → DYN-2 BB-VA. Each: one free param, endogenous adaptation, static-twin A/B,
+random-null + adaptation-null, OOS-2024, overfit-probe. Kill if deploy≥90% or ≤static-twin.
+D73 (weekly external-factor config-mapping) is DEAD — Phase 2 uses ENDOGENOUS state vars
+(vol, efficiency, autocorrelation from the signal's OWN price) which is mechanically different.

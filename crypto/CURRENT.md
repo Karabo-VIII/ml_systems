@@ -1,7 +1,7 @@
 # CURRENT — live state (Kiro-written each cycle; committed; <2KB)
 
-PHASE: VERIFIED (Combined V1+V2 architecture — regime gate + trend amplifier)
-UPDATED: 2026-06-24
+PHASE: V6 RIGOROUS STATIC COMPLETE — READY FOR PHASE 2 DYNAMIC
+UPDATED: 2026-06-25
 
 ## VERIFIED ARCHITECTURE
 Layer 1: V1 regime gate (1d BTC SMA100, hysteresis) → bull/bear switch
@@ -16,11 +16,71 @@ Random-entry null: PASSED (100th percentile, all 3 types)
 Per-week: 56-59% profitable, median +3-4%/week, deployment 35% in 4h layer
 
 ## ACTIVE CAMPAIGN
-STATIC PHASE — CLOSED (2026-06-24). 3 validated static engines: MA WMA|4h, Bollinger|1d,
-RSI|4h. Bollinger overfit-probe clean (smooth plateau across lookback 3-21). Ensemble:
-MA & Bollinger 0.96 corr (redundant trend-follow); RSI is the real diversifier (0.65).
-Naive EW ensemble Sharpe 1.97 at lower vol. Next refinement (optional): MA+RSI Sharpe-
-weighted blend. Phase 2 (dynamic) has a working foundation but is NOT started — user gate.
+STATIC PHASE — CLOSED + EXHAUSTED across 21 TI families (2026-06-24).
+3 SELECTIVE validated engines: MA WMA|4h, Bollinger|1d, RSI|4h (deploy MA+RSI; Boll
+0.96 corr w/ MA = redundant). PLUS a bench of 8 NON-SELECTIVE long-tilt overlays from
+V4 (CCI/WILLR/VWAP|1d strongest, 100th-pct null, +2-3pp OOS but deploy 80-96% = refine
+WHICH longs, not WHETHER long). See runs/engines/CONSOLIDATED_ENGINE_REGISTRY.md.
+Phase 2 (dynamic) has a working foundation + concrete target (turn V4 tilts selective).
+NOT started — user gate.
+
+## V5 DNA + HYPER-AUDIT (2026-06-25) — full TI×TF performance DNA, no exclusions
+Pipeline AUDITED 19/19 (causal/walled/cost/null/rebal-premium all verified) →
+runs/engines/V5_dna_report/PIPELINE_AUDIT_RESULT.md. Key audit finding: rebalancing
+premium is WINDOW-dependent — ~9.5x on full-DEV but only ~1.1x on OOS-2024, so OOS-2024
+compounds are ~honest. Look-ahead probe decisive (cheat +65%→+4217%; production causal).
+
+Full DNA: 26 families × 3 TFs (1d/4h/2h) on VAL (2023-07-01..2024-05-15) + OOS-2024
+(2024-05-15..2024-12-31, 2025 SEALED). → runs/engines/V5_dna_report/DNA_REPORT.md (every
+cell, ranked by transparent 0-6 robustness score). Findings:
+- 25/78 cells DEV/OOS-consistent; 21 also beat OOS random-null ≥95th (genuine timing).
+- ONLY ADX is genuinely SELECTIVE (~70% deploy) — but it FAILS VAL/OOS consistency.
+  Every other consistent cell deploys 96-100% (always-long-with-tilt under the gate).
+- Top robust tilts (5/6, consistent + 100th-pct null, non-selective): HMA|1d (+2.66pp OOS),
+  WILLR|1d (+1.29), Bollinger|1d (+1.29), TEMA|1d (+1.12), VIDYA|4h, SMA|4h, VWAP|1d,
+  MFI|1d, Supertrend|4h, WMA|4h, PSAR|4h. 1d and 4h carry the signal; 2h is noise (sign-flips).
+- This RECONCILES the earlier "Bollinger|1d / RSI|4h validated" claim: under this larger
+  harness Bollinger|1d holds (robust tilt), but it is NOT selective — the V3 "selective"
+  label conflated low-deploy with the confirmation-layer slice-hold. Honest status: robust
+  NON-SELECTIVE tilt, same as ~13 others. RSI|4h is OOS-only here (VAL edge -0.64) → weaker
+  than previously stated. NOTHING is both selective AND consistent except via the regime gate.
+
+## DEAD/NULL REWORK (2026-06-25) — DONE
+ADX rework OVERTURNED its V3 "null" verdict: a proper lookback×threshold sweep reveals
+ADX|1d (lb22-28, thr0.42-0.48) is the program's FIRST genuinely SELECTIVE (deploy ~40-66%)
++ VAL/OOS-consistent + 100th-pct-null engine. Overfit probe: NOT a spike — a directional
+gradient (lookback≥22 consistently positive, 25/40 cells OOS+). HONEST caveat: lookback-
+sensitive (dies <lb20), OOS edge (+0.6-1.1pp/wk) < VAL. Promoted VALIDATED-SELECTIVE
+(PROVISIONAL): deploy only as ensemble over the robust pocket, re-confirm on 2025 when opened.
+Stochastic: confirmed DEAD, but the scary -7.8pp was an INVERTED-LOGIC artifact (flip →
+-0.44); both directions ≤0 OOS = genuinely no signal. → DEADCASE_REWORK_RESULT.md
+
+## ROSTER NOW (audited)
+- SELECTIVE validated: ADX|1d (provisional, the only true selective engine) + MA decoupled-
+  BAND V2 (WMA|4h, the canonical selective winner from ma_wealth_driver).
+- ROBUST NON-SELECTIVE tilts (consistent + 100th-pct null, deploy 96-100%): HMA|1d, WILLR|1d,
+  Bollinger|1d, TEMA|1d, VIDYA|4h, SMA|4h, VWAP|1d, MFI|1d, Supertrend|4h, WMA|4h, PSAR|4h
+  (+~10 more at score 4). These refine WHICH longs under the gate.
+- The regime gate remains the dominant value lever (D78).
+
+## ACTIVE CAMPAIGN: V6 RIGOROUS REBUILD — COMPLETE (2026-06-25)
+All 12 non-MA families × 5 TFs rebuilt with full V1.1 rigor (CHARTER §ENGINE BUILD RIGOR).
+57 cells evaluated. RESULT: ONLY ADX|1d is genuinely selective (67% deploy, +2.26pp/wk, 100th
+null, Sharpe 3.38). Every other family deploys 98-100% at all TFs — the TRAIN filter cannot
+reduce them because their signal logic is structurally always-on under a bull gate. Sub-daily
+(1h/30m) universally bleeds from cost+noise.
+→ runs/engines/V6_rigorous/V6_RESULT.md + v6_sweep_20260625_203231.json (1d/4h/2h) +
+  v6_sweep_20260625_223748.json (1h/30m)
+
+## ENGINE ROSTER (rigorous, final)
+SELECTIVE validated:
+  1. MA V2 BAND (WMA|4h) — the canonical winner (ma_wealth_driver, 35% deploy)
+  2. ADX|1d (V6 discovery, 67% deploy, +2.26pp VAL, Sharpe 3.38)
+NON-SELECTIVE tilts (1d only, 98-100% deploy, small edge):
+  PSAR|1d (+0.33), OBV|1d (+0.36), DONCHIAN|1d (+0.28), RSI|1d (+0.27)
+NULL at sub-daily: all families at 1h/30m; most at 4h/2h.
+The regime gate (V1 BTC SMA100) remains the dominant value lever (D78 CASH THEOREM).
+Static TI engine build is COMPLETE AND EXHAUSTED to a defensible degree.
 
 ## WHAT EXISTS (verified, committed)
 - V1 MA drawdown-insurance: 8 types × {1d, 4h} = VERIFIED (halves DD, -35% vs -82%)
@@ -65,11 +125,8 @@ overfit probe on the 3 validated cells + validate their ENSEMBLE combination OOS
 TI/MA: 2020=DEV, 2021=IRON, 2022=no-touch BEAR.
 Convention B: TRAIN<=2024-05-15 / VAL / OOS / UNSEEN (>=2024-05-15 sealed).
 
-## NEXT PHASE (after static build): DYNAMIC/ADAPTIVE ENGINES
-Static baseline now COMPLETE + verified (Phase 1 done: MA validated, non-MA null OOS).
-Thorough plan written: docs/PHASE2_DYNAMIC_ENGINES_PLAN.md (NOT executed — awaiting go).
-Phase 2 builds ADAPTIVE engines where the 7d-14d lookback adjusts params (thresholds,
-periods, sizing) from the signal's OWN recent behavior (endogenous, NOT external→D73).
-3 first candidates: DYN-3 MA-EA (efficiency-adaptive period, augments the WINNER),
-DYN-1 RSI-VA (vol-adaptive threshold), DYN-2 BB-VA (bandwidth-adaptive). Each must beat
-its own static twin + random-null + OOS, with a smooth overfit-probe surface.
+## NEXT: PHASE 2 — DYNAMIC/ADAPTIVE ENGINES (user go-ahead given 2026-06-25)
+Static is exhausted. Dynamic builds ADAPTIVE engines where the 7d lookback ADAPTS params
+from the signal's OWN recent behavior (endogenous, NOT external → D73 safe). Design at:
+→ docs/PHASE2_DYNAMIC_ENGINES_DESIGN.md (rigorous, V1.1-standard)
+First candidates: DYN-3 MA-EA (adapt the WINNER), DYN-4 ADX-EA (adapt the V6 discovery).

@@ -26,6 +26,8 @@ Regenerate with `python crypto/scripts/knowledge/build_map.py`; `--check` fails 
 | Universe / data / split truth | crypto/config/universes/u10.yaml,u50.yaml,u100.yaml, crypto/config/data_config.yaml | Read ; ChimeraLoader.load(sym,cadence) |
 | Move-catch survivors + how to run | crypto/src/strat/move_catch_book.py (+ _v2), crypto/src/wealth_bot/harness.py | Read header |
 | MA/TI canonical configs (BAND grid; ensemble-not-#1; u10-tuned) | crypto/runs/periods/TRAIN/2020/DEEP_DIVE/config_leaderboard.json + robust_ma_runners.json ; src/strat/ma_2020_config_leaderboard.py, robust_ma_runners.py, working_band_rolling.py | Read ; grid[(type,TF)].band.band_configs ; WEALTH leg -> portfolio_replay.run(universe=u100) |
+| ALL trading engines RANKED (21 TI families, 3 campaigns) | crypto/runs/engines/CONSOLIDATED_ENGINE_REGISTRY.md | Read (single source for the engine leaderboard) |
+| V4 volume+misc families (12 engines, SOTA gauntlet) | crypto/src/strat/ti_engine_extra.py + ti_extra_runner.py ; runs/engines/V4_ti_extra/V4_RESULT.md | Read ; `python -m strat.ti_extra_runner --families volume\|misc\|all --thresholds .. --confirm` |
 
 ## TIER 3 -- cold storage, retrievable WITH the embedded recipe (these are the traps)
 | what | where | how to query |
@@ -36,10 +38,11 @@ Regenerate with `python crypto/scripts/knowledge/build_map.py`; `--check` fails 
 | Pre-split git history (2219 commits; 514 dead-vein subjects) | archive/presplit_git_history/*.bundle [local only] | git --git-dir=.git fetch BUNDLE 'refs/heads/*:refs/presplit/*' then git log refs/presplit/* (grep dead/null/refut/D-numbers) |
 | Out-of-repo auto-memory (feedback-*.md + project-*.md) | C:/Users/karab/.claude/projects/c--Users-karab-Documents-coding-ml-systems/memory/ | Grep ; index MEMORY.md (truncates >24.4KB) |
 
-## FUTURE PHASE: DYNAMIC/ADAPTIVE ENGINES
+## FUTURE PHASE: DYNAMIC/ADAPTIVE ENGINES — NOW ACTIVE
 | what | where | how to query |
 |---|---|---|
-| Dynamic engine requirement (adaptive params from lookback window) | crypto/CHARTER.md §FUTURE + crypto/CURRENT.md §NEXT PHASE | Read |
-| D73 (weekly config-mapping killed) — the constraint on adaptation | crypto/docs/MARKET_FRAMEWORK/01_DEAD_LIST.md | Grep D73 |
-| WEALTH_BOT_DEVELOPMENT_FRAMEWORK Phase 2 (ML augmentation) | crypto/docs/WEALTH_BOT_DEVELOPMENT_FRAMEWORK.md | Read §Phase 2 |
-| Per-bar adaptation (untested with decoupled architecture) | NOT YET BUILT — the next campaign after static baseline | — |
+| Dynamic engine DESIGN (rigorous, V1.1-standard, supersedes earlier PLAN) | crypto/docs/PHASE2_DYNAMIC_ENGINES_DESIGN.md | Read (binding for Phase 2 build) |
+| Original plan (context, superseded by DESIGN) | crypto/docs/PHASE2_DYNAMIC_ENGINES_PLAN.md | Read for history |
+| D73 (weekly external config-mapping killed) — the constraint | crypto/docs/MARKET_FRAMEWORK/01_DEAD_LIST.md | Grep D73 |
+| Phase 2 code (when built) | crypto/src/strat/ti_engine_dynamic.py + dynamic_gauntlet.py | — |
+| Phase 2 results (when produced) | crypto/runs/engines/V7_dynamic/ | — |
