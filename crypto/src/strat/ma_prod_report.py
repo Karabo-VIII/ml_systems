@@ -184,6 +184,68 @@ def run_prod_cell(ma_type, tf, lookback_days=14, slice_days=7, window="OOS"):
     m_comb = metrics(comb); m_al = metrics(al); m_eng = metrics(eng)
     deploy = float(np.mean(comb != 0)) if len(comb) else 0
 
+    # ---- TRADE-LEVEL BREAKDOWN (per-asset discrete trades) ----
+    # A "trade" = a contiguous run of held==1 for one asset. Its return is the
+    # compounded gated return over that run. Classify win/loss.
+    trades = []
+    for sym in close_dict:
+        if sym not in held_dict:
+            continue
+        h_ser = held_dict[sym]
+        c_ser = close_dict[sym]
+        # restrict to window
+        in_win = (h_ser.index >= win_start) & (h_ser.index < win_end)
+        h_w = h_ser[in_win].to_numpy()
+        idx_w = h_ser.index[in_win]
+        if len(h_w) < 3:
+            continue
+        c_w = c_ser.reindex(idx_w).to_numpy()
+        # find contiguous held runs
+        i = 0; L = len(h_w)
+        while i < L:
+            if h_w[i] == 1:
+                j = i
+                while j < L and h_w[j] == 1:
+                    j += 1
+                # trade from entry i to exit j (exclusive); return = c[j-1]/c[i]-1 approx
+                # use bar returns within the run (entry executed at i, exit at min(j,L-1))
+                entry_idx = i
+                exit_idx = min(j, L - 1)
+                if exit_idx > entry_idx and np.isfinite(c_w[entry_idx]) and np.isfinite(c_w[exit_idx]) and c_w[entry_idx] > 0:
+                    tret = (c_w[exit_idx] / c_w[entry_idx] - 1.0) * 100
+                    # subtract round-trip maker cost
+                    tret -= MAKER_RT * 100
+                    trades.append({
+                        "asset": sym, "entry": str(idx_w[entry_idx])[:10],
+                        "exit": str(idx_w[exit_idx])[:10],
+                        "bars_held": exit_idx - entry_idx, "ret_pct": round(tret, 2),
+                    })
+                i = j
+            else:
+                i += 1
+
+    n_trades = len(trades)
+    wins = [t for t in trades if t["ret_pct"] > 0]
+    losses = [t for t in trades if t["ret_pct"] <= 0]
+    trade_stats = {
+        "n_trades": n_trades,
+        "n_wins": len(wins), "n_losses": len(losses),
+        "win_rate": round(len(wins) / n_trades, 3) if n_trades else 0,
+        "avg_win_pct": round(float(np.mean([t["ret_pct"] for t in wins])), 2) if wins else 0,
+        "avg_loss_pct": round(float(np.mean([t["ret_pct"] for t in losses])), 2) if losses else 0,
+        "avg_trade_pct": round(float(np.mean([t["ret_pct"] for t in trades])), 2) if trades else 0,
+        "best_trade": max(trades, key=lambda t: t["ret_pct"]) if trades else None,
+        "worst_trade": min(trades, key=lambda t: t["ret_pct"]) if trades else None,
+        "avg_bars_held": round(float(np.mean([t["bars_held"] for t in trades])), 1) if trades else 0,
+        "gross_win_pct": round(float(np.sum([t["ret_pct"] for t in wins])), 1) if wins else 0,
+        "gross_loss_pct": round(float(np.sum([t["ret_pct"] for t in losses])), 1) if losses else 0,
+        "profit_factor": round(abs(float(np.sum([t["ret_pct"] for t in wins])) /
+                                   float(np.sum([t["ret_pct"] for t in losses]))), 2)
+                         if losses and np.sum([t["ret_pct"] for t in losses]) != 0 else None,
+        "top10_winners": sorted(wins, key=lambda t: -t["ret_pct"])[:10],
+        "top10_losers": sorted(losses, key=lambda t: t["ret_pct"])[:10],
+    }
+
     # per-asset
     asset_rows = []
     for sym in close_dict:
@@ -213,6 +275,7 @@ def run_prod_cell(ma_type, tf, lookback_days=14, slice_days=7, window="OOS"):
         "deploy": round(deploy, 3),
         "edge_vs_al_lin_wk": round(m_comb["lin_wk"] - m_al["lin_wk"], 3),
         "assets": asset_rows,
+        "trade_stats": trade_stats,
     }
 
 
@@ -270,8 +333,45 @@ This is the canonical V2 engine, not a simplified approximation.</div>
 <tr><td>Slices profitable</td><td>{cv['pct_slices_prof']:.0%}</td><td>{co['pct_slices_prof']:.0%}</td><td>{al_o['pct_slices_prof']:.0%}</td></tr>
 <tr><td>Median slice</td><td>{cv['median_slice']:+.2f}%</td><td>{co['median_slice']:+.2f}%</td><td>{al_o['median_slice']:+.2f}%</td></tr>
 </table>
+"""
+    # ---- Trade-level breakdown (what worked vs what didn't) ----
+    ts = oos.get("trade_stats", {})
+    if ts and ts.get("n_trades"):
+        pf = ts.get("profit_factor")
+        pf_str = f"{pf:.2f}" if pf is not None else "n/a"
+        html += f"""<h2>Trade-Level Breakdown — what worked vs what didn't</h2>
+<div class="note">A "trade" = one contiguous held run for one asset (entry→exit), net of {MAKER_RT*100:.2f}% round-trip maker cost.
+{ts['n_trades']} discrete trades in OOS-2024.</div>
+<div>
+<div class="kpi"><div class="val">{ts['n_trades']}</div><div class="lbl">Total Trades</div></div>
+<div class="kpi"><div class="val {'pos' if ts['win_rate']>=0.5 else 'neutral'}">{ts['win_rate']:.0%}</div><div class="lbl">Win Rate</div></div>
+<div class="kpi"><div class="val pos">{ts['avg_win_pct']:+.2f}%</div><div class="lbl">Avg Win</div></div>
+<div class="kpi"><div class="val neg">{ts['avg_loss_pct']:+.2f}%</div><div class="lbl">Avg Loss</div></div>
+<div class="kpi"><div class="val {'pos' if ts['avg_trade_pct']>0 else 'neg'}">{ts['avg_trade_pct']:+.2f}%</div><div class="lbl">Avg Trade</div></div>
+<div class="kpi"><div class="val">{pf_str}</div><div class="lbl">Profit Factor</div></div>
+<div class="kpi"><div class="val">{ts['avg_bars_held']:.0f}</div><div class="lbl">Avg Bars Held</div></div>
+</div>
+<table>
+<tr><th>Bucket</th><th>Count</th><th>Gross P&amp;L</th><th>Avg/trade</th></tr>
+<tr><td class="pos">Winning trades</td><td>{ts['n_wins']}</td><td class="pos">{ts['gross_win_pct']:+.0f}%</td><td>{ts['avg_win_pct']:+.2f}%</td></tr>
+<tr><td class="neg">Losing trades</td><td>{ts['n_losses']}</td><td class="neg">{ts['gross_loss_pct']:+.0f}%</td><td>{ts['avg_loss_pct']:+.2f}%</td></tr>
+</table>
+<h3>Top 10 Winning Trades</h3>
+<table><tr><th>Asset</th><th>Entry</th><th>Exit</th><th>Bars</th><th>Return</th></tr>
+"""
+        for t in ts.get("top10_winners", []):
+            html += (f"<tr><td>{t['asset']}</td><td>{t['entry']}</td><td>{t['exit']}</td>"
+                     f"<td>{t['bars_held']}</td><td class='pos'>{t['ret_pct']:+.2f}%</td></tr>\n")
+        html += """</table>
+<h3>Top 10 Losing Trades</h3>
+<table><tr><th>Asset</th><th>Entry</th><th>Exit</th><th>Bars</th><th>Return</th></tr>
+"""
+        for t in ts.get("top10_losers", []):
+            html += (f"<tr><td>{t['asset']}</td><td>{t['entry']}</td><td>{t['exit']}</td>"
+                     f"<td>{t['bars_held']}</td><td class='neg'>{t['ret_pct']:+.2f}%</td></tr>\n")
+        html += "</table>\n"
 
-<h2>Per-Asset OOS-2024 ({n} assets, {pos} positive edge)</h2>
+    html += f"""<h2>Per-Asset OOS-2024 ({n} assets, {pos} positive edge)</h2>
 <table><tr><th>Asset</th><th>Deploy</th><th>Eng lin/wk</th><th>AL lin/wk</th><th>Edge pp</th><th>Eng comp</th><th>AL comp</th><th></th></tr>
 """
     max_e = max((abs(x["edge_pp"]) for x in a), default=1)
@@ -314,15 +414,19 @@ def main():
                 print(f"  {ma:<6} {tf:<4} | SKIP")
                 continue
             pos = sum(1 for x in oos["assets"] if x["edge_pp"] > 0)
+            tstat = oos.get("trade_stats", {})
             print(f"  {ma:<6} {tf:<4} | {val['combined']['lin_wk']:>+7.3f} "
                   f"{oos['combined']['lin_wk']:>+7.3f} {oos['edge_vs_al_lin_wk']:>+6.2f} "
                   f"{oos['deploy']:>4.0%} {oos['combined']['sharpe']:>5.2f} "
-                  f"{oos['combined']['pct_slices_prof']:>5.0%} | {pos}/{len(oos['assets'])}")
+                  f"{oos['combined']['pct_slices_prof']:>5.0%} | {pos}/{len(oos['assets'])} | "
+                  f"trades {tstat.get('n_trades',0)} WR {tstat.get('win_rate',0):.0%} "
+                  f"PF {tstat.get('profit_factor') or 0:.2f}")
             html = gen_html(ma, tf, val, oos)
             (OUTDIR / f"PROD_MA_{ma}_{tf}.html").write_text(html, encoding="utf-8")
             summary.append({"ma": ma, "tf": tf, "val": val["combined"], "oos": oos["combined"],
                             "edge": oos["edge_vs_al_lin_wk"], "deploy": oos["deploy"],
-                            "n_pos_assets": pos, "n_assets": len(oos["assets"])})
+                            "n_pos_assets": pos, "n_assets": len(oos["assets"]),
+                            "trade_stats": oos.get("trade_stats")})
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     with open(OUTDIR / f"prod_summary_{ts}.json", "w") as f:
