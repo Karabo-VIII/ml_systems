@@ -72,15 +72,16 @@ reduce them because their signal logic is structurally always-on under a bull ga
 → runs/engines/V6_rigorous/V6_RESULT.md + v6_sweep_20260625_203231.json (1d/4h/2h) +
   v6_sweep_20260625_223748.json (1h/30m)
 
-## ENGINE ROSTER (rigorous, final)
-SELECTIVE validated:
-  1. MA V2 BAND (WMA|4h) — the canonical winner (ma_wealth_driver, 35% deploy)
-  2. ADX|1d (V6 discovery, 67% deploy, +2.26pp VAL, Sharpe 3.38)
-NON-SELECTIVE tilts (1d only, 98-100% deploy, small edge):
-  PSAR|1d (+0.33), OBV|1d (+0.36), DONCHIAN|1d (+0.28), RSI|1d (+0.27)
-NULL at sub-daily: all families at 1h/30m; most at 4h/2h.
-The regime gate (V1 BTC SMA100) remains the dominant value lever (D78 CASH THEOREM).
-Static TI engine build is COMPLETE AND EXHAUSTED to a defensible degree.
+## ENGINE ROSTER (rigorous, final, OOS-validated 2026-06-26)
+SELECTIVE + OOS-VALIDATED:
+  1. MA V2 BAND (WMA|4h) — the canonical winner (ma_wealth_driver, 35% deploy, +4.11%/wk OOS)
+  2. MA × 4h EFFICIENCY-GATED (m=0, eff>0.25) — 7/8 types OOS+ (60-72% deploy, +0.3-1.25pp)
+     Best: DEMA|4h (+1.25pp, 100th null, Sh 2.02), VIDYA (+0.85), SMA (+0.91), EMA (+0.90)
+  3. ADX|1d (V6 discovery, 67% deploy, +2.26pp VAL, Sharpe 3.38, OOS probe pending)
+DYNAMIC ADAPTATION (m>0 vov-threshold): NULL OOS (VAL-fit, does not transfer)
+MA × 2h eff-gate: NULL OOS (VAL-fit, extraordinary selectivity did not generalize)
+NON-SELECTIVE tilts (1d only, 98-100% deploy): PSAR, OBV, DONCHIAN, RSI (tiny edges)
+Static TI engine build COMPLETE AND EXHAUSTED. Dynamic adaptation (vov-threshold) REFUTED.
 
 ## WHAT EXISTS (verified, committed)
 - V1 MA drawdown-insurance: 8 types × {1d, 4h} = VERIFIED (halves DD, -35% vs -82%)

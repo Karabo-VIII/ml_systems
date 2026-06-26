@@ -274,13 +274,56 @@ valid outcome and will be documented as such.
 
 ---
 
-## 10. Timeline estimate
+## 10. ADDITIONAL DYNAMIC FRAMEWORKS (documented, not yet built)
 
-DYN-3 (MA-EA): ~2-3 hours (fast TF, existing infra)
-DYN-4 (ADX-EA): ~1-2 hours (1d panel is small)
-DYN-1/2 (RSI/BB): ~1-2 hours each
-Gauntlet (per engine): ~30 min each
-Total: ~6-10 hours of agent execution time.
+### DYN-5: Conviction-on-Agreement (cross-strategy convergence filter)
+**Mechanism:** from a pool of K independently-validated strategies (within ONE TI family),
+enter ONLY when multiple configs/variants agree on the same asset at the same time.
+Not an ensemble (which superposes/averages). A CONVICTION filter: agreement of independent
+signals = higher confidence. Fewer entries, higher quality per entry.
+
+**How it differs from V1.1 ensemble:** V1.1 averages ALL configs and takes majority vote →
+always fires because SOME always agree. DYN-5 requires agreement among the PROFITABLE
+configs only (the top-K from the lookback window). K is refreshed every 7d based on
+which configs were profitable in the trailing window (the dynamic part).
+
+**Architecture:**
+1. Every 7d: rank configs within one TI family by trailing-window P&L
+2. Take top-K as the "credible pool" for this slice
+3. For each asset at each bar: count how many of the K fire "long"
+4. Enter ONLY when agreement ≥ threshold (e.g., 3/5 must agree)
+5. Free params: K (pool size), agreement threshold
+6. Static twin: random K-selection (not lookback-ranked)
+
+**D73 safety:** does NOT pick a strategy based on persistence (D73's mechanism). Uses
+agreement as a quality signal — convergence of multiple independently-profitable configs
+is a different hypothesis from "what worked last week continues."
+
+### DYN-6: Intra-Family Config Rotation (pick-the-best within one TI type)
+**Mechanism:** within one TI family (e.g., just SMA configs), rank configs by trailing-7d
+P&L and run ONLY the top-1 (or top-2) for the next slice. Different from DYN-5: here you
+PICK one config to run, not require agreement.
+
+**Important constraint:** this is WITHIN one TI type (e.g., pick the best SMA period, NOT
+"pick SMA vs RSI"). We do NOT know how different TI families complement each other —
+cross-family composition is a separate, unvalidated research question that belongs AFTER
+single-family dynamics are proven.
+
+**D73 proximity (honest):** this is mechanically close to D73 (recent-performance →
+continue), which was killed for EXTERNAL-factor config-mapping. The distinction: DYN-6
+uses the strategy's OWN recent P&L (endogenous). But the underlying assumption
+(persistence of config quality) is the same mechanism D73 found doesn't transfer. Lower
+prior than DYN-5. Build after DYN-5 for comparison.
+
+**Architecture:**
+1. Every 7d: rank all configs within one family by trailing-7d P&L per asset
+2. For the next 7d: run ONLY the top-N (N=1 or 2) config for that asset
+3. Free params: N (how many to run), lookback (7d or 14d)
+4. Static twin: random config selection (not ranked)
+
+### Build order for additional frameworks
+DYN-5 (conviction) first (mechanically novel, higher prior), then DYN-6 (rotation, lower
+prior due to D73 proximity). Both AFTER DYN-3/DYN-4 are validated or killed on OOS.
 
 ---
 
