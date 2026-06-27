@@ -111,6 +111,21 @@ def btc_regime(wall_ms: int) -> pd.Series | None:
     return s
 
 
+def causal_regime(wall_ms: int) -> "pd.Series | None":
+    """De-leaked 1d BTC regime for GATING in replay() (see V1.1 align_htf_on bug class).
+
+    btc_regime[D] is BTC's day-D 1d CLOSE regime (~23:59). replay()'s broadcast
+    (normalize-to-day + ffill) makes a day-D bar read regime[D] => SAME-DAY LOOK-AHEAD.
+    Causal fix: a bar on day D reads the last CLOSED 1d bar = regime[D-1]; we shift the
+    daily series forward one full 1d bar before broadcast
+    (see runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json).
+    """
+    s = btc_regime(wall_ms)
+    if s is None:
+        return None
+    return s.shift(1).fillna(0).astype(int)
+
+
 # --------------------------------------------------------------------------- #
 # Unified held builder for ANY family
 # --------------------------------------------------------------------------- #
@@ -273,8 +288,8 @@ ALL_FAMILIES = (MA_TYPES + list(NONMA_CLOSE) + list(NONMA_OHLC)
 
 
 def run_dna(families, tfs, vote_threshold=0.5, n_null=200):
-    reg_dev = btc_regime(DEV_WALL_MS)
-    reg_oos = btc_regime(OOS_WALL_MS)
+    reg_dev = causal_regime(DEV_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
+    reg_oos = causal_regime(OOS_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
     rows = []
     hdr = (f"  {'family':<10} {'tf':<4} | {'VAL edge':>8} {'VALnull':>7} {'VALdep':>6} "
            f"{'VALshrp':>7} | {'OOSedge':>8} {'OOSnull':>7} {'OOSdep':>6} {'OOSshrp':>7} | "

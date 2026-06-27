@@ -35,7 +35,7 @@ CRYPTO = ROOT.parent
 import strat.fleet_lab as fl
 from strat.ma_wealth_driver import _load_asset, _u100_symbols
 from strat.ma_slice_engine import (
-    held_rolling, _cached_band_held, btc_regime, OOS_WALL_MS, OOS_START, OOS_2024_END,
+    held_rolling, _cached_band_held, causal_regime, OOS_WALL_MS, OOS_START, OOS_2024_END,
 )
 from strat.canonical_exits import COST_PROD
 from firm.portfolio import allocate, Position, PortfolioLimits
@@ -57,7 +57,7 @@ def playout(ma_type="SMA", tf="4h", vol_target=0.02, max_per_name=0.15):
     slice_bars = cfg["slice"] * bpd
     wall_ms = OOS_WALL_MS
     win_s = pd.Timestamp(OOS_START); win_e = pd.Timestamp(OOS_2024_END)
-    regime = btc_regime(wall_ms)
+    regime = causal_regime(wall_ms)   # de-leaked: bar on day D reads regime[D-1]
 
     # Build holds + close panel
     close_cols, held_cols = {}, {}

@@ -29,7 +29,7 @@ CRYPTO = ROOT.parent
 import strat.fleet_lab as fl
 from strat.ma_wealth_driver import _load_asset, _u100_symbols
 from strat.ma_slice_engine import (
-    _confirmed_signal, held_rolling, _cached_band_held, btc_regime,
+    _confirmed_signal, held_rolling, _cached_band_held, causal_regime,
     VAL_START, VAL_END, OOS_START, OOS_2024_END, VAL_WALL_MS, OOS_WALL_MS,
 )
 from strat.canonical_exits import COST_PROD
@@ -68,7 +68,7 @@ def run_candidate(ma_type, tf, window):
     win_e = pd.Timestamp(OOS_2024_END if window == "OOS" else VAL_END)
     wall_date = "2025-01-01" if window == "OOS" else VAL_END
 
-    regime = btc_regime(wall_ms)
+    regime = causal_regime(wall_ms)   # de-leaked: bar on day D reads regime[D-1]
     close_cols, held_cols = {}, {}
     data_min, data_max = None, None
     for sym in _u100_symbols():

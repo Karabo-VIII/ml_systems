@@ -1,0 +1,72 @@
+{
+  "audit": "Adversarial re-verification of Kiro's NULLS D83/D84/D85 (config-rotation, within-type convergence, dynamic-adaptive)",
+  "auditor": "Claude (RED team, audit skill)",
+  "date": "2026-06-28",
+  "verdict": "PASS_WITH_CONCERNS",
+  "window": "OOS-2024 (2024-05-15..2024-12-31); 2025 SEALED",
+  "cost": "PROD 0.0028 RT",
+  "summary": "All three NULLS (D83/D84/D85) are HONEST refutations, NOT under-powered false-nulls. The verdicts reproduce bit-exactly, the controls are fair, and the multiple-comparison caveats are correctly applied. ONE narrative overclaim found in D83 (see headline_concern): 'DEPLOY THE FROZEN BAND' is not cleanly supported because the random-reselect null mean BEATS the frozen band in 6/12 cells (concentration, not selection-skill, is the lever the experiment surfaces). The D83 verdict that recent-P&L selection has NO SKILL is fully sound; the corollary that frozen is optimal is overstated.",
+
+  "D83_config_rotation": {
+    "claim": "frozen wins 11/12 vs rolling vs random-reselect-null; config rotation by recent P&L has no skill (5th D73 confirmation)",
+    "random_null_fairness": "FAIR. Rolling and random arms reselect from the SAME full universe, vote across the SAME top_k=10, reselect on the SAME slice cadence, same churn. Only the selection criterion differs (trailing P&L vs random). This cleanly isolates selection skill. SOUND control design.",
+    "leak_note": "evaluate() uses the SAME leaked btc_regime broadcast (ma_rolling_band_ab.py:173-177, ridx<=dt.normalize() reads same-day daily-close regime) as the leak-check found, but the leak is UNIFORM across frozen/rolling/random arms, so the RELATIVE comparison (the verdict) is leak-robust.",
+    "reproduced": {
+      "VIDYA|1d": {"frozen": 1.572, "rolling": 1.925, "random_p95": 1.774, "verdict": "ROLLING WINS (within MC noise)"},
+      "SMA|1d": {"frozen": 1.67, "rolling": 1.366, "random_p95": 1.788, "verdict": "FROZEN WINS"}
+    },
+    "reproduction_match": "BIT-EXACT vs original run (rolling_band_ab_20260627_215823.json). Deterministic, seeded. Numbers NOT fabricated.",
+    "count_audit": {
+      "rolling_wins_with_skill": "1/12 (VIDYA|1d only)",
+      "frozen_ge_rolling": "9/12 (NOT 11/12 as headlined)",
+      "headline_11_of_12_means": "12 minus the 1 skill-win = cells where rolling did NOT win-with-skill. This is a DIFFERENT claim than 'frozen beats rolling' (9/12). Imprecise headline.",
+      "random_mean_beats_frozen": "6/12 cells (EMA|1d 1.83>1.68, KAMA|1d 1.70>1.58, WMA|1d 1.63>1.60, VIDYA|1d, DEMA|1d, VIDYA|4h)"
+    },
+    "VIDYA_1d_win_MC_check": "rolling 1.925 exceeds random P95 1.774 by only +0.16. Across 12 cells at ~5% FPR ~0.6 false positives expected. Kiro explicitly flags '1/12, likely noise.' HONEST.",
+    "verdict": "PASS on the core null (recent-P&L selection has no skill). CONCERN on the deployable corollary 'frozen is optimal' (random-10 churn matched/beat frozen in 6/12)."
+  },
+
+  "D84_within_type_convergence": {
+    "claim": "within-type top-5 convergence loses to full band 5/6 types; gating hurts",
+    "design_soundness": "SOUND. Top-5 ranked on TRAIN+VAL (2020..2024-05-15) FROZEN, convergence measured OOS-2024. OOS-excluded selection by construction (rank_configs_trainval). No peeking.",
+    "root_cause_validity": "MECHANISTICALLY CORRECT. The 5 top configs within one MA type are near-clones (all same-type crossovers); requiring them to converge = 'one opinion measured 5 ways', no diversification. Confirmed by the data: tightening gate (>=3,>=4,>=5) monotonically HURTS (SMA +1.67 -> +0.60). The KAMA gate>=4 +1.72 exception correctly flagged as 1-of-6-types-x-several-gates MC noise.",
+    "leak_note": "Same leaked regime broadcast (ma_within_type_convergence.py:93), uniform across all arms within a type -> relative comparison holds.",
+    "verdict": "PASS. Honest null. The contrast vs V12 ACROSS-type convergence (orthogonal smoothers DID add +0.1pp) confirms the mechanism is understood, not just observed."
+  },
+
+  "D85_dynamic_endogenous_adaptive": {
+    "claim": "dynamic vov-threshold adaptation (m>0) is VAL-fit, OOS-null; does not transfer",
+    "evidence_VAL": "m=0.3 BEATS m=0.0 in ALL 8 types on VAL (e.g. EMA edge +2.15 vs +1.46, HMA +3.05 vs +2.33). Dynamic looks great in-sample.",
+    "evidence_OOS": "Relationship INVERTS on OOS-2024. m=0.0 (static) OOS edges UNIFORMLY POSITIVE (+0.31 to +1.25). m=0.3 (dynamic) OOS edges mostly near-zero/NEGATIVE: HMA -1.41, DEMA -0.29, TEMA -0.64, VIDYA -0.02; only SMA/WMA/KAMA marginally positive (+0.27/+0.39/+0.55) but BELOW their own m=0 twin.",
+    "verdict": "PASS. Textbook VAL-fit/OOS-null signature (in-sample dominance fully reverses out-of-sample). The 'dynamic adaptation does not transfer' verdict is CORRECT and well-supported. Note: this is also CHARTER-consistent (D85 refutes the endogenous-adaptive vein, not the static MA engine which stays OOS-positive at m=0)."
+  },
+
+  "leak_check_verdict_audit": {
+    "status": "INDEPENDENTLY CONFIRMED SOUND",
+    "falsifier_correctness": "leakcheck_falsifier.py mirrors run_cell exactly, swaps ONLY regime alignment (regime.shift(1) = causal de-leak: day-D bar reads regime[D-1] last CLOSED 1d bar). Reuses verified _load_asset/band/exits/lag-1 MtM. regime_bars_changed_frac=1.7% computed directly. De-leak retains ~85%, all 9 cells stay positive. Mechanism + magnitude both sound.",
+    "note": "The +1.4-1.6%/wk capped deployable headline de-leaks ~15% to ~+1.2-1.4%/wk. Qualitative conclusions unchanged."
+  },
+
+  "consolidated_selection_thread": {
+    "tests": ["V9 rolling reselect (D83)", "V11 honest top-K", "V13 within-type conv (D84)", "V12 across-type conv (small WIN)"],
+    "consistency": "All 4 internally consistent: config CONCENTRATION/SELECTION adds no OOS edge (config performance non-persistent, D62/D73 family, now 6 confirmations); the ONLY convergence that helps is ACROSS orthogonal MA TYPES. Mechanistically coherent.",
+    "verdict": "The dead-list D83-D85 verdicts are HONEST. No under-powered false-nulls detected."
+  },
+
+  "most_important_finding": "D83's deployable conclusion 'DEPLOY THE FROZEN BAND' is OVERCLAIMED. The experiment's own random-reselect null mean BEATS the curated 114-config frozen band in 6/12 cells (e.g. EMA|1d random 1.83 vs frozen 1.68). A churning random-10-config book matched or beat frozen in half the cells. The SOUND claim is narrower: 'selection BY RECENT P&L has no skill' (fully supported). But 'frozen is the optimal deployable' does not follow -- the experiment instead surfaces CONCENTRATION (10 configs >> 114-config diluted vote) as a live, untested lever. The '11/12' headline conflates 'rolling did not win-with-skill (11/12)' with 'frozen beats rolling (9/12)'. RECOMMEND: re-baseline the D83 narrative to 'recent-P&L selection NULL; concentration lever flagged for follow-up' and test a frozen-band-at-10-configs vs frozen-band-at-114 cell directly.",
+
+  "files_examined": [
+    "crypto/src/strat/ma_rolling_band_ab.py",
+    "crypto/src/strat/ma_within_type_convergence.py",
+    "crypto/src/strat/ti_engine_dynamic.py",
+    "crypto/src/strat/ma_slice_engine.py",
+    "crypto/src/strat/ma_movecatch_engine.py",
+    "crypto/runs/engines/V9_rolling_band/rolling_band_ab_20260627_215823.json",
+    "crypto/runs/engines/V9_rolling_band/rolling_band_ab_20260628_004628.json",
+    "crypto/runs/engines/V13_within_type_conv/within_type_conv_1d_20260627_230442.json",
+    "crypto/runs/engines/V7_dynamic/dyn3_ma_ea_20260626_012612.json",
+    "crypto/runs/engines/V7_dynamic/dyn3_oos_validation.json",
+    "crypto/runs/engines/V11_topk_edge/TOPK_EDGE_RESULT.md",
+    "crypto/runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck_falsifier.py"
+  ]
+}

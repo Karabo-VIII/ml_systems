@@ -73,6 +73,20 @@ def btc_regime(wall_ms: int) -> pd.Series | None:
     return s
 
 
+def causal_regime(wall_ms: int) -> "pd.Series | None":
+    """De-leaked 1d BTC regime for GATING in replay() (see V1.1 align_htf_on bug class).
+
+    btc_regime[D] is BTC's day-D 1d CLOSE regime (~23:59); replay()'s per-bar prior[-1]
+    broadcast makes a day-D bar read regime[D] => SAME-DAY LOOK-AHEAD. Causal fix: a bar on
+    day D reads the last CLOSED 1d bar = regime[D-1]; shift the daily series forward one 1d
+    bar before broadcast (see runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json).
+    """
+    s = btc_regime(wall_ms)
+    if s is None:
+        return None
+    return s.shift(1).fillna(0).astype(int)
+
+
 # --------------------------------------------------------------------------- #
 # Panel build: holds + close matrices for one family x TF (causal, walled)
 # --------------------------------------------------------------------------- #
@@ -240,8 +254,8 @@ def random_null(panel, regime, tf, deploy, window_start, n_draws=200, seed0=0):
 def run_family(family: str, tfs=("1d", "4h", "2h", "1h", "30m"),
                vote_threshold=0.5, n_null=200, confirm=False):
     t0 = time.time()
-    reg_dev = btc_regime(DEV_WALL_MS)
-    reg_oos = btc_regime(OOS_WALL_MS)
+    reg_dev = causal_regime(DEV_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
+    reg_oos = causal_regime(OOS_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
     rows = []
     print(f"\n{'='*94}\n  {family}  (configs={len(ALL_CONFIGS[family])}, vote>{vote_threshold:.0%}"
           f"{', CONFIRM' if confirm else ''})"

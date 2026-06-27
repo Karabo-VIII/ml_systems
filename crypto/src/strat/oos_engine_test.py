@@ -79,7 +79,10 @@ def run_oos_cell(ma_type: str, tf: str, lookback_days: int = 7,
             elif state == 1 and c < s * 0.98:
                 state = 0
             regime_s.iloc[i] = state
-        btc_regime = regime_s
+        # DE-LEAK (V1.1 align_htf_on bug class): regime[D] is the day-D 1d CLOSE (~23:59);
+        # the per-bar prior[-1] broadcast on a day-D bar must read the last CLOSED 1d bar =
+        # regime[D-1]. Shift forward one 1d bar. See runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json.
+        btc_regime = regime_s.shift(1).fillna(0).astype(int)
     
     # Load all assets with extended wall
     symbols = _u100_symbols()

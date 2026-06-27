@@ -1,0 +1,69 @@
+{
+  "check": "WAVE2B_diversification_MAband_plus_ADX",
+  "ts": "20260628_012300",
+  "note": "ADX is PROVISIONAL/VAL-fit -> potential only, gated on 2025",
+  "windows": {
+    "VAL": {
+      "corr": 0.442,
+      "MA only": {
+        "lin_wk": 1.964,
+        "sharpe": 1.862,
+        "maxdd": -42.6,
+        "ret_per_dd": 0.0461,
+        "pct7d": 0.444
+      },
+      "MA75/ADX25": {
+        "lin_wk": 2.835,
+        "sharpe": 2.625,
+        "maxdd": -31.9,
+        "ret_per_dd": 0.0889,
+        "pct7d": 0.4
+      },
+      "MA50/ADX50": {
+        "lin_wk": 3.705,
+        "sharpe": 2.955,
+        "maxdd": -26.7,
+        "ret_per_dd": 0.1387,
+        "pct7d": 0.422
+      },
+      "ADX_alone": {
+        "lin_wk": 5.446,
+        "sharpe": 2.934,
+        "maxdd": -38.8,
+        "ret_per_dd": 0.1402,
+        "pct7d": 0.333
+      }
+    },
+    "OOS": {
+      "corr": 0.615,
+      "MA only": {
+        "lin_wk": 1.822,
+        "sharpe": 1.391,
+        "maxdd": -32.8,
+        "ret_per_dd": 0.0555,
+        "pct7d": 0.344
+      },
+      "MA75/ADX25": {
+        "lin_wk": 2.016,
+        "sharpe": 1.587,
+        "maxdd": -34.9,
+        "ret_per_dd": 0.0577,
+        "pct7d": 0.375
+      },
+      "MA50/ADX50": {
+        "lin_wk": 2.21,
+        "sharpe": 1.681,
+        "maxdd": -37.6,
+        "ret_per_dd": 0.0588,
+        "pct7d": 0.375
+      },
+      "ADX_alone": {
+        "lin_wk": 2.597,
+        "sharpe": 1.612,
+        "maxdd": -43.3,
+        "ret_per_dd": 0.06,
+        "pct7d": 0.344
+      }
+    }
+  }
+}

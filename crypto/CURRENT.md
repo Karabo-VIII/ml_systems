@@ -171,3 +171,22 @@ ma_slice_engine.py + ma_slice_study.py. KEY FINDINGS (OOS-2024, PROD taker+slip 
 crypto/src/strat/canonical_exits.py — THE exit module (was missing). Menu: TIME_CAP +
 SIGNAL_BREAK (robust default), TAKE_PROFIT/VOL_TARGET/REGIME (scoped), TRAILING/STOP_LOSS
 (risky, D23/RED-TEAM). apply_min_hold_cooldown for whipsaw. resolve_held = the resolver.
+
+<!-- ============================================================================ -->
+## CORRECTION (Claude, 2026-06-28): same-day regime look-ahead leak fixed
+<!-- Appended by Claude; KIRO-owned body above is unchanged. -->
+The DEPLOYABLE capped headline at L87-89 above (SMA|1d +1.67, EMA|1d +1.68, SMA|4h +1.60;
+"cap dial 15%=+1.4 / 33%=+1.6 / 50%=+2.1 / EW=+3.4") was inflated by a SAME-DAY 1d-regime
+LOOK-AHEAD (the V1.1 align_htf_on bug class): gating consumers broadcast the day-D 1d-BTC-SMA100
+CLOSE regime onto intraday bars of the SAME day D, which isn't known until ~23:59. Confirmed +
+falsified, then fixed DRY via a shared `causal_regime(wall_ms) = btc_regime.shift(1)` helper
+(a bar on day D now reads the last CLOSED 1d bar = regime[D-1]).
+- Impact is MODEST: ~1.7% of OOS-2024 bars flip; the edge retains ~85% (NOT the V1.1 catastrophe).
+- **De-leaked headline (prod cost, OOS-2024): 1d cap15 +1.71 -> +1.564/wk** (Sh 1.46, DD -28.7%).
+  De-leaked cap dial (1d): 15%=+1.56 / 33%=+1.82 / 50%=+2.19 / EW=+3.47 (flag 50%/EW as window-luck).
+  4h cap15 +1.52 -> +1.30/wk. All cells stay positive after de-leak.
+- Evidence: `runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json`,
+  `runs/engines/AUDIT_ORACLE_UPGRADE/audit_deployable.json`,
+  `runs/engines/AUDIT_ORACLE_UPGRADE/wave2_concentration_frontier.json`;
+  regression: `runs/engines/AUDIT_ORACLE_UPGRADE/leakfix_regression.py` (6/6 PASS).
+<!-- ============================================================================ -->

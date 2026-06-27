@@ -69,7 +69,11 @@ def _btc_regime(wall_ms):
         elif st == 1 and cl[i] < sma.iloc[i] * 0.98:
             st = 0
         s.iloc[i] = st
-    return s
+    # DE-LEAK (V1.1 align_htf_on bug class): regime[D] is the day-D 1d CLOSE (~23:59).
+    # Every consumer here gates forward returns via a per-bar prior[-1] broadcast; a day-D
+    # bar must read the last CLOSED 1d bar = regime[D-1]. Shift forward one 1d bar at the
+    # source so all importers de-leak consistently. See runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json.
+    return s.shift(1).fillna(0).astype(int)
 
 
 def ensemble_votes(family, close):

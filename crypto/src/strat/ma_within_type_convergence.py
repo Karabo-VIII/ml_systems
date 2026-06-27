@@ -34,7 +34,7 @@ from strat.ma_wealth_driver import _load_asset, _u100_symbols
 from strat.ma_movecatch_engine import select_band_trainval
 from strat.ma_type_upgrade import _nums, _ema, held_cross
 from strat.canonical_exits import COST_PROD, resolve_held
-from strat.ma_slice_engine import btc_regime, VAL_WALL_MS, OOS_WALL_MS
+from strat.ma_slice_engine import causal_regime, VAL_WALL_MS, OOS_WALL_MS
 from strat.ma_topk_edge import rank_configs_trainval, _single_held
 
 BARS_PER_DAY = fl.BARS_PER_DAY
@@ -74,7 +74,7 @@ def run_type(ma_type, tf):
     top5_periods = [_nums(c) for c in top5]
     full_periods = [_nums(c) for c in band]
 
-    reg = btc_regime(OOS_WALL_MS)
+    reg = causal_regime(OOS_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
     closes = {}
     for sym in _u100_symbols():
         rec = _load_asset(sym, tf, OOS_WALL_MS)

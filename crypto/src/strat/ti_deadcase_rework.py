@@ -31,7 +31,7 @@ import strat.fleet_lab as fl
 from strat.ma_wealth_driver import _load_asset, _u100_symbols
 from strat.ti_engine_sota import adx_single_held, stochastic_single_held, STOCHASTIC_CONFIGS
 from strat.ti_dna_report import (
-    btc_regime, replay, profile, random_null,
+    causal_regime, replay, profile, random_null,
     DEV_WALL_MS, OOS_WALL_MS, VAL_START, VAL_END, OOS_START, OOS_2024_END,
 )
 
@@ -60,7 +60,7 @@ def _panel_from_holds(hold_fn, tf, wall_ms):
 def eval_cell(hold_fn, tf, n_null=100):
     """Return (VAL profile, VAL null, OOS profile, OOS null) for a custom hold fn."""
     bpd = BARS_PER_DAY[tf]
-    reg_dev = btc_regime(DEV_WALL_MS); reg_oos = btc_regime(OOS_WALL_MS)
+    reg_dev = causal_regime(DEV_WALL_MS); reg_oos = causal_regime(OOS_WALL_MS)   # de-leaked: day D reads regime[D-1]
     cdf, hdf = _panel_from_holds(hold_fn, tf, DEV_WALL_MS)
     if cdf is None:
         return None

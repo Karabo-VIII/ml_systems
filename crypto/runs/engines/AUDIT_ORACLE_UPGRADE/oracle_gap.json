@@ -1,0 +1,158 @@
+{
+ "study": "long_only_oracle_gap",
+ "generated": "2026-06-27T22:57:19.508235+00:00",
+ "binding": "long-only spot lev=1; rank by WEALTH; 2025 SEALED; DE-LEAKED regime; PROD cost",
+ "elapsed_s": 126.3,
+ "results": {
+  "1d": {
+   "tf": "1d",
+   "n_assets": 63,
+   "window": "OOS-2024",
+   "cost": "PROD(0.0028 RT)",
+   "regime": "DE-LEAKED (lag1)",
+   "slice_days": 7,
+   "lookback_days": 14,
+   "deploy_type_v2": "SMA",
+   "L1_perfect_cash_timing_per_slice": {
+    "lin_wk": 12.0445,
+    "pct_prof_7d": 0.938,
+    "compound": 3190.3,
+    "n_slices": 32,
+    "mean_deployed_frac": 0.441
+   },
+   "L1_perfect_cash_timing_per_bar": {
+    "lin_wk": 24.1402,
+    "compound": 200115.2,
+    "maxdd": -6.2,
+    "sharpe": 14.217,
+    "pct_prof_7d": 1.0,
+    "n_slices": 32,
+    "deploy": 0.9609
+   },
+   "L2a_best_realizable_type": {
+    "ma_type": "VIDYA",
+    "lin_wk": 3.5188,
+    "compound": 136.4,
+    "maxdd": -35.0,
+    "sharpe": 1.734,
+    "pct_prof_7d": 0.375,
+    "n_slices": 32,
+    "per_type_lin_wk": {
+     "EMA": 3.2549,
+     "SMA": 3.2859,
+     "WMA": 3.3505,
+     "HMA": 1.4402,
+     "DEMA": 3.1413,
+     "TEMA": 0.9343,
+     "KAMA": 3.0196,
+     "VIDYA": 3.5188
+    }
+   },
+   "L2b_concentrated_bestK": {
+    "K": 3,
+    "ma_type": "VIDYA",
+    "lin_wk": 14.0434,
+    "compound": 4319.5,
+    "maxdd": -24.6,
+    "sharpe": 3.9,
+    "pct_prof_7d": 0.406,
+    "n_slices": 32
+   },
+   "L3_v2_frozen_deleaked_EW": {
+    "lin_wk": 3.2859,
+    "compound": 113.9,
+    "maxdd": -39.1,
+    "sharpe": 1.566,
+    "pct_prof_7d": 0.344,
+    "n_slices": 32,
+    "deploy": 0.9565
+   },
+   "gap_dna": {
+    "components_pp_wk": {
+     "late_entry_early_exit_pp_wk": 0.2329,
+     "under_concentration_pp_wk": 10.5246,
+     "wrong_cash_calls_pp_wk": 10.0968
+    },
+    "total_gap_v2_to_perfect_pp_wk": 20.8543,
+    "biggest_recoverable": "under_concentration_pp_wk",
+    "recoverable_headroom_v2_to_realizable_pp_wk": 10.7575,
+    "uncapturable_info_limit_realizable_to_perfect_pp_wk": 10.0968
+   }
+  },
+  "4h": {
+   "tf": "4h",
+   "n_assets": 64,
+   "window": "OOS-2024",
+   "cost": "PROD(0.0028 RT)",
+   "regime": "DE-LEAKED (lag1)",
+   "slice_days": 7,
+   "lookback_days": 14,
+   "deploy_type_v2": "SMA",
+   "L1_perfect_cash_timing_per_slice": {
+    "lin_wk": 11.842,
+    "pct_prof_7d": 0.938,
+    "compound": 3045.3,
+    "n_slices": 32,
+    "mean_deployed_frac": 0.435
+   },
+   "L1_perfect_cash_timing_per_bar": {
+    "lin_wk": 43.7207,
+    "compound": 104044986.8,
+    "maxdd": -13.3,
+    "sharpe": 16.979,
+    "pct_prof_7d": 1.0,
+    "n_slices": 32,
+    "deploy": 0.9717
+   },
+   "L2a_best_realizable_type": {
+    "ma_type": "SMA",
+    "lin_wk": 3.4078,
+    "compound": 132.1,
+    "maxdd": -44.4,
+    "sharpe": 1.797,
+    "pct_prof_7d": 0.312,
+    "n_slices": 32,
+    "per_type_lin_wk": {
+     "EMA": 2.95,
+     "SMA": 3.4078,
+     "WMA": 3.0411,
+     "HMA": 0.1298,
+     "DEMA": 2.1739,
+     "TEMA": -0.2705,
+     "KAMA": 2.9441,
+     "VIDYA": 3.1131
+    }
+   },
+   "L2b_concentrated_bestK": {
+    "K": 3,
+    "ma_type": "SMA",
+    "lin_wk": 12.299,
+    "compound": 3374.4,
+    "maxdd": -23.2,
+    "sharpe": 4.964,
+    "pct_prof_7d": 0.406,
+    "n_slices": 32
+   },
+   "L3_v2_frozen_deleaked_EW": {
+    "lin_wk": 3.4078,
+    "compound": 132.1,
+    "maxdd": -44.4,
+    "sharpe": 1.797,
+    "pct_prof_7d": 0.312,
+    "n_slices": 32,
+    "deploy": 0.9696
+   },
+   "gap_dna": {
+    "components_pp_wk": {
+     "late_entry_early_exit_pp_wk": 0.0,
+     "under_concentration_pp_wk": 8.8912,
+     "wrong_cash_calls_pp_wk": 31.4217
+    },
+    "total_gap_v2_to_perfect_pp_wk": 40.3129,
+    "biggest_recoverable": "wrong_cash_calls_pp_wk",
+    "recoverable_headroom_v2_to_realizable_pp_wk": 8.8912,
+    "uncapturable_info_limit_realizable_to_perfect_pp_wk": 31.4217
+   }
+  }
+ }
+}

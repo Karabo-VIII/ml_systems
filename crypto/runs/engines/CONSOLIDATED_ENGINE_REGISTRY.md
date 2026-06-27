@@ -1,5 +1,18 @@
 # CONSOLIDATED ENGINE REGISTRY — all trading engines/agents (2026-06-24)
 
+> **2026-06-28 leak-fix (regime.shift(1)) — RE-BASELINE.** A same-day 1d-BTC-SMA100 regime
+> look-ahead (the V1.1 align_htf_on bug class) was found + falsified in the MA/TI gating layer:
+> consumers broadcast the day-D 1d-CLOSE regime onto intraday bars of the SAME day D (regime not
+> known until ~23:59). Fixed DRY via a shared `causal_regime(wall_ms) = btc_regime.shift(1)`
+> helper (a bar on day D now reads the last CLOSED 1d bar = regime[D-1]). Impact is MODEST
+> (~1.7% of OOS bars flip; edge retains ~85%, NOT the V1.1 catastrophe). The capped DEPLOYABLE
+> headline (published in CURRENT.md, NOT in this file) re-baselines ~9-15% lower: 1d cap15
+> +1.71→**+1.564**/wk, and the cap dial becomes 15=+1.56 / 33=+1.82 / 50=+2.19 (window-luck) /
+> EW=+3.47 (window-luck). The OOS edge/wk figures in the tables below are vs-always-long edges
+> from the static TI gauntlet and are NOT the capped-book headline; they are not re-baselined
+> here. See `runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json` +
+> `runs/engines/AUDIT_ORACLE_UPGRADE/wave2_concentration_frontier.json`.
+
 The single ranked view of every trading engine built across all campaigns. Static
 phase is now CLOSED and exhausted across **21 TI families**. Honest accounting per the
 forensic audit: DEV compounds are inflated ~9.5x by the EW-rebalancing premium; the

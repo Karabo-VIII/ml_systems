@@ -42,7 +42,7 @@ from strat.ti_engine_extra import (
 )
 from strat.ti_engine_sota import rsi_single_held, bollinger_single_held
 from strat.ti_dna_report import (
-    build_panel, replay, profile, random_null, btc_regime, compute_held,
+    build_panel, replay, profile, random_null, btc_regime, causal_regime, compute_held,
     DEV_WALL_MS, OOS_WALL_MS, VAL_START, VAL_END, OOS_START, OOS_2024_END,
 )
 
@@ -121,7 +121,7 @@ check("VAL/DEV load has ZERO bars > 2024-05-15", max_val <= pd.Timestamp(VAL_END
 
 # --------------------------------------------------------------------------- #
 print("\n--- A1. LOOK-AHEAD SENSITIVITY (cheat MUST inflate; proves harness detects leaks) ---")
-reg = btc_regime(OOS_WALL_MS)
+reg = causal_regime(OOS_WALL_MS)   # de-leaked: bar on day D reads regime[D-1] (matches production)
 bpd = BARS_PER_DAY["4h"]
 p0 = replay(cdfo, hdfo, reg, OOS_START, OOS_2024_END, lookahead=False)   # causal (production)
 pcheat = replay(cdfo, hdfo, reg, OOS_START, OOS_2024_END, lookahead=True)  # peeks at same bar

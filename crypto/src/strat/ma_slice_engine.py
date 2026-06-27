@@ -76,6 +76,24 @@ def btc_regime(wall_ms):
     return s
 
 
+def causal_regime(wall_ms):
+    """De-leaked 1d BTC regime for GATING on a per-bar grid.
+
+    btc_regime[D] is derived from BTC's day-D 1d CLOSE (~23:59 of day D). Any consumer
+    that broadcasts the raw series onto an intraday/1d bar grid (normalize-to-day then
+    ffill, or per-bar prior[-1]) reads regime[D] on a day-D bar => SAME-DAY LOOK-AHEAD
+    (the V1.1 align_htf_on START-label bug class). Causal fix: a bar on day D must read
+    the last CLOSED 1d bar = regime[D-1]. We bake that in by shifting the daily series
+    forward one full 1d bar BEFORE the broadcast. ALL gating consumers route through here;
+    DO NOT broadcast the raw btc_regime onto a forward-return grid (see
+    runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json).
+    """
+    s = btc_regime(wall_ms)
+    if s is None:
+        return None
+    return s.shift(1).fillna(0).astype(int)
+
+
 def _confirmed_signal(close, band_held, lookback_bars):
     """Per-bar confirmed entry signal: band long AND close>EMA(lb) AND EMA rising."""
     fin = np.asarray(close, dtype=float)
@@ -163,7 +181,7 @@ def run_cell(ma_type, tf, slice_mode="rolling", lookback_days=14, slice_days=7,
     win_s = pd.Timestamp(OOS_START if window == "OOS" else VAL_START)
     win_e = pd.Timestamp(OOS_2024_END if window == "OOS" else VAL_END)
 
-    regime = btc_regime(wall_ms)
+    regime = causal_regime(wall_ms)   # de-leaked: bar on day D reads regime[D-1]
     held_fn = held_fixed if slice_mode == "fixed" else held_rolling
 
     close_cols, held_cols = {}, {}

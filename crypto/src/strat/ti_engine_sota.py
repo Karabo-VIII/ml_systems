@@ -502,7 +502,11 @@ def run_engine_cell(family: str, tf: str, provider, slice_days: int = 7,
                 elif state == 1 and c < s * 0.98:
                     state = 0
                 regime_s.iloc[i] = state
-            btc_regime = regime_s
+            # DE-LEAK (V1.1 align_htf_on bug class): regime[D] is the day-D 1d CLOSE,
+            # unknown until ~23:59. A bar on day D must read the last CLOSED 1d bar =
+            # regime[D-1]. Shift forward one 1d bar before the per-bar prior[-1] broadcast.
+            # See runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json.
+            btc_regime = regime_s.shift(1).fillna(0).astype(int)
     
     # Load assets and compute holds
     close_dict = {}

@@ -4,16 +4,30 @@
 > my synced view + my operating-model state. Co-existing: Kiro builds the project-spec; I review/verify/build + own
 > the anti-fabrication discipline. Shared truth (dead-list, registry, docs/engines) co-maintained.
 
-PHASE: SYNCED + caught up on the Kiro-era (V2-V15). Awaiting the user's next build direction.
+PHASE: AUDIT+ORACLE+UPGRADE campaign DONE (runs/engines/AUDIT_ORACLE_UPGRADE/). Audited Kiro V2-V15 (honest, one
+real leak found+fixed), built the long-only oracle, delivered the de-leaked capture upgrade. Leak-fix to source in
+progress (delegated). Next genuine frontier = crypto-native (user-gated).
 UPDATED: 2026-06-28
 
-## THE DEPLOYABLE VERDICT (both agents converge here)
-**Capital-preservation within long-only = the deployable answer.** The MA band engine (V1 1d-BTC-SMA100 regime gate
-+ V2 4h decoupled MA band, 7d lookback) is drawdown-insurance: bear-2022 ≈ flat (94% cash), ~35% deployed, Sharpe
-~1.5-2. **Deployable rate (prod cost, 15% per-name cap, OOS-2024): ~+1.4-1.6%/wk** (SMA|1d +1.67 Sh1.57 DD-26%,
-EMA|1d +1.68, SMA|4h +1.60). The per-name cap is the return DIAL: 15%→+1.4, 33%→+1.6, 50%→+2.1, EW(no cap)→+3.4 raw.
-**DO NOT headline the +171K..+691K% DEV compounds** — ~9.5x rebalancing-premium + bull-window inflated (Kiro's own
-A5 audit; OOS-2024 premium only ~1.1x). Use the capped OOS %/wk.
+## THE AUDIT VERDICT (Kiro V2-V15, adversarial)
+Kiro's body of work is HONEST + reproducible — no fabrication, every headline reproduces. ONE systemic defect: a
+**same-day 1d-regime LOOK-AHEAD LEAK** (the exact V1.1 `align_htf_on` bug class) in the `btc_regime` broadcast,
+replicated across ~9 gating consumers. MODEST: touches 1.7% of OOS bars, edge survives, ~15% haircut (NOT the V1.1
+catastrophe). Fixed via `regime.shift(1)` (day-D reads the last CLOSED 1d bar). All numbers below are DE-LEAKED.
+Nulls D83/D84/D85 confirmed (D83 narrative refined: "selection-by-recent-P&L=no-skill" holds, but a random-10-config
+book matched frozen-114 in 6/12 cells => the 114-config band is over-diluted, a minor live lever). Pipeline indicator
+path clean; the regime path inherited the same leak (now fixed). ADX|1d genuine-selective but VAL-fit => PROVISIONAL.
+
+## THE DEPLOYABLE VERDICT (both agents converge here; DE-LEAKED)
+**Capital-preservation within long-only = the deployable answer.** MA band engine (V1 1d-BTC-SMA100 regime gate +
+V2 4h decoupled MA band) = drawdown-insurance: bear-2022 ≈ flat (94% cash), ~65% deployed in bull, Sharpe ~1.4-1.9.
+**Honest de-leaked deployable rate (prod cost, OOS-2024 / cross-checked on VAL):**
+- cap15 (old headline): de-leaks to **~+1.4-1.6%/wk** (OOS +1.56 / VAL +1.84) — was leak-inflated ~15% AND cap-suppressed.
+- **cap33 = the robust UPGRADE operating point: ~+1.8-2.0%/wk** (OOS +1.82 Sh1.39 DD-33; VAL +1.96 Sh1.86 DD-43),
+  cross-window-robust, no single-name dependence, above the 1.5%/wk floor. THIS is the delivered capture upgrade.
+- cap50/EW (+2.2/+3.5/wk on OOS) = REJECTED: window-luck. The EW lift is 69% ONE name (ZENUSDT) + reverses on VAL.
+The per-name cap is single-name TAIL INSURANCE, NOT a drawdown dial — maxDD ~30% is FLAT across caps; the REGIME GATE
+is the only drawdown control. **DO NOT headline the +171K..+691K% DEV compounds** (~9.5x rebal-premium; OOS only ~1.1x).
 
 ## ROSTER (audited, Kiro V5/V6 + my V1.x)
 - SELECTIVE: **MA band V2 (WMA|4h)** = the canonical selective winner; **ADX|1d (PROVISIONAL)** = the only non-MA
@@ -38,14 +52,23 @@ de-risk the down-weeks + minimize exposure, NOT profit every week. That is alrea
 - Sub-daily (1h/30m): universally bleeds (cost+noise). My V1.1 fine-TF null + V1.2 combinatrix null agree.
 - Combinatorial TI mining (a/ab/abc): disciplined null, PBO 0.71 (D82).
 
+## THE LONG-ONLY ORACLE + GAP DNA (DONE — the proposed item, runs/engines/AUDIT_ORACLE_UPGRADE/oracle_gap.json)
+3 levels (%/wk, slice-prof; DE-LEAKED): L1 perfect-cash-timing per-slice **+12.0%/wk @94%** = absolute long-only
+ceiling; L2 best-realizable causal (hindsight MA type, EW) +3.5; L3 V2 frozen-EW +3.29 (capped deployable ~+1.4-2%).
+GAP SPLIT: recoverable (L3→L2) = the concentration/cap dial; un-capturable (L2→L1) = directional prediction (refuted
+vein) = the structural ceiling (= North-Star 34% hit-rate). **REFINEMENT (Wave 2):** the oracle's "+10.5pp/wk
+recoverable via concentration" OVER-states it — most of that headroom is single-name window-luck (the ZEN/EW mirage),
+NOT robust. True robust recoverable within the MA mechanism ≈ the cap15→cap33 step (~+0.3pp/wk). Internal price-TI
+ceiling is REACHED; higher robust capture needs a new de-correlated mechanism or crypto-native data.
+
 ## OPEN / NEXT (the genuinely-untested or user-gated)
-1. **The long-only ORACLE + ceiling gap** (the resourceful default, my offer) — best-achievable cash-vs-deploy
-   timing vs the realizable engine → quantifies whether any headroom exists WITHIN the rules. Highest-value analysis.
-2. **Crypto-native frontier** (funding/OI/on-chain) — the catalog's flagged data-advantage surface; USER-GATED.
-3. **Phase 2 dynamic** (Kiro-designed, user-gated) — expect mostly null (more params); run as falsification, the
-   adaptation-null + static-twin A/B are make-or-break.
-4. Apparatus checks I offered: (a) HTF-alignment leak-check on the V1→V2 gate (the exact bug I found in V1.1 — does
-   the 4h engine read the CLOSED 1d regime bar?); (b) demote the compound/cap headline in Kiro's CURRENT + registry.
+1. **Source LEAK FIX in progress** (delegated auditor): `regime.shift(1)` DRY across ~9 gating consumers + regression
+   test + re-baseline shared registry/Kiro-CURRENT headlines down ~15%. Review the diff + commit.
+2. **Crypto-native frontier** (funding/OI/on-chain) — the catalog's flagged data-advantage surface; USER-GATED. This
+   is now the ONLY plausible robust-capture frontier left (internal price-TI exhausted at cap33 ~+1.8-2%/wk).
+3. **ADX|1d** — PROVISIONAL/gated: re-confirm on 2025 unseal (pass/fail, not a formality); only then consider as a
+   second mechanism. Wave-2B showed its diversification benefit is VAL-fit (flat ret/DD on OOS).
+4. **Phase 2 dynamic** (Kiro-designed, user-gated) — expect mostly null (more params); run as falsification.
 
 ## COORDINATION + HOUSEKEEPING STATE
 - CHARTER/CURRENT/KNOWLEDGE_MAP = Kiro-owned. CLAUDE_CHARTER/CLAUDE_CURRENT = mine. Router injects mine for Claude

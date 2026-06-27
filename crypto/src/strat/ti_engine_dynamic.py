@@ -268,6 +268,21 @@ def btc_regime(wall_ms):
     return s
 
 
+def causal_regime(wall_ms):
+    """De-leaked 1d BTC regime for GATING on a per-bar grid (see V1.1 align_htf_on bug class).
+
+    btc_regime[D] is BTC's day-D 1d CLOSE regime (~23:59). Broadcasting it onto an
+    intraday/1d bar grid (normalize-to-day + ffill, or per-bar prior[-1]) makes a day-D bar
+    read regime[D] => SAME-DAY LOOK-AHEAD. Causal fix: a bar on day D reads the last CLOSED
+    1d bar = regime[D-1]. We shift the daily series forward one full 1d bar before broadcast.
+    Gating consumers route through here (see runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json).
+    """
+    s = btc_regime(wall_ms)
+    if s is None:
+        return None
+    return s.shift(1).fillna(0).astype(int)
+
+
 # =============================================================================
 # CELL RUNNER (shared between dynamic and static-twin)
 # =============================================================================
@@ -283,7 +298,7 @@ def run_cell(ma_type: str, tf: str, m: float, lookback_days: int = 7,
     if wall_ms is None:
         wall_ms = VAL_WALL_MS
 
-    regime = btc_regime(wall_ms)
+    regime = causal_regime(wall_ms)   # de-leaked: bar on day D reads regime[D-1]
     provider = make_dynamic_ma_provider(ma_type, MA_CONFIGS, m, lookback_bars, slice_bars, vote_threshold)
 
     close_cols, held_cols = {}, {}

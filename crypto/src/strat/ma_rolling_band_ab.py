@@ -46,7 +46,7 @@ from strat.ma_wealth_driver import _load_asset, _u100_symbols
 from strat.ma_movecatch_engine import select_band_trainval, LEADERBOARD
 from strat.ma_type_upgrade import held_cross, _nums, _ema
 from strat.canonical_exits import COST_PROD
-from strat.ma_slice_engine import btc_regime, OOS_WALL_MS, OOS_START, OOS_2024_END
+from strat.ma_slice_engine import causal_regime, OOS_WALL_MS, OOS_START, OOS_2024_END
 
 BARS_PER_DAY = fl.BARS_PER_DAY
 OUTDIR = CRYPTO / "runs" / "engines" / "V9_rolling_band"
@@ -165,7 +165,7 @@ def build_holds(ma_type, tf, mode, top_k=10, seed=0):
 def evaluate(close_df, held_df, tf, cap=0.15):
     """PROD-grade eval: inv-vol + cap, regime gate, prod cost, OOS-2024 window."""
     bpd = BARS_PER_DAY[tf]
-    reg = btc_regime(OOS_WALL_MS)
+    reg = causal_regime(OOS_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
     ret = close_df.pct_change().fillna(0.0).to_numpy()
     H = held_df.to_numpy().astype(float)
     vol = close_df.pct_change().rolling(max(20, bpd*5), min_periods=10).std().to_numpy()

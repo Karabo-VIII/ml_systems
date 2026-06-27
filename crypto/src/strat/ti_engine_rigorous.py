@@ -293,6 +293,20 @@ def btc_regime(wall_ms):
     return s
 
 
+def causal_regime(wall_ms):
+    """De-leaked 1d BTC regime for GATING on a per-bar grid (see V1.1 align_htf_on bug class).
+
+    btc_regime[D] is BTC's day-D 1d CLOSE regime (~23:59). The normalize-to-day + ffill
+    broadcast makes a day-D bar read regime[D] => SAME-DAY LOOK-AHEAD. Causal fix: a bar on
+    day D reads the last CLOSED 1d bar = regime[D-1]; shift the daily series forward one 1d
+    bar before broadcast (see runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json).
+    """
+    s = btc_regime(wall_ms)
+    if s is None:
+        return None
+    return s.shift(1).fillna(0).astype(int)
+
+
 def run_rigorous_cell(family: str, tf: str, lookback_days: int = 7, slice_days: int = 7,
                       vote_threshold: float = 0.5, window_start: str = None,
                       window_end: str = None, wall_ms: int = None, n_null: int = 100):
@@ -321,8 +335,8 @@ def run_rigorous_cell(family: str, tf: str, lookback_days: int = 7, slice_days: 
     all_configs = grid_fn()
 
     need_vol = family in ("OBV", "VWAP", "CMF", "MFI", "FLOW")
-    regime_train = btc_regime(TRAIN_WALL_MS)
-    regime_eval = btc_regime(wall_ms)
+    regime_train = causal_regime(TRAIN_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
+    regime_eval = causal_regime(wall_ms)          # de-leaked: bar on day D reads regime[D-1]
 
     # =========================================================================
     # STAGE 1: TRAIN-positive config selection (select_band_trainval equivalent)

@@ -1,0 +1,54 @@
+{
+  "axes": {
+    "A3": {
+      "verdict": "PASS",
+      "worst_oos_max": "2024-12-31 20:00:00",
+      "worst_val_max": "2024-05-14 20:00:00",
+      "n_assets_checked": 25,
+      "sealed_2025": true,
+      "val_wall": true
+    },
+    "A2": {
+      "verdict": "PASS",
+      "rsi_perturb": true,
+      "rsi_trunc": true,
+      "boll_perturb": true,
+      "boll_trunc": true
+    },
+    "A4": {
+      "verdict": "PASS",
+      "cost_match": true,
+      "flat_zero": true,
+      "mean_cost_per_bar": 6.330013013001372e-05,
+      "note_timing_nuance": "cost charged on held.shift(0).diff (signal flip at bar i) while position=held.shift(1) turns over at bar i+1: a 1-bar offset between cost-charge and position-change. Magnitude-neutral, NOT a leak, but the turnover bar is mis-timed by one bar."
+    },
+    "A5": {
+      "verdict": "PASS",
+      "oos_ew": 42.3,
+      "oos_mean_single": 39.5,
+      "oos_premium_x": 1.07,
+      "dev_ew": 2124.0,
+      "dev_mean_single": 465.9,
+      "dev_premium_x": 4.56,
+      "claimed_oos": 1.1
+    }
+  },
+  "blind_spot_regime_leak": {
+    "audit_covers_it": false,
+    "leaked_lin_wk": 2.1249,
+    "deleaked_lin_wk": 1.7004,
+    "haircut_pct": 20.0,
+    "frac_oos_bars_differ": 0.0174,
+    "note": "A1 lookahead flag only toggles held.shift_n (ti_dna_report.py:187-189); the regime broadcast (lines 195-197) is identical in causal+cheat paths. A6 checks binary+bear-cash only. The leak is real and SILENT to all 19 checks."
+  },
+  "independent_axes_reproduced": 4,
+  "all_independent_axes_pass": true,
+  "claim_19_19_mechanically_reproduces": true,
+  "audit_checks_have_blind_spot": true,
+  "OVERALL_VERDICT": "CONCERNS",
+  "verdict_rationale": "All 19 checks reproduce mechanically and the 4 independently re-verified axes (A2 causality via stronger future-perturbation test, A3 2025-sealed+VAL-wall across 25 assets, A4 cost reconstruction to machine precision, A5 OOS rebal premium 1.07x ~ claimed 1.1x) are SOUND. The 19/19 is NOT fabricated. BUT the audit suite has a genuine blind spot: NO check covers the regime-broadcast same-day leak that LeakCheck independently confirmed. A1's leak-sensitivity proof toggles ONLY the held.shift_n; the leaked regime broadcast (normalize->ffill reading same-day 1d CLOSE) is identical in both causal and cheat paths, so A1 cannot detect it. A6 verifies the gate is binary + bear-cash but never tests the broadcast LAG. Hence 'pipeline is causally clean' (verdict line) is OVERSTATED -- the indicator path is clean, but the regime path leaks ~20% on RSI|4h OOS-2024 (1.7% of bars). The DNA headline numbers should be haircut ~15-20% and the audit suite needs a 20th check: regime-broadcast lag (strict-lag falsifier).",
+  "minor_findings": [
+    "A4 cost timing: turnover charged on held.shift(0).diff (signal flip bar i) while position turns over at bar i+1 -- 1-bar offset, magnitude-neutral, not a leak.",
+    "A5 DEV premium: audit prose cites ~9.5x for full DEV; RSI|4h DEV-window reconstruction gives 4.56x. The window-dependent inflation claim holds qualitatively (DEV >> OOS) but the 9.5x figure is basis-specific, not a universal constant. OOS-2024 1.1x is the load-bearing number and it reproduces."
+  ]
+}

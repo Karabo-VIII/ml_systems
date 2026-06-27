@@ -43,7 +43,7 @@ from strat.ma_wealth_driver import _load_asset, _u100_symbols
 from strat.ma_movecatch_engine import select_band_trainval
 from strat.ma_type_upgrade import held_cross, _nums, _ema
 from strat.canonical_exits import COST_PROD, resolve_held
-from strat.ma_slice_engine import btc_regime, VAL_WALL_MS, OOS_WALL_MS
+from strat.ma_slice_engine import causal_regime, VAL_WALL_MS, OOS_WALL_MS
 
 BARS_PER_DAY = fl.BARS_PER_DAY
 OUTDIR = CRYPTO / "runs" / "engines" / "V11_topk_edge"
@@ -95,7 +95,7 @@ def _portfolio_eval(held_cols, close_cols, reg, bpd, win_s, win_e, cap=0.15):
 def rank_configs_trainval(ma_type, tf, band, lb, sl):
     """Rank band configs by TRAIN+VAL realized portfolio P&L (causal, OOS-excluded)."""
     bpd = BARS_PER_DAY[tf]
-    reg = btc_regime(VAL_WALL_MS)
+    reg = causal_regime(VAL_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
     # load TRAIN+VAL closes (wall at VAL_END = 2024-05-15)
     closes = {}
     for sym in _u100_symbols():
@@ -125,7 +125,7 @@ def topk_oos(ma_type, tf, K_list=(1, 3, 5, 10, 999)):
     band = select_band_trainval(ma_type, tf)[0]
     ranked = rank_configs_trainval(ma_type, tf, band, lb, sl)   # TRAIN+VAL ranking (no OOS)
 
-    reg_oos = btc_regime(OOS_WALL_MS)
+    reg_oos = causal_regime(OOS_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
     closes_oos = {}
     for sym in _u100_symbols():
         rec = _load_asset(sym, tf, OOS_WALL_MS)

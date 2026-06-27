@@ -74,7 +74,10 @@ def _btc_regime(wall_ms: int) -> pd.Series | None:
         elif state == 1 and c < s * 0.98:
             state = 0
         regime_s.iloc[i] = state
-    return regime_s
+    # DE-LEAK (V1.1 align_htf_on bug class): regime[D] is the day-D 1d CLOSE (~23:59); the
+    # per-bar prior[-1] gate broadcast on a day-D bar must read the last CLOSED 1d bar =
+    # regime[D-1]. Shift forward one 1d bar. See runs/engines/AUDIT_ORACLE_UPGRADE/leakcheck.json.
+    return regime_s.shift(1).fillna(0).astype(int)
 
 
 def _metrics(rets: np.ndarray, slices: list, bpd: int, label: str) -> dict:

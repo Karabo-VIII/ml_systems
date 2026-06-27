@@ -29,7 +29,7 @@ CRYPTO = ROOT.parent
 import strat.fleet_lab as fl
 from strat.ma_wealth_driver import _load_asset, _u100_symbols, MAKER_RT
 from strat.ti_engine_dynamic import (
-    make_dynamic_ma_provider, btc_regime, MA_CONFIGS, MA_TYPES,
+    make_dynamic_ma_provider, causal_regime, MA_CONFIGS, MA_TYPES,
     efficiency_ratio, TRAIN_END, VAL_END, OOS_2024_END,
     TRAIN_WALL_MS, VAL_WALL_MS, OOS_WALL_MS,
 )
@@ -43,7 +43,7 @@ def build_engine_returns(ma_type, tf, m=0.0, wall_ms=OOS_WALL_MS):
     bpd = BARS_PER_DAY[tf]
     lookback_bars = 7 * bpd
     slice_bars = 7 * bpd
-    regime = btc_regime(wall_ms)
+    regime = causal_regime(wall_ms)   # de-leaked: bar on day D reads regime[D-1]
     provider = make_dynamic_ma_provider(ma_type, MA_CONFIGS, m, lookback_bars, slice_bars)
 
     close_cols, held_cols = {}, {}

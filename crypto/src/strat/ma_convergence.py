@@ -29,7 +29,7 @@ CRYPTO = ROOT.parent
 
 import strat.fleet_lab as fl
 from strat.ma_wealth_driver import _load_asset, _u100_symbols
-from strat.ma_slice_engine import held_rolling, _cached_band_held, btc_regime, OOS_WALL_MS, OOS_START, OOS_2024_END
+from strat.ma_slice_engine import held_rolling, _cached_band_held, causal_regime, OOS_WALL_MS, OOS_START, OOS_2024_END
 from strat.canonical_exits import COST_PROD
 
 BARS_PER_DAY = fl.BARS_PER_DAY
@@ -64,7 +64,7 @@ def build_type_holds(tf):
 def eval_conviction(type_held, close_df, tf, mode, M=2, cap=0.15):
     """mode: flat | convweight | convgate(M). Returns metrics."""
     bpd = BARS_PER_DAY[tf]
-    reg = btc_regime(OOS_WALL_MS)
+    reg = causal_regime(OOS_WALL_MS)   # de-leaked: bar on day D reads regime[D-1]
     idx = close_df.index
     # convergence count per asset-bar = sum of type held signals
     conv = None
