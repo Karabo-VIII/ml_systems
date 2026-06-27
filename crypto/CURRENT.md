@@ -126,11 +126,22 @@ overfit probe on the 3 validated cells + validate their ENSEMBLE combination OOS
 TI/MA: 2020=DEV, 2021=IRON, 2022=no-touch BEAR.
 Convention B: TRAIN<=2024-05-15 / VAL / OOS / UNSEEN (>=2024-05-15 sealed).
 
-## DYN-5 RESULT (2026-06-26): NULL for MA family (structurally correlated configs)
-DYN-5 (conviction-on-agreement) tested on MA family at 4h: deploy 95-97% even at
-conviction 0.8, top-K=5. The mechanism cannot create selectivity because MA crossover
-configs are STRUCTURALLY CORRELATED — in a trend, all fast>slow variants agree.
-Conviction-on-agreement requires INDEPENDENT signals that occasionally disagree; MA
-configs don't provide that. The framework is architecturally sound for less-correlated
-signal sets (e.g., mixed TI families), but within one MA family it's null.
-→ runs/engines/V7_dynamic/dyn5_conviction_VAL_*.json
+## V8 SLICE STUDY (2026-06-27) — PROD costs + rolling/fixed + whipsaw + canonical exits
+Full A-E study. → runs/engines/V8_slice_study/SLICE_STUDY_RESULT.md + canonical_exits.py +
+ma_slice_engine.py + ma_slice_study.py. KEY FINDINGS (OOS-2024, PROD taker+slip cost):
+- COSTS NOW PROD-GRADE: taker 0.0024 + slippage = 0.0028 RT (prior reports were maker-optimistic).
+- ROLLING >> FIXED slices: fixed force-exits at window boundaries, loses >half the edge at 1d
+  (rolling +3.79 vs fixed +1.72). DEPLOY ROLLING (let positions run, exit on signal/time-cap).
+- 4h is the SWEET SPOT: SMA|4h +4.02%/wk prod, Sharpe 2.12, cost-resilient. 6 types +3.4-4.0.
+- 1d (14d/14d) best slice-profitability: 50-56% of 7d windows profitable, VIDYA +3.99, ~390 trades.
+- 2h survives w/ whipsaw control (SMA +3.21); 1h marginal (+1.4 best); 30m/15m DEAD (cost wall,
+  drag 4-5.7pp/wk, 9-10k trades).
+- WHIPSAW CONTROL (min-hold+cooldown) works at 1h/2h: cuts trades 10-25%, lifts edge, rescues
+  several 1h cells from negative. Recommended for 1h/2h; unnecessary at 4h/1d.
+- EXITS: canonical_exits.py = confirmation-break + time-cap default, NO stops (D23/RED-TEAM
+  destructive), take-profit/trailing available but OFF. Whipsaw modifiers for high-freq.
+
+## CANONICAL EXIT LIBRARY (new, 2026-06-27)
+crypto/src/strat/canonical_exits.py — THE exit module (was missing). Menu: TIME_CAP +
+SIGNAL_BREAK (robust default), TAKE_PROFIT/VOL_TARGET/REGIME (scoped), TRAILING/STOP_LOSS
+(risky, D23/RED-TEAM). apply_min_hold_cooldown for whipsaw. resolve_held = the resolver.
