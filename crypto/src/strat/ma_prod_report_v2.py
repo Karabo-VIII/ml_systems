@@ -42,11 +42,17 @@ TIER_CFG = {
     "1d": {"lookback": 14, "slice": 14, "min_hold": 0, "cooldown": 0, "tier": "LONG"},
     "4h": {"lookback": 14, "slice": 7,  "min_hold": 0, "cooldown": 0, "tier": "MEDIUM"},
     "2h": {"lookback": 7,  "slice": 7,  "min_hold": 3, "cooldown": 3, "tier": "MEDIUM"},
+    "1h": {"lookback": 7,  "slice": 7,  "min_hold": 6, "cooldown": 6, "tier": "MEDIUM"},
+    "30m": {"lookback": 7, "slice": 3,  "min_hold": 6, "cooldown": 6, "tier": "SHORT"},
+    "15m": {"lookback": 7, "slice": 3,  "min_hold": 8, "cooldown": 8, "tier": "SHORT"},
 }
 CANDIDATES = {  # the OOS-validated types per TF (from V8 study, prod rolling)
     "1d": ["VIDYA", "SMA", "EMA", "DEMA"],
     "4h": ["SMA", "VIDYA", "WMA", "EMA", "KAMA"],
     "2h": ["SMA", "VIDYA", "EMA"],
+    "1h": ["VIDYA", "KAMA", "SMA"],          # completeness — marginal even w/ whipsaw
+    "30m": ["VIDYA", "SMA", "KAMA"],         # completeness — NOT tradeable (cost wall)
+    "15m": ["VIDYA", "SMA", "KAMA"],         # completeness — NOT tradeable (cost wall)
 }
 
 
