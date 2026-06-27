@@ -77,3 +77,40 @@ optimistic vs deployable. The DIRECTIONAL findings (4h/1d work, rolling>fixed, w
 30m/15m dead) STILL HOLD, but the magnitude must be quoted from the PLAY-OUT, not the EW study.
 This is where instrument SELECTION (concentrate top-K by signal strength) could recover edge
 — but gated by D62 (per-asset selection failed OOS). Next: play out 1d + 4h other types.
+
+
+## GAP DECOMPOSITION (2026-06-27) — the 3x is ONE dial: per-name cap
+gap_decomposition.py. SMA|4h OOS-2024, prod cost. CORRECTED (earlier "inv-vol" row was
+mislabeled — vol_target=1e9 collapsed it to EW). Clean result:
+
+| scheme | lin/wk | Sharpe | avg gross |
+|--------|--------|--------|-----------|
+| EW (1/n, no cap) | +3.36% | 1.77 | 100% |
+| EW + 15% cap | +1.36% | 1.17 | 89% |
+| inv-vol + 15% cap | +1.60% | 1.54 | 85% |
+
+PER-NAME CAP SWEEP (EW capped):
+| cap | min names | lin/wk | Sharpe |
+|-----|-----------|--------|--------|
+| 15% | 7 | +1.36% | 1.17 |
+| 20% | 5 | +1.42% | 1.16 |
+| 25% | 4 | +1.44% | 1.13 |
+| 33% | 3 | +1.62% | 1.20 |
+| 50% | 2 | +2.11% | 1.43 |
+| 100%| 1 | +3.36% | 1.77 |
+
+CONCLUSION: the ENTIRE EW→prod gap is the 15% per-name cap forcing >=7-way diversification
+(+ cash drag when <7 names signal). NOT vol-target (0.16pp), NOT inv-vol (which HELPS:
++1.60% Sh1.54 > EW+cap +1.36% Sh1.17). The +3.36%/wk EW number is REAL and prod-grade —
+it just runs unlimited single-name concentration. The user's 3-5%/wk target is achievable
+ONLY by accepting high concentration (cap >= 50% or none).
+
+DEPLOYMENT DIAL: per-name cap = concentration-vs-return risk knob.
+- 15% cap = prudent, +1.36%/wk, max 15% single-name blowup
+- 33% cap = +1.62%/wk, >=3 names
+- 50% cap = +2.11%/wk, >=2 names
+- no cap (EW) = +3.36%/wk, full single-name risk
+RECOMMENDATION: deploy 25-33% cap (~+1.5-1.6%/wk, Sh~1.2, bounded risk). Signal-strength
+RANKING is the lever to push toward 3%+ at low name-count (which names matter most when
+holding only 3) — but gated by D62 (per-asset selection failed OOS); needs validation.
+The signal itself is NOT deflated — it produces +3.36%/wk raw; the question is concentration tolerance.
