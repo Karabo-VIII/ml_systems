@@ -198,8 +198,12 @@ def build_state_context() -> "str | None":
     Reads two small committed files; fail-soft to None. Keeps well under the hook timeout."""
     root = repo_root()  # crypto/ sub-project root
     parts: list[str] = []
-    for fn, cap, label in (("CHARTER.md", 6000, "BINDING INTENT -- honor it; relaxing a constraint = a shortcut"),
-                           ("CURRENT.md", 4000, "LIVE STATE -- where we are, what to cover next")):
+    # CLAUDE-owned spine (Claude does not share CHARTER/CURRENT with Kiro). My CLAUDE_CHARTER carries my
+    # operating-model discipline + the shared binding constraints; my CLAUDE_CURRENT is my synced view; Kiro's
+    # CURRENT.md is injected too so I track the project-spec's live updates. Falls back to nothing-missing fail-soft.
+    for fn, cap, label in (("CLAUDE_CHARTER.md", 4500, "CLAUDE operating-model spine (Claude-owned) -- my discipline + the shared binding constraints; relaxing a constraint = a shortcut"),
+                           ("CLAUDE_CURRENT.md", 2500, "CLAUDE live state (Claude-owned) -- my synced view + next direction"),
+                           ("CURRENT.md", 2500, "PROJECT-SPEC live state (Kiro-owned) -- re-read in full for Kiro's latest")):
         try:
             p = root / fn
             if not p.exists():
