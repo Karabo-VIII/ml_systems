@@ -63,7 +63,19 @@ Stochastic: confirmed DEAD, but the scary -7.8pp was an INVERTED-LOGIC artifact 
   (+~10 more at score 4). These refine WHICH longs under the gate.
 - The regime gate remains the dominant value lever (D78).
 
-## V9 ROLLING-BAND A/B (2026-06-27) — config rotation REFUTED (frozen band wins)
+## NORTH STAR RECKONING (2026-06-27) — we FAIL the primary mandate on CONSISTENCY
+The mandate (CHARTER) = "profitable within ANY 7-day window" (per-slice ROI>0, target ~100%),
+NOT weekly magnitude (D77 retired that). Measured the deployable cross-type conv book (1d,
+prod, OOS-2024): only **34% of 7d windows profitable** (median +0.00%, mean +2.34% = right-
+skewed: 34% big winners carry it, 66% small losers). 3d=39%, 1d=32%.
+VERDICT: trend-following is STRUCTURALLY low-hit-rate (lose small often, win big rarely) —
+it CANNOT self-satisfy "any 7d window profitable" no matter the tuning. Both ceilings now
+confirmed: MAGNITUDE ~+1.7%/wk, CONSISTENCY ~34% of 7d windows.
+→ runs/engines/V14_slice_roi/NORTH_STAR_RECKONING.md
+PATH FORWARD: the North Star REQUIRES anti-correlated complements (mean-reversion / market-
+neutral / orthogonal signal families) that win in the choppy windows trend bleeds in. The
+MA engine is ONE component (bull-trend harvester), not the system. Next campaign: build the
+anti-correlated complements; measure per-7d-window consistency of the COMBINED book.
 Tested user idea: reselect top-K configs per MA type every 14d from trailing P&L vs the
 FROZEN TRAIN+VAL band. SOTA rigor (random-reselect null isolates selection skill).
 RESULT: FROZEN WINS 11/12 cells; rolling-by-recent-P&L performs AT/BELOW random-reselect
