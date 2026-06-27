@@ -295,8 +295,9 @@ def main():
     ap.add_argument("--tfs", default="1d,4h,2h")
     a = ap.parse_args()
     tfs = [t.strip() for t in a.tfs.split(",")]
-    OUTDIR.mkdir(parents=True, exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    run_dir = OUTDIR / f"run_{ts}"
+    run_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 96)
     print(f"MA PROD REPORT v2 (audited engine) — run-dated {ts}")
@@ -318,14 +319,14 @@ def main():
                   f"{oos['pct_profitable_7d_slices']:>6.0%}{ts_o['n']:>7}"
                   f"{(ts_o['profit_factor'] or 0):>5.2f}")
             html = gen_html(ma, tf, val, oos)
-            (OUTDIR / f"PRODv2_{ma}_{tf}_{ts}.html").write_text(html, encoding="utf-8")
+            (run_dir / f"PRODv2_{ma}_{tf}.html").write_text(html, encoding="utf-8")
             summary.append({"ma": ma, "tf": tf, "val": val, "oos": oos})
 
-    with open(OUTDIR / f"prodv2_summary_{ts}.json", "w") as f:
+    with open(run_dir / "prodv2_summary.json", "w") as f:
         json.dump({"summary": summary, "run_dated": ts,
                    "windows": {"VAL": [VAL_START, VAL_END], "OOS": [OOS_START, OOS_2024_END]}},
                   f, indent=2, default=str)
-    print(f"\n  Run-dated {ts}. Reports + summary in {OUTDIR}")
+    print(f"\n  Run-dated folder: {run_dir}")
 
 
 if __name__ == "__main__":
