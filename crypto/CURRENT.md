@@ -56,12 +56,26 @@ Stochastic: confirmed DEAD, but the scary -7.8pp was an INVERTED-LOGIC artifact 
 -0.44); both directions ≤0 OOS = genuinely no signal. → DEADCASE_REWORK_RESULT.md
 
 ## ROSTER NOW (audited)
-- SELECTIVE validated: ADX|1d (provisional, the only true selective engine) + MA decoupled-
+- SELECTIVE validated: ADX|1d (provisional) + MA decoupled-
   BAND V2 (WMA|4h, the canonical selective winner from ma_wealth_driver).
 - ROBUST NON-SELECTIVE tilts (consistent + 100th-pct null, deploy 96-100%): HMA|1d, WILLR|1d,
   Bollinger|1d, TEMA|1d, VIDYA|4h, SMA|4h, VWAP|1d, MFI|1d, Supertrend|4h, WMA|4h, PSAR|4h
   (+~10 more at score 4). These refine WHICH longs under the gate.
 - The regime gate remains the dominant value lever (D78).
+
+## V9 ROLLING-BAND A/B (2026-06-27) — config rotation REFUTED (frozen band wins)
+Tested user idea: reselect top-K configs per MA type every 14d from trailing P&L vs the
+FROZEN TRAIN+VAL band. SOTA rigor (random-reselect null isolates selection skill).
+RESULT: FROZEN WINS 11/12 cells; rolling-by-recent-P&L performs AT/BELOW random-reselect
+(no skill), several cells COLLAPSE (KAMA|1d +1.58→+0.63). 5th independent confirmation of
+D73 (config performance anti-persistent). DEPLOY FROZEN BAND. The 1/12 "win" (VIDYA|1d) is
+within multiple-comparison noise. → runs/engines/V9_rolling_band/ROLLING_BAND_AB_RESULT.md
+
+## PROD-GRADE DEPLOYABLE VERDICT (2026-06-27, real allocator, 15% cap, prod cost)
+Top deployable MA engines (inv-vol + 15% cap, OOS-2024): SMA|1d +1.67/wk Sh1.57 DD-26%,
+EMA|1d +1.68 Sh1.57, SMA|4h +1.60 Sh1.54, VIDYA|1d +1.57 Sh1.54, KAMA|4h +1.57 Sh1.55.
+The per-name cap is the return dial: 15%=+1.4/wk, 33%=+1.6, 50%=+2.1, EW(no cap)=+3.4 raw.
+3-5%/wk target requires high concentration (low/no cap). See V8 DEPLOYMENT_NOTES.md.
 
 ## ACTIVE CAMPAIGN: V6 RIGOROUS REBUILD — COMPLETE (2026-06-25)
 All 12 non-MA families × 5 TFs rebuilt with full V1.1 rigor (CHARTER §ENGINE BUILD RIGOR).
