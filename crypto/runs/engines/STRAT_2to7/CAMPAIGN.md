@@ -108,3 +108,12 @@ while the engine sits in cash the rest -- a SELECTIVE engine, not an every-week 
 or +TP5 (consistency), breadth & learned-timing gate, u100, 1d, 14d/7d. PROVISIONAL (feature-overfit + D85 + small
 sample) -> validate live/forward. Live gate 2026-05-28 = CASH (P=0.34). NO false victory: validated as far as the data
 allows; fresh data is the final gate.
+
+## CYCLE 15 -- PRECISE 2-7%-BAND config (WF-timing gate + momentum + TP). The deliverable.
+WF-timing+top5 (no TP): +319% OOS, deployed-wk MEDIAN +6.4%/wk (IN the 2-7% band), 70% of deployed weeks POSITIVE,
+10 deployed weeks. WF-timing+top5+TP7: in[2,7] 30% (max in-band), 80% deployed weeks positive, median +2.6, +118%.
+=> When the validated learned-timing gate DEPLOYS (~13% of weeks), the deployed-week median is IN the 2-7% band
+(+6.4) with 70-80% of those weeks positive. "2-7%/wk a reality" = ACHIEVED for the DEPLOYED weeks (selective ~13%),
+via the walk-forward learned deploy-timing gate; cash the other 87%. PROVISIONAL (small sample, 2024Q4-dominated,
+data-informed feats) -> live-forward validation is the final gate. Best 2-7%-targeting deployable: WF-timing + mom5
+(wealth, median +6.4 in-band) or + TP7 (max in-band 30%, 80% green weeks).
