@@ -60,3 +60,32 @@ learned meta-labeler (cy5), concentration/frontier (cy7). FINDINGS:
    every-week unconditional outcome. The +12%/wk oracle gap is un-capturable (prediction ceiling).
 RECOMMENDED (retail, robust): momentum top-8 (wealth-leaning) OR +TP5 (consistency-leaning); breadth-gated, u100,
 1d, 14d/7d. AVOID top3 (fragile single-name). HONEST: this is the ceiling of the strat layer within long-only.
+
+## CYCLE 8-9 -- ENRICHED predictor + VERIFICATION (strat_2to7_enriched/verify.py): signal is TEMPORAL, not cross-sectional.
+Cy8: enriched meta-labeler (OHLC-shape + MARKET-STATE + lead-lag) OOS AUC 0.667, 2.62x top-decile lift -- looked like
+a breakthrough (cy5's ~random was a FEATURE failure). Cy9 VERIFICATION (RWYB): WITHIN-BAR (cross-sectional) AUC only
+0.548 (null 0.51) -> the 0.667 was MOSTLY TEMPORAL (market-state distinguishes good/bad WEEKS, not which-NAME). Book
+translation MIXED (enriched-P beats mom14 on FWD median +1.30 vs -0.36 but loses OOS24) -> does NOT robustly beat
+momentum. WHICH-NAME ceiling largely HOLDS (weak 0.548); the real signal is WHEN-to-deploy (timing). Near-false-victory
+caught by within-bar decomposition + book translation.
+
+## CYCLE 10-11 -- LEARNED DEPLOY-TIMING gate + VERIFICATION: real but FRAGILE (promising-unconfirmed).
+cy10: breadth&P(good-week)>0.55 -> FWD deployed median +6.8/comp+109, cross-window + cross-threshold (the temporal
+signal cy9 pointed at). cy11 ADVERSARIAL: beats shuffle-null (+8.5 vs null-p90 +5.0) AND beats best rule gate
+(+8.5 vs +2.8) -> signal REAL. BUT fragile: 6 FWD deployed weeks, top-2 = 61% of gain, ONE-SIDED (H1 +9.1 / H2 -4.4);
++ dead-list D85 (learned regime-timing refuted) + campaign-stale OOS. => PROMISING-UNCONFIRMED, needs PRISTINE FORWARD
+data to settle (fragility is data-limited, not tuning-fixable).
+
+## FINAL VERDICT (4h autonomous, 11 cycles + 2 learned ML + adversarial verify) -- HONEST end-state.
+1. WHICH-NAME selection: weak ceiling (within-bar AUC 0.548 vs 0.51 null); momentum ~optimal; learned predictor does
+   NOT robustly beat it -> the market caps cross-sectional name-prediction.
+2. WHEN-TO-DEPLOY (timing): the real predictable signal is TEMPORAL (market-state: btc-mom/breadth/disp). A learned
+   timing gate beats null+rule gates but is FRAGILE/one-sided/data-limited + dead-list-prior -> PROVISIONAL candidate.
+3. TAKE-PROFIT ~5%: raises in-[2,7] consistency, caps the wealth tail -> a consistency<->wealth TRADE.
+4. CONCENTRATION K: the wealth dial (top3 max but fragile single-name; top8 robust).
+5. BULL delivers 2-7%/wk (deployed median +3-7%); BEAR is the structural ceiling (long-only) -- the learned-timing
+   lead HINTS partial bear-avoidance but is unconfirmed.
+ANSWER to "make 2-7%/wk a reality": it is a CONDITIONAL (favorable-regime) reality + a wealth/consistency CHOICE,
+NOT a reliable every-week unconditional outcome. ONE promising lead (learned deploy-timing) could improve bear-
+avoidance -> validate on fresh/forward data before trust. Deployable now = momentum top-8 (wealth) / +TP5
+(consistency), breadth-gated, u100, 1d, 14d/7d. NO false victory: the campaign found a lead, not a solved 2-7%/wk.
