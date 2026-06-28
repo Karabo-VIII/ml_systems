@@ -1,4 +1,14 @@
-"""DEPLOYABLE V3 -- the wealth-maximising long-only retail engine (Claude, 2026-06-28).
+"""DEPLOYABLE V3 -- long-only retail engine (Claude, 2026-06-28).
+
+*** 2025-Q1 UNSEAL UPDATE (do not deploy the momentum layer) ***
+The frozen 2025-Q1 OOS test (runs/engines/AUDIT_ORACLE_UPGRADE/wave4_2025q1_unseal) REFUTED the L3 momentum layer:
+in the Feb-Mar 2025 reversal momentum CRASHED (breadth+EW -14.6% vs breadth+momentum -21.7%; a textbook momentum
+crash -- it concentrated into Jan winners as they reversed). The OOS-2024 "+170%/2.5x wealth" was regime-specific.
+WHAT SURVIVED: the L1 cross-sectional BREADTH gate + L2 band + EW (momentum OFF) = the validated de-risk core
+(2025-Q1 -14.6% vs alt-basket -48.6%, deploy 19%). To run the validated engine, set K=None / use the EW path.
+Caveat: in 2025-Q1 nothing beat BH BTC (-11.8%); the alt apparatus's value is regime-conditional.
+--- original V3 design notes below (momentum layer kept for the record, NOT for deployment) ---
+
 
 The campaign (runs/engines/AUDIT_ORACLE_UPGRADE/) audited Kiro V2-V15, fixed a same-day regime
 leak, built the long-only oracle, and found TWO robust deployment levers that the static MA band

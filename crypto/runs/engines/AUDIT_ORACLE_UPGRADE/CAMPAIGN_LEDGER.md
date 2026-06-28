@@ -134,3 +134,19 @@ robust capture needs crypto-native data (user-gated) -- the internal price-TI ce
   ~2.5x baseline wealth at similar drawdown, ROBUST across params + both windows, momentum significant. Emits the
   latest target book (what to hold). TRADEOFF: 7dprof 22-25% (vs 34%) = LUMPIER (wealth-max trade). FINAL GATE: 2025.
   K = consistency/wealth dial (K10 or V3/baseline blend = more consistent at less wealth).
+
+## WAVE 4 -- 2025-Q1 UNSEAL (user-authorized final OOS gate; data ends 2025-03-31 = all 2025 OOS that exists).
+wave4_2025q1_unseal.py/.json. All MA-family candidates FROZEN, de-leaked, PROD, window 2025-01-01..04-01 (90 1d bars,
+67/77 names). Q1-2025 = a BRUTAL alt quarter (BH EW-u100 -48.6%, BH BTC -11.8%; alts cratered in the Feb-Mar reversal).
+RESULTS (1d, ranked by wealth): BH BTC -11.8% > conv breadth+EW -14.6% (deploy 19%) > btc+cap15 -16.4% > ...
+V3 breadth+mom8 -21.7% > btc+cap33 (old baseline) -24.5% > btc+mom8 -34.8% > BH EW-u100 -48.6%.
+THREE VERDICTS:
+ 1. BREADTH GATE = CONFIRMED. Best engine (-14.6%, deploy 19% vs btc-gate 51%/-24.5%); de-risk held on a real stress
+    quarter, beat the old BTC gate ~10pp. Lever B validated across 3 windows (VAL/OOS-2024/OOS-2025Q1).
+ 2. MOMENTUM = REFUTED on fresh OOS. Adding it made everything WORSE (breadth+EW -14.6 -> +mom8 -21.7; btc+cap33 -24.5
+    -> +mom8 -34.8). Textbook MOMENTUM CRASH: concentrated into Jan winners right as they reversed hardest Feb-Mar. The
+    OOS-2024 +170%/2.5x was regime-specific (2024-H2 melt-up), exactly as the 94th-pctile borderline warning predicted.
+    *** V3-AS-LOCKED MUST NOT BE DEPLOYED. *** Momentum is a regime-conditional bet that crashes in reversals.
+ 3. SOBERING: NOTHING beat BH BTC (-11.8%). The whole alt-selection apparatus underperformed BTC in this risk-off
+    quarter; the gate->cash is the right floor but still lagged BTC. Retail wealth implication: BTC core hold matters.
+REVISED DEPLOYABLE: breadth gate + conv band + EW (NO momentum) = the validated de-risk core. Momentum SHELVED.

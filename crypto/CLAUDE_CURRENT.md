@@ -18,19 +18,18 @@ Nulls D83/D84/D85 confirmed (D83 narrative refined: "selection-by-recent-P&L=no-
 book matched frozen-114 in 6/12 cells => the 114-config band is over-diluted, a minor live lever). Pipeline indicator
 path clean; the regime path inherited the same leak (now fixed). ADX|1d genuine-selective but VAL-fit => PROVISIONAL.
 
-## DEPLOYABLE V3 — the WEALTH-MAX retail engine (Claude, 2026-06-28; src/strat/deployable_v3.py)
-User directive: "you're the expert, maximise WEALTH on a retail account." Found TWO robust deployment levers the
-static band left on the table, stacked on the de-leaked scaffold:
-- **L1 cross-sectional BREADTH gate** (frac of u100 > own 100d-SMA; hyst 0.5/0.4) REPLACES single-BTC-SMA100 —
-  catches turns the BTC gate misses, cuts drawdown at ~flat return.
-- **L2 cross-type convergence band** (SMA/EMA/WMA/VIDYA/KAMA, 14d) = eligible set.
-- **L3 momentum top-8 inv-vol** selection — tilt into the movers (cross-sectional momentum = the ONE causal
-  selection signal surviving both windows + a random-selection null; 97th pctile OOS-1d / 100th 4h under the gate).
-**WEALTH: 1d OOS-2024 compound +170% vs baseline +68% (~2.5x), Sharpe 1.94, maxDD -29%; VAL +615% Sh3.45 DD-23%.**
-4h near-identical (+173%). ROBUST: 36/36 (K,cap,breadth) param-combos beat baseline compound on BOTH windows both
-TFs (NOT default-param-luck). cap irrelevant at K8 (never binds); K is the concentration dial. TRADEOFF: 7d-profit
-rate drops to 22-25% (vs 34%) — LUMPIER (fewer/bigger green weeks); the wealth-max trade, less week-to-week
-consistency. FINAL GATE: 2025 unseal (momentum is the one active bet). For more consistency: K10 or V3/baseline blend.
+## 2025-Q1 UNSEAL VERDICT (the final OOS gate, 2026-06-28; src/strat/deployable_v3.py + wave4_2025q1_unseal)
+Ran ALL MA-family candidates FROZEN on Jan-Mar 2025 (= all the 2025 OOS data; ends 2025-03-31). Q1-2025 = a brutal
+alt quarter (BH EW-u100 -48.6%, BH BTC -11.8%). VERDICTS:
+- **BREADTH GATE = CONFIRMED.** Best engine: conv breadth+EW -14.6% (deploy 19%) vs old btc-gate cap33 -24.5%
+  (deploy 51%) vs alt-basket -48.6%. The de-risk core held on a real stress quarter across 3 windows. **This is the
+  validated deployable: breadth gate + conv band + EW (NO momentum).**
+- **MOMENTUM = REFUTED on fresh OOS.** Adding it made everything WORSE (breadth+EW -14.6 -> +mom8 -21.7; btc+cap33
+  -24.5 -> +mom8 -34.8) = textbook MOMENTUM CRASH (concentrated into Jan winners as they reversed Feb-Mar). The
+  OOS-2024 "+170%/2.5x" was REGIME-SPECIFIC (2024-H2 melt-up), exactly as the 94th-pctile borderline warned.
+  **V3-as-locked (with momentum) MUST NOT be deployed. Momentum SHELVED** (regime-conditional, crashes in reversals).
+- **SOBERING:** nothing beat BH BTC (-11.8%) -- the alt apparatus underperformed BTC in this risk-off quarter; the
+  gate->cash is the right floor but still lagged BTC. Retail-wealth implication: a BTC core hold matters in BTC-dominance.
 
 ## THE DEPLOYABLE VERDICT (both agents converge here; DE-LEAKED)
 **Capital-preservation within long-only = the deployable answer.** MA band engine (V1 1d-BTC-SMA100 regime gate +
