@@ -1,0 +1,92 @@
+{
+  "check": "STRAT_2to7_cycle5_metalabeler",
+  "feats": [
+    "mom14",
+    "accel",
+    "breakout",
+    "volexp",
+    "relrank"
+  ],
+  "K": 5,
+  "n_train_rows": 15483,
+  "base_rate": 0.221,
+  "ts": "20260629_002913",
+  "models": {
+    "OOS24": {
+      "GBM": {
+        "dep": 13,
+        "median": -1.56,
+        "mean": 6.03,
+        "hit2": 0.385,
+        "in27": 0.077,
+        "neg": 0.538,
+        "comp": 61.6
+      },
+      "logit": {
+        "dep": 13,
+        "median": -0.87,
+        "mean": 10.68,
+        "hit2": 0.462,
+        "in27": 0.0,
+        "neg": 0.538,
+        "comp": 162.6
+      },
+      "mom14 (baseline)": {
+        "dep": 13,
+        "median": -1.12,
+        "mean": 3.12,
+        "hit2": 0.385,
+        "in27": 0.154,
+        "neg": 0.538,
+        "comp": 15.0
+      },
+      "random": {
+        "dep": 13,
+        "median": -2.16,
+        "mean": 6.88,
+        "hit2": 0.385,
+        "in27": 0.0,
+        "neg": 0.538,
+        "comp": 91.1
+      }
+    },
+    "FWD": {
+      "GBM": {
+        "dep": 20,
+        "median": -2.93,
+        "mean": -0.28,
+        "hit2": 0.35,
+        "in27": 0.15,
+        "neg": 0.55,
+        "comp": -9.1
+      },
+      "logit": {
+        "dep": 20,
+        "median": -2.11,
+        "mean": 1.94,
+        "hit2": 0.35,
+        "in27": 0.05,
+        "neg": 0.65,
+        "comp": 11.2
+      },
+      "mom14 (baseline)": {
+        "dep": 20,
+        "median": -0.86,
+        "mean": 0.01,
+        "hit2": 0.45,
+        "in27": 0.2,
+        "neg": 0.5,
+        "comp": -13.9
+      },
+      "random": {
+        "dep": 20,
+        "median": -2.91,
+        "mean": -1.7,
+        "hit2": 0.4,
+        "in27": 0.2,
+        "neg": 0.55,
+        "comp": -31.2
+      }
+    }
+  }
+}

@@ -1,0 +1,223 @@
+{
+  "check": "STRAT_2to7_cycle1_scores",
+  "K": 5,
+  "ts": "20260629_001213",
+  "windows": {
+    "VAL": {
+      "mom14": {
+        "dep_wks": 25,
+        "median": 7.04,
+        "mean": 8.32,
+        "hit_ge2": 0.68,
+        "in_2to7": 0.16,
+        "gt7": 0.52,
+        "neg": 0.28,
+        "compound": 422.8
+      },
+      "mom_multi": {
+        "dep_wks": 25,
+        "median": 8.0,
+        "mean": 8.11,
+        "hit_ge2": 0.68,
+        "in_2to7": 0.16,
+        "gt7": 0.52,
+        "neg": 0.32,
+        "compound": 382.2
+      },
+      "breakout": {
+        "dep_wks": 25,
+        "median": 1.61,
+        "mean": 3.24,
+        "hit_ge2": 0.48,
+        "in_2to7": 0.12,
+        "gt7": 0.36,
+        "neg": 0.44,
+        "compound": 95.7
+      },
+      "accel": {
+        "dep_wks": 25,
+        "median": 3.29,
+        "mean": 7.44,
+        "hit_ge2": 0.6,
+        "in_2to7": 0.24,
+        "gt7": 0.36,
+        "neg": 0.4,
+        "compound": 315.3
+      },
+      "volexp": {
+        "dep_wks": 25,
+        "median": 4.13,
+        "mean": 6.57,
+        "hit_ge2": 0.68,
+        "in_2to7": 0.28,
+        "gt7": 0.4,
+        "neg": 0.32,
+        "compound": 262.0
+      },
+      "composite": {
+        "dep_wks": 25,
+        "median": 5.66,
+        "mean": 7.36,
+        "hit_ge2": 0.64,
+        "in_2to7": 0.2,
+        "gt7": 0.44,
+        "neg": 0.32,
+        "compound": 331.1
+      },
+      "relrank": {
+        "dep_wks": 25,
+        "median": 7.04,
+        "mean": 8.32,
+        "hit_ge2": 0.68,
+        "in_2to7": 0.16,
+        "gt7": 0.52,
+        "neg": 0.28,
+        "compound": 422.8
+      }
+    },
+    "OOS24": {
+      "mom14": {
+        "dep_wks": 12,
+        "median": -2.91,
+        "mean": 10.1,
+        "hit_ge2": 0.417,
+        "in_2to7": 0.0,
+        "gt7": 0.417,
+        "neg": 0.583,
+        "compound": 91.5
+      },
+      "mom_multi": {
+        "dep_wks": 12,
+        "median": -3.41,
+        "mean": 9.95,
+        "hit_ge2": 0.417,
+        "in_2to7": 0.0,
+        "gt7": 0.417,
+        "neg": 0.583,
+        "compound": 92.8
+      },
+      "breakout": {
+        "dep_wks": 12,
+        "median": 1.33,
+        "mean": 8.29,
+        "hit_ge2": 0.417,
+        "in_2to7": 0.083,
+        "gt7": 0.333,
+        "neg": 0.417,
+        "compound": 109.8
+      },
+      "accel": {
+        "dep_wks": 12,
+        "median": 3.46,
+        "mean": 10.93,
+        "hit_ge2": 0.5,
+        "in_2to7": 0.0,
+        "gt7": 0.5,
+        "neg": 0.5,
+        "compound": 134.8
+      },
+      "volexp": {
+        "dep_wks": 12,
+        "median": 0.4,
+        "mean": 7.16,
+        "hit_ge2": 0.5,
+        "in_2to7": 0.167,
+        "gt7": 0.333,
+        "neg": 0.5,
+        "compound": 53.0
+      },
+      "composite": {
+        "dep_wks": 12,
+        "median": -1.03,
+        "mean": 11.49,
+        "hit_ge2": 0.417,
+        "in_2to7": 0.0,
+        "gt7": 0.417,
+        "neg": 0.5,
+        "compound": 140.4
+      },
+      "relrank": {
+        "dep_wks": 12,
+        "median": -2.91,
+        "mean": 10.1,
+        "hit_ge2": 0.417,
+        "in_2to7": 0.0,
+        "gt7": 0.417,
+        "neg": 0.583,
+        "compound": 91.5
+      }
+    },
+    "FWD": {
+      "mom14": {
+        "dep_wks": 20,
+        "median": -2.0,
+        "mean": 0.65,
+        "hit_ge2": 0.4,
+        "in_2to7": 0.1,
+        "gt7": 0.3,
+        "neg": 0.6,
+        "compound": 8.5
+      },
+      "mom_multi": {
+        "dep_wks": 20,
+        "median": 0.13,
+        "mean": 0.12,
+        "hit_ge2": 0.35,
+        "in_2to7": 0.1,
+        "gt7": 0.25,
+        "neg": 0.5,
+        "compound": -6.9
+      },
+      "breakout": {
+        "dep_wks": 20,
+        "median": -0.25,
+        "mean": -0.96,
+        "hit_ge2": 0.3,
+        "in_2to7": 0.15,
+        "gt7": 0.15,
+        "neg": 0.5,
+        "compound": -23.2
+      },
+      "accel": {
+        "dep_wks": 20,
+        "median": -3.68,
+        "mean": -0.22,
+        "hit_ge2": 0.35,
+        "in_2to7": 0.05,
+        "gt7": 0.3,
+        "neg": 0.6,
+        "compound": -15.0
+      },
+      "volexp": {
+        "dep_wks": 20,
+        "median": -1.53,
+        "mean": -0.8,
+        "hit_ge2": 0.4,
+        "in_2to7": 0.15,
+        "gt7": 0.25,
+        "neg": 0.55,
+        "compound": -18.3
+      },
+      "composite": {
+        "dep_wks": 20,
+        "median": -2.66,
+        "mean": -0.93,
+        "hit_ge2": 0.35,
+        "in_2to7": 0.1,
+        "gt7": 0.25,
+        "neg": 0.6,
+        "compound": -18.2
+      },
+      "relrank": {
+        "dep_wks": 20,
+        "median": -2.0,
+        "mean": 0.65,
+        "hit_ge2": 0.4,
+        "in_2to7": 0.1,
+        "gt7": 0.3,
+        "neg": 0.6,
+        "compound": 8.5
+      }
+    }
+  }
+}
