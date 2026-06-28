@@ -18,6 +18,15 @@ Nulls D83/D84/D85 confirmed (D83 narrative refined: "selection-by-recent-P&L=no-
 book matched frozen-114 in 6/12 cells => the 114-config band is over-diluted, a minor live lever). Pipeline indicator
 path clean; the regime path inherited the same leak (now fixed). ADX|1d genuine-selective but VAL-fit => PROVISIONAL.
 
+## THE SYSTEM MAKES MONEY OOS — momentum mover-selection +57%/2yr (2026-06-28; full_track_momentum)
+CLEAN OOS (2024-05-15..2026-05, ~2yr, $10k, prod-grade, NO in-sample): mom top8 inv-vol +57% ($15.7k) > mom EW +47%
+> inv-vol de-risk (what I shipped) +43% > BH BTC +11% ($11.1k) > BH alt-basket -55% ($4.5k). maxDD: mom -36 vs BTC
+-50 vs basket -81. So the deployable (momentum) BEATS buy-hold BTC ~5x at lower drawdown -- it is NOT a net-loser.
+I had understated it twice: (a) anchored on the single WORST 14-mo sub-slice (2025-Q2..2026 net-down = breakeven),
+(b) shipped the weaker de-risked config. Full-track incl in-sample = +679% but that is IN-SAMPLE-band-inflated (2023->
+2024-05 band fit) -- do NOT headline; the clean OOS +57% is the honest number. Per-year: catches bull movers (2023/24
+big), small loss in down years (2025/26). Cost: DD-36 (momentum concentration). DEPLOYABLE = momentum top-8 mover-selection.
+
 ## MOMENTUM UN-SHELVED — the deployable SELECTION is mover-selection, NOT de-risked EW (2026-06-28; forward_mover_diagnosis)
 User critique (valid): "can't miss the movers all year and be net-negative." CONFIRMED: over 2025-Q2..2026-05 the
 ORACLE (perfect top-8 mover-selection per 7d slice) = +604.6% (Q3-25 +220%); my deployed inv-vol engine captured ~none

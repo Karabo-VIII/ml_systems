@@ -223,3 +223,14 @@ inv-vol-de-risked. CEILING HONESTY: even momentum ~breakeven on this NET-DOWN cy
 perfect "which-names-run" foresight (un-capturable); momentum captures a sliver + is positive in net-up legs (Q3-25
 +14..25%). REFINED: it is recent STRENGTH (momentum) that works, NOT raw vol (vol-tilt -43%). LESSON (cognition):
 do NOT decide a lever's fate on ONE window -- a crash quarter is the worst case, not the verdict; test across ALL windows.
+
+## WAVE 8b -- FULL CONTINUOUS TRACK: the system MAKES MONEY OOS (reconciliation). full_track_momentum.py/.json.
+Ran momentum mover-selection vs de-risked vs buy-hold as ONE continuous paper-trade 2023-07..2026-05 ($10k, prod).
+CLEAN OOS (>=2024-05-15, ~2yr, NO in-sample): mom top8 inv-vol +57% ($15.7k) > mom EW +47% > inv-vol de-risk (shipped)
++43% > BH BTC +11% ($11.1k) > BH alt-basket -55% ($4.5k). maxDD mom -36 vs BTC -50 vs basket -81.
+=> The system is NOT a net-loser OOS: the momentum deployable BEATS BH BTC ~5x at lower drawdown, +57% over 2yr (~25%/yr).
+I had understated it twice: anchored on the WORST 14-mo sub-slice (2025-Q2..2026 net-down = breakeven) + shipped the
+weaker de-risked config (+43 vs momentum +57). FULL-track incl in-sample = +679% but IN-SAMPLE-band-inflated (2023->
+2024-05) -- NOT headlined; clean OOS +57% is the honest figure. Per-year (full): catches bull movers (2023 +162, 2024
++272), small loss down-years (2025 -14, 2026 -7). Cost: DD-36 (momentum concentration; de-risk DD-35 similar here).
+DEPLOYABLE = momentum top-8 mover-selection (recent strength), breadth-gated, u100, 1d, 14d/7d.

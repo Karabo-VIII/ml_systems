@@ -1,0 +1,92 @@
+{
+  "check": "FULL_TRACK_MOMENTUM",
+  "span": "2023-07-01..2026-05-28",
+  "note": "2023->2024-05 band is IN-SAMPLE; OOS split reported separately. RELATIVE comp is apples-to-apples.",
+  "ts": "20260628_174415",
+  "schemes": {
+    "mom top8 inv-vol": {
+      "full": {
+        "final": 77927.0,
+        "compound": 679.3,
+        "maxdd": -59.0,
+        "sharpe": 1.48
+      },
+      "oos_only": {
+        "final": 15683.0,
+        "compound": 56.8,
+        "maxdd": -35.7,
+        "sharpe": 0.69
+      },
+      "yearly_full": {
+        "2023": 161.9,
+        "2024": 272.2,
+        "2025": -14.2,
+        "2026": -6.8
+      }
+    },
+    "mom top8 EW": {
+      "full": {
+        "final": 75292.0,
+        "compound": 652.9,
+        "maxdd": -59.3,
+        "sharpe": 1.42
+      },
+      "oos_only": {
+        "final": 14727.0,
+        "compound": 47.3,
+        "maxdd": -37.7,
+        "sharpe": 0.62
+      },
+      "yearly_full": {
+        "2023": 177.5,
+        "2024": 218.8,
+        "2025": -6.5,
+        "2026": -9.0
+      }
+    },
+    "inv-vol de-risk (shipped)": {
+      "full": {
+        "final": 31133.0,
+        "compound": 211.3,
+        "maxdd": -45.4,
+        "sharpe": 1.13
+      },
+      "oos_only": {
+        "final": 14260.0,
+        "compound": 42.6,
+        "maxdd": -35.1,
+        "sharpe": 0.64
+      },
+      "yearly_full": {
+        "2023": 94.9,
+        "2024": 93.9,
+        "2025": -18.3,
+        "2026": 0.9
+      }
+    },
+    "BH_alt": {
+      "full": {
+        "final": 11403.0,
+        "compound": 14.0,
+        "maxdd": -81.4
+      },
+      "oos_only": {
+        "final": 4455.0,
+        "compound": -55.4,
+        "maxdd": -81.4
+      }
+    },
+    "BH_btc": {
+      "full": {
+        "final": 24040.0,
+        "compound": 140.4,
+        "maxdd": -49.7
+      },
+      "oos_only": {
+        "final": 11095.0,
+        "compound": 10.9,
+        "maxdd": -49.7
+      }
+    }
+  }
+}
