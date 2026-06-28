@@ -1,0 +1,159 @@
+{
+  "check": "WAVE3C_momentum_risk_control",
+  "ts": "20260628_094441",
+  "K": 5,
+  "tf": {
+    "1d": {
+      "baseline": {
+        "VAL": {
+          "EW_all": {
+            "lin_wk": 1.742,
+            "sharpe": 1.387,
+            "maxdd": -52.3,
+            "ret_per_dd": 0.0333
+          },
+          "rand_p95": 2.007
+        },
+        "OOS": {
+          "EW_all": {
+            "lin_wk": 3.1,
+            "sharpe": 1.476,
+            "maxdd": -42.2,
+            "ret_per_dd": 0.0735
+          },
+          "rand_p95": 4.225
+        }
+      },
+      "variants": {
+        "VAL": {
+          "mom top5 EW": {
+            "lin_wk": 3.447,
+            "sharpe": 1.855,
+            "maxdd": -55.4,
+            "ret_per_dd": 0.0622
+          },
+          "mom top5 inv-vol": {
+            "lin_wk": 3.593,
+            "sharpe": 2.008,
+            "maxdd": -52.9,
+            "ret_per_dd": 0.0679
+          },
+          "mom top5 EW + voltgt": {
+            "lin_wk": 2.15,
+            "sharpe": 1.726,
+            "maxdd": -38.1,
+            "ret_per_dd": 0.0564
+          },
+          "mom top5 invvol+voltgt": {
+            "lin_wk": 2.44,
+            "sharpe": 1.948,
+            "maxdd": -37.4,
+            "ret_per_dd": 0.0653
+          }
+        },
+        "OOS": {
+          "mom top5 EW": {
+            "lin_wk": 4.062,
+            "sharpe": 1.747,
+            "maxdd": -51.6,
+            "ret_per_dd": 0.0787
+          },
+          "mom top5 inv-vol": {
+            "lin_wk": 4.163,
+            "sharpe": 1.804,
+            "maxdd": -48.5,
+            "ret_per_dd": 0.0858
+          },
+          "mom top5 EW + voltgt": {
+            "lin_wk": 1.775,
+            "sharpe": 1.427,
+            "maxdd": -45.1,
+            "ret_per_dd": 0.0393
+          },
+          "mom top5 invvol+voltgt": {
+            "lin_wk": 1.851,
+            "sharpe": 1.475,
+            "maxdd": -44.5,
+            "ret_per_dd": 0.0416
+          }
+        }
+      }
+    },
+    "4h": {
+      "baseline": {
+        "VAL": {
+          "EW_all": {
+            "lin_wk": 1.082,
+            "sharpe": 0.791,
+            "maxdd": -55.8,
+            "ret_per_dd": 0.0194
+          },
+          "rand_p95": -3.508
+        },
+        "OOS": {
+          "EW_all": {
+            "lin_wk": 2.75,
+            "sharpe": 1.491,
+            "maxdd": -44.5,
+            "ret_per_dd": 0.0617
+          },
+          "rand_p95": -0.592
+        }
+      },
+      "variants": {
+        "VAL": {
+          "mom top5 EW": {
+            "lin_wk": 2.865,
+            "sharpe": 1.44,
+            "maxdd": -61.4,
+            "ret_per_dd": 0.0467
+          },
+          "mom top5 inv-vol": {
+            "lin_wk": 2.245,
+            "sharpe": 1.217,
+            "maxdd": -57.1,
+            "ret_per_dd": 0.0393
+          },
+          "mom top5 EW + voltgt": {
+            "lin_wk": 1.153,
+            "sharpe": 1.036,
+            "maxdd": -43.5,
+            "ret_per_dd": 0.0265
+          },
+          "mom top5 invvol+voltgt": {
+            "lin_wk": 0.854,
+            "sharpe": 0.775,
+            "maxdd": -43.4,
+            "ret_per_dd": 0.0197
+          }
+        },
+        "OOS": {
+          "mom top5 EW": {
+            "lin_wk": 3.684,
+            "sharpe": 1.679,
+            "maxdd": -61.5,
+            "ret_per_dd": 0.0599
+          },
+          "mom top5 inv-vol": {
+            "lin_wk": 3.822,
+            "sharpe": 1.806,
+            "maxdd": -55.8,
+            "ret_per_dd": 0.0685
+          },
+          "mom top5 EW + voltgt": {
+            "lin_wk": 0.891,
+            "sharpe": 0.781,
+            "maxdd": -53.4,
+            "ret_per_dd": 0.0167
+          },
+          "mom top5 invvol+voltgt": {
+            "lin_wk": 1.209,
+            "sharpe": 1.066,
+            "maxdd": -49.0,
+            "ret_per_dd": 0.0247
+          }
+        }
+      }
+    }
+  }
+}

@@ -104,3 +104,20 @@ robust capture needs crypto-native data (user-gated) -- the internal price-TI ce
   DISPERSION = VAL; adds little in uniform melt-up = OOS-2024). Gated on 2025 unseal, same bucket as ADX but better-
   principled. Confirmed deployable remains cap33 EW ~+1.8-2%/wk. Internal price-TI ceiling effectively REACHED; the
   one live thread = momentum-tilt + 2025 confirmation (+ maybe dispersion-conditioning, but that risks overfit on 2 windows).
+
+## WAVE 3C/D/E -- "TRY DIFFERENT OPTIONS RIGOROUSLY" (user 2026-06-28). Both deployment axes, found 2 real levers.
+- 3C OPTION A momentum risk-control (wave3c_*): the RIGHT control = inv-vol WITHIN hard top-5 (not the 3B soft-tilt,
+  which diluted the signal). mom top5 inv-vol beats EW-all on return-per-drawdown on ALL 4 cells (1d VAL .068/OOS .086;
+  4h VAL .039/OOS .069 vs EW .033/.073/.019/.062). RAISES return-efficiency but DEEPENS absolute DD (-48..-56). vol-
+  target kills the edge. = robust risk-ADJUSTED win, not a DD win.
+- 3D OPTION B gate timing (wave3d_*): cross-sectional BREADTH gate (frac of names>own SMA100, hyst .5/.4) vs single-BTC.
+  At 4h = clean WIN both windows (DD -35->-27 OOS, -48->-30 VAL, flat return, better r/DD). At 1d = lower DD but trades
+  a little return (~wash on r/DD OOS .063 vs .070). btc_sma50 worse; 'none' (ungated) worse (gate adds value). Breadth
+  catches turns the BTC-only gate misses -> the DRAWDOWN win the de-risk mandate wants. Principled, low-overfit.
+- 3E SYNTHESIS (wave3e_*): 2x2 gate{btc100,breadth} x selection{EW,mom-invvol}. COMBO breadth+mom-invvol roughly
+  DOUBLES return AND lifts r/DD 1.5-2.5x on BOTH windows BOTH TFs (1d OOS +3.71 Sh1.75 r.103 vs base +2.01 r.070; 4h OOS
+  +3.56 r.086 vs +1.70 r.048). COST: OOS DD deepens to ~-36..-41 (from -28..-35). Params NOT grid-searched (K5/cap33/
+  breadth.5-.4 = defaults) -> overfit-limited. VERDICT: breadth gate = CONFIDENT DD-cut (adopt, esp 4h); momentum
+  inv-vol = PROVISIONAL return-booster (94th-pct OOS, gated on 2025); COMBO = max risk-adj return at deeper DD.
+  "At the ceiling" was WRONG -- real deployment value existed in HOW we deploy (gate) + WHICH names (momentum), exactly
+  as the user predicted. Confirmed deployable spectrum: de-risk = breadth+EW@4h; max-capture = breadth+mom-invvol (gated).

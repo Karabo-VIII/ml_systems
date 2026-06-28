@@ -1,0 +1,122 @@
+{
+  "check": "WAVE3E_combo_breadth_momentum",
+  "ts": "20260628_095317",
+  "tf": {
+    "1d": {
+      "BASELINE btc100+EW": {
+        "VAL": {
+          "lin_wk": 1.945,
+          "sharpe": 1.843,
+          "maxdd": -42.6,
+          "ret_per_dd": 0.0457
+        },
+        "OOS": {
+          "lin_wk": 2.011,
+          "sharpe": 1.536,
+          "maxdd": -28.5,
+          "ret_per_dd": 0.0705
+        }
+      },
+      "btc100 + mom-invvol": {
+        "VAL": {
+          "lin_wk": 3.58,
+          "sharpe": 2.001,
+          "maxdd": -52.9,
+          "ret_per_dd": 0.0676
+        },
+        "OOS": {
+          "lin_wk": 4.365,
+          "sharpe": 1.891,
+          "maxdd": -45.0,
+          "ret_per_dd": 0.097
+        }
+      },
+      "breadth + EW": {
+        "VAL": {
+          "lin_wk": 2.267,
+          "sharpe": 2.457,
+          "maxdd": -26.8,
+          "ret_per_dd": 0.0845
+        },
+        "OOS": {
+          "lin_wk": 1.655,
+          "sharpe": 1.423,
+          "maxdd": -26.4,
+          "ret_per_dd": 0.0627
+        }
+      },
+      "COMBO breadth + mom-invvol": {
+        "VAL": {
+          "lin_wk": 4.119,
+          "sharpe": 2.512,
+          "maxdd": -36.5,
+          "ret_per_dd": 0.113
+        },
+        "OOS": {
+          "lin_wk": 3.707,
+          "sharpe": 1.748,
+          "maxdd": -35.9,
+          "ret_per_dd": 0.1032
+        }
+      }
+    },
+    "4h": {
+      "BASELINE btc100+EW": {
+        "VAL": {
+          "lin_wk": 1.27,
+          "sharpe": 1.146,
+          "maxdd": -48.2,
+          "ret_per_dd": 0.0263
+        },
+        "OOS": {
+          "lin_wk": 1.702,
+          "sharpe": 1.436,
+          "maxdd": -35.1,
+          "ret_per_dd": 0.0484
+        }
+      },
+      "btc100 + mom-invvol": {
+        "VAL": {
+          "lin_wk": 2.165,
+          "sharpe": 1.179,
+          "maxdd": -60.1,
+          "ret_per_dd": 0.0361
+        },
+        "OOS": {
+          "lin_wk": 3.694,
+          "sharpe": 1.758,
+          "maxdd": -57.4,
+          "ret_per_dd": 0.0644
+        }
+      },
+      "breadth + EW": {
+        "VAL": {
+          "lin_wk": 1.869,
+          "sharpe": 1.883,
+          "maxdd": -29.5,
+          "ret_per_dd": 0.0634
+        },
+        "OOS": {
+          "lin_wk": 1.708,
+          "sharpe": 1.63,
+          "maxdd": -26.8,
+          "ret_per_dd": 0.0638
+        }
+      },
+      "COMBO breadth + mom-invvol": {
+        "VAL": {
+          "lin_wk": 3.729,
+          "sharpe": 2.213,
+          "maxdd": -38.3,
+          "ret_per_dd": 0.0973
+        },
+        "OOS": {
+          "lin_wk": 3.556,
+          "sharpe": 1.834,
+          "maxdd": -41.3,
+          "ret_per_dd": 0.0861
+        }
+      }
+    }
+  }
+}
