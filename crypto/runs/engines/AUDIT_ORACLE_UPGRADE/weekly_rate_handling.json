@@ -1,0 +1,112 @@
+{
+  "check": "WEEKLY_RATE_HANDLING",
+  "target": "1-4% per week",
+  "window": "clean OOS >=2024-05-15",
+  "ts": "20260628_184018",
+  "deployable_mom_top8_invvol": {
+    "all": {
+      "n": 106,
+      "mean": 0.75,
+      "median": 0.0,
+      "pct_in_1to4": 0.028,
+      "pct_ge1": 0.142,
+      "pct_gt4": 0.113,
+      "pct_pos": 0.16,
+      "p10": -6.98,
+      "p90": 5.91
+    },
+    "deployed_weeks": {
+      "n": 34,
+      "mean": 3.07,
+      "median": -0.24,
+      "pct_in_1to4": 0.088,
+      "pct_ge1": 0.412,
+      "pct_gt4": 0.324,
+      "pct_pos": 0.471,
+      "p10": -9.11,
+      "p90": 19.44
+    },
+    "cash_weeks": {
+      "n": 72,
+      "mean": -0.35,
+      "median": 0.0,
+      "pct_in_1to4": 0.0,
+      "pct_ge1": 0.014,
+      "pct_gt4": 0.014,
+      "pct_pos": 0.014,
+      "p10": 0.0,
+      "p90": 0.0
+    },
+    "per_year": {
+      "2024": {
+        "mean_wk": 2.67,
+        "pct_in_1to4": 0.0,
+        "n": 33
+      },
+      "2025": {
+        "mean_wk": -0.17,
+        "pct_in_1to4": 0.06,
+        "n": 53
+      },
+      "2026": {
+        "mean_wk": 0.03,
+        "pct_in_1to4": 0.0,
+        "n": 20
+      }
+    },
+    "deployed_frac_of_weeks": 0.321
+  },
+  "static_derisk": {
+    "all": {
+      "n": 106,
+      "mean": 0.52,
+      "median": 0.0,
+      "pct_in_1to4": 0.047,
+      "pct_ge1": 0.151,
+      "pct_gt4": 0.104,
+      "pct_pos": 0.16,
+      "p10": -3.54,
+      "p90": 3.63
+    },
+    "deployed_weeks": {
+      "n": 34,
+      "mean": 2.3,
+      "median": -0.49,
+      "pct_in_1to4": 0.147,
+      "pct_ge1": 0.441,
+      "pct_gt4": 0.294,
+      "pct_pos": 0.471,
+      "p10": -6.82,
+      "p90": 13.59
+    },
+    "cash_weeks": {
+      "n": 72,
+      "mean": -0.32,
+      "median": 0.0,
+      "pct_in_1to4": 0.0,
+      "pct_ge1": 0.014,
+      "pct_gt4": 0.014,
+      "pct_pos": 0.014,
+      "p10": 0.0,
+      "p90": 0.0
+    },
+    "per_year": {
+      "2024": {
+        "mean_wk": 2.1,
+        "pct_in_1to4": 0.03,
+        "n": 33
+      },
+      "2025": {
+        "mean_wk": -0.32,
+        "pct_in_1to4": 0.06,
+        "n": 53
+      },
+      "2026": {
+        "mean_wk": 0.17,
+        "pct_in_1to4": 0.05,
+        "n": 20
+      }
+    },
+    "deployed_frac_of_weeks": 0.321
+  }
+}

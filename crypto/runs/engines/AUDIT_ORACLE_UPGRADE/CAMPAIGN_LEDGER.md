@@ -234,3 +234,16 @@ weaker de-risked config (+43 vs momentum +57). FULL-track incl in-sample = +679%
 2024-05) -- NOT headlined; clean OOS +57% is the honest figure. Per-year (full): catches bull movers (2023 +162, 2024
 +272), small loss down-years (2025 -14, 2026 -7). Cost: DD-36 (momentum concentration; de-risk DD-35 similar here).
 DEPLOYABLE = momentum top-8 mover-selection (recent strength), breadth-gated, u100, 1d, 14d/7d.
+
+## WAVE 9 -- HANDLING THE 1-4%/wk EXPECTATION (user 2026-06-28). weekly_rate_handling.py/.json.
+Honest weekly (7d) distribution of the deployable (momentum top8, clean OOS >=2024-05-15):
+mean +0.75%/wk, median 0.00%, only 16% of weeks POSITIVE, 11% >4% (mover-weeks), just 3% land in [1,4%].
+REGIME SPLIT: DEPLOYED weeks (32% of all = up-regimes) mean +3.07%/wk (IN the 1-4% band); CASH weeks (68%, the
+long-only bear answer) ~-0.35%/wk. Per-year: 2024 (bull) +2.67%/wk (in band), 2025 -0.17, 2026 +0.03.
+ANSWER: the static+dynamic system HITS 1-4%/wk as a DEPLOYED-REGIME AVERAGE (+3%/wk in-market; momentum lifts it
+above the static band +3.07 vs +2.30) -- but it deploys only 32% of the time; the cycle-average (+0.75%/wk on this
+bear-heavy window) is dragged by 68% cash. STEADY +1-4% EVERY week is structurally UNREACHABLE long-only (down-weeks
+need shorts/perfect timing = banned/un-capturable; North-Star). Returns are LUMPY (low hit-rate, big-week-driven),
+not smooth. The ONE lever to lift the cycle-average within the rules = CAPTURE MORE PER DEPLOYED WEEK (mover-prediction:
+oracle +12%/wk vs our +3%/wk deployed) -- not the gate, not the static band. Expectation calibration: 1-4%/wk = deployed
+up-regime average, not a per-week guarantee; cycle-average tracks the bull/bear mix.
