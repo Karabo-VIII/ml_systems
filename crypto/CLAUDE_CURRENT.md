@@ -18,6 +18,17 @@ Nulls D83/D84/D85 confirmed (D83 narrative refined: "selection-by-recent-P&L=no-
 book matched frozen-114 in 6/12 cells => the 114-config band is over-diluted, a minor live lever). Pipeline indicator
 path clean; the regime path inherited the same leak (now fixed). ADX|1d genuine-selective but VAL-fit => PROVISIONAL.
 
+## MOMENTUM UN-SHELVED — the deployable SELECTION is mover-selection, NOT de-risked EW (2026-06-28; forward_mover_diagnosis)
+User critique (valid): "can't miss the movers all year and be net-negative." CONFIRMED: over 2025-Q2..2026-05 the
+ORACLE (perfect top-8 mover-selection per 7d slice) = +604.6% (Q3-25 +220%); my deployed inv-vol engine captured ~none
+(-12.2%). That is a SELECTION FAILURE, not de-risk. FIX: momentum mover-selection (mom top-8 EW -0.5% / vol-weighted
+-0.6%, Q3-25 +14..25%) recovers ~12pp -> breakeven + positive Sharpe. I had SHELVED momentum on ONE quarter (Q1-25, a
+momentum CRASH = worst case) -- WRONG; cross-window it WINS 3 of 4 (VAL/OOS24/forward; only Q1-25 bad). UN-SHELVED:
+**deployable SELECTION = momentum top-8** (recent STRENGTH; NOT raw vol -- vol-tilt = -43% disaster). CEILING HONESTY:
+even momentum ~breakeven on this NET-DOWN cycle (basket -37%); the gap to +604% = perfect which-names-run foresight
+(un-capturable); momentum is positive in net-up legs. LESSON: never decide a lever on ONE window (a crash quarter is
+the worst case, not the verdict). [[feedback-no-single-window-verdict]]
+
 ## THE DEPLOYABLE = THE MA FAMILY OF ENGINES on the FULL u100 (NOT BTC). PROD-GRADE (2026-06-28; prod_ma_family_q1_2025.py)
 CORRECTION (user /orc 2026-06-28): I drifted to a "BTC-core" book off the Q1 "BTC fell less" observation -- that
 COLLAPSES the breadth surface (u100->BTC) + is OFF-SPEC. The spec/product = the MA FAMILY OF ENGINES on the FULL

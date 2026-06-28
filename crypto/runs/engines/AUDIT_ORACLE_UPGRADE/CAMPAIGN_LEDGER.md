@@ -207,3 +207,19 @@ money in a net-down cycle (long-only can't; basket -37%) but loses far less (-6 
 preserves capital in crashes. Cost = lags bull/rotational quarters (Q2-25 -20% whipsaw). Deployable = CONV (type-
 agnostic) or the per-type set; KAMA best on THIS window but type-selection is fragile (1 realization). CAVEATS:
 one cycle; Q2-25 whipsaw is a real weakness; volume feed unreliable (u100 = the liquidity screen).
+
+## WAVE 8 -- FORWARD MOVER DIAGNOSIS + MOMENTUM UN-SHELVED (user critique 2026-06-28: "can't miss movers all year + be negative").
+forward_mover_diagnosis.py/.json. User is RIGHT: over 2025-Q2..2026-05 the ORACLE (perfect top-8 mover selection per
+7d slice) = +604.6% (Q3-25 +220.5%) -- the profitable candidates existed all year; the deployed engine captured ~none
+and ended -12.2%. That is a SELECTION FAILURE, not de-risk. The -20% Q2-25 in a +2% market confirmed it.
+SCHEMES (forward, same breadth-gated eligible set, 1d, de-leaked, prod, next-open): inv-vol cap33 (deployed) -12.2% |
+EW -19.3% | mom top8 EW -0.5% | mom top8 inv-vol -5.0% | mom top8 VOL-weighted -0.6% (Q3-25 +24.6, best bull-capture) |
+VOL-tilt top8 -43.0% (naive mover-chase = DISASTER; high-vol crashes hardest) | ORACLE +604.6%.
+KEY: MOMENTUM (mover-selection) recovers ~12pp (-12.2 -> -0.5, breakeven) + positive Sharpe -- I was WRONG to SHELVE it.
+I shelved it on ONE quarter (Q1-25, a momentum CRASH = worst case) and never tested the full forward window. Cross-window
+truth: momentum WINS 3 of 4 (VAL ok, OOS24 ok, forward ok; only Q1-25 crash bad). Same single-window error class as the
+BTC-collapse. UN-SHELVED: deployable SELECTION = momentum top-8 (EW steadier / vol-weighted best bull-capture), NOT
+inv-vol-de-risked. CEILING HONESTY: even momentum ~breakeven on this NET-DOWN cycle (basket -37%); the gap to +604% =
+perfect "which-names-run" foresight (un-capturable); momentum captures a sliver + is positive in net-up legs (Q3-25
++14..25%). REFINED: it is recent STRENGTH (momentum) that works, NOT raw vol (vol-tilt -43%). LESSON (cognition):
+do NOT decide a lever's fate on ONE window -- a crash quarter is the worst case, not the verdict; test across ALL windows.
