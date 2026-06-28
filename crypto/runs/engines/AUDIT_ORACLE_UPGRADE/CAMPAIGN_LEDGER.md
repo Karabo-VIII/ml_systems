@@ -186,3 +186,24 @@ VERDICT: the MA family is an all-weather capital-preservation product on the FUL
 bull (VAL), beats the basket in chop (OOS24), preserves capital in the crash (Q1). NO BTC core needed; BTC-core was a
 solution to a non-problem. DEPLOYABLE = cross-type CONV book (or per-type ensemble) @ 1d, breadth gate, cap33, 7d/14d,
 EW inv-vol, NO momentum. CAVEATS: 1 crash quarter; execution-sensitive in Q1; volume-feed unreliable (u100 = the screen).
+
+## WAVE 7 -- PER-TYPE WIRING + PAPER-TRADE FORWARD on the REST of OOS (user /orc 2026-06-28).
+SAFETY CHECK handled via MEMORY (user-endorsed, not gate-edit): added recall-based pre-recommendation safety check to
+CLAUDE_CHARTER rule 6 (anti-collapse + long-only + wealth + no-headline + verify-at-canonical-spec) -- closes the
+"broad-work-then-BTC-collapse" hole the gate is blind to. CORRECTED my earlier false claim: data does NOT end Q1-2025
+(that was the WALL); real data runs to ~2026-05-28 -> 2025-Q2..2026-05 = 423 1d bars of GENUINELY-UNSEEN OOS (77/77 names).
+WIRING: wealth_bot/bot paper trader is SINGLE-POSITION (non-overlapping, (TI,ASSET) framework) -> wrong arch for the
+cross-sectional u100 portfolio (forcing it = the collapse just corrected). Built the PORTFOLIO paper-trade runner
+(paper_trade_ma_family.py) reusing wealth_bot CONVENTIONS (next-open fills, prod cost, $-equity, journal/telemetry).
+OFFICIAL per-type candidates (locked): u100, 1d, 14d/7d rolling, breadth-gated, cap33, EW inv-vol, NO momentum.
+FORWARD RESULT (2025-Q2..2026-05, $10k start, prod-grade): KAMA -5.9% ($9409) > CONV -10.8% > SMA -12.5% > EMA -13.1%
+> WMA -15.3% > VIDYA -16.7%  vs  BH alt-basket -36.7% ($6329) and BH BTC -13.7%. maxDD: family -22..-27% vs basket
+-67% vs BTC -50%. The de-risk product WORKS over a long unseen window (a 2025 bull + a 2026 bear): preserved ~26pp vs
+the basket + halved the drawdown; KAMA+CONV beat BTC too. QUARTERLY (CONV vs basket): Q2-25 -19.9 vs +2.3 (WHIPSAW --
+the real weakness: lagged a rotational rising quarter), Q3-25 +11.4 vs +32.6 (captured some bull, lagged), Q4-25 -0.8
+vs -43.9 (PRESERVED in the crash), Q1-26 0.0 vs -30.1 (PRESERVED), Q2-26 +0.8 vs +19.0 (lagged recovery).
+VERDICT: the MA family is a genuine all-weather CAPITAL-PRESERVATION product on the full universe -- it does NOT make
+money in a net-down cycle (long-only can't; basket -37%) but loses far less (-6 to -17%) at half the drawdown, and
+preserves capital in crashes. Cost = lags bull/rotational quarters (Q2-25 -20% whipsaw). Deployable = CONV (type-
+agnostic) or the per-type set; KAMA best on THIS window but type-selection is fragile (1 realization). CAVEATS:
+one cycle; Q2-25 whipsaw is a real weakness; volume feed unreliable (u100 = the liquidity screen).

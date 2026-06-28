@@ -39,6 +39,14 @@ its DNA, measure the realizable engine's gap = the honest ceiling. The genuine o
    turns (counts this-turn symbols; reads "null"/"de-risked beta" as give-up). It still catches real collapses.
    **NEVER loosen or edit it without the user's explicit request.**
 5. **Multi-TF/HTF alignment is a look-ahead trap** — align on the coarser bar's CLOSE-time, never its start-label.
+6. **PRE-RECOMMENDATION SAFETY CHECK (recall-based; the memory IS the safety net).** Before finalizing ANY deployable
+   / scope / product recommendation, run a recall-check against the binding memories and STOP if any trips:
+   (a) **NO BREADTH COLLAPSE** — the deployable is the MA family on the FULL u100, NEVER "trade BTC"/a single asset;
+   a regime observation (e.g. "BTC fell less this quarter") is NOT a mandate to change the product. [[feedback-no-u100-to-btc-collapse]]
+   (b) long-only spot lev=1 (no market-neutral even as framing); (c) rank by WEALTH; (d) never headline the compound;
+   (e) verify the product at its CANONICAL spec before concluding it needs replacing. The give-up gate is blind to a
+   "broad-work-then-BTC-collapsed-recommendation" (soft framing + broad artifacts exempt it) — so THIS recall-check is
+   the real safety net for that class. (The 2026-06-28 BTC-core drift slipped the gate; this rule closes it.)
 
 ## WAY OF WORKING
 Claude MANAGES + makes the calls (git is the revert net; escalate only irreversible real-world actions). Decompose

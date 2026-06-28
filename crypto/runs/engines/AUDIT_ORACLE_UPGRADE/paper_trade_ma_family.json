@@ -1,0 +1,2032 @@
+{
+  "check": "PAPER_TRADE_MA_FAMILY_2025Q2plus",
+  "spec": "u100, 1d, 14d/7d rolling, breadth-gated, cap33, EW inv-vol, NO momentum",
+  "window": "2025-04-01..2026-05-28",
+  "n_bars": 423,
+  "exec": "next-open fills, prod cost 0.0028 RT, de-leaked, PIT, $10k start",
+  "ts": "20260628_165818",
+  "candidates": {
+    "SMA": {
+      "final_equity": 8754.0,
+      "compound_pct": -12.5,
+      "lin_wk": -0.152,
+      "sharpe": -0.3,
+      "maxdd_pct": -25.0,
+      "pct7d": 0.217,
+      "n_bars": 423,
+      "quarterly": {
+        "2025Q2": -19.9,
+        "2025Q3": 6.2,
+        "2025Q4": -1.0,
+        "2026Q1": 0.0,
+        "2026Q2": 3.9
+      },
+      "n_rebalances": 134
+    },
+    "EMA": {
+      "final_equity": 8686.0,
+      "compound_pct": -13.1,
+      "lin_wk": -0.166,
+      "sharpe": -0.33,
+      "maxdd_pct": -25.9,
+      "pct7d": 0.217,
+      "n_bars": 423,
+      "quarterly": {
+        "2025Q2": -21.6,
+        "2025Q3": 9.2,
+        "2025Q4": -1.0,
+        "2026Q1": 0.0,
+        "2026Q2": 2.4
+      },
+      "n_rebalances": 134
+    },
+    "WMA": {
+      "final_equity": 8470.0,
+      "compound_pct": -15.3,
+      "lin_wk": -0.204,
+      "sharpe": -0.39,
+      "maxdd_pct": -26.9,
+      "pct7d": 0.2,
+      "n_bars": 423,
+      "quarterly": {
+        "2025Q2": -21.4,
+        "2025Q3": 8.4,
+        "2025Q4": -0.9,
+        "2026Q1": 0.0,
+        "2026Q2": 0.3
+      },
+      "n_rebalances": 132
+    },
+    "VIDYA": {
+      "final_equity": 8327.0,
+      "compound_pct": -16.7,
+      "lin_wk": -0.241,
+      "sharpe": -0.5,
+      "maxdd_pct": -22.0,
+      "pct7d": 0.2,
+      "n_bars": 423,
+      "quarterly": {
+        "2025Q2": -16.2,
+        "2025Q3": -2.4,
+        "2025Q4": -0.7,
+        "2026Q1": 0.0,
+        "2026Q2": 2.5
+      },
+      "n_rebalances": 126
+    },
+    "KAMA": {
+      "final_equity": 9409.0,
+      "compound_pct": -5.9,
+      "lin_wk": -0.039,
+      "sharpe": -0.08,
+      "maxdd_pct": -25.4,
+      "pct7d": 0.217,
+      "n_bars": 423,
+      "quarterly": {
+        "2025Q2": -19.2,
+        "2025Q3": 14.2,
+        "2025Q4": -0.4,
+        "2026Q1": 0.0,
+        "2026Q2": 2.3
+      },
+      "n_rebalances": 132
+    },
+    "CONV (cross-type)": {
+      "final_equity": 8925.0,
+      "compound_pct": -10.8,
+      "lin_wk": -0.129,
+      "sharpe": -0.27,
+      "maxdd_pct": -24.9,
+      "pct7d": 0.217,
+      "n_bars": 423,
+      "quarterly": {
+        "2025Q2": -19.9,
+        "2025Q3": 11.4,
+        "2025Q4": -0.8,
+        "2026Q1": 0.0,
+        "2026Q2": 0.8
+      },
+      "n_rebalances": 132
+    }
+  },
+  "benchmarks": {
+    "BH_btc": {
+      "final_equity": 8626.0,
+      "compound_pct": -13.7,
+      "lin_wk": -0.07,
+      "sharpe": -0.09,
+      "maxdd_pct": -49.7,
+      "pct7d": 0.533,
+      "n_bars": 423
+    },
+    "BH_alt": {
+      "final_equity": 6329.0,
+      "compound_pct": -36.7,
+      "lin_wk": -0.201,
+      "sharpe": -0.14,
+      "maxdd_pct": -67.4,
+      "pct7d": 0.517,
+      "n_bars": 423
+    }
+  },
+  "journals": {
+    "SMA": [
+      {
+        "date": "2026-05-16",
+        "n_held": 8,
+        "top": [
+          [
+            "TRXUSDT",
+            0.33
+          ],
+          [
+            "BNBUSDT",
+            0.208
+          ],
+          [
+            "JSTUSDT",
+            0.105
+          ],
+          [
+            "ATOMUSDT",
+            0.1
+          ],
+          [
+            "CHZUSDT",
+            0.073
+          ]
+        ],
+        "turnover": 1.282,
+        "equity": 8661.0
+      },
+      {
+        "date": "2026-05-17",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.079
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.022
+          ],
+          [
+            "CHZUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 1.14,
+        "equity": 8776.0
+      },
+      {
+        "date": "2026-05-18",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.082
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.021
+          ],
+          [
+            "CHZUSDT",
+            0.018
+          ]
+        ],
+        "turnover": 0.024,
+        "equity": 8773.0
+      },
+      {
+        "date": "2026-05-20",
+        "n_held": 11,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.085
+          ],
+          [
+            "JSTUSDT",
+            0.023
+          ],
+          [
+            "RENDERUSDT",
+            0.023
+          ],
+          [
+            "DEXEUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 0.084,
+        "equity": 8827.0
+      },
+      {
+        "date": "2026-05-21",
+        "n_held": 16,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.076
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.073,
+        "equity": 8790.0
+      },
+      {
+        "date": "2026-05-22",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.076
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "ATOMUSDT",
+            0.021
+          ],
+          [
+            "DEXEUSDT",
+            0.019
+          ]
+        ],
+        "turnover": 0.069,
+        "equity": 8846.0
+      },
+      {
+        "date": "2026-05-23",
+        "n_held": 15,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.091
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.02
+          ],
+          [
+            "ATOMUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.079,
+        "equity": 8859.0
+      },
+      {
+        "date": "2026-05-24",
+        "n_held": 16,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.089
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ASTERUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.019
+          ]
+        ],
+        "turnover": 0.052,
+        "equity": 8950.0
+      },
+      {
+        "date": "2026-05-25",
+        "n_held": 17,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.08
+          ],
+          [
+            "BNBUSDT",
+            0.039
+          ],
+          [
+            "JSTUSDT",
+            0.021
+          ],
+          [
+            "ASTERUSDT",
+            0.021
+          ]
+        ],
+        "turnover": 0.081,
+        "equity": 8949.0
+      },
+      {
+        "date": "2026-05-26",
+        "n_held": 17,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.079
+          ],
+          [
+            "BNBUSDT",
+            0.043
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "ASTERUSDT",
+            0.021
+          ]
+        ],
+        "turnover": 0.025,
+        "equity": 8877.0
+      },
+      {
+        "date": "2026-05-27",
+        "n_held": 13,
+        "top": [
+          [
+            "TRXUSDT",
+            0.307
+          ],
+          [
+            "JSTUSDT",
+            0.13
+          ],
+          [
+            "ATOMUSDT",
+            0.08
+          ],
+          [
+            "RENDERUSDT",
+            0.067
+          ],
+          [
+            "FETUSDT",
+            0.06
+          ]
+        ],
+        "turnover": 1.201,
+        "equity": 8766.0
+      },
+      {
+        "date": "2026-05-28",
+        "n_held": 0,
+        "top": [],
+        "turnover": 1.0,
+        "equity": 8754.0
+      }
+    ],
+    "EMA": [
+      {
+        "date": "2026-05-16",
+        "n_held": 7,
+        "top": [
+          [
+            "TRXUSDT",
+            0.33
+          ],
+          [
+            "JSTUSDT",
+            0.133
+          ],
+          [
+            "ATOMUSDT",
+            0.126
+          ],
+          [
+            "CHZUSDT",
+            0.092
+          ],
+          [
+            "INJUSDT",
+            0.079
+          ]
+        ],
+        "turnover": 1.171,
+        "equity": 8524.0
+      },
+      {
+        "date": "2026-05-17",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.079
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.022
+          ],
+          [
+            "CHZUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 1.042,
+        "equity": 8688.0
+      },
+      {
+        "date": "2026-05-18",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.082
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.021
+          ],
+          [
+            "CHZUSDT",
+            0.018
+          ]
+        ],
+        "turnover": 0.024,
+        "equity": 8685.0
+      },
+      {
+        "date": "2026-05-20",
+        "n_held": 11,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.086
+          ],
+          [
+            "JSTUSDT",
+            0.023
+          ],
+          [
+            "DEXEUSDT",
+            0.017
+          ],
+          [
+            "NEIROUSDT",
+            0.013
+          ]
+        ],
+        "turnover": 0.076,
+        "equity": 8739.0
+      },
+      {
+        "date": "2026-05-21",
+        "n_held": 16,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.076
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.083,
+        "equity": 8700.0
+      },
+      {
+        "date": "2026-05-22",
+        "n_held": 11,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.075
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "ATOMUSDT",
+            0.021
+          ],
+          [
+            "DEXEUSDT",
+            0.019
+          ]
+        ],
+        "turnover": 0.077,
+        "equity": 8756.0
+      },
+      {
+        "date": "2026-05-23",
+        "n_held": 15,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.091
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.02
+          ],
+          [
+            "ATOMUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.072,
+        "equity": 8772.0
+      },
+      {
+        "date": "2026-05-24",
+        "n_held": 15,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.089
+          ],
+          [
+            "BNBUSDT",
+            0.04
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.019
+          ]
+        ],
+        "turnover": 0.063,
+        "equity": 8862.0
+      },
+      {
+        "date": "2026-05-25",
+        "n_held": 16,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.082
+          ],
+          [
+            "BNBUSDT",
+            0.04
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.018
+          ]
+        ],
+        "turnover": 0.039,
+        "equity": 8862.0
+      },
+      {
+        "date": "2026-05-26",
+        "n_held": 16,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.08
+          ],
+          [
+            "BNBUSDT",
+            0.044
+          ],
+          [
+            "JSTUSDT",
+            0.025
+          ],
+          [
+            "ATOMUSDT",
+            0.018
+          ]
+        ],
+        "turnover": 0.033,
+        "equity": 8797.0
+      },
+      {
+        "date": "2026-05-27",
+        "n_held": 12,
+        "top": [
+          [
+            "TRXUSDT",
+            0.32
+          ],
+          [
+            "JSTUSDT",
+            0.136
+          ],
+          [
+            "ATOMUSDT",
+            0.083
+          ],
+          [
+            "RENDERUSDT",
+            0.07
+          ],
+          [
+            "FETUSDT",
+            0.063
+          ]
+        ],
+        "turnover": 1.201,
+        "equity": 8698.0
+      },
+      {
+        "date": "2026-05-28",
+        "n_held": 0,
+        "top": [],
+        "turnover": 1.0,
+        "equity": 8686.0
+      }
+    ],
+    "WMA": [
+      {
+        "date": "2026-05-16",
+        "n_held": 8,
+        "top": [
+          [
+            "TRXUSDT",
+            0.33
+          ],
+          [
+            "BNBUSDT",
+            0.208
+          ],
+          [
+            "JSTUSDT",
+            0.105
+          ],
+          [
+            "ATOMUSDT",
+            0.1
+          ],
+          [
+            "CHZUSDT",
+            0.073
+          ]
+        ],
+        "turnover": 1.265,
+        "equity": 8398.0
+      },
+      {
+        "date": "2026-05-17",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.079
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.022
+          ],
+          [
+            "CHZUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 1.14,
+        "equity": 8510.0
+      },
+      {
+        "date": "2026-05-18",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.082
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.021
+          ],
+          [
+            "CHZUSDT",
+            0.018
+          ]
+        ],
+        "turnover": 0.024,
+        "equity": 8507.0
+      },
+      {
+        "date": "2026-05-20",
+        "n_held": 13,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.083
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.022
+          ],
+          [
+            "DEXEUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 0.106,
+        "equity": 8560.0
+      },
+      {
+        "date": "2026-05-21",
+        "n_held": 17,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.075
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.021
+          ],
+          [
+            "ATOMUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.056,
+        "equity": 8512.0
+      },
+      {
+        "date": "2026-05-22",
+        "n_held": 12,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.074
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "ATOMUSDT",
+            0.021
+          ],
+          [
+            "DEXEUSDT",
+            0.018
+          ]
+        ],
+        "turnover": 0.079,
+        "equity": 8570.0
+      },
+      {
+        "date": "2026-05-23",
+        "n_held": 16,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.09
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.02
+          ],
+          [
+            "ATOMUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.072,
+        "equity": 8581.0
+      },
+      {
+        "date": "2026-05-24",
+        "n_held": 17,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.086
+          ],
+          [
+            "BNBUSDT",
+            0.038
+          ],
+          [
+            "JSTUSDT",
+            0.021
+          ],
+          [
+            "ASTERUSDT",
+            0.021
+          ]
+        ],
+        "turnover": 0.087,
+        "equity": 8677.0
+      },
+      {
+        "date": "2026-05-25",
+        "n_held": 19,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.078
+          ],
+          [
+            "BNBUSDT",
+            0.039
+          ],
+          [
+            "JSTUSDT",
+            0.021
+          ],
+          [
+            "ASTERUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.055,
+        "equity": 8674.0
+      },
+      {
+        "date": "2026-05-26",
+        "n_held": 19,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.077
+          ],
+          [
+            "BNBUSDT",
+            0.042
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "ASTERUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.032,
+        "equity": 8597.0
+      },
+      {
+        "date": "2026-05-27",
+        "n_held": 14,
+        "top": [
+          [
+            "TRXUSDT",
+            0.291
+          ],
+          [
+            "JSTUSDT",
+            0.123
+          ],
+          [
+            "ATOMUSDT",
+            0.076
+          ],
+          [
+            "RENDERUSDT",
+            0.063
+          ],
+          [
+            "FETUSDT",
+            0.057
+          ]
+        ],
+        "turnover": 1.206,
+        "equity": 8482.0
+      },
+      {
+        "date": "2026-05-28",
+        "n_held": 0,
+        "top": [],
+        "turnover": 1.0,
+        "equity": 8470.0
+      }
+    ],
+    "VIDYA": [
+      {
+        "date": "2026-05-13",
+        "n_held": 6,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.076
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "ZECUSDT",
+            0.009
+          ],
+          [
+            "ICPUSDT",
+            0.009
+          ]
+        ],
+        "turnover": 1.123,
+        "equity": 8341.0
+      },
+      {
+        "date": "2026-05-14",
+        "n_held": 9,
+        "top": [
+          [
+            "TRXUSDT",
+            0.33
+          ],
+          [
+            "RENDERUSDT",
+            0.12
+          ],
+          [
+            "JSTUSDT",
+            0.113
+          ],
+          [
+            "CHZUSDT",
+            0.083
+          ],
+          [
+            "TAOUSDT",
+            0.083
+          ]
+        ],
+        "turnover": 1.136,
+        "equity": 8310.0
+      },
+      {
+        "date": "2026-05-15",
+        "n_held": 5,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.084
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "CHZUSDT",
+            0.018
+          ],
+          [
+            "DEXEUSDT",
+            0.012
+          ]
+        ],
+        "turnover": 1.105,
+        "equity": 8261.0
+      },
+      {
+        "date": "2026-05-16",
+        "n_held": 4,
+        "top": [
+          [
+            "TRXUSDT",
+            0.33
+          ],
+          [
+            "JSTUSDT",
+            0.174
+          ],
+          [
+            "CHZUSDT",
+            0.121
+          ],
+          [
+            "DEXEUSDT",
+            0.088
+          ]
+        ],
+        "turnover": 0.906,
+        "equity": 8246.0
+      },
+      {
+        "date": "2026-05-17",
+        "n_held": 7,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.083
+          ],
+          [
+            "JSTUSDT",
+            0.023
+          ],
+          [
+            "CHZUSDT",
+            0.016
+          ],
+          [
+            "NEARUSDT",
+            0.014
+          ]
+        ],
+        "turnover": 0.932,
+        "equity": 8321.0
+      },
+      {
+        "date": "2026-05-20",
+        "n_held": 8,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.088
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "DEXEUSDT",
+            0.017
+          ],
+          [
+            "NEARUSDT",
+            0.013
+          ]
+        ],
+        "turnover": 0.042,
+        "equity": 8363.0
+      },
+      {
+        "date": "2026-05-22",
+        "n_held": 6,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.08
+          ],
+          [
+            "JSTUSDT",
+            0.026
+          ],
+          [
+            "DEXEUSDT",
+            0.02
+          ],
+          [
+            "NEARUSDT",
+            0.011
+          ]
+        ],
+        "turnover": 0.022,
+        "equity": 8369.0
+      },
+      {
+        "date": "2026-05-23",
+        "n_held": 7,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.1
+          ],
+          [
+            "JSTUSDT",
+            0.025
+          ],
+          [
+            "DEXEUSDT",
+            0.019
+          ],
+          [
+            "NEARUSDT",
+            0.01
+          ]
+        ],
+        "turnover": 0.031,
+        "equity": 8396.0
+      },
+      {
+        "date": "2026-05-25",
+        "n_held": 7,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.092
+          ],
+          [
+            "JSTUSDT",
+            0.025
+          ],
+          [
+            "RENDERUSDT",
+            0.019
+          ],
+          [
+            "DEXEUSDT",
+            0.013
+          ]
+        ],
+        "turnover": 0.042,
+        "equity": 8431.0
+      },
+      {
+        "date": "2026-05-26",
+        "n_held": 6,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.092
+          ],
+          [
+            "JSTUSDT",
+            0.028
+          ],
+          [
+            "RENDERUSDT",
+            0.019
+          ],
+          [
+            "DEXEUSDT",
+            0.012
+          ]
+        ],
+        "turnover": 0.014,
+        "equity": 8402.0
+      },
+      {
+        "date": "2026-05-27",
+        "n_held": 5,
+        "top": [
+          [
+            "TRXUSDT",
+            0.33
+          ],
+          [
+            "JSTUSDT",
+            0.219
+          ],
+          [
+            "RENDERUSDT",
+            0.113
+          ],
+          [
+            "DEXEUSDT",
+            0.087
+          ],
+          [
+            "NEARUSDT",
+            0.063
+          ]
+        ],
+        "turnover": 0.982,
+        "equity": 8336.0
+      },
+      {
+        "date": "2026-05-28",
+        "n_held": 0,
+        "top": [],
+        "turnover": 0.812,
+        "equity": 8327.0
+      }
+    ],
+    "KAMA": [
+      {
+        "date": "2026-05-15",
+        "n_held": 13,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.071
+          ],
+          [
+            "BNBUSDT",
+            0.044
+          ],
+          [
+            "LTCUSDT",
+            0.031
+          ],
+          [
+            "DOGEUSDT",
+            0.024
+          ]
+        ],
+        "turnover": 1.062,
+        "equity": 9320.0
+      },
+      {
+        "date": "2026-05-16",
+        "n_held": 8,
+        "top": [
+          [
+            "TRXUSDT",
+            0.33
+          ],
+          [
+            "BNBUSDT",
+            0.208
+          ],
+          [
+            "JSTUSDT",
+            0.105
+          ],
+          [
+            "ATOMUSDT",
+            0.1
+          ],
+          [
+            "CHZUSDT",
+            0.073
+          ]
+        ],
+        "turnover": 1.211,
+        "equity": 9274.0
+      },
+      {
+        "date": "2026-05-17",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.079
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.022
+          ],
+          [
+            "CHZUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 1.14,
+        "equity": 9397.0
+      },
+      {
+        "date": "2026-05-18",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.082
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.021
+          ],
+          [
+            "CHZUSDT",
+            0.018
+          ]
+        ],
+        "turnover": 0.024,
+        "equity": 9394.0
+      },
+      {
+        "date": "2026-05-20",
+        "n_held": 11,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.084
+          ],
+          [
+            "JSTUSDT",
+            0.023
+          ],
+          [
+            "RENDERUSDT",
+            0.022
+          ],
+          [
+            "DEXEUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 0.097,
+        "equity": 9452.0
+      },
+      {
+        "date": "2026-05-21",
+        "n_held": 18,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.074
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.021
+          ],
+          [
+            "ATOMUSDT",
+            0.019
+          ]
+        ],
+        "turnover": 0.111,
+        "equity": 9412.0
+      },
+      {
+        "date": "2026-05-22",
+        "n_held": 12,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.074
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "ATOMUSDT",
+            0.021
+          ],
+          [
+            "DEXEUSDT",
+            0.018
+          ]
+        ],
+        "turnover": 0.074,
+        "equity": 9479.0
+      },
+      {
+        "date": "2026-05-23",
+        "n_held": 15,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.09
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.02
+          ],
+          [
+            "ATOMUSDT",
+            0.02
+          ]
+        ],
+        "turnover": 0.066,
+        "equity": 9491.0
+      },
+      {
+        "date": "2026-05-24",
+        "n_held": 14,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.092
+          ],
+          [
+            "JSTUSDT",
+            0.023
+          ],
+          [
+            "RENDERUSDT",
+            0.019
+          ],
+          [
+            "ATOMUSDT",
+            0.019
+          ]
+        ],
+        "turnover": 0.018,
+        "equity": 9601.0
+      },
+      {
+        "date": "2026-05-26",
+        "n_held": 16,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.083
+          ],
+          [
+            "JSTUSDT",
+            0.025
+          ],
+          [
+            "ATOMUSDT",
+            0.018
+          ],
+          [
+            "RENDERUSDT",
+            0.017
+          ]
+        ],
+        "turnover": 0.047,
+        "equity": 9538.0
+      },
+      {
+        "date": "2026-05-27",
+        "n_held": 15,
+        "top": [
+          [
+            "TRXUSDT",
+            0.278
+          ],
+          [
+            "JSTUSDT",
+            0.118
+          ],
+          [
+            "ATOMUSDT",
+            0.072
+          ],
+          [
+            "RENDERUSDT",
+            0.061
+          ],
+          [
+            "FETUSDT",
+            0.054
+          ]
+        ],
+        "turnover": 1.113,
+        "equity": 9423.0
+      },
+      {
+        "date": "2026-05-28",
+        "n_held": 0,
+        "top": [],
+        "turnover": 1.0,
+        "equity": 9409.0
+      }
+    ],
+    "CONV (cross-type)": [
+      {
+        "date": "2026-05-16",
+        "n_held": 8,
+        "top": [
+          [
+            "TRXUSDT",
+            0.33
+          ],
+          [
+            "BNBUSDT",
+            0.142
+          ],
+          [
+            "JSTUSDT",
+            0.12
+          ],
+          [
+            "ATOMUSDT",
+            0.091
+          ],
+          [
+            "CHZUSDT",
+            0.083
+          ]
+        ],
+        "turnover": 1.17,
+        "equity": 8814.0
+      },
+      {
+        "date": "2026-05-17",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.08
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "ATOMUSDT",
+            0.017
+          ],
+          [
+            "CHZUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 1.096,
+        "equity": 8936.0
+      },
+      {
+        "date": "2026-05-18",
+        "n_held": 10,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.083
+          ],
+          [
+            "JSTUSDT",
+            0.023
+          ],
+          [
+            "CHZUSDT",
+            0.018
+          ],
+          [
+            "ATOMUSDT",
+            0.017
+          ]
+        ],
+        "turnover": 0.021,
+        "equity": 8935.0
+      },
+      {
+        "date": "2026-05-20",
+        "n_held": 14,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.085
+          ],
+          [
+            "JSTUSDT",
+            0.023
+          ],
+          [
+            "DEXEUSDT",
+            0.017
+          ],
+          [
+            "RENDERUSDT",
+            0.014
+          ]
+        ],
+        "turnover": 0.081,
+        "equity": 8987.0
+      },
+      {
+        "date": "2026-05-21",
+        "n_held": 19,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.077
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.018
+          ],
+          [
+            "DEXEUSDT",
+            0.017
+          ]
+        ],
+        "turnover": 0.064,
+        "equity": 8949.0
+      },
+      {
+        "date": "2026-05-22",
+        "n_held": 12,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.076
+          ],
+          [
+            "JSTUSDT",
+            0.024
+          ],
+          [
+            "DEXEUSDT",
+            0.019
+          ],
+          [
+            "ATOMUSDT",
+            0.017
+          ]
+        ],
+        "turnover": 0.064,
+        "equity": 9003.0
+      },
+      {
+        "date": "2026-05-23",
+        "n_held": 16,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.092
+          ],
+          [
+            "JSTUSDT",
+            0.023
+          ],
+          [
+            "DEXEUSDT",
+            0.018
+          ],
+          [
+            "RENDERUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 0.062,
+        "equity": 9020.0
+      },
+      {
+        "date": "2026-05-24",
+        "n_held": 17,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.091
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "BNBUSDT",
+            0.016
+          ],
+          [
+            "RENDERUSDT",
+            0.015
+          ]
+        ],
+        "turnover": 0.045,
+        "equity": 9109.0
+      },
+      {
+        "date": "2026-05-25",
+        "n_held": 19,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.083
+          ],
+          [
+            "BNBUSDT",
+            0.025
+          ],
+          [
+            "JSTUSDT",
+            0.022
+          ],
+          [
+            "RENDERUSDT",
+            0.017
+          ]
+        ],
+        "turnover": 0.043,
+        "equity": 9106.0
+      },
+      {
+        "date": "2026-05-26",
+        "n_held": 19,
+        "top": [
+          [
+            "XUSDUSDT",
+            0.33
+          ],
+          [
+            "TRXUSDT",
+            0.082
+          ],
+          [
+            "BNBUSDT",
+            0.027
+          ],
+          [
+            "JSTUSDT",
+            0.025
+          ],
+          [
+            "RENDERUSDT",
+            0.016
+          ]
+        ],
+        "turnover": 0.029,
+        "equity": 9042.0
+      },
+      {
+        "date": "2026-05-27",
+        "n_held": 15,
+        "top": [
+          [
+            "TRXUSDT",
+            0.326
+          ],
+          [
+            "JSTUSDT",
+            0.138
+          ],
+          [
+            "RENDERUSDT",
+            0.071
+          ],
+          [
+            "ATOMUSDT",
+            0.068
+          ],
+          [
+            "DEXEUSDT",
+            0.055
+          ]
+        ],
+        "turnover": 1.179,
+        "equity": 8937.0
+      },
+      {
+        "date": "2026-05-28",
+        "n_held": 0,
+        "top": [],
+        "turnover": 1.0,
+        "equity": 8925.0
+      }
+    ]
+  }
+}
