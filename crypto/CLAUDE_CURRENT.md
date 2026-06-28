@@ -18,6 +18,20 @@ Nulls D83/D84/D85 confirmed (D83 narrative refined: "selection-by-recent-P&L=no-
 book matched frozen-114 in 6/12 cells => the 114-config band is over-diluted, a minor live lever). Pipeline indicator
 path clean; the regime path inherited the same leak (now fixed). ADX|1d genuine-selective but VAL-fit => PROVISIONAL.
 
+## DEPLOYABLE V3 — the WEALTH-MAX retail engine (Claude, 2026-06-28; src/strat/deployable_v3.py)
+User directive: "you're the expert, maximise WEALTH on a retail account." Found TWO robust deployment levers the
+static band left on the table, stacked on the de-leaked scaffold:
+- **L1 cross-sectional BREADTH gate** (frac of u100 > own 100d-SMA; hyst 0.5/0.4) REPLACES single-BTC-SMA100 —
+  catches turns the BTC gate misses, cuts drawdown at ~flat return.
+- **L2 cross-type convergence band** (SMA/EMA/WMA/VIDYA/KAMA, 14d) = eligible set.
+- **L3 momentum top-8 inv-vol** selection — tilt into the movers (cross-sectional momentum = the ONE causal
+  selection signal surviving both windows + a random-selection null; 97th pctile OOS-1d / 100th 4h under the gate).
+**WEALTH: 1d OOS-2024 compound +170% vs baseline +68% (~2.5x), Sharpe 1.94, maxDD -29%; VAL +615% Sh3.45 DD-23%.**
+4h near-identical (+173%). ROBUST: 36/36 (K,cap,breadth) param-combos beat baseline compound on BOTH windows both
+TFs (NOT default-param-luck). cap irrelevant at K8 (never binds); K is the concentration dial. TRADEOFF: 7d-profit
+rate drops to 22-25% (vs 34%) — LUMPIER (fewer/bigger green weeks); the wealth-max trade, less week-to-week
+consistency. FINAL GATE: 2025 unseal (momentum is the one active bet). For more consistency: K10 or V3/baseline blend.
+
 ## THE DEPLOYABLE VERDICT (both agents converge here; DE-LEAKED)
 **Capital-preservation within long-only = the deployable answer.** MA band engine (V1 1d-BTC-SMA100 regime gate +
 V2 4h decoupled MA band) = drawdown-insurance: bear-2022 ≈ flat (94% cash), ~65% deployed in bull, Sharpe ~1.4-1.9.

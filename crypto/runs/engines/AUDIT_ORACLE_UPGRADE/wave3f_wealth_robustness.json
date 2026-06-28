@@ -1,0 +1,814 @@
+{
+  "check": "WAVE3F_wealth_robustness",
+  "ts": "20260628_100112",
+  "tf": {
+    "1d": {
+      "baseline_btc100_EW_cap33": {
+        "VAL": {
+          "compound": 112.3,
+          "lin_wk": 1.945,
+          "maxdd": -42.6
+        },
+        "OOS": {
+          "compound": 67.7,
+          "lin_wk": 2.011,
+          "maxdd": -28.5
+        }
+      },
+      "robustness": {
+        "combos_beating_baseline_both_windows": "36/36",
+        "frac": 1.0
+      },
+      "robust_best": {
+        "score": 184.8,
+        "K": 8,
+        "cap": 0.25,
+        "brd": "0.45/0.35",
+        "VAL": {
+          "compound": 466.1,
+          "lin_wk": 4.322,
+          "maxdd": -28.9
+        },
+        "OOS": {
+          "compound": 184.8,
+          "lin_wk": 4.053,
+          "maxdd": -29.3
+        }
+      },
+      "all": [
+        {
+          "K": 3,
+          "cap": 0.25,
+          "brd": "0.5/0.4",
+          "VAL_comp": 756.3,
+          "OOS_comp": 102.1,
+          "VAL_dd": -38.2,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.25,
+          "brd": "0.5/0.4",
+          "VAL_comp": 378.9,
+          "OOS_comp": 145.2,
+          "VAL_dd": -36.5,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.25,
+          "brd": "0.5/0.4",
+          "VAL_comp": 614.6,
+          "OOS_comp": 169.5,
+          "VAL_dd": -22.6,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.25,
+          "brd": "0.5/0.4",
+          "VAL_comp": 491.0,
+          "OOS_comp": 135.5,
+          "VAL_dd": -24.8,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.33,
+          "brd": "0.5/0.4",
+          "VAL_comp": 756.3,
+          "OOS_comp": 102.1,
+          "VAL_dd": -38.2,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.33,
+          "brd": "0.5/0.4",
+          "VAL_comp": 378.9,
+          "OOS_comp": 145.2,
+          "VAL_dd": -36.5,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.33,
+          "brd": "0.5/0.4",
+          "VAL_comp": 614.6,
+          "OOS_comp": 169.5,
+          "VAL_dd": -22.6,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.33,
+          "brd": "0.5/0.4",
+          "VAL_comp": 491.0,
+          "OOS_comp": 135.5,
+          "VAL_dd": -24.8,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.5,
+          "brd": "0.5/0.4",
+          "VAL_comp": 756.3,
+          "OOS_comp": 102.1,
+          "VAL_dd": -38.2,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.5,
+          "brd": "0.5/0.4",
+          "VAL_comp": 378.9,
+          "OOS_comp": 145.2,
+          "VAL_dd": -36.5,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.5,
+          "brd": "0.5/0.4",
+          "VAL_comp": 614.6,
+          "OOS_comp": 169.5,
+          "VAL_dd": -22.6,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.5,
+          "brd": "0.5/0.4",
+          "VAL_comp": 491.0,
+          "OOS_comp": 135.5,
+          "VAL_dd": -24.8,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.25,
+          "brd": "0.45/0.35",
+          "VAL_comp": 603.4,
+          "OOS_comp": 132.0,
+          "VAL_dd": -45.1,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.25,
+          "brd": "0.45/0.35",
+          "VAL_comp": 285.8,
+          "OOS_comp": 167.5,
+          "VAL_dd": -43.4,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.25,
+          "brd": "0.45/0.35",
+          "VAL_comp": 466.1,
+          "OOS_comp": 184.8,
+          "VAL_dd": -28.9,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.25,
+          "brd": "0.45/0.35",
+          "VAL_comp": 368.7,
+          "OOS_comp": 150.2,
+          "VAL_dd": -32.3,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.33,
+          "brd": "0.45/0.35",
+          "VAL_comp": 603.4,
+          "OOS_comp": 132.0,
+          "VAL_dd": -45.1,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.33,
+          "brd": "0.45/0.35",
+          "VAL_comp": 285.8,
+          "OOS_comp": 167.5,
+          "VAL_dd": -43.4,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.33,
+          "brd": "0.45/0.35",
+          "VAL_comp": 466.1,
+          "OOS_comp": 184.8,
+          "VAL_dd": -28.9,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.33,
+          "brd": "0.45/0.35",
+          "VAL_comp": 368.7,
+          "OOS_comp": 150.2,
+          "VAL_dd": -32.3,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.5,
+          "brd": "0.45/0.35",
+          "VAL_comp": 603.4,
+          "OOS_comp": 132.0,
+          "VAL_dd": -45.1,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.5,
+          "brd": "0.45/0.35",
+          "VAL_comp": 285.8,
+          "OOS_comp": 167.5,
+          "VAL_dd": -43.4,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.5,
+          "brd": "0.45/0.35",
+          "VAL_comp": 466.1,
+          "OOS_comp": 184.8,
+          "VAL_dd": -28.9,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.5,
+          "brd": "0.45/0.35",
+          "VAL_comp": 368.7,
+          "OOS_comp": 150.2,
+          "VAL_dd": -32.3,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.25,
+          "brd": "0.55/0.45",
+          "VAL_comp": 766.8,
+          "OOS_comp": 95.5,
+          "VAL_dd": -38.2,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.25,
+          "brd": "0.55/0.45",
+          "VAL_comp": 390.3,
+          "OOS_comp": 158.3,
+          "VAL_dd": -36.5,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.25,
+          "brd": "0.55/0.45",
+          "VAL_comp": 612.1,
+          "OOS_comp": 176.0,
+          "VAL_dd": -22.6,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.25,
+          "brd": "0.55/0.45",
+          "VAL_comp": 491.2,
+          "OOS_comp": 134.3,
+          "VAL_dd": -24.8,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.33,
+          "brd": "0.55/0.45",
+          "VAL_comp": 766.8,
+          "OOS_comp": 95.5,
+          "VAL_dd": -38.2,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.33,
+          "brd": "0.55/0.45",
+          "VAL_comp": 390.3,
+          "OOS_comp": 158.3,
+          "VAL_dd": -36.5,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.33,
+          "brd": "0.55/0.45",
+          "VAL_comp": 612.1,
+          "OOS_comp": 176.0,
+          "VAL_dd": -22.6,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.33,
+          "brd": "0.55/0.45",
+          "VAL_comp": 491.2,
+          "OOS_comp": 134.3,
+          "VAL_dd": -24.8,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.5,
+          "brd": "0.55/0.45",
+          "VAL_comp": 766.8,
+          "OOS_comp": 95.5,
+          "VAL_dd": -38.2,
+          "OOS_dd": -37.0,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.5,
+          "brd": "0.55/0.45",
+          "VAL_comp": 390.3,
+          "OOS_comp": 158.3,
+          "VAL_dd": -36.5,
+          "OOS_dd": -35.9,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.5,
+          "brd": "0.55/0.45",
+          "VAL_comp": 612.1,
+          "OOS_comp": 176.0,
+          "VAL_dd": -22.6,
+          "OOS_dd": -29.3,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.5,
+          "brd": "0.55/0.45",
+          "VAL_comp": 491.2,
+          "OOS_comp": 134.3,
+          "VAL_dd": -24.8,
+          "OOS_dd": -28.0,
+          "both_beat": true
+        }
+      ],
+      "momentum_null_breadthgate_K5": {
+        "VAL_pctile": 99.3,
+        "OOS_pctile": 96.7,
+        "VAL_mom_comp": 378.9,
+        "OOS_mom_comp": 145.2,
+        "VAL_null_p95": 261.2,
+        "OOS_null_p95": 127.4
+      }
+    },
+    "4h": {
+      "baseline_btc100_EW_cap33": {
+        "VAL": {
+          "compound": 54.0,
+          "lin_wk": 1.27,
+          "maxdd": -48.2
+        },
+        "OOS": {
+          "compound": 55.3,
+          "lin_wk": 1.702,
+          "maxdd": -35.1
+        }
+      },
+      "robustness": {
+        "combos_beating_baseline_both_windows": "36/36",
+        "frac": 1.0
+      },
+      "robust_best": {
+        "score": 202.4,
+        "K": 8,
+        "cap": 0.25,
+        "brd": "0.45/0.35",
+        "VAL": {
+          "compound": 434.6,
+          "lin_wk": 4.222,
+          "maxdd": -24.7
+        },
+        "OOS": {
+          "compound": 202.4,
+          "lin_wk": 4.19,
+          "maxdd": -33.9
+        }
+      },
+      "all": [
+        {
+          "K": 3,
+          "cap": 0.25,
+          "brd": "0.5/0.4",
+          "VAL_comp": 595.7,
+          "OOS_comp": 84.1,
+          "VAL_dd": -45.5,
+          "OOS_dd": -47.3,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.25,
+          "brd": "0.5/0.4",
+          "VAL_comp": 291.3,
+          "OOS_comp": 140.4,
+          "VAL_dd": -38.3,
+          "OOS_dd": -41.3,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.25,
+          "brd": "0.5/0.4",
+          "VAL_comp": 527.7,
+          "OOS_comp": 172.7,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.25,
+          "brd": "0.5/0.4",
+          "VAL_comp": 412.9,
+          "OOS_comp": 148.2,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.33,
+          "brd": "0.5/0.4",
+          "VAL_comp": 595.7,
+          "OOS_comp": 84.1,
+          "VAL_dd": -45.5,
+          "OOS_dd": -47.3,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.33,
+          "brd": "0.5/0.4",
+          "VAL_comp": 291.3,
+          "OOS_comp": 140.4,
+          "VAL_dd": -38.3,
+          "OOS_dd": -41.3,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.33,
+          "brd": "0.5/0.4",
+          "VAL_comp": 527.7,
+          "OOS_comp": 172.7,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.33,
+          "brd": "0.5/0.4",
+          "VAL_comp": 412.9,
+          "OOS_comp": 148.2,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.5,
+          "brd": "0.5/0.4",
+          "VAL_comp": 595.7,
+          "OOS_comp": 84.1,
+          "VAL_dd": -45.5,
+          "OOS_dd": -47.3,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.5,
+          "brd": "0.5/0.4",
+          "VAL_comp": 291.3,
+          "OOS_comp": 140.4,
+          "VAL_dd": -38.3,
+          "OOS_dd": -41.3,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.5,
+          "brd": "0.5/0.4",
+          "VAL_comp": 527.7,
+          "OOS_comp": 172.7,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.5,
+          "brd": "0.5/0.4",
+          "VAL_comp": 412.9,
+          "OOS_comp": 148.2,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.25,
+          "brd": "0.45/0.35",
+          "VAL_comp": 447.3,
+          "OOS_comp": 119.5,
+          "VAL_dd": -45.5,
+          "OOS_dd": -43.9,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.25,
+          "brd": "0.45/0.35",
+          "VAL_comp": 215.4,
+          "OOS_comp": 154.1,
+          "VAL_dd": -38.3,
+          "OOS_dd": -41.0,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.25,
+          "brd": "0.45/0.35",
+          "VAL_comp": 434.6,
+          "OOS_comp": 202.4,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.25,
+          "brd": "0.45/0.35",
+          "VAL_comp": 333.7,
+          "OOS_comp": 169.2,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.33,
+          "brd": "0.45/0.35",
+          "VAL_comp": 447.3,
+          "OOS_comp": 119.5,
+          "VAL_dd": -45.5,
+          "OOS_dd": -43.9,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.33,
+          "brd": "0.45/0.35",
+          "VAL_comp": 215.4,
+          "OOS_comp": 154.1,
+          "VAL_dd": -38.3,
+          "OOS_dd": -41.0,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.33,
+          "brd": "0.45/0.35",
+          "VAL_comp": 434.6,
+          "OOS_comp": 202.4,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.33,
+          "brd": "0.45/0.35",
+          "VAL_comp": 333.7,
+          "OOS_comp": 169.2,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.5,
+          "brd": "0.45/0.35",
+          "VAL_comp": 447.3,
+          "OOS_comp": 119.5,
+          "VAL_dd": -45.5,
+          "OOS_dd": -43.9,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.5,
+          "brd": "0.45/0.35",
+          "VAL_comp": 215.4,
+          "OOS_comp": 154.1,
+          "VAL_dd": -38.3,
+          "OOS_dd": -41.0,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.5,
+          "brd": "0.45/0.35",
+          "VAL_comp": 434.6,
+          "OOS_comp": 202.4,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.5,
+          "brd": "0.45/0.35",
+          "VAL_comp": 333.7,
+          "OOS_comp": 169.2,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.25,
+          "brd": "0.55/0.45",
+          "VAL_comp": 541.5,
+          "OOS_comp": 63.5,
+          "VAL_dd": -45.5,
+          "OOS_dd": -49.9,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.25,
+          "brd": "0.55/0.45",
+          "VAL_comp": 244.5,
+          "OOS_comp": 120.9,
+          "VAL_dd": -38.3,
+          "OOS_dd": -44.0,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.25,
+          "brd": "0.55/0.45",
+          "VAL_comp": 458.4,
+          "OOS_comp": 153.0,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.25,
+          "brd": "0.55/0.45",
+          "VAL_comp": 370.9,
+          "OOS_comp": 138.4,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.33,
+          "brd": "0.55/0.45",
+          "VAL_comp": 541.5,
+          "OOS_comp": 63.5,
+          "VAL_dd": -45.5,
+          "OOS_dd": -49.9,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.33,
+          "brd": "0.55/0.45",
+          "VAL_comp": 244.5,
+          "OOS_comp": 120.9,
+          "VAL_dd": -38.3,
+          "OOS_dd": -44.0,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.33,
+          "brd": "0.55/0.45",
+          "VAL_comp": 458.4,
+          "OOS_comp": 153.0,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.33,
+          "brd": "0.55/0.45",
+          "VAL_comp": 370.9,
+          "OOS_comp": 138.4,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        },
+        {
+          "K": 3,
+          "cap": 0.5,
+          "brd": "0.55/0.45",
+          "VAL_comp": 541.5,
+          "OOS_comp": 63.5,
+          "VAL_dd": -45.5,
+          "OOS_dd": -49.9,
+          "both_beat": true
+        },
+        {
+          "K": 5,
+          "cap": 0.5,
+          "brd": "0.55/0.45",
+          "VAL_comp": 244.5,
+          "OOS_comp": 120.9,
+          "VAL_dd": -38.3,
+          "OOS_dd": -44.0,
+          "both_beat": true
+        },
+        {
+          "K": 8,
+          "cap": 0.5,
+          "brd": "0.55/0.45",
+          "VAL_comp": 458.4,
+          "OOS_comp": 153.0,
+          "VAL_dd": -24.7,
+          "OOS_dd": -33.9,
+          "both_beat": true
+        },
+        {
+          "K": 10,
+          "cap": 0.5,
+          "brd": "0.55/0.45",
+          "VAL_comp": 370.9,
+          "OOS_comp": 138.4,
+          "VAL_dd": -25.4,
+          "OOS_dd": -33.2,
+          "both_beat": true
+        }
+      ],
+      "momentum_null_breadthgate_K5": {
+        "VAL_pctile": 100.0,
+        "OOS_pctile": 100.0,
+        "VAL_mom_comp": 291.3,
+        "OOS_mom_comp": 140.4,
+        "VAL_null_p95": -34.5,
+        "OOS_null_p95": 1.3
+      }
+    }
+  }
+}

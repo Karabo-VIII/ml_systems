@@ -121,3 +121,16 @@ robust capture needs crypto-native data (user-gated) -- the internal price-TI ce
   inv-vol = PROVISIONAL return-booster (94th-pct OOS, gated on 2025); COMBO = max risk-adj return at deeper DD.
   "At the ceiling" was WRONG -- real deployment value existed in HOW we deploy (gate) + WHICH names (momentum), exactly
   as the user predicted. Confirmed deployable spectrum: de-risk = breadth+EW@4h; max-capture = breadth+mom-invvol (gated).
+
+## WAVE 3F + V3 LOCK -- "you're the expert, maximise WEALTH on a retail account" (user 2026-06-28).
+- 3F wealth-robustness (wave3f_*): COMBO evaluated on COMPOUND (terminal wealth), param-robustness sweep
+  K{3,5,8,10} x cap{.25,.33,.5} x breadth{(.5/.4),(.45/.35),(.55/.45)} = 36 combos. **36/36 beat baseline
+  (btc100+EW33) compound on BOTH windows, BOTH TFs** -> NOT default-param-luck. 1d OOS compound: median +148%,
+  range [+96,+185], ALL > baseline +68%. K8 = sweet spot (OOS +177% DD-29; DD IMPROVES with K: K3 -37 -> K8/10 -28/-29).
+  cap IRRELEVANT (K8 inv-vol weights never reach 0.25). Momentum vs random UNDER breadth gate now SIGNIFICANT:
+  97th pctile OOS-1d / 100th 4h (breadth gate sharpened it from 94th).
+- V3 LOCKED (src/strat/deployable_v3.py): L1 breadth gate (0.5/0.4, 100d) + L2 cross-type band + L3 momentum top-8
+  inv-vol. Verified: 1d OOS compound +170% (Sh1.94, DD-29) / VAL +615% (Sh3.45, DD-23); 4h OOS +173% / VAL +528%.
+  ~2.5x baseline wealth at similar drawdown, ROBUST across params + both windows, momentum significant. Emits the
+  latest target book (what to hold). TRADEOFF: 7dprof 22-25% (vs 34%) = LUMPIER (wealth-max trade). FINAL GATE: 2025.
+  K = consistency/wealth dial (K10 or V3/baseline blend = more consistent at less wealth).
