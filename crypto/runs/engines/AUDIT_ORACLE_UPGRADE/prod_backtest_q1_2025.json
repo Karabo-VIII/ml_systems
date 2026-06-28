@@ -1,0 +1,267 @@
+{
+  "check": "PROD_GRADE_btc_core_alt_satellite",
+  "ts": "20260628_111545",
+  "exec": "next-open fills (open-to-open, lag-1)",
+  "cost": "BTC 0.0024 / ALT 0.0028 RT",
+  "caveat": "volume feed unreliable -> no ADV filter; u100 top-100 IS the liquidity screen",
+  "windows": {
+    "VAL": {
+      "BH BTC": {
+        "compound": 101.4,
+        "lin_wk": 1.754,
+        "sharpe": 1.92,
+        "maxdd": -20.1
+      },
+      "BH alt-basket": {
+        "compound": 138.4,
+        "lin_wk": 2.282,
+        "sharpe": 1.91,
+        "maxdd": -35.4
+      },
+      "alt-satellite alone (breadth)": {
+        "compound": 122.1,
+        "lin_wk": 1.985,
+        "sharpe": 2.11,
+        "maxdd": -31.4
+      },
+      "core0%BTC(HODL)+alt": {
+        "compound": 122.1,
+        "lin_wk": 1.985,
+        "sharpe": 2.11,
+        "maxdd": -31.4
+      },
+      "core25%BTC(HODL)+alt": {
+        "compound": 119.6,
+        "lin_wk": 1.927,
+        "sharpe": 2.21,
+        "maxdd": -28.5
+      },
+      "core50%BTC(HODL)+alt": {
+        "compound": 115.2,
+        "lin_wk": 1.869,
+        "sharpe": 2.22,
+        "maxdd": -25.7
+      },
+      "core75%BTC(HODL)+alt": {
+        "compound": 109.1,
+        "lin_wk": 1.812,
+        "sharpe": 2.11,
+        "maxdd": -22.8
+      },
+      "core100%BTC(HODL)+alt": {
+        "compound": 101.4,
+        "lin_wk": 1.754,
+        "sharpe": 1.92,
+        "maxdd": -20.1
+      },
+      "core0%BTC(gated)+alt": {
+        "compound": 122.1,
+        "lin_wk": 1.985,
+        "sharpe": 2.11,
+        "maxdd": -31.4
+      },
+      "core25%BTC(gated)+alt": {
+        "compound": 114.6,
+        "lin_wk": 1.873,
+        "sharpe": 2.17,
+        "maxdd": -27.0
+      },
+      "core50%BTC(gated)+alt": {
+        "compound": 106.4,
+        "lin_wk": 1.761,
+        "sharpe": 2.19,
+        "maxdd": -22.4
+      },
+      "core75%BTC(gated)+alt": {
+        "compound": 97.5,
+        "lin_wk": 1.649,
+        "sharpe": 2.14,
+        "maxdd": -17.7
+      },
+      "core100%BTC(gated)+alt": {
+        "compound": 88.0,
+        "lin_wk": 1.537,
+        "sharpe": 2.02,
+        "maxdd": -15.8
+      },
+      "alt-satellite (1.5x slip)": {
+        "compound": 109.5,
+        "lin_wk": 1.857,
+        "sharpe": 1.97,
+        "maxdd": -32.4
+      }
+    },
+    "OOS24": {
+      "BH BTC": {
+        "compound": 41.4,
+        "lin_wk": 1.282,
+        "sharpe": 1.36,
+        "maxdd": -24.5
+      },
+      "BH alt-basket": {
+        "compound": 33.1,
+        "lin_wk": 1.415,
+        "sharpe": 0.98,
+        "maxdd": -45.0
+      },
+      "alt-satellite alone (breadth)": {
+        "compound": 64.9,
+        "lin_wk": 1.767,
+        "sharpe": 1.82,
+        "maxdd": -23.5
+      },
+      "core0%BTC(HODL)+alt": {
+        "compound": 64.9,
+        "lin_wk": 1.767,
+        "sharpe": 1.82,
+        "maxdd": -23.5
+      },
+      "core25%BTC(HODL)+alt": {
+        "compound": 61.6,
+        "lin_wk": 1.646,
+        "sharpe": 1.96,
+        "maxdd": -18.8
+      },
+      "core50%BTC(HODL)+alt": {
+        "compound": 56.5,
+        "lin_wk": 1.524,
+        "sharpe": 1.94,
+        "maxdd": -13.9
+      },
+      "core75%BTC(HODL)+alt": {
+        "compound": 49.6,
+        "lin_wk": 1.403,
+        "sharpe": 1.7,
+        "maxdd": -18.6
+      },
+      "core100%BTC(HODL)+alt": {
+        "compound": 41.4,
+        "lin_wk": 1.282,
+        "sharpe": 1.36,
+        "maxdd": -24.5
+      },
+      "core0%BTC(gated)+alt": {
+        "compound": 64.9,
+        "lin_wk": 1.767,
+        "sharpe": 1.82,
+        "maxdd": -23.5
+      },
+      "core25%BTC(gated)+alt": {
+        "compound": 55.1,
+        "lin_wk": 1.512,
+        "sharpe": 1.84,
+        "maxdd": -18.8
+      },
+      "core50%BTC(gated)+alt": {
+        "compound": 45.0,
+        "lin_wk": 1.256,
+        "sharpe": 1.82,
+        "maxdd": -14.6
+      },
+      "core75%BTC(gated)+alt": {
+        "compound": 34.8,
+        "lin_wk": 1.001,
+        "sharpe": 1.67,
+        "maxdd": -13.0
+      },
+      "core100%BTC(gated)+alt": {
+        "compound": 24.4,
+        "lin_wk": 0.746,
+        "sharpe": 1.34,
+        "maxdd": -12.6
+      },
+      "alt-satellite (1.5x slip)": {
+        "compound": 59.3,
+        "lin_wk": 1.662,
+        "sharpe": 1.72,
+        "maxdd": -24.1
+      }
+    },
+    "Q1_25": {
+      "BH BTC": {
+        "compound": -12.9,
+        "lin_wk": -0.824,
+        "sharpe": -0.84,
+        "maxdd": -26.1
+      },
+      "BH alt-basket": {
+        "compound": -50.5,
+        "lin_wk": -4.673,
+        "sharpe": -2.76,
+        "maxdd": -57.9
+      },
+      "alt-satellite alone (breadth)": {
+        "compound": -7.3,
+        "lin_wk": -0.458,
+        "sharpe": -0.64,
+        "maxdd": -17.7
+      },
+      "core0%BTC(HODL)+alt": {
+        "compound": -7.3,
+        "lin_wk": -0.458,
+        "sharpe": -0.64,
+        "maxdd": -17.7
+      },
+      "core25%BTC(HODL)+alt": {
+        "compound": -8.2,
+        "lin_wk": -0.549,
+        "sharpe": -0.84,
+        "maxdd": -17.7
+      },
+      "core50%BTC(HODL)+alt": {
+        "compound": -9.4,
+        "lin_wk": -0.641,
+        "sharpe": -0.93,
+        "maxdd": -19.3
+      },
+      "core75%BTC(HODL)+alt": {
+        "compound": -11.0,
+        "lin_wk": -0.732,
+        "sharpe": -0.91,
+        "maxdd": -21.1
+      },
+      "core100%BTC(HODL)+alt": {
+        "compound": -12.9,
+        "lin_wk": -0.824,
+        "sharpe": -0.84,
+        "maxdd": -26.1
+      },
+      "core0%BTC(gated)+alt": {
+        "compound": -7.3,
+        "lin_wk": -0.458,
+        "sharpe": -0.64,
+        "maxdd": -17.7
+      },
+      "core25%BTC(gated)+alt": {
+        "compound": -4.5,
+        "lin_wk": -0.259,
+        "sharpe": -0.42,
+        "maxdd": -15.2
+      },
+      "core50%BTC(gated)+alt": {
+        "compound": -1.7,
+        "lin_wk": -0.06,
+        "sharpe": -0.11,
+        "maxdd": -12.7
+      },
+      "core75%BTC(gated)+alt": {
+        "compound": 1.1,
+        "lin_wk": 0.14,
+        "sharpe": 0.31,
+        "maxdd": -10.9
+      },
+      "core100%BTC(gated)+alt": {
+        "compound": 3.9,
+        "lin_wk": 0.339,
+        "sharpe": 0.89,
+        "maxdd": -9.5
+      },
+      "alt-satellite (1.5x slip)": {
+        "compound": -8.2,
+        "lin_wk": -0.532,
+        "sharpe": -0.75,
+        "maxdd": -18.2
+      }
+    }
+  }
+}

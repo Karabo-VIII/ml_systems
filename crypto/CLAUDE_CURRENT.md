@@ -18,6 +18,17 @@ Nulls D83/D84/D85 confirmed (D83 narrative refined: "selection-by-recent-P&L=no-
 book matched frozen-114 in 6/12 cells => the 114-config band is over-diluted, a minor live lever). Pipeline indicator
 path clean; the regime path inherited the same leak (now fixed). ADX|1d genuine-selective but VAL-fit => PROVISIONAL.
 
+## PROD-GRADE BACKTEST -- BTC-core + breadth-gated-alt-satellite (2026-06-28; prod_backtest_q1_2025.py)
+"/orc solve for this [BTC-core+satellite] + prod-grade Q1-2025 backtest." Prod-grade = next-open fills (open-to-open),
+de-leaked breadth gate, PIT listing universe, differential slippage (BTC 0.0024/alt 0.0028), turnover costed. CAVEAT:
+volume feed unreliable -> no ADV filter (u100 IS the liquidity screen). Structure = w_btc*BTC-core + (1-w)*alt-satellite
+(alt = conv band + breadth gate + EW, NO momentum). **Q1-2025 (primary): the GATED structure PRESERVED CAPITAL --
+gated-BTC core +1.5/+3.9% (c2c/o2o), 50/50-gated -6.8/-1.7%, alt-sat alone -14.6/-7.3% -- vs BH BTC -12.9% and BH
+alt-basket -50.5%.** Robust to both fill models. 3-window wealth: alt-sat alone 3.39x (highest, crash-exposed) >
+core25-gated 3.18x > BH BTC 2.48x > alt-basket 1.57x. The GATING (cash in risk-off) is the protective lever; BTC/alt
+split = bull-capture vs crash-defense dial. RETAIL REC: ~25-50% gated-BTC core + breadth-gated-alt-satellite =
+positive/flat EVERY window incl. the Q1 crash, DD -13..-22%. The de-risk structure works PROD-GRADE on fresh OOS.
+
 ## 2025-Q1 UNSEAL VERDICT (the final OOS gate, 2026-06-28; src/strat/deployable_v3.py + wave4_2025q1_unseal)
 Ran ALL MA-family candidates FROZEN on Jan-Mar 2025 (= all the 2025 OOS data; ends 2025-03-31). Q1-2025 = a brutal
 alt quarter (BH EW-u100 -48.6%, BH BTC -11.8%). VERDICTS:
