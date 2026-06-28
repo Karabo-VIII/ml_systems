@@ -81,4 +81,26 @@ oracle's "+10.5pp/wk recoverable via concentration" conflated robust-recoverable
 single-name-luck-recoverable (the rest). True robust recoverable headroom within the MA mechanism is ~cap33. Higher
 robust capture needs crypto-native data (user-gated) -- the internal price-TI ceiling is reached.
 
-## REMAINING: source LEAK FIX (regime.shift(1) DRY across gating consumers) + re-baseline shared docs. Then commit.
+## LEAK FIX DONE + COMMITTED (b6ea9336): causal_regime() helper DRY across ~26 gating consumers, regression 6/6 PASS,
+## docs re-baselined. Verified by overseer (regression, parity, import, non-ASCII, append-only).
+
+## WAVE 3 — "MORE VALUE FROM MA DEPLOYMENT" (user 2026-06-28: better deployment not new data; capture movers ahead of
+## time via the lookback; dynamic/adaptive per-TI-type). INTERNAL price-TI only (user: no new data sources).
+- RECON: oracle L2b (perfect hindsight top-3) = +14.0/wk @1d DD-24.6 / +12.3 @4h DD-23.2 => the recoverable headroom
+  is NAME-SELECTION (mover capture), 4x return AND shallower DD. Type-selection thin (L2a spread SMA3.29..VIDYA3.52,
+  ~+0.2pp; adaptive-MA refuted). Kiro V15 lookback ablation: confirmation-lb is a MINOR dial (lb14 1.67->lb28 1.92).
+  => the one open lever = CAUSAL mover-SELECTION, not type/config/lookback.
+- WAVE 3 (wave3_mover_selection.py/.json): 5 causal price scores (mom/accel/brk/dist/volx) x top-K{3,5,10}, tilt the
+  regime+band-confirmed eligible set, vs random-K null + EW-all, BOTH windows. ONLY cross-sectional MOMENTUM beats
+  random-p90 AND EW-all on BOTH VAL+OOS (dist/accel/volx = VAL-fit; brk = OOS-fit). mom K5: VAL +3.45 Sh1.85 / OOS
+  +4.06 Sh1.75 (vs EW +1.74/+3.10). The theoretically-expected survivor (documented crypto factor).
+- WAVE 3B HARDENING (wave3b_momentum_deployable.py/.json): 200-draw null + deployable soft-tilt + 4h.
+  SIGNIFICANCE: mom top-5 = 100th pctile VAL, but only **94th OOS** (+4.06 vs null p95 +4.18 -> just shy of 0.05),
+  degrades at K10/K15. DEPLOYABLE soft-tilt(cap20/33): clear risk-adj WIN on VAL (Sh1.39->1.92, DD-52->-47) but
+  REVERTS to ~EW on OOS (lin 3.10->3.00, Sh down, DD worse). The OOS edge lives ONLY in hard top-5 (DD-52); on ret/DD
+  even that is ~EW (0.078 vs 0.073). 4h: random-K bleeds (neg null), momentum stays positive (avoids the bleed).
+  VERDICT: momentum mover-selection is REAL + cross-window-skilled but you are PAID ~FAIRLY for the concentration risk
+  (= "magnitude is priced"). NOT a free de-risked upgrade. PROVISIONAL/regime-conditional (pays in high cross-sectional
+  DISPERSION = VAL; adds little in uniform melt-up = OOS-2024). Gated on 2025 unseal, same bucket as ADX but better-
+  principled. Confirmed deployable remains cap33 EW ~+1.8-2%/wk. Internal price-TI ceiling effectively REACHED; the
+  one live thread = momentum-tilt + 2025 confirmation (+ maybe dispersion-conditioning, but that risks overfit on 2 windows).

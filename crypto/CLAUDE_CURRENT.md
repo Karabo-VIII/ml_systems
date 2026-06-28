@@ -61,14 +61,22 @@ recoverable via concentration" OVER-states it — most of that headroom is singl
 NOT robust. True robust recoverable within the MA mechanism ≈ the cap15→cap33 step (~+0.3pp/wk). Internal price-TI
 ceiling is REACHED; higher robust capture needs a new de-correlated mechanism or crypto-native data.
 
-## OPEN / NEXT (the genuinely-untested or user-gated)
-1. **Source LEAK FIX in progress** (delegated auditor): `regime.shift(1)` DRY across ~9 gating consumers + regression
-   test + re-baseline shared registry/Kiro-CURRENT headlines down ~15%. Review the diff + commit.
-2. **Crypto-native frontier** (funding/OI/on-chain) — the catalog's flagged data-advantage surface; USER-GATED. This
-   is now the ONLY plausible robust-capture frontier left (internal price-TI exhausted at cap33 ~+1.8-2%/wk).
-3. **ADX|1d** — PROVISIONAL/gated: re-confirm on 2025 unseal (pass/fail, not a formality); only then consider as a
-   second mechanism. Wave-2B showed its diversification benefit is VAL-fit (flat ret/DD on OOS).
-4. **Phase 2 dynamic** (Kiro-designed, user-gated) — expect mostly null (more params); run as falsification.
+## WAVE 3 — MOVER-SELECTION (user 2026-06-28: extract more from MA DEPLOYMENT, internal-data only)
+Oracle says recoverable headroom = name-SELECTION (perfect top-3 = +14/wk @ -24%DD, 4x return AND shallower DD), NOT
+type/config/lookback (refuted/thin). Tested 5 causal price scores (mom/accel/brk/dist/volx) as top-K tilts vs
+random-K null + EW. **Cross-sectional MOMENTUM is the only one with cross-window skill** (beats random-p90 + EW on
+BOTH windows; the documented crypto factor). BUT hardening (200-draw null + deployable soft-tilt): mom top-5 = 100th
+pctile VAL / **94th OOS** (just shy of 0.05); the de-risked soft-tilt WINS on VAL (Sh1.39->1.92) but REVERTS to ~EW on
+OOS. You are paid ~fairly for the concentration risk (= "magnitude is priced"). => momentum-tilt = PROVISIONAL/regime-
+conditional (pays in high cross-sectional DISPERSION), NOT a free upgrade. Internal price-TI ceiling effectively REACHED.
+
+## OPEN / NEXT
+1. **Momentum-tilt = the one live lift candidate** (PROVISIONAL): gated on 2025 unseal; pays in high-dispersion regimes.
+   Possible refinement = dispersion-conditioned tilt, but risks overfit on only 2 windows. Treat 2025 as pass/fail.
+2. **ADX|1d** — PROVISIONAL/gated (same bucket, less principled): re-confirm on 2025. Wave-2B: diversification VAL-fit.
+3. Confirmed deployable = **cap33 EW ~+1.8-2%/wk**, drawdown-insured by the regime gate. Bank this.
+4. Crypto-native (funding/OI/on-chain) = the only NEW-edge frontier, but user (2026-06-28) said NO new data sources.
+5. **Phase 2 dynamic** (Kiro-designed, user-gated) — expect mostly null; run as falsification.
 
 ## COORDINATION + HOUSEKEEPING STATE
 - CHARTER/CURRENT/KNOWLEDGE_MAP = Kiro-owned. CLAUDE_CHARTER/CLAUDE_CURRENT = mine. Router injects mine for Claude
