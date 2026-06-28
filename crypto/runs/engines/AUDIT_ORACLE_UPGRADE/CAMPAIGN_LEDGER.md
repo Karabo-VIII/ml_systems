@@ -247,3 +247,15 @@ need shorts/perfect timing = banned/un-capturable; North-Star). Returns are LUMP
 not smooth. The ONE lever to lift the cycle-average within the rules = CAPTURE MORE PER DEPLOYED WEEK (mover-prediction:
 oracle +12%/wk vs our +3%/wk deployed) -- not the gate, not the static band. Expectation calibration: 1-4%/wk = deployed
 up-regime average, not a per-week guarantee; cycle-average tracks the bull/bear mix.
+
+## WAVE 10 -- WIRE THE WEEKLY CANDIDATES (user /orc autonomous 2026-06-28: "wire me the 2-7% candidates per week").
+weekly_candidates.py/.json. WIRED the weekly candidate emitter (momentum mover-selection, breadth-gated, u100, 1d,
+14d/7d, de-leaked, prod): per non-overlapping 7d week -> gate state + top-K momentum candidate names+weights entering
+the week + realized 7d return + the LIVE book. HONEST TRUTH (no false victory): 2-7%/wk is NOT a reliable per-week
+deliverable. Even at max concentration K=3 (chasing the band): 64% of DEPLOYED weeks NEGATIVE, median deployed week
+-3.25%, only 16% in [2,7%], 19% >7%, mean +0.91%/wk -- the return comes from ~1-in-5 BIG weeks, not a steady stream.
+Recent deployed weeks: 2026-05-06 -14.0% (ZEC/ZBT/BIO), 05-13 +4.6% (ZEC/ONDO/TON), 05-20 +22.6% (DEXE/NEAR/INJ) =
+lumpy, not 2-7%/wk. LIVE book as of 2026-05-28 = CASH (gate off, no candidates qualify). VERDICT: "2-7%/wk reliably"
+= the +12%/wk perfect-foresight ORACLE; causal long-only gives lumpy big-week capture gated to cash in bears (the
+North-Star low-hit-rate truth at the candidate level). The candidate LIST is wired + emittable weekly; the 2-7%/wk
+LABEL is not honest given 64% red deployed weeks. Deliverable = the emitter + live book, honestly characterized.

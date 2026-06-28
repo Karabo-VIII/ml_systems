@@ -1,0 +1,210 @@
+{
+  "check": "WEEKLY_CANDIDATES",
+  "spec": "momentum mover-selection, breadth-gated, u100, 1d, 14d/7d, de-leaked, prod",
+  "target": "2-7% per week",
+  "ts": "20260628_184434",
+  "by_K": {
+    "K3": {
+      "dep_weeks": 31,
+      "dep_mean": 0.91,
+      "dep_median": -3.25,
+      "in_2to7": 0.161,
+      "gt7": 0.194,
+      "neg": 0.645,
+      "live": {
+        "as_of": "2026-05-28",
+        "gate": "CASH",
+        "n_candidates": 0,
+        "candidates": []
+      }
+    },
+    "K5": {
+      "dep_weeks": 31,
+      "dep_mean": 0.45,
+      "dep_median": -3.66,
+      "in_2to7": 0.065,
+      "gt7": 0.194,
+      "neg": 0.677,
+      "live": {
+        "as_of": "2026-05-28",
+        "gate": "CASH",
+        "n_candidates": 0,
+        "candidates": []
+      }
+    },
+    "K8": {
+      "dep_weeks": 31,
+      "dep_mean": 0.55,
+      "dep_median": -3.22,
+      "in_2to7": 0.161,
+      "gt7": 0.129,
+      "neg": 0.645,
+      "live": {
+        "as_of": "2026-05-28",
+        "gate": "CASH",
+        "n_candidates": 0,
+        "candidates": []
+      }
+    }
+  },
+  "chosen_K": 3,
+  "weekly_log_tail": [
+    {
+      "week_start": "2026-02-04",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-02-11",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-02-18",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-02-25",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-03-04",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-03-11",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-03-18",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-03-25",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-04-01",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-04-08",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-04-15",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-04-22",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 0.0
+    },
+    {
+      "week_start": "2026-04-29",
+      "deployed": false,
+      "n_candidates": 0,
+      "candidates": [],
+      "realized_7d_pct": 4.46
+    },
+    {
+      "week_start": "2026-05-06",
+      "deployed": true,
+      "n_candidates": 3,
+      "candidates": [
+        [
+          "ZECUSDT",
+          0.502
+        ],
+        [
+          "ZBTUSDT",
+          0.29
+        ],
+        [
+          "BIOUSDT",
+          0.208
+        ]
+      ],
+      "realized_7d_pct": -14.03
+    },
+    {
+      "week_start": "2026-05-13",
+      "deployed": true,
+      "n_candidates": 3,
+      "candidates": [
+        [
+          "ZECUSDT",
+          0.389
+        ],
+        [
+          "ONDOUSDT",
+          0.333
+        ],
+        [
+          "TONUSDT",
+          0.277
+        ]
+      ],
+      "realized_7d_pct": 4.6
+    },
+    {
+      "week_start": "2026-05-20",
+      "deployed": true,
+      "n_candidates": 3,
+      "candidates": [
+        [
+          "DEXEUSDT",
+          0.368
+        ],
+        [
+          "NEARUSDT",
+          0.33
+        ],
+        [
+          "INJUSDT",
+          0.302
+        ]
+      ],
+      "realized_7d_pct": 22.58
+    }
+  ],
+  "live_book": {
+    "as_of": "2026-05-28",
+    "gate": "CASH",
+    "n_candidates": 0,
+    "candidates": []
+  }
+}
