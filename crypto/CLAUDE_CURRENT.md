@@ -18,6 +18,18 @@ Nulls D83/D84/D85 confirmed (D83 narrative refined: "selection-by-recent-P&L=no-
 book matched frozen-114 in 6/12 cells => the 114-config band is over-diluted, a minor live lever). Pipeline indicator
 path clean; the regime path inherited the same leak (now fixed). ADX|1d genuine-selective but VAL-fit => PROVISIONAL.
 
+## 2-7%/wk CAMPAIGN -> LEARNED DEPLOY-TIMING WIN (4h /orc, 2026-06-29; runs/engines/STRAT_2to7/, 14 cycles)
+The real lever for 2-7%/wk = WHEN-to-deploy (a NONLINEAR GBM on market-state: btc-mom/breadth/dispersion/trend/
+drawdown), NOT which-name (within-bar AUC 0.548 = market-capped). Gate = breadth & WF-GBM-P(good-week)>0.55, quarterly
+WALK-FORWARD retrained. vs breadth-rule on full OOS (2024-05..2026-05, $10k): **+154..+236% (mom8 wealth) / +101%
+(mom5+TP5 consistency) vs rule +57%/-6%**, maxDD -27..-31 vs -36..-39. Deploys ~13% of weeks (cash 87%) into favorable
+weeks where deployed-week MEDIAN +5-8%/wk (TP5 lands IN the 2-7% band). VALIDATED: beats shuffle-null DECISIVELY
+(+236 vs null-p90 +36); positive 5/9 quarters; avoids 2025-Q1 crash; robust across feature-subsets (core2 survives) +
+thresholds (12/12 GBM); NONLINEAR (logit fails -> reconciles dead-list D85, which tested a threshold/linear form).
+2-7%/wk = realized as a SELECTIVE engine (~13% weeks at +5-8%/wk, cash rest), NOT every-week. V5 deployable
+(strat_2to7_v5_deployable.py) emits the live book; 2026-05-28 = CASH (P=0.38). PROVISIONAL CAVEATS: ~11 deployed-week
+sample, 2024-Q4-dominated, FEATURE CHOICE data-informed (campaign-stale) -> VALIDATE LIVE/FORWARD before real capital.
+
 ## THE SYSTEM MAKES MONEY OOS — momentum mover-selection +57%/2yr (2026-06-28; full_track_momentum)
 CLEAN OOS (2024-05-15..2026-05, ~2yr, $10k, prod-grade, NO in-sample): mom top8 inv-vol +57% ($15.7k) > mom EW +47%
 > inv-vol de-risk (what I shipped) +43% > BH BTC +11% ($11.1k) > BH alt-basket -55% ($4.5k). maxDD: mom -36 vs BTC

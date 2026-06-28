@@ -1,0 +1,128 @@
+{
+  "check": "STRAT_2to7_cycle14_wf_robust",
+  "rule_baseline_comp": 56.8,
+  "ts": "20260629_005657",
+  "variants": {
+    "full6_gbm_0.5": {
+      "comp": 238.5,
+      "null_p90": 40.0,
+      "beats": true
+    },
+    "full6_gbm_0.55": {
+      "comp": 157.6,
+      "null_p90": 31.4,
+      "beats": true
+    },
+    "full6_gbm_0.6": {
+      "comp": 234.3,
+      "null_p90": 34.8,
+      "beats": true
+    },
+    "full6_logit_0.5": {
+      "comp": 40.0,
+      "null_p90": 8.7,
+      "beats": false
+    },
+    "full6_logit_0.55": {
+      "comp": 56.9,
+      "null_p90": 23.1,
+      "beats": true
+    },
+    "full6_logit_0.6": {
+      "comp": 133.1,
+      "null_p90": 17.7,
+      "beats": true
+    },
+    "core3_gbm_0.5": {
+      "comp": 182.8,
+      "null_p90": 29.8,
+      "beats": true
+    },
+    "core3_gbm_0.55": {
+      "comp": 163.1,
+      "null_p90": 31.5,
+      "beats": true
+    },
+    "core3_gbm_0.6": {
+      "comp": 175.1,
+      "null_p90": 12.5,
+      "beats": true
+    },
+    "core3_logit_0.5": {
+      "comp": 27.5,
+      "null_p90": 20.5,
+      "beats": false
+    },
+    "core3_logit_0.55": {
+      "comp": 17.0,
+      "null_p90": 21.9,
+      "beats": false
+    },
+    "core3_logit_0.6": {
+      "comp": 50.1,
+      "null_p90": 17.9,
+      "beats": false
+    },
+    "core2_gbm_0.5": {
+      "comp": 66.3,
+      "null_p90": 40.1,
+      "beats": true
+    },
+    "core2_gbm_0.55": {
+      "comp": 147.1,
+      "null_p90": 6.4,
+      "beats": true
+    },
+    "core2_gbm_0.6": {
+      "comp": 107.4,
+      "null_p90": 13.6,
+      "beats": true
+    },
+    "core2_logit_0.5": {
+      "comp": 49.0,
+      "null_p90": 28.9,
+      "beats": false
+    },
+    "core2_logit_0.55": {
+      "comp": 37.6,
+      "null_p90": 40.7,
+      "beats": false
+    },
+    "core2_logit_0.6": {
+      "comp": 76.3,
+      "null_p90": 31.2,
+      "beats": true
+    },
+    "breadth+dd_gbm_0.5": {
+      "comp": 135.5,
+      "null_p90": 61.1,
+      "beats": true
+    },
+    "breadth+dd_gbm_0.55": {
+      "comp": 203.6,
+      "null_p90": 32.4,
+      "beats": true
+    },
+    "breadth+dd_gbm_0.6": {
+      "comp": 283.8,
+      "null_p90": 20.7,
+      "beats": true
+    },
+    "breadth+dd_logit_0.5": {
+      "comp": 19.0,
+      "null_p90": 52.3,
+      "beats": false
+    },
+    "breadth+dd_logit_0.55": {
+      "comp": -19.4,
+      "null_p90": 50.0,
+      "beats": false
+    },
+    "breadth+dd_logit_0.6": {
+      "comp": 59.8,
+      "null_p90": 6.5,
+      "beats": true
+    }
+  },
+  "robust_wins": "16/24"
+}
