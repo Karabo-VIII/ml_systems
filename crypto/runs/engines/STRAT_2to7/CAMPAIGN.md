@@ -89,3 +89,22 @@ ANSWER to "make 2-7%/wk a reality": it is a CONDITIONAL (favorable-regime) reali
 NOT a reliable every-week unconditional outcome. ONE promising lead (learned deploy-timing) could improve bear-
 avoidance -> validate on fresh/forward data before trust. Deployable now = momentum top-8 (wealth) / +TP5
 (consistency), breadth-gated, u100, 1d, 14d/7d. NO false victory: the campaign found a lead, not a solved 2-7%/wk.
+
+## CYCLE 12-13 -- WALK-FORWARD learned deploy-timing HOLDS + shuffle-null-VALIDATED (the campaign's real win).
+cy12 WALK-FORWARD (quarterly retrain, never peek): WF-timing gate (breadth & P(good-week)>0.55) vs breadth-rule, full
+OOS 2024-05..2026-05, $10k: WF+mom8 (wealth) $28,085 (+181%) vs rule +57%, maxDD -27 vs -36, deploy 14%; WF+mom5+TP5
+(consist) +101% (vs rule -6%), deployed-week MEDIAN +5.10 (IN the 2-7% band), deploy 13%. cy13 VERIFY: shuffle-null
+(20x) -> WF +236% vs null mean +2%/p90 +36% => BEATS null DECISIVELY (signal REAL, not luck). Per-quarter: positive
+5/9, deployed 6/9; AVOIDS 2025Q1 crash (+7.8 vs rule -15.8) + 2026Q2 (+3.0 vs -6.8). CAVEATS: 2024Q4 dominates
+(+137 of +236); FEATURE-DESIGN overfit (market-state feats chosen on these windows = campaign-stale); contradicts
+dead-list D85; small deployed sample (~13%). => STRONG validated LEAD; needs FRESH/LIVE forward data for full trust.
+
+## FINAL CAMPAIGN VERDICT (4h, 13 cycles + 3 learned-ML + walk-forward + shuffle-null).
+THE WIN: a LEARNED DEPLOY-TIMING gate (market-state: btc-mom/breadth/dispersion/trend/drawdown) is the real lever --
+NOT which-name selection (within-bar AUC 0.548 = market-capped). It deploys ~13% of weeks (cash 87%) into the genuinely-
+favorable weeks where deployed-week MEDIAN = +5%/wk (in the 2-7% band), ~3-4x's wealth (+57->+181-236% OOS) at lower
+drawdown, walk-forward + shuffle-null validated. So "2-7%/wk a reality" = the DEPLOYED weeks reliably hit it (+5% median)
+while the engine sits in cash the rest -- a SELECTIVE engine, not an every-week one. DEPLOYABLE: momentum top-8 (wealth)
+or +TP5 (consistency), breadth & learned-timing gate, u100, 1d, 14d/7d. PROVISIONAL (feature-overfit + D85 + small
+sample) -> validate live/forward. Live gate 2026-05-28 = CASH (P=0.34). NO false victory: validated as far as the data
+allows; fresh data is the final gate.
