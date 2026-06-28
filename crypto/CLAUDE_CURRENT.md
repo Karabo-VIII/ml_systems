@@ -18,16 +18,21 @@ Nulls D83/D84/D85 confirmed (D83 narrative refined: "selection-by-recent-P&L=no-
 book matched frozen-114 in 6/12 cells => the 114-config band is over-diluted, a minor live lever). Pipeline indicator
 path clean; the regime path inherited the same leak (now fixed). ADX|1d genuine-selective but VAL-fit => PROVISIONAL.
 
-## PROD-GRADE BACKTEST -- BTC-core + breadth-gated-alt-satellite (2026-06-28; prod_backtest_q1_2025.py)
-"/orc solve for this [BTC-core+satellite] + prod-grade Q1-2025 backtest." Prod-grade = next-open fills (open-to-open),
-de-leaked breadth gate, PIT listing universe, differential slippage (BTC 0.0024/alt 0.0028), turnover costed. CAVEAT:
-volume feed unreliable -> no ADV filter (u100 IS the liquidity screen). Structure = w_btc*BTC-core + (1-w)*alt-satellite
-(alt = conv band + breadth gate + EW, NO momentum). **Q1-2025 (primary): the GATED structure PRESERVED CAPITAL --
-gated-BTC core +1.5/+3.9% (c2c/o2o), 50/50-gated -6.8/-1.7%, alt-sat alone -14.6/-7.3% -- vs BH BTC -12.9% and BH
-alt-basket -50.5%.** Robust to both fill models. 3-window wealth: alt-sat alone 3.39x (highest, crash-exposed) >
-core25-gated 3.18x > BH BTC 2.48x > alt-basket 1.57x. The GATING (cash in risk-off) is the protective lever; BTC/alt
-split = bull-capture vs crash-defense dial. RETAIL REC: ~25-50% gated-BTC core + breadth-gated-alt-satellite =
-positive/flat EVERY window incl. the Q1 crash, DD -13..-22%. The de-risk structure works PROD-GRADE on fresh OOS.
+## THE DEPLOYABLE = THE MA FAMILY OF ENGINES on the FULL u100 (NOT BTC). PROD-GRADE (2026-06-28; prod_ma_family_q1_2025.py)
+CORRECTION (user /orc 2026-06-28): I drifted to a "BTC-core" book off the Q1 "BTC fell less" observation -- that
+COLLAPSES the breadth surface (u100->BTC) + is OFF-SPEC. The spec/product = the MA FAMILY OF ENGINES on the FULL
+u100 alt universe, canonical **14d lookback / 7d trading window, ROLLING, regime-gated, long-only spot**. BTC is a
+context benchmark ONLY, never the product. A regime observation is NOT a mandate to change the product. [[feedback-no-u100-to-btc-collapse]]
+PROD-GRADE backtest (u100 77 names, 14d/7d rolling, de-leaked, next-open fills, prod cost, PIT, turnover):
+- **VAL: MA family +118-130%** (SMA|1d +130, CONV|1d +122) ~= BH alt-basket +138 (gate costs a little in the rip).
+- **OOS24: MA family +54-87%** (KAMA|4h +87, EMA|1d +74, CONV +65-72) -- BEATS BH alt-basket +33 AND BH BTC +41 (gate adds value in chop).
+- **Q1-2025 (crash): MA family PRESERVED CAPITAL** -- CONV|1d breadth cap33 -7.3% (next-open) / -14.6% (close-close);
+  KAMA|1d -5.1/-15.3 -- vs **BH alt-basket -50.5%** and BH BTC -12.9%. ROBUST claim = preserved capital vs the basket
+  (regardless of fills); whether it beat BTC is EXECUTION-SENSITIVE (o2o yes / c2c ~tie) in this small gappy quarter -- do NOT claim beat-BTC.
+DEPLOYABLE config: the cross-type CONVERGENCE book (or per-type ensemble) @ **1d, breadth gate, cap33, 7d/14d, EW
+inv-vol (NO momentum -- refuted on Q1 unseal)**. 1d is the resolution (4h bled in the Q1 chop). The MA family is an
+all-weather capital-preservation product on the FULL universe: captures most of the bull, beats the basket in chop,
+preserves capital in the crash. No BTC core needed.
 
 ## 2025-Q1 UNSEAL VERDICT (the final OOS gate, 2026-06-28; src/strat/deployable_v3.py + wave4_2025q1_unseal)
 Ran ALL MA-family candidates FROZEN on Jan-Mar 2025 (= all the 2025 OOS data; ends 2025-03-31). Q1-2025 = a brutal

@@ -1,0 +1,391 @@
+{
+  "check": "PROD_GRADE_MA_FAMILY",
+  "spec": "u100 full, 14d lookback / 7d window, ROLLING, de-leaked, next-open fills, prod cost",
+  "ts": "20260628_115804",
+  "windows": {
+    "VAL": {
+      "BH alt-basket (hold u100)": {
+        "compound": 138.4,
+        "lin_wk": 2.282,
+        "sharpe": 1.91,
+        "maxdd": -35.4,
+        "pct7d": 0.6
+      },
+      "BH BTC (context only)": {
+        "compound": 101.4,
+        "lin_wk": 1.754,
+        "sharpe": 1.92,
+        "maxdd": -20.1,
+        "pct7d": 0.556
+      },
+      "CONV 1d breadth cap15": {
+        "compound": 126.2,
+        "lin_wk": 2.02,
+        "sharpe": 2.17,
+        "maxdd": -31.2,
+        "pct7d": 0.378
+      },
+      "CONV 1d breadth cap33": {
+        "compound": 122.1,
+        "lin_wk": 1.985,
+        "sharpe": 2.11,
+        "maxdd": -31.4,
+        "pct7d": 0.378
+      },
+      "CONV 1d btc-gate cap33": {
+        "compound": 96.6,
+        "lin_wk": 1.772,
+        "sharpe": 1.69,
+        "maxdd": -38.7,
+        "pct7d": 0.467
+      },
+      "SMA 1d breadth cap33": {
+        "compound": 129.7,
+        "lin_wk": 2.06,
+        "sharpe": 2.19,
+        "maxdd": -30.9,
+        "pct7d": 0.378
+      },
+      "EMA 1d breadth cap33": {
+        "compound": 120.4,
+        "lin_wk": 1.97,
+        "sharpe": 2.08,
+        "maxdd": -31.2,
+        "pct7d": 0.378
+      },
+      "WMA 1d breadth cap33": {
+        "compound": 117.5,
+        "lin_wk": 1.938,
+        "sharpe": 2.06,
+        "maxdd": -31.0,
+        "pct7d": 0.378
+      },
+      "VIDYA 1d breadth cap33": {
+        "compound": 122.0,
+        "lin_wk": 1.986,
+        "sharpe": 2.1,
+        "maxdd": -31.6,
+        "pct7d": 0.378
+      },
+      "KAMA 1d breadth cap33": {
+        "compound": 120.1,
+        "lin_wk": 1.966,
+        "sharpe": 2.09,
+        "maxdd": -33.1,
+        "pct7d": 0.356
+      },
+      "CONV 4h breadth cap15": {
+        "compound": 91.6,
+        "lin_wk": 1.668,
+        "sharpe": 1.74,
+        "maxdd": -28.7,
+        "pct7d": 0.311
+      },
+      "CONV 4h breadth cap33": {
+        "compound": 104.5,
+        "lin_wk": 1.823,
+        "sharpe": 1.86,
+        "maxdd": -27.3,
+        "pct7d": 0.333
+      },
+      "CONV 4h btc-gate cap33": {
+        "compound": 44.7,
+        "lin_wk": 1.121,
+        "sharpe": 1.03,
+        "maxdd": -47.0,
+        "pct7d": 0.4
+      },
+      "SMA 4h breadth cap33": {
+        "compound": 84.9,
+        "lin_wk": 1.604,
+        "sharpe": 1.63,
+        "maxdd": -27.3,
+        "pct7d": 0.311
+      },
+      "EMA 4h breadth cap33": {
+        "compound": 96.4,
+        "lin_wk": 1.736,
+        "sharpe": 1.76,
+        "maxdd": -29.7,
+        "pct7d": 0.356
+      },
+      "WMA 4h breadth cap33": {
+        "compound": 75.6,
+        "lin_wk": 1.494,
+        "sharpe": 1.51,
+        "maxdd": -31.3,
+        "pct7d": 0.311
+      },
+      "VIDYA 4h breadth cap33": {
+        "compound": 102.1,
+        "lin_wk": 1.795,
+        "sharpe": 1.84,
+        "maxdd": -28.3,
+        "pct7d": 0.356
+      },
+      "KAMA 4h breadth cap33": {
+        "compound": 92.2,
+        "lin_wk": 1.689,
+        "sharpe": 1.72,
+        "maxdd": -31.3,
+        "pct7d": 0.311
+      }
+    },
+    "OOS24": {
+      "BH alt-basket (hold u100)": {
+        "compound": 33.1,
+        "lin_wk": 1.415,
+        "sharpe": 0.98,
+        "maxdd": -45.0,
+        "pct7d": 0.562
+      },
+      "BH BTC (context only)": {
+        "compound": 41.4,
+        "lin_wk": 1.282,
+        "sharpe": 1.36,
+        "maxdd": -24.5,
+        "pct7d": 0.531
+      },
+      "CONV 1d breadth cap15": {
+        "compound": 40.6,
+        "lin_wk": 1.248,
+        "sharpe": 1.39,
+        "maxdd": -23.7,
+        "pct7d": 0.188
+      },
+      "CONV 1d breadth cap33": {
+        "compound": 64.9,
+        "lin_wk": 1.767,
+        "sharpe": 1.82,
+        "maxdd": -23.5,
+        "pct7d": 0.188
+      },
+      "CONV 1d btc-gate cap33": {
+        "compound": 57.3,
+        "lin_wk": 1.692,
+        "sharpe": 1.54,
+        "maxdd": -36.5,
+        "pct7d": 0.375
+      },
+      "SMA 1d breadth cap33": {
+        "compound": 54.0,
+        "lin_wk": 1.546,
+        "sharpe": 1.64,
+        "maxdd": -25.0,
+        "pct7d": 0.188
+      },
+      "EMA 1d breadth cap33": {
+        "compound": 74.5,
+        "lin_wk": 1.956,
+        "sharpe": 1.94,
+        "maxdd": -23.6,
+        "pct7d": 0.219
+      },
+      "WMA 1d breadth cap33": {
+        "compound": 55.3,
+        "lin_wk": 1.581,
+        "sharpe": 1.65,
+        "maxdd": -24.8,
+        "pct7d": 0.219
+      },
+      "VIDYA 1d breadth cap33": {
+        "compound": 53.1,
+        "lin_wk": 1.508,
+        "sharpe": 1.68,
+        "maxdd": -23.6,
+        "pct7d": 0.188
+      },
+      "KAMA 1d breadth cap33": {
+        "compound": 62.7,
+        "lin_wk": 1.719,
+        "sharpe": 1.8,
+        "maxdd": -23.4,
+        "pct7d": 0.188
+      },
+      "CONV 4h breadth cap15": {
+        "compound": 53.5,
+        "lin_wk": 1.528,
+        "sharpe": 1.65,
+        "maxdd": -25.1,
+        "pct7d": 0.25
+      },
+      "CONV 4h breadth cap33": {
+        "compound": 71.6,
+        "lin_wk": 1.926,
+        "sharpe": 1.84,
+        "maxdd": -26.1,
+        "pct7d": 0.25
+      },
+      "CONV 4h btc-gate cap33": {
+        "compound": 61.7,
+        "lin_wk": 1.823,
+        "sharpe": 1.54,
+        "maxdd": -35.1,
+        "pct7d": 0.375
+      },
+      "SMA 4h breadth cap33": {
+        "compound": 72.4,
+        "lin_wk": 1.937,
+        "sharpe": 1.86,
+        "maxdd": -22.1,
+        "pct7d": 0.25
+      },
+      "EMA 4h breadth cap33": {
+        "compound": 67.3,
+        "lin_wk": 1.85,
+        "sharpe": 1.76,
+        "maxdd": -26.1,
+        "pct7d": 0.25
+      },
+      "WMA 4h breadth cap33": {
+        "compound": 48.6,
+        "lin_wk": 1.494,
+        "sharpe": 1.41,
+        "maxdd": -26.9,
+        "pct7d": 0.25
+      },
+      "VIDYA 4h breadth cap33": {
+        "compound": 61.3,
+        "lin_wk": 1.731,
+        "sharpe": 1.67,
+        "maxdd": -28.4,
+        "pct7d": 0.25
+      },
+      "KAMA 4h breadth cap33": {
+        "compound": 87.5,
+        "lin_wk": 2.183,
+        "sharpe": 2.13,
+        "maxdd": -23.7,
+        "pct7d": 0.25
+      }
+    },
+    "Q1_25": {
+      "BH alt-basket (hold u100)": {
+        "compound": -50.5,
+        "lin_wk": -4.673,
+        "sharpe": -2.76,
+        "maxdd": -57.9,
+        "pct7d": 0.333
+      },
+      "BH BTC (context only)": {
+        "compound": -12.9,
+        "lin_wk": -0.824,
+        "sharpe": -0.84,
+        "maxdd": -26.1,
+        "pct7d": 0.667
+      },
+      "CONV 1d breadth cap15": {
+        "compound": -9.8,
+        "lin_wk": -0.696,
+        "sharpe": -1.1,
+        "maxdd": -19.8,
+        "pct7d": 0.0
+      },
+      "CONV 1d breadth cap33": {
+        "compound": -7.3,
+        "lin_wk": -0.458,
+        "sharpe": -0.64,
+        "maxdd": -17.7,
+        "pct7d": 0.083
+      },
+      "CONV 1d btc-gate cap33": {
+        "compound": -12.0,
+        "lin_wk": -0.695,
+        "sharpe": -0.65,
+        "maxdd": -23.3,
+        "pct7d": 0.167
+      },
+      "SMA 1d breadth cap33": {
+        "compound": -7.1,
+        "lin_wk": -0.437,
+        "sharpe": -0.61,
+        "maxdd": -18.2,
+        "pct7d": 0.083
+      },
+      "EMA 1d breadth cap33": {
+        "compound": -9.2,
+        "lin_wk": -0.612,
+        "sharpe": -0.85,
+        "maxdd": -18.7,
+        "pct7d": 0.083
+      },
+      "WMA 1d breadth cap33": {
+        "compound": -8.6,
+        "lin_wk": -0.574,
+        "sharpe": -0.83,
+        "maxdd": -17.6,
+        "pct7d": 0.083
+      },
+      "VIDYA 1d breadth cap33": {
+        "compound": -6.5,
+        "lin_wk": -0.386,
+        "sharpe": -0.54,
+        "maxdd": -17.5,
+        "pct7d": 0.083
+      },
+      "KAMA 1d breadth cap33": {
+        "compound": -5.1,
+        "lin_wk": -0.278,
+        "sharpe": -0.4,
+        "maxdd": -15.7,
+        "pct7d": 0.083
+      },
+      "CONV 4h breadth cap15": {
+        "compound": -16.3,
+        "lin_wk": -1.283,
+        "sharpe": -2.08,
+        "maxdd": -24.1,
+        "pct7d": 0.0
+      },
+      "CONV 4h breadth cap33": {
+        "compound": -19.4,
+        "lin_wk": -1.554,
+        "sharpe": -2.31,
+        "maxdd": -26.9,
+        "pct7d": 0.0
+      },
+      "CONV 4h btc-gate cap33": {
+        "compound": -29.7,
+        "lin_wk": -2.44,
+        "sharpe": -2.29,
+        "maxdd": -36.4,
+        "pct7d": 0.083
+      },
+      "SMA 4h breadth cap33": {
+        "compound": -18.1,
+        "lin_wk": -1.43,
+        "sharpe": -2.12,
+        "maxdd": -25.9,
+        "pct7d": 0.0
+      },
+      "EMA 4h breadth cap33": {
+        "compound": -21.1,
+        "lin_wk": -1.722,
+        "sharpe": -2.57,
+        "maxdd": -26.6,
+        "pct7d": 0.0
+      },
+      "WMA 4h breadth cap33": {
+        "compound": -18.5,
+        "lin_wk": -1.467,
+        "sharpe": -2.18,
+        "maxdd": -27.2,
+        "pct7d": 0.0
+      },
+      "VIDYA 4h breadth cap33": {
+        "compound": -19.4,
+        "lin_wk": -1.555,
+        "sharpe": -2.26,
+        "maxdd": -26.0,
+        "pct7d": 0.0
+      },
+      "KAMA 4h breadth cap33": {
+        "compound": -17.8,
+        "lin_wk": -1.411,
+        "sharpe": -2.19,
+        "maxdd": -25.2,
+        "pct7d": 0.0
+      }
+    }
+  }
+}

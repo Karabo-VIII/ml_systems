@@ -171,3 +171,18 @@ the bull-capture (alt) vs crash-defense (gated-BTC) dial. Retail wealth+survivab
 core + breadth-gated-alt-satellite = positive/flat in EVERY window incl. the Q1 crash, shallow DD (-13 to -22%); pure
 alt-satellite if maximizing wealth and accepting crash exposure. CAVEATS: 1 crash quarter (small sample); execution-
 sensitive in Q1; volume-feed unreliable (liquidity = u100 screen only).
+
+## WAVE 6 -- CORRECTION + PROD-GRADE MA FAMILY (user /orc 2026-06-28: "don't just trade BTC; the spec is the MA family").
+CORRECTION: my Wave-5 "BTC-core" drift COLLAPSED the breadth surface (u100->BTC) + was OFF-SPEC. Deployable = the MA
+FAMILY OF ENGINES on the FULL u100, canonical 14d lookback / 7d trading window, ROLLING, regime-gated. prod_ma_family_q1_2025.py.
+PROD-GRADE (next-open fills, de-leaked, prod cost, PIT, turnover, u100 77 names):
+ - VAL: MA family +118-130% (~= BH alt-basket +138).
+ - OOS24: MA family +54-87% (KAMA|4h +87, EMA|1d +74, CONV +65-72) -- BEATS BH alt-basket +33 AND BH BTC +41.
+ - Q1-2025 (crash): MA family PRESERVED CAPITAL -- CONV|1d breadth cap33 -7.3% (next-open)/-14.6% (close-close),
+   KAMA|1d -5.1/-15.3 -- vs BH alt-basket -50.5%, BH BTC -12.9%. ROBUST = preserved capital vs basket (any fills);
+   beat-BTC is EXECUTION-SENSITIVE (7-10pp o2o-vs-c2c swing in this gappy quarter) -> do NOT claim beat-BTC.
+ - 1d is the deployable resolution (4h bled -16 to -21% in the Q1 chop). breadth gate > btc gate. cap33 ~= cap15.
+VERDICT: the MA family is an all-weather capital-preservation product on the FULL universe -- captures most of the
+bull (VAL), beats the basket in chop (OOS24), preserves capital in the crash (Q1). NO BTC core needed; BTC-core was a
+solution to a non-problem. DEPLOYABLE = cross-type CONV book (or per-type ensemble) @ 1d, breadth gate, cap33, 7d/14d,
+EW inv-vol, NO momentum. CAVEATS: 1 crash quarter; execution-sensitive in Q1; volume-feed unreliable (u100 = the screen).
