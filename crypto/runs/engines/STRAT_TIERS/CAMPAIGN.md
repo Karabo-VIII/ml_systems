@@ -26,3 +26,12 @@ deploy in the SAME weeks -> blending/rotating averages toward the weaker ones; n
 DEPLOYABLE = V5 (WF-timing + momentum8), always-scan weekly (in market looking every week; CASH when unfavorable,
 deploy the book when favorable). "Coverage" via multiple tiers is refuted (correlated engines). The only untested
 de-correlation path = a long-only mean-reversion engine for CHOP weeks (deploys when momentum is cash) -- new build, uncertain.
+
+## MEAN-REVERSION COVERAGE TEST (strat_tiers_mr.py) -- "in market every week" is COUNTERPRODUCTIVE.
+MR (buy-oversold, z<-1) DE-correlates from momentum (corr +0.17) + fills 92% of momentum's CASH weeks (coverage
+WORKS mechanically, deploys 87% of weeks). BUT MR = -85% compound (falling knives: long-only oversold -> more
+oversold in down/chop). COMBINED momentum-else-MR = -61% (94% coverage) vs momentum-ALONE +57%. => filling the cash
+weeks DESTROYS return. The cash weeks are cash for a REASON (gate flags unfavorable); deploying anything in them loses.
+LESSON: "in the market every week" is the WRONG goal -- SELECTIVITY (cash ~70%) IS the edge. Distinction: "LOOKING
+every week" (scanning -- good, built) vs "DEPLOYED every week" (refuted, harmful). Scan all weeks; deploy only the
+favorable ~13-31%. FINAL deployable = V5 (WF-timing + momentum), selective, cash-when-unfavorable.
