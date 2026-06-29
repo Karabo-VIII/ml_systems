@@ -1,5 +1,6 @@
 {
-  "check": "STRAT_SOTA_seed_robust",
+  "check": "STRAT_SOTA_gbm_subsample_stability",
+  "caveat": "NOT independent draws -- same data/split, only GBM subsample RNG varies; measures stability, not robustness",
   "seeds": [
     0,
     1,
@@ -12,7 +13,7 @@
     8,
     9
   ],
-  "ts": "20260629_122358",
+  "ts": "20260629_124711",
   "windows": {
     "OOS-2024": {
       "min": 147.3,

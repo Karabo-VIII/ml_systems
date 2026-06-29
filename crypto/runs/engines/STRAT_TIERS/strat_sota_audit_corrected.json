@@ -1,0 +1,71 @@
+{
+  "check": "STRAT_SOTA_audit_corrected",
+  "lineage": {
+    "sklearn": "1.7.0",
+    "git_sha": "b0f44c14",
+    "seed": 0
+  },
+  "ts": "20260629_123854",
+  "windows": {
+    "OOS-2024": {
+      "compound": 161.9,
+      "n_weeks": 33,
+      "skew": 2.32,
+      "kurt": 7.5,
+      "top1_share": 46.0,
+      "top2_share": 78.3,
+      "top3_share": 95.0,
+      "top5_share": 111.3,
+      "p_iid": 0.0417,
+      "p_newey_west_L3": 0.0734,
+      "n_eff_AR1": 27.0,
+      "acf1": 0.092
+    },
+    "OOS-2025": {
+      "compound": 2.9,
+      "n_weeks": 73,
+      "skew": 0.62,
+      "kurt": 10.7,
+      "top1_share": 431.0,
+      "top2_share": 725.4,
+      "top3_share": 889.9,
+      "top5_share": 1102.0,
+      "p_iid": 0.4011,
+      "p_newey_west_L3": 0.3989,
+      "n_eff_AR1": 66.0,
+      "acf1": 0.051
+    },
+    "OOS-ALL": {
+      "compound": 169.5,
+      "n_weeks": 106,
+      "skew": 3.6,
+      "kurt": 19.4,
+      "top1_share": 45.1,
+      "top2_share": 76.8,
+      "top3_share": 93.2,
+      "top5_share": 111.0,
+      "p_iid": 0.0464,
+      "p_newey_west_L3": 0.0872,
+      "n_eff_AR1": 82.0,
+      "acf1": 0.126
+    }
+  },
+  "component_decomp_OOS_ALL": {
+    "breadth_alone": 56.8,
+    "pwf_alone": -7.0,
+    "full_V5": 169.5,
+    "breadth_alone_bear": -20.0,
+    "pwf_alone_bear": -62.8
+  },
+  "DSR_by_trialcount": {
+    "n24": 0.353,
+    "n100": 0.129,
+    "n200": 0.073
+  },
+  "shuffle_null_1000": {
+    "base": 169.5,
+    "p95": 40.1,
+    "frac_below_base": 1.0,
+    "empirical_p": 0.0
+  }
+}

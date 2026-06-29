@@ -1,18 +1,20 @@
 """SOLVE-FOR-SOTA next-value: FREEZE V5 as a pre-registered spec + honest committed-config significance + live book.
 
-The robustness finding (strat_sota_validate): DSR=0.45 FAILS -- but that haircut is the penalty for SEARCHING 24
-configs and picking the best. Going FORWARD with ONE frozen config (no more searching), the only valid test is
-live/unseen weeks. This harness: (1) FREEZES the exact V5 spec + a config hash (pre-registration); (2) reports the
-committed-config significance HONESTLY both ways -- n_trials=1 (committed, no search penalty) AND n_trials=24 (the
-search-deflated DSR) -- so the gap is explicit; (3) emits the LIVE current-week decision; (4) writes the PRE-REGISTERED
-live-forward success criterion (the gate that converts provisional->shippable). No new search, no tuning. long-only spot.
+The robustness finding (strat_sota_validate): DSR=0.353 FAILS (n=24) -- and the red-team (wbw77ivx2) showed that even
+this is GENEROUS: the real search was hundreds of configs (DSR 0.13 at n=100, 0.07 at n=200). Going FORWARD with ONE
+frozen config (no more searching), the only valid test is live/unseen weeks. This harness: (1) FREEZES the exact V5 spec
++ a config hash (pre-registration); (2) reports the committed-config significance HONESTLY -- Newey-West(L3) HAC p
+(NOT the iid t, which inflates: the weekly series is autocorrelated ACF1-3 +0.13/+0.19/+0.35 -> iid p=0.046 but
+HAC p~=0.087, i.e. NOT significant even before the search penalty) + the search-deflated DSR; (3) emits the LIVE
+current-week decision; (4) writes the PRE-REGISTERED live-forward success criterion. No new search, no tuning. long-only spot.
 """
 from __future__ import annotations
 import warnings; warnings.filterwarnings("ignore")
-import sys, json, hashlib
+import sys, json, hashlib, subprocess
 from pathlib import Path
 from datetime import datetime
 import numpy as np, pandas as pd
+import sklearn
 from scipy import stats as ss
 
 HERE=Path(__file__).resolve().parent; sys.path.insert(0,str(HERE.parent/"STRAT_2to7"))
@@ -20,6 +22,13 @@ ROOT=Path(__file__).resolve().parents[3]/"src"; sys.path.insert(0,str(ROOT))
 import strat_2to7_movers as M, strat_2to7_walkforward as W
 from strat.canonical_exits import COST_PROD
 BPD=M.BPD; SB=7*BPD; CUT=pd.Timestamp("2024-05-15")
+
+
+def newey_west_p(wk, L=3):
+    """one-sided p for mean(wk)>0 with Newey-West HAC variance (L lags) -- corrects for autocorrelation."""
+    n=len(wk); mu=np.mean(wk); x=wk-mu; var=np.dot(x,x)/n
+    for l in range(1,L+1): var+=2*(1-l/(L+1))*(np.dot(x[l:],x[:-l])/n)
+    se=np.sqrt(max(var,1e-12)/n); t=mu/se; return float(t), float(1-ss.t.cdf(t,n-1))
 
 FROZEN={"engine":"V5 (learned deploy-timing + momentum)","universe":"u100","cadence":"1d","lookback_d":14,"slice_d":7,
         "gate":"breadth hysteresis(0.5/0.4) AND walk-forward GBM P(good-week|market-state) > 0.55, quarterly retrained",
@@ -42,22 +51,26 @@ def main():
     Wl=np.vstack([np.zeros((1,A)),Wt[:-1]]); net=np.nansum(Wl*roo,axis=1)-np.nansum(np.abs(Wt-Wl),axis=1)*(COST_PROD/2)
     oos=(idx>=CUT); n=net[oos]; wk=np.array([float(np.prod(1+n[i:i+SB])-1) for i in range(0,len(n)-SB+1,SB)])
     sr=float(np.mean(wk)/np.std(wk)); nW=len(wk)
-    # committed-config significance: one-sided t on weekly mean (n_trials=1), + search-deflated DSR (n_trials=24)
-    t_stat=float(np.mean(wk)/(np.std(wk,ddof=1)/np.sqrt(nW))); p_committed=float(1-ss.t.cdf(t_stat,nW-1))
+    # committed-config significance: iid t INFLATES (autocorrelated weekly returns) -> use Newey-West(L3) HAC. + DSR.
+    t_iid=float(np.mean(wk)/(np.std(wk,ddof=1)/np.sqrt(nW))); p_iid=float(1-ss.t.cdf(t_iid,nW-1))
+    t_nw,p_nw=newey_west_p(wk,3)
     def dsr(n_trials):
         g3=ss.skew(wk); g4=ss.kurtosis(wk,fisher=False); emc=0.5772; z=ss.norm.ppf
         sr0=np.sqrt(1.0/nW)*((1-emc)*z(1-1.0/n_trials)+emc*z(1-1.0/(n_trials*np.e)))
         denom=np.sqrt(max(1e-9,1-g3*sr+(g4-1)/4.0*sr**2)); return float(ss.norm.cdf(((sr-sr0)*np.sqrt(nW-1))/denom))
     cfg_hash=hashlib.sha256(json.dumps(FROZEN,sort_keys=True).encode()).hexdigest()[:16]
+    try: sha=subprocess.run(["git","rev-parse","--short","HEAD"],cwd=str(ROOT.parent),capture_output=True,text=True).stdout.strip()
+    except Exception: sha="unknown"
     # live decision
     last=T-1; livew=Wt[last]; live=sorted(((cols[j],round(float(livew[j]),3)) for j in np.where(livew>1e-6)[0]),key=lambda x:-x[1])
     dep=Wl.sum(axis=1)[oos]; deprate=float(np.mean(dep>1e-9))
-    out={"check":"STRAT_SOTA_freeze","frozen_spec":FROZEN,"config_hash":cfg_hash,
+    out={"check":"STRAT_SOTA_freeze","frozen_spec":FROZEN,"config_hash":cfg_hash,"lineage":{"sklearn":sklearn.__version__,"git_sha":sha,"seed":0},
          "in_sample_oos":{"window":f"2024-05-15..{pd.Timestamp(idx[last]).date()}","compound_pct":round(float(np.prod(1+n)-1)*100,1),
             "n_weeks":nW,"sharpe_ann":round(sr*np.sqrt(52),2),"deploy_rate":round(deprate,3)},
-         "significance":{"committed_n1":{"t_stat":round(t_stat,2),"p_one_sided":round(p_committed,4),"interpretation":"if you COMMIT this one config & never search again"},
-            "search_deflated_n24":{"DSR":round(dsr(24),3),"interpretation":"penalty for having selected best-of-24 configs in-sample"},
-            "shuffle_null_pctile":100,"reconcile":"structure REAL (100th pctile vs temporal-shuffle); magnitude over-stated by search -> only live weeks settle it"},
+         "significance":{"committed_iid":{"t":round(t_iid,2),"p_one_sided":round(p_iid,4),"note":"INFLATED -- ignores autocorrelation, do not use"},
+            "committed_newey_west_L3":{"t":round(t_nw,2),"p_one_sided":round(p_nw,4),"interpretation":"HAC-corrected; if you COMMIT one config & never search again -- borderline-to-NOT-significant"},
+            "search_deflated_DSR":{"n24":round(dsr(24),3),"interpretation":"n=24 is a LOWER BOUND; real search ~hundreds -> DSR 0.13@n100, 0.07@n200 (see strat_sota_audit_corrected.json)"},
+            "lumpiness":"top-2 deployed weeks ~77% of OOS-ALL compound; component: breadth-alone +57% / Pwf-timing-alone -7% / full +170% -- the BREADTH gate is the robust edge"},
          "live":{"as_of":str(pd.Timestamp(idx[last]).date()),"decision":"DEPLOY" if live else "CASH","P_good_week":round(float(Pwf[last]),3),"book":live},
          "live_forward_protocol_PREREGISTERED":{
             "track":"emit weekly book each Mon 00:00 UTC from config_hash above; log realized 7d next-open return + deploy/cash",
@@ -70,10 +83,11 @@ def main():
     print(f"  config_hash: {cfg_hash}   (frozen; any change = new hash = new pre-registration)")
     print(f"  in-sample OOS {out['in_sample_oos']['window']}: compound {out['in_sample_oos']['compound_pct']:+.0f}%  "
           f"Sharpe(ann) {out['in_sample_oos']['sharpe_ann']}  deploy {deprate*100:.0f}%  ({nW} weeks)")
-    print(f"\n  SIGNIFICANCE (the honest two-number gap):")
-    print(f"    committed (n_trials=1):  t={t_stat:.2f}  one-sided p={p_committed:.4f}   <- if you freeze & stop searching")
-    print(f"    search-deflated (n=24):  DSR={dsr(24):.3f}                                 <- penalty for best-of-24 selection")
-    print(f"    shuffle-null: 100th pctile (WHEN-structure is REAL) -> only LIVE weeks settle the magnitude")
+    print(f"\n  SIGNIFICANCE (honest, autocorrelation-corrected):")
+    print(f"    iid t-test:        t={t_iid:.2f}  p={p_iid:.4f}   (INFLATED -- ignores ACF, do not use)")
+    print(f"    Newey-West(L3):    t={t_nw:.2f}  p={p_nw:.4f}   <- HAC-corrected committed sig: {'NOT significant' if p_nw>0.05 else 'significant'} even before search penalty")
+    print(f"    search-deflated DSR(n=24)={dsr(24):.3f} (LOWER BOUND; real search ~hundreds -> 0.13@n100, 0.07@n200)")
+    print(f"    lumpiness: top-2 wks ~77% of compound | component: breadth-alone +57% / Pwf-alone -7% / full +170%")
     print(f"\n  *** LIVE as of {out['live']['as_of']}: {out['live']['decision']} (P(good-week)={out['live']['P_good_week']}) ***")
     if live:
         for nm,wt in live: print(f"      {nm:<14}{wt:6.1%}")

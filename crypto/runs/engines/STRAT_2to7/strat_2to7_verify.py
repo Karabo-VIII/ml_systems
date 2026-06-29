@@ -58,7 +58,7 @@ def main():
         kk=min(K,len(e)); lab[t,e[np.argsort(-fwd[t][e])[:kk]]]=1
     tr=[t for t in range(T-SLc) if idx[t]<CUT]; te=[t for t in range(T) if idx[t]>=CUT and t<T-SLc]
     Xtr=np.vstack([Fm[t][np.where(elig[t])[0]] for t in tr if elig[t].any()]); ytr=np.concatenate([lab[t][np.where(elig[t])[0]] for t in tr if elig[t].any()])
-    mdl=GradientBoostingClassifier(n_estimators=150,max_depth=3,learning_rate=0.05,subsample=0.7).fit(Xtr,ytr)
+    mdl=GradientBoostingClassifier(n_estimators=150,max_depth=3,learning_rate=0.05,subsample=0.7,random_state=0).fit(Xtr,ytr)
     # P per bar
     P=np.full((T,A),-np.inf)
     for t in range(T):
@@ -74,7 +74,7 @@ def main():
         wb_null.append(roc_auc_score(lab[t][e], rng_.permutation(P[t][e])))
     # also per-name-only model (drop market feats) within-bar AUC
     pn_idx=[order.index(k) for k in PER_NAME]
-    Xtr_pn=Xtr[:,pn_idx]; mdl_pn=GradientBoostingClassifier(n_estimators=150,max_depth=3,learning_rate=0.05,subsample=0.7).fit(Xtr_pn,ytr)
+    Xtr_pn=Xtr[:,pn_idx]; mdl_pn=GradientBoostingClassifier(n_estimators=150,max_depth=3,learning_rate=0.05,subsample=0.7,random_state=0).fit(Xtr_pn,ytr)
     Ppn=np.full((T,A),-np.inf)
     for t in range(T):
         e=np.where(elig[t])[0]

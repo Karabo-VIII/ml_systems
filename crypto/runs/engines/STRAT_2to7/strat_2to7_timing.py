@@ -44,7 +44,7 @@ def main():
         ewfwd[t]=np.mean(np.prod(1+roo[t:t+SLc],axis=0)[e]-1.0)
     lab=(ewfwd>0).astype(int)
     tr=[t for t in range(T-SLc) if idx[t]<CUT and np.isfinite(ewfwd[t])]
-    mdl=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7).fit(Xall[tr],lab[tr])
+    mdl=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7,random_state=0).fit(Xall[tr],lab[tr])
     Pgood=mdl.predict_proba(Xall)[:,1]
     out={"check":"STRAT_2to7_cycle10_timing","ts":datetime.now().strftime("%Y%m%d_%H%M%S"),"windows":{}}
     g_brd=M.hyst(brd,0.5,0.4)

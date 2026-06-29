@@ -19,6 +19,11 @@
     "features": "core market-state: BTC-momentum, breadth, cross-sectional dispersion, trend, drawdown (nonlinear GBM)"
   },
   "config_hash": "aa5f742288022b06",
+  "lineage": {
+    "sklearn": "1.7.0",
+    "git_sha": "b0f44c14",
+    "seed": 0
+  },
   "in_sample_oos": {
     "window": "2024-05-15..2026-05-28",
     "compound_pct": 169.5,
@@ -27,17 +32,21 @@
     "deploy_rate": 0.14
   },
   "significance": {
-    "committed_n1": {
-      "t_stat": 1.7,
+    "committed_iid": {
+      "t": 1.7,
       "p_one_sided": 0.0464,
-      "interpretation": "if you COMMIT this one config & never search again"
+      "note": "INFLATED -- ignores autocorrelation, do not use"
     },
-    "search_deflated_n24": {
-      "DSR": 0.353,
-      "interpretation": "penalty for having selected best-of-24 configs in-sample"
+    "committed_newey_west_L3": {
+      "t": 1.37,
+      "p_one_sided": 0.0872,
+      "interpretation": "HAC-corrected; if you COMMIT one config & never search again -- borderline-to-NOT-significant"
     },
-    "shuffle_null_pctile": 100,
-    "reconcile": "structure REAL (100th pctile vs temporal-shuffle); magnitude over-stated by search -> only live weeks settle it"
+    "search_deflated_DSR": {
+      "n24": 0.353,
+      "interpretation": "n=24 is a LOWER BOUND; real search ~hundreds -> DSR 0.13@n100, 0.07@n200 (see strat_sota_audit_corrected.json)"
+    },
+    "lumpiness": "top-2 deployed weeks ~77% of OOS-ALL compound; component: breadth-alone +57% / Pwf-timing-alone -7% / full +170% -- the BREADTH gate is the robust edge"
   },
   "live": {
     "as_of": "2026-05-28",
@@ -61,5 +70,5 @@
     ],
     "no_touch": "do NOT re-tune features/threshold/K during live tracking -- that re-introduces the search penalty"
   },
-  "ts": "20260629_122520"
+  "ts": "20260629_124533"
 }

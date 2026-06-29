@@ -48,7 +48,7 @@ def main():
     out = {"check":"STRAT_2to7_cycle5_metalabeler","feats":FEATS,"K":K,"n_train_rows":int(len(y)),
            "base_rate":round(float(y.mean()),3),"ts":datetime.now().strftime("%Y%m%d_%H%M%S"),"models":{}}
     print(f"meta-labeler: train rows={len(y)}, base_rate(top-mover)={y.mean():.3f}")
-    models = {"GBM": GradientBoostingClassifier(n_estimators=120, max_depth=3, learning_rate=0.05, subsample=0.7),
+    models = {"GBM": GradientBoostingClassifier(n_estimators=120, max_depth=3, learning_rate=0.05, subsample=0.7, random_state=0),
               "logit": LogisticRegression(max_iter=500, C=1.0)}
     Pmats = {}
     for nm, mdl in models.items():

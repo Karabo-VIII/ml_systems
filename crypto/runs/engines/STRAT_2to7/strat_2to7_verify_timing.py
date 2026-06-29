@@ -41,7 +41,7 @@ def fit_pgood(f):
         e=np.where(elig0[t])[0]
         if len(e): ewfwd[t]=np.mean(np.prod(1+roo[t:t+SLc],axis=0)[e]-1.0)
     lab=(ewfwd>0).astype(int); tr=[t for t in range(T-SLc) if idx[t]<CUT and np.isfinite(ewfwd[t])]
-    mdl=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7).fit(X[tr],lab[tr])
+    mdl=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7,random_state=0).fit(X[tr],lab[tr])
     return mdl.predict_proba(X)[:,1], btc_trend, np.nan_to_num(mkt_dd)
 
 

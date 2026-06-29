@@ -88,7 +88,7 @@ def main():
     ytr=np.concatenate([lab[t][np.where(elig[t])[0]] for t in tr if elig[t].any()])
     Xte=np.vstack([Fm[t][np.where(elig[t])[0]] for t in te if elig[t].any()])
     yte=np.concatenate([lab[t][np.where(elig[t])[0]] for t in te if elig[t].any()])
-    mdl=GradientBoostingClassifier(n_estimators=150,max_depth=3,learning_rate=0.05,subsample=0.7).fit(Xtr,ytr)
+    mdl=GradientBoostingClassifier(n_estimators=150,max_depth=3,learning_rate=0.05,subsample=0.7,random_state=0).fit(Xtr,ytr)
     pte=mdl.predict_proba(Xte)[:,1]
     auc=roc_auc_score(yte,pte); base=float(yte.mean())
     # lift: among top-decile predicted, what's the actual top-mover rate vs base

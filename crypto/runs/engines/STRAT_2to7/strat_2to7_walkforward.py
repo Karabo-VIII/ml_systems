@@ -47,7 +47,10 @@ def walkforward_P(X,lab,ewfwd,idx,T,seed=0):
         q0=q.start_time; q1=q.end_time
         test=[t for t in range(T) if q0<=idx[t]<=q1]
         if not test: continue
-        # train: labels realized strictly before q0 (t + 7d < q0)
+        # train: labels realized strictly before q0 (t + 7d < q0).
+        # PURGE: the t+7d<q0 rule IS the walk-forward purge -- the train label window [t,t+7d] closes before the test
+        # quarter opens, so no train-outcome overlaps any test-outcome. (Distinct from the WM-pipeline PURGE_GAP_BARS=400,
+        # which is for normalization-split leakage; do NOT shrink this boundary in a future edit.)
         tr=[t for t in range(T-SLc) if idx[t]+pd.Timedelta(days=7) < q0 and np.isfinite(ewfwd[t])]
         if len(tr)<200: continue
         mdl=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7,random_state=seed).fit(X[tr],lab[tr])

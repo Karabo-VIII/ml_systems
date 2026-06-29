@@ -35,7 +35,7 @@ def wf_P(X,lab,ewfwd,idx,T,cols,model):
         if len(tr)<200: continue
         Xtr=X[np.ix_(tr,cols)];
         if model=="gbm":
-            m=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7).fit(Xtr,lab[tr])
+            m=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7,random_state=0).fit(Xtr,lab[tr])
             for t in test: P[t]=m.predict_proba(X[t:t+1,cols])[:,1][0]
         else:
             sc=StandardScaler().fit(Xtr); m=LogisticRegression(max_iter=500).fit(sc.transform(Xtr),lab[tr])

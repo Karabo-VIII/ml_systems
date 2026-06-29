@@ -1,9 +1,11 @@
-"""SOLVE-FOR-SOTA next-value: SEED-ROBUSTNESS of V5 -- the walk-forward GBM (subsample=0.7) is stochastic.
+"""SOLVE-FOR-SOTA next-value: GBM-SUBSAMPLE STABILITY of V5 -- the walk-forward GBM (subsample=0.7) is stochastic.
 
-Caught during freeze: walkforward_P had NO random_state -> V5 compound swung +168/+215/+262% across runs. Fixed
-(seed param). But that means SEED is a real robustness dimension: run V5 across seeds 0-9 and report the spread +
-how many are positive (the project's 10/10-seeds-positive bar). A strategy whose magnitude depends on the GBM seed
-is fragile in EXACTLY the way the DSR/block-boot already flagged (lumpy, few mega-weeks). Honest band, not a hero number.
+Caught during freeze: walkforward_P had NO random_state -> V5 compound swung +168/+215/+262% across runs. Fixed.
+RED-TEAM CORRECTION (wbw77ivx2): this is NOT independent-draw seed-robustness -- all 10 "seeds" share the SAME data,
+features, label, walk-forward split, and momentum book; they differ ONLY in the GBM's 70%-subsample RNG. So this
+measures GBM-SUBSAMPLE STABILITY, not out-of-sample robustness. The honest reads here are the FRAGILITY signals:
+OOS-2025 bear only 7/10 positive (FAILS the 10/10 bar), and a 133-294% magnitude swing (2.2x) on subsample alone --
+which corroborates the DSR/block-boot lumpiness finding. Do NOT cite "10/10" as robustness.
 1d, u100, momentum top-8, WF-timing gate, de-leaked, next-open, prod. lev=1 long-only.
 """
 from __future__ import annotations
@@ -38,9 +40,10 @@ def main():
         Pwf=np.nan_to_num(W.walkforward_P(X,lab,ewfwd,idx,T,seed=sd),nan=0.0); n,Wl=book_net(Pwf)
         rows["OOS-2024"].append(comp(n,(idx>=CUT)&(idx<OOS25))); rows["OOS-2025"].append(comp(n,(idx>=OOS25))); rows["OOS-ALL"].append(comp(n,(idx>=CUT)))
         live.append(round(float(Pwf[T-1]),3))
-    out={"check":"STRAT_SOTA_seed_robust","seeds":list(SEEDS),"ts":datetime.now().strftime("%Y%m%d_%H%M%S"),"windows":{},
+    out={"check":"STRAT_SOTA_gbm_subsample_stability","caveat":"NOT independent draws -- same data/split, only GBM subsample RNG varies; measures stability, not robustness",
+         "seeds":list(SEEDS),"ts":datetime.now().strftime("%Y%m%d_%H%M%S"),"windows":{},
          "live_P_by_seed":live,"live_deploy_votes":int(sum(p>0.55 for p in live))}
-    print("="*92); print("V5 SEED-ROBUSTNESS (walk-forward GBM seeds 0-9) -- honest magnitude band, not a hero number"); print("="*92)
+    print("="*92); print("V5 GBM-SUBSAMPLE STABILITY (seeds 0-9; NOT independent draws) -- fragility band, not robustness"); print("="*92)
     print(f"  {'window':<12}{'min%':>8}{'median%':>9}{'max%':>8}{'mean%':>8}{'pos/10':>8}   spread")
     print("  "+"-"*78)
     for wn,vals in rows.items():
