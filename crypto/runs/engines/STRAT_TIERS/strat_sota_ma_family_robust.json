@@ -1,0 +1,151 @@
+{
+  "check": "MA_FAMILY_robustness_battery",
+  "config": "breadth-gated de-leaked, inv-vol cap33, 14d/7d ROLLING, 1d, next-open, prod 0.0028RT",
+  "ts": "20260629_141723",
+  "windows": {
+    "OOS-2024": {
+      "btc_bh": 40.2,
+      "btc_bh_maxdd": -24.5,
+      "engines": {
+        "CONV": {
+          "comp": 64.9,
+          "maxdd": -23.5,
+          "deploy": 0.38,
+          "nw_p": 0.1231,
+          "p05": -17.4,
+          "top2_wk": 85.6,
+          "pct_pos": 0.19,
+          "dsr_n24": 0.241,
+          "vs_btc_bh": "ret+DD"
+        },
+        "SMA": {
+          "comp": 54.0,
+          "maxdd": -25.0,
+          "deploy": 0.38,
+          "nw_p": 0.152,
+          "p05": -21.6,
+          "top2_wk": 87.7,
+          "pct_pos": 0.19,
+          "dsr_n24": 0.211,
+          "vs_btc_bh": "neither"
+        },
+        "EMA": {
+          "comp": 74.5,
+          "maxdd": -23.6,
+          "deploy": 0.38,
+          "nw_p": 0.1091,
+          "p05": -13.2,
+          "top2_wk": 85.5,
+          "pct_pos": 0.22,
+          "dsr_n24": 0.258,
+          "vs_btc_bh": "ret+DD"
+        },
+        "WMA": {
+          "comp": 55.3,
+          "maxdd": -24.8,
+          "deploy": 0.38,
+          "nw_p": 0.1391,
+          "p05": -18.7,
+          "top2_wk": 87.0,
+          "pct_pos": 0.22,
+          "dsr_n24": 0.222,
+          "vs_btc_bh": "neither"
+        },
+        "VIDYA": {
+          "comp": 53.1,
+          "maxdd": -23.6,
+          "deploy": 0.38,
+          "nw_p": 0.129,
+          "p05": -15.1,
+          "top2_wk": 79.5,
+          "pct_pos": 0.19,
+          "dsr_n24": 0.239,
+          "vs_btc_bh": "ret+DD"
+        },
+        "KAMA": {
+          "comp": 62.7,
+          "maxdd": -23.4,
+          "deploy": 0.38,
+          "nw_p": 0.1369,
+          "p05": -20.4,
+          "top2_wk": 85.1,
+          "pct_pos": 0.19,
+          "dsr_n24": 0.233,
+          "vs_btc_bh": "ret+DD"
+        }
+      }
+    },
+    "OOS-2025": {
+      "btc_bh": -22.4,
+      "btc_bh_maxdd": -49.6,
+      "engines": {
+        "CONV": {
+          "comp": -17.3,
+          "maxdd": -33.2,
+          "deploy": 0.28,
+          "nw_p": 0.7291,
+          "p05": -43.6,
+          "top2_wk": null,
+          "pct_pos": 0.15,
+          "dsr_n24": 0.004,
+          "vs_btc_bh": "ret+DD"
+        },
+        "SMA": {
+          "comp": -18.7,
+          "maxdd": -33.9,
+          "deploy": 0.28,
+          "nw_p": 0.757,
+          "p05": -43.6,
+          "top2_wk": null,
+          "pct_pos": 0.14,
+          "dsr_n24": 0.003,
+          "vs_btc_bh": "ret+DD"
+        },
+        "EMA": {
+          "comp": -21.1,
+          "maxdd": -35.4,
+          "deploy": 0.28,
+          "nw_p": 0.7766,
+          "p05": -46.7,
+          "top2_wk": null,
+          "pct_pos": 0.16,
+          "dsr_n24": 0.002,
+          "vs_btc_bh": "ret+DD"
+        },
+        "WMA": {
+          "comp": -22.6,
+          "maxdd": -34.4,
+          "deploy": 0.28,
+          "nw_p": 0.7943,
+          "p05": -47.5,
+          "top2_wk": null,
+          "pct_pos": 0.14,
+          "dsr_n24": 0.002,
+          "vs_btc_bh": "DD-only"
+        },
+        "VIDYA": {
+          "comp": -22.1,
+          "maxdd": -32.7,
+          "deploy": 0.28,
+          "nw_p": 0.8726,
+          "p05": -42.2,
+          "top2_wk": null,
+          "pct_pos": 0.14,
+          "dsr_n24": 0.002,
+          "vs_btc_bh": "ret+DD"
+        },
+        "KAMA": {
+          "comp": -10.7,
+          "maxdd": -30.7,
+          "deploy": 0.28,
+          "nw_p": 0.6135,
+          "p05": -40.5,
+          "top2_wk": null,
+          "pct_pos": 0.15,
+          "dsr_n24": 0.011,
+          "vs_btc_bh": "ret+DD"
+        }
+      }
+    }
+  }
+}
