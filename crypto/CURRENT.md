@@ -206,3 +206,16 @@ timing + momentum top-8). runs/engines/STRAT_TIERS/strat_sota_v6.py + strat_sota
 - NO FALSE VICTORY: SOTA-within-constraints = a genuine but fragile timing edge, NOT a robust
   2-4%/wk. Beyond this needs data the user has ruled out, or prediction skill price data lacks.
 <!-- ============================================================================ -->
+## RED-TEAM CORRECTION (Claude, 2026-06-29) -> VERDICT: PAPER-TRADE-ONLY
+Adversarial verification (workflow wbw77ivx2, 4 lenses) REFUTED the over-kind "real-but-lumpy
+frontier" framing above. Look-ahead CLEAN, but every pre-ship STAT gate FAILS:
+- Newey-West(L3) HAC p=0.087 (the iid p=0.046 ignored autocorrelation ACF1-3 +0.13/.19/.35) ->
+  NOT significant even before the search penalty. DSR 0.13@n100 / 0.07@n200 (n=24 under-counts).
+- top-2 deployed weeks = 77% of OOS-ALL compound (remove top-5 -> NEGATIVE). p05<0 all windows.
+- COMPONENT DECOMP: breadth-alone +57% / Pwf-timing-alone -7% / full +170%. The BREADTH gate is the
+  REAL de-risking edge; the learned-timing overlay alone is NEGATIVE (only the lumpy mega-week coincidence).
+- "10/10 seeds" = GBM-subsample stability, NOT robustness (bear 7/10, 2.2x swing).
+- Reproducibility: unseeded-GBM bug fixed (seed=0); stale v6/pullback JSONs regenerated; 6 siblings seeded.
+=> V5 FROZEN (hash aa5f7422, seed=0) for PAPER-FORWARD ONLY. Pre-registered gate + 2% cap + kill-switch:
+   runs/engines/STRAT_TIERS/DEPLOY_RUNBOOK.md. Honest deployable = breadth-gated momentum (de-risk); timing magnitude unsettled.
+<!-- ============================================================================ -->
