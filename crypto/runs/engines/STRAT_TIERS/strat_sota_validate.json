@@ -1,58 +1,58 @@
 {
   "check": "STRAT_SOTA_validate_v5",
   "n_trials_for_dsr": 24,
-  "ts": "20260629_120900",
+  "ts": "20260629_122557",
   "windows": {
     "OOS-2024": {
-      "compound": 169.9,
+      "compound": 161.9,
       "n_weeks": 33,
       "dsr": {
-        "sr_wk": 0.312,
-        "sr_ann": 2.25,
+        "sr_wk": 0.316,
+        "sr_ann": 2.28,
         "sr0_haircut": 0.345,
-        "DSR": 0.394
+        "DSR": 0.402
       },
       "bootstrap": {
-        "p05_compound": -0.2,
-        "median_compound": 159.7,
-        "p95": 893.8
+        "p05_compound": -1.1,
+        "median_compound": 155.0,
+        "p95": 768.7
       }
     },
     "OOS-2025": {
-      "compound": 16.7,
+      "compound": 2.9,
       "n_weeks": 73,
       "dsr": {
-        "sr_wk": 0.084,
-        "sr_ann": 0.6,
+        "sr_wk": 0.03,
+        "sr_ann": 0.21,
         "sr0_haircut": 0.232,
-        "DSR": 0.096
+        "DSR": 0.042
       },
       "bootstrap": {
-        "p05_compound": -24.4,
-        "median_compound": 13.6,
-        "p95": 86.0
+        "p05_compound": -36.7,
+        "median_compound": -0.4,
+        "p95": 64.6
       }
     },
     "OOS-ALL": {
-      "compound": 215.1,
+      "compound": 169.5,
       "n_weeks": 106,
       "dsr": {
-        "sr_wk": 0.183,
-        "sr_ann": 1.32,
+        "sr_wk": 0.166,
+        "sr_ann": 1.19,
         "sr0_haircut": 0.192,
-        "DSR": 0.446
+        "DSR": 0.353
       },
       "bootstrap": {
-        "p05_compound": -0.4,
-        "median_compound": 185.9,
-        "p95": 1327.5
+        "p05_compound": -15.1,
+        "median_compound": 144.4,
+        "p95": 1050.7
       }
     }
   },
   "shuffle_null_OOS_ALL": {
-    "base_compound": 215.1,
-    "null_p50": -0.3,
-    "null_p95": 35.8,
+    "base_compound": 169.5,
+    "null_p50": -3.2,
+    "null_p95": 37.4,
     "pctile": 100.0
   }
 }

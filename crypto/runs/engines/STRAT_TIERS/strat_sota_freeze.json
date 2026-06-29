@@ -1,0 +1,65 @@
+{
+  "check": "STRAT_SOTA_freeze",
+  "frozen_spec": {
+    "engine": "V5 (learned deploy-timing + momentum)",
+    "universe": "u100",
+    "cadence": "1d",
+    "lookback_d": 14,
+    "slice_d": 7,
+    "gate": "breadth hysteresis(0.5/0.4) AND walk-forward GBM P(good-week|market-state) > 0.55, quarterly retrained",
+    "selection": "momentum14 top-8, inverse-vol weighted",
+    "exits": "confirmation-break + 7d time-cap, no stops/TP",
+    "fills": "next-open (open-to-open, lag-1)",
+    "cost": "prod 0.0028 RT",
+    "leverage": 1,
+    "side": "long-only spot",
+    "gbm": "GradientBoosting n_est=120 depth=3 lr=0.05 subsample=0.7 random_state=0 (SEEDED for reproducibility)",
+    "seed": 0,
+    "seed_robustness": "10/10 seeds positive OOS-2024 & OOS-ALL; 7/10 in OOS-2025 bear; magnitude band +-30-40%",
+    "features": "core market-state: BTC-momentum, breadth, cross-sectional dispersion, trend, drawdown (nonlinear GBM)"
+  },
+  "config_hash": "aa5f742288022b06",
+  "in_sample_oos": {
+    "window": "2024-05-15..2026-05-28",
+    "compound_pct": 169.5,
+    "n_weeks": 106,
+    "sharpe_ann": 1.19,
+    "deploy_rate": 0.14
+  },
+  "significance": {
+    "committed_n1": {
+      "t_stat": 1.7,
+      "p_one_sided": 0.0464,
+      "interpretation": "if you COMMIT this one config & never search again"
+    },
+    "search_deflated_n24": {
+      "DSR": 0.353,
+      "interpretation": "penalty for having selected best-of-24 configs in-sample"
+    },
+    "shuffle_null_pctile": 100,
+    "reconcile": "structure REAL (100th pctile vs temporal-shuffle); magnitude over-stated by search -> only live weeks settle it"
+  },
+  "live": {
+    "as_of": "2026-05-28",
+    "decision": "CASH",
+    "P_good_week": 0.344,
+    "book": []
+  },
+  "live_forward_protocol_PREREGISTERED": {
+    "track": "emit weekly book each Mon 00:00 UTC from config_hash above; log realized 7d next-open return + deploy/cash",
+    "min_sample": ">= 20 DEPLOYED weeks before any verdict",
+    "success_criteria_ALL": [
+      "deployed-week median > 0",
+      "compound beats 100% cash",
+      "compound beats BTC buy-hold measured ONLY over the same deployed weeks",
+      "deploy rate in [10%,35%]"
+    ],
+    "kill_criteria_ANY": [
+      "deployed-week median <= 0 over 20+ deployed weeks",
+      "compound < cash",
+      "max drawdown > 35%"
+    ],
+    "no_touch": "do NOT re-tune features/threshold/K during live tracking -- that re-introduces the search penalty"
+  },
+  "ts": "20260629_122520"
+}

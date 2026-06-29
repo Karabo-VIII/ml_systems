@@ -38,8 +38,9 @@ def features_labels(f):
     return X,(ewfwd>0).astype(int),ewfwd,idx,T
 
 
-def walkforward_P(X,lab,ewfwd,idx,T):
-    """Quarterly retrain on all data up to the quarter start (label must be fully realized: t+7d < quarter start)."""
+def walkforward_P(X,lab,ewfwd,idx,T,seed=0):
+    """Quarterly retrain on all data up to the quarter start (label must be fully realized: t+7d < quarter start).
+    seed: random_state for the GBM (subsample=0.7 is stochastic -> MUST be seeded for reproducible/frozen results)."""
     P=np.full(T,np.nan)
     qs=pd.period_range(start="2024Q3", end="2026Q3", freq="Q")
     for q in qs:
@@ -49,7 +50,7 @@ def walkforward_P(X,lab,ewfwd,idx,T):
         # train: labels realized strictly before q0 (t + 7d < q0)
         tr=[t for t in range(T-SLc) if idx[t]+pd.Timedelta(days=7) < q0 and np.isfinite(ewfwd[t])]
         if len(tr)<200: continue
-        mdl=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7).fit(X[tr],lab[tr])
+        mdl=GradientBoostingClassifier(n_estimators=120,max_depth=3,learning_rate=0.05,subsample=0.7,random_state=seed).fit(X[tr],lab[tr])
         for t in test: P[t]=mdl.predict_proba(X[t:t+1])[:,1][0]
     return P
 
