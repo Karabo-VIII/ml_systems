@@ -190,3 +190,19 @@ falsified, then fixed DRY via a shared `causal_regime(wall_ms) = btc_regime.shif
   `runs/engines/AUDIT_ORACLE_UPGRADE/wave2_concentration_frontier.json`;
   regression: `runs/engines/AUDIT_ORACLE_UPGRADE/leakfix_regression.py` (6/6 PASS).
 <!-- ============================================================================ -->
+## SOLVE-FOR-SOTA verdict (Claude, 2026-06-29) — the honest frontier
+User: "solve so we get SOTA." Stacked the 5-lens reachable levers on the V5 base (WF deploy-
+timing + momentum top-8). runs/engines/STRAT_TIERS/strat_sota_v6.py + strat_sota_validate.py.
+- NEW levers do NOT improve V5: continuous Pwf-expo ~=base (DD -20->-17), vol-target HURTS
+  (lev=1 can only de-risk; gate already does -> +168->+89%), residual-mom neutral. Convex
+  tail-exit reasoned-out (it raises concentration -> worsens the p05 problem). V5 IS the frontier.
+- V5 OOS: +168% 2024 (+3.55%/wk mean = in the 2-4% target), +14% 2025 bear, +215% all.
+- RIGOROUS VALIDATION = the ceiling: BEATS temporal-shuffle null @ 100th pctile (WHEN-structure
+  is REAL) BUT FAILS robustness floor: DSR 0.45 (<0.95, deflated by 24-config search) + block-
+  boot p05<=0 every window (OOS-2024 p05 -0%/p50 +160%/p95 +894% = extreme right-skew; rides a
+  few mega trend-weeks). => real-but-LUMPY selective timing edge. For a RETAIL WEALTH account
+  (high median + bounded DD -17..-25%) it's the right trade; for institutional always-on p05>0
+  it does not certify. Gap to +12-14%/wk oracle = un-capturable directional/which-name (rank-IC~0).
+- NO FALSE VICTORY: SOTA-within-constraints = a genuine but fragile timing edge, NOT a robust
+  2-4%/wk. Beyond this needs data the user has ruled out, or prediction skill price data lacks.
+<!-- ============================================================================ -->
