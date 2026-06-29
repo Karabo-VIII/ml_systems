@@ -1,0 +1,50 @@
+{
+  "check": "CONFIRM_single_TI",
+  "cost": 0.0028,
+  "window": "OOS 2024-05-15..2026-05",
+  "ts": "20260629_094542",
+  "engines": {
+    "RSI(7,55,40)": {
+      "blend_wk": -0.02,
+      "deploy_wk": 0.53,
+      "deploy_frac": 0.313,
+      "compound": -14.9,
+      "maxdd": -47.6
+    },
+    "BOLLINGER(15,1.5,bo)": {
+      "blend_wk": 0.46,
+      "deploy_wk": 2.29,
+      "deploy_frac": 0.313,
+      "compound": 25.3,
+      "maxdd": -42.6
+    },
+    "ADX(7,0.3)": {
+      "blend_wk": 0.09,
+      "deploy_wk": 0.98,
+      "deploy_frac": 0.297,
+      "compound": -16.1,
+      "maxdd": -56.2
+    },
+    "MACD(12,26,9)": {
+      "blend_wk": 0.2,
+      "deploy_wk": 1.35,
+      "deploy_frac": 0.313,
+      "compound": 1.1,
+      "maxdd": -44.5
+    },
+    "SUPERTREND(7,1.5)": {
+      "blend_wk": 0.07,
+      "deploy_wk": 0.71,
+      "deploy_frac": 0.313,
+      "compound": -5.9,
+      "maxdd": -44.7
+    },
+    "STOCH(14)": {
+      "blend_wk": -0.16,
+      "deploy_wk": 0.5,
+      "deploy_frac": 0.301,
+      "compound": -33.3,
+      "maxdd": -61.8
+    }
+  }
+}
