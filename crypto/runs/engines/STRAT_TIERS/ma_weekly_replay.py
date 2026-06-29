@@ -51,7 +51,9 @@ def build(window):
             d,o,h,l,c=r; hc[s]=pd.Series(held_rolling(c,_cached_band_held(ma,"1d",s,o,h,l,c,wall),LB,SLh),index=d)
         H=pd.DataFrame(hc).reindex(idx).fillna(0).reindex(columns=cols).fillna(0).to_numpy(); typ[ma]=H; conv+=H
     C=cdf.to_numpy();O=odf.to_numpy()
-    vol=cdf.pct_change().rolling(max(20,5*BPD),min_periods=10).std().to_numpy()
+    # fill_method=None (NOT the default 'pad') -> a padded/missing bar yields NaN, not a spurious 0-return that would
+    # deflate the inv-vol estimate. Consistent with ma_wealth_driver.py / ma_movecatch_engine (audit wlirg1ui9).
+    vol=cdf.pct_change(fill_method=None).rolling(max(20,5*BPD),min_periods=10).std().to_numpy()
     roo=np.full((T,A),0.0); roo[:-1]=O[1:]/np.where(O[:-1]>0,O[:-1],np.nan)-1.0; roo=np.nan_to_num(roo)
     sall=cdf.rolling(SW,min_periods=SW//2).mean().to_numpy(); vc=np.isfinite(sall).sum(axis=1)
     brd=np.where(vc>0,np.nansum((C>sall)*np.isfinite(sall),axis=1)/np.maximum(vc,1),np.nan); g=hyst(brd,0.5,0.4)

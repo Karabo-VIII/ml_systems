@@ -228,3 +228,15 @@ LO-spot/u100/1d. Refinements: "Pwf-alone -7%" is a degenerate no-breadth baselin
 lumpy 2-wk interaction); survivorship bias -> backtests overstated; fixed cap-renorm confound + share guards + 6 sibling
 seeds. ONE-LINE: did NOT get SOTA results; honest deployable = bear/chop drawdown-insurance sleeve, full V5 paper-trade-only.
 <!-- ============================================================================ -->
+## MA FAMILY robustness AUDIT (Claude, 2026-06-29; user q "are the trend-riders robust?"; refutation wlirg1ui9 all-confirmed)
+Ran the battery on the ACTUAL product (SMA/EMA/WMA/VIDYA/KAMA + CONV, breadth-gated inv-vol cap33 14d/7d rolling). Verdict:
+ROBUST AS DE-RISKED BETA, NOT AS RETURN-ALPHA.
+- NO significant alpha vs BTC-BH: OOS-2024 CONV +65% (vs BTC +40%) but NW p=0.12, p05=-17%, top-2 wks=86%, 0/6 types clear
+  even the uncorrected 0.05 bar (best EMA 0.109). ONE-WEEK-FRAGILE: drop top week -> below BTC; 2yr compound -> NEGATIVE w/o top-2 wks.
+- BEAR DD-halving IS robust + MECHANICAL: 48/52 cash weeks flat, sat out Feb-Apr 2025 crash via causally-lagged breadth gate
+  (no look-ahead; leaky run_cell cross-grid path bypassed). maxDD -33% vs BTC -50%.
+- BULL DD-match is partly path-luck (NOT mechanical); SMA/WMA actually WORSE than BTC in bull. Deployed-week win ~50% = coin-flip
+  (gate cuts SIZE, doesn't pick winners); ~62-71% zero-yield cash.
+Fixes: vol pct_change fill_method=None (was 'pad'); deployed-win-rate added; per-week-list naive-compound overstates ~13pp (use
+daily stream). Artifact: runs/engines/STRAT_TIERS/strat_sota_ma_family_robust.{py,json}. DEPLOY for risk-adjusted profile, NEVER alpha.
+<!-- ============================================================================ -->

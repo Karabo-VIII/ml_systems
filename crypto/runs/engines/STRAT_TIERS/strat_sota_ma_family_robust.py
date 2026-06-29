@@ -72,20 +72,24 @@ def main():
         out["windows"][window]={"btc_bh":round(bh,1) if bh is not None else None,"btc_bh_maxdd":round(bhdd,1) if bhdd is not None else None,"engines":{}}
         eng={"CONV":f["conv"]/len(TYPES)}; eng.update({ma:f["typ"][ma].astype(float) for ma in TYPES})
         print(f"\n  {window}  ({R.WIN[window][1]}..{R.WIN[window][2]})   BTC-BH {('%+.0f%%'%bh) if bh is not None else 'n/a'} (maxDD {('%+.0f%%'%bhdd) if bhdd is not None else 'n/a'})")
-        print(f"    {'engine':<7}{'comp%':>8}{'maxDD':>7}{'deploy':>8}{'NW_p':>7}{'p05':>8}{'top2wk':>8}{'%wk>0':>7}{'DSRn24':>8}  vs BTC-BH")
-        print("    "+"-"*86)
+        print(f"    {'engine':<7}{'comp%':>8}{'maxDD':>7}{'deploy':>8}{'NW_p':>7}{'p05':>8}{'top2wk':>8}{'depWin%':>8}{'DSRn24':>8}  vs BTC-BH")
+        print("    "+"-"*88)
         for nm,hm in eng.items():
             W=R.W_invvol(hm,f["vol"],f["g"],CAP); net,Wl=R.net_of(W,f["roo"]); n=net[wm]
-            wk=np.array([float(np.prod(1+n[i:i+SB])-1)*100 for i in range(0,len(n)-SB+1,SB)])
-            comp=float(np.prod(1+n)-1)*100; dd=maxdd(n); dep=float(np.mean(Wl.sum(axis=1)[wm]>1e-9))
+            gw=Wl.sum(axis=1)[wm]; starts=list(range(0,len(n)-SB+1,SB))
+            wk=np.array([float(np.prod(1+n[i:i+SB])-1)*100 for i in starts])
+            depmask=np.array([np.mean(gw[i:i+SB]>1e-9)>0.5 for i in starts])
+            comp=float(np.prod(1+n)-1)*100; dd=maxdd(n); dep=float(np.mean(gw>1e-9))
             t_nw,p_nw=nw_p(wk); p05=bootp05(wk); t2=topk_share(wk,2); pos=float(np.mean(wk>0)); d24=dsr(wk,24)
+            # deployed-week win rate = economically-relevant (pct_pos over ALL weeks conflates structural cash with loss)
+            dep_pos=float(np.mean(wk[depmask]>0)) if depmask.any() else 0.0
             beat=("ret+DD" if (bh is not None and comp>bh and dd>bhdd) else ("DD-only" if (bhdd is not None and dd>bhdd) else "neither"))
-            out["windows"][window]["engines"][nm]={"comp":round(comp,1),"maxdd":round(dd,1),"deploy":round(dep,2),"nw_p":round(p_nw,4),"p05":p05,"top2_wk":t2,"pct_pos":round(pos,2),"dsr_n24":d24,"vs_btc_bh":beat}
-            print(f"    {nm:<7}{comp:>+7.0f}%{dd:>+7.0f}{dep*100:>7.0f}%{p_nw:>7.3f}{(p05 if p05 is not None else 0):>+7.0f}%{(t2 if t2 is not None else 0):>7.0f}%{pos*100:>6.0f}%{(d24 if d24 is not None else 0):>8.3f}  {beat}")
+            out["windows"][window]["engines"][nm]={"comp":round(comp,1),"maxdd":round(dd,1),"deploy":round(dep,2),"nw_p":round(p_nw,4),"p05":p05,"top2_wk":t2,"pct_pos_allwks":round(pos,2),"deployed_win_rate":round(dep_pos,2),"dsr_n24":d24,"vs_btc_bh":beat}
+            print(f"    {nm:<7}{comp:>+7.0f}%{dd:>+7.0f}{dep*100:>7.0f}%{p_nw:>7.3f}{(p05 if p05 is not None else 0):>+7.0f}%{(t2 if t2 is not None else 0):>7.0f}%{dep_pos*100:>7.0f}%{(d24 if d24 is not None else 0):>8.3f}  {beat}")
     # verdict heuristic on CONV (the deployable book)
     c24=out["windows"]["OOS-2024"]["engines"]["CONV"]; c25=out["windows"]["OOS-2025"]["engines"]["CONV"]
-    print(f"\n  CONV book read: OOS-2024 comp {c24['comp']:+.0f}% (NW p {c24['nw_p']}, p05 {c24['p05']}%, top2wk {c24['top2_wk']}%, {c24['pct_pos']*100:.0f}% wk>0)")
-    print(f"                  OOS-2025 comp {c25['comp']:+.0f}% (NW p {c25['nw_p']}, p05 {c25['p05']}%, {c25['pct_pos']*100:.0f}% wk>0)")
+    print(f"\n  CONV book read: OOS-2024 comp {c24['comp']:+.0f}% (NW p {c24['nw_p']}, p05 {c24['p05']}%, top2wk {c24['top2_wk']}%, deployed-win {c24['deployed_win_rate']*100:.0f}%)")
+    print(f"                  OOS-2025 comp {c25['comp']:+.0f}% (NW p {c25['nw_p']}, p05 {c25['p05']}%, deployed-win {c25['deployed_win_rate']*100:.0f}% = coin-flip when deployed in bear)")
     print(f"    de-risking: OOS-2024 maxDD {c24['maxdd']:+.0f}% vs BTC {out['windows']['OOS-2024']['btc_bh_maxdd']}% | OOS-2025 {c25['maxdd']:+.0f}% vs BTC {out['windows']['OOS-2025']['btc_bh_maxdd']}%")
     with open(HERE/"strat_sota_ma_family_robust.json","w") as fo: json.dump(out,fo,indent=2,default=str)
     print(f"\nSaved {HERE/'strat_sota_ma_family_robust.json'}")
