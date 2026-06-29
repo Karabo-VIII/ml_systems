@@ -1,0 +1,95 @@
+{
+  "check": "QUANT_exposure_matched",
+  "pre_registered": "H0: de-risking is just lower exposure (no timing skill); H1: sleeve beats exposure-matched static on Sharpe/maxDD",
+  "ts": "20260629_225525",
+  "windows": {
+    "OOS-2024": {
+      "sleeve_avg_exposure": 0.37,
+      "sleeve": {
+        "comp": 64.9,
+        "maxdd": -23.5,
+        "sharpe": 1.82,
+        "calmar": 2.76
+      },
+      "BTC_BH": {
+        "comp": 41.4,
+        "maxdd": -24.5,
+        "sharpe": 1.36,
+        "calmar": 1.69
+      },
+      "e_BTC_static": {
+        "comp": 15.7,
+        "maxdd": -9.4,
+        "sharpe": 1.36,
+        "calmar": 1.66
+      },
+      "EWu100_BH": {
+        "comp": 38.9,
+        "maxdd": -41.7,
+        "sharpe": 1.08,
+        "calmar": 0.93
+      },
+      "e_EW_static": {
+        "comp": 17.3,
+        "maxdd": -17.4,
+        "sharpe": 1.08,
+        "calmar": 1.0
+      },
+      "sharpe_diff_sleeve_vs_eEW": {
+        "sharpe_diff_mean": 0.79,
+        "p05": -1.26,
+        "p95": 2.75,
+        "frac_gt0": 0.747
+      },
+      "maxdd_vs_proportional": {
+        "sleeve": -23.5,
+        "e*BTC_maxdd": -9.1,
+        "e*EW_maxdd": -15.4
+      }
+    },
+    "OOS-2025": {
+      "sleeve_avg_exposure": 0.25,
+      "sleeve": {
+        "comp": -17.3,
+        "maxdd": -33.2,
+        "sharpe": -0.36,
+        "calmar": -0.52
+      },
+      "BTC_BH": {
+        "comp": -22.3,
+        "maxdd": -49.7,
+        "sharpe": -0.18,
+        "calmar": -0.45
+      },
+      "e_BTC_static": {
+        "comp": -3.6,
+        "maxdd": -15.1,
+        "sharpe": -0.18,
+        "calmar": -0.24
+      },
+      "EWu100_BH": {
+        "comp": -65.3,
+        "maxdd": -75.2,
+        "sharpe": -0.65,
+        "calmar": -0.87
+      },
+      "e_EW_static": {
+        "comp": -17.5,
+        "maxdd": -24.8,
+        "sharpe": -0.65,
+        "calmar": -0.7
+      },
+      "sharpe_diff_sleeve_vs_eEW": {
+        "sharpe_diff_mean": 0.24,
+        "p05": -0.99,
+        "p95": 1.45,
+        "frac_gt0": 0.626
+      },
+      "maxdd_vs_proportional": {
+        "sleeve": -33.2,
+        "e*BTC_maxdd": -12.4,
+        "e*EW_maxdd": -18.8
+      }
+    }
+  }
+}
