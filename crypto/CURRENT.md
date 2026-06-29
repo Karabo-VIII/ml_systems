@@ -239,4 +239,11 @@ ROBUST AS DE-RISKED BETA, NOT AS RETURN-ALPHA.
   (gate cuts SIZE, doesn't pick winners); ~62-71% zero-yield cash.
 Fixes: vol pct_change fill_method=None (was 'pad'); deployed-win-rate added; per-week-list naive-compound overstates ~13pp (use
 daily stream). Artifact: runs/engines/STRAT_TIERS/strat_sota_ma_family_robust.{py,json}. DEPLOY for risk-adjusted profile, NEVER alpha.
+## QUANT referee (exposure-matched, ab037947) -> CORRECTED: MA family IS an EFFICIENT de-risked-beta sleeve
+First cut (CAPITAL-match e*underlying) said "DD-inefficient / just lower exposure" -- REFUTED: capital-match penalizes ANY
+gated book (97%-when-on timer vs diluted constant-e hold). Exposure-INVARIANT Calmar: sleeve 2.76 vs BTC 1.69/EW 0.93 = wins
+2/2 bull, 1/2 bear; vol+downside-matched DD favor sleeve 4/4; vs the actual EW-u100 universe the sleeve DOMINATES every axis
+both windows (Sharpe 1.82 vs 1.08 / -0.36 vs -0.65; maxDD -24 vs -42 / -33 vs -75). Sharpe edge POSITIVE but UNDERPOWERED
+(cash 62-72% wks; "not sig"=no power not no effect); cost+survivorship bias AGAINST sleeve. Residual cautions: lower exposure
+does most of the absolute DD-LEVEL; bull outperformance lumpy/one-week-fragile (unchanged). Artifact: strat_quant_exposure_matched.{py,json}.
 <!-- ============================================================================ -->

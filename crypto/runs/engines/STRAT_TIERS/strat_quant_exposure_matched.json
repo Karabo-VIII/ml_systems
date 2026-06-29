@@ -1,7 +1,8 @@
 {
   "check": "QUANT_exposure_matched",
-  "pre_registered": "H0: de-risking is just lower exposure (no timing skill); H1: sleeve beats exposure-matched static on Sharpe/maxDD",
-  "ts": "20260629_225525",
+  "pre_registered": "H0: de-risking is just lower exposure; H1: sleeve beats exposure-matched static on Sharpe/maxDD",
+  "CORRECTED_verdict": "capital-match REFUTED (gated-book-biased); exposure-invariant Calmar + vol/downside-matched DD + vs-EW-universe ALL favor the sleeve -> efficient de-risked beta vs its universe; Sharpe edge positive-but-underpowered (not refuted); residual: lower exposure does most of the absolute DD-level + bull return still lumpy (audit M1)",
+  "ts": "20260629_230852",
   "windows": {
     "OOS-2024": {
       "sleeve_avg_exposure": 0.37,
@@ -17,34 +18,35 @@
         "sharpe": 1.36,
         "calmar": 1.69
       },
-      "e_BTC_static": {
-        "comp": 15.7,
-        "maxdd": -9.4,
-        "sharpe": 1.36,
-        "calmar": 1.66
-      },
       "EWu100_BH": {
         "comp": 38.9,
         "maxdd": -41.7,
         "sharpe": 1.08,
         "calmar": 0.93
       },
-      "e_EW_static": {
-        "comp": 17.3,
-        "maxdd": -17.4,
-        "sharpe": 1.08,
-        "calmar": 1.0
+      "capital_match_maxdd(biased_vs_gated)": {
+        "sleeve": -23.5,
+        "e*BTC": -9.1,
+        "e*EW": -15.4
+      },
+      "RISKmatched_maxdd": {
+        "sleeve": -23.5,
+        "vol_btc": -25.2,
+        "dn_btc": -38.9,
+        "vol_ew": -30.9,
+        "dn_ew": -41.8
+      },
+      "calmar_exposure_invariant": {
+        "sleeve": 2.76,
+        "BTC": 1.69,
+        "EW": 0.93,
+        "sleeve_wins_of_2": 2
       },
       "sharpe_diff_sleeve_vs_eEW": {
         "sharpe_diff_mean": 0.79,
         "p05": -1.26,
         "p95": 2.75,
         "frac_gt0": 0.747
-      },
-      "maxdd_vs_proportional": {
-        "sleeve": -23.5,
-        "e*BTC_maxdd": -9.1,
-        "e*EW_maxdd": -15.4
       }
     },
     "OOS-2025": {
@@ -61,34 +63,35 @@
         "sharpe": -0.18,
         "calmar": -0.45
       },
-      "e_BTC_static": {
-        "comp": -3.6,
-        "maxdd": -15.1,
-        "sharpe": -0.18,
-        "calmar": -0.24
-      },
       "EWu100_BH": {
         "comp": -65.3,
         "maxdd": -75.2,
         "sharpe": -0.65,
         "calmar": -0.87
       },
-      "e_EW_static": {
-        "comp": -17.5,
-        "maxdd": -24.8,
-        "sharpe": -0.65,
-        "calmar": -0.7
+      "capital_match_maxdd(biased_vs_gated)": {
+        "sleeve": -33.2,
+        "e*BTC": -12.4,
+        "e*EW": -18.8
+      },
+      "RISKmatched_maxdd": {
+        "sleeve": -33.2,
+        "vol_btc": -33.9,
+        "dn_btc": -55.3,
+        "vol_ew": -35.8,
+        "dn_ew": -57.4
+      },
+      "calmar_exposure_invariant": {
+        "sleeve": -0.52,
+        "BTC": -0.45,
+        "EW": -0.87,
+        "sleeve_wins_of_2": 1
       },
       "sharpe_diff_sleeve_vs_eEW": {
         "sharpe_diff_mean": 0.24,
         "p05": -0.99,
         "p95": 1.45,
         "frac_gt0": 0.626
-      },
-      "maxdd_vs_proportional": {
-        "sleeve": -33.2,
-        "e*BTC_maxdd": -12.4,
-        "e*EW_maxdd": -18.8
       }
     }
   }
