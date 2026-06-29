@@ -55,7 +55,7 @@ def bootp05(wk,nb=2000):
 
 def topk_share(wk,k):
     order=np.argsort(-wk); logtot=np.sum(np.log1p(wk/100)); tot=np.exp(logtot)-1
-    if abs(tot)<1e-9: return None
+    if tot<0.10: return None   # share uninterpretable on near-zero/negative compound
     keep=np.ones(len(wk),bool); keep[order[:k]]=False
     return round((1-(np.exp(np.sum(np.log1p(wk[keep]/100)))-1)/tot)*100,1)
 

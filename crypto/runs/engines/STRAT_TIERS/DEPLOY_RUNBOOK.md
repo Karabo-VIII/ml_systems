@@ -1,4 +1,12 @@
-# V5 DEPLOY RUNBOOK — paper-trade-only (post red-team, 2026-06-29)
+# V5 DEPLOY RUNBOOK — paper-trade-only (post red-team + audit refutation, 2026-06-29)
+
+> **AUDIT UPDATE (workflow `wp5tv37do`, 4 refute-prompted lenses + adjudication, all 6 findings CONFIRMED).** Two
+> corrections folded in below: (1) the de-risking value is **bear/chop-CONDITIONAL**, not unconditional — in the
+> OOS-2024 *bull* the breadth sleeve maxDD (−36%) was *worse* than BTC buy-hold (−24%); the DD advantage is bear-only.
+> (2) The breadth-gated sleeve I called "the honest deployable" is **also not a robust return-alpha** (its own return
+> p05 = −55%, Newey-West p = 0.21, top-2 weeks = 121% of compound) — its only deployable value is the bear/chop DD
+> insurance. **Caveat:** the u100 panel is today's *surviving* universe (survivorship bias) → backtest returns are if
+> anything *overstated*, which only strengthens the not-robust verdict.
 
 **Engine:** V5 = breadth-hysteresis(0.5/0.4) gate **AND** walk-forward GBM P(good-week|market-state)>0.55 (quarterly
 retrained) **AND** conv>0 → momentum14 top-8 inverse-vol. Long-only spot, lev=1, u100, 1d, next-open fills, prod cost 0.0028 RT.
@@ -16,13 +24,17 @@ Adversarially verified (workflow `wbw77ivx2`, 4 independent red-team lenses + tr
 | Deflated-Sharpe (honest trial count ~hundreds) | DSR 0.13 @n=100, 0.07 @n=200 | ❌ ≪ 0.95 |
 | Block-bootstrap p05 (OOS-ALL) | **−15%** | ❌ not robust |
 | Concentration | **top-2 weeks = 77%** of compound (top-5 removal → −19%) | ❌ "one-or-two-weeks-from-zero" |
-| Component decomposition | breadth-alone **+57%** / Pwf-timing-alone **−7%** / full +170% | ⚠️ the breadth gate is the real edge; timing overlay alone is negative |
-| Bear (OOS-2025) | +3% (7/10 subsample fits positive, min −7%, p05 −37%) | ⚠️ fragile |
+| Component decomposition | breadth-alone **+57%** / Pwf-given-breadth **+113pp** / full +170% | ⚠️ breadth is the robust gate; the timing overlay's increment is real **in-sample** but is the lumpy 2-week interaction (not robust) |
+| Breadth sleeve's OWN return robustness | NW p=0.21, block-boot p05=**−55%**, top-2 wks=121% | ❌ the de-risking sleeve is **not** a robust return-alpha either |
+| Bear (OOS-2025) | full V5 +3% (p05 −37%); breadth sleeve −20% (p05 −43%) | ⚠️ fragile |
 
-**Honest read:** the *breadth gate* (de-risking) is the robust, real piece (+57% alone — consistent with the whole
-project's "breadth gate confirmed"). The *learned-timing overlay* only adds value by coincidentally landing 2-3 mega-weeks
-inside its deploy windows; that magnitude is not statistically settled. The shuffle-null (beats at empirical p<0.001)
-confirms the placement isn't random, but with 2 weeks carrying 77% it's a low-n coincidence test, not robust structure.
+**Honest read:** the *breadth gate* is the robust **de-risking** piece — but its value is **drawdown reduction**, not
+return-alpha (its own return is lumpy/not-robust, p05 −55%). The *learned-timing overlay*, applied on top of breadth,
+adds +113pp in-sample (full +170% vs breadth-alone +57%) by concentrating into the 2 late-2024 bull mega-weeks — that
+increment is real in-sample but **not statistically settled** (Newey-West p=0.087; remove the top-2 weeks → remainder
+p=0.22). Note: "Pwf-alone −7%" (Pwf *without* the breadth gate) is a degenerate baseline — it shows the overlay needs
+breadth, not that it's useless; the honest point is its *contribution* is the unsettled lumpy part. The shuffle-null
+(empirical p<0.001) confirms the placement isn't random, but with 2 weeks carrying 77% it's a low-n coincidence test.
 
 ## What to do now
 
@@ -57,10 +69,16 @@ confirms the placement isn't random, but with 2 weeks carrying 77% it's a low-n 
 
 ## Honest risk profile (state this to anyone who asks)
 
-V5 is **bear-fragile and lumpy**. Bear case (OOS-2025): +3% point estimate, p05 ≈ −37% on the weekly compound — the honest
-downside is roughly a one-third drawdown, not a flat year. The entire +170% OOS-ALL compound is carried by ~2-3 mega-weeks;
-miss them (outage, manual override, a kill triggered by a prior drawdown) and you underperform cash. In a sustained bear
-(no breadth-gate passage) the engine is simply cash — which is correct, not a loss. **The +170% backtest is not a plan.**
+V5 is **bear-fragile and lumpy**. Bear case (OOS-2025): full V5 +3% point estimate, p05 ≈ −37% on the weekly compound;
+the breadth sleeve −20%, p05 ≈ −43%. The honest downside is roughly a one-third drawdown, not a flat year. The entire
++170% OOS-ALL compound is carried by ~2-3 mega-weeks (both in the single late-2024 post-election blowoff); miss them
+(outage, manual override, a kill triggered by a prior drawdown) and you underperform cash. **The +170% backtest is not a plan.**
+
+**The de-risking value is BEAR/CHOP-CONDITIONAL, not unconditional.** The breadth gate reduces drawdown vs BTC buy-hold
+*only when breadth has rolled over*: bear maxDD −30% vs BTC −50% (+20pp), OOS-ALL −36% vs −50% (+14pp) — **but in the
+OOS-2024 bull the sleeve maxDD −36% was WORSE than BTC buy-hold −24% (−11pp)**. So the product is *bear/chop drawdown
+insurance*, not a free DD reduction; in a sustained bull it can draw down more than passive BTC. **Survivorship caveat:**
+the u100 panel is today's surviving universe, so every backtest return here is, if anything, *overstated*.
 
 ## Artifacts
 `strat_sota_audit_corrected.{py,json}` (the honest stats), `strat_sota_freeze.{py,json}` (frozen spec + live book),

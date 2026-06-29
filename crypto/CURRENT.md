@@ -219,3 +219,12 @@ frontier" framing above. Look-ahead CLEAN, but every pre-ship STAT gate FAILS:
 => V5 FROZEN (hash aa5f7422, seed=0) for PAPER-FORWARD ONLY. Pre-registered gate + 2% cap + kill-switch:
    runs/engines/STRAT_TIERS/DEPLOY_RUNBOOK.md. Honest deployable = breadth-gated momentum (de-risk); timing magnitude unsettled.
 <!-- ============================================================================ -->
+## AUDIT (Claude, 2026-06-29; /audit + refutation wp5tv37do, all 6 findings CONFIRMED) -> de-risking-sleeve-only
+Hardened the verdict. (1) The breadth-ALONE sleeve (the claimed deployable) FAILS robustness too: NW p=0.21, p05=-55%,
+top-2 wks=121%. (2) De-concentration sweep (top8/16/30/all): return-alpha lumpy + NOT robust at EVERY K -> lumpiness is
+structural. (3) ONLY robust value = BEAR/CHOP-CONDITIONAL drawdown reduction (sleeve bear maxDD -30% vs BTC-BH -50%; but
+OOS-2024 BULL sleeve -36% WORSE than BTC -24% -> DD-insurance is bear-only). NO robust return-alpha exists within
+LO-spot/u100/1d. Refinements: "Pwf-alone -7%" is a degenerate no-breadth baseline (Pwf|breadth adds +113pp in-sample =
+lumpy 2-wk interaction); survivorship bias -> backtests overstated; fixed cap-renorm confound + share guards + 6 sibling
+seeds. ONE-LINE: did NOT get SOTA results; honest deployable = bear/chop drawdown-insurance sleeve, full V5 paper-trade-only.
+<!-- ============================================================================ -->

@@ -60,10 +60,11 @@ def main():
         n=net[wm]; wk=np.array([float(np.prod(1+n[i:i+SB])-1) for i in range(0,len(n)-SB+1,SB)])
         comp=float(np.prod(1+n)-1)*100
         # lumpiness: contribution of top-k weeks to compound (log-additive)
-        order=np.argsort(-wk); logtot=np.sum(np.log1p(wk))
+        order=np.argsort(-wk); logtot=np.sum(np.log1p(wk)); _tot=np.exp(logtot)-1
         def topk_share(k):
             keep=np.ones(len(wk),bool); keep[order[:k]]=False
-            return round((1-(np.exp(np.sum(np.log1p(wk[keep])))-1)/(np.exp(logtot)-1))*100,1) if (np.exp(logtot)-1)!=0 else None
+            # share is only interpretable when total compound is materially away from 0 (else denominator explodes / sign-flips)
+            return round((1-(np.exp(np.sum(np.log1p(wk[keep])))-1)/_tot)*100,1) if _tot>0.10 else None
         # significance (NW + iid for contrast)
         t_nw,p_nw,neff,r1=newey_west_t(wk,3); t_iid=np.mean(wk)/(np.std(wk,ddof=1)/np.sqrt(len(wk))); p_iid=float(1-ss.t.cdf(t_iid,len(wk)-1))
         out["windows"][wn]={"compound":round(comp,1),"n_weeks":len(wk),"skew":round(float(ss.skew(wk)),2),"kurt":round(float(ss.kurtosis(wk,fisher=False)),1),

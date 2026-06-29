@@ -53,7 +53,7 @@ def bootp05(wk,nb=2000):
 
 def top2(wk):
     order=np.argsort(-wk); tot=np.exp(np.sum(np.log1p(wk/100)))-1
-    if abs(tot)<1e-9: return None
+    if tot<0.10: return None   # share uninterpretable on near-zero/negative compound (denominator explodes/sign-flips)
     keep=np.ones(len(wk),bool); keep[order[:2]]=False
     return round((1-(np.exp(np.sum(np.log1p(wk[keep]/100)))-1)/tot)*100,1)
 
