@@ -1,0 +1,343 @@
+{
+  "check": "config_regime_specialization",
+  "regime_def": "BTC vs SMA50 (bull/bear) x ER14>0.35 (trend/chop); week-start causal",
+  "ts": "20260630_200428",
+  "types": {
+    "SMA": {
+      "buckets": {
+        "FAST": {
+          "BULL_TREND_IS": 6.46,
+          "BULL_TREND_OOS": 3.15,
+          "BULL_CHOP_IS": 5.58,
+          "BULL_CHOP_OOS": 0.29,
+          "BEAR_IS": -2.29,
+          "BEAR_OOS": -1.06,
+          "turnover_per_bar": 0.569,
+          "n_configs": 22
+        },
+        "MED": {
+          "BULL_TREND_IS": 6.44,
+          "BULL_TREND_OOS": 3.59,
+          "BULL_CHOP_IS": 5.89,
+          "BULL_CHOP_OOS": -0.41,
+          "BEAR_IS": -1.64,
+          "BEAR_OOS": -0.95,
+          "turnover_per_bar": 0.314,
+          "n_configs": 22
+        },
+        "SLOW": {
+          "BULL_TREND_IS": 6.03,
+          "BULL_TREND_OOS": 2.57,
+          "BULL_CHOP_IS": 5.54,
+          "BULL_CHOP_OOS": -0.34,
+          "BEAR_IS": -1.87,
+          "BEAR_OOS": -0.47,
+          "turnover_per_bar": 0.213,
+          "n_configs": 40
+        }
+      },
+      "fast_minus_slow": {
+        "BULL_TREND_IS": 0.43,
+        "BULL_TREND_OOS": 0.58,
+        "BULL_CHOP_IS": 0.04,
+        "BULL_CHOP_OOS": 0.63,
+        "BEAR_IS": -0.42,
+        "BEAR_OOS": -0.59
+      }
+    },
+    "EMA": {
+      "buckets": {
+        "FAST": {
+          "BULL_TREND_IS": 6.42,
+          "BULL_TREND_OOS": 3.31,
+          "BULL_CHOP_IS": 5.24,
+          "BULL_CHOP_OOS": 0.66,
+          "BEAR_IS": -2.38,
+          "BEAR_OOS": -0.91,
+          "turnover_per_bar": 0.443,
+          "n_configs": 22
+        },
+        "MED": {
+          "BULL_TREND_IS": 6.23,
+          "BULL_TREND_OOS": 3.65,
+          "BULL_CHOP_IS": 5.4,
+          "BULL_CHOP_OOS": -0.02,
+          "BEAR_IS": -2.03,
+          "BEAR_OOS": -0.59,
+          "turnover_per_bar": 0.235,
+          "n_configs": 26
+        },
+        "SLOW": {
+          "BULL_TREND_IS": 6.03,
+          "BULL_TREND_OOS": 3.64,
+          "BULL_CHOP_IS": 4.77,
+          "BULL_CHOP_OOS": -0.09,
+          "BEAR_IS": -1.97,
+          "BEAR_OOS": -0.51,
+          "turnover_per_bar": 0.154,
+          "n_configs": 57
+        }
+      },
+      "fast_minus_slow": {
+        "BULL_TREND_IS": 0.39,
+        "BULL_TREND_OOS": -0.33,
+        "BULL_CHOP_IS": 0.47,
+        "BULL_CHOP_OOS": 0.75,
+        "BEAR_IS": -0.41,
+        "BEAR_OOS": -0.4
+      }
+    },
+    "WMA": {
+      "buckets": {
+        "FAST": {
+          "BULL_TREND_IS": 6.66,
+          "BULL_TREND_OOS": 2.84,
+          "BULL_CHOP_IS": 5.65,
+          "BULL_CHOP_OOS": 0.74,
+          "BEAR_IS": -2.03,
+          "BEAR_OOS": -0.75,
+          "turnover_per_bar": 0.566,
+          "n_configs": 22
+        },
+        "MED": {
+          "BULL_TREND_IS": 6.38,
+          "BULL_TREND_OOS": 3.28,
+          "BULL_CHOP_IS": 5.87,
+          "BULL_CHOP_OOS": -0.24,
+          "BEAR_IS": -1.63,
+          "BEAR_OOS": -0.6,
+          "turnover_per_bar": 0.306,
+          "n_configs": 26
+        },
+        "SLOW": {
+          "BULL_TREND_IS": 5.48,
+          "BULL_TREND_OOS": 2.77,
+          "BULL_CHOP_IS": 4.98,
+          "BULL_CHOP_OOS": -0.19,
+          "BEAR_IS": -1.3,
+          "BEAR_OOS": -0.03,
+          "turnover_per_bar": 0.196,
+          "n_configs": 58
+        }
+      },
+      "fast_minus_slow": {
+        "BULL_TREND_IS": 1.18,
+        "BULL_TREND_OOS": 0.07,
+        "BULL_CHOP_IS": 0.67,
+        "BULL_CHOP_OOS": 0.93,
+        "BEAR_IS": -0.73,
+        "BEAR_OOS": -0.72
+      }
+    },
+    "HMA": {
+      "buckets": {
+        "FAST": {
+          "BULL_TREND_IS": 5.56,
+          "BULL_TREND_OOS": 3.3,
+          "BULL_CHOP_IS": 3.98,
+          "BULL_CHOP_OOS": 0.58,
+          "BEAR_IS": -1.92,
+          "BEAR_OOS": -0.74,
+          "turnover_per_bar": 0.864,
+          "n_configs": 20
+        },
+        "MED": {
+          "BULL_TREND_IS": 6.37,
+          "BULL_TREND_OOS": 2.45,
+          "BULL_CHOP_IS": 5.19,
+          "BULL_CHOP_OOS": -0.24,
+          "BEAR_IS": -1.59,
+          "BEAR_OOS": -0.75,
+          "turnover_per_bar": 0.516,
+          "n_configs": 19
+        },
+        "SLOW": {
+          "BULL_TREND_IS": 5.93,
+          "BULL_TREND_OOS": 3.42,
+          "BULL_CHOP_IS": 5.43,
+          "BULL_CHOP_OOS": 0.35,
+          "BEAR_IS": -1.26,
+          "BEAR_OOS": -0.28,
+          "turnover_per_bar": 0.354,
+          "n_configs": 69
+        }
+      },
+      "fast_minus_slow": {
+        "BULL_TREND_IS": -0.37,
+        "BULL_TREND_OOS": -0.12,
+        "BULL_CHOP_IS": -1.45,
+        "BULL_CHOP_OOS": 0.23,
+        "BEAR_IS": -0.66,
+        "BEAR_OOS": -0.46
+      }
+    },
+    "DEMA": {
+      "buckets": {
+        "FAST": {
+          "BULL_TREND_IS": 6.66,
+          "BULL_TREND_OOS": 3.12,
+          "BULL_CHOP_IS": 5.37,
+          "BULL_CHOP_OOS": -0.21,
+          "BEAR_IS": -1.7,
+          "BEAR_OOS": -0.84,
+          "turnover_per_bar": 0.638,
+          "n_configs": 18
+        },
+        "MED": {
+          "BULL_TREND_IS": 6.71,
+          "BULL_TREND_OOS": 3.28,
+          "BULL_CHOP_IS": 6.04,
+          "BULL_CHOP_OOS": 0.21,
+          "BEAR_IS": -1.65,
+          "BEAR_OOS": -0.95,
+          "turnover_per_bar": 0.367,
+          "n_configs": 26
+        },
+        "SLOW": {
+          "BULL_TREND_IS": 6.25,
+          "BULL_TREND_OOS": 4.6,
+          "BULL_CHOP_IS": 5.36,
+          "BULL_CHOP_OOS": 0.11,
+          "BEAR_IS": -1.66,
+          "BEAR_OOS": -1.17,
+          "turnover_per_bar": 0.229,
+          "n_configs": 70
+        }
+      },
+      "fast_minus_slow": {
+        "BULL_TREND_IS": 0.41,
+        "BULL_TREND_OOS": -1.48,
+        "BULL_CHOP_IS": 0.01,
+        "BULL_CHOP_OOS": -0.32,
+        "BEAR_IS": -0.04,
+        "BEAR_OOS": 0.33
+      }
+    },
+    "TEMA": {
+      "buckets": {
+        "FAST": {
+          "BULL_TREND_IS": 5.87,
+          "BULL_TREND_OOS": 4.19,
+          "BULL_CHOP_IS": 4.82,
+          "BULL_CHOP_OOS": -0.25,
+          "BEAR_IS": -2.06,
+          "BEAR_OOS": -0.51,
+          "turnover_per_bar": 0.815,
+          "n_configs": 18
+        },
+        "MED": {
+          "BULL_TREND_IS": 6.89,
+          "BULL_TREND_OOS": 3.11,
+          "BULL_CHOP_IS": 5.95,
+          "BULL_CHOP_OOS": -0.08,
+          "BEAR_IS": -1.4,
+          "BEAR_OOS": -1.04,
+          "turnover_per_bar": 0.478,
+          "n_configs": 25
+        },
+        "SLOW": {
+          "BULL_TREND_IS": 6.8,
+          "BULL_TREND_OOS": 3.66,
+          "BULL_CHOP_IS": 5.71,
+          "BULL_CHOP_OOS": 0.52,
+          "BEAR_IS": -1.59,
+          "BEAR_OOS": -0.96,
+          "turnover_per_bar": 0.311,
+          "n_configs": 69
+        }
+      },
+      "fast_minus_slow": {
+        "BULL_TREND_IS": -0.93,
+        "BULL_TREND_OOS": 0.53,
+        "BULL_CHOP_IS": -0.89,
+        "BULL_CHOP_OOS": -0.77,
+        "BEAR_IS": -0.47,
+        "BEAR_OOS": 0.45
+      }
+    },
+    "KAMA": {
+      "buckets": {
+        "FAST": {
+          "BULL_TREND_IS": 2.81,
+          "BULL_TREND_OOS": 1.72,
+          "BULL_CHOP_IS": 1.03,
+          "BULL_CHOP_OOS": 0.19,
+          "BEAR_IS": -0.55,
+          "BEAR_OOS": -1.21,
+          "turnover_per_bar": 0.071,
+          "n_configs": 20
+        },
+        "MED": {
+          "BULL_TREND_IS": 3.52,
+          "BULL_TREND_OOS": 1.54,
+          "BULL_CHOP_IS": 0.86,
+          "BULL_CHOP_OOS": 0.4,
+          "BEAR_IS": -0.64,
+          "BEAR_OOS": -0.81,
+          "turnover_per_bar": 0.035,
+          "n_configs": 17
+        },
+        "SLOW": {
+          "BULL_TREND_IS": 3.13,
+          "BULL_TREND_OOS": 0.63,
+          "BULL_CHOP_IS": 1.3,
+          "BULL_CHOP_OOS": -0.19,
+          "BEAR_IS": -0.66,
+          "BEAR_OOS": -0.3,
+          "turnover_per_bar": 0.022,
+          "n_configs": 37
+        }
+      },
+      "fast_minus_slow": {
+        "BULL_TREND_IS": -0.32,
+        "BULL_TREND_OOS": 1.09,
+        "BULL_CHOP_IS": -0.27,
+        "BULL_CHOP_OOS": 0.38,
+        "BEAR_IS": 0.11,
+        "BEAR_OOS": -0.91
+      }
+    },
+    "VIDYA": {
+      "buckets": {
+        "FAST": {
+          "BULL_TREND_IS": 2.99,
+          "BULL_TREND_OOS": 1.57,
+          "BULL_CHOP_IS": 0.88,
+          "BULL_CHOP_OOS": 0.36,
+          "BEAR_IS": -0.07,
+          "BEAR_OOS": -0.77,
+          "turnover_per_bar": 0.026,
+          "n_configs": 22
+        },
+        "MED": {
+          "BULL_TREND_IS": 2.55,
+          "BULL_TREND_OOS": 0.47,
+          "BULL_CHOP_IS": 1.1,
+          "BULL_CHOP_OOS": -0.2,
+          "BEAR_IS": -0.3,
+          "BEAR_OOS": -0.22,
+          "turnover_per_bar": 0.014,
+          "n_configs": 25
+        },
+        "SLOW": {
+          "BULL_TREND_IS": 2.09,
+          "BULL_TREND_OOS": 0.79,
+          "BULL_CHOP_IS": 1.45,
+          "BULL_CHOP_OOS": -0.34,
+          "BEAR_IS": -0.43,
+          "BEAR_OOS": -0.53,
+          "turnover_per_bar": 0.013,
+          "n_configs": 27
+        }
+      },
+      "fast_minus_slow": {
+        "BULL_TREND_IS": 0.9,
+        "BULL_TREND_OOS": 0.78,
+        "BULL_CHOP_IS": -0.57,
+        "BULL_CHOP_OOS": 0.7,
+        "BEAR_IS": 0.36,
+        "BEAR_OOS": -0.24
+      }
+    }
+  }
+}
