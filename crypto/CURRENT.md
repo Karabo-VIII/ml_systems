@@ -239,6 +239,14 @@ ROBUST AS DE-RISKED BETA, NOT AS RETURN-ALPHA.
   (gate cuts SIZE, doesn't pick winners); ~62-71% zero-yield cash.
 Fixes: vol pct_change fill_method=None (was 'pad'); deployed-win-rate added; per-week-list naive-compound overstates ~13pp (use
 daily stream). Artifact: runs/engines/STRAT_TIERS/strat_sota_ma_family_robust.{py,json}. DEPLOY for risk-adjusted profile, NEVER alpha.
+## DEPLOYABLE CANDIDATES (Claude /orc, 2026-06-30) -- single SMA engine + gate design grid -> DEPLOY_CANDIDATES.md
+All 8 MA types == 1 engine (corr 0.97, n_eff~1) -> deploy ONE type (SMA). Config/speed/type = noise; the GATE is the only real
+lever. Built the full gate design space, graded OOS-2024/2025/ALL vs BTC-BH (Calmar 0.22):
+- CONTINUOUS breadth gate REFUTED (+2%/-48% vs binary +26%/-34%; soft cutoff bleeds the bear).
+- 2 DEPLOYABLE (positive full-cycle, maxDD<35%, beat BTC Calmar): A) BIN_breadth (current) +26% OOS-ALL/-34%DD/Calmar0.78
+  = WEALTH-MAX; B) BIN_x_ER (breadth + trend-efficiency ER>0.35) +11%/-21%DD/OOS-2025~FLAT = CAPITAL-PRESERVATION, ROBUST
+  across ER thr 0.25-0.45 (bear in [-8,+5]%). Both de-risked beta (NW p>0.05, p05<0), NOT alpha. Live 2026-05-28 = CASH (breadth 0.38).
+  RECOMMEND B as lead (does the de-risking the MA family is actually good at: ~flat bear, half DD, robustly).
 ## QUANT referee (exposure-matched, ab037947) -> CORRECTED: MA family IS an EFFICIENT de-risked-beta sleeve
 First cut (CAPITAL-match e*underlying) said "DD-inefficient / just lower exposure" -- REFUTED: capital-match penalizes ANY
 gated book (97%-when-on timer vs diluted constant-e hold). Exposure-INVARIANT Calmar: sleeve 2.76 vs BTC 1.69/EW 0.93 = wins
