@@ -1,0 +1,291 @@
+{
+  "check": "deployable_candidates",
+  "engine": "SMA full band, 14d/7d, invvol cap33, next-open, prod",
+  "ts": "20260630_203529",
+  "btc_bh": {
+    "OOS-2024": {
+      "comp": 42.8,
+      "maxdd": -24.5,
+      "calmar": 1.75
+    },
+    "OOS-2025": {
+      "comp": -22.3,
+      "maxdd": -49.7,
+      "calmar": -0.45
+    },
+    "OOS-ALL": {
+      "comp": 10.9,
+      "maxdd": -49.7,
+      "calmar": 0.22
+    }
+  },
+  "candidates": {
+    "NONE": {
+      "OOS-2024": {
+        "comp": 77.8,
+        "maxdd": -32.6,
+        "deploy": 0.96,
+        "wk_mean": 2.18,
+        "pct_pos": 0.58,
+        "sharpe": 1.8,
+        "calmar": 2.38,
+        "dep_win": 0.56,
+        "nw_p": 0.126,
+        "p05": -26.3
+      },
+      "OOS-2025": {
+        "comp": -31.8,
+        "maxdd": -57.4,
+        "deploy": 0.95,
+        "wk_mean": -0.36,
+        "pct_pos": 0.42,
+        "sharpe": -0.31,
+        "calmar": -0.55,
+        "dep_win": 0.44,
+        "nw_p": 0.728,
+        "p05": -66.3
+      },
+      "OOS-ALL": {
+        "comp": 21.2,
+        "maxdd": -57.4,
+        "deploy": 0.95,
+        "wk_mean": 0.43,
+        "pct_pos": 0.47,
+        "sharpe": 0.44,
+        "calmar": 0.37,
+        "dep_win": 0.48,
+        "nw_p": 0.281,
+        "p05": -63.6
+      }
+    },
+    "BIN_breadth": {
+      "OOS-2024": {
+        "comp": 55.6,
+        "maxdd": -25.0,
+        "deploy": 0.38,
+        "wk_mean": 1.64,
+        "pct_pos": 0.18,
+        "sharpe": 1.67,
+        "calmar": 2.23,
+        "dep_win": 0.46,
+        "nw_p": 0.175,
+        "p05": -26.4
+      },
+      "OOS-2025": {
+        "comp": -18.7,
+        "maxdd": -33.9,
+        "deploy": 0.28,
+        "wk_mean": -0.23,
+        "pct_pos": 0.14,
+        "sharpe": -0.36,
+        "calmar": -0.55,
+        "dep_win": 0.43,
+        "nw_p": 0.757,
+        "p05": -43.6
+      },
+      "OOS-ALL": {
+        "comp": 26.5,
+        "maxdd": -33.9,
+        "deploy": 0.31,
+        "wk_mean": 0.36,
+        "pct_pos": 0.15,
+        "sharpe": 0.5,
+        "calmar": 0.78,
+        "dep_win": 0.44,
+        "nw_p": 0.28,
+        "p05": -47.7
+      }
+    },
+    "CONT_breadth": {
+      "OOS-2024": {
+        "comp": 63.4,
+        "maxdd": -23.5,
+        "deploy": 0.4,
+        "wk_mean": 1.79,
+        "pct_pos": 0.21,
+        "sharpe": 1.82,
+        "calmar": 2.69,
+        "dep_win": 0.47,
+        "nw_p": 0.149,
+        "p05": -20.3
+      },
+      "OOS-2025": {
+        "comp": -37.8,
+        "maxdd": -48.4,
+        "deploy": 0.33,
+        "wk_mean": -0.57,
+        "pct_pos": 0.15,
+        "sharpe": -0.88,
+        "calmar": -0.78,
+        "dep_win": 0.44,
+        "nw_p": 0.911,
+        "p05": -62.5
+      },
+      "OOS-ALL": {
+        "comp": 1.6,
+        "maxdd": -48.4,
+        "deploy": 0.35,
+        "wk_mean": 0.17,
+        "pct_pos": 0.17,
+        "sharpe": 0.21,
+        "calmar": 0.03,
+        "dep_win": 0.45,
+        "nw_p": 0.397,
+        "p05": -60.0
+      }
+    },
+    "BIN_x_ER": {
+      "OOS-2024": {
+        "comp": 13.0,
+        "maxdd": -20.6,
+        "deploy": 0.18,
+        "wk_mean": 0.5,
+        "pct_pos": 0.12,
+        "sharpe": 0.74,
+        "calmar": 0.63,
+        "dep_win": 0.5,
+        "nw_p": 0.335,
+        "p05": -33.2
+      },
+      "OOS-2025": {
+        "comp": -1.5,
+        "maxdd": -20.5,
+        "deploy": 0.1,
+        "wk_mean": 0.0,
+        "pct_pos": 0.1,
+        "sharpe": 0.03,
+        "calmar": -0.07,
+        "dep_win": 0.33,
+        "nw_p": 0.497,
+        "p05": -27.2
+      },
+      "OOS-ALL": {
+        "comp": 11.3,
+        "maxdd": -20.6,
+        "deploy": 0.12,
+        "wk_mean": 0.16,
+        "pct_pos": 0.1,
+        "sharpe": 0.34,
+        "calmar": 0.55,
+        "dep_win": 0.42,
+        "nw_p": 0.345,
+        "p05": -38.1
+      }
+    },
+    "CONT_x_ER": {
+      "OOS-2024": {
+        "comp": 38.9,
+        "maxdd": -19.3,
+        "deploy": 0.28,
+        "wk_mean": 1.17,
+        "pct_pos": 0.24,
+        "sharpe": 1.58,
+        "calmar": 2.01,
+        "dep_win": 0.7,
+        "nw_p": 0.207,
+        "p05": -23.8
+      },
+      "OOS-2025": {
+        "comp": -29.7,
+        "maxdd": -39.2,
+        "deploy": 0.21,
+        "wk_mean": -0.41,
+        "pct_pos": 0.15,
+        "sharpe": -0.81,
+        "calmar": -0.76,
+        "dep_win": 0.38,
+        "nw_p": 0.879,
+        "p05": -56.7
+      },
+      "OOS-ALL": {
+        "comp": -2.4,
+        "maxdd": -41.9,
+        "deploy": 0.23,
+        "wk_mean": 0.08,
+        "pct_pos": 0.18,
+        "sharpe": 0.11,
+        "calmar": -0.06,
+        "dep_win": 0.52,
+        "nw_p": 0.439,
+        "p05": -55.0
+      }
+    },
+    "SELF": {
+      "OOS-2024": {
+        "comp": 92.7,
+        "maxdd": -29.4,
+        "deploy": 0.95,
+        "wk_mean": 2.42,
+        "pct_pos": 0.52,
+        "sharpe": 2.03,
+        "calmar": 3.15,
+        "dep_win": 0.5,
+        "nw_p": 0.098,
+        "p05": -17.4
+      },
+      "OOS-2025": {
+        "comp": -23.0,
+        "maxdd": -51.0,
+        "deploy": 0.93,
+        "wk_mean": -0.21,
+        "pct_pos": 0.44,
+        "sharpe": -0.15,
+        "calmar": -0.45,
+        "dep_win": 0.47,
+        "nw_p": 0.648,
+        "p05": -59.6
+      },
+      "OOS-ALL": {
+        "comp": 48.4,
+        "maxdd": -51.0,
+        "deploy": 0.93,
+        "wk_mean": 0.61,
+        "pct_pos": 0.46,
+        "sharpe": 0.63,
+        "calmar": 0.95,
+        "dep_win": 0.48,
+        "nw_p": 0.2,
+        "p05": -53.8
+      }
+    },
+    "CONT_x_SELF": {
+      "OOS-2024": {
+        "comp": 65.6,
+        "maxdd": -23.4,
+        "deploy": 0.4,
+        "wk_mean": 1.83,
+        "pct_pos": 0.21,
+        "sharpe": 1.87,
+        "calmar": 2.8,
+        "dep_win": 0.47,
+        "nw_p": 0.144,
+        "p05": -18.9
+      },
+      "OOS-2025": {
+        "comp": -37.9,
+        "maxdd": -48.7,
+        "deploy": 0.33,
+        "wk_mean": -0.57,
+        "pct_pos": 0.15,
+        "sharpe": -0.88,
+        "calmar": -0.78,
+        "dep_win": 0.44,
+        "nw_p": 0.912,
+        "p05": -62.6
+      },
+      "OOS-ALL": {
+        "comp": 2.8,
+        "maxdd": -48.7,
+        "deploy": 0.35,
+        "wk_mean": 0.18,
+        "pct_pos": 0.17,
+        "sharpe": 0.23,
+        "calmar": 0.06,
+        "dep_win": 0.45,
+        "nw_p": 0.39,
+        "p05": -59.5
+      }
+    }
+  },
+  "btc_all_calmar": 0.22
+}

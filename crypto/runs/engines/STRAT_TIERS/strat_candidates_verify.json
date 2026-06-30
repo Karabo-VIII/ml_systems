@@ -1,0 +1,58 @@
+{
+  "check": "candidates_verify",
+  "ts": "20260630_203723",
+  "er_threshold_sweep": {
+    "0.25": {
+      "oos24": 20.2,
+      "oos25": -6.3,
+      "oosall": 12.6,
+      "maxdd": -24.5,
+      "deploy": 0.18
+    },
+    "0.3": {
+      "oos24": 26.5,
+      "oos25": -4.1,
+      "oosall": 21.4,
+      "maxdd": -22.7,
+      "deploy": 0.15
+    },
+    "0.35": {
+      "oos24": 13.0,
+      "oos25": -1.5,
+      "oosall": 11.3,
+      "maxdd": -20.6,
+      "deploy": 0.12
+    },
+    "0.4": {
+      "oos24": 8.4,
+      "oos25": -7.5,
+      "oosall": 0.3,
+      "maxdd": -22.2,
+      "deploy": 0.1
+    },
+    "0.45": {
+      "oos24": 23.1,
+      "oos25": 4.6,
+      "oosall": 28.8,
+      "maxdd": -18.0,
+      "deploy": 0.08
+    }
+  },
+  "live": {
+    "as_of": "2026-05-28",
+    "breadth": 0.377,
+    "breadth_gate_open": false,
+    "market_ER": 0.598,
+    "ER_gate_open(thr0.35)": true,
+    "BIN_breadth": {
+      "decision": "CASH",
+      "n_names": 0,
+      "book": []
+    },
+    "BIN_x_ER": {
+      "decision": "CASH",
+      "n_names": 0,
+      "book": []
+    }
+  }
+}
