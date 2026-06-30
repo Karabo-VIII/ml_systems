@@ -1,0 +1,79 @@
+{
+  "check": "ti_decorrelation",
+  "ts": "20260630_204508",
+  "standalone": {
+    "SMA": {
+      "OOS-2024": {
+        "comp": 55.6,
+        "maxdd": -25.0,
+        "calmar": 2.23
+      },
+      "OOS-2025": {
+        "comp": -18.7,
+        "maxdd": -33.9,
+        "calmar": -0.55
+      },
+      "OOS-ALL": {
+        "comp": 26.5,
+        "maxdd": -33.9,
+        "calmar": 0.78
+      }
+    },
+    "RSI": {
+      "OOS-2024": {
+        "comp": 48.4,
+        "maxdd": -25.0,
+        "calmar": 1.94
+      },
+      "OOS-2025": {
+        "comp": -29.3,
+        "maxdd": -35.7,
+        "calmar": -0.82
+      },
+      "OOS-ALL": {
+        "comp": 4.8,
+        "maxdd": -39.3,
+        "calmar": 0.12
+      }
+    },
+    "BOLL": {
+      "OOS-2024": {
+        "comp": 66.7,
+        "maxdd": -24.9,
+        "calmar": 2.67
+      },
+      "OOS-2025": {
+        "comp": -16.0,
+        "maxdd": -30.7,
+        "calmar": -0.52
+      },
+      "OOS-ALL": {
+        "comp": 39.9,
+        "maxdd": -32.7,
+        "calmar": 1.22
+      }
+    },
+    "ADX": {
+      "OOS-2024": {
+        "comp": 29.2,
+        "maxdd": -29.5,
+        "calmar": 0.99
+      },
+      "OOS-2025": {
+        "comp": -36.3,
+        "maxdd": -45.3,
+        "calmar": -0.8
+      },
+      "OOS-ALL": {
+        "comp": -17.7,
+        "maxdd": -51.1,
+        "calmar": -0.35
+      }
+    }
+  },
+  "corr_vs_SMA": {
+    "RSI": 0.97,
+    "BOLL": 0.93,
+    "ADX": 0.87
+  }
+}
