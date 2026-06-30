@@ -1,0 +1,102 @@
+{
+  "check": "regime_gate_compare_SMA",
+  "ts": "20260630_201214",
+  "windows": {
+    "OOS-2024": {
+      "gates": {
+        "NONE (no gate)": {
+          "comp": 76.0,
+          "maxdd": -32.6,
+          "deploy": 0.97,
+          "wk_mean": 2.44,
+          "pct_pos": 0.59,
+          "nw_p": 0.108,
+          "p05": -20.9
+        },
+        "SHARED breadth (OLD)": {
+          "comp": 54.0,
+          "maxdd": -25.0,
+          "deploy": 0.38,
+          "wk_mean": 1.89,
+          "pct_pos": 0.19,
+          "nw_p": 0.152,
+          "p05": -21.6
+        },
+        "SELF per-asset": {
+          "comp": 90.7,
+          "maxdd": -29.4,
+          "deploy": 0.97,
+          "wk_mean": 2.68,
+          "pct_pos": 0.53,
+          "nw_p": 0.084,
+          "p05": -12.2
+        },
+        "BOTH (shared&self)": {
+          "comp": 56.2,
+          "maxdd": -24.0,
+          "deploy": 0.38,
+          "wk_mean": 1.93,
+          "pct_pos": 0.19,
+          "nw_p": 0.146,
+          "p05": -20.3
+        }
+      },
+      "mover_miss": {
+        "n_shared_closed_wks": 21,
+        "n_shared_open_wks": 11,
+        "NONE_ret_in_shared_CLOSED_wks_mean": -0.18,
+        "NONE_ret_in_shared_CLOSED_wks_median": 0.44,
+        "NONE_compound_in_CLOSED_wks": -7.5,
+        "NONE_ret_in_shared_OPEN_wks_mean": 7.44
+      }
+    },
+    "OOS-2025": {
+      "gates": {
+        "NONE (no gate)": {
+          "comp": -31.8,
+          "maxdd": -57.4,
+          "deploy": 0.96,
+          "wk_mean": -0.36,
+          "pct_pos": 0.42,
+          "nw_p": 0.728,
+          "p05": -66.3
+        },
+        "SHARED breadth (OLD)": {
+          "comp": -18.7,
+          "maxdd": -33.9,
+          "deploy": 0.29,
+          "wk_mean": -0.23,
+          "pct_pos": 0.14,
+          "nw_p": 0.757,
+          "p05": -43.6
+        },
+        "SELF per-asset": {
+          "comp": -23.0,
+          "maxdd": -51.0,
+          "deploy": 0.93,
+          "wk_mean": -0.21,
+          "pct_pos": 0.44,
+          "nw_p": 0.648,
+          "p05": -59.6
+        },
+        "BOTH (shared&self)": {
+          "comp": -19.5,
+          "maxdd": -33.5,
+          "deploy": 0.29,
+          "wk_mean": -0.24,
+          "pct_pos": 0.14,
+          "nw_p": 0.776,
+          "p05": -44.3
+        }
+      },
+      "mover_miss": {
+        "n_shared_closed_wks": 51,
+        "n_shared_open_wks": 22,
+        "NONE_ret_in_shared_CLOSED_wks_mean": -1.21,
+        "NONE_ret_in_shared_CLOSED_wks_median": -0.26,
+        "NONE_compound_in_CLOSED_wks": -49.6,
+        "NONE_ret_in_shared_OPEN_wks_mean": 1.63
+      }
+    }
+  }
+}
