@@ -1,0 +1,87 @@
+{
+  "check": "QUANT_layer_config",
+  "ts": "20260630_174921",
+  "Q1_layer_ablation": {
+    "OOS-2024": {
+      "ungated|EW": {
+        "comp": 65.5,
+        "maxdd": -44.4,
+        "nw_p": 0.139
+      },
+      "ungated|invvol": {
+        "comp": 115.5,
+        "maxdd": -36.9,
+        "nw_p": 0.072
+      },
+      "ungated|invvol_cap33": {
+        "comp": 98.6,
+        "maxdd": -28.0,
+        "nw_p": 0.074
+      },
+      "GATED|EW": {
+        "comp": 48.6,
+        "maxdd": -33.8,
+        "nw_p": 0.163
+      },
+      "GATED|invvol": {
+        "comp": 71.2,
+        "maxdd": -23.5,
+        "nw_p": 0.114
+      },
+      "GATED|invvol_cap33": {
+        "comp": 64.9,
+        "maxdd": -23.5,
+        "nw_p": 0.123
+      }
+    },
+    "OOS-2025": {
+      "ungated|EW": {
+        "comp": -60.5,
+        "maxdd": -76.3,
+        "nw_p": 0.798
+      },
+      "ungated|invvol": {
+        "comp": -53.9,
+        "maxdd": -71.2,
+        "nw_p": 0.873
+      },
+      "ungated|invvol_cap33": {
+        "comp": -39.9,
+        "maxdd": -58.5,
+        "nw_p": 0.81
+      },
+      "GATED|EW": {
+        "comp": -25.9,
+        "maxdd": -39.3,
+        "nw_p": 0.748
+      },
+      "GATED|invvol": {
+        "comp": -18.2,
+        "maxdd": -33.0,
+        "nw_p": 0.746
+      },
+      "GATED|invvol_cap33": {
+        "comp": -17.3,
+        "maxdd": -33.2,
+        "nw_p": 0.729
+      }
+    }
+  },
+  "Q2_config_significance": {
+    "cell": "WMA|1d",
+    "n_band": 106,
+    "n_2MA": 52,
+    "n_3MA": 54,
+    "mean_pairwise_corr_exposure": 0.565,
+    "effective_N_configs": 2.6,
+    "of_total": 106,
+    "per_config_OOS_compound": {
+      "median": -12.2,
+      "std": 26.7,
+      "min": -53.2,
+      "max": 64.0
+    },
+    "TRAIN_to_OOS_rank_persistence_spearman": -0.009,
+    "persistence_p": 0.93
+  }
+}
