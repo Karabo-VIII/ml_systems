@@ -1,0 +1,169 @@
+{
+  "check": "consistency",
+  "ts": "20260630_220728",
+  "horizons": {
+    "WEEK(7d)": {
+      "A_trend_BIN": {
+        "n": 106,
+        "pct_pos": 0.15,
+        "streak": 5,
+        "worst": -9.7,
+        "mean": 0.36,
+        "ret_vol": 0.07
+      },
+      "B_trend_ER": {
+        "n": 106,
+        "pct_pos": 0.1,
+        "streak": 4,
+        "worst": -10.2,
+        "mean": 0.16,
+        "ret_vol": 0.05
+      },
+      "TREND_plus_MR": {
+        "n": 106,
+        "pct_pos": 0.16,
+        "streak": 5,
+        "worst": -9.6,
+        "mean": 0.25,
+        "ret_vol": 0.05
+      },
+      "PARTIAL_alwaysIn": {
+        "n": 106,
+        "pct_pos": 0.49,
+        "streak": 6,
+        "worst": -9.7,
+        "mean": 0.31,
+        "ret_vol": 0.06
+      },
+      "BH_BTC": {
+        "n": 106,
+        "pct_pos": 0.54,
+        "streak": 5,
+        "worst": -18.0,
+        "mean": 0.27,
+        "ret_vol": 0.05
+      }
+    },
+    "MONTH(30d)": {
+      "A_trend_BIN": {
+        "n": 24,
+        "pct_pos": 0.33,
+        "streak": 2,
+        "worst": -15.2,
+        "mean": 1.68,
+        "ret_vol": 0.13
+      },
+      "B_trend_ER": {
+        "n": 24,
+        "pct_pos": 0.25,
+        "streak": 2,
+        "worst": -11.6,
+        "mean": 0.72,
+        "ret_vol": 0.1
+      },
+      "TREND_plus_MR": {
+        "n": 24,
+        "pct_pos": 0.29,
+        "streak": 2,
+        "worst": -15.9,
+        "mean": 1.2,
+        "ret_vol": 0.09
+      },
+      "PARTIAL_alwaysIn": {
+        "n": 24,
+        "pct_pos": 0.38,
+        "streak": 4,
+        "worst": -14.8,
+        "mean": 1.53,
+        "ret_vol": 0.12
+      },
+      "BH_BTC": {
+        "n": 24,
+        "pct_pos": 0.5,
+        "streak": 4,
+        "worst": -22.0,
+        "mean": 1.72,
+        "ret_vol": 0.12
+      }
+    },
+    "QUARTER(90d)": {
+      "A_trend_BIN": {
+        "n": 8,
+        "pct_pos": 0.5,
+        "streak": 1,
+        "worst": -20.0,
+        "mean": 4.47,
+        "ret_vol": 0.24
+      },
+      "B_trend_ER": {
+        "n": 8,
+        "pct_pos": 0.5,
+        "streak": 2,
+        "worst": -12.5,
+        "mean": 1.77,
+        "ret_vol": 0.23
+      },
+      "TREND_plus_MR": {
+        "n": 8,
+        "pct_pos": 0.38,
+        "streak": 2,
+        "worst": -23.5,
+        "mean": 3.13,
+        "ret_vol": 0.16
+      },
+      "PARTIAL_alwaysIn": {
+        "n": 8,
+        "pct_pos": 0.5,
+        "streak": 3,
+        "worst": -16.8,
+        "mean": 3.82,
+        "ret_vol": 0.23
+      },
+      "BH_BTC": {
+        "n": 8,
+        "pct_pos": 0.62,
+        "streak": 2,
+        "worst": -27.8,
+        "mean": 4.54,
+        "ret_vol": 0.22
+      }
+    }
+  },
+  "grade": {
+    "A_trend_BIN": {
+      "comp": 26.5,
+      "maxdd": -33.9,
+      "calmar": 0.78,
+      "nw_p": 0.28,
+      "p05": -48.2
+    },
+    "B_trend_ER": {
+      "comp": 11.3,
+      "maxdd": -20.6,
+      "calmar": 0.55,
+      "nw_p": 0.345,
+      "p05": -38.1
+    },
+    "TREND_plus_MR": {
+      "comp": 12.8,
+      "maxdd": -39.5,
+      "calmar": 0.32,
+      "nw_p": 0.341,
+      "p05": -54.0
+    },
+    "PARTIAL_alwaysIn": {
+      "comp": 22.4,
+      "maxdd": -36.3,
+      "calmar": 0.62,
+      "nw_p": 0.298,
+      "p05": -45.9
+    },
+    "BH_BTC": {
+      "comp": 10.9,
+      "maxdd": -49.7,
+      "calmar": 0.22,
+      "nw_p": 0.321,
+      "p05": -60.8
+    }
+  }
+}
