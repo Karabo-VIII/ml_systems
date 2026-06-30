@@ -22,15 +22,30 @@ Both **pass the deployable screen** (positive full-cycle, maxDD<35%, beat BTC-BH
   objective. It's the engine the project already has; this campaign confirms it's the best point on the gate frontier for return.
 - **Candidate B (breadth + trend-efficiency)** — the genuinely *new* finding. Adding "deploy only when BTC is in a clean trend
   (efficiency-ratio > 0.35)" on top of the breadth gate **neutralizes the bear** (OOS-2025 ≈ flat vs −19%) and **halves the
-  drawdown** (−21% vs −34%), at the cost of bull participation (+13% vs +56% in OOS-2024). **Robust across ER thresholds**
-  (0.25–0.45 → OOS-2025 ∈ [−8, +5]%, maxDD ∈ [−18, −24]%) — not a lucky cut. Best for capital preservation / low-drawdown.
+  drawdown** (−21% vs −34%), at the cost of bull participation (+13% vs +56% in OOS-2024). Most **consistent** candidate by
+  sub-period (positive 3 of 4 OOS half-years, smallest losses). Best for capital preservation / low-drawdown.
+  - ⚠️ **Threshold sensitivity (red-team correction):** only the **bear-window sign** is stable across ER thr 0.25–0.45
+    (OOS-2025 ∈ [−8, +5]%) — and that stability is mostly "the gate is in cash ~90% of the time." The **OOS-ALL return
+    magnitude is threshold-sensitive** (+0.3% to +28.8%, with a near-zero *hole* at thr=0.40 right next to the 0.35 operating
+    point). The robust, real deliverable is the **drawdown halving**, not a specific return number.
 
-## Honest profile (binding — no false victory)
+## Candidate C (conditional gate) — REFUTED, do not deploy
 
-Neither is robust *alpha*. NW(L3) HAC p > 0.05 and block-bootstrap p05 < 0 for both — consistent with the entire arc: these
-are **de-risked beta**, not statistically-significant return-alpha. Their real, defensible value is the **risk-adjusted
-profile** (beat BTC buy-hold on Calmar; A by 3.5×, B by 2.5×, both at much lower drawdown). Returns are lumpy (carried by a
-few >7% trend weeks). **Survivorship caveat:** wall=today's u100 → backtest returns are if anything *overstated*.
+Tested a 3-state "best of both" gate (full deploy when breadth>0.60, require ER only when marginal). It is a **bull-overfit
+trap**: +70% OOS-2024 (beats A) but **−45% / −51% DD in the bear** (deploying full on high breadth catches bear *rallies*),
+OOS-ALL −7%, positive in only 1 of 4 sub-periods. Confirms you cannot get A's return AND B's drawdown — it's a frontier.
+
+## Honest profile (binding — no false victory; red-team-verified)
+
+Adversarially audited (expert-auditor): **look-ahead CLEAN** (ER + breadth + SMA path all causal, perturbation-tested; band
+selection OOS-excluded). But the verdict is **de-risked beta / capital preservation, NOT alpha** — and that distinction is binding:
+- **Alpha is refuted:** NW(L3) HAC p > 0.05 (B = 0.345), block-bootstrap p05 < 0 (B = −38%), deployed-week win-rate 0.42
+  (fewer than half of deployed weeks positive), on a small deployed sample (~12 weeks). No statistically robust positive return.
+- **Capital preservation is real and causal:** sit in cash ~88% of the time, deploy only on broad + clean-trend weeks → the
+  drawdown halving (B: −21% vs BTC −50%; OOS-ALL Calmar 0.55 vs BTC 0.22) is the genuine, mechanical deliverable.
+- ⚠️ **Survivorship:** the candidate book uses today's u100 with no point-in-time listing mask → **headline returns
+  (+11% / +26%) are overstated**; the BTC-BH benchmark is clean. **Size off the drawdown/preservation property, never the
+  backtest return.** Returns are lumpy (carried by a few >7% trend weeks).
 
 ## Live state (2026-05-28): **both CASH** — breadth 0.38 (gate closed). Do not deploy this week.
 
