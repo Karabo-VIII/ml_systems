@@ -1,0 +1,53 @@
+{
+  "check": "oracle_gap",
+  "n_slices": 106,
+  "ts": "20260701_063413",
+  "sources": {
+    "ORACLE_best1": {
+      "mean_slice": 45.29,
+      "pct_pos": 1.0,
+      "compound": 5.629680887091669e+17,
+      "median": 31.68
+    },
+    "ORACLE_top8": {
+      "mean_slice": 18.29,
+      "pct_pos": 0.91,
+      "compound": 1737761783.0,
+      "median": 15.52
+    },
+    "MOM_top8": {
+      "mean_slice": 0.97,
+      "pct_pos": 0.48,
+      "compound": 69.6,
+      "median": -0.07
+    },
+    "MA_strat": {
+      "mean_slice": 0.31,
+      "pct_pos": 0.12,
+      "compound": 22.3,
+      "median": 0.0
+    },
+    "SELF_trend": {
+      "mean_slice": 0.2,
+      "pct_pos": 0.51,
+      "compound": -3.7,
+      "median": 0.01
+    },
+    "MARKET_ew": {
+      "mean_slice": -0.29,
+      "pct_pos": 0.45,
+      "compound": -55.9,
+      "median": -0.65
+    },
+    "RANDOM_top8": {
+      "mean_slice": 0.2,
+      "pct_pos": 0.43,
+      "compound": -26.8,
+      "median": -0.68
+    }
+  },
+  "gap": {
+    "selection_gap_oracle_minus_mom": 17.32,
+    "participation_gap_mom_minus_ma": 0.66
+  }
+}
