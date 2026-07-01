@@ -1,0 +1,137 @@
+{
+  "check": "val_vs_oos",
+  "note": "VAL is OOS-for-the-gate-DESIGN (tuned on OOS); in-sample only for the MA band ensemble",
+  "ts": "20260701_192816",
+  "windows": {
+    "VAL": {
+      "span": "2023-07-01..2024-05-15",
+      "results": {
+        "CONV": {
+          "final": 22210.0,
+          "comp": 122.1,
+          "maxdd": -31.4,
+          "calmar": 3.89,
+          "n_wk": 45,
+          "pct_pos": 0.38,
+          "nw_p": 0.067,
+          "p05": -15.6
+        },
+        "SMA_ER": {
+          "final": 23187.0,
+          "comp": 131.9,
+          "maxdd": -13.8,
+          "calmar": 9.54,
+          "n_wk": 45,
+          "pct_pos": 0.24,
+          "nw_p": 0.033,
+          "p05": 27.7
+        },
+        "PARTIAL": {
+          "final": 21494.0,
+          "comp": 114.9,
+          "maxdd": -29.4,
+          "calmar": 3.9,
+          "n_wk": 45,
+          "pct_pos": 0.53,
+          "nw_p": 0.07,
+          "p05": -12.5
+        },
+        "MOM8_ER": {
+          "final": 35717.0,
+          "comp": 257.2,
+          "maxdd": -20.7,
+          "calmar": 12.42,
+          "n_wk": 45,
+          "pct_pos": 0.18,
+          "nw_p": 0.074,
+          "p05": 13.0
+        },
+        "BH_btc": {
+          "final": 20138.0,
+          "comp": 101.4,
+          "maxdd": -20.1,
+          "calmar": 5.05,
+          "n_wk": 45,
+          "pct_pos": 0.56,
+          "nw_p": 0.05,
+          "p05": 3.3
+        },
+        "BH_alt": {
+          "final": 23838.0,
+          "comp": 138.4,
+          "maxdd": -35.4,
+          "calmar": 3.91,
+          "n_wk": 45,
+          "pct_pos": 0.6,
+          "nw_p": 0.067,
+          "p05": -19.8
+        }
+      }
+    },
+    "OOS": {
+      "span": "2024-05-15..2026-07-01",
+      "results": {
+        "CONV": {
+          "final": 13647.0,
+          "comp": 36.5,
+          "maxdd": -33.2,
+          "calmar": 1.1,
+          "n_wk": 106,
+          "pct_pos": 0.16,
+          "nw_p": 0.237,
+          "p05": -43.9
+        },
+        "SMA_ER": {
+          "final": 11128.0,
+          "comp": 11.3,
+          "maxdd": -20.6,
+          "calmar": 0.55,
+          "n_wk": 106,
+          "pct_pos": 0.1,
+          "nw_p": 0.345,
+          "p05": -38.1
+        },
+        "PARTIAL": {
+          "final": 12242.0,
+          "comp": 22.4,
+          "maxdd": -36.3,
+          "calmar": 0.62,
+          "n_wk": 106,
+          "pct_pos": 0.49,
+          "nw_p": 0.298,
+          "p05": -45.9
+        },
+        "MOM8_ER": {
+          "final": 14645.0,
+          "comp": 46.4,
+          "maxdd": -20.8,
+          "calmar": 2.23,
+          "n_wk": 106,
+          "pct_pos": 0.08,
+          "nw_p": 0.176,
+          "p05": -28.2
+        },
+        "BH_btc": {
+          "final": 11095.0,
+          "comp": 10.9,
+          "maxdd": -49.7,
+          "calmar": 0.22,
+          "n_wk": 106,
+          "pct_pos": 0.54,
+          "nw_p": 0.321,
+          "p05": -60.8
+        },
+        "BH_alt": {
+          "final": 4455.0,
+          "comp": -55.4,
+          "maxdd": -81.4,
+          "calmar": -0.68,
+          "n_wk": 106,
+          "pct_pos": 0.45,
+          "nw_p": 0.598,
+          "p05": -93.3
+        }
+      }
+    }
+  }
+}
