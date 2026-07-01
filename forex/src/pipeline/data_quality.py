@@ -61,8 +61,10 @@ def _price_band(pair: str, dna: str) -> tuple[float, float]:
     if p.endswith("JPY"):
         return (20.0, 400.0)
     if dna == "EXOTIC":
-        return (0.001, 100.0)    # exotics span a wide range (USDHKD~7.8, USDTRY~40)
-    return (0.3, 3.0)            # majors / non-JPY crosses
+        if p.endswith("HUF"):
+            return (50.0, 2000.0)    # HUF pairs legitimately sit ~300-450
+        return (0.5, 200.0)          # TRY~46, ZAR~16, THB~35, CZK~23, SGD~1.3, ...
+    return (0.3, 3.0)                # majors / non-JPY crosses
 
 
 def _is_weekend_gap(t_start_ms: int, t_end_ms: int) -> bool:

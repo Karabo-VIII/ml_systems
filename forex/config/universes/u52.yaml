@@ -34,5 +34,8 @@ pairs:
   - { symbol: GBPSEK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.02, tier: C }
   - { symbol: GBPPLN, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.02, tier: C }
   # --- additional metals ---
+  # NOTE: XPTUSD/XPDUSD are NOT on the Dukascopy free datafeed (verified 404, 2026-07-01).
+  # Fetch these via a broker CFD source instead (`--source oanda`). Left in the spec so the
+  # universe is complete; the Dukascopy path correctly reports them as no-data.
   - { symbol: XPTUSD, dna: METAL, pip: 0.01, price_divisor: 1000.0, pos_cap: 0.05, tier: C }
   - { symbol: XPDUSD, dna: METAL, pip: 0.01, price_divisor: 1000.0, pos_cap: 0.04, tier: C }
