@@ -1,0 +1,358 @@
+{
+  "check": "prod_deploy",
+  "as_of": "2026-05-28",
+  "frozen_specs": {
+    "CONV": "MA 5-type ensemble, breadth-hyst(0.5/0.4) gate, inv-vol cap33, 14d/7d rolling",
+    "SMA_ER": "SMA band + breadth AND BTC-trend-efficiency(ER14>0.35) gate, inv-vol cap33, 14d/7d",
+    "PARTIAL": "always 15-100% invested = clip((breadth-0.2)/0.6,0.15,1) x (SMA-trend book else EW-u100)",
+    "MOM8_ER": "momentum14 top-8 + breadth AND ER>0.35 gate, inv-vol cap33, per-7d rebalance"
+  },
+  "prod_checks": {
+    "CONV": {
+      "causal": true,
+      "first_changed_bar": "2026-05-03",
+      "deterministic": true,
+      "cost_applied": true,
+      "paper_trade_safe": true,
+      "real_capital_ready": false
+    },
+    "SMA_ER": {
+      "causal": true,
+      "first_changed_bar": "none",
+      "deterministic": true,
+      "cost_applied": true,
+      "paper_trade_safe": true,
+      "real_capital_ready": false
+    },
+    "PARTIAL": {
+      "causal": true,
+      "first_changed_bar": "2026-04-20",
+      "deterministic": true,
+      "cost_applied": true,
+      "paper_trade_safe": true,
+      "real_capital_ready": false
+    },
+    "MOM8_ER": {
+      "causal": true,
+      "first_changed_bar": "none",
+      "deterministic": true,
+      "cost_applied": true,
+      "paper_trade_safe": true,
+      "real_capital_ready": false
+    }
+  },
+  "robust": {
+    "CONV": {
+      "VAL": 122,
+      "OOS": 36,
+      "p05_oos": -44,
+      "dsr40": 0.07
+    },
+    "SMA_ER": {
+      "VAL": 132,
+      "OOS": 11,
+      "p05_oos": -38,
+      "dsr40": 0.04
+    },
+    "PARTIAL": {
+      "VAL": 115,
+      "OOS": 22,
+      "p05_oos": -46,
+      "dsr40": 0.05
+    },
+    "MOM8_ER": {
+      "VAL": 257,
+      "OOS": 46,
+      "p05_oos": -28,
+      "dsr40": 0.12
+    }
+  },
+  "ts": "20260701_194408",
+  "live_book": {
+    "CONV": {
+      "decision": "CASH",
+      "gross": 0.0,
+      "n_names": 0,
+      "weights": []
+    },
+    "SMA_ER": {
+      "decision": "CASH",
+      "gross": 0.0,
+      "n_names": 0,
+      "weights": []
+    },
+    "PARTIAL": {
+      "decision": "DEPLOY",
+      "gross": 0.294,
+      "n_names": 65,
+      "weights": [
+        [
+          "BTCUSDT",
+          0.0045
+        ],
+        [
+          "ETHUSDT",
+          0.0045
+        ],
+        [
+          "SOLUSDT",
+          0.0045
+        ],
+        [
+          "XRPUSDT",
+          0.0045
+        ],
+        [
+          "BNBUSDT",
+          0.0045
+        ],
+        [
+          "DOGEUSDT",
+          0.0045
+        ],
+        [
+          "ZECUSDT",
+          0.0045
+        ],
+        [
+          "TRXUSDT",
+          0.0045
+        ],
+        [
+          "PEPEUSDT",
+          0.0045
+        ],
+        [
+          "ADAUSDT",
+          0.0045
+        ],
+        [
+          "LINKUSDT",
+          0.0045
+        ],
+        [
+          "SUIUSDT",
+          0.0045
+        ],
+        [
+          "AVAXUSDT",
+          0.0045
+        ],
+        [
+          "TAOUSDT",
+          0.0045
+        ],
+        [
+          "FETUSDT",
+          0.0045
+        ],
+        [
+          "ORDIUSDT",
+          0.0045
+        ],
+        [
+          "NEARUSDT",
+          0.0045
+        ],
+        [
+          "WLDUSDT",
+          0.0045
+        ],
+        [
+          "ENAUSDT",
+          0.0045
+        ],
+        [
+          "LTCUSDT",
+          0.0045
+        ],
+        [
+          "AAVEUSDT",
+          0.0045
+        ],
+        [
+          "DASHUSDT",
+          0.0045
+        ],
+        [
+          "UNIUSDT",
+          0.0045
+        ],
+        [
+          "BCHUSDT",
+          0.0045
+        ],
+        [
+          "PENGUUSDT",
+          0.0045
+        ],
+        [
+          "DOTUSDT",
+          0.0045
+        ],
+        [
+          "TONUSDT",
+          0.0045
+        ],
+        [
+          "APTUSDT",
+          0.0045
+        ],
+        [
+          "FILUSDT",
+          0.0045
+        ],
+        [
+          "RENDERUSDT",
+          0.0045
+        ],
+        [
+          "HBARUSDT",
+          0.0045
+        ],
+        [
+          "TRUMPUSDT",
+          0.0045
+        ],
+        [
+          "ALGOUSDT",
+          0.0045
+        ],
+        [
+          "BONKUSDT",
+          0.0045
+        ],
+        [
+          "ICPUSDT",
+          0.0045
+        ],
+        [
+          "SEIUSDT",
+          0.0045
+        ],
+        [
+          "JSTUSDT",
+          0.0045
+        ],
+        [
+          "CRVUSDT",
+          0.0045
+        ],
+        [
+          "LDOUSDT",
+          0.0045
+        ],
+        [
+          "OPUSDT",
+          0.0045
+        ],
+        [
+          "ETCUSDT",
+          0.0045
+        ],
+        [
+          "POLUSDT",
+          0.0045
+        ],
+        [
+          "TIAUSDT",
+          0.0045
+        ],
+        [
+          "XLMUSDT",
+          0.0045
+        ],
+        [
+          "EIGENUSDT",
+          0.0045
+        ],
+        [
+          "ONDOUSDT",
+          0.0045
+        ],
+        [
+          "DYDXUSDT",
+          0.0045
+        ],
+        [
+          "FLOKIUSDT",
+          0.0045
+        ],
+        [
+          "CHZUSDT",
+          0.0045
+        ],
+        [
+          "ARUSDT",
+          0.0045
+        ],
+        [
+          "ZROUSDT",
+          0.0045
+        ],
+        [
+          "ARKMUSDT",
+          0.0045
+        ],
+        [
+          "DEXEUSDT",
+          0.0045
+        ],
+        [
+          "ATOMUSDT",
+          0.0045
+        ],
+        [
+          "INJUSDT",
+          0.0045
+        ],
+        [
+          "ZENUSDT",
+          0.0045
+        ],
+        [
+          "VIRTUALUSDT",
+          0.0045
+        ],
+        [
+          "BIOUSDT",
+          0.0045
+        ],
+        [
+          "DUSDT",
+          0.0045
+        ],
+        [
+          "XPLUSDT",
+          0.0045
+        ],
+        [
+          "WLFIUSDT",
+          0.0045
+        ],
+        [
+          "ASTERUSDT",
+          0.0045
+        ],
+        [
+          "GIGGLEUSDT",
+          0.0045
+        ],
+        [
+          "PLUMEUSDT",
+          0.0045
+        ],
+        [
+          "ZBTUSDT",
+          0.0045
+        ]
+      ]
+    },
+    "MOM8_ER": {
+      "decision": "CASH",
+      "gross": 0.0,
+      "n_names": 0,
+      "weights": []
+    }
+  }
+}

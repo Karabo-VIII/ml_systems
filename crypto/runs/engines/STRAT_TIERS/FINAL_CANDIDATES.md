@@ -13,6 +13,40 @@ All: u100 cross-sectional basket (NOT BTC), 1d, 14d-lookback / 7d-slice, inv-vol
 | *BH_btc* | $11,095 | +11% | −50% | 0.22 | 54% | −61% | — | (2/4) | benchmark |
 | *BH_alt (EW-u100)* | $4,455 | −55% | −81% | −0.68 | 45% | −93% | — | (1/4) | benchmark |
 
+## VAL (2023-07→2024-05, the untuned window) — the out-of-sample-for-the-DESIGN test
+
+Gate params (breadth 0.5/0.4, ER>0.35, cap33, K8) were chosen looking at OOS → OOS is *in-sample for the gate design*.
+VAL was **never tuned on** (in-sample only for the denoised MA band ensemble; MOM8_ER is param-free → **fully** OOS on VAL).
+
+| Candidate | $10k → | comp | maxDD | Calmar | NW_p | p05 | VAL→OOS |
+|---|---|---|---|---|---|---|---|
+| **MOM8_ER** | **$35,717** | **+257%** | −21% | **12.42** | 0.07 | **+13%** | **HOLDS** |
+| CONV | $22,210 | +122% | −31% | 3.89 | 0.07 | −16% | HOLDS |
+| **SMA_ER** | $23,187 | +132% | −14% | 9.54 | **0.03** | **+28%** | HOLDS |
+| PARTIAL | $21,494 | +115% | −29% | 3.90 | 0.07 | −12% | HOLDS |
+| *BH_btc* | $20,138 | +101% | −20% | 5.05 | 0.05 | +3% | — |
+| *BH_alt* | $23,838 | +138% | −35% | 3.91 | 0.07 | −20% | — |
+
+**All 4 HOLD** (positive on both windows) → H0 "overfit to OOS" **REJECTED**. On VAL, **SMA_ER (NW p 0.03, p05 +28%)**
+and **MOM8_ER (p05 +13%)** clear the project robustness bar (p05>0) for the first time in the arc — but *only in the bull
+regime*. VAL magnitude (+257%) ≫ OOS (+46%) is **regime, not overfit** (BH_alt also +138% on VAL). Full-cycle p05 stays
+negative (the bear is the un-earnable part for long-only). Artifact: `strat_val_oos.{py,json}`.
+
+## Final prod checks (paper-trade-safe gate) — `strat_prod_deploy.py`
+
+| Check | CONV | SMA_ER | PARTIAL | MOM8_ER |
+|---|---|---|---|---|
+| **Causality** (perturb close[t0] → P&L changes only t>t0) | PASS | PASS | PASS | PASS |
+| **Determinism** (rebuild → bit-identical) | PASS | PASS | PASS | PASS |
+| **Cost applied** (net < gross on turnover) | PASS | PASS | PASS | PASS |
+| **PROD-GATE** | PAPER ✓ | PAPER ✓ | PAPER ✓ | PAPER ✓ |
+
+The causality perturbation test **caught a real off-by-one cost-timing bug** in the shared `net_of`: it charged the
+rebalance cost `|W[t]−W[t−1]|` at bar t, but W[t] uses close[t] → the *cost* term (not the return) had a same-bar
+dependency. Fixed to charge `|W[t−1]−W[t−2]|` (the rebalance that actually fills at t) → fully causal. Compound
+unchanged (same total turnover, shifted one bar). **All 4 are paper-trade-safe; none is real-capital-ready** (every
+DSR₄₀ < 0.15, full-cycle p05 < 0).
+
 ## The candidates
 
 - **MOM8_ER (lead)** — momentum(14d) top-8, gated by **breadth AND trend-efficiency** (deploy only clean-trend weeks).
@@ -45,8 +79,18 @@ BH_btc measured over the same deployed weeks, maxDD within its backtest floor (C
 Kill on: deployed-median ≤ 0 over 20+ weeks, compound < cash, or maxDD breach. Sizing: de-risked beta, hard cap per
 deployed week; do not size off the backtest compound.
 
+## Wired into the paper trader (live-forward track is now RUNNING)
+
+`strat_prod_deploy.py` is the weekly emitter. Each run: (1) re-runs the 3 prod checks, (2) emits every candidate's
+current book (DEPLOY names+weights or CASH), (3) appends to `live_books/journal.jsonl` (idempotent by date) and
+regenerates `PAPER_TRADE_LEDGER.md`. **Re-run weekly** (`python runs/engines/STRAT_TIERS/strat_prod_deploy.py`) to
+accumulate the pre-registered track. First entry logged (as-of latest data 2026-05-28): CONV/SMA_ER/MOM8_ER = CASH,
+PARTIAL = DEPLOY (65 names, gross 0.29). Weekly decisions accumulate in the ledger until the promotion gate is met.
+
 ## Recommendation
 
-Track all four live from today. **MOM8_ER is the lead** (best risk-adjusted, grid-robust) and the one most worth proving.
+Track all four live from today — the emitter is wired and the first week is logged. **MOM8_ER is the lead** (best
+risk-adjusted, grid-robust, +257% on the untuned VAL window, cleared p05>0 there) and the one most worth proving.
 **CONV is the proven fallback.** Ship real capital to none until the live-forward gate is met. Artifacts:
-`strat_final_candidates.{py,json}`, `strat_momentum_capture.json`, `strat_oracle_gap.json`.
+`strat_prod_deploy.{py,json}`, `strat_val_oos.{py,json}`, `strat_final_candidates.{py,json}`, `strat_momentum_capture.json`,
+`strat_oracle_gap.json`; live track: `PAPER_TRADE_LEDGER.md` + `live_books/`.
