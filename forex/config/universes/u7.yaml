@@ -1,0 +1,22 @@
+# u7 — the 7 major FX pairs (all vs USD). Deepest liquidity, tightest spreads.
+# Default universe for pipeline bring-up and baseline studies.
+#
+# Fields per pair:
+#   symbol         flat UPPER pair key (EURUSD)
+#   dna            MAJOR / CROSS / EXOTIC / METAL
+#   pip            price move of 1 pip (0.0001 non-JPY, 0.01 JPY)
+#   price_divisor  Dukascopy integer-price scale = 10^decimals (100000 / 1000)
+#   pos_cap        max fraction of book per pair
+#   tier           liquidity tier A(deepest)/B/C
+#   turnover_share approx % of global FX turnover (BIS Triennial 2022, single-pair)
+name: u7
+description: "The 7 majors (vs USD). Deepest liquidity; default universe."
+n_pairs: 7
+pairs:
+  - { symbol: EURUSD, dna: MAJOR, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.20, tier: A, turnover_share: 22.7 }
+  - { symbol: USDJPY, dna: MAJOR, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.18, tier: A, turnover_share: 13.5 }
+  - { symbol: GBPUSD, dna: MAJOR, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.15, tier: A, turnover_share: 9.5 }
+  - { symbol: AUDUSD, dna: MAJOR, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.12, tier: A, turnover_share: 5.1 }
+  - { symbol: USDCAD, dna: MAJOR, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.12, tier: A, turnover_share: 5.5 }
+  - { symbol: USDCHF, dna: MAJOR, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.10, tier: A, turnover_share: 3.9 }
+  - { symbol: NZDUSD, dna: MAJOR, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.10, tier: B, turnover_share: 1.7 }

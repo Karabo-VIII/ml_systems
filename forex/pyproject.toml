@@ -1,0 +1,26 @@
+# Project metadata for the forex sub-project. This is a SCRIPTS project: run the
+# pipeline stages via `python src/pipeline/<stage>.py ...` or `python -m pipeline.<stage>`
+# from forex/src/. Modules resolve via an in-file sys.path bootstrap, so no
+# `pip install -e .` is required -- `pip install -r requirements.txt` is the only step.
+[project]
+name = "forex_pipeline"
+version = "0.1.0"
+description = "Production-grade forex data pipeline -- fetch (Dukascopy ticks + HistData M1 + OANDA v20), build bid/ask time bars, validate with FX-aware quality gates. Sibling of the crypto pipeline."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "polars>=0.20",
+    "pyarrow>=14",
+    "pyyaml>=6",
+    "requests>=2.28",
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+oanda = ["oandapyV20>=0.7"]
+histdata = ["histdata>=1.1"]
+
+[project.urls]
+Dukascopy = "https://datafeed.dukascopy.com/datafeed"
+HistData = "https://www.histdata.com/download-free-forex-data/"
+OANDA = "https://developer.oanda.com/rest-live-v20/"

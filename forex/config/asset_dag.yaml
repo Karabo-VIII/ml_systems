@@ -1,0 +1,53 @@
+# Forex pipeline stage DAG. refresh.py topo-walks this: a stage runs only after
+# its deps succeed. Each producer is self-sufficient (own skip-fresh + workers).
+version: "1.0"
+
+stages:
+  fetch:
+    producer: "src/pipeline/fetch_all.py"
+    deps: []
+    takes: [target, source, date_window, workers]
+    output: "data/raw/<PAIR>/ticks/*.parquet"
+    desc: "Bronze: Dukascopy ticks (or --source histdata/oanda)."
+
+  bars:
+    producer: "src/pipeline/build_bars.py"
+    deps: [fetch]
+    takes: [target, bar_cadences, date_window, workers]
+    output: "data/processed/bars/<cadence>/*.parquet"
+    desc: "Silver: bid/ask time bars from ticks."
+
+  alt_bars:
+    producer: "src/pipeline/build_alt_bars.py"
+    deps: [fetch]
+    takes: [target, date_window, workers]
+    output: "data/processed/bars/{tick_count,range}/*.parquet"
+    desc: "Silver: information-driven bars (tick-count + range)."
+
+  features:
+    producer: "src/pipeline/build_features.py"
+    deps: [bars]
+    takes: [target, cadences, workers]
+    output: "data/processed/features/<cadence>/*.parquet"
+    desc: "Silver: per-pair causal features."
+
+  panels:
+    producer: "src/pipeline/panels.py"
+    deps: [bars]
+    takes: [target, cadences]
+    output: "data/processed/panels/<cadence>/panel_*.parquet"
+    desc: "Silver: cross-pair USD strength + currency strength + triangular no-arb."
+
+  dataset:
+    producer: "src/pipeline/make_dataset.py"
+    deps: [bars, features, panels]
+    takes: [target, cadences, workers]
+    output: "data/processed/dataset/<cadence>/*.parquet"
+    desc: "Gold: model-ready panel (bars+features+panel+targets+splits)."
+
+  quality:
+    producer: "src/pipeline/data_quality.py"
+    deps: [bars]
+    takes: [target, cadences, report]
+    output: "runs/pipeline_metrics/*.json"
+    desc: "FX data-quality gate + pipeline metrics."

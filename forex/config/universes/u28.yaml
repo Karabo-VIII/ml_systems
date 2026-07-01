@@ -1,0 +1,34 @@
+# u28 — the "28 pairs" most brokers quote: 7 majors + 19 standard crosses + 2 metals.
+# Inherits u7 (majors), then adds the crosses and gold/silver.
+name: u28
+description: "Majors + standard crosses + gold/silver (28 pairs). Broad tradeable set."
+n_pairs: 28
+parent: u7
+inherit_from: u7
+pairs:
+  # --- EUR crosses ---
+  - { symbol: EURGBP, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.10, tier: A }
+  - { symbol: EURJPY, dna: CROSS, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.10, tier: A }
+  - { symbol: EURCHF, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.08, tier: B }
+  - { symbol: EURAUD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.08, tier: B }
+  - { symbol: EURCAD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.08, tier: B }
+  - { symbol: EURNZD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.06, tier: B }
+  # --- GBP crosses ---
+  - { symbol: GBPJPY, dna: CROSS, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.10, tier: A }
+  - { symbol: GBPCHF, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.06, tier: B }
+  - { symbol: GBPAUD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.06, tier: B }
+  - { symbol: GBPCAD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.06, tier: B }
+  - { symbol: GBPNZD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.05, tier: C }
+  # --- JPY crosses ---
+  - { symbol: AUDJPY, dna: CROSS, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.08, tier: B }
+  - { symbol: CADJPY, dna: CROSS, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.06, tier: B }
+  - { symbol: CHFJPY, dna: CROSS, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.06, tier: B }
+  - { symbol: NZDJPY, dna: CROSS, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.05, tier: C }
+  # --- other crosses ---
+  - { symbol: AUDNZD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.06, tier: B }
+  - { symbol: AUDCAD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.05, tier: C }
+  - { symbol: CADCHF, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.05, tier: C }
+  - { symbol: NZDCAD, dna: CROSS, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.04, tier: C }
+  # --- metals (vs USD) ---
+  - { symbol: XAUUSD, dna: METAL, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.12, tier: A }
+  - { symbol: XAGUSD, dna: METAL, pip: 0.001,  price_divisor: 1000.0,   pos_cap: 0.08, tier: B }

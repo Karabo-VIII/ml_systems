@@ -1,6 +1,6 @@
 # ml_systems — parent workspace (ONE git repo, shared Claude config)
 
-This directory is a **parent workspace** holding three self-contained sub-projects under one git repo and
+This directory is a **parent workspace** holding four self-contained sub-projects under one git repo and
 one shared `.claude/`. From here you can focus on any one sub-project, or ship one off on its own.
 
 > **🟢 OPERATING MODEL (2026-06-20) — READ FIRST for crypto work.** The user's binding intent + live state live in
@@ -25,6 +25,7 @@ one shared `.claude/`. From here you can focus on any one sub-project, or ship o
 | **Crypto** | [`crypto/`](crypto/) | The V4 crypto system (pipeline, world-models, strat, mining, oracle, wealth_bot, audit, framework). | **[`crypto/CLAUDE.md`](crypto/CLAUDE.md) — READ THIS for any crypto work; all the binding crypto invariants live there.** |
 | **Games** | [`games/`](games/) | Self-contained games engine — AlphaZero + MuZero core (`az/`), classical engines (`chess_engine/`), chess/connect-4/atari. Zero crypto imports. | [`games/CLAUDE.md`](games/CLAUDE.md) |
 | **Harness** | [`harness/`](harness/) | Project-agnostic LangGraph metaop engine (plan/dispatch/judge/reflect/route). Installed globally (`metaop`/`harness` on PATH). Zero crypto imports. | [`harness/README.md`](harness/README.md) |
+| **Forex** | [`forex/`](forex/) | Production-grade FX + metals data pipeline (Dukascopy ticks + HistData M1 + OANDA v20 → bid/ask time bars → FX-aware quality gates + metrics). Instrument universe u7/u28/u52. Zero crypto imports. | **[`forex/CLAUDE.md`](forex/CLAUDE.md) — READ for any forex work.** |
 
 **Shared at this root** (not owned by any one sub-project):
 - `.claude/` — agents, skills, `_common`, hooks, settings (governs all three sub-projects).

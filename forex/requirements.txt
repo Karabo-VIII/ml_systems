@@ -1,0 +1,17 @@
+# forex pipeline -- runtime dependencies. Install into the shared root .venv:
+#   pip install -r forex/requirements.txt
+# The primary Dukascopy tick fetcher is SELF-CONTAINED (stdlib lzma + requests);
+# the source-specific libs below are OPTIONAL (only for the secondary sources).
+
+# --- core pipeline (required) ---
+polars              # all bar/feature I/O + resampling
+pyarrow             # parquet codec
+pyyaml              # config + universe loading
+requests            # HTTP fetches (Dukascopy / OANDA)
+numpy
+pandas              # optional interop (atomic_write_parquet pandas path)
+
+# --- optional, per data source ---
+# oandapyV20        # OANDA v20 client (our ingest/oanda.py uses raw requests, so optional)
+# histdata          # HistData.com M1 auto-download (philipperemy); else download ZIPs manually
+# dukascopy-python  # alt Dukascopy client -- NOT needed (ingest/dukascopy.py is self-contained)

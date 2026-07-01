@@ -1,0 +1,38 @@
+# u52 — full tradeable set: u28 + exotics + platinum/palladium.
+# Inherits u28. EXOTIC price_divisor/pip vary by quote currency and broker;
+# the values below are Dukascopy-typical defaults — VERIFY per pair on first
+# fetch (the fetcher's spread-sanity check will surface a wrong divisor).
+name: u52
+description: "u28 + exotics (EM crosses) + platinum/palladium (52 pairs)."
+n_pairs: 52
+parent: u28
+inherit_from: u28
+pairs:
+  # --- USD exotics (EM) ---
+  - { symbol: USDTRY, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: USDZAR, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: USDMXN, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: USDSGD, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.04, tier: C }
+  - { symbol: USDHKD, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: USDNOK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.04, tier: C }
+  - { symbol: USDSEK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.04, tier: C }
+  - { symbol: USDPLN, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: USDHUF, dna: EXOTIC, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.03, tier: C }
+  - { symbol: USDCZK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: USDCNH, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.04, tier: C }
+  - { symbol: USDTHB, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  # --- EUR exotics ---
+  - { symbol: EURTRY, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: EURPLN, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: EURNOK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: EURSEK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: EURHUF, dna: EXOTIC, pip: 0.01,   price_divisor: 1000.0,   pos_cap: 0.03, tier: C }
+  - { symbol: EURCZK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.03, tier: C }
+  - { symbol: EURZAR, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.02, tier: C }
+  # --- GBP exotics ---
+  - { symbol: GBPNOK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.02, tier: C }
+  - { symbol: GBPSEK, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.02, tier: C }
+  - { symbol: GBPPLN, dna: EXOTIC, pip: 0.0001, price_divisor: 100000.0, pos_cap: 0.02, tier: C }
+  # --- additional metals ---
+  - { symbol: XPTUSD, dna: METAL, pip: 0.01, price_divisor: 1000.0, pos_cap: 0.05, tier: C }
+  - { symbol: XPDUSD, dna: METAL, pip: 0.01, price_divisor: 1000.0, pos_cap: 0.04, tier: C }

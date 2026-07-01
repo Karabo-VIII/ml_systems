@@ -1,0 +1,15 @@
+# Forex universe index — pointers to the declarative tier specs + DNA buckets.
+# Loaded by src/pipeline/universe_loader.py. Tiers nest: u28 inherits u7, u52
+# inherits u28.
+universes:
+  u7:  config/universes/u7.yaml     # the 7 majors (deepest liquidity)
+  u28: config/universes/u28.yaml    # majors + standard crosses + gold/silver
+  u52: config/universes/u52.yaml    # + exotics + platinum/palladium
+
+default: u7
+
+dna_buckets:
+  MAJOR:  { description: "USD vs a G10 currency. Deepest liquidity, tightest spreads." }
+  CROSS:  { description: "Two non-USD majors (EUR/JPY, GBP/CHF, ...). Deep but wider." }
+  EXOTIC: { description: "One major vs an EM / smaller currency (USD/TRY, USD/ZAR). Wide, gappy, event-driven." }
+  METAL:  { description: "Precious metal vs USD (XAU, XAG, XPT, XPD). Commodity-driven, own calendar quirks." }

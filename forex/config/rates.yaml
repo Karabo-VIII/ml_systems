@@ -1,0 +1,15 @@
+# Central-bank short/policy rates for the carry proxy. Fetched from FRED's
+# KEYLESS CSV endpoint (no API key). DFF (USD) + ECBDFR (EUR) verified live
+# 2026-07-01. The others are OECD "immediate rates: call money/interbank"
+# monthly proxies (IRSTCI01<cc>M156N) -- rates.py skips any series that 404s
+# or returns empty, so a wrong ID degrades gracefully. Verify + adjust as needed.
+source_url: "https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}"
+series:
+  USD: DFF               # Federal Funds Effective Rate (daily) -- verified
+  EUR: ECBDFR            # ECB Deposit Facility Rate (daily) -- verified
+  GBP: IRSTCI01GBM156N   # UK call money/interbank rate (monthly) -- verified
+  JPY: IRSTCB01JPM156N   # BoJ central-bank rate (monthly) -- verified
+  AUD: IRSTCI01AUM156N   # RBA cash-rate proxy, call money (monthly) -- verified
+  CAD: IRSTCB01CAM156N   # BoC central-bank rate (monthly) -- verified
+  CHF: IRSTCI01CHM156N   # SNB call money proxy (monthly) -- verified
+  NZD: IR3TIB01NZM156N   # NZ 3-month interbank (monthly) -- verified (OCR proxy)

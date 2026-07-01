@@ -1,0 +1,31 @@
+# forex sub-project — ignore heavy data + transient run artifacts (mirrors crypto/).
+# The pipeline is CODE + CONFIG (tracked); the fetched data + processed parquet are
+# reproducible from the fetchers, so they stay OUT of git.
+
+# --- fetched / processed data (regenerable via src/pipeline/fetch_all.py) ---
+data/raw/
+data/processed/
+data/manifests/
+data/prod_state/
+
+# --- run outputs (all transient; dirs are recreated on demand) ---
+runs/
+
+# --- python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- env / secrets (API keys for OANDA/Polygon/etc. live here, NEVER committed) ---
+.env
+.env.*
+*.key
+config/secrets.yaml
+
+# --- os / editor ---
+.DS_Store
+Thumbs.db

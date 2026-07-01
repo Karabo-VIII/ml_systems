@@ -1,0 +1,75 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# FOREX PIPELINE — data configuration
+# ═══════════════════════════════════════════════════════════════════════════
+# The instrument UNIVERSE lives in config/universes/*.yaml (u7/u28/u52). This
+# file holds the data SOURCE config, on-disk layout, market-calendar anchors,
+# and the frozen train/val/oos/unseen split boundaries.
+
+# ─── Data sources ───────────────────────────────────────────────────────────
+# default = the free, no-auth, deep tick bulk archive (Dukascopy) — the FX
+# analog of crypto's Binance Vision. Secondary/live sources are keyed/optional.
+source:
+  default: dukascopy
+
+  dukascopy:
+    # URL: {base_url}/{INSTRUMENT}/{YYYY}/{MM}/{DD}/{HH}h_ticks.bi5
+    # GOTCHA: MONTH IS ZERO-INDEXED (00=Jan ... 11=Dec). Handled in ingest/dukascopy.py.
+    base_url: "https://datafeed.dukascopy.com/datafeed"
+    month_zero_indexed: true
+    # .bi5 = LZMA-compressed; 20-byte big-endian records: (ms_offset:u32,
+    # ask:i32, bid:i32, ask_vol:f32, bid_vol:f32). Integer price / price_divisor
+    # (per-pair, from the universe yaml: 100000 non-JPY, 1000 JPY/metals).
+    per_ip_throttle_ms: 120       # polite pause between hourly requests
+    earliest_history: "2003-01-01"  # solid FX coverage; some pairs back to ~1990s
+
+  histdata:
+    # Free M1 OHLC bulk (bid quotes only, volume ALWAYS 0). Timestamps are
+    # EST WITHOUT DST (fixed UTC-5) — normalized to UTC in ingest/histdata.py.
+    landing: "https://www.histdata.com/download-free-forex-data/"
+    earliest_history: "2000-01-01"
+    volume_is_zero: true
+
+  oanda:
+    # Free practice (demo) account -> personal access token. Live/recent candles
+    # + streaming. Token read from env OANDA_API_TOKEN (never committed).
+    practice_host: "https://api-fxpractice.oanda.com"
+    live_host: "https://api-fxtrade.oanda.com"
+    token_env: "OANDA_API_TOKEN"
+    max_candles_per_request: 5000
+
+# ─── On-disk layout (resolved by src/pipeline/layout.py) ────────────────────
+data:
+  raw_dir: "./data/raw"
+  processed_dir: "./data/processed"
+  start_date: "2010-01-01"        # default fetch floor (override per-run with --start)
+
+# ─── Market calendar (24/5) ─────────────────────────────────────────────────
+# FX trades ~24h Sun -> Fri. The weekly open/close + daily rollover anchor to
+# 17:00 America/New_York (NOT a fixed UTC constant — DST shifts it by 1h).
+market:
+  timezone_anchor: "America/New_York"
+  week_open_ny:  "Sunday 17:00"     # ~21:00 UTC (US DST) / 22:00 UTC (US standard)
+  week_close_ny: "Friday 17:00"
+  rollover_ny:   "17:00"            # daily swap accrual; TRIPLE on Wednesday (T+2)
+  triple_swap_weekday: "Wednesday"
+  # Approximate session windows in UTC (edges drift ±1h with DST; Tokyo = no DST).
+  sessions:
+    sydney: { start_utc: "21:00", end_utc: "06:00" }
+    tokyo:  { start_utc: "00:00", end_utc: "09:00" }
+    london: { start_utc: "07:00", end_utc: "16:00" }
+    newyork: { start_utc: "12:00", end_utc: "21:00" }
+    # Deepest liquidity = London/NY overlap (~12:00-16:00 UTC).
+
+# ─── Frozen split boundaries (date-based; prevent leakage as data grows) ────
+# 24/5 FX; purge gap between segments prevents normalization leakage.
+splits:
+  train_end:    "2020-12-31"
+  val_end:      "2022-12-31"
+  oos_end:      "2024-06-30"
+  unseen_start: "2024-06-30"     # reserved for backtest + forward paper-trade
+  purge_bars:   400
+
+# ─── System ─────────────────────────────────────────────────────────────────
+system:
+  num_workers: 8
+  memory_limit_gb: 32
