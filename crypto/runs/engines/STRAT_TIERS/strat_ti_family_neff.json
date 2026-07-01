@@ -1,0 +1,353 @@
+{
+  "check": "ti_family_neff",
+  "note": "ungated gross, base variant, fixed-EW u100 1d",
+  "skipped_no_vol": [],
+  "ts": "20260701_224413",
+  "types": {
+    "DONCHIAN": {
+      "family": "breakout",
+      "n_cfg": 9,
+      "n_used": 9,
+      "expo_pct": 87.2,
+      "rbar": 0.921,
+      "n_eff": 1.08
+    },
+    "KELTNER": {
+      "family": "breakout",
+      "n_cfg": 6,
+      "n_used": 6,
+      "expo_pct": 89.8,
+      "rbar": 0.986,
+      "n_eff": 1.01
+    },
+    "WILLR": {
+      "family": "mean-reversion",
+      "n_cfg": 12,
+      "n_used": 12,
+      "expo_pct": 92.6,
+      "rbar": 0.969,
+      "n_eff": 1.03
+    },
+    "STOCHRSI": {
+      "family": "mean-reversion",
+      "n_cfg": 12,
+      "n_used": 12,
+      "expo_pct": 96.0,
+      "rbar": 0.89,
+      "n_eff": 1.11
+    },
+    "CMO": {
+      "family": "mean-reversion",
+      "n_cfg": 12,
+      "n_used": 12,
+      "expo_pct": 87.6,
+      "rbar": 0.848,
+      "n_eff": 1.16
+    },
+    "UO": {
+      "family": "mean-reversion",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 85.9,
+      "rbar": 0.933,
+      "n_eff": 1.05
+    },
+    "RSI": {
+      "family": "mean-reversion",
+      "n_cfg": 27,
+      "n_used": 27,
+      "expo_pct": 90.1,
+      "rbar": 0.885,
+      "n_eff": 1.12
+    },
+    "STOCH": {
+      "family": "mean-reversion",
+      "n_cfg": 18,
+      "n_used": 18,
+      "expo_pct": 93.6,
+      "rbar": 0.974,
+      "n_eff": 1.02
+    },
+    "BBPCT": {
+      "family": "mean-reversion",
+      "n_cfg": 18,
+      "n_used": 18,
+      "expo_pct": 86.2,
+      "rbar": 0.94,
+      "n_eff": 1.06
+    },
+    "CCI": {
+      "family": "mean-reversion",
+      "n_cfg": 18,
+      "n_used": 18,
+      "expo_pct": 87.1,
+      "rbar": 0.909,
+      "n_eff": 1.09
+    },
+    "TSI": {
+      "family": "momentum",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 96.1,
+      "rbar": 0.956,
+      "n_eff": 1.03
+    },
+    "ROC": {
+      "family": "momentum",
+      "n_cfg": 16,
+      "n_used": 16,
+      "expo_pct": 92.3,
+      "rbar": 0.861,
+      "n_eff": 1.15
+    },
+    "AO": {
+      "family": "momentum",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 96.0,
+      "rbar": 0.942,
+      "n_eff": 1.05
+    },
+    "RVI": {
+      "family": "momentum",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 99.7,
+      "rbar": 0.946,
+      "n_eff": 1.04
+    },
+    "KST": {
+      "family": "momentum",
+      "n_cfg": 3,
+      "n_used": 3,
+      "expo_pct": 95.8,
+      "rbar": 0.958,
+      "n_eff": 1.03
+    },
+    "BOP": {
+      "family": "momentum",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 99.9,
+      "rbar": 0.968,
+      "n_eff": 1.02
+    },
+    "MACD": {
+      "family": "trend",
+      "n_cfg": 66,
+      "n_used": 66,
+      "expo_pct": 97.2,
+      "rbar": 0.956,
+      "n_eff": 1.04
+    },
+    "VORTEX": {
+      "family": "trend",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 99.2,
+      "rbar": 0.916,
+      "n_eff": 1.07
+    },
+    "ADX": {
+      "family": "trend",
+      "n_cfg": 6,
+      "n_used": 6,
+      "expo_pct": 95.9,
+      "rbar": 0.96,
+      "n_eff": 1.03
+    },
+    "SUPERTREND": {
+      "family": "trend",
+      "n_cfg": 16,
+      "n_used": 16,
+      "expo_pct": 97.0,
+      "rbar": 0.946,
+      "n_eff": 1.05
+    },
+    "PSAR": {
+      "family": "trend",
+      "n_cfg": 9,
+      "n_used": 9,
+      "expo_pct": 96.7,
+      "rbar": 0.954,
+      "n_eff": 1.04
+    },
+    "AROON": {
+      "family": "trend",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 96.3,
+      "rbar": 0.919,
+      "n_eff": 1.07
+    },
+    "TRIX": {
+      "family": "trend",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 96.2,
+      "rbar": 0.959,
+      "n_eff": 1.03
+    },
+    "LINREG": {
+      "family": "trend",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 94.1,
+      "rbar": 0.827,
+      "n_eff": 1.15
+    },
+    "CKSP": {
+      "family": "trend",
+      "n_cfg": 9,
+      "n_used": 9,
+      "expo_pct": 86.0,
+      "rbar": 0.937,
+      "n_eff": 1.06
+    },
+    "SMA_X": {
+      "family": "trend(MA)",
+      "n_cfg": 6,
+      "n_used": 6,
+      "expo_pct": 95.4,
+      "rbar": 0.815,
+      "n_eff": 1.18
+    },
+    "ATRREG": {
+      "family": "volatility",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 95.2,
+      "rbar": 1.0,
+      "n_eff": 1.0
+    },
+    "CHOP": {
+      "family": "volatility",
+      "n_cfg": 6,
+      "n_used": 6,
+      "expo_pct": 95.2,
+      "rbar": 1.0,
+      "n_eff": 1.0
+    },
+    "ULCER": {
+      "family": "volatility",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 95.2,
+      "rbar": 1.0,
+      "n_eff": 1.0
+    },
+    "BBSQZ": {
+      "family": "volatility",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 76.9,
+      "rbar": 0.897,
+      "n_eff": 1.08
+    },
+    "MASSI": {
+      "family": "volatility",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 95.2,
+      "rbar": 1.0,
+      "n_eff": 1.0
+    },
+    "CMF": {
+      "family": "volume",
+      "n_cfg": 3,
+      "n_used": 3,
+      "expo_pct": 99.9,
+      "rbar": 0.971,
+      "n_eff": 1.02
+    },
+    "OBV": {
+      "family": "volume",
+      "n_cfg": 4,
+      "n_used": 4,
+      "expo_pct": 98.9,
+      "rbar": 0.935,
+      "n_eff": 1.05
+    },
+    "MFI": {
+      "family": "volume",
+      "n_cfg": 12,
+      "n_used": 12,
+      "expo_pct": 91.2,
+      "rbar": 0.78,
+      "n_eff": 1.25
+    }
+  },
+  "cross": {
+    "n_types": 34,
+    "rbar": 0.695,
+    "n_eff": 1.42,
+    "pc1": 0.722,
+    "pc2": 0.205,
+    "corr_vs_SMA": {
+      "DONCHIAN": 0.9,
+      "KELTNER": 0.93,
+      "WILLR": 0.4,
+      "STOCHRSI": 0.61,
+      "CMO": 0.38,
+      "UO": 0.34,
+      "RSI": 0.38,
+      "STOCH": 0.42,
+      "BBPCT": 0.35,
+      "CCI": 0.36,
+      "TSI": 0.95,
+      "ROC": 0.97,
+      "AO": 0.97,
+      "RVI": 0.81,
+      "KST": 0.87,
+      "BOP": 0.83,
+      "MACD": 0.92,
+      "VORTEX": 0.95,
+      "ADX": 0.95,
+      "SUPERTREND": 0.91,
+      "PSAR": 0.93,
+      "AROON": 0.95,
+      "TRIX": 0.94,
+      "LINREG": 0.97,
+      "CKSP": 0.87,
+      "SMA_X": 1.0,
+      "ATRREG": 0.9,
+      "CHOP": 0.9,
+      "ULCER": 0.9,
+      "BBSQZ": 0.88,
+      "MASSI": 0.9,
+      "CMF": 0.84,
+      "OBV": 0.95,
+      "MFI": 0.7
+    },
+    "bucket_breakout": {
+      "n": 2,
+      "rbar": 0.977,
+      "n_eff": 1.01
+    },
+    "bucket_mean-reversion": {
+      "n": 8,
+      "rbar": 0.946,
+      "n_eff": 1.05
+    },
+    "bucket_momentum": {
+      "n": 6,
+      "rbar": 0.824,
+      "n_eff": 1.17
+    },
+    "bucket_trend": {
+      "n": 9,
+      "rbar": 0.913,
+      "n_eff": 1.08
+    },
+    "bucket_volatility": {
+      "n": 5,
+      "rbar": 0.937,
+      "n_eff": 1.05
+    },
+    "bucket_volume": {
+      "n": 3,
+      "rbar": 0.821,
+      "n_eff": 1.14
+    }
+  }
+}
