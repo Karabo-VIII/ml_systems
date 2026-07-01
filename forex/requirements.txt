@@ -10,6 +10,7 @@ pyyaml              # config + universe loading
 requests            # HTTP fetches (Dukascopy / OANDA)
 numpy
 pandas              # optional interop (atomic_write_parquet pandas path)
+tzdata              # IANA tz database for DST-aware session flags (needed on Windows)
 
 # --- optional, per data source ---
 # oandapyV20        # OANDA v20 client (our ingest/oanda.py uses raw requests, so optional)

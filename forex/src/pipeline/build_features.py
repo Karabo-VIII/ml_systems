@@ -129,9 +129,25 @@ def compute_features(df: pl.DataFrame, pip: float) -> pl.DataFrame:
     exprs.append(dt.dt.weekday().alias("dow"))                 # 1=Mon .. 7=Sun
     exprs.append((hour.cast(pl.Float64) / 24.0 * 2 * math.pi).sin().alias("hour_sin"))
     exprs.append((hour.cast(pl.Float64) / 24.0 * 2 * math.pi).cos().alias("hour_cos"))
-    for name, (h0, h1) in _SESSIONS.items():
-        exprs.append(((hour >= h0) & (hour < h1)).cast(pl.Int8).alias(f"is_{name}"))
-    exprs.append((((hour >= 12) & (hour < 16))).cast(pl.Int8).alias("is_ldn_ny_overlap"))
+    # DST-AWARE session flags: convert the UTC bar time into each session's home
+    # timezone and flag its local trading hours (auto-handles DST; Tokyo has none).
+    # Requires tzdata on Windows. Falls back to fixed-UTC windows if tz is missing.
+    try:
+        dt_utc = dt.dt.replace_time_zone("UTC")
+        tok_h = dt_utc.dt.convert_time_zone("Asia/Tokyo").dt.hour()
+        ldn_h = dt_utc.dt.convert_time_zone("Europe/London").dt.hour()
+        ny_h = dt_utc.dt.convert_time_zone("America/New_York").dt.hour()
+        # probe once so a missing tzdata degrades gracefully rather than mid-build.
+        df.select(dt_utc.dt.convert_time_zone("America/New_York").dt.hour().alias("_p")).head(1)
+        exprs.append(((tok_h >= 9) & (tok_h < 18)).cast(pl.Int8).alias("is_tokyo"))
+        exprs.append(((ldn_h >= 8) & (ldn_h < 17)).cast(pl.Int8).alias("is_london"))
+        exprs.append(((ny_h >= 8) & (ny_h < 17)).cast(pl.Int8).alias("is_newyork"))
+        exprs.append((((ldn_h >= 8) & (ldn_h < 17)) & ((ny_h >= 8) & (ny_h < 17)))
+                     .cast(pl.Int8).alias("is_ldn_ny_overlap"))
+    except Exception:
+        for name, (h0, h1) in _SESSIONS.items():
+            exprs.append(((hour >= h0) & (hour < h1)).cast(pl.Int8).alias(f"is_{name}"))
+        exprs.append(((hour >= 12) & (hour < 16)).cast(pl.Int8).alias("is_ldn_ny_overlap"))
     # weekend-gap: log return across a >20h inter-bar gap (Fri->Sun reopen).
     gap_ms = pl.col("timestamp").diff()
     exprs.append(pl.when(gap_ms > 20 * 3_600_000)

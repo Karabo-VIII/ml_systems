@@ -178,3 +178,19 @@ def test_triangular_residual_zero_when_consistent():
     implied = df.select((pl.col("EURUSD").log() + pl.col("USDJPY").log()).alias("i")).row(0)[0]
     actual = df.select(pl.col("EURJPY").log().alias("a")).row(0)[0]
     assert abs(actual - implied) < 1e-9
+
+
+# ─── dataset loader column classification ───────────────────────────────────
+
+def test_dataset_loader_col_classification():
+    from pipeline.dataset_loader import DatasetLoader as DL
+    df = pl.DataFrame({
+        "timestamp": [1], "close": [1.1], "rv_20": [0.1], "usd_strength_ret": [0.0],
+        "pair": ["EURUSD"], "dna": ["MAJOR"], "pip": [0.0001], "price_divisor": [1e5],
+        "split": ["train"], "is_purge": [False], "rate_base": [3.0], "rate_quote": [2.0],
+        "carry_diff": [1.0], "fwd_ret_1": [0.001], "fwd_ret_5": [0.002],
+    })
+    assert set(DL.target_cols(df)) == {"fwd_ret_1", "fwd_ret_5"}
+    feat = DL.feature_cols(df)
+    assert "rv_20" in feat and "carry_diff" in feat and "usd_strength_ret" in feat
+    assert not any(c in feat for c in ("pair", "split", "is_purge", "fwd_ret_1", "rate_base"))
