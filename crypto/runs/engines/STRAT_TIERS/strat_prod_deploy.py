@@ -87,7 +87,7 @@ def build_all(C_override=None):
         return np.nansum(Wl*roo,axis=1)-np.nansum(np.abs(Wl-Wll),axis=1)*(COST_PROD/2)
     def gross_of(W):
         Wl=np.vstack([np.zeros((1,A)),W[:-1]]); return np.nansum(Wl*roo,axis=1)
-    return {"CAND":CAND,"idx":idx,"cols":cols,"net_of":net_of,"gross_of":gross_of,"T":T,"A":A,"brd":brd,"er":er,"gbin":gbin}
+    return {"CAND":CAND,"idx":idx,"cols":cols,"net_of":net_of,"gross_of":gross_of,"T":T,"A":A,"brd":brd,"er":er,"gbin":gbin,"roo":roo,"vol":vol}
 
 
 def main():
