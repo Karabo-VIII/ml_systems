@@ -1,0 +1,200 @@
+{
+  "check": "ti_slice_audit",
+  "wall": "2024-05-15",
+  "note": "TRAIN+VAL only, OOS never loaded",
+  "ts": "NA",
+  "tis": {
+    "EMA": {
+      "TRAIN": {
+        "n": 183,
+        "deploy_rate": 0.49,
+        "loss_slice_rate": 0.197,
+        "cash_or_profit_rate": 0.803,
+        "deployed_win": 0.6,
+        "mean_slice_pct": 1.57,
+        "avg_mkt_slice_pct": 2.09,
+        "delta_pct": -0.52,
+        "compound_pct": 663.0
+      },
+      "VAL": {
+        "n": 44,
+        "deploy_rate": 0.59,
+        "loss_slice_rate": 0.227,
+        "cash_or_profit_rate": 0.773,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.15,
+        "avg_mkt_slice_pct": 2.49,
+        "delta_pct": -0.34,
+        "compound_pct": 129.0
+      }
+    },
+    "SMA": {
+      "TRAIN": {
+        "n": 183,
+        "deploy_rate": 0.49,
+        "loss_slice_rate": 0.197,
+        "cash_or_profit_rate": 0.803,
+        "deployed_win": 0.6,
+        "mean_slice_pct": 1.72,
+        "avg_mkt_slice_pct": 2.09,
+        "delta_pct": -0.37,
+        "compound_pct": 932.0
+      },
+      "VAL": {
+        "n": 44,
+        "deploy_rate": 0.59,
+        "loss_slice_rate": 0.227,
+        "cash_or_profit_rate": 0.773,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.19,
+        "avg_mkt_slice_pct": 2.49,
+        "delta_pct": -0.3,
+        "compound_pct": 133.0
+      }
+    },
+    "WMA": {
+      "TRAIN": {
+        "n": 183,
+        "deploy_rate": 0.49,
+        "loss_slice_rate": 0.197,
+        "cash_or_profit_rate": 0.803,
+        "deployed_win": 0.6,
+        "mean_slice_pct": 1.69,
+        "avg_mkt_slice_pct": 2.09,
+        "delta_pct": -0.4,
+        "compound_pct": 857.0
+      },
+      "VAL": {
+        "n": 44,
+        "deploy_rate": 0.59,
+        "loss_slice_rate": 0.227,
+        "cash_or_profit_rate": 0.773,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.09,
+        "avg_mkt_slice_pct": 2.49,
+        "delta_pct": -0.4,
+        "compound_pct": 123.0
+      }
+    },
+    "HMA": {
+      "TRAIN": {
+        "n": 183,
+        "deploy_rate": 0.47,
+        "loss_slice_rate": 0.18,
+        "cash_or_profit_rate": 0.82,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.41,
+        "avg_mkt_slice_pct": 2.09,
+        "delta_pct": 0.32,
+        "compound_pct": 2667.0
+      },
+      "VAL": {
+        "n": 44,
+        "deploy_rate": 0.59,
+        "loss_slice_rate": 0.227,
+        "cash_or_profit_rate": 0.773,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.28,
+        "avg_mkt_slice_pct": 2.49,
+        "delta_pct": -0.2,
+        "compound_pct": 144.0
+      }
+    },
+    "DEMA": {
+      "TRAIN": {
+        "n": 183,
+        "deploy_rate": 0.49,
+        "loss_slice_rate": 0.191,
+        "cash_or_profit_rate": 0.809,
+        "deployed_win": 0.61,
+        "mean_slice_pct": 1.96,
+        "avg_mkt_slice_pct": 2.09,
+        "delta_pct": -0.13,
+        "compound_pct": 1330.0
+      },
+      "VAL": {
+        "n": 44,
+        "deploy_rate": 0.59,
+        "loss_slice_rate": 0.205,
+        "cash_or_profit_rate": 0.795,
+        "deployed_win": 0.65,
+        "mean_slice_pct": 1.84,
+        "avg_mkt_slice_pct": 2.49,
+        "delta_pct": -0.65,
+        "compound_pct": 96.0
+      }
+    },
+    "TEMA": {
+      "TRAIN": {
+        "n": 183,
+        "deploy_rate": 0.47,
+        "loss_slice_rate": 0.169,
+        "cash_or_profit_rate": 0.831,
+        "deployed_win": 0.64,
+        "mean_slice_pct": 2.15,
+        "avg_mkt_slice_pct": 2.09,
+        "delta_pct": 0.06,
+        "compound_pct": 1884.0
+      },
+      "VAL": {
+        "n": 44,
+        "deploy_rate": 0.59,
+        "loss_slice_rate": 0.227,
+        "cash_or_profit_rate": 0.773,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.19,
+        "avg_mkt_slice_pct": 2.49,
+        "delta_pct": -0.3,
+        "compound_pct": 132.0
+      }
+    },
+    "KAMA": {
+      "TRAIN": {
+        "n": 183,
+        "deploy_rate": 0.49,
+        "loss_slice_rate": 0.186,
+        "cash_or_profit_rate": 0.814,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.04,
+        "avg_mkt_slice_pct": 2.09,
+        "delta_pct": -0.05,
+        "compound_pct": 1649.0
+      },
+      "VAL": {
+        "n": 44,
+        "deploy_rate": 0.59,
+        "loss_slice_rate": 0.227,
+        "cash_or_profit_rate": 0.773,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.16,
+        "avg_mkt_slice_pct": 2.49,
+        "delta_pct": -0.33,
+        "compound_pct": 128.0
+      }
+    },
+    "VIDYA": {
+      "TRAIN": {
+        "n": 183,
+        "deploy_rate": 0.49,
+        "loss_slice_rate": 0.197,
+        "cash_or_profit_rate": 0.803,
+        "deployed_win": 0.6,
+        "mean_slice_pct": 1.58,
+        "avg_mkt_slice_pct": 2.09,
+        "delta_pct": -0.51,
+        "compound_pct": 728.0
+      },
+      "VAL": {
+        "n": 44,
+        "deploy_rate": 0.59,
+        "loss_slice_rate": 0.227,
+        "cash_or_profit_rate": 0.773,
+        "deployed_win": 0.62,
+        "mean_slice_pct": 2.12,
+        "avg_mkt_slice_pct": 2.49,
+        "delta_pct": -0.37,
+        "compound_pct": 126.0
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "check": "ti_slice_verify",
+  "wall": "2024-05-15",
+  "tis": {
+    "HMA": {
+      "per_year": {
+        "2020": {
+          "delta": -1.86,
+          "n": 52,
+          "beat_rate": 0.44
+        },
+        "2021": {
+          "delta": 3.49,
+          "n": 53,
+          "beat_rate": 0.55
+        },
+        "2022": {
+          "delta": 0.52,
+          "n": 52,
+          "beat_rate": 0.52
+        },
+        "2023H1": {
+          "delta": -0.23,
+          "n": 26,
+          "beat_rate": 0.46
+        },
+        "VAL": {
+          "delta": 2.28,
+          "n": 44,
+          "beat_rate": 0.55
+        }
+      },
+      "full_delta": 0.92,
+      "jackknife_drop3": 0.14,
+      "beat_rate": 0.51,
+      "topk_delta": {
+        "3": 0.3,
+        "5": 0.92,
+        "8": 0.74,
+        "all": 0.01
+      }
+    },
+    "TEMA": {
+      "per_year": {
+        "2020": {
+          "delta": -1.84,
+          "n": 52,
+          "beat_rate": 0.46
+        },
+        "2021": {
+          "delta": 3.36,
+          "n": 53,
+          "beat_rate": 0.55
+        },
+        "2022": {
+          "delta": 0.51,
+          "n": 52,
+          "beat_rate": 0.52
+        },
+        "2023H1": {
+          "delta": -0.15,
+          "n": 26,
+          "beat_rate": 0.46
+        },
+        "VAL": {
+          "delta": 2.23,
+          "n": 44,
+          "beat_rate": 0.55
+        }
+      },
+      "full_delta": 0.89,
+      "jackknife_drop3": 0.15,
+      "beat_rate": 0.51,
+      "topk_delta": {
+        "3": 0.07,
+        "5": 0.89,
+        "8": 0.57,
+        "all": 0.02
+      }
+    },
+    "SMA": {
+      "per_year": {
+        "2020": {
+          "delta": -1.29,
+          "n": 52,
+          "beat_rate": 0.44
+        },
+        "2021": {
+          "delta": 2.08,
+          "n": 53,
+          "beat_rate": 0.53
+        },
+        "2022": {
+          "delta": 0.42,
+          "n": 52,
+          "beat_rate": 0.5
+        },
+        "2023H1": {
+          "delta": -0.35,
+          "n": 26,
+          "beat_rate": 0.46
+        },
+        "VAL": {
+          "delta": 1.6,
+          "n": 44,
+          "beat_rate": 0.5
+        }
+      },
+      "full_delta": 0.56,
+      "jackknife_drop3": -0.02,
+      "beat_rate": 0.49,
+      "topk_delta": {
+        "3": -0.05,
+        "5": 0.56,
+        "8": 0.22,
+        "all": -0.57
+      }
+    }
+  }
+}
