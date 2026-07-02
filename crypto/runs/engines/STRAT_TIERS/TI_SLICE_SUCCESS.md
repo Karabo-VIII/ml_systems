@@ -61,6 +61,21 @@ edge is 2021. Top-K sweet spot is 5, but that's tuning a non-significant number.
 - **OOS is untouched by design** — these numbers are TRAIN(-tuned) + VAL(-validated). The genuine forward test is OOS,
   which must be run **once**, later, without further tuning.
 
+## Best deployable prod candidate (after the full gate/selection/archetype sweep)
+
+**Bot:** HMA-eligible (canonical `held_rolling` 14d/7d) → **momentum-14 top-5** of the eligible names → **multi-conditioner
+gate** (deploy when ≥3 of 5 causal conditioners fire: breadth-hysteresis, breadth-rising, BTC-ER>0.35, BTC>SMA50,
+cross-sectional-dispersion>median), inv-vol cap33, 1d bars. `strat_smart_gate.py`.
+- **Profitable (clause 1, robust):** mean 7d slice **+3.3% TRAIN / +4.3% VAL**, ~80% cash-or-profitable; dial the K
+  threshold to trade cash-or-profitable% (K3=80% → K5=94%) against participation.
+- **Beats the market (clause 2):** slice-delta **+1.36%, bootstrap-significant (P(Δ≤0)=0.04), 4/5 years positive** — the
+  best of the whole arc, and the multi-gate + TI are *both* non-vacuous contributors.
+- **The honest limit:** the *relative* edge fails drop-top10 (−0.32%) — it lives in ~10-15 weeks of 227, because crypto
+  returns are themselves fat-tailed/few-week-concentrated. So it is a **significant but fat-tail-concentrated** market-beater,
+  not a drop-any-10-weeks-and-still-win distributed alpha (which no long-only crypto strategy, buy-hold included, achieves).
+
+This is the deploy-ready (paper) candidate. OOS remains a genuine one-shot forward test (never touched).
+
 ## Clause 1 (cash-or-profitable) — achievable to ~93%, but as a capital-preserver (the two clauses are in tension)
 
 Since clause 2 (beat the market) isn't robust, I optimized clause 1 (never lose a deployed week) via **gate tightness**
