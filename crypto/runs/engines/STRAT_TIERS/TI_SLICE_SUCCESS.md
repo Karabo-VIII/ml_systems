@@ -61,6 +61,23 @@ edge is 2021. Top-K sweet spot is 5, but that's tuning a non-significant number.
 - **OOS is untouched by design** — these numbers are TRAIN(-tuned) + VAL(-validated). The genuine forward test is OOS,
   which must be run **once**, later, without further tuning.
 
+## Clause 1 (cash-or-profitable) — achievable to ~93%, but as a capital-preserver (the two clauses are in tension)
+
+Since clause 2 (beat the market) isn't robust, I optimized clause 1 (never lose a deployed week) via **gate tightness**
+— a mechanical selectivity choice, robust by construction (`strat_ti_gate_tightness.py`, HMA + momentum top-5):
+
+| gate | deploy% | **cash-or-profit%** (TR / VAL) | losing-wk% | delta% (TR / VAL) |
+|---|---|---|---|---|
+| breadth (loose) | 48-55% | 80 / 82 | 18-20% | +0.6 / +2.3 (not robust) |
+| **breadth & ER>0.35** | 20-27% | **93 / 93** | 7% | **−1.4** / +0.8 |
+| breadth & ER45 & BTC-up | 15-27% | 95 / 93 | 5-7% | −1.3 / −0.1 |
+
+The tight gate makes **93% of all 7d slices cash-or-profitable on BOTH TRAIN and VAL** (~7% losing weeks) — a *robust*
+result (identical across windows = mechanical, not fitted). **But its delta goes negative** (−1.4% TRAIN): deploying
+only ~25% of weeks, it misses up-weeks and lands *below* the market. **The two clauses trade off:** you can have ~93%
+non-losing weeks (capital-preserver, sub-market) OR a positive delta (not robust) — not both. This is the de-risked-beta
+ceiling, quantified per the success criterion.
+
 ## Verdict (CORRECTED after adversarial audit — my "distributed" claim was REFUTED)
 
 I initially called this a distributed success on the strength of drop-top3 (+0.14%). An adversarial auditor (and my

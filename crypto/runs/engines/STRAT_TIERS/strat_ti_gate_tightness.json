@@ -1,0 +1,96 @@
+{
+  "check": "ti_gate_tightness",
+  "TI": "HMA",
+  "gates": {
+    "brd(0.5/0.4)": {
+      "TRAIN": {
+        "deploy": 0.48,
+        "cash_or_profit": 0.798,
+        "losing_wk": 0.202,
+        "mean_sl": 2.69,
+        "delta": 0.6,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.55,
+        "cash_or_profit": 0.818,
+        "losing_wk": 0.182,
+        "mean_sl": 4.77,
+        "delta": 2.28,
+        "n": 44
+      }
+    },
+    "brd&ER35": {
+      "TRAIN": {
+        "deploy": 0.2,
+        "cash_or_profit": 0.934,
+        "losing_wk": 0.066,
+        "mean_sl": 0.69,
+        "delta": -1.4,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.27,
+        "cash_or_profit": 0.932,
+        "losing_wk": 0.068,
+        "mean_sl": 3.29,
+        "delta": 0.81,
+        "n": 44
+      }
+    },
+    "brd&BTC>SMA50": {
+      "TRAIN": {
+        "deploy": 0.41,
+        "cash_or_profit": 0.842,
+        "losing_wk": 0.158,
+        "mean_sl": 2.73,
+        "delta": 0.64,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.52,
+        "cash_or_profit": 0.818,
+        "losing_wk": 0.182,
+        "mean_sl": 4.58,
+        "delta": 2.09,
+        "n": 44
+      }
+    },
+    "brd&ER35&rise": {
+      "TRAIN": {
+        "deploy": 0.16,
+        "cash_or_profit": 0.929,
+        "losing_wk": 0.071,
+        "mean_sl": 0.35,
+        "delta": -1.74,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.2,
+        "cash_or_profit": 0.977,
+        "losing_wk": 0.023,
+        "mean_sl": 3.76,
+        "delta": 1.28,
+        "n": 44
+      }
+    },
+    "brd&ER45&BTCup": {
+      "TRAIN": {
+        "deploy": 0.15,
+        "cash_or_profit": 0.951,
+        "losing_wk": 0.049,
+        "mean_sl": 0.75,
+        "delta": -1.34,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.27,
+        "cash_or_profit": 0.932,
+        "losing_wk": 0.068,
+        "mean_sl": 2.38,
+        "delta": -0.11,
+        "n": 44
+      }
+    }
+  }
+}
