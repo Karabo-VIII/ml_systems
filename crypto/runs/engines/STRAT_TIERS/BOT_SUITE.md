@@ -28,10 +28,23 @@ momentum + high correlation — it buys the fallers and they keep falling.
 | *BH_btc* | +117% | +11% | 0.22 | −50% | 100% | — |
 | *BH_alt* | +156% | −54% | −0.67 | −81% | 100% | — |
 
-**MOM8_ER is the working bot.** Momentum(14d) top-8, gated by breadth AND BTC trend-efficiency (deploy only clean-trend
-weeks), inv-vol cap33, per-7d rebalance, cash otherwise. It made **+51% net in 2024-2026** (BH_alt −54%) at −21% DD,
-in the market only 10% of the time — a selective, risk-controlled, net-positive all-weather bot that HOLDS on the
-untuned VAL window. That is a working bot by every practitioner criterion.
+**MOM8_ER is the best archetype — a paper-trade candidate, NOT a solved working bot.** Momentum(14d) top-8, gated by
+breadth AND BTC trend-efficiency, inv-vol cap33, per-7d rebalance, cash otherwise. It made **+46-51% net in 2024-2026**
+(BH_alt −54%) at −21% DD, in the market only 10% of the time.
+
+### Verified (4-lens adversarial, 2026-07-02) — the honest qualification
+An earlier draft called this "the working bot, empirically locked." A four-lens verification corrected that:
+- **Survivorship — SURVIVES:** drop names that listed during OOS → +46% becomes +42% (−4.7pp); top contributors are
+  old names (ADA/XRP/DOGE/ALGO), not late-listers. Not a survivorship artifact.
+- **Look-ahead — clean** (causal, confirmed by perturbation prod-check + auditor).
+- **Selection skill — AMBIGUOUS:** momentum rank *is* real (top-8 +46% ≫ mid +15% ≫ bottom +4%, monotone,
+  jackknife-robust) but only 92.5th percentile vs a regime-matched random null (below 95); ~3 weeks carry the gap.
+- **Regime-luck — REFUTED:** **71.9% of the OOS return is one quarter (2024-Q4 post-election bull); top-3 deploy-weeks
+  = 134% of compound; positive in only 3 of 9 quarters; deployed-week win rate 54.5% (coin-flip).**
+
+**Corrected verdict:** MOM8_ER is name-robust + survivorship-robust + causal + real-but-marginal momentum selection —
+the one archetype that survives the concentration battery — but its wealth is **regime-concentrated (one bull burst),
+not a distributed/repeatable edge.** Robust to *which names*, fragile to *when*. Paper-trade it; do not call it solved.
 
 ## The honest bar it does NOT clear
 
