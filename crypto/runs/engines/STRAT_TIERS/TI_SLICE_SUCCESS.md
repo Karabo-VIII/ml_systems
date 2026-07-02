@@ -41,18 +41,15 @@ Fails both clauses.
 
 **Redeveloped (breadth gate + momentum top-5):** **all 8 TIs delta-positive on BOTH TRAIN and VAL.**
 
-| TI | TRAIN Δ/slice | VAL Δ/slice | full Δ | drop-top3 Δ | years Δ>0 | verdict |
+| TI | full Δ | drop-top3 | **drop-top5** | **no-2021** | bootstrap P(Δ≤0) | verdict |
 |---|---|---|---|---|---|---|
-| **HMA** | +0.60% | **+2.28%** | +0.92% | **+0.14%** | 3/5 | **DISTRIBUTED — lead** |
-| **TEMA** | +0.57% | **+2.23%** | +0.89% | **+0.15%** | 3/5 | **DISTRIBUTED — lead** |
-| VIDYA | +0.05% | +2.11% | — | — | — | delta-positive |
-| DEMA | +0.18% | +1.65% | — | — | — | delta-positive |
-| EMA/SMA/WMA/KAMA | +0.1-0.4% | +1.4-1.6% | +0.56% (SMA) | −0.02% (SMA) | 3/5 | delta+ but **SMA concentrated** |
+| HMA | +0.92% | +0.14% | **−0.20%** | **+0.14%** | 0.13 | CONCENTRATED (2021+VAL bull) |
+| TEMA | +0.89% | +0.15% | **−0.16%** | **+0.14%** | 0.13 | CONCENTRATED |
+| SMA | +0.56% | −0.02% | −0.30% | +0.09% | — | CONCENTRATED (dies drop-top3) |
 
-**Lead = HMA / TEMA (low-lag adaptive).** Their +0.9%/slice delta **survives dropping the top-3 slices** and is
-positive in 3 of 5 years (neg only 2020 chop-onset + 2023-H1) → a *distributed*, not one-burst, edge. Simple SMA's
-edge dies on drop-top3 (concentrated) — the low-lag MAs are materially better. Top-K sweet spot is **5** (top-3 too
-concentrated, top-8/all dilutes toward the market).
+All 8 TIs are delta-positive *as a raw backtest number* on TRAIN+VAL, and the low-lag types (HMA/TEMA) are the
+least-bad — but none is distributed: **drop the top 5 of 227 slices and every one goes negative**, and ~85% of the
+edge is 2021. Top-K sweet spot is 5, but that's tuning a non-significant number.
 
 ## The honest ceiling (what is NOT achieved)
 
@@ -64,11 +61,29 @@ concentrated, top-8/all dilutes toward the market).
 - **OOS is untouched by design** — these numbers are TRAIN(-tuned) + VAL(-validated). The genuine forward test is OOS,
   which must be run **once**, later, without further tuning.
 
-## Verdict
+## Verdict (CORRECTED after adversarial audit — my "distributed" claim was REFUTED)
 
-**Success by the delta clause is met and verified as distributed:** the canonical low-lag MA TIs (HMA/TEMA), gated by
-breadth and holding the momentum top-5 of their eligible names, beat the average 7d slice on both TRAIN and VAL, and
-the edge survives the concentration jackknife that has killed every prior claim in this arc. It is a **real, modest,
-regime-leaning per-slice edge** — deploy-ready for the held-out OOS test, not yet a proven forward edge.
+I initially called this a distributed success on the strength of drop-top3 (+0.14%). An adversarial auditor (and my
+own per-year data) refuted that — my jackknife was too shallow:
+- **drop-top-5 slices (2.2% of 227) → delta goes NEGATIVE** (HMA −0.20%, TEMA −0.16%). The whole +0.92% is ~5 weeks.
+- **Without 2021, delta falls +0.92% → +0.14%** (2021 carries ~85%; its slice-delta +3.49% vs ~0/neg elsewhere).
+- **Bootstrap P(delta≤0) = 0.13, p05 = −0.41%** — not significant at 5%, *before* correcting for the 8-type×6-config
+  search that picked HMA/TEMA (no DSR/Bonferroni applied).
+- **The TI is largely vacuous:** an *ungated* momentum-top-5 (no TI eligibility at all) already beats EW by +1.52% on
+  VAL; the TI adds only +0.76pp; the two share 82% of picks and correlate 0.92–0.97. The median eligible set is 12 of
+  49 names, so the momentum-top-5 almost always fits inside it — the MA cross rarely binds. It's ~half re-labeled momentum.
 
-Artifacts: `strat_ti_slice_audit.{py,json}` (baseline), `strat_ti_redevelop.{py,json}` (the fix), `strat_ti_slice_verify.{py,json}` (distributed-vs-concentrated).
+**Honest verdict:** mechanics are clean (no look-ahead, WALL enforced — a *real* backtest number), but there is **no
+distributed, TI-specific, statistically-supported slice-edge.** The +0.9%/slice delta is 2021 + the VAL bull wearing a
+momentum costume. What IS robust and real is **clause 1 to ~80%:** the breadth gate mechanically keeps ~80% of slices
+cash-or-profitable (losing-deployed-week rate ~20%, an irreducible floor) — i.e. the TI bots are **de-risked beta**,
+the same ceiling the whole arc hits, NOT a market-beating per-slice edge.
+
+**Methodology WIN (keep this):** the TRAIN+VAL-only discipline (OOS walled out) is correct and fixes the prior
+"gates tuned on OOS" contamination; the per-slice delta-vs-market framing is the right lens. **Lesson: a delta can be
+positive yet concentration-fragile — always jackknife to drop-top-5/10 + drop-best-year + bootstrap + a
+multiple-comparisons (DSR) gate BEFORE calling it distributed; drop-top-3 is too shallow (it fooled me twice this session).**
+
+Artifacts: `strat_ti_slice_audit.{py,json}` (baseline), `strat_ti_redevelop.{py,json}` (the momentum-top-5 fix),
+`strat_ti_slice_verify.{py,json}` (my too-shallow jackknife), auditor probes `audit_probe_tislice.py` / `audit_probe2.py`
+(drop-top5/no-2021/bootstrap/vacuity — the decisive refutation).
