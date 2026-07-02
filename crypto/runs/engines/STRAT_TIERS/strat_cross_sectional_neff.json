@@ -1,0 +1,102 @@
+{
+  "check": "cross_sectional_neff",
+  "T": 2338,
+  "A": 71,
+  "ts": "20260702_111342",
+  "A_dispersion": {
+    "mean_pair_corr_raw": 0.497,
+    "mean_pair_corr_ex_btc_resid": 0.275,
+    "mean_pair_corr_cross_sec_demean": -0.022,
+    "pc1_share_raw": 0.606,
+    "pc1_share_ex_btc": 0.399,
+    "weekly_xsec_std_median": 0.088,
+    "weekly_best_mover_median": 0.299,
+    "weekly_p90_mover_median": 0.093,
+    "n_weeks": 332
+  },
+  "B_signal_disagreement": {
+    "set": [
+      "SMA(20,50)",
+      "MACD",
+      "ROC",
+      "RSI",
+      "DONCHIAN",
+      "OBV"
+    ],
+    "jaccard_mean_offdiag": 0.331,
+    "jaccard_min": 0.004,
+    "jaccard_matrix": {
+      "SMA(20,50)": {
+        "SMA(20,50)": 1.0,
+        "MACD": 0.24,
+        "ROC": 0.35,
+        "RSI": 0.18,
+        "DONCHIAN": 0.29,
+        "OBV": 0.32
+      },
+      "MACD": {
+        "SMA(20,50)": 0.24,
+        "MACD": 1.0,
+        "ROC": 0.66,
+        "RSI": 0.07,
+        "DONCHIAN": 0.55,
+        "OBV": 0.5
+      },
+      "ROC": {
+        "SMA(20,50)": 0.35,
+        "MACD": 0.66,
+        "ROC": 1.0,
+        "RSI": 0.03,
+        "DONCHIAN": 0.66,
+        "OBV": 0.53
+      },
+      "RSI": {
+        "SMA(20,50)": 0.18,
+        "MACD": 0.07,
+        "ROC": 0.03,
+        "RSI": 1.0,
+        "DONCHIAN": 0.0,
+        "OBV": 0.1
+      },
+      "DONCHIAN": {
+        "SMA(20,50)": 0.29,
+        "MACD": 0.55,
+        "ROC": 0.66,
+        "RSI": 0.0,
+        "DONCHIAN": 1.0,
+        "OBV": 0.48
+      },
+      "OBV": {
+        "SMA(20,50)": 0.32,
+        "MACD": 0.5,
+        "ROC": 0.53,
+        "RSI": 0.1,
+        "DONCHIAN": 0.48,
+        "OBV": 1.0
+      }
+    }
+  },
+  "C_market_neutral_neff": {
+    "set": [
+      "SMA(20,50)",
+      "MACD",
+      "ROC",
+      "RSI",
+      "DONCHIAN",
+      "OBV"
+    ],
+    "raw_pnl": {
+      "rbar": 0.636,
+      "n_eff": 1.43
+    },
+    "residual_pnl": {
+      "rbar": 0.127,
+      "n_eff": 3.67
+    },
+    "single_asset": {
+      "sym": "SOLUSDT",
+      "rbar": 0.546,
+      "n_eff": 1.61
+    }
+  }
+}
