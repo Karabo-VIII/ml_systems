@@ -35,6 +35,7 @@
     "git\\s+reflog\\s+expire",
     "git\\s+update-ref\\s+-d",
     "git\\s+commit\\s+--no-verify",
+    "git\\s+(?:-C\\s+(?:\"[^\"]*\"|\\S+)\\s+)?add\\s+(?:-A|--all|\\.)(?:$|\\s)",
     "(?<![-\\w])(?:>>?|\\btee\\b|\\bcp\\b|\\bmv\\b)\\s+(?:[^\\s'\\\"|>]+\\s+)?\\.claude[\\\\/]settings\\.(?:local\\.)?json\\b",
     "open\\([^)]*settings\\.(local\\.)?json[^)]*['\\\"](w|a)",
     "(^|\\s)sudo\\s",
@@ -54,6 +55,7 @@
   ],
   "url_deny_regex": [],
   "cmd_deny_hints": {
-    "(?:^|&&|;|\\||\\n)\\s*(?:cd|chdir|sl|pushd|Set-Location|Push-Location)(?=\\s|&|;|\\||$)": "a top-level dir-change wedges the shared cwd and can lock out ALL tools; use 'git -C <dir>', absolute paths, or a subshell '(cd X && cmd)'"
+    "(?:^|&&|;|\\||\\n)\\s*(?:cd|chdir|sl|pushd|Set-Location|Push-Location)(?=\\s|&|;|\\||$)": "a top-level dir-change wedges the shared cwd and can lock out ALL tools; use 'git -C <dir>', absolute paths, or a subshell '(cd X && cmd)'",
+    "git\\s+(?:-C\\s+(?:\"[^\"]*\"|\\S+)\\s+)?add\\s+(?:-A|--all|\\.)(?:$|\\s)": "bare 'git add -A/--all/.' (incl. the 'git -C <repo> add -A' form) stages a CONCURRENT instance's in-progress files into YOUR commit (CONFIRMED RECURRING 4x -- see project-commit-lease-needed). Stage EXPLICIT paths ('git add -- <path> ...') or route the whole add+commit through the O_EXCL commit-lease: python crypto/scripts/autonomy/git_commit_safe.py --paths <p1> <p2> --message '...'"
   }
 }

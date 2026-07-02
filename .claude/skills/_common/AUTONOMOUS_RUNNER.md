@@ -136,3 +136,24 @@ consensus panel (audit + validator) caught all of it. The act→observe→feedba
   dead-list entry carries the apparatus-state it was found under; fixing an apparatus bug RE-OPENS every
   negative that depended on it. (A broken measurement instrument produces false negatives, not only false
   positives — the dead-list is only as trustworthy as the apparatus that wrote it.)
+
+## 7. Long-run OUTPUT discipline — log to FILE, summarize to chat (added 2026-07-02)
+
+A long autonomous / `/loop` / `/schedule` run that streams full backtest tables, JSON dumps, or per-cycle
+narration into the response eventually overflows the context/output limit and the turn dies as an API error
+(`is_error` / `api_error_status`; the `metaop` CliBrain then pays a `_rebirth` cold-restart). The fix is to
+**not overflow in the first place** — the crash-recovery is a backstop, not a substitute for discipline.
+
+- **Detailed record → a FILE, not the chat.** Every cycle's full output (tables, per-asset rows, config
+  grids, raw JSON) is written to a run log / the learnings ledger / a `crypto/runs/.../*.log` — the canonical
+  place the artifact lives. This IS the WRITE-FORWARD of §5, made per-cycle and disk-first.
+- **Chat gets a SHORT summary only.** Per cycle, surface ≤3–5 lines: what ran, the headline number(s), the
+  decision (CONFIRM / REFUTE / PIVOT), and the file path to the full artifact. Cite the path
+  (`file:line` / `runs/.../x.json`) rather than pasting the contents. Composes with
+  [[feedback-deliver-literal-artifacts-where-user-looks]]: the artifact goes where the user looks (a file),
+  and the chat stays a scannable index of it.
+- **Never truncate silently.** If you drop rows/assets/detail to stay short, say so and point at the full
+  file — a silent top-N read as "covered everything" is the over-mining trap wearing a tidy summary.
+- **Why (provenance):** the 2026-07-02 usage review found long autonomous runs were the main structural
+  friction — sessions lost to output/context-limit errors. Disk-first + short-summary keeps a long run
+  recoverable and its findings durable regardless of where the turn ends.

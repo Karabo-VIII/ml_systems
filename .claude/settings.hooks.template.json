@@ -36,6 +36,12 @@
         "hooks": [
           { "type": "command", "command": "python .claude/hooks/meta_change_guard.py", "timeout": 120 }
         ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit|Update",
+        "hooks": [
+          { "type": "command", "command": "python .claude/hooks/post_edit_guards.py", "timeout": 10 }
+        ]
       }
     ],
     "UserPromptSubmit": [
