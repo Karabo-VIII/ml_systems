@@ -1,0 +1,346 @@
+{
+  "check": "all_ti_slice",
+  "note": "redeveloped (mom-top5 + K3 gate), TRAIN+VAL, OOS held out",
+  "rows": [
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.79,
+      "mean_sl": 3.1,
+      "dep_med": 2.31,
+      "dep_pos": 0.62,
+      "delta": 0.91,
+      "ti": "DONCHIAN",
+      "family": "breakout"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.78,
+      "mean_sl": 3.01,
+      "dep_med": 1.93,
+      "dep_pos": 0.6,
+      "delta": 0.82,
+      "ti": "KELTNER",
+      "family": "breakout"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.78,
+      "mean_sl": 1.73,
+      "dep_med": 1.66,
+      "dep_pos": 0.6,
+      "delta": -0.46,
+      "ti": "STOCHRSI",
+      "family": "mean-reversion"
+    },
+    {
+      "deploy": 0.5,
+      "cash_prof": 0.79,
+      "mean_sl": 0.63,
+      "dep_med": 1.0,
+      "dep_pos": 0.58,
+      "delta": -1.56,
+      "ti": "STOCH",
+      "family": "mean-reversion"
+    },
+    {
+      "deploy": 0.49,
+      "cash_prof": 0.8,
+      "mean_sl": 0.57,
+      "dep_med": 0.98,
+      "dep_pos": 0.59,
+      "delta": -1.62,
+      "ti": "WILLR",
+      "family": "mean-reversion"
+    },
+    {
+      "deploy": 0.4,
+      "cash_prof": 0.82,
+      "mean_sl": 0.8,
+      "dep_med": 0.85,
+      "dep_pos": 0.54,
+      "delta": -1.39,
+      "ti": "CMO",
+      "family": "mean-reversion"
+    },
+    {
+      "deploy": 0.46,
+      "cash_prof": 0.79,
+      "mean_sl": 1.0,
+      "dep_med": 0.46,
+      "dep_pos": 0.56,
+      "delta": -1.19,
+      "ti": "UO",
+      "family": "mean-reversion"
+    },
+    {
+      "deploy": 0.39,
+      "cash_prof": 0.82,
+      "mean_sl": 0.82,
+      "dep_med": 0.38,
+      "dep_pos": 0.52,
+      "delta": -1.38,
+      "ti": "RSI",
+      "family": "mean-reversion"
+    },
+    {
+      "deploy": 0.41,
+      "cash_prof": 0.79,
+      "mean_sl": 0.87,
+      "dep_med": 0.04,
+      "dep_pos": 0.5,
+      "delta": -1.32,
+      "ti": "BBPCT",
+      "family": "mean-reversion"
+    },
+    {
+      "deploy": 0.43,
+      "cash_prof": 0.79,
+      "mean_sl": 0.5,
+      "dep_med": 0.04,
+      "dep_pos": 0.51,
+      "delta": -1.69,
+      "ti": "CCI",
+      "family": "mean-reversion"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.78,
+      "mean_sl": 2.98,
+      "dep_med": 2.83,
+      "dep_pos": 0.6,
+      "delta": 0.79,
+      "ti": "TSI",
+      "family": "momentum"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.78,
+      "mean_sl": 2.19,
+      "dep_med": 2.66,
+      "dep_pos": 0.6,
+      "delta": 0.0,
+      "ti": "RVI",
+      "family": "momentum"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.78,
+      "mean_sl": 3.22,
+      "dep_med": 2.39,
+      "dep_pos": 0.6,
+      "delta": 1.03,
+      "ti": "ROC",
+      "family": "momentum"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.78,
+      "mean_sl": 3.15,
+      "dep_med": 2.39,
+      "dep_pos": 0.61,
+      "delta": 0.96,
+      "ti": "AO",
+      "family": "momentum"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.77,
+      "mean_sl": 2.29,
+      "dep_med": 1.83,
+      "dep_pos": 0.59,
+      "delta": 0.1,
+      "ti": "BOP",
+      "family": "momentum"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.76,
+      "mean_sl": 3.18,
+      "dep_med": 1.63,
+      "dep_pos": 0.57,
+      "delta": 0.99,
+      "ti": "KST",
+      "family": "momentum"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.77,
+      "mean_sl": 3.09,
+      "dep_med": 2.83,
+      "dep_pos": 0.59,
+      "delta": 0.9,
+      "ti": "LINREG",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.78,
+      "mean_sl": 3.05,
+      "dep_med": 2.78,
+      "dep_pos": 0.6,
+      "delta": 0.85,
+      "ti": "TRIX",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.78,
+      "mean_sl": 3.22,
+      "dep_med": 2.3,
+      "dep_pos": 0.6,
+      "delta": 1.03,
+      "ti": "SUPERTREND",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.78,
+      "mean_sl": 3.17,
+      "dep_med": 2.16,
+      "dep_pos": 0.6,
+      "delta": 0.97,
+      "ti": "MACD",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.78,
+      "mean_sl": 2.98,
+      "dep_med": 2.16,
+      "dep_pos": 0.6,
+      "delta": 0.79,
+      "ti": "AROON",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.77,
+      "mean_sl": 3.2,
+      "dep_med": 1.96,
+      "dep_pos": 0.59,
+      "delta": 1.01,
+      "ti": "PSAR",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.54,
+      "cash_prof": 0.78,
+      "mean_sl": 3.2,
+      "dep_med": 1.95,
+      "dep_pos": 0.6,
+      "delta": 1.01,
+      "ti": "CKSP",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.77,
+      "mean_sl": 2.97,
+      "dep_med": 1.94,
+      "dep_pos": 0.59,
+      "delta": 0.78,
+      "ti": "ADX",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.77,
+      "mean_sl": 2.8,
+      "dep_med": 1.93,
+      "dep_pos": 0.59,
+      "delta": 0.61,
+      "ti": "VORTEX",
+      "family": "trend"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.79,
+      "mean_sl": 3.07,
+      "dep_med": 2.37,
+      "dep_pos": 0.62,
+      "delta": 0.88,
+      "ti": "ATRREG",
+      "family": "volatility"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.79,
+      "mean_sl": 3.07,
+      "dep_med": 2.37,
+      "dep_pos": 0.62,
+      "delta": 0.88,
+      "ti": "CHOP",
+      "family": "volatility"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.79,
+      "mean_sl": 3.07,
+      "dep_med": 2.37,
+      "dep_pos": 0.62,
+      "delta": 0.88,
+      "ti": "ULCER",
+      "family": "volatility"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.79,
+      "mean_sl": 3.07,
+      "dep_med": 2.37,
+      "dep_pos": 0.62,
+      "delta": 0.88,
+      "ti": "MASSI",
+      "family": "volatility"
+    },
+    {
+      "deploy": 0.54,
+      "cash_prof": 0.8,
+      "mean_sl": 2.93,
+      "dep_med": 1.93,
+      "dep_pos": 0.63,
+      "delta": 0.74,
+      "ti": "BBSQZ",
+      "family": "volatility"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.77,
+      "mean_sl": 2.75,
+      "dep_med": 1.94,
+      "dep_pos": 0.59,
+      "delta": 0.56,
+      "ti": "CMF",
+      "family": "volume"
+    },
+    {
+      "deploy": 0.56,
+      "cash_prof": 0.78,
+      "mean_sl": 2.94,
+      "dep_med": 1.63,
+      "dep_pos": 0.6,
+      "delta": 0.75,
+      "ti": "OBV",
+      "family": "volume"
+    },
+    {
+      "deploy": 0.55,
+      "cash_prof": 0.75,
+      "mean_sl": 1.62,
+      "dep_med": 0.71,
+      "dep_pos": 0.54,
+      "delta": -0.57,
+      "ti": "MFI",
+      "family": "volume"
+    },
+    {
+      "deploy": 0.0,
+      "cash_prof": 1.0,
+      "mean_sl": 0.0,
+      "dep_med": 0.0,
+      "dep_pos": 0.0,
+      "delta": -2.19,
+      "ti": "VOLIMB",
+      "family": "volume"
+    }
+  ]
+}
