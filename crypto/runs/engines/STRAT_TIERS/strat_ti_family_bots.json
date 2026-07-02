@@ -1,0 +1,3334 @@
+{
+  "check": "ti_family_bots",
+  "note": "one bot per type; operating envelope solved on VAL, tested OOS",
+  "ERTHR": 0.35,
+  "BRDTHR": 0.5,
+  "ts": "20260702_112030",
+  "families": {
+    "SMA": {
+      "family": "trend(MA)",
+      "naked_oos": {
+        "comp": -60.3,
+        "maxdd": -76.1,
+        "calmar": -0.79,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 213.0,
+        "maxdd": -24.6,
+        "calmar": 8.67,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 22.5,
+        "maxdd": -37.0,
+        "calmar": 0.61,
+        "pct_pos": 0.14,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 89.3,
+            "maxdd": -39.6,
+            "calmar": 2.25,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -60.3,
+            "maxdd": -76.1,
+            "calmar": -0.79,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.98
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 93.8,
+            "maxdd": -40.2,
+            "calmar": 2.33,
+            "pct_pos": 0.44,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -48.7,
+            "maxdd": -71.9,
+            "calmar": -0.68,
+            "pct_pos": 0.38,
+            "n_wk": 106
+          },
+          "expo": 0.77
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 99.0,
+            "maxdd": -33.7,
+            "calmar": 2.93,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -29.1,
+            "maxdd": -58.2,
+            "calmar": -0.5,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 213.0,
+            "maxdd": -24.6,
+            "calmar": 8.67,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 22.5,
+            "maxdd": -37.0,
+            "calmar": 0.61,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.36
+        }
+      }
+    },
+    "MACD": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -51.6,
+        "maxdd": -75.3,
+        "calmar": -0.69,
+        "pct_pos": 0.46,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 218.3,
+        "maxdd": -24.2,
+        "calmar": 9.0,
+        "pct_pos": 0.36,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 26.1,
+        "maxdd": -39.8,
+        "calmar": 0.66,
+        "pct_pos": 0.14,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 82.8,
+            "maxdd": -43.0,
+            "calmar": 1.92,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -51.6,
+            "maxdd": -75.3,
+            "calmar": -0.69,
+            "pct_pos": 0.46,
+            "n_wk": 106
+          },
+          "expo": 0.97
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 120.5,
+            "maxdd": -34.5,
+            "calmar": 3.49,
+            "pct_pos": 0.42,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -63.1,
+            "maxdd": -79.8,
+            "calmar": -0.79,
+            "pct_pos": 0.41,
+            "n_wk": 106
+          },
+          "expo": 0.8
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 109.0,
+            "maxdd": -31.0,
+            "calmar": 3.52,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -1.9,
+            "maxdd": -45.0,
+            "calmar": -0.04,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 218.3,
+            "maxdd": -24.2,
+            "calmar": 9.0,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 26.1,
+            "maxdd": -39.8,
+            "calmar": 0.66,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.35
+        }
+      }
+    },
+    "VORTEX": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -52.1,
+        "maxdd": -80.3,
+        "calmar": -0.65,
+        "pct_pos": 0.41,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 125.0,
+        "maxdd": -39.6,
+        "calmar": 3.16,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 5.6,
+        "maxdd": -46.9,
+        "calmar": 0.12,
+        "pct_pos": 0.14,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 66.4,
+            "maxdd": -35.3,
+            "calmar": 1.88,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -52.1,
+            "maxdd": -80.3,
+            "calmar": -0.65,
+            "pct_pos": 0.41,
+            "n_wk": 106
+          },
+          "expo": 0.99
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 79.1,
+            "maxdd": -39.5,
+            "calmar": 2.0,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -74.5,
+            "maxdd": -80.4,
+            "calmar": -0.93,
+            "pct_pos": 0.36,
+            "n_wk": 106
+          },
+          "expo": 0.87
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 78.6,
+            "maxdd": -35.3,
+            "calmar": 2.22,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -16.8,
+            "maxdd": -54.8,
+            "calmar": -0.31,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 125.0,
+            "maxdd": -39.6,
+            "calmar": 3.16,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 5.6,
+            "maxdd": -46.9,
+            "calmar": 0.12,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.36
+        }
+      }
+    },
+    "ADX": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -58.8,
+        "maxdd": -78.3,
+        "calmar": -0.75,
+        "pct_pos": 0.38,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 188.5,
+        "maxdd": -21.8,
+        "calmar": 8.65,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 21.1,
+        "maxdd": -41.5,
+        "calmar": 0.51,
+        "pct_pos": 0.16,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 64.8,
+            "maxdd": -43.0,
+            "calmar": 1.51,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -58.8,
+            "maxdd": -78.3,
+            "calmar": -0.75,
+            "pct_pos": 0.38,
+            "n_wk": 106
+          },
+          "expo": 0.98
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 86.7,
+            "maxdd": -36.9,
+            "calmar": 2.35,
+            "pct_pos": 0.49,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -45.7,
+            "maxdd": -70.5,
+            "calmar": -0.65,
+            "pct_pos": 0.38,
+            "n_wk": 106
+          },
+          "expo": 0.77
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 97.5,
+            "maxdd": -33.9,
+            "calmar": 2.88,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -19.0,
+            "maxdd": -53.4,
+            "calmar": -0.36,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 188.5,
+            "maxdd": -21.8,
+            "calmar": 8.65,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 21.1,
+            "maxdd": -41.5,
+            "calmar": 0.51,
+            "pct_pos": 0.16,
+            "n_wk": 106
+          },
+          "expo": 0.37
+        }
+      }
+    },
+    "TSI": {
+      "family": "momentum",
+      "naked_oos": {
+        "comp": -39.5,
+        "maxdd": -71.3,
+        "calmar": -0.55,
+        "pct_pos": 0.47,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 203.8,
+        "maxdd": -18.4,
+        "calmar": 11.09,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 11.7,
+        "maxdd": -46.4,
+        "calmar": 0.25,
+        "pct_pos": 0.16,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 118.2,
+            "maxdd": -35.1,
+            "calmar": 3.36,
+            "pct_pos": 0.58,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -39.5,
+            "maxdd": -71.3,
+            "calmar": -0.55,
+            "pct_pos": 0.47,
+            "n_wk": 106
+          },
+          "expo": 0.97
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 91.6,
+            "maxdd": -41.4,
+            "calmar": 2.21,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -30.7,
+            "maxdd": -68.5,
+            "calmar": -0.45,
+            "pct_pos": 0.38,
+            "n_wk": 106
+          },
+          "expo": 0.76
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 114.0,
+            "maxdd": -32.3,
+            "calmar": 3.52,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -18.2,
+            "maxdd": -54.3,
+            "calmar": -0.33,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 203.8,
+            "maxdd": -18.4,
+            "calmar": 11.09,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 11.7,
+            "maxdd": -46.4,
+            "calmar": 0.25,
+            "pct_pos": 0.16,
+            "n_wk": 106
+          },
+          "expo": 0.37
+        }
+      }
+    },
+    "CMF": {
+      "family": "volume",
+      "naked_oos": {
+        "comp": -64.8,
+        "maxdd": -82.3,
+        "calmar": -0.79,
+        "pct_pos": 0.47,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 122.2,
+        "maxdd": -39.8,
+        "calmar": 3.07,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 4.5,
+        "maxdd": -46.3,
+        "calmar": 0.1,
+        "pct_pos": 0.11,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 82.9,
+            "maxdd": -37.7,
+            "calmar": 2.2,
+            "pct_pos": 0.58,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -64.8,
+            "maxdd": -82.3,
+            "calmar": -0.79,
+            "pct_pos": 0.47,
+            "n_wk": 106
+          },
+          "expo": 0.99
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 92.8,
+            "maxdd": -39.7,
+            "calmar": 2.34,
+            "pct_pos": 0.6,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -79.8,
+            "maxdd": -84.3,
+            "calmar": -0.95,
+            "pct_pos": 0.38,
+            "n_wk": 106
+          },
+          "expo": 0.93
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 77.5,
+            "maxdd": -37.4,
+            "calmar": 2.07,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -3.6,
+            "maxdd": -47.3,
+            "calmar": -0.08,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 122.2,
+            "maxdd": -39.8,
+            "calmar": 3.07,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 4.5,
+            "maxdd": -46.3,
+            "calmar": 0.1,
+            "pct_pos": 0.11,
+            "n_wk": 106
+          },
+          "expo": 0.36
+        }
+      }
+    },
+    "OBV": {
+      "family": "volume",
+      "naked_oos": {
+        "comp": -41.4,
+        "maxdd": -70.3,
+        "calmar": -0.59,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 132.1,
+        "maxdd": -42.7,
+        "calmar": 3.1,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -16.0,
+        "maxdd": -55.0,
+        "calmar": -0.29,
+        "pct_pos": 0.14,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 73.2,
+            "maxdd": -36.9,
+            "calmar": 1.98,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -41.4,
+            "maxdd": -70.3,
+            "calmar": -0.59,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.99
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 63.0,
+            "maxdd": -45.7,
+            "calmar": 1.38,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -72.6,
+            "maxdd": -78.1,
+            "calmar": -0.93,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.88
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 77.9,
+            "maxdd": -35.7,
+            "calmar": 2.19,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -9.8,
+            "maxdd": -51.7,
+            "calmar": -0.19,
+            "pct_pos": 0.15,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 132.1,
+            "maxdd": -42.7,
+            "calmar": 3.1,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -16.0,
+            "maxdd": -55.0,
+            "calmar": -0.29,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.37
+        }
+      }
+    },
+    "MFI": {
+      "family": "volume",
+      "naked_oos": {
+        "comp": -68.2,
+        "maxdd": -82.6,
+        "calmar": -0.83,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/MKT",
+      "val_best": {
+        "comp": 103.0,
+        "maxdd": -34.4,
+        "calmar": 2.99,
+        "pct_pos": 0.36,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -37.8,
+        "maxdd": -60.2,
+        "calmar": -0.63,
+        "pct_pos": 0.15,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 86.3,
+            "maxdd": -35.2,
+            "calmar": 2.45,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -68.2,
+            "maxdd": -82.6,
+            "calmar": -0.83,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.99
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 40.2,
+            "maxdd": -36.3,
+            "calmar": 1.11,
+            "pct_pos": 0.49,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -62.4,
+            "maxdd": -76.3,
+            "calmar": -0.82,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.81
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 103.0,
+            "maxdd": -34.4,
+            "calmar": 2.99,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -37.8,
+            "maxdd": -60.2,
+            "calmar": -0.63,
+            "pct_pos": 0.15,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 79.5,
+            "maxdd": -29.9,
+            "calmar": 2.65,
+            "pct_pos": 0.33,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -18.7,
+            "maxdd": -49.0,
+            "calmar": -0.38,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.28
+        }
+      }
+    },
+    "VOLIMB": {
+      "family": "volume",
+      "naked_oos": {
+        "comp": 0.0,
+        "maxdd": 0.0,
+        "calmar": 0,
+        "pct_pos": 0.0,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/ALWAYS",
+      "val_best": {
+        "comp": 0.0,
+        "maxdd": 0.0,
+        "calmar": 0,
+        "pct_pos": 0.0,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 0.0,
+        "maxdd": 0.0,
+        "calmar": 0,
+        "pct_pos": 0.0,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 0.0,
+            "maxdd": 0.0,
+            "calmar": 0,
+            "pct_pos": 0.0,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 0.0,
+            "maxdd": 0.0,
+            "calmar": 0,
+            "pct_pos": 0.0,
+            "n_wk": 106
+          },
+          "expo": 0.0
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 0.0,
+            "maxdd": 0.0,
+            "calmar": 0,
+            "pct_pos": 0.0,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 0.0,
+            "maxdd": 0.0,
+            "calmar": 0,
+            "pct_pos": 0.0,
+            "n_wk": 106
+          },
+          "expo": 0.0
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 0.0,
+            "maxdd": 0.0,
+            "calmar": 0,
+            "pct_pos": 0.0,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 0.0,
+            "maxdd": 0.0,
+            "calmar": 0,
+            "pct_pos": 0.0,
+            "n_wk": 106
+          },
+          "expo": 0.0
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 0.0,
+            "maxdd": 0.0,
+            "calmar": 0,
+            "pct_pos": 0.0,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 0.0,
+            "maxdd": 0.0,
+            "calmar": 0,
+            "pct_pos": 0.0,
+            "n_wk": 106
+          },
+          "expo": 0.0
+        }
+      }
+    },
+    "SUPERTREND": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -57.6,
+        "maxdd": -83.4,
+        "calmar": -0.69,
+        "pct_pos": 0.4,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 237.9,
+        "maxdd": -23.5,
+        "calmar": 10.1,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 4.9,
+        "maxdd": -48.3,
+        "calmar": 0.1,
+        "pct_pos": 0.11,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 86.8,
+            "maxdd": -34.5,
+            "calmar": 2.51,
+            "pct_pos": 0.49,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -57.6,
+            "maxdd": -83.4,
+            "calmar": -0.69,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.97
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 121.7,
+            "maxdd": -34.5,
+            "calmar": 3.53,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -66.9,
+            "maxdd": -82.0,
+            "calmar": -0.82,
+            "pct_pos": 0.36,
+            "n_wk": 106
+          },
+          "expo": 0.77
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 131.2,
+            "maxdd": -28.4,
+            "calmar": 4.63,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 2.3,
+            "maxdd": -50.8,
+            "calmar": 0.04,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 237.9,
+            "maxdd": -23.5,
+            "calmar": 10.1,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 4.9,
+            "maxdd": -48.3,
+            "calmar": 0.1,
+            "pct_pos": 0.11,
+            "n_wk": 106
+          },
+          "expo": 0.35
+        }
+      }
+    },
+    "PSAR": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -50.7,
+        "maxdd": -73.5,
+        "calmar": -0.69,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 214.8,
+        "maxdd": -24.0,
+        "calmar": 8.96,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 13.5,
+        "maxdd": -40.4,
+        "calmar": 0.33,
+        "pct_pos": 0.12,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 80.3,
+            "maxdd": -33.3,
+            "calmar": 2.41,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -50.7,
+            "maxdd": -73.5,
+            "calmar": -0.69,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.96
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 109.9,
+            "maxdd": -35.2,
+            "calmar": 3.13,
+            "pct_pos": 0.47,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -40.6,
+            "maxdd": -70.5,
+            "calmar": -0.58,
+            "pct_pos": 0.36,
+            "n_wk": 106
+          },
+          "expo": 0.72
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 121.2,
+            "maxdd": -29.6,
+            "calmar": 4.09,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 15.2,
+            "maxdd": -41.1,
+            "calmar": 0.37,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 214.8,
+            "maxdd": -24.0,
+            "calmar": 8.96,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 13.5,
+            "maxdd": -40.4,
+            "calmar": 0.33,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.35
+        }
+      }
+    },
+    "ROC": {
+      "family": "momentum",
+      "naked_oos": {
+        "comp": -60.2,
+        "maxdd": -77.3,
+        "calmar": -0.78,
+        "pct_pos": 0.48,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 171.5,
+        "maxdd": -39.7,
+        "calmar": 4.32,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 1.2,
+        "maxdd": -48.0,
+        "calmar": 0.03,
+        "pct_pos": 0.13,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 88.1,
+            "maxdd": -37.4,
+            "calmar": 2.36,
+            "pct_pos": 0.49,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -60.2,
+            "maxdd": -77.3,
+            "calmar": -0.78,
+            "pct_pos": 0.48,
+            "n_wk": 106
+          },
+          "expo": 0.95
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 110.9,
+            "maxdd": -40.6,
+            "calmar": 2.73,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -3.1,
+            "maxdd": -56.6,
+            "calmar": -0.05,
+            "pct_pos": 0.39,
+            "n_wk": 106
+          },
+          "expo": 0.78
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 99.4,
+            "maxdd": -36.4,
+            "calmar": 2.74,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -20.8,
+            "maxdd": -52.8,
+            "calmar": -0.39,
+            "pct_pos": 0.16,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 171.5,
+            "maxdd": -39.7,
+            "calmar": 4.32,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 1.2,
+            "maxdd": -48.0,
+            "calmar": 0.03,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.37
+        }
+      }
+    },
+    "DONCHIAN": {
+      "family": "breakout",
+      "naked_oos": {
+        "comp": -20.3,
+        "maxdd": -63.9,
+        "calmar": -0.32,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 181.6,
+        "maxdd": -25.3,
+        "calmar": 7.17,
+        "pct_pos": 0.36,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 30.8,
+        "maxdd": -35.0,
+        "calmar": 0.88,
+        "pct_pos": 0.13,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 112.3,
+            "maxdd": -41.4,
+            "calmar": 2.71,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -20.3,
+            "maxdd": -63.9,
+            "calmar": -0.32,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.86
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 113.5,
+            "maxdd": -29.3,
+            "calmar": 3.87,
+            "pct_pos": 0.47,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 41.2,
+            "maxdd": -39.8,
+            "calmar": 1.04,
+            "pct_pos": 0.37,
+            "n_wk": 106
+          },
+          "expo": 0.67
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 136.2,
+            "maxdd": -30.3,
+            "calmar": 4.49,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -10.0,
+            "maxdd": -48.5,
+            "calmar": -0.21,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 181.6,
+            "maxdd": -25.3,
+            "calmar": 7.17,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 30.8,
+            "maxdd": -35.0,
+            "calmar": 0.88,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.35
+        }
+      }
+    },
+    "KELTNER": {
+      "family": "breakout",
+      "naked_oos": {
+        "comp": -20.5,
+        "maxdd": -63.5,
+        "calmar": -0.32,
+        "pct_pos": 0.5,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 215.7,
+        "maxdd": -24.5,
+        "calmar": 8.81,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 28.1,
+        "maxdd": -39.4,
+        "calmar": 0.71,
+        "pct_pos": 0.13,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 66.9,
+            "maxdd": -39.0,
+            "calmar": 1.71,
+            "pct_pos": 0.47,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -20.5,
+            "maxdd": -63.5,
+            "calmar": -0.32,
+            "pct_pos": 0.5,
+            "n_wk": 106
+          },
+          "expo": 0.91
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 130.2,
+            "maxdd": -31.9,
+            "calmar": 4.08,
+            "pct_pos": 0.49,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -1.7,
+            "maxdd": -56.8,
+            "calmar": -0.03,
+            "pct_pos": 0.39,
+            "n_wk": 106
+          },
+          "expo": 0.69
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 117.2,
+            "maxdd": -28.9,
+            "calmar": 4.06,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -6.9,
+            "maxdd": -49.3,
+            "calmar": -0.14,
+            "pct_pos": 0.17,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 215.7,
+            "maxdd": -24.5,
+            "calmar": 8.81,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 28.1,
+            "maxdd": -39.4,
+            "calmar": 0.71,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.35
+        }
+      }
+    },
+    "WILLR": {
+      "family": "mean-reversion",
+      "naked_oos": {
+        "comp": -47.3,
+        "maxdd": -74.8,
+        "calmar": -0.63,
+        "pct_pos": 0.44,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/ALWAYS",
+      "val_best": {
+        "comp": 3.9,
+        "maxdd": -35.9,
+        "calmar": 0.11,
+        "pct_pos": 0.53,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -47.3,
+        "maxdd": -74.8,
+        "calmar": -0.63,
+        "pct_pos": 0.44,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 3.9,
+            "maxdd": -35.9,
+            "calmar": 0.11,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -47.3,
+            "maxdd": -74.8,
+            "calmar": -0.63,
+            "pct_pos": 0.44,
+            "n_wk": 106
+          },
+          "expo": 0.93
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": -29.9,
+            "maxdd": -38.7,
+            "calmar": -0.77,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -59.2,
+            "maxdd": -72.9,
+            "calmar": -0.81,
+            "pct_pos": 0.43,
+            "n_wk": 106
+          },
+          "expo": 0.67
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": -4.4,
+            "maxdd": -36.0,
+            "calmar": -0.12,
+            "pct_pos": 0.33,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -38.3,
+            "maxdd": -61.7,
+            "calmar": -0.62,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.35
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": -13.8,
+            "maxdd": -35.6,
+            "calmar": -0.39,
+            "pct_pos": 0.2,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -16.8,
+            "maxdd": -39.9,
+            "calmar": -0.42,
+            "pct_pos": 0.11,
+            "n_wk": 106
+          },
+          "expo": 0.19
+        }
+      }
+    },
+    "AROON": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -48.9,
+        "maxdd": -76.3,
+        "calmar": -0.64,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 143.6,
+        "maxdd": -32.6,
+        "calmar": 4.41,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 5.1,
+        "maxdd": -47.4,
+        "calmar": 0.11,
+        "pct_pos": 0.13,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 99.4,
+            "maxdd": -39.5,
+            "calmar": 2.52,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -48.9,
+            "maxdd": -76.3,
+            "calmar": -0.64,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.98
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 48.9,
+            "maxdd": -41.5,
+            "calmar": 1.18,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -43.9,
+            "maxdd": -72.3,
+            "calmar": -0.61,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.79
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 109.9,
+            "maxdd": -34.2,
+            "calmar": 3.22,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -27.5,
+            "maxdd": -58.3,
+            "calmar": -0.47,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 143.6,
+            "maxdd": -32.6,
+            "calmar": 4.41,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 5.1,
+            "maxdd": -47.4,
+            "calmar": 0.11,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.37
+        }
+      }
+    },
+    "TRIX": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -37.9,
+        "maxdd": -70.0,
+        "calmar": -0.54,
+        "pct_pos": 0.48,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 138.8,
+        "maxdd": -36.3,
+        "calmar": 3.82,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 2.1,
+        "maxdd": -47.8,
+        "calmar": 0.04,
+        "pct_pos": 0.12,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 117.7,
+            "maxdd": -36.1,
+            "calmar": 3.26,
+            "pct_pos": 0.6,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -37.9,
+            "maxdd": -70.0,
+            "calmar": -0.54,
+            "pct_pos": 0.48,
+            "n_wk": 106
+          },
+          "expo": 0.97
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 62.6,
+            "maxdd": -42.7,
+            "calmar": 1.46,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -29.8,
+            "maxdd": -67.9,
+            "calmar": -0.44,
+            "pct_pos": 0.43,
+            "n_wk": 106
+          },
+          "expo": 0.82
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 103.1,
+            "maxdd": -34.1,
+            "calmar": 3.03,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -14.2,
+            "maxdd": -52.7,
+            "calmar": -0.27,
+            "pct_pos": 0.15,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 138.8,
+            "maxdd": -36.3,
+            "calmar": 3.82,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 2.1,
+            "maxdd": -47.8,
+            "calmar": 0.04,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        }
+      }
+    },
+    "LINREG": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -52.5,
+        "maxdd": -73.1,
+        "calmar": -0.72,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 126.9,
+        "maxdd": -38.8,
+        "calmar": 3.27,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -7.4,
+        "maxdd": -51.1,
+        "calmar": -0.15,
+        "pct_pos": 0.13,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 100.5,
+            "maxdd": -36.1,
+            "calmar": 2.78,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -52.5,
+            "maxdd": -73.1,
+            "calmar": -0.72,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.97
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 56.8,
+            "maxdd": -40.2,
+            "calmar": 1.41,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -34.8,
+            "maxdd": -60.0,
+            "calmar": -0.58,
+            "pct_pos": 0.41,
+            "n_wk": 106
+          },
+          "expo": 0.86
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 98.7,
+            "maxdd": -34.9,
+            "calmar": 2.83,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -26.0,
+            "maxdd": -56.6,
+            "calmar": -0.46,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 126.9,
+            "maxdd": -38.8,
+            "calmar": 3.27,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -7.4,
+            "maxdd": -51.1,
+            "calmar": -0.15,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        }
+      }
+    },
+    "CKSP": {
+      "family": "trend",
+      "naked_oos": {
+        "comp": -25.9,
+        "maxdd": -66.9,
+        "calmar": -0.39,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 188.2,
+        "maxdd": -24.5,
+        "calmar": 7.67,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 27.8,
+        "maxdd": -40.3,
+        "calmar": 0.69,
+        "pct_pos": 0.12,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 91.0,
+            "maxdd": -34.3,
+            "calmar": 2.66,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -25.9,
+            "maxdd": -66.9,
+            "calmar": -0.39,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.86
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 101.7,
+            "maxdd": -32.1,
+            "calmar": 3.17,
+            "pct_pos": 0.47,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -22.2,
+            "maxdd": -55.8,
+            "calmar": -0.4,
+            "pct_pos": 0.38,
+            "n_wk": 106
+          },
+          "expo": 0.67
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 152.1,
+            "maxdd": -27.3,
+            "calmar": 5.56,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 23.1,
+            "maxdd": -41.1,
+            "calmar": 0.56,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 188.2,
+            "maxdd": -24.5,
+            "calmar": 7.67,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 27.8,
+            "maxdd": -40.3,
+            "calmar": 0.69,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.35
+        }
+      }
+    },
+    "AO": {
+      "family": "momentum",
+      "naked_oos": {
+        "comp": -47.5,
+        "maxdd": -74.1,
+        "calmar": -0.64,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 174.8,
+        "maxdd": -23.5,
+        "calmar": 7.43,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 16.7,
+        "maxdd": -41.8,
+        "calmar": 0.4,
+        "pct_pos": 0.14,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 85.3,
+            "maxdd": -39.0,
+            "calmar": 2.19,
+            "pct_pos": 0.47,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -47.5,
+            "maxdd": -74.1,
+            "calmar": -0.64,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.97
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 73.9,
+            "maxdd": -38.1,
+            "calmar": 1.94,
+            "pct_pos": 0.47,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -40.6,
+            "maxdd": -69.7,
+            "calmar": -0.58,
+            "pct_pos": 0.34,
+            "n_wk": 106
+          },
+          "expo": 0.74
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 107.2,
+            "maxdd": -30.1,
+            "calmar": 3.56,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -24.5,
+            "maxdd": -56.8,
+            "calmar": -0.43,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 174.8,
+            "maxdd": -23.5,
+            "calmar": 7.43,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 16.7,
+            "maxdd": -41.8,
+            "calmar": 0.4,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.36
+        }
+      }
+    },
+    "RVI": {
+      "family": "momentum",
+      "naked_oos": {
+        "comp": -63.8,
+        "maxdd": -78.0,
+        "calmar": -0.82,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 138.9,
+        "maxdd": -36.0,
+        "calmar": 3.86,
+        "pct_pos": 0.4,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -10.3,
+        "maxdd": -49.5,
+        "calmar": -0.21,
+        "pct_pos": 0.11,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 51.3,
+            "maxdd": -35.2,
+            "calmar": 1.46,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -63.8,
+            "maxdd": -78.0,
+            "calmar": -0.82,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.99
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 77.0,
+            "maxdd": -41.1,
+            "calmar": 1.87,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -71.1,
+            "maxdd": -83.7,
+            "calmar": -0.85,
+            "pct_pos": 0.46,
+            "n_wk": 106
+          },
+          "expo": 0.95
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 63.5,
+            "maxdd": -35.3,
+            "calmar": 1.8,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -7.4,
+            "maxdd": -47.2,
+            "calmar": -0.16,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 138.9,
+            "maxdd": -36.0,
+            "calmar": 3.86,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -10.3,
+            "maxdd": -49.5,
+            "calmar": -0.21,
+            "pct_pos": 0.11,
+            "n_wk": 106
+          },
+          "expo": 0.37
+        }
+      }
+    },
+    "KST": {
+      "family": "momentum",
+      "naked_oos": {
+        "comp": -67.1,
+        "maxdd": -76.6,
+        "calmar": -0.88,
+        "pct_pos": 0.41,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 204.2,
+        "maxdd": -25.8,
+        "calmar": 7.9,
+        "pct_pos": 0.33,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 2.4,
+        "maxdd": -46.1,
+        "calmar": 0.05,
+        "pct_pos": 0.11,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 108.3,
+            "maxdd": -37.1,
+            "calmar": 2.92,
+            "pct_pos": 0.42,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -67.1,
+            "maxdd": -76.6,
+            "calmar": -0.88,
+            "pct_pos": 0.41,
+            "n_wk": 106
+          },
+          "expo": 0.96
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 139.2,
+            "maxdd": -34.5,
+            "calmar": 4.03,
+            "pct_pos": 0.47,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -55.1,
+            "maxdd": -76.6,
+            "calmar": -0.72,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.75
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 152.6,
+            "maxdd": -27.5,
+            "calmar": 5.55,
+            "pct_pos": 0.31,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -24.6,
+            "maxdd": -57.2,
+            "calmar": -0.43,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 204.2,
+            "maxdd": -25.8,
+            "calmar": 7.9,
+            "pct_pos": 0.33,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 2.4,
+            "maxdd": -46.1,
+            "calmar": 0.05,
+            "pct_pos": 0.11,
+            "n_wk": 106
+          },
+          "expo": 0.34
+        }
+      }
+    },
+    "BOP": {
+      "family": "momentum",
+      "naked_oos": {
+        "comp": -64.2,
+        "maxdd": -80.7,
+        "calmar": -0.8,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 91.4,
+        "maxdd": -35.0,
+        "calmar": 2.62,
+        "pct_pos": 0.36,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 15.4,
+        "maxdd": -46.2,
+        "calmar": 0.33,
+        "pct_pos": 0.15,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 77.1,
+            "maxdd": -36.3,
+            "calmar": 2.12,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -64.2,
+            "maxdd": -80.7,
+            "calmar": -0.8,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.99
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 53.2,
+            "maxdd": -36.9,
+            "calmar": 1.44,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -69.3,
+            "maxdd": -81.3,
+            "calmar": -0.85,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.94
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 89.3,
+            "maxdd": -33.5,
+            "calmar": 2.66,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -14.0,
+            "maxdd": -52.2,
+            "calmar": -0.27,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 91.4,
+            "maxdd": -35.0,
+            "calmar": 2.62,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 15.4,
+            "maxdd": -46.2,
+            "calmar": 0.33,
+            "pct_pos": 0.15,
+            "n_wk": 106
+          },
+          "expo": 0.37
+        }
+      }
+    },
+    "ATRREG": {
+      "family": "volatility",
+      "naked_oos": {
+        "comp": -11.3,
+        "maxdd": -63.6,
+        "calmar": -0.18,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 116.5,
+        "maxdd": -40.5,
+        "calmar": 2.87,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 10.6,
+        "maxdd": -43.1,
+        "calmar": 0.25,
+        "pct_pos": 0.16,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 82.6,
+            "maxdd": -37.9,
+            "calmar": 2.18,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -11.3,
+            "maxdd": -63.6,
+            "calmar": -0.18,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.95
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 73.4,
+            "maxdd": -42.1,
+            "calmar": 1.74,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -10.4,
+            "maxdd": -57.3,
+            "calmar": -0.18,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.8
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 91.3,
+            "maxdd": -35.8,
+            "calmar": 2.55,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -7.0,
+            "maxdd": -46.1,
+            "calmar": -0.15,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 116.5,
+            "maxdd": -40.5,
+            "calmar": 2.87,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 10.6,
+            "maxdd": -43.1,
+            "calmar": 0.25,
+            "pct_pos": 0.16,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        }
+      }
+    },
+    "CHOP": {
+      "family": "volatility",
+      "naked_oos": {
+        "comp": -11.3,
+        "maxdd": -63.6,
+        "calmar": -0.18,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 116.5,
+        "maxdd": -40.5,
+        "calmar": 2.87,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 10.6,
+        "maxdd": -43.1,
+        "calmar": 0.25,
+        "pct_pos": 0.16,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 82.6,
+            "maxdd": -37.9,
+            "calmar": 2.18,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -11.3,
+            "maxdd": -63.6,
+            "calmar": -0.18,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.95
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 73.4,
+            "maxdd": -42.1,
+            "calmar": 1.74,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -10.4,
+            "maxdd": -57.3,
+            "calmar": -0.18,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.8
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 91.3,
+            "maxdd": -35.8,
+            "calmar": 2.55,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -7.0,
+            "maxdd": -46.1,
+            "calmar": -0.15,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 116.5,
+            "maxdd": -40.5,
+            "calmar": 2.87,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 10.6,
+            "maxdd": -43.1,
+            "calmar": 0.25,
+            "pct_pos": 0.16,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        }
+      }
+    },
+    "ULCER": {
+      "family": "volatility",
+      "naked_oos": {
+        "comp": -11.3,
+        "maxdd": -63.6,
+        "calmar": -0.18,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 116.5,
+        "maxdd": -40.5,
+        "calmar": 2.87,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 10.6,
+        "maxdd": -43.1,
+        "calmar": 0.25,
+        "pct_pos": 0.16,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 82.6,
+            "maxdd": -37.9,
+            "calmar": 2.18,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -11.3,
+            "maxdd": -63.6,
+            "calmar": -0.18,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.95
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 73.4,
+            "maxdd": -42.1,
+            "calmar": 1.74,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -10.4,
+            "maxdd": -57.3,
+            "calmar": -0.18,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.8
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 91.3,
+            "maxdd": -35.8,
+            "calmar": 2.55,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -7.0,
+            "maxdd": -46.1,
+            "calmar": -0.15,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 116.5,
+            "maxdd": -40.5,
+            "calmar": 2.87,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 10.6,
+            "maxdd": -43.1,
+            "calmar": 0.25,
+            "pct_pos": 0.16,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        }
+      }
+    },
+    "BBSQZ": {
+      "family": "volatility",
+      "naked_oos": {
+        "comp": -64.3,
+        "maxdd": -76.5,
+        "calmar": -0.84,
+        "pct_pos": 0.44,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/MKT",
+      "val_best": {
+        "comp": 136.1,
+        "maxdd": -33.7,
+        "calmar": 4.04,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -32.5,
+        "maxdd": -60.1,
+        "calmar": -0.54,
+        "pct_pos": 0.14,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 98.2,
+            "maxdd": -41.8,
+            "calmar": 2.35,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -64.3,
+            "maxdd": -76.5,
+            "calmar": -0.84,
+            "pct_pos": 0.44,
+            "n_wk": 106
+          },
+          "expo": 0.83
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 46.2,
+            "maxdd": -26.9,
+            "calmar": 1.72,
+            "pct_pos": 0.42,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -19.3,
+            "maxdd": -50.5,
+            "calmar": -0.38,
+            "pct_pos": 0.34,
+            "n_wk": 106
+          },
+          "expo": 0.61
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 136.1,
+            "maxdd": -33.7,
+            "calmar": 4.04,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -32.5,
+            "maxdd": -60.1,
+            "calmar": -0.54,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 92.8,
+            "maxdd": -23.0,
+            "calmar": 4.03,
+            "pct_pos": 0.33,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 24.8,
+            "maxdd": -40.4,
+            "calmar": 0.61,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.33
+        }
+      }
+    },
+    "MASSI": {
+      "family": "volatility",
+      "naked_oos": {
+        "comp": -11.3,
+        "maxdd": -63.6,
+        "calmar": -0.18,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 116.5,
+        "maxdd": -40.5,
+        "calmar": 2.87,
+        "pct_pos": 0.38,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": 10.6,
+        "maxdd": -43.1,
+        "calmar": 0.25,
+        "pct_pos": 0.16,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 82.6,
+            "maxdd": -37.9,
+            "calmar": 2.18,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -11.3,
+            "maxdd": -63.6,
+            "calmar": -0.18,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.95
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 73.4,
+            "maxdd": -42.1,
+            "calmar": 1.74,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -10.4,
+            "maxdd": -57.3,
+            "calmar": -0.18,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.8
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 91.3,
+            "maxdd": -35.8,
+            "calmar": 2.55,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -7.0,
+            "maxdd": -46.1,
+            "calmar": -0.15,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.39
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 116.5,
+            "maxdd": -40.5,
+            "calmar": 2.87,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": 10.6,
+            "maxdd": -43.1,
+            "calmar": 0.25,
+            "pct_pos": 0.16,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        }
+      }
+    },
+    "STOCHRSI": {
+      "family": "mean-reversion",
+      "naked_oos": {
+        "comp": -46.3,
+        "maxdd": -72.3,
+        "calmar": -0.64,
+        "pct_pos": 0.44,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": 67.6,
+        "maxdd": -41.4,
+        "calmar": 1.63,
+        "pct_pos": 0.36,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -23.8,
+        "maxdd": -55.3,
+        "calmar": -0.43,
+        "pct_pos": 0.14,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 49.9,
+            "maxdd": -37.6,
+            "calmar": 1.33,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -46.3,
+            "maxdd": -72.3,
+            "calmar": -0.64,
+            "pct_pos": 0.44,
+            "n_wk": 106
+          },
+          "expo": 0.99
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": 38.6,
+            "maxdd": -41.3,
+            "calmar": 0.93,
+            "pct_pos": 0.51,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -48.8,
+            "maxdd": -72.6,
+            "calmar": -0.67,
+            "pct_pos": 0.5,
+            "n_wk": 106
+          },
+          "expo": 0.85
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 47.6,
+            "maxdd": -37.7,
+            "calmar": 1.26,
+            "pct_pos": 0.31,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -23.6,
+            "maxdd": -53.4,
+            "calmar": -0.44,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.38
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 67.6,
+            "maxdd": -41.4,
+            "calmar": 1.63,
+            "pct_pos": 0.36,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -23.8,
+            "maxdd": -55.3,
+            "calmar": -0.43,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.33
+        }
+      }
+    },
+    "CMO": {
+      "family": "mean-reversion",
+      "naked_oos": {
+        "comp": -54.9,
+        "maxdd": -70.6,
+        "calmar": -0.78,
+        "pct_pos": 0.46,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/ALWAYS",
+      "val_best": {
+        "comp": -4.7,
+        "maxdd": -36.8,
+        "calmar": -0.13,
+        "pct_pos": 0.56,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -54.9,
+        "maxdd": -70.6,
+        "calmar": -0.78,
+        "pct_pos": 0.46,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": -4.7,
+            "maxdd": -36.8,
+            "calmar": -0.13,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -54.9,
+            "maxdd": -70.6,
+            "calmar": -0.78,
+            "pct_pos": 0.46,
+            "n_wk": 106
+          },
+          "expo": 0.88
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": -18.5,
+            "maxdd": -36.2,
+            "calmar": -0.51,
+            "pct_pos": 0.42,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -53.8,
+            "maxdd": -70.4,
+            "calmar": -0.77,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.66
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": -10.5,
+            "maxdd": -36.9,
+            "calmar": -0.28,
+            "pct_pos": 0.31,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -42.2,
+            "maxdd": -56.2,
+            "calmar": -0.75,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.31
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": -10.0,
+            "maxdd": -34.3,
+            "calmar": -0.29,
+            "pct_pos": 0.24,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -11.1,
+            "maxdd": -38.2,
+            "calmar": -0.29,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.18
+        }
+      }
+    },
+    "UO": {
+      "family": "mean-reversion",
+      "naked_oos": {
+        "comp": -35.1,
+        "maxdd": -68.3,
+        "calmar": -0.51,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/ALWAYS",
+      "val_best": {
+        "comp": 18.7,
+        "maxdd": -37.4,
+        "calmar": 0.5,
+        "pct_pos": 0.49,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -35.1,
+        "maxdd": -68.3,
+        "calmar": -0.51,
+        "pct_pos": 0.42,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 18.7,
+            "maxdd": -37.4,
+            "calmar": 0.5,
+            "pct_pos": 0.49,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -35.1,
+            "maxdd": -68.3,
+            "calmar": -0.51,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.93
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": -15.3,
+            "maxdd": -39.1,
+            "calmar": -0.39,
+            "pct_pos": 0.42,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -56.9,
+            "maxdd": -75.3,
+            "calmar": -0.76,
+            "pct_pos": 0.48,
+            "n_wk": 106
+          },
+          "expo": 0.71
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 11.4,
+            "maxdd": -37.5,
+            "calmar": 0.3,
+            "pct_pos": 0.29,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -33.2,
+            "maxdd": -45.2,
+            "calmar": -0.73,
+            "pct_pos": 0.13,
+            "n_wk": 106
+          },
+          "expo": 0.33
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": 5.8,
+            "maxdd": -35.6,
+            "calmar": 0.16,
+            "pct_pos": 0.29,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -9.6,
+            "maxdd": -32.1,
+            "calmar": -0.3,
+            "pct_pos": 0.14,
+            "n_wk": 106
+          },
+          "expo": 0.2
+        }
+      }
+    },
+    "RSI": {
+      "family": "mean-reversion",
+      "naked_oos": {
+        "comp": -56.3,
+        "maxdd": -65.3,
+        "calmar": -0.86,
+        "pct_pos": 0.47,
+        "n_wk": 106
+      },
+      "val_best_policy": "SELF/MKT",
+      "val_best": {
+        "comp": -13.7,
+        "maxdd": -34.7,
+        "calmar": -0.39,
+        "pct_pos": 0.22,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -19.2,
+        "maxdd": -41.9,
+        "calmar": -0.46,
+        "pct_pos": 0.11,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": -20.3,
+            "maxdd": -32.7,
+            "calmar": -0.62,
+            "pct_pos": 0.53,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -56.3,
+            "maxdd": -65.3,
+            "calmar": -0.86,
+            "pct_pos": 0.47,
+            "n_wk": 106
+          },
+          "expo": 0.86
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": -21.8,
+            "maxdd": -34.6,
+            "calmar": -0.63,
+            "pct_pos": 0.4,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -61.4,
+            "maxdd": -73.3,
+            "calmar": -0.84,
+            "pct_pos": 0.43,
+            "n_wk": 106
+          },
+          "expo": 0.64
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": -22.6,
+            "maxdd": -32.8,
+            "calmar": -0.69,
+            "pct_pos": 0.29,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -33.7,
+            "maxdd": -41.3,
+            "calmar": -0.82,
+            "pct_pos": 0.15,
+            "n_wk": 106
+          },
+          "expo": 0.29
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": -13.7,
+            "maxdd": -34.7,
+            "calmar": -0.39,
+            "pct_pos": 0.22,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -19.2,
+            "maxdd": -41.9,
+            "calmar": -0.46,
+            "pct_pos": 0.11,
+            "n_wk": 106
+          },
+          "expo": 0.17
+        }
+      }
+    },
+    "STOCH": {
+      "family": "mean-reversion",
+      "naked_oos": {
+        "comp": -41.0,
+        "maxdd": -73.9,
+        "calmar": -0.55,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/ALWAYS",
+      "val_best": {
+        "comp": 19.6,
+        "maxdd": -35.7,
+        "calmar": 0.55,
+        "pct_pos": 0.56,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -41.0,
+        "maxdd": -73.9,
+        "calmar": -0.55,
+        "pct_pos": 0.45,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 19.6,
+            "maxdd": -35.7,
+            "calmar": 0.55,
+            "pct_pos": 0.56,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -41.0,
+            "maxdd": -73.9,
+            "calmar": -0.55,
+            "pct_pos": 0.45,
+            "n_wk": 106
+          },
+          "expo": 0.94
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": -28.9,
+            "maxdd": -38.7,
+            "calmar": -0.75,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -60.2,
+            "maxdd": -71.7,
+            "calmar": -0.84,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.67
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": 3.1,
+            "maxdd": -35.8,
+            "calmar": 0.09,
+            "pct_pos": 0.33,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -26.7,
+            "maxdd": -55.8,
+            "calmar": -0.48,
+            "pct_pos": 0.15,
+            "n_wk": 106
+          },
+          "expo": 0.35
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": -13.8,
+            "maxdd": -35.6,
+            "calmar": -0.39,
+            "pct_pos": 0.2,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -22.0,
+            "maxdd": -42.3,
+            "calmar": -0.52,
+            "pct_pos": 0.11,
+            "n_wk": 106
+          },
+          "expo": 0.19
+        }
+      }
+    },
+    "BBPCT": {
+      "family": "mean-reversion",
+      "naked_oos": {
+        "comp": -66.2,
+        "maxdd": -78.5,
+        "calmar": -0.84,
+        "pct_pos": 0.4,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/ALWAYS",
+      "val_best": {
+        "comp": 12.7,
+        "maxdd": -35.1,
+        "calmar": 0.36,
+        "pct_pos": 0.47,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -66.2,
+        "maxdd": -78.5,
+        "calmar": -0.84,
+        "pct_pos": 0.4,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": 12.7,
+            "maxdd": -35.1,
+            "calmar": 0.36,
+            "pct_pos": 0.47,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -66.2,
+            "maxdd": -78.5,
+            "calmar": -0.84,
+            "pct_pos": 0.4,
+            "n_wk": 106
+          },
+          "expo": 0.87
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": -21.6,
+            "maxdd": -35.5,
+            "calmar": -0.61,
+            "pct_pos": 0.38,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -53.9,
+            "maxdd": -68.1,
+            "calmar": -0.79,
+            "pct_pos": 0.42,
+            "n_wk": 106
+          },
+          "expo": 0.64
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": -5.3,
+            "maxdd": -35.2,
+            "calmar": -0.15,
+            "pct_pos": 0.29,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -48.4,
+            "maxdd": -53.5,
+            "calmar": -0.9,
+            "pct_pos": 0.1,
+            "n_wk": 106
+          },
+          "expo": 0.3
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": -13.1,
+            "maxdd": -35.5,
+            "calmar": -0.37,
+            "pct_pos": 0.2,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -7.7,
+            "maxdd": -29.8,
+            "calmar": -0.26,
+            "pct_pos": 0.12,
+            "n_wk": 106
+          },
+          "expo": 0.17
+        }
+      }
+    },
+    "CCI": {
+      "family": "mean-reversion",
+      "naked_oos": {
+        "comp": -67.1,
+        "maxdd": -74.5,
+        "calmar": -0.9,
+        "pct_pos": 0.39,
+        "n_wk": 106
+      },
+      "val_best_policy": "ALL/MKT",
+      "val_best": {
+        "comp": -10.2,
+        "maxdd": -35.9,
+        "calmar": -0.28,
+        "pct_pos": 0.29,
+        "n_wk": 45
+      },
+      "oos_of_val_best": {
+        "comp": -45.0,
+        "maxdd": -48.5,
+        "calmar": -0.93,
+        "pct_pos": 0.1,
+        "n_wk": 106
+      },
+      "all_policies": {
+        "ALL/ALWAYS": {
+          "val": {
+            "comp": -10.4,
+            "maxdd": -35.8,
+            "calmar": -0.29,
+            "pct_pos": 0.49,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -67.1,
+            "maxdd": -74.5,
+            "calmar": -0.9,
+            "pct_pos": 0.39,
+            "n_wk": 106
+          },
+          "expo": 0.9
+        },
+        "SELF/ALWAYS": {
+          "val": {
+            "comp": -30.7,
+            "maxdd": -39.8,
+            "calmar": -0.77,
+            "pct_pos": 0.33,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -72.8,
+            "maxdd": -81.3,
+            "calmar": -0.9,
+            "pct_pos": 0.41,
+            "n_wk": 106
+          },
+          "expo": 0.66
+        },
+        "ALL/MKT": {
+          "val": {
+            "comp": -10.2,
+            "maxdd": -35.9,
+            "calmar": -0.28,
+            "pct_pos": 0.29,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -45.0,
+            "maxdd": -48.5,
+            "calmar": -0.93,
+            "pct_pos": 0.1,
+            "n_wk": 106
+          },
+          "expo": 0.32
+        },
+        "SELF/MKT": {
+          "val": {
+            "comp": -11.4,
+            "maxdd": -35.6,
+            "calmar": -0.32,
+            "pct_pos": 0.18,
+            "n_wk": 45
+          },
+          "oos": {
+            "comp": -23.3,
+            "maxdd": -41.2,
+            "calmar": -0.56,
+            "pct_pos": 0.1,
+            "n_wk": 106
+          },
+          "expo": 0.16
+        }
+      }
+    }
+  }
+}
