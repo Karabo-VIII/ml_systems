@@ -1,0 +1,94 @@
+{
+  "check": "smart_gate",
+  "TI": "HMA",
+  "gates": {
+    "K1": {
+      "TRAIN": {
+        "deploy": 0.81,
+        "cash_prof": 0.65,
+        "delta": 1.35,
+        "mean_sl": 3.44,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.93,
+        "cash_prof": 0.591,
+        "delta": 2.55,
+        "mean_sl": 5.04,
+        "n": 44
+      }
+    },
+    "K2": {
+      "TRAIN": {
+        "deploy": 0.67,
+        "cash_prof": 0.749,
+        "delta": 1.27,
+        "mean_sl": 3.36,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.82,
+        "cash_prof": 0.659,
+        "delta": 2.42,
+        "mean_sl": 4.9,
+        "n": 44
+      }
+    },
+    "K3": {
+      "TRAIN": {
+        "deploy": 0.51,
+        "cash_prof": 0.798,
+        "delta": 1.24,
+        "mean_sl": 3.33,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.64,
+        "cash_prof": 0.705,
+        "delta": 1.83,
+        "mean_sl": 4.32,
+        "n": 44
+      }
+    },
+    "K4": {
+      "TRAIN": {
+        "deploy": 0.31,
+        "cash_prof": 0.891,
+        "delta": -0.23,
+        "mean_sl": 1.85,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.43,
+        "cash_prof": 0.841,
+        "delta": 0.84,
+        "mean_sl": 3.33,
+        "n": 44
+      }
+    },
+    "K5": {
+      "TRAIN": {
+        "deploy": 0.12,
+        "cash_prof": 0.945,
+        "delta": -1.91,
+        "mean_sl": 0.18,
+        "n": 183
+      },
+      "VAL": {
+        "deploy": 0.18,
+        "cash_prof": 0.977,
+        "delta": 0.79,
+        "mean_sl": 3.28,
+        "n": 44
+      }
+    }
+  },
+  "deep_rigor_K": {
+    "K": 3,
+    "full_delta": 1.36,
+    "drop_top5": 0.26,
+    "no_2021": 0.62,
+    "boot_P_delta_le0": 0.044
+  },
+  "verdict": "CEILING CONFIRMED (no robust high-cash/prof + delta>0 gate)"
+}
