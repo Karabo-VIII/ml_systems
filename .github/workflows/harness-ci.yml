@@ -1,0 +1,46 @@
+# Root-level CI for the harness/ sub-project, so the invariant suite runs in THIS mono-repo (GitHub Actions only
+# reads .github/ at the repo root). It is path-filtered to harness/** so it fires only when the harness changes and
+# never on unrelated crypto/forex/games commits. (harness/.github/workflows/ci.yml is the standalone twin that
+# activates when harness/ is carved out via `git subtree split`.) Credential-free: MockBrain + the built-in benchmark.
+name: harness-ci
+
+on:
+  push:
+    paths: ["harness/**"]
+  pull_request:
+    paths: ["harness/**"]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    defaults:
+      run:
+        working-directory: harness
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install (core + dev extras)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Invariant test suite
+        run: pytest -q
+
+      - name: Benchmark RWYB self-test
+        run: python -m metaop.eval_harness --selftest
+
+      - name: Credential-free end-to-end smoke (mechanical verifier gates a build)
+        run: |
+          python run.py --objective "smoke" --backend mock --verify-cmd "python -c \"assert 1+1==2\""
+          python run.py --objective "smoke" --backend mock
