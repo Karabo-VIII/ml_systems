@@ -29,26 +29,52 @@ _PRIVATE_HOST = re.compile(
     r"^(localhost|127\.|0\.0\.0\.0|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.|\[?::1\]?|metadata\.)",
     re.IGNORECASE)
 
-# HARD shell fence -- irreversible / destructive ops are ALWAYS denied regardless of caller config.
+# HARD shell fence -- irreversible / destructive ops ALWAYS denied regardless of caller config. Matched
+# case-INSENSITIVELY (see _blocked), so `RM -RF /` cannot slip past. Recursive `rm` is caught in ANY flag order
+# (`-rf`, `-fr`, `-r`, `--recursive`) and against ANY target (`.`, `*`, a named dir), not just `rm -rf /`; and
+# `git push` force is caught in short (`-f`) AND long (`--force`, `--force-with-lease`) forms. (2026-07-03 audit
+# reproduced `rm -rf .`, `rm -fr /`, and `git push -f` sailing past the old patterns.)
 HARD_DENY = [
-    r"rm\s+-rf\s+[/~]", r"\brmdir\s+/s\b", r"\bdel\s+/[sq]\b",
-    r"git\s+push\s+\S*\s*--force", r"\bgit\s+push\s+--force\b", r"git\s+reset\s+--hard",
-    r"(^|\s)sudo\s", r"(^|\s)dd\s+if=", r"\bmkfs\b", r"format\s+c:",
-    r"\bshutdown\b", r"\breboot\b", r":\(\)\s*\{",  # fork bomb
+    r"\brm\b(?=[^\n]*\s-{1,2}[a-z]*r)",                 # recursive rm, any flag order / target
+    r"\brmdir\s+/s\b", r"\brd\s+/s\b", r"\bdel\s+/[sq]\b",  # Windows recursive/quiet delete
+    r"\bgit\s+push\b[^\n]*(-f\b|--force|--mirror|--delete|\s\+\S)",  # force-push: -f/--force/--force-with-lease,
+    #                                                                  # --mirror/--delete, AND +refspec (git push origin +main)
+    r"\bgit\s+reset\s+--hard\b", r"\bgit\s+clean\b[^\n]*-[a-z]*f",
+    r"(^|\s)sudo\s", r"(^|\s)dd\s+if=", r"\bmkfs\b", r"\bformat\s+[a-z]:",
+    r"\bshutdown\b", r"\breboot\b", r":\s*\(\s*\)\s*\{",  # fork bomb
+    r"\b(curl|wget)\b[^\n]*\|\s*(sh|bash)",             # pipe-to-shell
+    r">\s*/dev/sd", r"\bchmod\s+-R\s+0*\b",             # raw-disk write / mass chmod
+    r"\bRemove-Item\b[^\n]*-Recurse[^\n]*-Force",       # PowerShell recursive force delete
 ]
 
-# HARD file fence -- control surfaces a worker must never overwrite.
-HARD_FILE_DENY = [r"\.git[\\/]", r"\.env\b", r"\bid_rsa\b", r"\.ssh[\\/]"]
+# HARD file fence -- control surfaces a worker must never overwrite (matched case-insensitively).
+HARD_FILE_DENY = [r"\.git[\\/]", r"\.env\b", r"\bid_rsa\b", r"\.ssh[\\/]", r"authorized_keys", r"\.aws[\\/]",
+                  r"\.npmrc\b", r"\.pypirc\b"]
 
 
 def _blocked(text: str, patterns: list) -> str | None:
     for pat in patterns:
         try:
-            if re.search(pat, text):
+            if re.search(pat, text, re.IGNORECASE):
                 return pat
         except re.error:
             continue
     return None
+
+
+def _contained(root: Path, path: str):
+    """Resolve `path` under `root` and enforce root-CONTAINMENT. Returns (resolved_path, None) when the target
+    stays inside root, else (resolved_or_None, reason). This is real containment for the file surface: it stops a
+    `write_file('../../../.bashrc', ...)` traversal escaping the build cwd (which the deny-LIST alone never caught)."""
+    try:
+        rp = (root / path).resolve()
+    except Exception as e:
+        return None, f"cannot resolve path: {e}"
+    try:
+        rp.relative_to(root.resolve())
+    except ValueError:
+        return rp, f"path escapes the build cwd ({root}) -- refused (root containment)"
+    return rp, None
 
 
 class Tools:
@@ -56,7 +82,7 @@ class Tools:
 
     def __init__(self, cwd: Path | str | None = None, workspace: str | None = None, timeout: int = 300,
                  extra_cmd_deny: list | None = None, extra_file_deny: list | None = None,
-                 allow_web: bool = True, web_timeout: int = 20):
+                 allow_web: bool = True, web_timeout: int = 20, contain_paths: bool = True):
         self.root = Path(cwd) if cwd else build_cwd()
         self.workspace = workspace
         self.timeout = timeout
@@ -64,6 +90,10 @@ class Tools:
         self.file_deny = HARD_FILE_DENY + list(extra_file_deny or [])
         self.allow_web = allow_web      # research tools (web_search/fetch_url); set False for offline/sandboxed runs
         self.web_timeout = web_timeout
+        # ROOT CONTAINMENT (default ON): read/write/list resolve INSIDE the build cwd -- a `../` traversal is
+        # refused. This is real containment for the file surface (the deny-list only blocks known-bad basenames).
+        # Set contain_paths=False only for a deliberately unsandboxed run that must reach outside the target project.
+        self.contain_paths = contain_paths
 
     # -- shell ---------------------------------------------------------------
     def run_shell(self, command: str) -> dict:
@@ -92,8 +122,19 @@ class Tools:
         return res
 
     # -- files ---------------------------------------------------------------
+    def _resolve(self, path: str, tool: str):
+        """Resolve `path` under root with containment (when enabled). Returns (Path, None) or (None, error_dict)."""
+        if self.contain_paths:
+            fp, reason = _contained(self.root, path)
+            if reason:
+                return None, {"ok": False, "tool": tool, "error": f"DENIED: {reason}"}
+            return fp, None
+        return (self.root / path).resolve(), None
+
     def read_file(self, path: str, max_chars: int = 8000) -> dict:
-        fp = (self.root / path).resolve()
+        fp, err = self._resolve(path, "read_file")
+        if err:
+            return err
         try:
             return {"ok": True, "tool": "read_file", "output": fp.read_text(encoding="utf-8", errors="replace")[:max_chars]}
         except Exception as e:
@@ -103,7 +144,9 @@ class Tools:
         hit = _blocked(str(path), self.file_deny)
         if hit:
             return {"ok": False, "tool": "write_file", "error": f"DENIED writing protected path /{hit}/"}
-        fp = (self.root / path).resolve()
+        fp, err = self._resolve(path, "write_file")   # ROOT CONTAINMENT: refuse a `../` traversal escaping the cwd
+        if err:
+            return err
         try:
             fp.parent.mkdir(parents=True, exist_ok=True)
             fp.write_text(content, encoding="utf-8")
@@ -112,7 +155,9 @@ class Tools:
             return {"ok": False, "tool": "write_file", "error": str(e)}
 
     def list_dir(self, path: str = ".") -> dict:
-        fp = (self.root / path).resolve()
+        fp, err = self._resolve(path, "list_dir")
+        if err:
+            return err
         try:
             return {"ok": True, "tool": "list_dir", "output": "\n".join(sorted(os.listdir(fp))[:200])}
         except Exception as e:
@@ -201,8 +246,11 @@ class Tools:
 
 if __name__ == "__main__":
     t = Tools()
-    print("schema:", t.schema())
-    print("safe   :", t.run_shell("python --version"))
-    print("denied :", t.run_shell("git push --force origin main"))
-    print("write  :", t.write_file("_tools_selftest.txt", "ok"))
-    print("read   :", t.read_file("_tools_selftest.txt"))
+    print("schema  :", t.schema())
+    print("safe    :", t.run_shell("python --version"))
+    print("denied1 :", t.run_shell("git " + "push -f origin main"))   # force-push (short flag)
+    print("denied2 :", t.run_shell("rm -rf ."))                        # recursive rm on cwd
+    print("denied3 :", t.run_shell("RM -FR /"))                        # case-insensitive, flag order
+    print("escape  :", t.write_file("../../../_escape_selftest.txt", "x"))  # root-containment refusal
+    print("write   :", t.write_file("_tools_selftest.txt", "ok"))
+    print("read    :", t.read_file("_tools_selftest.txt"))

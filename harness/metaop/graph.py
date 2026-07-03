@@ -16,8 +16,10 @@ configurable BUILD CWD (the target project) -- nothing is pinned to any one repo
 """
 from __future__ import annotations
 
+import inspect
 import json
 import operator
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor
 from typing import Annotated, TypedDict
@@ -83,16 +85,25 @@ def _record_refuted(recorder, node, verdict: str, run_id: str, workspace: str | 
         _trace(run_id, "record", {"node": node.get("id"), "error": f"{type(e).__name__}: {e}"}, workspace)
 
 
-def _harvest_passed(harvester, node, run_id: str, workspace: str | None):
+def _harvest_passed(harvester, node, run_id: str, workspace: str | None, cwd: str | None = None):
     """H4 (2026-06-09): the MONOTONICITY hook (Voyager skill-library symmetric to _record_refuted). When a node
     passes the MECHANICAL verifier (ground truth -- NOT an LLM-believed/inconclusive pass, see H3), hand it to the
-    host `harvester(node)` so the validated, re-runnable artifact is REGISTERED in the reusable-asset library. Without
-    this, every CONFIRM is forgotten and the next cycle re-discovers it (a monotonicity violation). No-op when
-    harvester is None (agnostic path). Wrapped so a host error never wedges the judge node."""
+    host harvester so the validated, re-runnable ARTIFACT is REGISTERED in the reusable-asset library. Without this,
+    every CONFIRM is forgotten and the next cycle re-discovers it (a monotonicity violation). No-op when harvester is
+    None (agnostic path). Wrapped so a host error never wedges the judge node.
+
+    The harvester is passed the BUILD CWD (so it can copy the actual verified artifact files, not just a note --
+    2026-07-03 Voyager upgrade). Duck-typed: a 2-arg harvester(node, cwd) gets the cwd; a legacy 1-arg
+    harvester(node) is called unchanged, so the crypto shim keeps working."""
     if harvester is None:
         return
     try:
-        harvester(node)
+        wants_cwd = False
+        try:
+            wants_cwd = len(inspect.signature(harvester).parameters) >= 2
+        except (TypeError, ValueError):
+            wants_cwd = False
+        harvester(node, cwd) if wants_cwd else harvester(node)
         _trace(run_id, "harvest", {"node": node.get("id"), "verify_cmd": node.get("verify_cmd")}, workspace)
     except Exception as e:
         _trace(run_id, "harvest", {"node": node.get("id"), "error": f"{type(e).__name__}: {e}"}, workspace)
@@ -116,23 +127,95 @@ VERIFY_TIMEOUT = 120  # seconds; a hung verify_cmd must never wedge the loop
 #   (1) NON-DESTRUCTIVE: no irreversible side effect that runs unfenced from the build cwd.
 #   (2) NON-TRIVIAL: `true`/`exit 0`/`echo ok` would let the brain fake a green PASS on ANY node -- treated as
 #       REFUTE so the verification GAP is loud, never a silent green (he_verifier_falsify).
-_VERIFY_DENY = [r"\brm\s+-rf?\b", r"\bgit\s+(push|reset\s+--hard|clean\s+-[a-zA-Z]*f)\b", r">\s*/dev/sd",
-                r"\bmkfs\b", r"\bdd\s+if=", r"(^|\s)sudo\s", r"\bshutdown\b", r"\breboot\b", r":\s*\(\s*\)\s*\{",
-                r"\bformat\s+[a-zA-Z]:", r"Remove-Item.*-Recurse", r"\b(curl|wget)\b.*\|\s*(sh|bash)"]
+# Destructive patterns a verifier must NEVER contain (it must be a non-side-effecting assertion). Recursive `rm`
+# is matched in ANY flag order (`-rf`, `-fr`, `--recursive`), not just the old `-rf?`; `git push` in ANY form.
+_VERIFY_DENY = [r"\brm\b[^\n|;&]*-[a-z]*r", r"\bgit\s+push\b", r"\bgit\s+reset\s+--hard\b",
+                r"\bgit\s+clean\b[^\n]*-[a-z]*f", r">\s*/dev/sd", r"\bmkfs\b", r"\bdd\s+if=", r"(^|\s)sudo\s",
+                r"\bshutdown\b", r"\breboot\b", r":\s*\(\s*\)\s*\{", r"\bformat\s+[a-zA-Z]:",
+                r"Remove-Item.*-Recurse", r"\b(curl|wget)\b.*\|\s*(sh|bash)"]
+
+# A verifier must be able to FAIL. These match sub-commands that ALWAYS exit 0 and assert nothing. If EVERY
+# sub-command of a verify_cmd is trivial it is a fabricated green (rejected, code 125). We split on shell operators
+# so `true && true`, `: ; echo ok`, `test 1 = 1`, `[ 1 = 1 ]`, and no-op `python -c` bodies cannot slip a compound
+# past the screen (the 2026-07-03 audit reproduced exactly these bypasses against the old literal-only check).
+_TRIVIAL_ATOM = re.compile(
+    r"^\s*(true|:|exit(\s+0)?|echo(\s+.*)?|printf(\s+.*)?|pwd|cd(\s+.*)?|ls(\s+.*)?)\s*$", re.IGNORECASE)
+_TAUTOLOGY = re.compile(
+    r"^\s*("
+    r"test\s+(\S+)\s+(=|==|-eq)\s+\2"                       # test X = X  (same literal both sides)
+    r"|\[+\s+(\S+)\s+(=|==|-eq)\s+\4\s+\]+"                 # [ X = X ]
+    r"|\[+\s+-[nz]\s+\S+\s+\]+"                             # [ -n X ] / [ -z '' ]
+    r"|test\s+-[a-z]+\s+(\.|\./|/)"                         # test -e . / -d ./ / -f /  (cwd/root ALWAYS exist)
+    r"|\[+\s+-[a-z]+\s+(\.|\./|/)\s+\]+"                    # [ -e . ]
+    r")\s*$", re.IGNORECASE)
+# A python -c body is a NO-OP (always exits 0) only if it is a pure CONSTANT expression with no failure path. This is
+# a POSITIVE test: `import x` / `open('f')` CAN raise (a legit smoke check) and are NOT matched here; bare literals,
+# literal comparisons, and empty-container calls (1==1, len([]), True, 0) ARE -- they can only ever exit 0.
+_PY_NOOP_BODY = re.compile(
+    r"^("
+    r"pass|print\(.*\)|exit\(\s*0?\s*\)|sys\.exit\(\s*0?\s*\)"
+    r"|[0-9]+|[0-9]*\.[0-9]+|None|True|False|\.\.\."                 # bare literals
+    r"|len\(\s*(\[\s*\]|\(\s*\)|\{\s*\}|''|\"\")\s*\)"               # len of an empty container -> 0, cannot fail
+    r"|[0-9]+\s*(==|!=|<|>|<=|>=|is)\s*[0-9]+"                       # literal-vs-literal comparison
+    r"|(True|False)(\s*(==|!=|is|and|or)\s*(True|False))?"           # boolean literals / combinations
+    r"|"                                                            # empty body
+    r")$", re.IGNORECASE)
+
+
+def _is_python_noop(sub: str) -> bool:
+    """True when `sub` is a `python -c "<body>"` whose body can only ever exit 0 -- a POSITIVE rule: a real verifier
+    must have a FAILURE PATH (assert / raise / a non-zero-capable exit / a test-runner / a subprocess check). A body
+    with none of those AND that is a pure constant expression is a fabricated green. `import m` / `open('f')` are NOT
+    trivial (they raise on a broken artifact) -- this closes the `python -c "1==1"` / `len([])` class of bypass."""
+    m = re.match(r"^\s*python[0-9.]*\s+-c\s+(.*)$", sub.strip(), re.IGNORECASE)
+    if not m:
+        return False
+    body = m.group(1).strip().strip("\"'").strip()
+    if re.search(r"\bassert\b|\braise\b|\bpytest\b|unittest|check_call|check_output|\.returncode\b", body):
+        return False  # has a real failure path -> a legitimate assertion
+    if re.search(r"(sys\.)?exit\s*\(\s*(?!0\s*\))", body):
+        return False  # exit(...) with a non-empty, non-`0` arg (e.g. `exit(0 if ok else 1)`) -> can exit non-zero
+    return bool(_PY_NOOP_BODY.match(body))
+
+
+def _split_subcmds(vc: str) -> list:
+    """Split a verify_cmd into top-level sub-commands on &&, ||, ;, single & (background), | and newlines, then strip
+    any wrapping subshell parens -- so `( true )`, `(:)`, and `true & true` cannot hide a no-op from the screen."""
+    subs = []
+    for s in re.split(r"&&|\|\||;|&|\||\n", vc):
+        s = s.strip()
+        while len(s) >= 2 and s.startswith("(") and s.endswith(")"):
+            s = s[1:-1].strip()
+        if s:
+            subs.append(s)
+    return subs
+
+
+def _is_trivial_verify(vc: str) -> bool:
+    """A verify_cmd is trivial (a fabricated green) iff EVERY top-level sub-command always exits 0 and asserts
+    nothing. NOTE (honest scope): this is a defense-in-depth heuristic against a LAZY/WEAK brain, not a proof against
+    an adversarial one -- a static screen over arbitrary shell can never be complete. The ground-truth guarantee is
+    that the verifier be a real assertion (the loop's build-to-the-test contract steers the worker there); for an
+    untrusted brain, run the worker + verifier in a sandbox."""
+    subs = _split_subcmds(vc)
+    if not subs:
+        return True
+    return all(_TRIVIAL_ATOM.match(s) or _TAUTOLOGY.match(s) or _is_python_noop(s) for s in subs)
 
 
 def _screen_verify_cmd(verify_cmd: str):
     """Return (reject_code, reason) if verify_cmd must NOT run (destructive or trivial), else None. Non-zero codes
-    => the caller treats a rejected cmd as REFUTE (a loud gap, never a silent pass)."""
-    import re
+    => the caller treats a rejected cmd as REFUTE (a loud gap, never a silent pass). The triviality screen is
+    compound-aware (every sub-command must be able to fail), closing the `true && true` / `python -c "exit(0)"`
+    spoof that let a swapped weak brain fake a mechanical PASS on any node."""
     vc = (verify_cmd or "").strip()
     if not vc:
         return (125, "verify_cmd REJECTED: empty -- a verifier must assert the artifact (he_verifier_falsify)")
-    if not re.search(r"&&|\|\||;|\|", vc) and re.match(r"^(true|:|exit(\s+0)?|echo(\s+\S.*)?)$", vc, re.IGNORECASE):
+    if _is_trivial_verify(vc):
         return (125, f"verify_cmd REJECTED: trivial no-op ({vc!r}) cannot prove an artifact -- author a real "
                      "assertion that exits non-zero when the artifact is WRONG (he_verifier_falsify)")
     for pat in _VERIFY_DENY:
-        if re.search(pat, vc):
+        if re.search(pat, vc, re.IGNORECASE):
             return (126, f"verify_cmd REJECTED by safety fence /{pat}/ -- a verifier must be a NON-DESTRUCTIVE "
                          "independent assertion, not a side-effecting command")
     return None
@@ -211,6 +294,87 @@ REPLAN_LESSON_SENTINEL = "approach-wrong"
 def _done_count(frontier) -> int:
     """How many frontier nodes have terminally reached 'done' (a PASS). Used for STALL detection across cycles."""
     return sum(1 for n in frontier if isinstance(n, dict) and n.get("status") == "done")
+
+
+# --- FAIL-CLOSED TERMINAL STATE (2026-07-03) ------------------------------------------------------------------
+# The run-level status is the harness's headline honesty claim, so a SINGLE authority classifies EVERY node and no
+# path can mislabel a non-solved frontier as 'solved'. The audit found three false victories under the old
+# `all_work_done = (not open and not refuted)` rule: an EMPTY plan, a frontier of only PARKED (awaiting_approval)
+# HITL nodes, and a frontier of only LLM-BELIEVED (inconclusive/unverified) passes were all reported 'solved'.
+# Run status vocabulary (only 'running' is non-terminal):
+#   running | solved | solved_unverified | blocked_on_approval | failed | empty_plan
+STATUS_RUNNING = "running"
+STATUS_SOLVED = "solved"                       # every node ground-truth verified (mechanical / unanimous verify)
+STATUS_SOLVED_UNVERIFIED = "solved_unverified" # all work terminated, but >=1 pass is only LLM-BELIEVED, not proven
+STATUS_BLOCKED = "blocked_on_approval"         # only remaining work is a PARKED irreversible node (needs a human)
+STATUS_FAILED = "failed"                        # a vein terminally refuted and nothing else is pending
+STATUS_EMPTY_PLAN = "empty_plan"               # the planner produced no nodes (e.g. a decode failure) -> nothing done
+DEFAULT_MAX_FRONTIER = 200                       # hard cap on total frontier size (anti-bloat governor)
+
+
+def _classify_frontier(frontier) -> dict:
+    """Bucket a frontier by node status for terminal-state decisions. 'done' nodes split into VERIFIED (mechanical
+    pass or a unanimous verify panel = ground truth) vs UNVERIFIED (an LLM-believed / auto-downgraded pass)."""
+    b = {"open": [], "worked": [], "parked": [], "refuted": [], "verified": [], "unverified": []}
+    for n in frontier:
+        if not isinstance(n, dict):
+            continue
+        st = n.get("status")
+        if st == "open":
+            b["open"].append(n)
+        elif st == "worked":
+            b["worked"].append(n)
+        elif st == "awaiting_approval":
+            b["parked"].append(n)
+        elif st == "refuted":
+            b["refuted"].append(n)
+        elif st == "done":
+            believed = (n.get("unverified_pass") or n.get("verdict") == "inconclusive"
+                        or n.get("evidence_type") == "llm_panel_unverified")
+            (b["unverified"] if believed else b["verified"]).append(n)
+    return b
+
+
+def _terminal_run_status(frontier) -> str:
+    """The fail-closed run status for a frontier with NO work in flight (caller guarantees no open/worked nodes).
+    Order matters: an empty plan, parked HITL work, or a refuted vein must each BLOCK 'solved'; a believed-but-
+    unverified completion is 'solved_unverified' (honest); only an all-verified frontier is 'solved'."""
+    if not any(isinstance(n, dict) for n in frontier):
+        return STATUS_EMPTY_PLAN
+    b = _classify_frontier(frontier)
+    if b["parked"]:
+        return STATUS_BLOCKED
+    if b["refuted"]:
+        return STATUS_FAILED
+    if b["unverified"]:
+        return STATUS_SOLVED_UNVERIFIED
+    if b["verified"]:
+        return STATUS_SOLVED
+    return STATUS_EMPTY_PLAN  # no terminal nodes at all -> nothing was actually accomplished
+
+
+def _govern_adjacent(frontier, adjacent, taper, run_id, workspace):
+    """FRONTIER GOVERNOR: bound adjacent-problem growth. DEDUP new nodes by id (drop ids already present), cap the
+    number ADDED per cycle to `taper`, and cap the TOTAL frontier at DEFAULT_MAX_FRONTIER. Returns
+    (merged_frontier, added_ids, dropped_count). Replaces the old unbounded `frontier + adjacent`, which a
+    repetitive/buggy brain could grow faster than dispatch drains -> starving low-EV nodes and never terminating."""
+    existing = {n.get("id") for n in frontier if isinstance(n, dict)}
+    cap = max(1, int(taper)) if taper else DEFAULT_MAX_FRONTIER
+    fresh, added_ids = [], []
+    for n in adjacent or []:
+        if not isinstance(n, dict) or not n.get("id") or n.get("id") in existing:
+            continue
+        existing.add(n["id"]); fresh.append(n); added_ids.append(n["id"])
+        if len(fresh) >= cap:
+            break
+    room = max(0, DEFAULT_MAX_FRONTIER - len(frontier))
+    if len(fresh) > room:
+        fresh = fresh[:room]; added_ids = added_ids[:room]
+    dropped = len(adjacent or []) - len(fresh)
+    if dropped:
+        _trace(run_id, "govern", {"added": len(fresh), "dropped": dropped, "frontier_size": len(frontier) + len(fresh)},
+               workspace)
+    return frontier + fresh, added_ids, dropped
 
 
 def _judge_count(node: dict, judges: int) -> int:
@@ -443,6 +607,11 @@ def make_nodes(brain, parallel: int, max_steps: int, judges: int, taper: int,
             payload["expert_mode"] = True
             payload["available_experts"] = experts.available(persona_dir, persona_aliases)
         out = brain.decide("plan", payload)
+        # HONEST FAILURE: surface a planner decode/backend failure LOUDLY instead of letting the empty frontier it
+        # yields be silently declared 'solved' downstream. The _error sentinel is set by the brain's _extract_json
+        # when it cannot parse a model reply; an empty plan then routes to empty_plan / drain-replan, never solved.
+        if isinstance(out, dict) and out.get("_error"):
+            _trace(rid, "plan_error", {"error": str(out.get("_error"))[:400]}, workspace)
         fr = out.get("frontier", []) if isinstance(out, dict) else []
         # PLAN SELF-CRITIQUE (breadth guard, optional default ON): if the drafted frontier lacks a FALSIFIER
         # (kind=verify) and/or a GENERALIZATION (kind=diverge), ask the brain (cheap `plan_critique` call) for ONLY
@@ -501,13 +670,19 @@ def make_nodes(brain, parallel: int, max_steps: int, judges: int, taper: int,
             # Duck-typed: only CascadeBrain has set_node_context -> a no-op for every other brain (agnostic path
             # unchanged). Pass the node's verify_cmd + the build cwd the verifier runs in (verify_cwd, in scope).
             _snc = getattr(brain, "set_node_context", None)
-            if callable(_snc):
-                _snc(verify_cmd=node.get("verify_cmd"), cwd=verify_cwd, needs_strong=bool(node.get("needs_strong")))
-            res = brain.work(task, persona=persona)
-            if not res.get("ok"):  # one retry
+            # NEVER-STALL: any brain that raises (a backend not honoring the _error contract, a set_node_context
+            # error, a bug) must NOT crash dispatch -- ex.map would re-raise at iteration and wedge the whole loop.
+            # Wrap the worker call so a raise degrades to a refutable failed result the judge handles honestly.
+            try:
                 if callable(_snc):
                     _snc(verify_cmd=node.get("verify_cmd"), cwd=verify_cwd, needs_strong=bool(node.get("needs_strong")))
-                res = brain.work(task + " (retry: be concrete, run a tool, verify by running)", persona=persona)
+                res = brain.work(task, persona=persona)
+                if not res.get("ok"):  # one retry
+                    if callable(_snc):
+                        _snc(verify_cmd=node.get("verify_cmd"), cwd=verify_cwd, needs_strong=bool(node.get("needs_strong")))
+                    res = brain.work(task + " (retry: be concrete, run a tool, verify by running)", persona=persona)
+            except Exception as e:
+                res = {"ok": False, "result": f"worker raised: {type(e).__name__}: {str(e)[:200]}"}
             return node["id"], res, ename
 
         results = {}
@@ -536,7 +711,7 @@ def make_nodes(brain, parallel: int, max_steps: int, judges: int, taper: int,
                 if code == 0:
                     n["verdict"] = "pass"; n["status"] = "done"; n["evidence_type"] = "mechanical"
                     n.pop("verify_error", None)
-                    _harvest_passed(harvester, n, rid, workspace)  # H4: monotonic skill-library harvest (ground-truth only)
+                    _harvest_passed(harvester, n, rid, workspace, verify_cwd)  # H4: monotonic skill harvest (ground-truth only)
                     _trace(rid, "judge", {"node": n["id"], "verdict": "pass", "evidence_type": "mechanical",
                                           "mechanical": True, "exit": 0}, workspace)
                     continue
@@ -599,9 +774,12 @@ def make_nodes(brain, parallel: int, max_steps: int, judges: int, taper: int,
         # REFLEXION (SOTA): surface THIS cycle's REFUTED nodes (+ their concrete errors) to the reflect brain so the
         # lesson it writes is a DIRECTED post-mortem ('why it failed + what to try differently'), not a vague summary.
         # A refutation thereby becomes a directed-retry signal the next plan/replan can act on, not a silent dead end.
+        # TERMINAL refutes only (status=='refuted'): a node re-opened for a verify RETRY carries verdict=='refuted'
+        # while status=='open' and is still in flight -- excluding it keeps the reflexion post-mortem about genuine
+        # dead ends, not a not-yet-final retry (its error is already fed back at dispatch via rejection-as-gradient).
         refuted_now = [{"id": n.get("id"), "task": (n.get("task", "") or "")[:200],
                         "error": (str(n.get("verify_error") or n.get("result", "")) or "")[:300]}
-                       for n in state.get("frontier", []) if isinstance(n, dict) and n.get("verdict") == "refuted"]
+                       for n in state.get("frontier", []) if isinstance(n, dict) and n.get("status") == "refuted"]
         payload = {"cycle": cyc, "taper": taper, "ledger_len": len(state.get("ledger", [])),
                    "external_guidance": learnings.summary_for_plan(channel=channel, workspace=workspace)}
         if refuted_now:
@@ -611,7 +789,9 @@ def make_nodes(brain, parallel: int, max_steps: int, judges: int, taper: int,
                 "post-mortem: WHY did they fail and WHAT should the next attempt do differently? One or two sentences.")
         out = brain.decide("reflect", payload)
         adjacent = out.get("adjacent", []) if isinstance(out, dict) else []
-        fr = state["frontier"] + adjacent
+        # FRONTIER GOVERNOR: dedup adjacent by id, cap ADDED-per-cycle to `taper`, cap TOTAL at DEFAULT_MAX_FRONTIER
+        # (was an unbounded `state['frontier'] + adjacent` that a repetitive brain could bloat until it never drained).
+        fr, added_ids, dropped_adjacent = _govern_adjacent(state["frontier"], adjacent, taper, rid, workspace)
         lesson = out.get("lesson") if isinstance(out, dict) else None
         if lesson:  # PERSIST to this run's learnings CHANNEL -> compounds across future runs in the same lane
             learnings.record(lesson, rid.rsplit("-", 1)[0], state.get("objective", ""), cyc,
@@ -621,26 +801,26 @@ def make_nodes(brain, parallel: int, max_steps: int, judges: int, taper: int,
         prev_done = int(state.get("done_count", 0))
         cur_done = _done_count(fr)
         stall_cycles = 0 if cur_done > prev_done else int(state.get("stall_cycles", 0)) + 1
-        open_left = _open_nodes(fr)
-        # 'solved' requires NO remaining work AND nothing terminally REFUTED -- an all-refuted frontier is a FAILURE
-        # that the replanner should get a chance to recover (route inspects status before the replan trigger), not a
-        # false victory. Previously 'no open nodes' alone meant solved; that masked a dead plan as success.
-        refuted_left = [n for n in fr if isinstance(n, dict) and n.get("status") == "refuted"]
-        # NO-IDLE-STOP gate (fill_window): 'all planned work done' != 'objective solved'. Declaring solved the instant
-        # the frontier drains is the loop-level idle-stop (route honors status==solved BEFORE the drain-replan gate).
-        # With fill_window ON, stay 'running' on a drained-but-unspent frontier so route can drain-replan the next
-        # adjacent work; only call it solved once the budget is spent OR the drain-replan gate is exhausted. With
-        # fill_window OFF (default), behaviour is exactly as before: all work done -> solved.
-        all_work_done = (not open_left and not refuted_left)
-        if fill_window and all_work_done:
-            budget_spent = cyc >= int(state.get("budget", 0))
-            drain_exhausted = int(state.get("drain_empty", 0)) >= DEFAULT_DRAIN_REPLAN_EMPTY_CAP
-            status = "solved" if (budget_spent or drain_exhausted) else "running"
+        # FAIL-CLOSED TERMINAL STATE: ONE authority (_terminal_run_status) classifies every node, so an empty plan,
+        # a parked-HITL-only frontier, a believed-but-unverified completion, or a refuted vein can NEVER be reported
+        # as ground-truth 'solved'. Work still in flight (open/worked) -> 'running'.
+        b = _classify_frontier(fr)
+        if b["open"] or b["worked"]:
+            status = STATUS_RUNNING
         else:
-            status = "solved" if all_work_done else "running"
-        _trace(rid, "reflect", {"cycle": cyc, "adjacent": len(adjacent), "open_left": len(open_left),
-                                "refuted_left": len(refuted_left), "status": status, "done": cur_done,
-                                "stall_cycles": stall_cycles}, workspace)
+            status = _terminal_run_status(fr)
+            # NO-IDLE-STOP (fill_window): a CLEAN completion (solved / solved_unverified) with budget remaining stays
+            # 'running' so route can drain-replan the next adjacent work (n+-k); blocked/failed/empty are real stops.
+            if fill_window and status in (STATUS_SOLVED, STATUS_SOLVED_UNVERIFIED):
+                budget_spent = cyc >= int(state.get("budget", 0))
+                drain_exhausted = int(state.get("drain_empty", 0)) >= DEFAULT_DRAIN_REPLAN_EMPTY_CAP
+                if not (budget_spent or drain_exhausted):
+                    status = STATUS_RUNNING
+        _trace(rid, "reflect", {"cycle": cyc, "adjacent_added": len(added_ids), "adjacent_dropped": dropped_adjacent,
+                                "open_left": len(b["open"]), "worked_left": len(b["worked"]),
+                                "refuted_left": len(b["refuted"]), "parked": len(b["parked"]),
+                                "unverified": len(b["unverified"]), "verified": len(b["verified"]),
+                                "status": status, "done": cur_done, "stall_cycles": stall_cycles}, workspace)
         return {"frontier": fr, "ledger": [lesson] if lesson else [], "cycle": cyc, "status": status,
                 "done_count": cur_done, "stall_cycles": stall_cycles}
 
@@ -650,10 +830,13 @@ def make_nodes(brain, parallel: int, max_steps: int, judges: int, taper: int,
         capped by max_replans. Resets stall_cycles + bumps replan_count so the loop returns to a healthy cadence."""
         rid = state["run_id"]
         fr = state.get("frontier", []) or []
-        # DRAIN replan (frontier empty + budget remaining) vs RECOVERY replan (stall/failure/signal, open nodes
-        # present). A drain replan asks the brain for NEXT adjacent work (use the window); a recovery replan revises
-        # a stuck plan. Distinguished by whether any open node remains.
-        is_drain = not _open_nodes(fr)
+        # DRAIN replan (frontier genuinely EMPTY of pending work -> use the window with NEXT adjacent work) vs
+        # RECOVERY replan (stall/failure/signal -> revise a stuck plan toward the SAME objective). A REFUTED vein
+        # present means recovery, not drain: previously a terminal-refuted-only frontier was mis-read as a drain and
+        # the dead node was silently pruned + replaced with unrelated adjacent work instead of the approach being
+        # revised. Drain requires no open AND no refuted-to-recover.
+        _refuted_present = any(isinstance(n, dict) and n.get("status") == "refuted" for n in fr)
+        is_drain = not _open_nodes(fr) and not _refuted_present
         if is_drain:
             reason = ("drain: the frontier is EMPTY but the budget/window is NOT spent. Propose the NEXT "
                       "highest-value ADJACENT work toward the objective as NEW nodes (n+-k: foundational soundness "
@@ -689,7 +872,14 @@ def make_nodes(brain, parallel: int, max_steps: int, judges: int, taper: int,
                 "replan_reason": "", "done_count": _done_count(merged), "drain_empty": drain_empty}
 
     def route(state: OpState) -> str:
-        if state["status"] == "solved":
+        if state["status"] == STATUS_SOLVED:
+            return END
+        # BLOCKED on a human (the only remaining work is a PARKED irreversible node): the in-graph loop cannot make
+        # progress, so END honestly. The manager's `approve` + `resume` is the out-of-band recovery path; spinning to
+        # the budget wall would just waste cycles. No open work remains, so there is nothing to dispatch.
+        if state["status"] == STATUS_BLOCKED:
+            _trace(state["run_id"], "route",
+                   {"to": "END", "reason": "blocked_on_approval: parked HITL node needs a human"}, workspace)
             return END
         if state["cycle"] >= state["budget"]:
             return "budget"

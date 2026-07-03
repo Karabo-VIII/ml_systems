@@ -6,9 +6,10 @@ it imports ONLY the harness package (no host project). Works with zero credentia
   # smallest possible run -- no API key, no network: proves the whole machinery end-to-end
   python harness/run.py --objective "trivial" --backend mock
 
-  # a single BUILD node verified by a MECHANICAL command (exit 0 = ground-truth pass, overrides any LLM vote):
+  # a single BUILD node verified by a MECHANICAL command (exit 0 = ground-truth pass, overrides any LLM vote).
+  # The verifier must be a REAL assertion that CAN fail -- a trivial always-0 no-op is rejected by the anti-spoof screen:
   python harness/run.py --objective "create hello.py that prints hi" --backend mock \
-      --verify-cmd "python -c \"print('ok')\""
+      --verify-cmd "python -c \"assert 1+1==2\""
 
   # real Claude (in-process SDK) building in a chosen target dir:
   python harness/run.py --objective "build X" --backend sdk --cwd /path/to/project
@@ -106,8 +107,19 @@ def main(argv=None):
 
     fr = last["frontier"]
     n1 = next((n for n in fr if n["id"] == "n1"), {})
+    # Honest terminal-status legend (fail-closed: a believed/parked/empty/failed run is NEVER labeled 'solved').
+    _LEGEND = {
+        "solved": "every node GROUND-TRUTH verified (mechanical / unanimous panel)",
+        "solved_unverified": "work completed but only LLM-BELIEVED -- no mechanical verifier proved it",
+        "blocked_on_approval": "only remaining work is a PARKED irreversible node -- needs human approval + resume",
+        "failed": "a vein terminally refuted and could not be recovered",
+        "empty_plan": "the planner produced no nodes (e.g. a backend/decode failure)",
+        "budget_spent": "the cycle budget was exhausted before a terminal state",
+    }
     print("\n=== RESULT ===")
     print(f"  status        : {last['status']}   cycles: {last['cycle']}")
+    if last["status"] in _LEGEND:
+        print(f"                  ({_LEGEND[last['status']]})")
     print(f"  frontier      : {dict(Counter(n.get('status') for n in fr))}  ({len(fr)} nodes)")
     print(f"  n1 verdict    : {n1.get('verdict')}  (worker_ok={n1.get('worker_ok')})")
     if n1.get("verify_cmd"):

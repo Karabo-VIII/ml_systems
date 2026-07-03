@@ -209,32 +209,49 @@ def _mutate_planner(brain, parent_prompt: str, context: dict) -> str:
     return parent_prompt  # no usable mutation -> the parent survives (the elitism floor is never violated)
 
 
-def _planner_fitness(brain, prompt: str, tasks, eval_limit: int, timeout: int, budget: int,
-                     fail_sink: dict) -> float:
-    """Fitness of a candidate PLANNER PROMPT = run_planner_eval with that prompt INJECTED over a SMALL task subset
-    -> solve_rate in [0,1]. The injection is the minimal graph-side hook: brain.set_plan_instruction(prompt) makes
-    the graph's `plan` node use THIS prompt (default None -> the baseline _PLAN_INSTRUCTION; see brain._decide_sys).
-    Records the failed-task ids into fail_sink[prompt_hash] so the mutation step can do a DIRECTED improvement."""
-    subset = list(tasks)[:max(1, eval_limit)]
-    # INJECT the candidate planner prompt; restore afterward so the brain is left as found (no side effects leak).
+def _eval_prompt(brain, prompt: str, tasks, timeout: int, budget: int, repeats: int = 1):
+    """Run the planner-mode eval of `prompt` over `tasks`, averaged over `repeats` runs, and return
+    (mean_solve_rate, failed_task_ids_from_last_run). INJECTS the candidate prompt via set_plan_instruction and
+    RESTORES the prior instruction afterward (no side effects leak). repeats>1 averages out per-run noise for a
+    stochastic brain; MockBrain is deterministic so repeats=1 suffices. Empty task list -> (0.0, [])."""
+    tasks = list(tasks)
+    if not tasks:
+        return 0.0, []
     prev = getattr(brain, "plan_instruction", None)
+    rates, last_fails = [], []
     try:
         brain.set_plan_instruction(prompt)
-        card = _eval.run_planner_eval(brain, tasks=subset, budget=budget, timeout=timeout,
-                                      brain_label=getattr(brain, "name", "Brain"))
+        for _ in range(max(1, int(repeats))):
+            card = _eval.run_planner_eval(brain, tasks=tasks, budget=budget, timeout=timeout,
+                                          brain_label=getattr(brain, "name", "Brain"))
+            rates.append(float(card.get("solve_rate", 0.0)))
+            last_fails = [r["id"] for r in card.get("per_task", []) if not r.get("passed")]
     finally:
         brain.set_plan_instruction(prev)
-    fail_sink[_cand_hash(prompt)] = [r["id"] for r in card.get("per_task", []) if not r.get("passed")]
-    return float(card.get("solve_rate", 0.0))
+    return (sum(rates) / len(rates) if rates else 0.0), last_fails
+
+
+def _planner_fitness(brain, prompt: str, tasks, eval_limit: int, timeout: int, budget: int,
+                     fail_sink: dict, repeats: int = 1) -> float:
+    """TRAIN fitness of a candidate PLANNER PROMPT = mean planner-mode solve_rate over the (train) task subset.
+    Records the failed-task ids into fail_sink[prompt_hash] so the mutation step can do a DIRECTED improvement."""
+    subset = list(tasks)[:max(1, eval_limit)]
+    rate, fails = _eval_prompt(brain, prompt, subset, timeout, budget, repeats)
+    fail_sink[_cand_hash(prompt)] = fails
+    return rate
 
 
 def evolve_planner(brain=None, generations: int = 2, pop_size: int = 3, elite_k: int = 1, eval_limit: int = 4,
                    timeout: int = 240, budget: int = 4, log_path=None, seed_prompt: str | None = None,
-                   tasks=None) -> dict:
-    """Optimize the PLANNER PROMPT (graph/brain `_PLAN_INSTRUCTION`) against the HONEST planner-mode solve_rate.
+                   tasks=None, repeats: int = 1) -> dict:
+    """Optimize the PLANNER PROMPT (graph/brain `_PLAN_INSTRUCTION`) against the HONEST planner-mode solve_rate, and
+    gate 'improved' on a HELD-OUT test split the optimizer never tuned on.
 
     This is the "compiled planner" deliverable, dependency-free (no dspy): it evolves the single planner-quality knob
-    against the mechanical eval harness and returns a planner prompt that is NEVER worse than the baseline.
+    against the mechanical eval harness and returns a planner prompt that is NEVER worse than the baseline. The
+    2026-07-03 fix: fitness optimizes the TRAIN split only; the champion is then scored on the TEST (held-out) split
+    and `improved` is the STRICT held-out gain -- so the elitism floor guarantees GENERALIZATION, not in-sample fit
+    (the prior code optimized and reported on the same ~4 tasks, so the floor guaranteed nothing).
 
     Args:
       brain       : the Brain used BOTH to plan (fitness) AND to propose mutations. Default None -> a MockBrain
@@ -242,27 +259,34 @@ def evolve_planner(brain=None, generations: int = 2, pop_size: int = 3, elite_k:
       generations : evolutionary generations (default 2).
       pop_size    : candidates per generation (default 3).
       elite_k     : elites carried unchanged (default 1).
-      eval_limit  : how many PLANNER_BENCHMARK tasks each fitness eval runs (SMALL -> fast; the fitness is expensive).
+      eval_limit  : how many TRAIN tasks each fitness eval runs (SMALL -> fast; the fitness is expensive).
       timeout     : per-task wall-clock cap (seconds) inside run_planner_eval.
       budget      : max graph cycles per task inside run_planner_eval.
-      log_path    : JSONL generation log (default runs/autonomy/evolve/planner_<ts>.jsonl under cwd).
+      log_path    : JSONL generation log (default <workspace>/evolve/planner_<ts>.jsonl -- NOT a crypto path).
       seed_prompt : the starting planner prompt (default = brain._PLAN_INSTRUCTION, the current baseline).
-      tasks       : the benchmark to optimize against (default = eval_harness.PLANNER_BENCHMARK).
+      tasks       : the benchmark to optimize against (default = eval_harness.PLANNER_BENCHMARK). Split by task['split'].
+      repeats     : eval repetitions averaged per candidate (noise control for a stochastic brain; 1 for MockBrain).
 
-    Returns: {"best_prompt", "best_solve_rate", "seed_solve_rate", "improved": bool, "history", "evaluations",
-              "log_path", "eval_limit", "generations", "pop_size"}. best_solve_rate >= seed_solve_rate ALWAYS.
-    """
+    Returns a dict with TRAIN metrics (best_solve_rate/seed_solve_rate), HELD-OUT metrics
+    (test_solve_rate/seed_test_solve_rate), `improved` (STRICT held-out gain when a test split exists; else the train
+    gain, with has_holdout=False flagged), `generalizes`, and the evolution history. best_solve_rate >= seed_solve_rate
+    ALWAYS (the train-side elitism floor); `improved` additionally requires held-out generalization."""
     if brain is None:
         brain = _brain.MockBrain()
     seed = seed_prompt if seed_prompt is not None else _brain._PLAN_INSTRUCTION
-    tasks = list(tasks if tasks is not None else _eval.PLANNER_BENCHMARK)
+    all_tasks = list(tasks if tasks is not None else _eval.PLANNER_BENCHMARK)
+    train_tasks = _eval.benchmark_split(all_tasks, "train")
+    test_tasks = _eval.benchmark_split(all_tasks, "test")
+    if not train_tasks:  # a benchmark with NO explicit split -> everything is train; no held-out gate is possible
+        train_tasks = all_tasks
     if log_path is None:
-        log_path = Path("runs") / "autonomy" / "evolve" / f"planner_{int(time.time())}.jsonl"
+        from .config import workspace_root
+        log_path = workspace_root() / "evolve" / f"planner_{int(time.time())}.jsonl"
 
     fail_sink: dict = {}
 
-    def fitness_fn(prompt: str) -> float:
-        return _planner_fitness(brain, prompt, tasks, eval_limit, timeout, budget, fail_sink)
+    def fitness_fn(prompt: str) -> float:  # TRAIN split only -- the optimizer NEVER sees the held-out set
+        return _planner_fitness(brain, prompt, train_tasks, eval_limit, timeout, budget, fail_sink, repeats)
 
     def mutate_fn(parent_prompt: str, context: dict) -> str:
         ctx = dict(context)
@@ -272,12 +296,30 @@ def evolve_planner(brain=None, generations: int = 2, pop_size: int = 3, elite_k:
     result = evolve(seed, fitness_fn, mutate_fn, generations=generations, pop_size=pop_size,
                     elite_k=elite_k, log_path=log_path)
 
-    return {"best_prompt": result["best"], "best_solve_rate": result["best_fitness"],
-            "seed_solve_rate": result["seed_fitness"],
-            "improved": result["best_fitness"] > result["seed_fitness"],
-            "history": result["history"], "evaluations": result["evaluations"],
-            "log_path": str(log_path), "eval_limit": eval_limit, "generations": generations,
-            "pop_size": pop_size, "best_prompt_changed": result["best"].strip() != seed.strip()}
+    # HELD-OUT GENERALIZATION GATE: score seed AND champion on the TEST split (never tuned on). `improved` is the
+    # STRICT held-out gain; this is what makes the champion contract a generalization guarantee, not overfit.
+    best_prompt = result["best"]
+    has_holdout = bool(test_tasks)
+    seed_test, _ = _eval_prompt(brain, seed, test_tasks, timeout, budget, repeats)
+    if best_prompt.strip() == seed.strip():
+        best_test = seed_test                        # champion == seed -> identical held-out score (no re-eval)
+    else:
+        best_test, _ = _eval_prompt(brain, best_prompt, test_tasks, timeout, budget, repeats)
+    improved = (best_test > seed_test) if has_holdout else (result["best_fitness"] > result["seed_fitness"])
+    out = {"best_prompt": best_prompt, "best_solve_rate": result["best_fitness"],
+           "seed_solve_rate": result["seed_fitness"], "test_solve_rate": best_test,
+           "seed_test_solve_rate": seed_test, "has_holdout": has_holdout,
+           "generalizes": has_holdout and best_test > seed_test, "improved": improved,
+           "history": result["history"], "evaluations": result["evaluations"], "log_path": str(log_path),
+           "eval_limit": eval_limit, "generations": generations, "pop_size": pop_size, "repeats": repeats,
+           "n_train": len(train_tasks), "n_test": len(test_tasks),
+           "best_prompt_changed": best_prompt.strip() != seed.strip()}
+    _append_log(log_path, {"summary": True, "best_solve_rate": out["best_solve_rate"],
+                           "seed_solve_rate": out["seed_solve_rate"], "test_solve_rate": out["test_solve_rate"],
+                           "seed_test_solve_rate": out["seed_test_solve_rate"], "improved": improved,
+                           "generalizes": out["generalizes"], "has_holdout": has_holdout,
+                           "n_train": out["n_train"], "n_test": out["n_test"], "ts": int(time.time())})
+    return out
 
 
 if __name__ == "__main__":

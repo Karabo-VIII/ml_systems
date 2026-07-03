@@ -458,6 +458,41 @@ PLANNER_BENCHMARK = [
              "    return sum(process(values))\n"),
         ],
     },
+    {
+        # 4b) WORD-COUNT PIPELINE (2-file): a normalizer + a counter that IMPORTS it. Decomposition required: the
+        #     counter is useless without the normalizer it imports; building either alone fails the composite verify.
+        "id": "wordcount_pipeline",
+        "split": "train",
+        "objective": (
+            "Build a two-file word-count pipeline in the current working directory. "
+            "(1) Write wc_norm.py defining normalize(text) that lowercases the text, splits it on whitespace, and "
+            "returns the list of non-empty tokens. "
+            "(2) Write wc_count.py that IMPORTS normalize from wc_norm and defines wordcount(text) returning a dict "
+            "mapping each token to its integer count, and most_common(text) returning the single most frequent token. "
+            "No import-time printing in either file. "
+            "Example: wordcount('a A b a') == {'a': 3, 'b': 1} and most_common('x x y') == 'x'."
+        ),
+        "verify_cmd": _vc(
+            "from wc_count import wordcount, most_common; "
+            "d=wordcount('a A b a'); assert d=={'a':3,'b':1}, d; "
+            "assert most_common('x x y')=='x', most_common('x x y'); "
+            "assert wordcount('')=={}, wordcount(''); print('WC_OK')"),
+        "oracle_artifacts": [
+            ("wc_norm.py",
+             "def normalize(text):\n"
+             "    return [w for w in text.lower().split() if w]\n"),
+            ("wc_count.py",
+             "from wc_norm import normalize\n\n\n"
+             "def wordcount(text):\n"
+             "    counts = {}\n"
+             "    for tok in normalize(text):\n"
+             "        counts[tok] = counts.get(tok, 0) + 1\n"
+             "    return counts\n\n\n"
+             "def most_common(text):\n"
+             "    counts = wordcount(text)\n"
+             "    return max(counts, key=counts.get)\n"),
+        ],
+    },
     # ======================================================================= HELD-OUT (test-split) PLANNER tasks
     # Added with the split work so the planner-mode held-out set is non-degenerate (~4 train / ~4 test). Each REQUIRES
     # a correct multi-file/multi-step decomposition: the consumer is useless without the dependency it imports, so a
@@ -628,6 +663,41 @@ PLANNER_BENCHMARK = [
              "    if not scores:\n"
              "        return 0.0\n"
              "    return round(pass_count(scores) / len(scores), 2)\n"),
+        ],
+    },
+    {
+        # 8b) ROMAN-NUMERAL CONVERTER (2-file): a value table + a greedy encoder that IMPORTS it. Decomposition
+        #     required: the encoder is useless without the ordered VALUES table it imports; wrong ORDER also fails.
+        "id": "roman_numeral",
+        "split": "test",
+        "objective": (
+            "Build a two-file Roman-numeral converter in the current working directory. "
+            "(1) Write roman_table.py defining VALUES, a list of (integer, symbol) pairs for Roman numerals in "
+            "DESCENDING value order: 1000='M', 900='CM', 500='D', 400='CD', 100='C', 90='XC', 50='L', 40='XL', "
+            "10='X', 9='IX', 5='V', 4='IV', 1='I'. "
+            "(2) Write roman.py that IMPORTS VALUES from roman_table and defines to_roman(n) returning the "
+            "Roman-numeral string for a positive integer n (greedily subtract each value while n >= it, appending its "
+            "symbol). No import-time printing in either file. "
+            "Example: to_roman(4) == 'IV', to_roman(9) == 'IX', to_roman(1994) == 'MCMXCIV'."
+        ),
+        "verify_cmd": _vc(
+            "from roman import to_roman; "
+            "assert to_roman(4)=='IV', to_roman(4); assert to_roman(9)=='IX', to_roman(9); "
+            "assert to_roman(1994)=='MCMXCIV', to_roman(1994); assert to_roman(2023)=='MMXXIII', to_roman(2023); "
+            "print('ROMAN_OK')"),
+        "oracle_artifacts": [
+            ("roman_table.py",
+             "VALUES = [(1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'), (100, 'C'), (90, 'XC'), (50, 'L'),\n"
+             "          (40, 'XL'), (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')]\n"),
+            ("roman.py",
+             "from roman_table import VALUES\n\n\n"
+             "def to_roman(n):\n"
+             "    out = []\n"
+             "    for value, symbol in VALUES:\n"
+             "        while n >= value:\n"
+             "            out.append(symbol)\n"
+             "            n -= value\n"
+             "    return ''.join(out)\n"),
         ],
     },
 ]

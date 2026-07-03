@@ -205,24 +205,40 @@ def launch(args):
 
 
 def resume(args):
+    # RESUME IN PLACE on the SAME thread_id (2026-07-03 fix). The old code read checkpoint `thread` but streamed the
+    # continuation into `thread + "-r"`, which orphaned the resumed run from status/approve/stop (all key off `thread`)
+    # and made a SECOND resume re-read the STALE pre-resume checkpoint and redo work. It also took no lease, so two
+    # resumes could race. Now: acquire the lease, resume on `thread`, and pass only the MUTATED scalar fields as
+    # input -- NOT the whole state -- because `ledger`/`awaiting_approval` use operator.add reducers and re-passing
+    # the full lists would DOUBLE them. frontier/cycle/run_id/etc are retained from the checkpoint automatically.
+    _reap_stale_locks()
+    ok, msg = _acquire_lease(args.thread)
+    if not ok:
+        print(f"REFUSED (thread lease): {msg}")
+        print(f"  another run owns thread '{args.thread}'. Stop it first (`stop --thread {args.thread}`).")
+        return 2
     brain = make_brain(args.backend, domain=getattr(args, "domain", None) or "a software engine-builder project", cwd=getattr(args, "cwd", None))
     apply_champion(brain)  # U1: a resumed run gets the same gated champion-planner install as a fresh launch
     bkw, _ = _build_kwargs(args)
     cm, cp = _checkpointer(True, args.thread)
     try:
         app = build(brain, checkpointer=cp, **bkw)
-        cfg = {"configurable": {"thread_id": args.thread}}
+        cfg = {"configurable": {"thread_id": args.thread}}   # SAME thread for read AND write (stable identity)
         snap = app.get_state(cfg)
         if not (snap and snap.values):
             print(f"no durable checkpoint for thread '{args.thread}'"); return 1
-        base = dict(snap.values); base["budget"] = args.budget; base["status"] = "running"
-        print(f"=== HARNESS RESUME thread '{args.thread}': cycle={base['cycle']}, frontier={len(base['frontier'])}, "
-              f"ledger={len(base['ledger'])} -> continuing ===")
-        rcfg = {"configurable": {"thread_id": args.thread + "-r"}}
-        last = _stream(app, base, rcfg)
-        _report(last, args.thread + "-r")
+        v = snap.values
+        print(f"=== HARNESS RESUME thread '{args.thread}': cycle={v.get('cycle')}, frontier={len(v.get('frontier', []))}, "
+              f"ledger={len(v.get('ledger', []))} -> continuing (budget -> {args.budget}) ===")
+        # minimal-input resume: overwrite the plain scalar channels; reducer channels (ledger/awaiting_approval) and
+        # the frontier are left untouched so nothing is duplicated. plan() short-circuits on the existing frontier.
+        resume_input = {"budget": args.budget, "status": "running"}
+        last = _stream(app, resume_input, cfg)
+        _report(last, args.thread)
     finally:
-        cm.__exit__(None, None, None)
+        if cm:
+            cm.__exit__(None, None, None)
+        _release_lease(args.thread)
     return 0
 
 
@@ -309,13 +325,22 @@ def evolve(args):
     except Exception as e:
         print(f"  evolve FAILED: {type(e).__name__}: {e}")
         return 1
-    seed_f, best_f = res.get("seed_fitness", 0.0), res.get("best_fitness", 0.0)
-    print(f"  planner solve_rate: seed {seed_f:.3f}  ->  best {best_f:.3f}  ({res.get('evaluations', 0)} evals)")
-    if best_f > seed_f and res.get("best"):
-        p = write_champion(str(res["best"]), best_f, seed_f, source="manager.evolve")
-        print(f"  IMPROVEMENT -> champion installed at {p}  (next launch/resume applies it)")
+    # CORRECT KEYS (2026-07-03 fix): evolve_planner returns *_solve_rate, not *_fitness -- the old code read
+    # seed_fitness/best_fitness (absent) -> both 0.0 -> `best>seed` always False -> a champion was NEVER installed via
+    # this path regardless of the actual result. Now: install on the HELD-OUT generalization gain (res['improved']).
+    seed_f, best_f = res.get("seed_solve_rate", 0.0), res.get("best_solve_rate", 0.0)
+    seed_t, best_t = res.get("seed_test_solve_rate", 0.0), res.get("test_solve_rate", 0.0)
+    print(f"  planner solve_rate  TRAIN: seed {seed_f:.3f} -> best {best_f:.3f}   "
+          f"HELD-OUT: seed {seed_t:.3f} -> best {best_t:.3f}  "
+          f"({res.get('evaluations', 0)} evals; n_train={res.get('n_train')}, n_test={res.get('n_test')})")
+    if res.get("improved") and res.get("best_prompt"):
+        p = write_champion(str(res["best_prompt"]), best_f, seed_f, source="manager.evolve",
+                           test_solve_rate=best_t, baseline_test_solve_rate=seed_t,
+                           extra={"generations": args.generations, "pop_size": args.pop_size})
+        print(f"  HELD-OUT IMPROVEMENT -> champion installed at {p}  (next launch/resume applies it)")
     else:
-        print("  no improvement over baseline -> champion NOT updated (elitism floor held)")
+        why = "no held-out generalization gain" if res.get("has_holdout") else "no improvement (no held-out split)"
+        print(f"  {why} -> champion NOT updated (elitism floor held)")
     return 0
 
 

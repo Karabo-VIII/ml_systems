@@ -190,13 +190,35 @@ def _slug(text: str, maxlen: int = 48) -> str:
     return s[:maxlen].strip("-") or "skill"
 
 
+# filenames a verify_cmd / task is likely to name (so the harvester can copy the ACTUAL verified artifact).
+_ARTIFACT_RE = re.compile(
+    r"[\w./\\-]*\w\.(?:py|js|mjs|cjs|ts|tsx|jsx|json|txt|md|sh|bash|go|rs|java|kt|rb|c|h|cpp|hpp|cc|sql|csv|tsv|"
+    r"ya?ml|toml|ini|cfg|html|css)\b", re.I)
+
+
+def _artifact_candidates(*texts: str) -> list[str]:
+    """Distinct filenames referenced in the given texts (verify_cmd + task), order-preserving, `./`-stripped."""
+    seen: set = set()
+    out: list = []
+    for t in texts:
+        for m in _ARTIFACT_RE.finditer(t or ""):
+            n = m.group(0).lstrip("./").replace("\\", "/")
+            if n and n not in seen:
+                seen.add(n)
+                out.append(n)
+    return out
+
+
 def skill_harvester(skills_dir: str | os.PathLike):
-    """Return a `harvester(node)` for build(harvester=...): when a node passes the MECHANICAL verifier (ground truth),
-    AUTHOR a SKILL.md capturing the verified capability into skills_dir -- so the harness GROWS its OWN skill library
-    from what it proves (the Voyager monotonicity hook + the literal 'augment itself from within its own loop'). The
-    new skill is then selectable on future runs. Idempotent (re-verifying refreshes the same skill, never duplicates);
-    never raises into the loop."""
-    def _harvest(node: dict) -> None:
+    """Return a `harvester(node, cwd=None)` for build(harvester=...): when a node passes the MECHANICAL verifier
+    (ground truth), AUTHOR a SKILL.md into skills_dir AND copy the actual VERIFIED artifact file(s) into the skill's
+    ./artifact/ dir -- so the harness GROWS its OWN skill library from what it PROVES, with re-usable CODE, not just a
+    note (the Voyager monotonicity hook; 2026-07-03 upgrade from an episodic pointer to an executable skill). The new
+    skill is selectable + re-runnable on future runs. Idempotent (re-verifying refreshes the same skill); never raises.
+
+    cwd is the BUILD CWD (passed by graph._harvest_passed). Only files that the verify_cmd/task NAME and that live
+    INSIDE cwd (root containment) and are small (<=200 KB) are copied -- so the artifact capture is bounded + safe."""
+    def _harvest(node: dict, cwd: str | None = None) -> None:
         try:
             task = (node.get("task") or "").strip()
             task = re.sub(r"^(build|verify|diverge)\s*:\s*", "", task, flags=re.I).strip()  # drop the node-kind prefix
@@ -207,13 +229,39 @@ def skill_harvester(skills_dir: str | os.PathLike):
             d.mkdir(parents=True, exist_ok=True)
             vc = node.get("verify_cmd") or ""
             res = str(node.get("result") or "")[:600]
-            body = ("A capability this harness BUILT and mechanically VERIFIED (harvested automatically).\n\n"
+            # VOYAGER: copy the actual VERIFIED artifact files (not just a note) so a future run REUSES the code.
+            copied: list = []
+            if cwd:
+                root = Path(cwd)
+                try:
+                    root_resolved = root.resolve()
+                except Exception:
+                    root_resolved = root
+                for fname in _artifact_candidates(vc, task)[:12]:
+                    try:
+                        src = (root / fname).resolve()
+                        src.relative_to(root_resolved)            # containment: only copy files INSIDE the build cwd
+                        if src.is_file() and src.stat().st_size <= 200_000:
+                            dst = d / "artifact" / Path(fname).name
+                            dst.parent.mkdir(parents=True, exist_ok=True)
+                            import shutil
+                            shutil.copyfile(src, dst)
+                            copied.append(Path(fname).name)
+                    except Exception:
+                        continue
+            reuse = (f"Harvested artifact file(s) in ./artifact/ (RE-USABLE): {', '.join(copied)}\n"
+                     "To reuse: copy them into your build cwd, then confirm with the verify command above.\n\n"
+                     if copied else
+                     "No standalone artifact file was captured; the capability is the recipe below.\n\n")
+            body = ("A capability this harness BUILT and mechanically VERIFIED (harvested automatically -- reuse it).\n\n"
                     f"Task: {task}\n\n"
                     + (f"Verified by (exit 0 == pass): `{vc}`\n\n" if vc else "")
+                    + reuse
                     + (f"Notes / last result:\n{res}\n" if res else ""))
+            kind = "RE-RUNNABLE capability (with artifact)" if copied else "capability"
             (d / "SKILL.md").write_text(
-                f"---\nname: {name}\ndescription: {task[:240]} (a verified capability harvested by the harness; "
-                f"reuse its approach).\n---\n{body}", encoding="utf-8")
+                f"---\nname: {name}\ndescription: {task[:240]} (a verified {kind} harvested by the harness; "
+                f"reuse its {'artifact' if copied else 'approach'}).\n---\n{body}", encoding="utf-8")
         except Exception:
             pass
     return _harvest

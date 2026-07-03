@@ -61,9 +61,11 @@ deterministically, so you can prove the loop end-to-end with zero credentials.
 # smallest possible run -- no API key, no network -- proves the whole loop end-to-end
 python harness/run.py --objective "trivial" --backend mock
 
-# a build node verified by a MECHANICAL command (exit 0 == ground-truth pass, overrides any LLM vote)
+# a build node verified by a MECHANICAL command (exit 0 == ground-truth pass, overrides any LLM vote).
+# The verifier must be a REAL ASSERTION that CAN fail -- a trivial always-0 no-op (`true`, `echo ok`,
+# `python -c "print(1)"`) is REJECTED by the anti-spoof screen so a weak brain can't fake a green.
 python harness/run.py --objective "make hi.py print hi" --backend mock \
-    --verify-cmd "python -c \"print('ok')\""
+    --verify-cmd "python -c \"assert 1+1==2\""
 
 # real Claude (in-process SDK) building inside a chosen target directory
 python harness/run.py --objective "build a CSV summariser CLI" --backend sdk --cwd /path/to/project
@@ -84,10 +86,12 @@ python -m harness.metaop.manager approve --thread t1 --node a3   # release a par
 python -m harness.metaop.manager stop   --thread t1             # checkpoint preserved
 ```
 
-## Out of the box: complete & self-evolving
+## Out of the box: a complete engine with honestly-gated self-evolution
 
-A fresh install runs end-to-end **and** can augment itself from within its own loop — the only thing left for you is
-to ask it to. Everything below ships in this package.
+A fresh install runs end-to-end **and** ships the machinery to augment itself from within its own loop. The
+self-evolution is real but **honestly gated**: a champion planner is installed only on a *held-out* generalization
+gain, and the credential-free MockBrain (being prompt-invariant) will correctly report *no* improvement — real
+planner gains need a prompt-responsive brain (`--backend ollama`/`cli`). Everything below ships in this package.
 
 **1. Solve (with skills + project context).** A starter `skills/` library + a `CONTEXT.md` template ship here; the
 harness selects the relevant skills per objective and injects them at plan time:
@@ -102,11 +106,16 @@ mechanical verifier is authored into `skills/` as a new `SKILL.md`, selectable o
 python -m metaop.manager launch --objective "..." --skills-dir ./skills --harvest --backend cli
 ```
 
-**3. Self-evolve — improve HOW it plans.** Optimize the planner prompt against the honest solve-rate fitness and
-install the winner as the champion (the next run auto-applies it; an elitism floor never installs a worse one):
+**3. Self-evolve — improve HOW it plans.** Optimize the planner prompt against the honest solve-rate fitness on the
+**train** split, then install it as the champion **only if it also improves on a HELD-OUT test split it never tuned
+on** -- so the elitism floor is a *generalization* guarantee, not in-sample overfit. The next run auto-applies it:
 ```bash
 python -m metaop.manager evolve --backend cli --generations 3 --pop-size 4   # one evolution run
 ```
+> Honest expectation: with the credential-free `--backend mock` the planner prompt does not change the deterministic
+> mock's behavior, so evolution correctly reports **no improvement** (there is nothing to optimize -- this is the
+> honest floor, not a bug). Real planner improvement needs a brain whose behavior responds to the prompt
+> (`--backend ollama`/`cli`/`api`), where a champion is installed only on a held-out generalization gain.
 
 **3b. Continuous self-evolution (hands-off, no asking).** Start the daemon once and it keeps evolving the planner
 round after round on its own -- each round seeds from the best-so-far champion, so the planner gets monotonically
@@ -151,7 +160,8 @@ The system prompts carry a `{domain}` slot, so the harness is domain-neutral by 
 
 **Local models already ship.** `OllamaBrain` (pure-stdlib, hits a local Ollama server) and `LiteLLMBrain` (the unified
 gateway: any provider, auto-fallback primary -> local ollama -> MockBrain) are built in -- `--backend ollama` runs the
-whole loop on a local open-source model with **no Claude and no API key** (verified end-to-end on `qwen2.5-coder:7b`).
+whole loop on a local open-source model with **no Claude and no API key** (the loop is model-portable; point it at any
+Ollama model, e.g. `--backend ollama` on `qwen2.5-coder:7b`, and it drives plan/dispatch/judge/reflect/route the same).
 `CascadeBrain` adds a cheap->strong escalation router. To add a brand-new backend, subclass `Brain`, implement
 `decide`/`act`/`work` (the tolerant `_extract_json` in `brain.py` parses loose model JSON), and add a branch in
 `make_brain`. `MockBrain` (pure/no-creds) and `AgentSdkBrain` (a real in-process agent) are the two reference copies.
@@ -165,16 +175,55 @@ build cwd** and treats it as ground truth:
 - **exit != 0 -> REFUTED.** The last ~1500 chars of stdout+stderr are captured on the node and, if a
   `verify_retries` budget remains, the node is re-opened and the **concrete error is appended to the next dispatch
   prompt** so the worker fixes the real failure (rejection-as-gradient).
+- **UNSPOOFABLE.** A `verify_cmd` that can only ever exit 0 (`true`, `:`, `echo ok`, `test 1 = 1`, `python -c
+  "exit(0)"`, and compounds like `true && true`) proves nothing, so it is **REJECTED** before it runs (a loud gap,
+  never a silent green) -- the screen is compound-aware (every sub-command must be able to fail). Destructive
+  verifiers are refused too: a verifier is a read-only assertion, not a side-effecting command.
 
 This is the heart of honest autonomy: a build is only "done" when a real command says so. `verify_cmd` runs from
 `--cwd` (your target project), times out at 120s, and a timeout/launch-failure counts as a refutation.
 
+**Terminal-status vocabulary (fail-closed).** The run status is the harness's headline honesty claim, so ONE
+authority classifies every node and no path can mislabel a non-solved run as `solved`:
+`solved` (every node ground-truth verified) · `solved_unverified` (completed but only LLM-believed, no mechanical
+proof) · `blocked_on_approval` (only a parked irreversible node remains -- needs a human) · `failed` (a vein
+terminally refuted) · `empty_plan` (the planner produced nothing) · `budget_spent`. An empty plan, a parked-HITL
+frontier, and a believed-but-unverified completion can never be reported as `solved`.
+
 ## Safety fence
 
-`Tools` always denies irreversible/destructive shell ops (`rm -rf /`, force-push, `mkfs`, `sudo`, fork bombs, ...)
-and refuses to write control-surface files (`.git/`, `.env`, ssh keys), regardless of caller config. The SDK
-backend additionally denies commit/push/deploy via a PreToolUse hook (stage your work; let a human review + commit).
-You can tighten further with `extra_cmd_deny` / `extra_file_deny` when constructing `Tools`.
+`Tools` always denies irreversible/destructive shell ops (`rm -rf .`/`*`/`/`, force-push in short *and* long form,
+`mkfs`, `sudo`, pipe-to-shell, fork bombs, ...) **case-insensitively and in any flag order**, and refuses to write
+control-surface files (`.git/`, `.env`, ssh/aws/npm/pypi credentials), regardless of caller config. File tools are
+additionally **root-contained**: a `../` traversal cannot escape the build cwd (`write_file('../../../.bashrc')` is
+refused) -- real containment for the file surface, not just a basename denylist. Both real-Claude worker backends
+enforce the same fence even under `bypassPermissions` (where allow/deny rules are ignored and only hooks fire): the
+**SDK** backend via PreToolUse hooks on Bash *and* Write/Edit/MultiEdit, and the **CLI** backend via a `--settings`
+PreToolUse hook (`metaop/_cli_fence.py`) wired the same way -- both deny commit/push/deploy + destructive ops +
+out-of-cwd writes (stage your work; let a human review + commit). Tighten further with `extra_cmd_deny` /
+`extra_file_deny`, or set `contain_paths=False` for a deliberately unsandboxed run.
+
+> **Honest scope of the verifier screen.** The anti-spoof `verify_cmd` check rejects always-succeeds no-ops
+> (including `python -c` bodies with no failure path, subshells, background `&`, and cwd/root existence
+> tautologies) so a *lazy/weak* brain can't fabricate a green. It is defense-in-depth, not a proof against an
+> *adversarial* brain -- a static screen over arbitrary shell can't be complete. The real guarantee is that the
+> verifier be a genuine assertion (the loop's build-to-the-test contract steers the worker there); for an untrusted
+> brain, run the worker + verifier in a container sandbox.
+
+## Tests & CI
+
+The trust core is pinned by a **credential-free invariant test suite** (`tests/`, ~90 tests, MockBrain + the
+built-in benchmark -- no model keys): the mechanical-verifier override, the anti-spoof screen, the safety fence +
+root containment, the fail-closed terminal state, the champion **held-out** gate, and durable resume. Run it:
+
+```bash
+pip install -e ".[dev]"      # langgraph + the sqlite checkpointer + pytest
+pytest -q                    # the whole suite
+python -m metaop.eval_harness --selftest   # benchmark RWYB: every oracle artifact satisfies its own verifier
+```
+
+GitHub Actions (`.github/workflows/ci.yml`, which travels with the subtree split) runs the suite + the RWYB
+self-test + a credential-free end-to-end smoke on every push.
 
 ## Files
 
@@ -192,8 +241,15 @@ harness/
     experts.py           # optional specialist personas for expert mode (point at your own persona dir)
     learnings.py         # append-only, per-channel lessons memory (experience compounds across runs)
     skills.py            # SKILL.md skills + localised context for ANY model (manifest + mechanical selector +
-                         #   progressive disclosure + context pack); drop-in recaller/framer hooks. See SKILLS.md
-    manager.py           # launch/status/resume/approve/stop a durable run (+ --skills-dir / --context)
+                         #   progressive disclosure + context pack); Voyager harvester copies the VERIFIED artifact
+    manager.py           # launch/status/resume/approve/stop a durable run (+ --skills-dir / --context / evolve / improve)
+    eval_harness.py      # the HONEST mechanical benchmark (solve_rate) + train/HELD-OUT split -- the fitness signal
+    evolve.py            # planner-prompt evolution (GA); optimizes TRAIN, gates 'improved' on the HELD-OUT split
+    champion.py          # persist + gated-install the champion planner (held-out generalization floor, workspace path)
+    selfimprove.py       # the continuous self-evolution daemon (manager improve)
+    cascade_brain.py     # cheap->strong escalation router (verifier-gated)
+  tests/                 # credential-free invariant suite (mechanical override, anti-spoof, fence, fail-closed, ...)
+  .github/workflows/     # CI (travels with the subtree split); runs the suite + RWYB + an end-to-end smoke
   SKILLS.md              # how generic/local models work with skills + localised context, and how to use skills.py
 ```
 
@@ -206,11 +262,14 @@ Run artifacts live under the **workspace** (default `./.harness_runs/`), never i
 
 ## Standalone status & extraction
 
-**This package (`harness/`) is already standalone and domain-agnostic.** Verified 2026-06-12: nothing under
-`harness/` imports a host repository (the engine uses only relative imports + `langgraph`), the full
-planner-first solver runs generically via `python -m metaop.manager launch ...` (its `build` comes from
-`metaop.graph`, not any project shim), and it solves with `--backend mock` (zero creds) and `--backend ollama`
-(a local model, no Claude). You can call it like a CLI **today**, three ways:
+**This package (`harness/`) is already standalone and domain-agnostic.** Nothing under `harness/` imports a host
+repository (the engine uses only relative imports + `langgraph`), and **all run artifacts -- traces, learnings,
+durable checkpoints, and the evolved champion planner -- live under the configurable workspace, never inside a host
+repo** (the champion path was decoupled from the parent crypto layout on 2026-07-03; override with
+`HARNESS_CHAMPION_PATH` / `HARNESS_WORKSPACE`). The full planner-first solver runs generically via
+`python -m metaop.manager launch ...` (its `build` comes from `metaop.graph`, not any project shim), and it solves
+with `--backend mock` (zero creds) and `--backend ollama` (a local model, no Claude). You can call it like a CLI
+**today**, three ways:
 
 ```bash
 harness launch --objective "build X" --backend cli --durable --domain "your domain"   # after `pip install .`

@@ -1,0 +1,43 @@
+# CI for the standalone metaop-harness. This file lives under harness/ so it travels with the
+# `git subtree split -P harness` extraction (where harness/ becomes the repo root and this becomes
+# .github/workflows/ci.yml). It pins the trust-core invariants: the mechanical-verifier override, the
+# anti-spoof screen, the safety fence, the fail-closed terminal state, the champion held-out gate, and
+# durable resume -- all with ZERO model credentials (MockBrain + the built-in benchmark).
+name: harness-ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install (core + dev extras)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Invariant test suite
+        run: pytest -q
+
+      - name: Benchmark RWYB self-test (oracle plumbing must solve every task on both splits)
+        run: python -m metaop.eval_harness --selftest
+
+      - name: Credential-free end-to-end smoke (mechanical verifier gates a real build)
+        run: |
+          python run.py --objective "smoke" --backend mock --verify-cmd "python -c \"assert 1+1==2\""
+          python run.py --objective "smoke" --backend mock

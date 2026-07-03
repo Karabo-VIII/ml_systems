@@ -32,6 +32,9 @@ anthropic = ["anthropic>=0.40"]                  # --backend api
 sdk = ["claude-agent-sdk>=0.1"]                  # --backend sdk (in-process Claude, uses existing CLI auth)
 memory = ["mem0ai>=0.1"]                         # optional vector memory (semantic recall)
 evolve = ["dspy-ai>=2.4"]                        # optional planner-prompt compilation (DSPy)
+# the invariant TEST SUITE (pins the trust-core: mechanical override, anti-spoof screen, safety fence, fail-closed
+# terminal state, champion held-out gate, durable resume). Needs only the durable extra + pytest -- no model creds.
+dev = ["pytest>=7", "langgraph-checkpoint-sqlite>=2.0"]
 # everything-on (a local-first stack: durable resume + litellm gateway -> a local ollama model is the brain)
 all = ["langgraph-checkpoint-sqlite>=2.0", "litellm>=1.40", "anthropic>=0.40", "mem0ai>=0.1"]
 
@@ -42,3 +45,7 @@ metaop = "metaop.manager:main"              # alias
 [tool.setuptools]
 packages = ["metaop"]                       # harness/metaop -> the importable package
 py-modules = ["run"]                         # harness/run.py -> the one-shot demo entry
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

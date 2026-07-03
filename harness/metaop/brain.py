@@ -242,18 +242,19 @@ class AnthropicBrain(Brain):
         self.max_retries = max_retries
 
     def _call(self, system: str, user: str, max_tokens: int = 2000) -> str:
-        import anthropic
+        # NEVER-STALL (2026-07-03): a sustained API failure must NOT raise into the graph's unguarded plan/judge/
+        # reflect nodes -- it returns a JSON `_error` envelope exactly like OllamaBrain/LiteLLMBrain/AgentSdkBrain, so
+        # decide()/work() (and the fail-closed terminal-state) handle it as an honest failure, never a crash. Retries
+        # any transient exception up to max_retries, then degrades to the _error string.
         last = ""
-        for i in range(self.max_retries):
+        for _ in range(max(1, self.max_retries)):
             try:
                 m = self.client.messages.create(model=self.model, max_tokens=max_tokens, system=system,
                                                  messages=[{"role": "user", "content": user}])
                 return "".join(b.text for b in m.content if getattr(b, "type", "") == "text")
-            except anthropic.APIError as e:
-                last = str(e)
-                if i == self.max_retries - 1:
-                    raise
-        return last
+            except Exception as e:
+                last = f"{type(e).__name__}: {str(e)[:160]}"
+        return json.dumps({"_error": f"anthropic: {last}"})
 
     def decide(self, role: str, payload: dict, persona: str = "") -> dict:
         sysp = (persona + "\n\n" + self._decide_sys()) if persona else self._decide_sys()
@@ -309,11 +310,42 @@ class AgentSdkBrain(Brain):
         if input_data.get("tool_name") == "Bash":
             cmd = (input_data.get("tool_input") or {}).get("command", "") or ""
             DENY = _re.compile(r"git\s+(commit|push|reset\s+--hard|clean\s+-\w*f|tag\b)|--no-verify|"
-                               r"\bdeploy\b|rm\s+-rf\s+[~/]|\bshutdown\b|\bgh\s+(pr|release)\b", _re.I)
+                               r"\bdeploy\b|\brm\b[^\n|;&]*-[a-z]*r|\bshutdown\b|\breboot\b|\bmkfs\b|"
+                               r"\b(curl|wget)\b[^\n]*\|\s*(sh|bash)|\bgh\s+(pr|release)\b", _re.I)
             if cmd and DENY.search(cmd):
                 return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "deny",
                         "permissionDecisionReason": "harness worker fence: commit/push/deploy/destructive DENIED -- "
                         "stage your work; the overseer reviews + commits."}}
+        return {}
+
+    async def _file_fence_hook(self, input_data, tool_use_id, context):
+        """MECHANICAL worker fence on the FILE tools (Write/Edit/MultiEdit). Under bypassPermissions these ran
+        UNFENCED (the Bash hook alone did not cover them, 2026-07-03 audit), so a worker could overwrite a
+        control-surface file (.git/.env/ssh keys) or escape the build cwd via `../`. This denies both: a protected
+        basename, and any path that resolves OUTSIDE the worker cwd (root containment)."""
+        import re as _re
+        from pathlib import Path as _P
+        if input_data.get("tool_name") not in ("Write", "Edit", "MultiEdit"):
+            return {}
+        fp = (input_data.get("tool_input") or {}).get("file_path", "") or ""
+        if not fp:
+            return {}
+        deny = None
+        if _re.search(r"\.git[\\/]|(^|[\\/])\.env\b|id_rsa|\.ssh[\\/]|authorized_keys|\.aws[\\/]|\.npmrc|\.pypirc",
+                      fp, _re.I):
+            deny = "protected control-surface file"
+        else:
+            try:
+                root = _P(self.cwd).resolve()
+                target = (_P(fp) if _P(fp).is_absolute() else root / fp).resolve()
+                target.relative_to(root)
+            except ValueError:
+                deny = f"path escapes the worker cwd ({self.cwd})"
+            except Exception:
+                deny = None
+        if deny:
+            return {"hookSpecificOutput": {"hookEventName": "PreToolUse", "permissionDecision": "deny",
+                    "permissionDecisionReason": f"harness file fence: {deny} DENIED (root containment)."}}
         return {}
 
     def _ask(self, prompt: str, turns: int, tools: bool, sysp: str = "") -> str:
@@ -328,7 +360,11 @@ class AgentSdkBrain(Brain):
             # PreToolUse safety fence below still fires under bypassPermissions and DENIES destructive ops.
             opts = ClaudeAgentOptions(permission_mode="bypassPermissions",
                                       allowed_tools=["Read", "Write", "Edit", "Bash", "Glob", "Grep"],
-                                      hooks={"PreToolUse": [HookMatcher(matcher="Bash", hooks=[self._safety_fence_hook])]},
+                                      hooks={"PreToolUse": [
+                                          HookMatcher(matcher="Bash", hooks=[self._safety_fence_hook]),
+                                          HookMatcher(matcher="Write", hooks=[self._file_fence_hook]),
+                                          HookMatcher(matcher="Edit", hooks=[self._file_fence_hook]),
+                                          HookMatcher(matcher="MultiEdit", hooks=[self._file_fence_hook])]},
                                       **common)
         else:
             opts = ClaudeAgentOptions(permission_mode="bypassPermissions",
@@ -383,9 +419,47 @@ class CliBrain(Brain):
         self.cwd = cwd or str(build_cwd())
         if not self.exe:
             raise RuntimeError("claude CLI not found")
+        # CLI-LAYER FENCE (2026-07-03): under bypassPermissions only PreToolUse HOOKS can block a tool, so wire the
+        # same HARD_DENY fence the SDK brain has via --settings. Best-effort + degradable: only enabled if this CLI
+        # build advertises --settings (probed once); otherwise the worker runs as before (the fence is defense in
+        # depth on top of the isolated build cwd, not the only guard).
+        self._fence_settings = self._install_cli_fence() if self._cli_supports("--settings") else None
+
+    @staticmethod
+    def _harness_root() -> str:
+        from pathlib import Path
+        return str(Path(__file__).resolve().parents[1])   # harness/ (parent of the metaop package)
+
+    def _cli_supports(self, flag: str) -> bool:
+        try:
+            _nw = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+            r = subprocess.run([self.exe, "--help"], capture_output=True, text=True, timeout=15,
+                               creationflags=_nw, encoding="utf-8", errors="replace")
+            return flag in ((r.stdout or "") + (r.stderr or ""))
+        except Exception:
+            return False
+
+    def _install_cli_fence(self):
+        """Write a settings file wiring metaop._cli_fence as a PreToolUse hook on Bash/Write/Edit. Returns the path,
+        or None on failure (best-effort -- a fence-wiring failure must never break the worker)."""
+        try:
+            from .config import workspace_root
+            hook_cmd = f'"{sys.executable}" -m metaop._cli_fence'
+            settings = {"hooks": {"PreToolUse": [
+                {"matcher": "Bash", "hooks": [{"type": "command", "command": hook_cmd}]},
+                {"matcher": "Write", "hooks": [{"type": "command", "command": hook_cmd}]},
+                {"matcher": "Edit", "hooks": [{"type": "command", "command": hook_cmd}]},
+                {"matcher": "MultiEdit", "hooks": [{"type": "command", "command": hook_cmd}]}]}}
+            p = workspace_root() / "cli_fence_settings.json"
+            p.write_text(json.dumps(settings), encoding="utf-8")
+            return str(p)
+        except Exception:
+            return None
 
     def _run(self, prompt: str, retries: int = 1) -> str:
-        child_env = {**os.environ, "HARNESS_WORKER": "1"}
+        # PYTHONPATH so the PreToolUse hook (`python -m metaop._cli_fence`) can import the harness package.
+        _pp = self._harness_root() + (os.pathsep + os.environ["PYTHONPATH"] if os.environ.get("PYTHONPATH") else "")
+        child_env = {**os.environ, "HARNESS_WORKER": "1", "PYTHONPATH": _pp}
         for attempt in range(retries + 1):
             try:
                 # --setting-sources "" : skip CLAUDE.md auto-discovery (user/project/local) so the host's global
@@ -396,9 +470,11 @@ class CliBrain(Brain):
                 # console app). With the loop on the cli/composite backend that fires repeatedly, the flashes steal
                 # focus and pause the user's typing. This flag runs it truly headless (no window, no focus steal).
                 _nw = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
-                r = subprocess.run([self.exe, "-p", "--setting-sources", "",
-                                    "--permission-mode", "bypassPermissions", prompt],
-                                   capture_output=True, text=True, cwd=self.cwd, creationflags=_nw,
+                argv = [self.exe, "-p", "--setting-sources", "", "--permission-mode", "bypassPermissions"]
+                if self._fence_settings:  # CLI-layer PreToolUse fence (destructive Bash / protected-file writes)
+                    argv += ["--settings", self._fence_settings]
+                argv.append(prompt)
+                r = subprocess.run(argv, capture_output=True, text=True, cwd=self.cwd, creationflags=_nw,
                                    encoding="utf-8", errors="replace", timeout=self.timeout, env=child_env)
                 out = r.stdout or ""
                 if out.strip():

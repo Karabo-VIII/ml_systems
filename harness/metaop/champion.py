@@ -5,16 +5,18 @@ into the live loop's brain. The brain seam already exists (Brain.set_plan_instru
 PERSISTENCE + GATED-APPLY layer between "an evolution run found a better prompt" and "the next solver run USES it".
 
 CONTRACT (the only honest gate):
-  - The champion is APPLIED to a live brain ONLY when champion.json exists AND best_solve_rate > baseline_solve_rate.
-    best == baseline (the evolve champion-contract worst case = no-op) is NOT an improvement -> NOT applied. This is
-    the same mechanical-fitness gate evolve.py / dspy_planner.py measure (run_planner_eval -> solve_rate), so a
-    champion is only ever installed when it provably beat the baseline on the honest objective.
+  - The champion is APPLIED to a live brain ONLY when champion.json exists AND it improves the GATE METRIC. The gate
+    metric is the HELD-OUT test solve_rate when the record carries one (test_solve_rate vs baseline_test_solve_rate),
+    else the train best_solve_rate (backward-compat). Gating on the held-out split -- the very thing evolve.py now
+    scores the champion against -- means a champion is installed ONLY when it provably GENERALIZES beyond the tasks
+    it was tuned on, not merely fits them (the 2026-07-03 audit fix: the old gate compared train-vs-train, so the
+    elitism floor guaranteed nothing about generalization). best == baseline is NOT an improvement -> NOT applied.
   - write_champion(...) is the ONE writer: both evolution_loop (evolve_planner) and dspy_planner
     (install_compiled_planner) persist through it, so the format is single-sourced.
 
-PATH: <repo_root>/runs/autonomy/evolve/champion.json (the live crypto loop's workspace). Resolved relative to this
-file's repo root so it is stable regardless of cwd; overridable via the HARNESS_CHAMPION_PATH env var or an explicit
-path arg (keeps the harness reusable without pinning it to crypto). No emoji (Windows cp1252).
+PATH: <harness_workspace>/evolve/champion.json -- under the CONFIGURABLE harness workspace, NOT any host repo (the
+2026-07-03 audit fix: the old default wrote into the parent crypto mono-repo, contradicting config.py's standalone-
+purity claim). Overridable via the HARNESS_CHAMPION_PATH env var or an explicit path arg. No emoji (Windows cp1252).
 """
 from __future__ import annotations
 
@@ -23,21 +25,34 @@ import os
 import time
 from pathlib import Path
 
-# repo root = .../ml_systems (harness/metaop/champion.py -> parents[2])
-_REPO_ROOT = Path(__file__).resolve().parents[2]
-_DEFAULT_CHAMPION = _REPO_ROOT / "runs" / "autonomy" / "evolve" / "champion.json"
-
 # the required fields a champion record carries (the directive's contract)
 REQUIRED_FIELDS = ("prompt", "best_solve_rate", "baseline_solve_rate", "source")
 
 
 def champion_path(path: str | os.PathLike | None = None) -> Path:
-    """The canonical champion.json path. Override via arg or HARNESS_CHAMPION_PATH; default = the crypto live loop's
-    runs/autonomy/evolve/champion.json."""
+    """The canonical champion.json path. Override via arg or HARNESS_CHAMPION_PATH; default =
+    <harness_workspace>/evolve/champion.json (the CONFIGURABLE workspace, never a host repo)."""
     if path:
         return Path(path)
     env = os.environ.get("HARNESS_CHAMPION_PATH")
-    return Path(env) if env else _DEFAULT_CHAMPION
+    if env:
+        return Path(env)
+    from .config import workspace_root
+    return workspace_root() / "evolve" / "champion.json"
+
+
+def _gate_metric(rec: dict):
+    """(candidate, baseline, which) the install-gate + monotonic floor compare on. Prefers the HELD-OUT test
+    solve_rate when the record carries both test fields (generalization), else the train best/baseline solve_rate."""
+    if rec.get("test_solve_rate") is not None and rec.get("baseline_test_solve_rate") is not None:
+        try:
+            return float(rec["test_solve_rate"]), float(rec["baseline_test_solve_rate"]), "test"
+        except (TypeError, ValueError):
+            pass
+    try:
+        return float(rec.get("best_solve_rate", 0.0)), float(rec.get("baseline_solve_rate", 0.0)), "train"
+    except (TypeError, ValueError):
+        return 0.0, 0.0, "train"
 
 
 def read_champion(path: str | os.PathLike | None = None) -> dict | None:
@@ -52,13 +67,18 @@ def read_champion(path: str | os.PathLike | None = None) -> dict | None:
 
 
 def write_champion(prompt: str, best_solve_rate: float, baseline_solve_rate: float, source: str,
-                   path: str | os.PathLike | None = None, extra: dict | None = None) -> Path | None:
+                   path: str | os.PathLike | None = None, extra: dict | None = None,
+                   test_solve_rate: float | None = None, baseline_test_solve_rate: float | None = None) -> Path | None:
     """Persist the champion planner prompt. The ONE writer used by evolution_loop + dspy_planner.
 
     Writes atomically (tmp + replace) so a concurrent reader never sees a half-file. Returns the path written, or
-    None on failure (best-effort -- a persist failure must never break the producing loop). MONOTONIC: only writes
-    when the new best_solve_rate is >= any existing champion's best_solve_rate, so a worse later run can't clobber a
-    better earlier champion (the champion-contract floor extends across runs)."""
+    None on failure (best-effort -- a persist failure must never break the producing loop). MONOTONIC on the GATE
+    METRIC (held-out test solve_rate when supplied, else train best): a worse later run can't clobber a better
+    earlier champion, so the champion-contract floor -- now a GENERALIZATION floor -- extends across runs.
+
+    test_solve_rate / baseline_test_solve_rate: the HELD-OUT champion vs baseline solve_rate (from evolve_planner).
+    When supplied, they become the install-gate + monotonic metric (generalization), so a champion is only ever
+    installed when it beat the baseline on tasks it was NOT tuned on."""
     if not isinstance(prompt, str) or not prompt.strip():
         return None
     try:
@@ -67,23 +87,28 @@ def write_champion(prompt: str, best_solve_rate: float, baseline_solve_rate: flo
     except (TypeError, ValueError):
         return None
     p = champion_path(path)
-    # MONOTONIC guard: keep the better incumbent if it already beats this candidate.
-    prior = read_champion(path)
-    if prior is not None:
-        try:
-            if float(prior.get("best_solve_rate", -1.0)) >= best:
-                return p  # incumbent is at least as good -> leave it (no regression, no churn)
-        except (TypeError, ValueError):
-            pass
     rec = {
         "prompt": prompt,
         "best_solve_rate": best,
         "baseline_solve_rate": base,
         "source": str(source),
-        "improved": best > base,
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "epoch": int(time.time()),
     }
+    if test_solve_rate is not None and baseline_test_solve_rate is not None:
+        try:
+            rec["test_solve_rate"] = float(test_solve_rate)
+            rec["baseline_test_solve_rate"] = float(baseline_test_solve_rate)
+        except (TypeError, ValueError):
+            pass
+    cand_metric, base_metric, _which = _gate_metric(rec)
+    rec["improved"] = cand_metric > base_metric
+    # MONOTONIC guard on the GATE METRIC: keep the better incumbent if it already beats this candidate.
+    prior = read_champion(path)
+    if prior is not None:
+        prior_metric, _pbase, _pw = _gate_metric(prior)
+        if prior_metric >= cand_metric:
+            return p  # incumbent generalizes at least as well -> leave it (no regression, no churn)
     if extra:
         rec.update(extra)
     try:
@@ -97,14 +122,13 @@ def write_champion(prompt: str, best_solve_rate: float, baseline_solve_rate: flo
 
 
 def is_improvement(rec: dict | None) -> bool:
-    """True iff the record is a GENUINE improvement: best_solve_rate strictly > baseline_solve_rate. This is the
-    apply-gate -- best == baseline (evolve's safe no-op worst case) is NOT applied."""
+    """True iff the record is a GENUINE improvement on the GATE METRIC: the HELD-OUT test solve_rate when present
+    (generalization), else the train best_solve_rate -- strictly greater than its baseline. This is the apply-gate;
+    best == baseline (evolve's safe no-op worst case) is NOT applied."""
     if not isinstance(rec, dict):
         return False
-    try:
-        return float(rec.get("best_solve_rate")) > float(rec.get("baseline_solve_rate"))
-    except (TypeError, ValueError):
-        return False
+    cand, base, _which = _gate_metric(rec)
+    return cand > base
 
 
 def apply_champion(brain, path: str | os.PathLike | None = None) -> dict:
@@ -118,8 +142,10 @@ def apply_champion(brain, path: str | os.PathLike | None = None) -> dict:
     if rec is None:
         return {"applied": False, "reason": "no champion.json"}
     if not is_improvement(rec):
-        return {"applied": False, "reason": "best_solve_rate <= baseline_solve_rate (no-op, not applied)",
-                "best_solve_rate": rec.get("best_solve_rate"), "baseline_solve_rate": rec.get("baseline_solve_rate")}
+        cand, base, which = _gate_metric(rec)
+        return {"applied": False, "reason": f"no gain on the {which} gate metric ({cand} <= {base}) -> no-op, not applied",
+                "gate_metric": which, "candidate": cand, "baseline": base,
+                "best_solve_rate": rec.get("best_solve_rate"), "test_solve_rate": rec.get("test_solve_rate")}
     prompt = rec.get("prompt")
     setter = getattr(brain, "set_plan_instruction", None)
     if not callable(setter) or not isinstance(prompt, str) or not prompt.strip():
@@ -128,6 +154,8 @@ def apply_champion(brain, path: str | os.PathLike | None = None) -> dict:
         setter(prompt)
     except Exception as e:
         return {"applied": False, "reason": f"set_plan_instruction raised: {type(e).__name__}"}
-    return {"applied": True, "reason": "champion installed (best > baseline)",
-            "best_solve_rate": rec.get("best_solve_rate"), "baseline_solve_rate": rec.get("baseline_solve_rate"),
+    cand, base, which = _gate_metric(rec)
+    return {"applied": True, "reason": f"champion installed ({which} gate metric {cand} > {base})",
+            "gate_metric": which, "candidate": cand, "baseline": base,
+            "best_solve_rate": rec.get("best_solve_rate"), "test_solve_rate": rec.get("test_solve_rate"),
             "source": rec.get("source")}
