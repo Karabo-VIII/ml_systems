@@ -38,3 +38,22 @@ def test_fence_blocks(data):
 def test_fence_allows(data):
     block, _reason = _cli_fence.decide(data)
     assert block is False, f"should allow: {data}"
+
+
+def test_cli_fence_wiring_produces_valid_settings(tmp_path, monkeypatch):
+    """Regression: _install_cli_fence must actually produce a settings file wiring all 4 tool matchers to the fence.
+    The original round-2 code referenced `sys` without importing it -> the exception was swallowed and the fence
+    NEVER wired (silent dead code). This exercises the wiring WITHOUT needing the claude CLI."""
+    import json
+
+    from metaop.brain import CliBrain
+    monkeypatch.setenv("HARNESS_WORKSPACE", str(tmp_path / "ws"))
+    b = CliBrain.__new__(CliBrain)          # bypass __init__ (which needs the claude exe); test the method directly
+    b.exe = "claude"
+    path = b._install_cli_fence()
+    assert path, "the fence settings file must be written (not silently None)"
+    settings = json.loads(open(path, encoding="utf-8").read())
+    hooks = settings.get("hooks", {}).get("PreToolUse", [])
+    matchers = {h.get("matcher") for h in hooks}
+    assert {"Bash", "Write", "Edit", "MultiEdit"} <= matchers, f"all tool surfaces must be fenced, got {matchers}"
+    assert "_cli_fence" in hooks[0]["hooks"][0]["command"], "the hook must invoke metaop._cli_fence"

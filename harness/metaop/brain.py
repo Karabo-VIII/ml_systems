@@ -26,6 +26,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 
 
 def _first_balanced_object(text: str) -> str | None:
