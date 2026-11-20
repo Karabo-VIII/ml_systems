@@ -85,11 +85,10 @@ def test_offline_run_reconciles_and_is_idempotent(tmp_path):
     assert code == 0, "validate must pass on the synthetic book"
     gold = list((tmp_path / "gold").rglob("*.parquet"))
     assert gold
-    # Filename uses the data-end date (20240602, because the last 1m bar closes
-    # at the next midnight), never a caller-supplied start year of 2020.
+    # Monthly partitions are named ASSET_YYYY-MM.parquet, never a start year of 2020.
     names = " ".join(p.name for p in gold)
     assert "2020" not in names
-    assert "20240602" in names or "20240601" in names
+    assert "2024-06" in names
     first = {p: file_sha256(p) for p in gold}
     code2 = run(cfg)
     assert code2 == 0

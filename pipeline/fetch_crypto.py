@@ -59,25 +59,15 @@ from pipeline.paths import (
     trades_path,
 )
 from pipeline.symbols import canonical_symbol
+from pipeline.calendar import (  # re-exported
+    clip_month,
+    is_current_or_future_month,
+    iter_days,
+    iter_months,
+)
 
 VISION = "https://data.binance.vision/data"
 USER_AGENT = "pipeline-v2"
-
-
-def iter_days(start: date, end: date):
-    d = start
-    while d <= end:
-        yield d
-        d += timedelta(days=1)
-
-
-def iter_months(start: date, end: date):
-    y, m = start.year, start.month
-    while (y, m) <= (end.year, end.month):
-        yield y, m
-        m += 1
-        if m == 13:
-            y, m = y + 1, 1
 
 
 def trades_url(symbol: str, day: date) -> str:
@@ -111,6 +101,30 @@ def perp_1d_url(symbol: str, day: date) -> str:
     sym = canonical_symbol(symbol)
     ds = day.isoformat()
     return f"{VISION}/futures/um/daily/klines/{sym}/1d/{sym}-1d-{ds}.zip"
+
+
+def trades_month_url(symbol: str, year: int, month: int) -> str:
+    sym = canonical_symbol(symbol)
+    ym = f"{year:04d}-{month:02d}"
+    return f"{VISION}/spot/monthly/aggTrades/{sym}/{sym}-aggTrades-{ym}.zip"
+
+
+def klines_1m_month_url(symbol: str, year: int, month: int) -> str:
+    sym = canonical_symbol(symbol)
+    ym = f"{year:04d}-{month:02d}"
+    return f"{VISION}/spot/monthly/klines/{sym}/1m/{sym}-1m-{ym}.zip"
+
+
+def metrics_month_url(symbol: str, year: int, month: int) -> str:
+    sym = canonical_symbol(symbol)
+    ym = f"{year:04d}-{month:02d}"
+    return f"{VISION}/futures/um/monthly/metrics/{sym}/{sym}-metrics-{ym}.zip"
+
+
+def perp_1d_month_url(symbol: str, year: int, month: int) -> str:
+    sym = canonical_symbol(symbol)
+    ym = f"{year:04d}-{month:02d}"
+    return f"{VISION}/futures/um/monthly/klines/{sym}/1d/{sym}-1d-{ym}.zip"
 
 
 def http_get(url: str, timeout: int = 120) -> tuple[int, bytes, str | None]:
@@ -406,6 +420,10 @@ class FetchReport:
     def n_error(self) -> int:
         return sum(1 for r in self.records if r.status == "error")
 
+    @property
+    def n_cached(self) -> int:
+        return sum(1 for r in self.records if r.status == "ok" and r.error == "cached")
+
 
 def _now_ms() -> int:
     return int(datetime.now(tz=timezone.utc).timestamp() * 1000)
@@ -443,85 +461,216 @@ def _store(df: pl.DataFrame, dest: Path, schema_name: str, params: dict) -> str:
     return file_sha256(dest)
 
 
-def fetch_trades(root: Path, asset: str, start: date, end: date, *, force: bool = False, timeout: int = 120) -> FetchReport:
+
+def _split_frame_by_day(df: pl.DataFrame, time_col: str) -> dict:
+    if df.is_empty() or time_col not in df.columns:
+        return {}
+    tagged = df.with_columns(pl.from_epoch(pl.col(time_col), time_unit="ms").dt.date().alias("_day"))
+    out: dict = {}
+    for (day,), part in tagged.group_by("_day", maintain_order=True):
+        out[day] = part.drop("_day")
+    return out
+
+
+def _store_day(rec_key, dest, df, schema_name, params, url, arts, report, today_ms):
+    rec = ArtifactRecord(rec_key, "error", 0, url, retrieved_at_ms=today_ms)
+    try:
+        if df is None or df.is_empty():
+            rec.status = "empty"
+            rec.n_rows = 0
+        else:
+            digest = _store(df, dest, schema_name, params)
+            rec.status = "ok"
+            rec.n_rows = df.height
+            rec.path = str(dest)
+            rec.sha256 = digest
+    except Exception as exc:  # noqa: BLE001
+        rec.status = "error"
+        rec.error = f"{type(exc).__name__}: {exc}"
+    arts[rec_key] = rec.as_dict()
+    report.records.append(rec)
+    return rec
+
+
+def _cached_record(key, dest, url, prev, report, arts):
+    rec = ArtifactRecord(
+        key, "ok", int(prev.get("n_rows", 0)), url, str(dest),
+        prev.get("sha256"), error="cached", retrieved_at_ms=prev.get("retrieved_at_ms"),
+    )
+    report.records.append(rec)
+    arts[key] = {**prev, "error": "cached"}
+    return rec
+
+
+def fetch_trades(root: Path, asset: str, start: date, end: date, *, force: bool = False, timeout: int = 120, progress=None) -> FetchReport:
+    """Daily bronze files. Past months come from a single Vision monthly zip when needed."""
     asset = canonical_symbol(asset)
     report = FetchReport("trades", asset)
     man_path = manifest_path(root, "trades", asset)
     manifest = _load_manifest(man_path)
     arts: dict = manifest.setdefault("artifacts", {})
-    for day in iter_days(start, end):
-        key = day.isoformat()
-        dest = trades_path(root, asset, day)
-        url = trades_url(asset, day)
-        prev = arts.get(key, {})
-        if _fresh(prev, dest, force):
-            report.records.append(ArtifactRecord(key, "ok", int(prev.get("n_rows", 0)), url, str(dest), prev.get("sha256"), retrieved_at_ms=prev.get("retrieved_at_ms")))
+    today = date.today()
+    for year, month in iter_months(start, end):
+        first, last = clip_month(year, month, start, end)
+        days = list(iter_days(first, last))
+        use_monthly = not is_current_or_future_month(year, month, today)
+        pending = []
+        for day in days:
+            key = day.isoformat()
+            dest = trades_path(root, asset, day)
+            prev = arts.get(key, {})
+            if _fresh(prev, dest, force):
+                _cached_record(key, dest, prev.get("source_url") or trades_url(asset, day), prev, report, arts)
+                if progress:
+                    progress("cached")
+            else:
+                pending.append(day)
+        if not pending:
             continue
-        status, body, err = http_get(url, timeout=timeout)
-        rec = ArtifactRecord(key, "error", 0, url, error=err, retrieved_at_ms=_now_ms())
-        if status == 404:
-            rec.status = "missing_not_published"
-        elif status != 200 or err:
-            rec.status = "error"
-            rec.error = err or f"HTTP {status}"
-        else:
-            try:
-                df = parse_aggtrades(body)
-                if df.is_empty():
-                    rec.status = "empty"
-                    rec.n_rows = 0
+        wrote_from_month = False
+        if use_monthly:
+            url = trades_month_url(asset, year, month)
+            status, body, err = http_get(url, timeout=timeout)
+            if status == 200 and body:
+                try:
+                    frame = parse_aggtrades(body)
+                    by_day = _split_frame_by_day(frame, "ts_ms")
+                    for day in pending:
+                        key = day.isoformat()
+                        dest = trades_path(root, asset, day)
+                        part = by_day.get(day, pl.DataFrame())
+                        rec = _store_day(
+                            key, dest, part, "trades_v1",
+                            {"asset": asset, "day": key, "source_url": url},
+                            url, arts, report, _now_ms(),
+                        )
+                        if progress:
+                            progress("written" if rec.status == "ok" else "failed")
+                    wrote_from_month = True
+                except Exception as exc:  # noqa: BLE001
+                    # Fall back to daily files for this month.
+                    wrote_from_month = False
+                    fallback_err = f"{type(exc).__name__}: {exc}"
+            else:
+                fallback_err = err or f"HTTP {status}"
+        if not wrote_from_month:
+            for day in pending:
+                key = day.isoformat()
+                dest = trades_path(root, asset, day)
+                url = trades_url(asset, day)
+                prev = arts.get(key, {})
+                status, body, err = http_get(url, timeout=timeout)
+                rec = ArtifactRecord(key, "error", 0, url, error=err, retrieved_at_ms=_now_ms())
+                if status == 404:
+                    rec.status = "missing_not_published"
+                    if progress:
+                        progress("failed")
+                elif status != 200 or err:
+                    rec.status = "error"
+                    rec.error = err or f"HTTP {status}"
+                    if progress:
+                        progress("failed")
                 else:
-                    digest = _store(df, dest, "trades_v1", {"asset": asset, "day": key, "source_url": url})
-                    rec.status = "ok"
-                    rec.n_rows = df.height
-                    rec.path = str(dest)
-                    rec.sha256 = digest
-            except Exception as exc:
-                rec.status = "error"
-                rec.error = f"{type(exc).__name__}: {exc}"
-        arts[key] = rec.as_dict()
-        report.records.append(rec)
+                    try:
+                        df = parse_aggtrades(body)
+                        rec = _store_day(key, dest, df, "trades_v1",
+                                         {"asset": asset, "day": key, "source_url": url},
+                                         url, arts, report, _now_ms())
+                        if progress:
+                            progress("written" if rec.status in {"ok", "empty"} else "failed")
+                        continue
+                    except Exception as exc:  # noqa: BLE001
+                        rec.status = "error"
+                        rec.error = f"{type(exc).__name__}: {exc}"
+                        if progress:
+                            progress("failed")
+                arts[key] = rec.as_dict()
+                report.records.append(rec)
     _save_manifest(man_path, manifest)
     return report
 
 
-def fetch_klines_1m(root: Path, asset: str, start: date, end: date, *, force: bool = False, timeout: int = 120) -> FetchReport:
+def fetch_klines_1m(root: Path, asset: str, start: date, end: date, *, force: bool = False, timeout: int = 120, progress=None) -> FetchReport:
+    """Daily 1m kline files. Past months use the Vision monthly zip when needed."""
     asset = canonical_symbol(asset)
     report = FetchReport("klines_1m", asset)
     man_path = manifest_path(root, "klines_1m", asset)
     manifest = _load_manifest(man_path)
     arts: dict = manifest.setdefault("artifacts", {})
-    for day in iter_days(start, end):
-        key = day.isoformat()
-        dest = klines_1m_path(root, asset, day)
-        url = klines_1m_url(asset, day)
-        prev = arts.get(key, {})
-        if _fresh(prev, dest, force):
-            report.records.append(ArtifactRecord(key, "ok", int(prev.get("n_rows", 0)), url, str(dest), prev.get("sha256"), retrieved_at_ms=prev.get("retrieved_at_ms")))
+    today = date.today()
+    for year, month in iter_months(start, end):
+        first, last = clip_month(year, month, start, end)
+        days = list(iter_days(first, last))
+        use_monthly = not is_current_or_future_month(year, month, today)
+        pending = []
+        for day in days:
+            key = day.isoformat()
+            dest = klines_1m_path(root, asset, day)
+            prev = arts.get(key, {})
+            if _fresh(prev, dest, force):
+                _cached_record(key, dest, prev.get("source_url") or klines_1m_url(asset, day), prev, report, arts)
+                if progress:
+                    progress("cached")
+            else:
+                pending.append(day)
+        if not pending:
             continue
-        status, body, err = http_get(url, timeout=timeout)
-        rec = ArtifactRecord(key, "error", 0, url, error=err, retrieved_at_ms=_now_ms())
-        if status == 404:
-            rec.status = "missing_not_published"
-        elif status != 200 or err:
-            rec.status = "error"
-            rec.error = err or f"HTTP {status}"
-        else:
-            try:
-                df = parse_klines(body, width_ms=60_000)
-                if df.is_empty():
-                    rec.status = "empty"
+        wrote_from_month = False
+        if use_monthly:
+            url = klines_1m_month_url(asset, year, month)
+            status, body, err = http_get(url, timeout=timeout)
+            if status == 200 and body:
+                try:
+                    frame = parse_klines(body, width_ms=60_000)
+                    by_day = _split_frame_by_day(frame, "ts_open_ms")
+                    for day in pending:
+                        key = day.isoformat()
+                        dest = klines_1m_path(root, asset, day)
+                        part = by_day.get(day, pl.DataFrame())
+                        rec = _store_day(
+                            key, dest, part, "kline_1m_v1",
+                            {"asset": asset, "day": key, "source_url": url},
+                            url, arts, report, _now_ms(),
+                        )
+                        if progress:
+                            progress("written" if rec.status in {"ok", "empty"} else "failed")
+                    wrote_from_month = True
+                except Exception:
+                    wrote_from_month = False
+        if not wrote_from_month:
+            for day in pending:
+                key = day.isoformat()
+                dest = klines_1m_path(root, asset, day)
+                url = klines_1m_url(asset, day)
+                status, body, err = http_get(url, timeout=timeout)
+                rec = ArtifactRecord(key, "error", 0, url, error=err, retrieved_at_ms=_now_ms())
+                if status == 404:
+                    rec.status = "missing_not_published"
+                    if progress:
+                        progress("failed")
+                elif status != 200 or err:
+                    rec.status = "error"
+                    rec.error = err or f"HTTP {status}"
+                    if progress:
+                        progress("failed")
                 else:
-                    digest = _store(df, dest, "kline_1m_v1", {"asset": asset, "day": key, "source_url": url})
-                    rec.status = "ok"
-                    rec.n_rows = df.height
-                    rec.path = str(dest)
-                    rec.sha256 = digest
-            except Exception as exc:
-                rec.status = "error"
-                rec.error = f"{type(exc).__name__}: {exc}"
-        arts[key] = rec.as_dict()
-        report.records.append(rec)
+                    try:
+                        df = parse_klines(body, width_ms=60_000)
+                        rec = _store_day(
+                            key, dest, df, "kline_1m_v1",
+                            {"asset": asset, "day": key, "source_url": url},
+                            url, arts, report, _now_ms(),
+                        )
+                        if progress:
+                            progress("written" if rec.status in {"ok", "empty"} else "failed")
+                        continue
+                    except Exception as exc:  # noqa: BLE001
+                        rec.status = "error"
+                        rec.error = f"{type(exc).__name__}: {exc}"
+                        if progress:
+                            progress("failed")
+                arts[key] = rec.as_dict()
+                report.records.append(rec)
     _save_manifest(man_path, manifest)
     return report
 

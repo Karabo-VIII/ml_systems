@@ -80,5 +80,29 @@ def gap_path(root: Path, asset: str, ts_ms_max: int) -> Path:
     return root / "silver" / "bars" / "_gaps" / f"{asset}_{stamp}.json"
 
 
+def month_partition_name(asset: str, year: int, month: int) -> str:
+    return f"{asset}_{year:04d}-{month:02d}.parquet"
+
+
+def bars_month_path(root: Path, bar_type: str, asset: str, year: int, month: int) -> Path:
+    return root / "silver" / "bars" / bar_type / month_partition_name(asset, year, month)
+
+
+def features_month_path(root: Path, bar_type: str, asset: str, year: int, month: int) -> Path:
+    return root / "silver" / "features" / bar_type / month_partition_name(asset, year, month)
+
+
+def gold_month_path(root: Path, bar_type: str, asset: str, year: int, month: int) -> Path:
+    return root / "gold" / bar_type / month_partition_name(asset, year, month)
+
+
+def dollar_state_path(root: Path, asset: str) -> Path:
+    return root / "silver" / "bars" / "_state" / f"dollar_{asset}.parquet"
+
+
+def dollar_state_meta_path(root: Path, asset: str) -> Path:
+    return root / "silver" / "bars" / "_state" / f"dollar_{asset}.json"
+
+
 def is_time_bar(bar_type: str) -> bool:
     return bar_type in TIME_WIDTH_MS

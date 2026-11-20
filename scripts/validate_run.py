@@ -96,18 +96,35 @@ def _is_fx(asset: str) -> bool:
 def _latest(directory: Path, asset: str) -> Path | None:
     if not directory.exists():
         return None
-    files = sorted(p for p in directory.glob(f"{asset}_*.parquet") if p.is_file())
+    files = sorted(p for p in directory.glob(f"{asset}_*.parquet") if p.is_file() and ".tmp." not in p.name)
     return files[-1] if files else None
 
 
+def _load_asset_frames(directory: Path, asset: str) -> pl.DataFrame | None:
+    """Concat every monthly (or legacy) partition for one asset."""
+    from pipeline.partitions import load_partitions
+    return load_partitions(directory, asset)
+
+
+def _frame_for(path: Path) -> pl.DataFrame:
+    asset = path.name.rsplit("_", 1)[0]
+    loaded = _load_asset_frames(path.parent, asset)
+    return loaded if loaded is not None else pl.read_parquet(path)
+
+
 def discover(root: Path) -> dict[str, dict[str, dict[str, Path]]]:
-    """layer -> bar_type -> asset -> path, using the latest stamp for each."""
+    """layer -> bar_type -> asset -> latest path (used to find the set of assets).
+
+    Frames are loaded by concatenating every ``ASSET_*.parquet`` partition.
+    """
     found: dict[str, dict[str, dict[str, Path]]] = {"gold": {}, "silver": {}}
     gold = root / "gold"
     if gold.exists():
         for folder in sorted(p for p in gold.iterdir() if p.is_dir()):
             by_asset: dict[str, Path] = {}
             for path in folder.glob("*.parquet"):
+                if ".tmp." in path.name:
+                    continue
                 asset = path.name.rsplit("_", 1)[0]
                 prev = by_asset.get(asset)
                 if prev is None or path.name > prev.name:
@@ -119,6 +136,8 @@ def discover(root: Path) -> dict[str, dict[str, dict[str, Path]]]:
         for folder in sorted(p for p in silver.iterdir() if p.is_dir() and not p.name.startswith("_")):
             by_asset: dict[str, Path] = {}
             for path in folder.glob("*.parquet"):
+                if ".tmp." in path.name:
+                    continue
                 asset = path.name.rsplit("_", 1)[0]
                 prev = by_asset.get(asset)
                 if prev is None or path.name > prev.name:
@@ -490,7 +509,7 @@ def check_sessions(report: Report, gold: dict[str, dict[str, Path]]) -> None:
     checked = 0
     dst_notes = []
     for asset in fx_assets:
-        df = pl.read_parquet(source[asset])
+        df = _frame_for(source[asset])
         need = ["ts_open_ms", "ts_ms", "is_tokyo", "is_london", "is_newyork", "is_ldn_ny_overlap"]
         if any(c not in df.columns for c in need):
             report.add(f"sessions:{asset}", "WARN", "session columns missing")
@@ -569,7 +588,7 @@ def check_asof_and_hand_features(
         return out
 
     for asset, path in sorted(assets.items()):
-        df = pl.read_parquet(path).sort("ts_ms")
+        df = _frame_for(path).sort("ts_ms")
         if "close" not in df.columns or df.height < 3:
             continue
         close = df["close"].to_list()
@@ -739,7 +758,7 @@ def check_dead_columns(report: Report, gold_files: dict[str, dict[str, Path]]) -
     funding_prefix = ("norm_funding", "funding_", "xd_funding")
     for bt, assets in sorted(gold_files.items()):
         for asset, path in sorted(assets.items()):
-            df = pl.read_parquet(path)
+            df = _frame_for(path)
             dead = []
             const = []
             warmup = []
@@ -945,7 +964,7 @@ def load_ladders(found: dict) -> dict[str, dict[str, pl.DataFrame]]:
     layer = found["silver"] or found["gold"]
     for bt, assets in layer.items():
         for asset, path in assets.items():
-            ladders[asset][bt] = pl.read_parquet(path)
+            ladders[asset][bt] = _frame_for(path)
     return dict(ladders)
 
 
@@ -975,7 +994,7 @@ def main(argv: list[str] | None = None) -> int:
     layer = found["gold"] or found["silver"]
     for bt, assets in layer.items():
         for asset, path in assets.items():
-            frames[(asset, bt)] = pl.read_parquet(path)
+            frames[(asset, bt)] = _frame_for(path)
 
     report = Report()
     check_monotonic(report, frames)

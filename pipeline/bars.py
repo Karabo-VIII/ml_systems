@@ -44,6 +44,9 @@ def close_of(ts_ms: pl.Expr, width_ms: int) -> pl.Expr:
     """Right edge of the left-open, right-closed bucket containing ``ts_ms``.
 
     A trade at exactly a boundary belongs to the bucket that closes there.
+    Buckets are aligned to 00:00:00 UTC: ``width_ms`` always divides a UTC
+    day, and the Unix epoch used here is midnight UTC, so 2h/6h/8h closes
+    land on 00:00, 02:00, … or 00:00, 06:00, 12:00, 18:00, and so on.
     """
     return (
         pl.when(ts_ms % width_ms == 0)
@@ -373,13 +376,11 @@ class DollarAccumulator:
         self._partials.append(_partial(df))
         self.cum += float(df["_value"].sum())
 
-    def finish(self, asset: str) -> tuple[pl.DataFrame, int]:
-        if not self._partials:
-            return finalize(pl.DataFrame(), asset, "dollar"), 0
+    def _merged(self) -> pl.DataFrame:
         df = pl.concat(self._partials, how="diagonal_relaxed")
         # Fragments of the same raw id, in time order, collapse to one bar.
         df = df.with_row_index("_seq")
-        merged = df.group_by("_raw", maintain_order=True).agg([
+        return df.group_by("_raw", maintain_order=True).agg([
             pl.col("ts_open_ms").sort_by("_seq").first().alias("ts_open_ms"),
             pl.col("ts_ms").sort_by("_seq").last().alias("ts_ms"),
             pl.col("open").sort_by("_seq").first().alias("open"),
@@ -394,6 +395,29 @@ class DollarAccumulator:
             pl.col("sell_usd").sum().alias("sell_usd"),
             pl.col("n_trades").sum().cast(pl.Int64).alias("n_trades"),
         ])
+
+    def emit_completed(self, asset: str) -> tuple[pl.DataFrame, int]:
+        """Completed bars only. The open tail stays in memory for the next chunk."""
+        if not self._partials:
+            return finalize(pl.DataFrame(), asset, "dollar"), 0
+        merged = self._merged()
+        excluded = 0
+        if not _exact(self.cum, self.threshold):
+            last = int(merged["_raw"].max())
+            tail = merged.filter(pl.col("_raw") == last)
+            excluded = int(tail["n_trades"].sum() or 0)
+            merged = merged.filter(pl.col("_raw") < last)
+            self._partials = [tail] if not tail.is_empty() else []
+        else:
+            self._partials = []
+        if merged.is_empty():
+            return finalize(merged, asset, "dollar"), excluded
+        return finalize(merged.drop("_raw"), asset, "dollar"), excluded
+
+    def finish(self, asset: str) -> tuple[pl.DataFrame, int]:
+        if not self._partials:
+            return finalize(pl.DataFrame(), asset, "dollar"), 0
+        merged = self._merged()
         excluded = 0
         if not _exact(self.cum, self.threshold):
             last = int(merged["_raw"].max())

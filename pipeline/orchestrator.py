@@ -54,26 +54,40 @@ from pipeline.features import (
 )
 from pipeline.features import compute_physics
 from pipeline.fetch_external import fetch_all_external, load_external
+from pipeline.calendar import clip_month, iter_days, iter_months
+from pipeline.chunked import (
+    load_bar_months,
+    load_dollar_state,
+    load_feature_months,
+    write_bars_month,
+    write_dataset_month,
+    write_features_month,
+    write_fx_bars_month,
+)
 from pipeline.fetch_crypto import (
     fetch_funding,
     fetch_klines_1m,
     fetch_metrics,
     fetch_perp_1d,
     fetch_trades,
-    iter_days,
 )
 from pipeline.io import atomic_write_json, atomic_write_parquet, file_sha256, params_hash
+from pipeline.partitions import partition_fresh, sidecar_ok
 from pipeline.paths import (
+    bars_month_path,
     bars_path,
+    features_month_path,
     features_path,
     funding_path,
     gap_path,
     gold_manifest_path,
+    gold_month_path,
     gold_path,
     metrics_path,
     perp_1d_path,
     trades_path,
 )
+from pipeline.progress import RunSession
 from pipeline.symbols import canonical_fx_symbol, canonical_symbol
 from pipeline.validate import (
     gate_trade_count,
@@ -364,159 +378,203 @@ def run(cfg: RunConfig) -> int:
         return 0
 
     worst = 0
-    # Pass 1: fetch, bars, per-asset features (no cross-asset yet).
-    built: dict[str, dict[str, pl.DataFrame]] = {}
     meta: dict[str, dict] = {}
-    external_done = False
-    for asset, start in plan:
-        if start > cfg.end:
-            continue
-        try:
-            if "fetch" in cfg.stages:
-                print(f"[fetch] {asset} {start} -> {cfg.end}")
-                for fn in (fetch_trades, fetch_klines_1m, fetch_funding, fetch_metrics, fetch_perp_1d):
-                    report = fn(cfg.data_root, asset, start, cfg.end, force=cfg.force, timeout=cfg.fetch_timeout)
-                    print(f"[fetch] {report.source} ok={report.n_ok} error={report.n_error}")
-                if not external_done:
-                    fetch_all_external(
-                        cfg.data_root, [a for a, s in plan if s <= cfg.end],
-                        cfg.start, cfg.end, timeout=cfg.fetch_timeout,
+    session = RunSession(
+        market="crypto", start=cfg.start, end=cfg.end, stages=cfg.stages,
+    )
+    active = [(a, s) for a, s in plan if s <= cfg.end]
+    try:
+        if "fetch" in cfg.stages:
+            external_done = False
+            for asset, start in active:
+                try:
+                    session.info(f"[fetch] {asset} {start} -> {cfg.end}")
+                    days = list(iter_days(start, cfg.end))
+                    with session.bar(f"fetch {asset}", len(days) * 5, "file") as bar:
+                        def _prog(kind, _bar=bar):
+                            _bar.update(1, cached=(kind == "cached"), written=(kind == "written"), failed=(kind == "failed"))
+                        for fn in (fetch_trades, fetch_klines_1m, fetch_funding, fetch_metrics, fetch_perp_1d):
+                            report = fn(
+                                cfg.data_root, asset, start, cfg.end,
+                                force=cfg.force, timeout=cfg.fetch_timeout,
+                                **({"progress": _prog} if fn in (fetch_trades, fetch_klines_1m) else {}),
+                            )
+                            # funding/metrics/perp have no progress hook; count here
+                            if fn not in (fetch_trades, fetch_klines_1m):
+                                bar.update(max(report.n_ok, 1), cached=report.n_cached, written=max(0, report.n_ok - report.n_cached), failed=report.n_error)
+                            session.info(
+                                f"[fetch] {asset} {report.source} ok={report.n_ok} cached={report.n_cached} error={report.n_error}"
+                            )
+                            if report.n_error:
+                                worst = max(worst, 1)
+                    if not external_done:
+                        fetch_all_external(
+                            cfg.data_root, [a for a, s in active],
+                            cfg.start, cfg.end, timeout=cfg.fetch_timeout,
+                        )
+                        external_done = True
+                    session.asset_summary(f"[fetch] {asset} done")
+                except KeyboardInterrupt:
+                    raise
+                except Exception as exc:
+                    session.error(asset, "fetch", exc)
+                    worst = 2
+
+        if "bars" in cfg.stages:
+            for asset, start in active:
+                try:
+                    months = list(iter_months(start, cfg.end))
+                    threshold = float((cfg.threshold_overrides or {}).get(asset) or dollar_threshold(asset))
+                    from pipeline.chunked import bars_params
+                    from pipeline.partitions import partition_fresh
+                    y0, m0 = months[0]
+                    first0, last0 = clip_month(y0, m0, start, cfg.end)
+                    extra0 = {"threshold": threshold} if "dollar" in cfg.bar_types else {}
+                    first_fresh = (not cfg.force) and all(
+                        partition_fresh(
+                            bars_month_path(cfg.data_root, bt, asset, y0, m0),
+                            bars_params(asset, bt, first0, last0, extra0 if bt == "dollar" else None),
+                        )
+                        for bt in cfg.bar_types
                     )
-                    external_done = True
-            if not any(s in cfg.stages for s in ("bars", "features", "dataset", "validate")):
-                continue
-            print(f"[bars] {asset}")
-            packed = build_bars_for_asset(cfg, asset, start)
-            if packed["n_bronze"] == 0:
-                print(f"[bars] {asset} has no bronze trades in range")
-                worst = max(worst, 1)
-                continue
-            meta[asset] = packed
-            if "bars" in cfg.stages or "features" in cfg.stages or "dataset" in cfg.stages:
-                ts_max = max(int(df["ts_ms"].max()) for df in packed["bars"].values() if df.height)
-                for bar_type, df in packed["bars"].items():
-                    if df.is_empty():
-                        continue
-                    params = {"asset": asset, "bar_type": bar_type, "start": start.isoformat(), "end": cfg.end.isoformat()}
-                    path = bars_path(cfg.data_root, bar_type, asset, int(df["ts_ms"].max()))
-                    _write_frame(df, path, "bars_v1", params)
-                    print(f"[bars] wrote {path} rows={df.height}")
-                atomic_write_json(gap_path(cfg.data_root, asset, ts_max), {"missing_ts_ms": packed["gaps"][:10000], "n_gaps": len(packed["gaps"])})
-            featured = _attach_slow_features(cfg, asset, start, packed["bars"], packed["daily"])
-            built[asset] = featured
-        except Exception as exc:
-            print(f"[error] {asset}: {type(exc).__name__}: {exc}")
-            worst = 2
+                    acc = load_dollar_state(cfg.data_root, asset, threshold) if first_fresh else DollarAccumulator(threshold)
+                    n_bronze = 0
+                    gaps = []
+                    excluded = 0
+                    with session.bar(f"bars {asset}", len(months), "month") as bar:
+                        for year, month in months:
+                            packed = write_bars_month(cfg, asset, year, month, acc, session)
+                            n_bronze += int(packed.get("n_bronze") or 0)
+                            if packed.get("dollar_excluded") is not None:
+                                excluded = int(packed.get("dollar_excluded") or 0)
+                            if packed.get("cached"):
+                                bar.update(1, cached=True)
+                            else:
+                                bar.update(1, written=True)
+                                gaps.extend(packed.get("gaps") or [])
+                    meta[asset] = {"n_bronze": n_bronze, "dollar_excluded": excluded, "gaps": gaps}
+                    session.asset_summary(f"[bars] {asset} months={len(months)} bronze_trades={n_bronze}")
+                except KeyboardInterrupt:
+                    raise
+                except Exception as exc:
+                    session.error(asset, "bars", exc)
+                    worst = 2
 
-    if "features" not in cfg.stages and "dataset" not in cfg.stages and "validate" not in cfg.stages:
-        return worst
+        if "features" in cfg.stages:
+            for asset, start in active:
+                try:
+                    units = [(bt, y, m) for bt in cfg.bar_types for y, m in iter_months(start, cfg.end)]
+                    with session.bar(f"features {asset}", len(units), "part") as bar:
+                        for bt, year, month in units:
+                            try:
+                                st = write_features_month(cfg, asset, bt, year, month, _attach_slow_features)
+                                bar.update(1, cached=(st == "cached"), written=(st == "written"), skipped=(st == "empty"))
+                            except Exception as exc:
+                                session.error(asset, f"features {bt} {year}-{month:02d}", exc)
+                                bar.update(1, failed=True)
+                                worst = 2
+                    session.asset_summary(f"[features] {asset} done")
+                except KeyboardInterrupt:
+                    raise
+                except Exception as exc:
+                    session.error(asset, "features", exc)
+                    worst = 2
 
-    # Pass 2: cross-asset, then dataset + validate per bar type.
-    by_type: dict[str, dict[str, pl.DataFrame]] = {bt: {} for bt in cfg.bar_types}
-    for asset, frames in built.items():
-        for bt, df in frames.items():
-            by_type.setdefault(bt, {})[asset] = df
+        if "dataset" in cfg.stages:
+            # One month at a time across the cohort so cross-asset stays bounded.
+            all_months = []
+            for _, start in active:
+                for ym in iter_months(start, cfg.end):
+                    if ym not in all_months:
+                        all_months.append(ym)
+            cohort = [a for a, s in active]
+            with session.bar("dataset", len(all_months) * max(len(cfg.bar_types), 1), "part") as bar:
+                for year, month in all_months:
+                    for bt in cfg.bar_types:
+                        try:
+                            statuses = write_dataset_month(cfg, cohort, bt, year, month, meta)
+                            n_c = sum(1 for s in statuses.values() if s == "cached")
+                            n_w = sum(1 for s in statuses.values() if s == "written")
+                            n_e = sum(1 for s in statuses.values() if s == "empty")
+                            bar.update(1, cached=n_c, written=n_w, skipped=n_e)
+                        except KeyboardInterrupt:
+                            raise
+                        except Exception as exc:
+                            session.error(",", f"dataset {bt} {year}-{month:02d}", exc)
+                            bar.update(1, failed=True)
+                            worst = 2
 
-    reports = []
-    coverage: list[dict] = []
-    for bt, frames in by_type.items():
-        if not frames:
-            continue
-        frames = add_cross_asset(frames, bar_type=bt, fast=windows.fast, ma=min(windows.ma, max(windows.fast, 2)))
-        for asset, df in frames.items():
-            if df.is_empty():
-                continue
-            df = add_targets(df, windows.horizons, clipped=cfg.clipped, voladj=cfg.voladj)
-            df = assign_split(df, splits)
-            diffs = df["ts_ms"].diff().drop_nulls() if df.height > 2 else None
-            median = int(diffs.median()) if diffs is not None and diffs.len() else None
-            floor_days, max_days = load_embargo_policy()
-            embargo = embargo_bars_for(
-                bt, windows, median,
-                calendar_floor_days=floor_days, max_lookback_days=max_days,
-            )
-            df = apply_embargo(df, embargo)
-            listing = load_listing_dates().get(asset)
-            df = add_universe_columns(df, asset, listing)
-            params = {
-                "asset": asset,
-                "bar_type": bt,
-                "start": cfg.start.isoformat(),
-                "end": cfg.end.isoformat(),
-                "include_oi": cfg.include_oi,
-                "voladj": cfg.voladj,
-                "clipped": cfg.clipped,
-                "windows": windows.__dict__ if hasattr(windows, "__dict__") else {},
-                "embargo_bars": embargo,
-                "splits": {
-                    "train_end": splits.train_end.isoformat(),
-                    "val_end": splits.val_end.isoformat(),
-                    "oos_end": splits.oos_end.isoformat(),
-                    "unseen_start": splits.unseen_start.isoformat(),
-                },
-            }
-            # Windows is a dataclass; __dict__ exists.
-            params["windows"] = {
-                "z": windows.z, "fast": windows.fast, "frac_diff": windows.frac_diff,
-                "hurst": windows.hurst, "ma": windows.ma, "horizons": list(windows.horizons),
-            }
-            ph = params_hash(params)
-            params["params_hash"] = ph
-            ts_max = int(df["ts_ms"].max())
-            if "features" in cfg.stages or "dataset" in cfg.stages:
-                fpath = features_path(cfg.data_root, bt, asset, ts_max)
-                _write_frame(df, fpath, "features_v1", params)
-            if "dataset" in cfg.stages or "validate" in cfg.stages:
-                gpath = gold_path(cfg.data_root, bt, asset, ts_max)
-                digest = _write_frame(df, gpath, "dataset_v1", params)
-                feats = feature_columns(df)
-                man = manifest_payload(
-                    asset=asset, bar_type=bt, df=df, feature_cols=feats, params=params,
-                    embargo_bars=embargo, inputs=[], lags={
-                        "funding": 0, "daily_panel": DAY_MS, "open_interest": OI_LAG_MS if cfg.include_oi else None,
-                    },
-                    built_at_ms=utc_now_ms(),
-                )
-                man["sha256"] = digest
-                man["dollar_open_tail_trades"] = meta.get(asset, {}).get("dollar_excluded")
-                man["n_bronze_trades"] = meta.get(asset, {}).get("n_bronze")
-                atomic_write_json(gold_manifest_path(gpath), man)
-                print(f"[dataset] {gpath} rows={df.height} features={len(feats)} sha={digest[:12]}")
-            if "validate" in cfg.stages:
-                packed = meta.get(asset, {})
-                report = validate_frame(
-                    df, feature_cols=feature_columns(df), embargo_bars=embargo,
-                    n_assets_in_run=len(built), asset=asset,
-                    missing_minutes=packed.get("gaps") if bt == "time_1m" else None,
-                    min_history=windows.max_lookback,
-                )
-                if bt == "time_1m" and packed.get("ladder"):
-                    report.results.append(gate_time_reconcile(packed["ladder"]))
-                    report.results.append(gate_trade_count(
-                        int(packed["ladder"]["time_1m"]["n_trades"].sum()),
-                        int(packed["n_bronze"]),
-                        what="time_1m",
-                    ))
-                if bt == "dollar":
-                    report.results.append(gate_trade_count(
-                        int(df["n_trades"].sum()) if df.height else 0,
-                        int(packed.get("n_bronze", 0)),
-                        excluded_tail=int(packed.get("dollar_excluded", 0)),
-                        what="dollar",
-                    ))
-                reports.append((asset, bt, report))
-                print(f"[validate] {asset} {bt} exit={report.code}")
-                for item in report.results:
-                    if item.severity != "pass":
-                        print(f"  {item.severity}: {item.name}: {item.detail}")
-                worst = max(worst, report.code)
-                coverage.append({
-                    "asset": asset, "bar_type": bt, "rows": df.height,
-                    "status": "pass" if report.code == 0 else ("warn" if report.code == 1 else "fail"),
-                })
-    if coverage:
-        print_coverage_report(coverage)
-    return worst
+        if "validate" in cfg.stages:
+            coverage = []
+            for asset, start in active:
+                try:
+                    packed = meta.get(asset, {})
+                    for bt in cfg.bar_types:
+                        from pipeline.partitions import load_partitions
+                        from pipeline.dataset import gold_dir
+                        df = load_partitions(gold_dir(cfg.data_root, bt), asset)
+                        if df is None or df.is_empty():
+                            session.info(f"[validate] {asset} {bt} no gold")
+                            continue
+                        diffs = df["ts_ms"].diff().drop_nulls() if df.height > 2 else None
+                        median = int(diffs.median()) if diffs is not None and diffs.len() else None
+                        floor_days, max_days = load_embargo_policy()
+                        embargo = embargo_bars_for(
+                            bt, windows, median,
+                            calendar_floor_days=floor_days, max_lookback_days=max_days,
+                        )
+                        if bt == "time_1m" and not packed.get("gaps"):
+                            one_m = load_bar_months(cfg.data_root, asset, "time_1m", start, cfg.end)
+                            if not one_m.is_empty():
+                                packed["gaps"] = gaps_ms(one_m)
+                        report = validate_frame(
+                            df, feature_cols=feature_columns(df), embargo_bars=embargo,
+                            n_assets_in_run=len(active), asset=asset,
+                            missing_minutes=packed.get("gaps") if bt == "time_1m" else None,
+                            min_history=windows.max_lookback,
+                        )
+                        if bt == "time_1m":
+                            ladder = {}
+                            for name in cfg.bar_types:
+                                if name in TIME_WIDTH_MS:
+                                    frame = load_bar_months(cfg.data_root, asset, name, start, cfg.end)
+                                    if not frame.is_empty():
+                                        ladder[name] = frame
+                            if "time_1m" in ladder:
+                                report.results.append(gate_time_reconcile(ladder))
+                                report.results.append(gate_trade_count(
+                                    int(ladder["time_1m"]["n_trades"].sum()),
+                                    int(packed.get("n_bronze") or 0),
+                                    what="time_1m",
+                                ))
+                        if bt == "dollar":
+                            report.results.append(gate_trade_count(
+                                int(df["n_trades"].sum()) if df.height else 0,
+                                int(packed.get("n_bronze", 0)),
+                                excluded_tail=int(packed.get("dollar_excluded", 0)),
+                                what="dollar",
+                            ))
+                        session.info(f"[validate] {asset} {bt} exit={report.code}")
+                        for item in report.results:
+                            if item.severity != "pass":
+                                session.info(f"  {item.severity}: {item.name}: {item.detail}")
+                        worst = max(worst, report.code)
+                        coverage.append({
+                            "asset": asset, "bar_type": bt, "rows": df.height,
+                            "status": "pass" if report.code == 0 else ("warn" if report.code == 1 else "fail"),
+                        })
+                except KeyboardInterrupt:
+                    raise
+                except Exception as exc:
+                    session.error(asset, "validate", exc)
+                    worst = 2
+            if coverage:
+                print_coverage_report(coverage)
+    except KeyboardInterrupt:
+        session.info("[run] interrupted (Ctrl+C). Re-run the same command to resume.")
+        session.finish(130)
+        raise
+    return session.finish(worst)
 
 
 def _fx_weekday_gaps(missing: list[int]) -> list[int]:
@@ -540,7 +598,7 @@ def _fx_weekday_gaps(missing: list[int]) -> list[int]:
 
 def run_fx(cfg: RunConfig) -> int:
     """FX uses the same stages. Fetch is Dukascopy hours; bars and features are shared code."""
-    from pipeline.fetch_fx import fetch_fx_range, read_fx_ticks
+    from pipeline.fetch_fx import fetch_fx_range
 
     assets = resolve_assets(cfg)
     windows = cfg.windows or load_windows()
@@ -549,132 +607,267 @@ def run_fx(cfg: RunConfig) -> int:
     cfg.splits = splits
     bad = [b for b in cfg.bar_types if b not in TIME_WIDTH_MS]
     if bad:
-        raise ValueError(f"FX builds time bars 1m through 1d; not {bad}")
+        raise ValueError(f"FX builds time bars only; not {bad}")
     if cfg.dry_run:
         print(f"[dry-run] market=fx stages={','.join(cfg.stages)} bar_types={','.join(cfg.bar_types)} root={cfg.data_root}")
         for asset in assets:
-            start = effective_start(asset, cfg.start)
+            start = max(effective_start(asset, cfg.start), date(2020, 1, 1))
             print(f"[dry-run] {asset} effective_start={start.isoformat()} end={cfg.end.isoformat()}")
         return 0
 
     worst = 0
-    ladders: dict[str, dict[str, pl.DataFrame]] = {}
-    tick_counts: dict[str, int] = {}
+    session = RunSession(market="fx", start=cfg.start, end=cfg.end, stages=cfg.stages)
+    from pipeline.chunked import write_fx_features_month, write_dataset_month
+    active = []
     for asset in assets:
-        start = effective_start(asset, cfg.start)
+        start = max(effective_start(asset, cfg.start), date(2020, 1, 1))
         if start > cfg.end:
-            print(f"[plan] {asset} start {start} is after end {cfg.end}; skip")
+            session.info(f"[plan] {asset} start {start} is after end {cfg.end}; skip")
             continue
+        active.append((asset, start))
+    names = [a for a, _ in active]
+    tick_counts: dict[str, int] = {}
+    gaps: dict[str, list] = {}
+    try:
         if "fetch" in cfg.stages:
-            print(f"[fetch] {asset} {start} -> {cfg.end}")
-            try:
-                n = fetch_fx_range(
-                    cfg.data_root, asset, start, cfg.end,
-                    force=cfg.force, timeout=cfg.fetch_timeout,
-                )
-                print(f"[fetch] dukascopy hours={n}")
-            except RuntimeError as exc:
-                print(f"[fetch] {asset} incomplete: {exc}")
-                worst = max(worst, 1)
-        ticks = read_fx_ticks(cfg.data_root, asset, start, cfg.end)
-        tick_counts[asset] = ticks.height
-        ladder = build_fx_ladder(ticks, asset, cfg.bar_types)
-        ladders[asset] = ladder
+            for asset, start in active:
+                session.info(f"[fetch] {asset} {start} -> {cfg.end}")
+                try:
+                    n = fetch_fx_range(
+                        cfg.data_root, asset, start, cfg.end,
+                        force=cfg.force, timeout=cfg.fetch_timeout,
+                    )
+                    session.info(f"[fetch] {asset} dukascopy hours={n}")
+                    session.asset_summary(f"[fetch] {asset} hours={n}")
+                except RuntimeError as exc:
+                    session.error(asset, "fetch", exc)
+                    worst = max(worst, 1)
+                except KeyboardInterrupt:
+                    raise
+                except Exception as exc:
+                    session.error(asset, "fetch", exc)
+                    worst = 2
+
         if "bars" in cfg.stages:
-            for bt, frame in ladder.items():
-                if frame.is_empty():
-                    print(f"[bars] {asset} {bt} empty")
-                    continue
-                path = bars_path(cfg.data_root, bt, asset, int(frame["ts_ms"].max()))
-                atomic_write_parquet(
-                    frame, path, schema_name="bars_v1",
-                    params={"asset": asset, "bar_type": bt, "market": "fx"},
-                )
-                print(f"[bars] {asset} {bt} rows={frame.height}")
+            for asset, start in active:
+                try:
+                    months = list(iter_months(start, cfg.end))
+                    n_ticks = 0
+                    asset_gaps = []
+                    with session.bar(f"bars {asset}", len(months), "month") as bar:
+                        for year, month in months:
+                            packed = write_fx_bars_month(cfg, asset, year, month)
+                            if packed.get("cached"):
+                                bar.update(1, cached=True)
+                            else:
+                                bar.update(1, written=True)
+                                n_ticks += int(packed.get("n_ticks") or 0)
+                                asset_gaps.extend(packed.get("gaps") or [])
+                    tick_counts[asset] = n_ticks
+                    gaps[asset] = asset_gaps
+                    session.asset_summary(f"[bars] {asset} months={len(months)} ticks={n_ticks}")
+                except KeyboardInterrupt:
+                    raise
+                except Exception as exc:
+                    session.error(asset, "bars", exc)
+                    worst = 2
 
-    featured: dict[str, dict[str, pl.DataFrame]] = {a: {} for a in ladders}
-    for bt in cfg.bar_types:
-        cohort = {}
-        for asset, ladder in ladders.items():
-            frame = ladder.get(bt)
-            if frame is None or frame.is_empty():
-                continue
-            cohort[asset] = compute_fx_features(frame, fx_pip(asset))
-        cohort = add_usd_strength(cohort)
-        for asset, frame in cohort.items():
-            featured[asset][bt] = frame
-            if "features" in cfg.stages:
-                path = features_path(cfg.data_root, bt, asset, int(frame["ts_ms"].max()))
-                atomic_write_parquet(
-                    frame, path, schema_name="features_v1",
-                    params={"asset": asset, "bar_type": bt, "market": "fx"},
-                )
+        if "features" in cfg.stages:
+            all_months = []
+            for _, start in active:
+                for ym in iter_months(start, cfg.end):
+                    if ym not in all_months:
+                        all_months.append(ym)
+            with session.bar("features", len(all_months) * max(len(cfg.bar_types), 1), "part") as bar:
+                for year, month in all_months:
+                    for bt in cfg.bar_types:
+                        try:
+                            statuses = write_fx_features_month(cfg, names, bt, year, month)
+                            n_c = sum(1 for s in statuses.values() if s == "cached")
+                            n_w = sum(1 for s in statuses.values() if s == "written")
+                            bar.update(1, cached=n_c, written=n_w, skipped=sum(1 for s in statuses.values() if s == "empty"))
+                        except KeyboardInterrupt:
+                            raise
+                        except Exception as exc:
+                            session.error(",", f"features {bt} {year}-{month:02d}", exc)
+                            bar.update(1, failed=True)
+                            worst = 2
 
-    floor_days, cap_days = load_embargo_policy()
-    coverage = []
-    for asset, by_type in featured.items():
-        for bt, df in by_type.items():
-            scaled = scale_windows(windows, bt, max_lookback_days=cap_days)
-            embargo = embargo_bars_for(
-                bt, windows, calendar_floor_days=floor_days, max_lookback_days=cap_days,
-            )
-            df = add_targets(df, scaled.horizons, clipped=cfg.clipped, voladj=cfg.voladj)
-            df = add_universe_columns(df, asset, None)
-            df = assign_split(df, splits)
-            df = apply_embargo(df, embargo)
-            if "dataset" in cfg.stages:
-                gpath = gold_path(cfg.data_root, bt, asset, int(df["ts_ms"].max()))
-                digest = _write_frame(
-                    df, gpath, "dataset_v1",
-                    {"asset": asset, "bar_type": bt, "market": "fx", "embargo_bars": embargo},
-                )
-                feats = feature_columns(df)
-                man = manifest_payload(
-                    asset=asset, bar_type=bt, df=df, feature_cols=feats,
-                    params={"market": "fx", "pip": fx_pip(asset)},
-                    embargo_bars=embargo, inputs=[],
-                    lags={"ticks": 0}, built_at_ms=utc_now_ms(),
-                )
-                man["sha256"] = digest
-                atomic_write_json(gold_manifest_path(gpath), man)
-                print(f"[dataset] {gpath} rows={df.height} features={len(feats)}")
-            if "validate" in cfg.stages:
-                gaps = None
-                if bt == "time_1m" and "time_1m" in ladders[asset]:
-                    gaps = _fx_weekday_gaps(gaps_ms(ladders[asset]["time_1m"]))
-                report = validate_frame(
-                    df, feature_cols=feature_columns(df), embargo_bars=embargo,
-                    n_assets_in_run=len(ladders), asset=asset,
-                    missing_minutes=gaps, min_history=max(scaled.max_lookback, 100),
-                )
-                if bt == "time_1m":
-                    report.results.append(gate_time_reconcile(ladders[asset]))
-                    report.results.append(gate_trade_count(
-                        int(ladders[asset]["time_1m"]["n_trades"].sum()),
-                        int(tick_counts[asset]),
-                        what="fx_ticks",
-                    ))
-                print(f"[validate] {asset} {bt} exit={report.code}")
-                for item in report.results:
-                    if item.severity != "pass":
-                        print(f"  {item.severity}: {item.name}: {item.detail}")
-                worst = max(worst, report.code)
-                coverage.append({
-                    "asset": asset, "bar_type": bt, "rows": df.height,
-                    "status": "pass" if report.code == 0 else ("warn" if report.code == 1 else "fail"),
-                })
-    if coverage:
-        print_coverage_report(coverage)
-    return worst
+        if "dataset" in cfg.stages:
+            all_months = []
+            for _, start in active:
+                for ym in iter_months(start, cfg.end):
+                    if ym not in all_months:
+                        all_months.append(ym)
+            with session.bar("dataset", len(all_months) * max(len(cfg.bar_types), 1), "part") as bar:
+                for year, month in all_months:
+                    for bt in cfg.bar_types:
+                        try:
+                            statuses = write_dataset_month(cfg, names, bt, year, month, {}, cross_asset=False)
+                            n_c = sum(1 for s in statuses.values() if s == "cached")
+                            n_w = sum(1 for s in statuses.values() if s == "written")
+                            bar.update(1, cached=n_c, written=n_w, skipped=sum(1 for s in statuses.values() if s == "empty"))
+                        except KeyboardInterrupt:
+                            raise
+                        except Exception as exc:
+                            session.error(",", f"dataset {bt} {year}-{month:02d}", exc)
+                            bar.update(1, failed=True)
+                            worst = 2
+
+        if "validate" in cfg.stages:
+            coverage = []
+            for asset, start in active:
+                try:
+                    for bt in cfg.bar_types:
+                        from pipeline.partitions import load_partitions
+                        from pipeline.dataset import gold_dir
+                        df = load_partitions(gold_dir(cfg.data_root, bt), asset)
+                        if df is None or df.is_empty():
+                            session.info(f"[validate] {asset} {bt} no gold")
+                            continue
+                        floor_days, cap_days = load_embargo_policy()
+                        scaled = scale_windows(windows, bt, max_lookback_days=cap_days)
+                        embargo = embargo_bars_for(
+                            bt, windows, calendar_floor_days=floor_days, max_lookback_days=cap_days,
+                        )
+                        missing = None
+                        if bt == "time_1m":
+                            missing = _fx_weekday_gaps(gaps.get(asset) or [])
+                        report = validate_frame(
+                            df, feature_cols=feature_columns(df), embargo_bars=embargo,
+                            n_assets_in_run=len(active), asset=asset,
+                            missing_minutes=missing, min_history=max(scaled.max_lookback, 100),
+                        )
+                        if bt == "time_1m":
+                            ladder = {}
+                            for name in cfg.bar_types:
+                                frame = load_bar_months(cfg.data_root, asset, name, start, cfg.end)
+                                if not frame.is_empty():
+                                    ladder[name] = frame
+                            if "time_1m" in ladder:
+                                report.results.append(gate_time_reconcile(ladder))
+                                report.results.append(gate_trade_count(
+                                    int(ladder["time_1m"]["n_trades"].sum()),
+                                    int(tick_counts.get(asset, 0)),
+                                    what="fx_ticks",
+                                ))
+                        session.info(f"[validate] {asset} {bt} exit={report.code}")
+                        for item in report.results:
+                            if item.severity != "pass":
+                                session.info(f"  {item.severity}: {item.name}: {item.detail}")
+                        worst = max(worst, report.code)
+                        coverage.append({
+                            "asset": asset, "bar_type": bt, "rows": df.height,
+                            "status": "pass" if report.code == 0 else ("warn" if report.code == 1 else "fail"),
+                        })
+                except KeyboardInterrupt:
+                    raise
+                except Exception as exc:
+                    session.error(asset, "validate", exc)
+                    worst = 2
+            if coverage:
+                print_coverage_report(coverage)
+    except KeyboardInterrupt:
+        session.info("[run] interrupted (Ctrl+C). Re-run the same command to resume.")
+        session.finish(130)
+        raise
+    return session.finish(worst)
 
 
-def status(root: Path) -> int:
-    gold = root / "gold"
-    if not gold.exists():
-        print(f"[status] no gold under {gold}")
+def status(root: Path | None = None, cfg: "RunConfig | None" = None) -> int:
+    """Inventory of gold files, or a completeness table when ``cfg`` has a range."""
+    if cfg is None:
+        if root is None:
+            raise ValueError("pass a data root or a RunConfig")
+        gold = root / "gold"
+        if not gold.exists():
+            print(f"[status] no gold under {gold}")
+            return 0
+        files = sorted(gold.rglob("*.parquet"))
+        print(f"[status] {len(files)} gold files under {gold}")
+        for path in files:
+            print(f"  {path.relative_to(root)} bytes={path.stat().st_size}")
         return 0
-    files = sorted(gold.rglob("*.parquet"))
-    print(f"[status] {len(files)} gold files under {gold}")
-    for path in files:
-        print(f"  {path.relative_to(root)} bytes={path.stat().st_size}")
+    return _status_range(cfg)
+
+
+def _status_range(cfg: RunConfig) -> int:
+    """Without fetching, report how complete each asset/stage is for the range."""
+    from pipeline.config import effective_start, load_listing_dates, universe_symbols
+    from pipeline.partitions import partition_params, partition_fresh
+    from pipeline.paths import (
+        bars_month_path,
+        features_month_path,
+        fx_hour_path,
+        gold_month_path,
+        klines_1m_path,
+        trades_path,
+    )
+    from pipeline.fetch_fx import iter_hours
+
+    root = cfg.data_root
+    assets = resolve_assets(cfg)
+    listings = load_listing_dates() if cfg.market != "fx" else {}
+    print(
+        f"[status] market={cfg.market} {cfg.start} -> {cfg.end} "
+        f"stages={','.join(cfg.stages)} bar_types={','.join(cfg.bar_types)} root={root}"
+    )
+    any_incomplete = 0
+    for asset in assets:
+        if cfg.market == "fx":
+            start = max(cfg.start, date(2020, 1, 1))
+        else:
+            start = effective_start(asset, cfg.start, listings)
+        if start > cfg.end:
+            print(f"  {asset:12s}  skipped (start {start} after end)")
+            continue
+        parts = [f"{asset:12s}"]
+        if "fetch" in cfg.stages:
+            if cfg.market == "fx":
+                hours = list(iter_hours(start, cfg.end))
+                have = sum(1 for h in hours if fx_hour_path(root, asset, h.date(), h.hour).exists())
+                total = len(hours)
+            else:
+                days = list(iter_days(start, cfg.end))
+                have = sum(1 for d in days if trades_path(root, asset, d).exists())
+                total = len(days)
+            parts.append(f"fetch {have}/{total}")
+            if have < total:
+                any_incomplete = 1
+        months = list(iter_months(start, cfg.end))
+        for stage, path_fn in (
+            ("bars", bars_month_path),
+            ("features", features_month_path),
+            ("dataset", gold_month_path),
+        ):
+            if stage not in cfg.stages and not (stage == "dataset" and "validate" in cfg.stages):
+                if stage not in cfg.stages:
+                    continue
+            if stage == "validate":
+                continue
+            if stage not in cfg.stages and stage != "dataset":
+                continue
+            if stage not in cfg.stages:
+                continue
+            have = 0
+            total = 0
+            missing = []
+            for y, m in months:
+                first, last = clip_month(y, m, start, cfg.end)
+                for bt in cfg.bar_types:
+                    total += 1
+                    path = path_fn(root, bt, asset, y, m)
+                    params = partition_params(asset=asset, bar_type=bt, start=first, end=last)
+                    # Status is conservative: file+sidecar is enough (params may differ by extra keys).
+                    if sidecar_ok(path):
+                        have += 1
+                    else:
+                        missing.append(f"{bt}:{y:04d}-{m:02d}")
+            parts.append(f"{stage} {have}/{total}")
+            if have < total:
+                any_incomplete = 1
+        print("  " + "  ".join(parts))
+    print(f"[status] {'complete' if any_incomplete == 0 else 'incomplete'}")
     return 0
+
+

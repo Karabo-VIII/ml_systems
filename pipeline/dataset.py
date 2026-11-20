@@ -7,7 +7,7 @@ from datetime import date, datetime, timezone
 
 import polars as pl
 
-from pipeline.constants import CLIP_H1, CLIP_OTHER
+from pipeline.constants import CLIP_H1, CLIP_OTHER, CONTRACT_VERSION
 from pipeline.config import Splits, membership_flags
 
 
@@ -140,7 +140,7 @@ def manifest_payload(
     ts_min = int(df["ts_ms"].min()) if df.height else None
     ts_max = int(df["ts_ms"].max()) if df.height else None
     return {
-        "contract_version": "2.0.0",
+        "contract_version": CONTRACT_VERSION,
         "schema_name": "dataset_v1",
         "producer": "pipeline",
         "asset": asset,
@@ -178,6 +178,7 @@ from pathlib import Path
 
 import polars as pl
 
+from pipeline.partitions import list_partition_paths, load_partitions
 from pipeline.paths import default_data_root
 from pipeline.symbols import canonical_instrument, canonical_symbol
 
@@ -187,11 +188,9 @@ def gold_dir(root: Path, bar_type: str) -> Path:
 
 
 def latest_gold_path(root: Path, asset: str, bar_type: str) -> Path | None:
+    """Last monthly (or legacy) partition. Prefer :func:`load_gold` for the full series."""
     asset = canonical_instrument(asset)
-    directory = gold_dir(root, bar_type)
-    if not directory.exists():
-        return None
-    files = sorted(p for p in directory.glob(f"{asset}_*.parquet") if p.is_file())
+    files = list_partition_paths(gold_dir(root, bar_type), asset)
     return files[-1] if files else None
 
 
@@ -202,23 +201,20 @@ def load_gold(
     root: Path | None = None,
     columns: list[str] | None = None,
 ) -> pl.DataFrame:
-    """Load the latest gold file for one asset and bar type.
+    """Load every gold partition for one asset and bar type, in time order.
 
     Raises FileNotFoundError when nothing has been built. Does not fall back
     to v1 chimera files.
     """
     root = root or default_data_root()
-    path = latest_gold_path(root, asset, bar_type)
-    if path is None:
+    asset = canonical_instrument(asset)
+    df = load_partitions(gold_dir(root, bar_type), asset, columns=columns)
+    if df is None:
         raise FileNotFoundError(
-            f"no v2 gold for {canonical_instrument(asset)} {bar_type} under {root / 'gold'}. "
-            f"Build it with: python -m pipeline.cli run --assets {canonical_instrument(asset)} "
+            f"no v2 gold for {asset} {bar_type} under {root / 'gold'}. "
+            f"Build it with: python -m pipeline.cli run --assets {asset} "
             f"--bar-types {bar_type}"
         )
-    df = pl.read_parquet(path)
-    if columns is not None:
-        have = [c for c in columns if c in df.columns]
-        df = df.select(have)
     return df
 
 
