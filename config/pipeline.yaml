@@ -30,6 +30,36 @@ splits:
   oos_end: '2025-03-15'
   unseen_start: '2025-03-15'
   live_start: '2025-09-03'
+backtest:
+  # Research cost model for strategy/. Charge on turnover (|delta position|)
+  # at the fill. fee_bps is a published commission. half_spread_bps is only
+  # the fallback when the bar has no quote; FX gold uses bid/ask or
+  # spread_mean when those columns are present. slippage_bps is an
+  # assumption, not a quoted fee. Change these in this file, not in code.
+  crypto:
+    # Binance spot Regular User (VIP 0) maker/taker, no BNB discount: 0.100%.
+    # Gold is Vision spot aggTrades, so this is the spot schedule, not USD-M
+    # futures. Source opened 2026-11-20: https://www.binance.info/en-JP/fee
+    # (the /en/fee/schedule page timed out from this machine the same day).
+    fee_bps: 10.0
+    # Assumption, not a quoted fee. The archived prod config used 2 bps
+    # (SPOT_SLIPPAGE = 0.0002 in ml_systems_v1/crypto/src/prod/config.py).
+    # Kept as a research placeholder until live slippage is measured.
+    slippage_bps: 2.0
+    # Spot gold has no bid/ask. Used only if a spread column is absent.
+    half_spread_bps: 0.0
+  fx:
+    # Dukascopy Europe JForex self-trader, net deposit and equity under
+    # USD 5,000: USD 35 per USD 1 million per side = 0.35 bps. Higher
+    # deposit/equity tiers are cheaper; this is the most conservative
+    # published self-trader currency rate. Source opened 2026-11-20:
+    # https://www.dukascopy.com/europe/english/about/fee-schedule/
+    fee_bps: 0.35
+    # Assumption: no extra slippage beyond the recorded quote, until measured.
+    slippage_bps: 0.0
+    # Fallback only when bid_close/ask_close and spread_mean are missing.
+    # Not a typical pip width presented as fact.
+    half_spread_bps: 0.0
 lags:
   version: lags_v1
   day_ms: 86400000
