@@ -72,7 +72,22 @@ python -m pipeline.cli run \
 
 Output goes to `data/`. Read it with `load_gold` in `pipeline/dataset.py`. The contract is [`docs/DATA_CONTRACT.md`](docs/DATA_CONTRACT.md). Strategy research, with no strategy code yet, is [`docs/STRATEGY_LAYER.md`](docs/STRATEGY_LAYER.md).
 
+Independent checks on a built `data/` tree (1m→1d reconciliation, trade counts, gaps, sessions, spreads, dollar-bar notionals, as-of joins, and a few daily closes against Vision / Frankfurter):
+
+```bash
+python scripts/validate_run.py --data-root data
+```
+
+A recent 7-day window (Monday 9 Nov 2026 to Sunday 15 Nov 2026; US and UK standard time, after the 2026 DST fallbacks):
+
+```bash
+python -m pipeline.cli run --market crypto --start 2026-11-09 --end 2026-11-15 --universe u10 --stages fetch,bars,features,dataset,validate --bar-types time_1m,time_5m,time_15m,time_1h,time_4h,time_1d,dollar
+
+python -m pipeline.cli run --market fx --start 2026-11-09 --end 2026-11-15 --universe majors --stages fetch,bars,features,dataset,validate --bar-types time_1m,time_5m,time_15m,time_1h,time_4h,time_1d
+```
+
 Network tests, both off by default:
+
 
 ```bash
 PIPELINE_V2_NETWORK=1 python -m pytest tests/test_network_smoke.py -q
