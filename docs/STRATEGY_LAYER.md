@@ -1,6 +1,6 @@
 # Strategy layer — research note
 
-No strategy code is in this tree. This note says which families are worth building on the gold the pipeline writes, what the previous project already measured, and which libraries not to reimplement. Links are pages opened while writing this note.
+This note says which families are worth building on the gold the pipeline writes, what the previous project already measured, and which libraries not to reimplement. Links are pages opened while writing this note. The backtest core and the first three shortlisted strategies now live in `strategy/`.
 
 Gold for a strategy is `load_gold` (`pipeline/dataset.py`). A bar is labelled at the close of `(t_open, t_close]`. Features on that row are knowable at `ts_ms`. Forward returns are `target_return_{1,4,16,64}` and are labels, not inputs. The embargo is already applied. Rules are in `docs/DATA_CONTRACT.md`.
 
@@ -122,16 +122,46 @@ These files were read:
 
 `ml_systems_v1/crypto/STRAT_DISCOVERY_METHODOLOGY.md` and `USAGE_STRATEGY.md` describe the old discovery loop and the chimera dataset. They are not performance reports. The methodology file's own premise is that no strategy works on every asset and regime, and that a prediction setup (yesterday's features to tomorrow's cluster) had already failed three times. That is why this note starts with slow rules on gold, not with a sequence model.
 
+## Backtest core
+
+`strategy/` is a small numpy/polars package, not a second data model. It reads gold through `load_gold` and does not fetch or touch bronze.
+
+vectorbt was considered for parameter sweeps. Its license is Apache 2.0 plus the Commons Clause, which removes the right to sell the software (see the library table above). That is a strong reason not to depend on it inside this package. The engine is therefore self-written and vectorised. It is short enough to check by hand, which is the point of the tests in `tests/test_backtest.py`.
+
+The research sketch below asked the position function to pre-shift the signal. The engine now does that itself, so a strategy function returns the target decided at bar t's close and must not shift it. The fill is on bar t+1, at `open` if that column is present and usable, otherwise at `close`. Positions are in `[-1, 1]`. Flat is zero. The first three shortlisted strategies are still long-or-cash.
+
+Costs are turnover-based: `|delta position| * (fee + slippage + half-spread)` in return units, charged on the fill bar. Values live in `config/pipeline.yaml` under `backtest`. `fee_bps` is a published commission (Binance spot Regular User 10 bps for crypto; Dukascopy Europe JForex self-trader 0.35 bps at the lowest deposit tier for FX). `slippage_bps` is an assumption (2 bps for crypto, carried over from the archived prod config; 0 for FX until measured). `half_spread_bps` is a fallback of 0. FX gold uses `spread_mean` or `bid_close`/`ask_close` when those columns are present.
+
+Walk-forward folds reuse the pipeline's cadence-aware embargo rule: `max(horizon, lookback)` in that file's bars, and at least 7 calendar days, via `load_embargo_policy` and `bar_duration_ms`. The embargo is applied on both sides of a cut, matching `apply_embargo`, and is not shrunk to fit a short remainder.
+
+Usage:
+
+```python
+from pipeline.dataset import load_gold
+from strategy import regime_gate, donchian_breakout, vol_scaled_momentum
+from strategy import run_backtest, buy_and_hold, walk_forward
+
+bars = load_gold("BTCUSDT", "time_1d")
+pos = regime_gate(bars)                 # or donchian_breakout, vol_scaled_momentum
+bt = run_backtest(bars, pos, market="crypto")
+print(bt.metrics)                       # CAGR, vol, Sharpe, Sortino, max drawdown,
+                                        # turnover, hit rate, exposure, cost drag
+bh = buy_and_hold(bars, market="crypto")
+folds = walk_forward(bars, bar_type="time_1d", lookback=200, test_bars=90)
+```
+
+`buy_and_hold` is a constant unit weight through the same engine and fill rule, so a constant-long strategy equals that path minus costs. Pass `costs=CostModel(0, 0, 0)` for a gross benchmark.
+
 ## A minimal strategy layer
 
 Four functions, in this order. None of them fetch, and none of them read bronze.
 
-1. `signal(gold) -> frame`. Adds one column. It may use only columns whose values at `ts_ms` are knowable then. It must not read `target_return_*`.
-2. `position(signal_frame) -> frame`. Turns the signal into a target weight on the next bar. The weight at bar t is a function of the signal at bar t−1, so a close-labelled signal trades the following bar. Weights are long-only unless a strategy is explicitly allowed to be flat. Flat is zero, not a short, until a short book is a separate decision.
-3. `backtest(weights, gold, cost) -> equity`. Applies the weight to the next bar's return and subtracts a cost when the weight changes. The cost is an argument. It is not a constant buried in the function. Crypto and FX costs differ and are not invented here.
-4. `evaluate(equity, gold) -> report`. Reports by the split column already on gold. Drops rows labelled `embargo`. Reports a Sharpe only together with the number of configurations tried, so a deflated Sharpe can be computed later. Does not refit.
+1. `signal(gold) -> frame`. Adds one column. It may use only columns whose values at `ts_ms` are knowable then. It must not read `target_return_*`. The shipped functions (`regime_gate`, `donchian_breakout`, `vol_scaled_momentum`) return a target-position array instead of adding a column; the rule is the same.
+2. `position(signal_frame) -> frame`. The engine now applies this step: a target decided at the close of bar t is filled on bar t+1. Strategies must not pre-shift. Weights may be long, flat, or short in `[-1, 1]`. The first three shortlisted strategies stay long or cash. Flat is zero.
+3. `backtest(weights, gold, cost) -> equity`. This is `run_backtest`. Cost comes from the `backtest` block in `config/pipeline.yaml`, or from a passed `CostModel`. Crypto and FX costs differ.
+4. `evaluate(equity, gold) -> report`. `BacktestResult.metrics` is the current report. When gold has a `split` column, later work should still drop rows labelled `embargo` and report a Sharpe together with the number of configurations tried, so a deflated Sharpe can be computed later. Does not refit.
 
-The first implementation can be a script that calls `load_gold` for one bar type and one universe. It should not grow a second data model.
+The first implementation calls `load_gold` for one bar type and one asset. It does not grow a second data model.
 
 ## First shortlist
 

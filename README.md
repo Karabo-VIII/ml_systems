@@ -4,6 +4,7 @@ The live tree is one data pipeline for crypto and FX. The previous crypto system
 
 ```
 pipeline/          flat package: fetch, bars, features, dataset, validate, one CLI
+strategy/          backtest engine and the first three strategy functions
 config/            pipeline.yaml and asset listing dates
 docs/              DATA_CONTRACT.md, STRATEGY_LAYER.md
 tests/             offline tests, plus network smokes that are skipped by default
@@ -70,7 +71,7 @@ python -m pipeline.cli run \
   --bar-types time_1m,time_5m,time_15m,time_1h,time_4h,time_1d,dollar
 ```
 
-Output goes to `data/`. Read it with `load_gold` in `pipeline/dataset.py`. The contract is [`docs/DATA_CONTRACT.md`](docs/DATA_CONTRACT.md). Strategy research, with no strategy code yet, is [`docs/STRATEGY_LAYER.md`](docs/STRATEGY_LAYER.md).
+Output goes to `data/`. Read it with `load_gold` in `pipeline/dataset.py`. The contract is [`docs/DATA_CONTRACT.md`](docs/DATA_CONTRACT.md). The backtest engine and the first three strategies are in `strategy/`. How to call them, and the research behind the shortlist, is [`docs/STRATEGY_LAYER.md`](docs/STRATEGY_LAYER.md).
 
 Independent checks on a built `data/` tree (1m→1d reconciliation, trade counts, gaps, sessions, spreads, dollar-bar notionals, as-of joins, and a few daily closes against Vision / Frankfurter):
 
