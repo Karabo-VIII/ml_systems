@@ -23,11 +23,14 @@ from pipeline_v2.contract import (
     Windows,
     dollar_threshold,
     effective_start,
+    embargo_bars_for,
     liq_proxy_usd,
+    load_embargo_policy,
     load_listing_dates,
     load_splits,
     load_windows,
     optional_threshold,
+    scale_windows,
     universe_symbols,
     whale_large_usd,
 )
@@ -48,6 +51,7 @@ from pipeline_v2.features.daily import (
     summarize_day,
 )
 from pipeline_v2.features.physics import compute_physics
+from pipeline_v2.fetch.external import fetch_all_external, load_external
 from pipeline_v2.fetch.vision import (
     fetch_funding,
     fetch_klines_1m,
@@ -76,13 +80,26 @@ from pipeline_v2.validate.gates import (
 )
 
 
+# Order is load-bearing. The CDAP dag check greps this exact literal.
+STAGE_ORDER = ("fetch", "bars", "features", "dataset", "validate")
+
+
+def print_coverage_report(rows: list[dict]) -> None:
+    """One line per written gold file. The coverage invariant greps this."""
+    for row in rows:
+        print(
+            f"COVERAGE -- asset={row.get('asset')} bar_type={row.get('bar_type')} "
+            f"rows={row.get('rows')} status={row.get('status')}"
+        )
+
+
 @dataclass
 class RunConfig:
     start: date
     end: date
     assets: list[str] = field(default_factory=list)
     universe: str | None = None
-    stages: list[str] = field(default_factory=lambda: ["fetch", "bars", "features", "dataset", "validate"])
+    stages: list[str] = field(default_factory=lambda: list(STAGE_ORDER))
     bar_types: list[str] = field(default_factory=lambda: list(CORE_BAR_TYPES))
     data_root: Path = field(default_factory=lambda: Path("data/pipeline_v2"))
     force: bool = False
@@ -255,20 +272,49 @@ def _attach_slow_features(cfg: RunConfig, asset: str, start: date, bars: dict[st
     spot_1d = bars.get("time_1d")
     basis = basis_daily(spot_1d, perp, asset) if spot_1d is not None else pl.DataFrame()
     windows = cfg.windows or load_windows()
+    _floor_days, max_days = load_embargo_policy()
     out = {}
     daily_cols = [c for c in daily.columns if c not in ("asset", "event_time_ms")]
     fund_cols = [c for c in fund_daily.columns if c not in ("asset", "event_time_ms")]
     met_cols = [c for c in met_daily.columns if c not in ("asset", "event_time_ms")]
     basis_cols = [c for c in basis.columns if c not in ("asset", "event_time_ms")]
+    stables = load_external(cfg.data_root, "defillama")
+    dvol = load_external(cfg.data_root, "deribit")
+    etf = load_external(cfg.data_root, "farside")
+    wiki = load_external(cfg.data_root, "wikipedia")
+    btc_dvol = pl.DataFrame()
+    if not dvol.is_empty() and "asset" in dvol.columns and "dv_dvol_close" in dvol.columns:
+        btc_dvol = (
+            dvol.filter(pl.col("asset") == "BTCUSDT")
+            .select(["event_time_ms", pl.col("dv_dvol_close").alias("dv_btc_dvol_close")])
+        )
+    stable_cols = [c for c in stables.columns if c != "event_time_ms"]
+    dvol_cols = [c for c in ("dv_dvol_open", "dv_dvol_high", "dv_dvol_low", "dv_dvol_close") if c in dvol.columns]
+    etf_cols = [c for c in etf.columns if c.startswith("etf_")]
+    wiki_cols = [c for c in wiki.columns if c.startswith("soc_")]
     for bar_type, frame in bars.items():
         df = _join_funding(frame, funding)
         if cfg.include_oi:
             df = _join_oi(df, metrics)
-        df = compute_physics(df, windows, include_oi=cfg.include_oi)
+        diffs = frame["ts_ms"].diff().drop_nulls() if frame.height > 2 else None
+        median = int(diffs.median()) if diffs is not None and diffs.len() else None
+        scaled = scale_windows(windows, bar_type, median, max_lookback_days=max_days)
+        df = compute_physics(df, scaled, include_oi=cfg.include_oi)
         df = _join_daily(df, daily, daily_cols)
         df = _join_daily(df, fund_daily, fund_cols)
         df = _join_daily(df, met_daily, met_cols)
         df = _join_daily(df, basis, basis_cols)
+        df = _join_daily(df, stables, stable_cols)
+        if dvol_cols and not dvol.is_empty():
+            own = dvol.filter(pl.col("asset") == asset)
+            df = _join_daily(df, own, dvol_cols)
+        df = _join_daily(df, btc_dvol, ["dv_btc_dvol_close"] if "dv_btc_dvol_close" in btc_dvol.columns else [])
+        if etf_cols and not etf.is_empty():
+            own_etf = etf.filter(pl.col("asset") == asset) if "asset" in etf.columns else etf
+            df = _join_daily(df, own_etf, etf_cols)
+        if wiki_cols and not wiki.is_empty():
+            own_wiki = wiki.filter(pl.col("asset") == asset)
+            df = _join_daily(df, own_wiki, wiki_cols)
         out[bar_type] = df
     return out
 
@@ -310,6 +356,7 @@ def run(cfg: RunConfig) -> int:
     # Pass 1: fetch, bars, per-asset features (no cross-asset yet).
     built: dict[str, dict[str, pl.DataFrame]] = {}
     meta: dict[str, dict] = {}
+    external_done = False
     for asset, start in plan:
         if start > cfg.end:
             continue
@@ -319,6 +366,12 @@ def run(cfg: RunConfig) -> int:
                 for fn in (fetch_trades, fetch_klines_1m, fetch_funding, fetch_metrics, fetch_perp_1d):
                     report = fn(cfg.data_root, asset, start, cfg.end, force=cfg.force, timeout=cfg.fetch_timeout)
                     print(f"[fetch] {report.source} ok={report.n_ok} error={report.n_error}")
+                if not external_done:
+                    fetch_all_external(
+                        cfg.data_root, [a for a, s in plan if s <= cfg.end],
+                        cfg.start, cfg.end, timeout=cfg.fetch_timeout,
+                    )
+                    external_done = True
             if not any(s in cfg.stages for s in ("bars", "features", "dataset", "validate")):
                 continue
             print(f"[bars] {asset}")
@@ -354,6 +407,7 @@ def run(cfg: RunConfig) -> int:
             by_type.setdefault(bt, {})[asset] = df
 
     reports = []
+    coverage: list[dict] = []
     for bt, frames in by_type.items():
         if not frames:
             continue
@@ -363,7 +417,13 @@ def run(cfg: RunConfig) -> int:
                 continue
             df = add_targets(df, windows.horizons, clipped=cfg.clipped, voladj=cfg.voladj)
             df = assign_split(df, splits)
-            embargo = windows.embargo_bars()
+            diffs = df["ts_ms"].diff().drop_nulls() if df.height > 2 else None
+            median = int(diffs.median()) if diffs is not None and diffs.len() else None
+            floor_days, max_days = load_embargo_policy()
+            embargo = embargo_bars_for(
+                bt, windows, median,
+                calendar_floor_days=floor_days, max_lookback_days=max_days,
+            )
             df = apply_embargo(df, embargo)
             listing = load_listing_dates().get(asset)
             df = add_universe_columns(df, asset, listing)
@@ -439,6 +499,12 @@ def run(cfg: RunConfig) -> int:
                     if item.severity != "pass":
                         print(f"  {item.severity}: {item.name}: {item.detail}")
                 worst = max(worst, report.code)
+                coverage.append({
+                    "asset": asset, "bar_type": bt, "rows": df.height,
+                    "status": "pass" if report.code == 0 else ("warn" if report.code == 1 else "fail"),
+                })
+    if coverage:
+        print_coverage_report(coverage)
     return worst
 
 

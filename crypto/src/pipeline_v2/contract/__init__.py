@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
@@ -56,7 +57,85 @@ class Windows:
         )
 
     def embargo_bars(self) -> int:
+        """Flat bar count. Prefer embargo_bars_for(bar_type), which is cadence-aware."""
         return max(max(self.horizons), self.max_lookback)
+
+
+def load_embargo_policy(path: Path | None = None) -> tuple[int, int]:
+    raw = _read(path or (_CONTRACT / "windows.yaml"))
+    return int(raw.get("calendar_floor_days", 7)), int(raw.get("max_lookback_days", 90))
+
+
+def bar_duration_ms(bar_type: str, median_bar_ms: int | None = None) -> int:
+    """Clock width of one bar. Event bars use the observed median, else 5 minutes."""
+    from pipeline_v2.constants import TIME_WIDTH_MS
+    if bar_type in TIME_WIDTH_MS:
+        return TIME_WIDTH_MS[bar_type]
+    if median_bar_ms and median_bar_ms > 0:
+        return int(median_bar_ms)
+    return 5 * 60_000
+
+
+def scale_windows(
+    windows: Windows,
+    bar_type: str,
+    median_bar_ms: int | None = None,
+    *,
+    max_lookback_days: int = 90,
+) -> Windows:
+    """Shrink trailing windows so none spans more than ``max_lookback_days``.
+
+    A 1000-bar fractional difference is about 17 hours of 1-minute bars and
+    1000 days of daily bars. The cap keeps the daily lookback on a calendar
+    scale. Windows that are already shorter are left alone.
+    """
+    width = bar_duration_ms(bar_type, median_bar_ms)
+    cap = max(int(windows.fast), int(max_lookback_days * 86_400_000 / width))
+
+    def cap_n(n: int, floor: int = 2) -> int:
+        return max(floor, min(int(n), cap))
+
+    return Windows(
+        z=cap_n(windows.z),
+        fast=min(int(windows.fast), cap_n(windows.fast)),
+        vol_cluster=cap_n(windows.vol_cluster),
+        frac_diff=cap_n(windows.frac_diff),
+        frac_diff_d=windows.frac_diff_d,
+        hurst=cap_n(windows.hurst),
+        kurtosis=cap_n(windows.kurtosis),
+        efficiency=min(int(windows.efficiency), cap_n(windows.efficiency)),
+        perm_entropy=cap_n(windows.perm_entropy),
+        perm_m=windows.perm_m,
+        kyle=cap_n(windows.kyle),
+        yz=cap_n(windows.yz),
+        cs_block=max(2, min(int(windows.cs_block), max(2, cap // 4))),
+        funding_mom=cap_n(windows.funding_mom),
+        hawkes_span=min(int(windows.hawkes_span), cap_n(windows.hawkes_span)),
+        ma=cap_n(windows.ma),
+        horizons=windows.horizons,
+    )
+
+
+def embargo_bars_for(
+    bar_type: str,
+    windows: Windows,
+    median_bar_ms: int | None = None,
+    *,
+    calendar_floor_days: int = 7,
+    max_lookback_days: int = 90,
+) -> int:
+    """Bars to drop at each split edge for this cadence.
+
+    ``max(horizon, scaled feature lookback)`` in this cadence's bars, and at
+    least ``calendar_floor_days`` of clock time. Not a flat 1200 for every file.
+    """
+    scaled = scale_windows(
+        windows, bar_type, median_bar_ms, max_lookback_days=max_lookback_days,
+    )
+    width = bar_duration_ms(bar_type, median_bar_ms)
+    floor_bars = max(1, math.ceil(calendar_floor_days * 86_400_000 / width))
+    structural = max(max(scaled.horizons), scaled.max_lookback)
+    return max(structural, floor_bars)
 
 
 def load_windows(path: Path | None = None) -> Windows:

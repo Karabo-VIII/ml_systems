@@ -18,3 +18,8 @@ funding_mom: 30
 hawkes_span: 20
 ma: 200
 horizons: [1, 4, 16, 64]
+# Embargo is max(horizon, feature lookback) in bars of that cadence, and at
+# least calendar_floor_days of clock time. Feature windows are capped so a
+# daily bar does not inherit a 1200-day lookback. Owner-changeable.
+calendar_floor_days: 7
+max_lookback_days: 90

@@ -64,6 +64,12 @@ class Finding:
 # ──────────────────────────────────────────────────────────────────────
 # Helpers
 # ──────────────────────────────────────────────────────────────────────
+def _is_archived_tree(rel: str) -> bool:
+    """v1 pipeline lives under archive/ and must not be audited as live code."""
+    rel = rel.replace("\\", "/")
+    return rel == "archive" or rel.startswith("archive/")
+
+
 def _expand_glob(pattern: str, exclude: Optional[set] = None) -> list:
     """Resolve a glob pattern to project-relative paths."""
     exclude = exclude or set()
@@ -71,7 +77,7 @@ def _expand_glob(pattern: str, exclude: Optional[set] = None) -> list:
     matches = []
     for hit in glob.glob(p, recursive=True):
         rel = Path(hit).relative_to(PROJECT_ROOT).as_posix()
-        if rel in exclude:
+        if rel in exclude or _is_archived_tree(rel):
             continue
         matches.append(rel)
     return sorted(set(matches))
@@ -310,91 +316,45 @@ def check_framework_store() -> list:
     return findings
 
 
+V2_ORCH = "src/pipeline_v2/orchestrator.py"
+V2_CLI = "src/pipeline_v2/cli.py"
+# Retired 2026-11-20: v1 run_pipeline.py (chimera_legacy / chimera_v51 / parse_tiers)
+# moved to archive/pipeline_v1. The live orchestrator is one ordered stage list.
+
+
 def check_dag(rules: list) -> list:
-    """Run-pipeline DAG ordering rules (string-grep over run_pipeline.py)."""
+    """v2 orchestrator presence and stage order. archive/ is not a substitute."""
     findings = []
-    rp = _read("src/pipeline/run_pipeline.py")
-    if not rp:
+    orch = _read(V2_ORCH)
+    cli = _read(V2_CLI)
+    if not orch or not cli:
         findings.append(Finding(
             severity="critical", category="dag", name="run_pipeline_missing",
-            detail="src/pipeline/run_pipeline.py not readable",
+            detail=f"{V2_ORCH} or {V2_CLI} not readable",
         ))
         return findings
 
     for rule in rules:
         name = rule["name"]
-        rtxt = rule["rule"]
-
-        if name == "chimera_legacy_runs_after_fetch_only":
-            # Verify: depends_on=['fetch_binance'] in chimera_legacy stage
-            # Look for the chimera_legacy block
-            block = re.search(
-                r'key="chimera_legacy".*?depends_on=\[([^\]]*)\]',
-                rp, re.S,
-            )
-            if not block:
+        sev = rule.get("severity", "critical")
+        if name == "v2_stage_order":
+            if 'STAGE_ORDER = ("fetch", "bars", "features", "dataset", "validate")' not in orch:
                 findings.append(Finding(
-                    severity=rule.get("severity", "critical"),
-                    category="dag", name=name, file="src/pipeline/run_pipeline.py",
-                    detail="chimera_legacy stage block not found",
+                    severity=sev, category="dag", name=name, file=V2_ORCH,
+                    detail="STAGE_ORDER must be fetch, bars, features, dataset, validate",
                 ))
-                continue
-            deps_raw = block.group(1)
-            if "fetch_binance" not in deps_raw:
-                findings.append(Finding(
-                    severity=rule.get("severity", "critical"),
-                    category="dag", name=name, file="src/pipeline/run_pipeline.py",
-                    detail=f"chimera_legacy.depends_on doesn't include fetch_binance: {deps_raw!r}",
-                ))
-            # Forbidden deps: hawkes / panels / frontier
-            for forbidden in ("hawkes_branching", "build_panels", "frontier_consolidate"):
-                if forbidden in deps_raw:
+        elif name == "v2_cli_bounds_and_universe":
+            for flag in ("--start", "--end", "--assets", "--universe", "--force"):
+                if flag not in cli:
                     findings.append(Finding(
-                        severity="critical", category="dag", name=name,
-                        file="src/pipeline/run_pipeline.py",
-                        detail=f"chimera_legacy.depends_on includes forbidden {forbidden!r}",
+                        severity=sev, category="dag", name=name, file=V2_CLI,
+                        detail=f"single CLI missing {flag}",
                     ))
-
-        elif name == "chimera_v51_depends_on_v50_and_frontier":
-            block = re.search(
-                r'key="chimera_v51".*?depends_on=\[([^\]]*)\]',
-                rp, re.S,
-            )
-            if not block:
-                continue
-            deps = block.group(1)
-            for required in ("chimera_legacy", "frontier_consolidate"):
-                if required not in deps:
-                    findings.append(Finding(
-                        severity="critical", category="dag", name=name,
-                        file="src/pipeline/run_pipeline.py",
-                        detail=f"chimera_v51 missing required dep {required!r}",
-                    ))
-
-        elif name == "parse_tiers_chimera_legacy_position":
-            # parse_tiers('all') return list — chimera_legacy should be index 1
-            # Find the return list inside parse_tiers
-            block = re.search(
-                r'def parse_tiers.*?return\s*\[([^\]]*)\]',
-                rp, re.S,
-            )
-            if not block:
-                continue
-            items = [s.strip().strip('"') for s in block.group(1).split(",") if s.strip()]
-            try:
-                idx = items.index("chimera_legacy")
-                if idx != 1:
-                    findings.append(Finding(
-                        severity=rule.get("severity", "warn"),
-                        category="dag", name=name, file="src/pipeline/run_pipeline.py",
-                        detail=f"chimera_legacy at index {idx}, expected 1 (after fetch_binance)",
-                    ))
-            except ValueError:
-                findings.append(Finding(
-                    severity=rule.get("severity", "warn"),
-                    category="dag", name=name, file="src/pipeline/run_pipeline.py",
-                    detail="chimera_legacy not in parse_tiers('all')",
-                ))
+        else:
+            findings.append(Finding(
+                severity="warn", category="dag", name=name, file=V2_ORCH,
+                detail="unrecognised dag rule (v1 chimera rules were retired)",
+            ))
     return findings
 
 

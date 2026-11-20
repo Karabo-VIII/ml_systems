@@ -198,6 +198,27 @@ def load_panel(panel_name: str) -> pl.DataFrame:
 # stable and `load_full_data` already handles asset_to_idx, target prefix,
 # and dated-snapshot fallback. We don't need to reinvent it.
 
+def load_v2(asset: str, bar_type: str = "time_1h",
+            columns: Optional[list[str]] = None,
+            root: Optional[Path] = None) -> pl.DataFrame:
+    """Load pipeline_v2 gold for one asset and bar type.
+
+    This is the read path for datasets built by ``python -m pipeline_v2.cli``.
+    It does not read v1 chimera files. ``bar_type`` is ``time_1h``, ``time_1d``,
+    ``dollar``, and the other v2 fabrics.
+
+    Strat and world-model code that still does
+    ``from pipeline.chimera_loader import ChimeraLoader`` is reading the
+    archived v1 gold. Point new code here (or at
+    ``pipeline_v2.dataset.loader.load_gold``).
+    """
+    src = str(PROJECT_ROOT / "src")
+    if src not in sys.path:
+        sys.path.insert(0, src)
+    from pipeline_v2.dataset.loader import load_gold
+    return load_gold(asset, bar_type, root=root, columns=columns)
+
+
 def load_full_data_for_training(*args, **kwargs):
     """Canonical entry point for WM training scripts.
 
@@ -217,6 +238,7 @@ def load_full_data_for_training(*args, **kwargs):
 
 __all__ = [
     "load_v51",
+    "load_v2",
     "load_v51_for_universe",
     "extract_feature_per_asset",
     "load_panel",

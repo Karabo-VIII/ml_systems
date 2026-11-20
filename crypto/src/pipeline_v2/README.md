@@ -83,9 +83,27 @@ U10 is BTC, ETH, SOL, BNB, XRP, DOGE, ADA, AVAX, LINK, LTC. Dollar thresholds ar
 
 Default labels are uncapped `target_return_{1,4,16,64}`. The last `h` bars are null. `--voladj` adds `target_voladj_*`, which divide by future volatility. Those columns are labels only. `--clipped` adds the old 15% / 50% copies.
 
-Splits stay frozen: train before 2023-07-01, val before 2024-05-15, oos before 2025-03-15, unseen from 2025-03-15. The embargo is `max(horizon, window)` bars (64 and 1200 with the default windows), taken from the tail of the earlier segment and the head of the later one. It is not capped at 5%. On daily bars, 1200 bars is a long embargo. That is the rule. Change the windows in `contract/windows.yaml` if you want a shorter one. The gate fails if a segment is too short to honour it, rather than shrinking it.
+Splits stay frozen: train before 2023-07-01, val before 2024-05-15, oos before 2025-03-15, unseen from 2025-03-15. The embargo is per cadence (see above), taken from the tail of the earlier segment and the head of the later one. It is not silently shrunk. Change `calendar_floor_days` and `max_lookback_days` in `contract/windows.yaml` if you want a different floor.
 
 `norm_oi_change` is off. `--include-oi` turns it and `norm_oi_price_divergence` on, with a 5-minute publication lag and no zero-fill. It still needs a full-history lookahead retest before it is a default feature.
+
+The embargo is cadence-aware. It is `max(horizon, feature lookback)` in that file's bars, and at least 7 calendar days. Feature windows are capped at 90 days of clock time, so a daily file is not embargoed for 1,200 days. Both numbers are in `contract/windows.yaml`.
+
+## External daily sources
+
+A fetch stage also pulls, best-effort, DeFiLlama stablecoin supply, Deribit DVOL (BTC and ETH), Farside BTC/ETH ETF flows, and Wikipedia pageviews for the U10 articles. A down host is logged and skipped. Each series is stored with `event_time_ms` at the UTC midnight of the day it describes and is joined with a 1-day lag, so it cannot appear on a bar that closed the same day. Other assets receive BTC DVOL as `dv_btc_dvol_close`. ETF issuer columns are cleaned (`etf_total_usdm`, no `Unnamed` headers).
+
+## Reading v2 gold from strat and world models
+
+```python
+from pipeline_v2.dataset.loader import load_gold
+df = load_gold("BTCUSDT", "time_1h")          # latest file under data/pipeline_v2/gold/
+
+from data_api import load_v2
+df = load_v2("BTC", bar_type="dollar", root="data/pipeline_v2")
+```
+
+`ChimeraLoader` and `data_api.load_v51` still read archived v1 gold. New code should call `load_v2` / `load_gold`. A script that does `from pipeline.chimera_loader import ChimeraLoader` is on the v1 path; change that import, or insert `crypto/archive/pipeline_v1` on `sys.path` only while it still needs the old files.
 
 `norm_bar_duration` is computed on dollar, tick, and volume bars only.
 

@@ -11,9 +11,13 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+# Runnable as `python src/pipeline_v2/cli.py` from the crypto root, which is
+# how the CDAP CLI-flag check invokes --help.
+_SRC = Path(__file__).resolve().parents[1]
+if str(_SRC) not in sys.path:
+    sys.path.insert(0, str(_SRC))
+
 from pipeline_v2.constants import CORE_BAR_TYPES
-from pipeline_v2.contract import load_splits, load_windows
-from pipeline_v2.orchestrator import RunConfig, run, status
 from pipeline_v2.paths import default_data_root
 from pipeline_v2.symbols import parse_symbol_list
 
@@ -23,7 +27,10 @@ def _date(s: str):
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="pipeline_v2")
+    p = argparse.ArgumentParser(
+        prog="pipeline_v2",
+        description="run accepts --start --end --assets --universe --force",
+    )
     sub = p.add_subparsers(dest="cmd", required=True)
 
     run_p = sub.add_parser("run", help="fetch, build bars, features, dataset, validate")
@@ -48,6 +55,9 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    # Imported after --help so the flag check does not need the data stack.
+    from pipeline_v2.contract import load_splits, load_windows
+    from pipeline_v2.orchestrator import RunConfig, run, status
     root = args.data_root or default_data_root()
     if args.cmd == "status":
         return status(root)

@@ -22,7 +22,10 @@ def asof_join_knowable(
     by: str | None = None,
     tolerance_ms: int | None = None,
 ) -> pl.DataFrame:
-    """Attach ``feature_cols`` where ``knowable_at <= base ts``. Base row count is unchanged."""
+    """Attach ``feature_cols`` where knowable_at = feature_time + publication_lag <= bar ts.
+
+    A negative publication_lag_ms is rejected. Base row count is unchanged.
+    """
     if publication_lag_ms < 0:
         raise ValueError(f"publication_lag_ms must be >= 0, got {publication_lag_ms}")
     if base.is_empty():

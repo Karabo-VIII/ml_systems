@@ -341,17 +341,9 @@ simulator:
     severity: warn
     rationale: "Every new simulator must include reconciliation probe."
 
-  - name: chimera_v51_spawn_no_recursion
-    # The child must invoke with --workers 1 (sequential path). Any other
-    # value re-enters the parallel branch and recursively spawns -> Windows
-    # segfault (exit=0xC0000005) and exit=0 noops, producing zero output.
-    pattern_must_not_contain: '"--workers"\s*,\s*"(?!1")[2-9][0-9]*"'
-    files: ["src/pipeline/make_dataset.py"]
-    severity: critical
-    rationale: |
-      2026-04-28 bug: child spawn hardcoded "--workers 12" caused infinite
-      recursion. Symptom: stale manifests mis-tagged "OK", actual chimera
-      build output: 0 new files. Fixed; this invariant prevents reintroduction.
+  # Retired 2026-11-20: chimera_v51_spawn_no_recursion guarded
+  # src/pipeline/make_dataset.py spawning itself with --workers. v2 does not
+  # spawn a child dataset process. The file is in archive/pipeline_v1.
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -437,26 +429,27 @@ leakage:
 # ─────────────────────────────────────────────────────────────────────
 # DAG / pipeline ordering invariants
 # ─────────────────────────────────────────────────────────────────────
+# Retired 2026-11-20: chimera_legacy / chimera_v51 / parse_tiers lived in
+# src/pipeline/run_pipeline.py, now archive/pipeline_v1 (not audited).
+# The live rule is the single v2 stage list and the single CLI.
 dag:
 
-  - name: chimera_legacy_runs_after_fetch_only
-    rule: "chimera_legacy.depends_on == ['fetch_binance']"
-    file: "src/pipeline/run_pipeline.py"
+  - name: v2_stage_order
+    rule: "STAGE_ORDER is fetch, bars, features, dataset, validate"
+    file: "src/pipeline_v2/orchestrator.py"
     severity: critical
     rationale: |
-      chimera_legacy must NOT depend on hawkes/panels/frontier — adding
-      such a dep would re-introduce the model-training-blocked-by-hawkes
-      delay (fixed 2026-04-28).
+      v2 has one orchestrator. Features must not run before bars, and
+      validate must not run before the dataset exists. Reordering this
+      tuple is the v2 equivalent of the old DAG depends_on mistakes.
 
-  - name: chimera_v51_depends_on_v50_and_frontier
-    rule: "chimera_v51.depends_on contains chimera_legacy AND frontier_consolidate"
-    file: "src/pipeline/run_pipeline.py"
+  - name: v2_cli_bounds_and_universe
+    rule: "cli accepts --start --end --assets --universe --force"
+    file: "src/pipeline_v2/cli.py"
     severity: critical
-
-  - name: parse_tiers_chimera_legacy_position
-    rule: "parse_tiers('all') has chimera_legacy at index 1 (right after fetch_binance)"
-    file: "src/pipeline/run_pipeline.py"
-    severity: warn
+    rationale: |
+      A run without an explicit date range or universe is how v1 fetched
+      the wrong book. The single CLI must advertise all five flags.
 
 
 
@@ -470,138 +463,44 @@ dag:
 # thread --universe through. Catches the regression class where the
 # child script accepts --universe but the parent forgets to pass it.
 # ─────────────────────────────────────────────────────────────────────
+# Retired 2026-11-20: the per-child --universe/--force threading rules and
+# the build_panels skip-globs only made sense for run_pipeline.py spawning
+# fetch_all / make_dataset / build_panels / hawkes / frontier. v2 has one
+# process. The guards below check that process directly.
 run_pipeline_cmds:
 
-  # Each pattern uses inline (?s) so '.' matches newlines — cmd lists are
-  # multi-line in run_pipeline.py. Bounded to .{0,400} to scope to the
-  # script's own cmd block (not stray --universe mentions elsewhere).
-  - name: fetch_threads_universe
-    pattern: '(?s)fetch_all\.py.{0,400}--universe'
-    files: ["src/pipeline/run_pipeline.py"]
+  - name: v2_cli_accepts_universe
+    pattern: '--universe'
+    files: ["src/pipeline_v2/cli.py"]
     must_match: true
     severity: critical
-    rationale: |
-      Provenance: 2026-04-29 dry-run audit caught fetch_binance dropping
-      --universe at the orchestrator layer. fetch_all.py accepts --universe
-      but run_pipeline didn't thread it -> "--universe u50 --tiers all"
-      would download EVERY discovered asset under data/raw/, not just
-      u50's 48. Same B5 / G-PIPE bug class as chimera_legacy + frontier
-      (commit 8f14433).
+    rationale: "One CLI. Dropping --universe is the v1 bug of fetching every asset."
 
-  - name: chimera_legacy_threads_universe
-    pattern: '(?s)make_dataset_legacy\.py.{0,400}--universe'
-    files: ["src/pipeline/run_pipeline.py"]
+  - name: v2_cli_accepts_force
+    pattern: '--force'
+    files: ["src/pipeline_v2/cli.py"]
     must_match: true
     severity: critical
-    rationale: |
-      Provenance: 2026-04-29 user ran end-to-end pipeline at u50;
-      chimera_legacy iterated 104 raw-discovered assets instead of 48
-      u50 assets because the cmd list omitted --universe. Burned ~70min
-      compute on out-of-scope assets. Same B5 pattern as build_panels
-      (fixed earlier in commit 03656e9).
+    rationale: "One CLI. --force must reach the single orchestrator, not a child that ignores it."
 
-  - name: build_panels_threads_universe
-    pattern: '(?s)build_panels\.py.{0,400}--universe'
-    files: ["src/pipeline/run_pipeline.py"]
+  - name: v2_cli_accepts_start
+    pattern: '--start'
+    files: ["src/pipeline_v2/cli.py"]
     must_match: true
     severity: critical
 
-  - name: hawkes_threads_universe
-    pattern: '(?s)hawkes_branching_ratio\.py.{0,400}--universe'
-    files: ["src/pipeline/run_pipeline.py"]
+  - name: v2_cli_accepts_end
+    pattern: '--end'
+    files: ["src/pipeline_v2/cli.py"]
     must_match: true
     severity: critical
 
-  - name: frontier_threads_universe
-    pattern: '(?s)frontier_consolidator\.py.{0,400}--universe'
-    files: ["src/pipeline/run_pipeline.py"]
+  - name: v2_stage_order_literal
+    pattern: 'STAGE_ORDER = \("fetch", "bars", "features", "dataset", "validate"\)'
+    files: ["src/pipeline_v2/orchestrator.py"]
     must_match: true
     severity: critical
-
-  - name: chimera_v51_threads_universe
-    pattern: '(?s)make_dataset\.py.{0,400}--universe'
-    files: ["src/pipeline/run_pipeline.py"]
-    must_match: true
-    severity: critical
-
-  # --force threading: orchestrator must propagate --force to every child
-  # cmd so that `run_pipeline.py --force` truly forces a fresh rebuild
-  # across all stages (delete prior dated snapshots before rebuild).
-  # Provenance: 2026-04-29 user request — without uniform --force, a stale
-  # u10 snapshot can survive a u50 rebuild and silently re-poison strategy
-  # backtests. Each child script defines --force semantics (delete-prior
-  # for chimera/panels/frontier/bars, alias for fetch).
-  - name: fetch_threads_force
-    pattern: '(?s)fetch_all\.py.{0,500}--force'
-    files: ["src/pipeline/run_pipeline.py"]
-    must_match: true
-    severity: critical
-
-  - name: bar_fabric_threads_force
-    pattern: '(?s)build_bars\.py.{0,500}--force'
-    files: ["src/pipeline/run_pipeline.py"]
-    must_match: true
-    severity: critical
-
-  - name: build_panels_threads_force
-    pattern: '(?s)build_panels\.py.{0,500}--force'
-    files: ["src/pipeline/run_pipeline.py"]
-    must_match: true
-    severity: critical
-
-  - name: hawkes_threads_force
-    pattern: '(?s)hawkes_branching_ratio\.py.{0,500}--force'
-    files: ["src/pipeline/run_pipeline.py"]
-    must_match: true
-    severity: critical
-
-  - name: frontier_threads_force
-    pattern: '(?s)frontier_consolidator\.py.{0,500}--force'
-    files: ["src/pipeline/run_pipeline.py"]
-    must_match: true
-    severity: critical
-
-  - name: chimera_legacy_threads_force
-    pattern: '(?s)make_dataset_legacy\.py.{0,500}--force'
-    files: ["src/pipeline/run_pipeline.py"]
-    must_match: true
-    severity: critical
-
-  - name: chimera_v51_threads_force
-    pattern: '(?s)make_dataset\.py.{0,500}--force'
-    files: ["src/pipeline/run_pipeline.py"]
-    must_match: true
-    severity: critical
-
-  # Panel-builder skip-existing globs MUST point at the CANONICAL panel
-  # output, not auxiliary per-asset files. Provenance: 2026-04-29 top_trader
-  # crashed FileNotFoundError on s3_metrics_panel.parquet because the s3
-  # skip-existing glob `s3_*.parquet` matched per-asset
-  # `s3_metrics_daily_<SYM>.parquet` files and the s3 stage was silently
-  # skipped, leaving the consolidated panel unbuilt.
-  - name: build_panels_glob_canonical_s3
-    pattern: 's3_metrics_panel\.parquet'
-    files: ["src/pipeline/build_panels.py"]
-    must_match: true
-    severity: critical
-
-  - name: build_panels_glob_canonical_whale
-    pattern: 'whale_activity_daily\.parquet'
-    files: ["src/pipeline/build_panels.py"]
-    must_match: true
-    severity: critical
-
-  - name: build_panels_glob_canonical_liq
-    pattern: 'liq_daily_approx\.parquet'
-    files: ["src/pipeline/build_panels.py"]
-    must_match: true
-    severity: critical
-
-  - name: build_panels_glob_canonical_top_trader
-    pattern: 's3_features_long\.parquet'
-    files: ["src/pipeline/build_panels.py"]
-    must_match: true
-    severity: critical
+    rationale: "Same order the dag checker enforces. A rewrite that drops the constant fails closed."
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -668,36 +567,12 @@ universe_yamls:
 # ─────────────────────────────────────────────────────────────────────
 # Multi-asset pipeline scripts must accept --universe
 # ─────────────────────────────────────────────────────────────────────
+# Retired 2026-11-20: the per-producer --universe list pointed at v1 modules
+# now under archive/pipeline_v1. v2 exposes the flag once, on the CLI.
 cli_universe_support:
   required_flags: ["--universe"]
   files:
-    - "src/pipeline/fetch_all.py"
-    - "src/pipeline/build_bars.py"
-    - "src/pipeline/frontier_consolidator.py"
-    - "src/pipeline/make_dataset.py"
-    - "src/pipeline/make_dataset_legacy.py"
-    - "src/pipeline/add_xrel_features.py"
-    - "src/pipeline/features/hawkes_branching_ratio.py"
-    - "src/pipeline/features/realized_volatility.py"
-    - "src/pipeline/features/transfer_entropy_panel.py"
-    - "src/pipeline/features/basis_signals.py"
-    - "src/pipeline/features/multi_venue_features.py"
-    - "src/pipeline/features/lob_proxy_panel.py"
-    - "src/pipeline/features/lob_proxy_daily.py"
-    - "src/pipeline/features/liq_features.py"
-    - "src/pipeline/ingest/whale_activity.py"
-    - "src/pipeline/ingest/liquidations_approx.py"
-    - "src/pipeline/bars/dib_bars_fast.py"
-    - "src/pipeline/bars/range_bars_fast.py"
-    - "src/pipeline/bars/runs_bars.py"
-    - "src/pipeline/bars/adaptive_vol_bars.py"
-    - "scripts/audit/build_asset_own_regime_panel.py"
-  exclude_files:
-    # Universe-agnostic by design
-    - "src/pipeline/build_panels.py"
-    - "src/pipeline/pre_train_gate.py"
-    - "src/pipeline/gc_snapshots.py"
-    - "src/pipeline/coverage_report.py"
+    - "src/pipeline_v2/cli.py"
   severity: warn
 
 
@@ -989,36 +864,11 @@ required_patterns:
 # children that silently ignore it -> stale snapshots survive a forced
 # rebuild and silently re-poison strategy backtests.
 # ─────────────────────────────────────────────────────────────────────
+# Retired 2026-11-20: per-producer --force list. v2 honours --force in the one CLI.
 cli_force_support:
   required_flags: ["--force"]
   files:
-    - "src/pipeline/fetch_all.py"
-    - "src/pipeline/build_bars.py"
-    - "src/pipeline/build_panels.py"
-    - "src/pipeline/frontier_consolidator.py"
-    - "src/pipeline/make_dataset.py"
-    - "src/pipeline/make_dataset_legacy.py"
-    - "src/pipeline/add_xrel_features.py"
-    - "src/pipeline/features/hawkes_branching_ratio.py"
-    - "src/pipeline/features/realized_volatility.py"
-    - "src/pipeline/features/transfer_entropy_panel.py"
-    - "src/pipeline/features/basis_signals.py"
-    - "src/pipeline/features/multi_venue_features.py"
-    - "src/pipeline/features/lob_proxy_panel.py"
-    - "src/pipeline/features/lob_proxy_daily.py"
-    - "src/pipeline/features/liq_features.py"
-    - "src/pipeline/ingest/whale_activity.py"
-    - "src/pipeline/ingest/liquidations_approx.py"
-    - "src/pipeline/bars/dib_bars_fast.py"
-    - "src/pipeline/bars/range_bars_fast.py"
-    - "src/pipeline/bars/runs_bars.py"
-    - "src/pipeline/bars/adaptive_vol_bars.py"
-    - "scripts/audit/build_asset_own_regime_panel.py"
-  exclude_files:
-    # Universe-agnostic / read-only
-    - "src/pipeline/pre_train_gate.py"
-    - "src/pipeline/gc_snapshots.py"
-    - "src/pipeline/coverage_report.py"
+    - "src/pipeline_v2/cli.py"
   severity: warn
 
 
@@ -1028,49 +878,23 @@ cli_force_support:
 # surfaced by stale-asset refresh runbook. Singular --asset / --symbol
 # is allowed as a deprecated alias but --assets MUST exist for batch ops.
 # ─────────────────────────────────────────────────────────────────────
+# Retired 2026-11-20: per-producer --assets list. v2 CLI accepts --assets.
 cli_assets_support:
   required_flags: ["--assets"]
   files:
-    - "src/pipeline/fetch_all.py"
-    - "src/pipeline/frontier_consolidator.py"
-    - "src/pipeline/make_dataset.py"
-    - "src/pipeline/make_dataset_legacy.py"
-    - "src/pipeline/add_xrel_features.py"
-    - "src/pipeline/features/hawkes_branching_ratio.py"
-    - "src/pipeline/features/realized_volatility.py"
-    - "src/pipeline/features/transfer_entropy_panel.py"
-    - "src/pipeline/features/basis_signals.py"
-    - "src/pipeline/features/multi_venue_features.py"
-    - "src/pipeline/features/lob_proxy_panel.py"
-    - "src/pipeline/features/lob_proxy_daily.py"
-    - "src/pipeline/features/liq_features.py"
-    - "src/pipeline/ingest/whale_activity.py"
-    - "src/pipeline/ingest/liquidations_approx.py"
-    - "src/pipeline/bars/dib_bars_fast.py"
-    - "src/pipeline/bars/range_bars_fast.py"
-    - "src/pipeline/bars/runs_bars.py"
-    - "src/pipeline/bars/adaptive_vol_bars.py"
-    - "scripts/audit/build_asset_own_regime_panel.py"
-  exclude_files:
-    - "src/pipeline/pre_train_gate.py"
-    - "src/pipeline/gc_snapshots.py"
-    - "src/pipeline/coverage_report.py"
+    - "src/pipeline_v2/cli.py"
   severity: warn
 
 
 # ─────────────────────────────────────────────────────────────────────
 # Multi-asset pipeline scripts must end with print_coverage_report
 # ─────────────────────────────────────────────────────────────────────
+# Retired 2026-11-20: per-producer coverage prints. v2 prints one COVERAGE line
+# per written gold file from the orchestrator.
 cli_coverage_report:
   required_pattern: "print_coverage_report|COVERAGE -- "
   files:
-    - "src/pipeline/build_bars.py"
-    - "src/pipeline/build_panels.py"
-    - "src/pipeline/frontier_consolidator.py"
-    - "src/pipeline/make_dataset.py"
-    - "src/pipeline/features/hawkes_branching_ratio.py"
-  pending_files:
-    - "src/pipeline/make_dataset_legacy.py"
+    - "src/pipeline_v2/orchestrator.py"
   severity: warn
 
 
@@ -1079,27 +903,17 @@ cli_coverage_report:
 # ─────────────────────────────────────────────────────────────────────
 # Either the inline tmp+rename+verify pattern OR atomic_write_parquet()
 # from src/pipeline/parquet_io.py satisfies this contract.
+# Retired 2026-11-20: the producer-by-producer list. Every v2 parquet write
+# goes through src/pipeline_v2/io.py (temp file, fsync, os.replace).
 atomic_write:
   required_patterns:
-    # Match either the framework call OR the inline-pattern triple.
-    - "atomic_write_parquet|\\.tmp\\.parquet"
-    - "atomic_write_parquet|rename|replace"
-    - "atomic_write_parquet|read_parquet_schema|verify_cols"
+    - "atomic_write_parquet|\\.tmp\\."
+    - "os\\.replace"
+    - "required_cols"
   files:
-    - "src/pipeline/frontier_consolidator.py"
-    - "src/pipeline/make_dataset.py"
-    - "src/pipeline/make_dataset_legacy.py"
-    - "src/pipeline/features/hawkes_branching_ratio.py"
-    - "src/pipeline/features/transfer_entropy_panel.py"
-    - "src/pipeline/ingest/whale_activity.py"
-    - "src/pipeline/ingest/liquidations_approx.py"
-    - "src/pipeline/ingest/binance_s3_metrics.py"
-    - "src/pipeline/bars/dib_bars_fast.py"
-    - "src/pipeline/bars/range_bars_fast.py"
-    - "src/pipeline/bars/runs_bars.py"
-    - "src/pipeline/bars/adaptive_vol_bars.py"
+    - "src/pipeline_v2/io.py"
   severity: warn
-  rationale: "Atomic-tmp-rename + col-name verify; prefer framework atomic_write_parquet()."
+  rationale: "Atomic-tmp-rename + required-column check before replace. v1 producers are archived."
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -1109,18 +923,14 @@ atomic_write:
 # framework helpers in src/pipeline/{parquet_io,dispatch,cli}.py over
 # inline copies. This section lists migrated stages; new stages should
 # follow the same pattern. Detected by import string.
+# Retired 2026-11-20: v1 framework imports (parquet_io/cli). v2 writes go through io.py.
 framework_usage:
   required_imports:
-    parquet_io: "from parquet_io import"
-    cli: "from cli import"
+    io: "atomic_write_parquet"
   recommended_for:
-    - "src/pipeline/bars/*.py"
-    - "src/pipeline/ingest/*.py"
-    - "src/pipeline/features/hawkes_branching_ratio.py"
-    - "src/pipeline/features/transfer_entropy_panel.py"
-    - "src/pipeline/frontier_consolidator.py"
+    - "src/pipeline_v2/orchestrator.py"
   severity: info
-  rationale: "Single source of truth for atomic-write, dispatch, CLI surface."
+  rationale: "v2 atomic writes live in pipeline_v2.io. The archived v1 helpers are not the contract."
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -1174,7 +984,7 @@ perf_anti_patterns:
   crawler: "src/audit/perf_anti_pattern_crawler.py"
   # Scope: pipeline-layer producers (where data hot-loops bite hardest).
   # Strategy + WM scans can be run on-demand via crawler CLI (--root).
-  scan_root: "src/pipeline"
+  scan_root: "src/pipeline_v2"
   # Crawler's exit codes drive CDAP severity mapping:
   #   rc=2 (any CRITICAL)  -> CDAP critical (BLOCK COMMIT)
   #   rc=1 (HIGH only)     -> CDAP warn (non-blocking)
@@ -1492,19 +1302,8 @@ strat_99_invariants:
       ckpts; V11-V14 enforce f{feat} unconditionally (they always wrote
       that pattern).
 
-  - name: refresh_active_run_detection
-    pattern: 'def detect_active_run|HALT: another refresh is currently running'
-    files:
-      - "src/pipeline/refresh.py"
-    severity: high
-    rationale: |
-      refresh.py must check _dag_state_live.json on startup and HALT
-      if another refresh's heartbeat is fresh (< 120s old). Without
-      this guard, two parallel `refresh.py --target X` invocations
-      would race on the same outputs, last-write-wins, possibly
-      corrupting partial parquet files. Override paths: --attach
-      (read-only watch), --wait-active (block), --ignore-active
-      (race; only when targets disjoint). 2026-05-03 weakness fix.
+  # Retired 2026-11-20: refresh_active_run_detection guarded src/pipeline/refresh.py.
+  # v2 is one process with no parallel refresh lock file. The module is archived.
 
   - name: docs_present
     pattern: 'Flag-Variant Batch Runner'
@@ -1699,9 +1498,11 @@ pipeline_a_plus_closure:
       schema_version means the contract test can't gate registry edits.
 
   - name: validate_chimera_has_lookahead_mutual_info
-    pattern: 'def check_lookahead_mutual_info'
+    # Re-pointed 2026-11-20. v2's gate is gate_lookahead (Pearson and Spearman
+    # vs target_return_1). The old MI function lived in validate_chimera.py.
+    pattern: 'def gate_lookahead'
     files:
-      - "src/pipeline/validate_chimera.py"
+      - "src/pipeline_v2/validate/gates.py"
     severity: critical
     rationale: |
       Pearson correlation (check_lookahead_correlation) catches DIRECT
@@ -1713,9 +1514,11 @@ pipeline_a_plus_closure:
       cannot catch.
 
   - name: registry_contract_test_module_exists
-    pattern: 'def main'
+    # Re-pointed 2026-11-20. The versioned contract is pipeline_v2/contract/*.yaml.
+    # The old registry_contract_test.py is archived with v1.
+    pattern: '^version:'
     files:
-      - "src/pipeline/registry_contract_test.py"
+      - "src/pipeline_v2/contract/windows.yaml"
     severity: critical
     rationale: |
       registry_contract_test.py is the deterministic gate that runs 7
@@ -1728,29 +1531,10 @@ pipeline_a_plus_closure:
 # ─────────────────────────────────────────────────────────────────────
 # Pipeline progress convention invariants (2026-05-22, oracle homogeneous-CLI closure)
 # ─────────────────────────────────────────────────────────────────────
-pipeline_progress_convention:
-
-  - name: progress_module_exists
-    pattern: 'def phase_log'
-    files:
-      - "src/pipeline/progress.py"
-    severity: critical
-    rationale: |
-      Single source of truth for producer progress emission. Defines
-      VALID_PHASES + ProgressTask + stage_run. Removing this disables
-      the homogeneous-interface convention shipped 2026-05-22. All
-      producers progressively migrate to import from this module.
-
-  - name: refresh_streams_subprocess_stdout
-    pattern: 'subprocess.PIPE'
-    files:
-      - "src/pipeline/refresh.py"
-    severity: critical
-    rationale: |
-      refresh.py must stream subprocess stdout to the user's terminal
-      via PIPE + reader thread (not directly to log file via stdout=logf).
-      Reverting to direct file piping hides producer progress from the
-      user — the gap this session closed. See docs/PIPELINE_PROGRESS_CONVENTION_2026_05_22.md.
+# Retired 2026-11-20: progress.py phase_log and refresh.py subprocess.PIPE
+# belonged to the three v1 orchestrators. v2 is one process and prints
+# [fetch]/[bars]/[dataset]/COVERAGE lines. No child stdout to hide.
+pipeline_progress_convention: []
 
 # ─────────────────────────────────────────────────────────────────────
 # Pipeline universality + leak-detector invariants (2026-05-22, oracle A+ closure)
@@ -1758,9 +1542,11 @@ pipeline_progress_convention:
 pipeline_universality:
 
   - name: validate_chimera_has_normalization_leakage_check
-    pattern: 'def check_normalization_leakage'
+    # Re-pointed 2026-11-20. Split leakage is the embargo applied in assemble.py.
+    # Trailing z-scores never use a future split, and the embargo is not shrunk.
+    pattern: 'def apply_embargo'
     files:
-      - "src/pipeline/validate_chimera.py"
+      - "src/pipeline_v2/dataset/assemble.py"
     severity: critical
     rationale: |
       Catches cross-fold normalization leakage: features z-scored using
@@ -1769,9 +1555,11 @@ pipeline_universality:
       column; legitimate regime drift can hit 0.5-1.0σ; threshold 1.5σ.
 
   - name: validate_chimera_has_same_day_pub_race_check
-    pattern: 'def check_same_day_publication_race'
+    # Re-pointed 2026-11-20. Same-day publication is the knowable-at join:
+    # a negative lag is rejected, and daily panels use a 1-day lag.
+    pattern: 'publication_lag_ms < 0'
     files:
-      - "src/pipeline/validate_chimera.py"
+      - "src/pipeline_v2/align/asof.py"
     severity: critical
     rationale: |
       Catches features whose non-null date range extends beyond the target's,
@@ -1780,29 +1568,8 @@ pipeline_universality:
       Pearson + MI leak detectors may not catch if the leak shows up as
       a date-range mismatch rather than a correlation spike.
 
-  - name: producer_uses_pipeline_progress
-    pattern: '_pl\(|phase_log\(|ProgressTask\('
-    files:
-      - "src/pipeline/bars/*.py"
-      - "src/pipeline/ingest/*.py"
-      - "src/pipeline/features/*.py"
-      - "src/pipeline/add_xrel_features.py"
-      - "src/pipeline/frontier_consolidator.py"
-      - "src/pipeline/make_dataset.py"
-      - "src/pipeline/make_dataset_legacy.py"
-      - "src/pipeline/features/basis_signals.py"
-      - "src/pipeline/features/hawkes_branching_ratio.py"
-      - "src/pipeline/fetch_all.py"
-    severity: warn
-    rationale: |
-      Every refresh-invoked producer should use pipeline.progress for
-      homogeneous progress emission per the convention shipped 2026-05-22.
-      Per auditor sweep ad217ce9239ceb16b TOP-5 ladder + long-tail
-      sweep: 23/25 producers now compliant; remaining 2 are orchestrator
-      (refresh.py) + gate-report (pre_train_gate.py) which are
-      intentionally banner-styled. WARN-only because dropping the
-      convention from a producer doesn't break correctness — it just
-      makes the user-facing stream inconsistent.
+  # Retired 2026-11-20: producer_uses_pipeline_progress scanned v1 producers
+  # for phase_log. Those files are archived. v2 coverage is the COVERAGE line.
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -2035,7 +1802,7 @@ bitemporal_asof:
   - name: asof_join_module_present
     pattern: 'def asof_join_knowable'
     files:
-      - "src/pipeline/asof_join.py"
+      - "src/pipeline_v2/align/asof.py"
     severity: warn
     rationale: |
       asof_join.py is the structural look-ahead defense: a pure, deterministic
@@ -2049,9 +1816,9 @@ bitemporal_asof:
     # The join must (a) gate on knowable_at = feature_time + publication_lag and
     # (b) reject negative lag (which would re-open look-ahead). This pattern
     # proves the leak-free invariant is still wired, not just the function name.
-    pattern: 'publication_lag_ms\s*<\s*0|knowable_at\s*=\s*feature_time|feature_time \+ publication_lag'
+    pattern: 'publication_lag_ms\s*<\s*0|knowable_at = feature_time \+ publication_lag'
     files:
-      - "src/pipeline/asof_join.py"
+      - "src/pipeline_v2/align/asof.py"
     severity: warn
     rationale: |
       Guards the two load-bearing invariants of the knowable-at contract:
@@ -2065,9 +1832,9 @@ bitemporal_asof:
     # producer can route them through the as-of join instead of attaching them
     # raw. Match all four seeded families in one pattern (any present satisfies;
     # the YAML's own structure is validated at load by load_publication_lags()).
-    pattern: 'etf_flows:|wikipedia:|funding:|onchain:'
+    pattern: 'funding:'
     files:
-      - "config/feature_publication_lag.yaml"
+      - "src/pipeline_v2/contract/lags.yaml"
     severity: warn
     rationale: |
       config/feature_publication_lag.yaml is the declared-lag registry

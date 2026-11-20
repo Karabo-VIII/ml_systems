@@ -37,9 +37,18 @@ def test_dollar_table_matches_the_fixed_v1_sizes():
         dollar_threshold("NOSUCHUSDT")
 
 
-def test_embargo_is_max_horizon_window():
+def test_embargo_is_cadence_aware_not_a_flat_1200():
+    from pipeline_v2.contract import embargo_bars_for
     windows = load_windows()
-    assert windows.embargo_bars() == max(64, 1000 + 200)
+    daily = embargo_bars_for("time_1d", windows)
+    hourly = embargo_bars_for("time_1h", windows)
+    minute = embargo_bars_for("time_1m", windows)
+    dollar = embargo_bars_for("dollar", windows, median_bar_ms=5 * 60_000)
+    assert daily != 1200
+    assert daily < hourly
+    assert minute >= 7 * 24 * 60
+    assert dollar >= 7 * 24 * 12
+    assert daily >= 7
     assert "dib" in OMITTED_BAR_TYPES
 
 
