@@ -567,11 +567,15 @@ def run_fx(cfg: RunConfig) -> int:
             continue
         if "fetch" in cfg.stages:
             print(f"[fetch] {asset} {start} -> {cfg.end}")
-            n = fetch_fx_range(
-                cfg.data_root, asset, start, cfg.end,
-                force=cfg.force, timeout=cfg.fetch_timeout,
-            )
-            print(f"[fetch] dukascopy hours={n}")
+            try:
+                n = fetch_fx_range(
+                    cfg.data_root, asset, start, cfg.end,
+                    force=cfg.force, timeout=cfg.fetch_timeout,
+                )
+                print(f"[fetch] dukascopy hours={n}")
+            except RuntimeError as exc:
+                print(f"[fetch] {asset} incomplete: {exc}")
+                worst = max(worst, 1)
         ticks = read_fx_ticks(cfg.data_root, asset, start, cfg.end)
         tick_counts[asset] = ticks.height
         ladder = build_fx_ladder(ticks, asset, cfg.bar_types)

@@ -154,11 +154,46 @@ def iter_hours(start: date, end: date):
 
 
 def fetch_fx_range(root, pair: str, start: date, end: date, **kwargs) -> int:
-    """Fetch every hour in ``[start, end]`` inclusive. Returns hours written or read."""
-    n = 0
+    """Fetch every hour in ``[start, end]`` inclusive. Returns hours written or read.
+
+    A 503 after the per-hour retries is not cached as empty. The hour is
+    retried with a long pause, then the range continues so a later resume
+    can fill the hole. Failed hours are reported at the end.
+    """
+    n = n_cached = n_wrote = 0
+    failed: list[str] = []
+    force = bool(kwargs.get("force"))
+    pair = canonical_fx_symbol(pair)
     for hour in iter_hours(start, end):
-        fetch_hour(root, pair, hour, **kwargs)
+        path = fx_hour_path(root, pair, hour.date(), hour.hour)
+        existed = path.exists() and not force
+        if existed:
+            n += 1
+            n_cached += 1
+            if hour.hour == 23:
+                print(f"[fetch] {pair} {hour.date()} cached={n_cached} wrote={n_wrote}")
+            continue
+        last_err = None
+        for attempt in range(3):
+            try:
+                fetch_hour(root, pair, hour, **kwargs)
+                last_err = None
+                break
+            except RuntimeError as exc:
+                last_err = exc
+                wait = 45.0 * (attempt + 1)
+                print(f"[fetch] {pair} {hour.isoformat()} {exc}; retry in {wait:.0f}s")
+                time.sleep(wait)
         n += 1
+        if last_err:
+            failed.append(f"{hour.isoformat()} {last_err}")
+        else:
+            n_wrote += 1
+        if hour.hour == 23:
+            print(f"[fetch] {pair} {hour.date()} cached={n_cached} wrote={n_wrote} failed={len(failed)}")
+    print(f"[fetch] {pair} hours={n} cached={n_cached} wrote={n_wrote} failed={len(failed)}")
+    if failed:
+        raise RuntimeError(f"{pair}: {len(failed)} hours failed: " + "; ".join(failed[:8]))
     return n
 
 

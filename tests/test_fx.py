@@ -233,3 +233,29 @@ def test_fx_weekend_gap_follows_new_york_close():
     assert _fx_weekday_gaps([winter]) == [winter]
     assert _fx_weekday_gaps([summer]) == []
     assert _fx_weekday_gaps([monday]) == [monday]
+def test_fetch_fx_range_retries_then_continues(tmp_path, monkeypatch):
+    from pipeline.fetch_fx import fetch_fx_range, encode_bi5, decode_bi5
+    from pipeline.io import atomic_write_parquet
+    from pipeline.paths import fx_hour_path
+    calls = {"n": 0}
+    sleeps = []
+    def fake_sleep(s):
+        sleeps.append(s)
+    def fake_hour(root, pair, hour_start, **kwargs):
+        calls["n"] += 1
+        if calls["n"] <= 2:
+            raise RuntimeError("HTTP 503")
+        path = fx_hour_path(root, pair, hour_start.date(), hour_start.hour)
+        atomic_write_parquet(
+            pl.DataFrame(schema={"ts_ms": pl.Int64, "bid": pl.Float64, "ask": pl.Float64, "mid": pl.Float64, "spread": pl.Float64}),
+            path, schema_name="fx_ticks_v1", params={"pair": pair},
+        )
+    monkeypatch.setattr("pipeline.fetch_fx.fetch_hour", fake_hour)
+    monkeypatch.setattr("pipeline.fetch_fx.time.sleep", fake_sleep)
+    n = fetch_fx_range(tmp_path, "EURUSD", date(2024, 1, 15), date(2024, 1, 15))
+    assert n == 24
+    assert calls["n"] == 24 + 2  # first hour failed twice, then all 24 written
+    assert sleeps == [45.0, 90.0]
+    # The failed hour was not cached as empty before it finally wrote.
+    from pipeline.paths import fx_hour_path as pth
+    assert pth(tmp_path, "EURUSD", date(2024, 1, 15), 0).exists()
