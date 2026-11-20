@@ -1,17 +1,16 @@
 # ml_systems
 
-The live tree is a crypto data pipeline. Everything that used to sit at the repository root — the old crypto system, games, harness, forex, and Claude project config — is a read-only snapshot in [`ml_systems_v1/`](ml_systems_v1/README.md).
+The live tree is one data pipeline for crypto and FX. The previous crypto system, games, harness, forex, and Claude project config are a read-only snapshot in [`ml_systems_v1/`](ml_systems_v1/README.md).
 
 ```
-crypto/src/pipeline/     the pipeline package
-crypto/docs/DATA_CONTRACT.md
-crypto/config/           U10/U50/U100 universes and listing dates
-crypto/data/             pipeline output (gitignored)
-crypto/runs/             run output (gitignored)
-scripts/pre_commit_guard.py
+pipeline/          flat package: fetch, bars, features, dataset, validate, one CLI
+config/            pipeline.yaml and asset listing dates
+docs/              DATA_CONTRACT.md, STRATEGY_LAYER.md
+tests/             offline tests, plus network smokes that are skipped by default
+scripts/           pre-commit guard
 ```
 
-`games/` and `harness/` are only in the snapshot.
+`data/` and `runs/` are created when a command writes them. They are gitignored. There is no `crypto/` tree and no empty skeleton directories.
 
 ## Setup
 
@@ -20,11 +19,12 @@ Python 3.12 or 3.13. Do not install `numpy==1.26` (it does not build on 3.13).
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r crypto/src/pipeline/requirements.txt
-export PYTHONPATH=crypto/src
+pip install -r requirements.txt
 ```
 
-Install the pre-commit guard (large files over 5 MB, and `.parquet` / `.pkl` / `.pt` / `.npz` and the same family). It does not run the old CDAP audit.
+From the repository root, `python -m pipeline.cli` works without `PYTHONPATH`.
+
+Install the pre-commit guard (files over 5 MB, and `.parquet` / `.pkl` / `.pt` / `.npz` and the same family). It does not run the old CDAP audit.
 
 ```bash
 sh scripts/install_pre_commit.sh
@@ -33,30 +33,48 @@ sh scripts/install_pre_commit.sh
 ## Tests and commands
 
 ```bash
-PYTHONPATH=crypto/src python -m pytest crypto/src/pipeline/tests -q -m 'not network'
-PYTHONPATH=crypto/src python -m pipeline.cli --help
+python -m pytest tests -q -m 'not network'
+python -m pipeline.cli --help
 ```
 
-Smoke (a few days of BTC from Binance Vision):
+Crypto smoke (a few days of BTC from Binance Vision):
 
 ```bash
-PYTHONPATH=crypto/src python -m pipeline.cli run \
+python -m pipeline.cli run \
+  --market crypto \
   --start 2026-10-01 --end 2026-10-03 \
   --assets BTCUSDT \
   --stages fetch,bars,features,dataset,validate \
   --bar-types time_1m,time_1h,time_1d,dollar
 ```
 
+FX smoke (one pair, one day, Dukascopy). The feed throttles; hours already on disk are skipped.
+
+```bash
+python -m pipeline.cli run \
+  --market fx \
+  --start 2024-01-16 --end 2024-01-16 \
+  --assets EURUSD \
+  --stages fetch,bars,features,dataset,validate \
+  --bar-types time_1m,time_1h
+```
+
 Full U10 rebuild (large download; the builder streams one day at a time):
 
 ```bash
-PYTHONPATH=crypto/src python -m pipeline.cli run \
+python -m pipeline.cli run \
+  --market crypto \
   --start 2020-01-01 --end 2026-11-18 \
   --universe u10 \
   --stages fetch,bars,features,dataset,validate \
   --bar-types time_1m,time_5m,time_15m,time_1h,time_4h,time_1d,dollar
 ```
 
-Output goes to `crypto/data/pipeline/`. Read it with `pipeline.dataset.loader.load_gold`. Details are in [`crypto/src/pipeline/README.md`](crypto/src/pipeline/README.md).
+Output goes to `data/`. Read it with `load_gold` in `pipeline/dataset.py`. The contract is [`docs/DATA_CONTRACT.md`](docs/DATA_CONTRACT.md). Strategy research, with no strategy code yet, is [`docs/STRATEGY_LAYER.md`](docs/STRATEGY_LAYER.md).
 
-Optional network test: `PIPELINE_V2_NETWORK=1 PYTHONPATH=crypto/src python -m pytest crypto/src/pipeline/tests/test_network_smoke.py -q`.
+Network tests, both off by default:
+
+```bash
+PIPELINE_V2_NETWORK=1 python -m pytest tests/test_network_smoke.py -q
+PIPELINE_FX_NETWORK=1 python -m pytest tests/test_fx_smoke.py -q
+```

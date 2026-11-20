@@ -1,0 +1,863 @@
+windows:
+  version: windows_v1
+  z: 200
+  fast: 20
+  vol_cluster: 50
+  frac_diff: 1000
+  frac_diff_d: 0.4
+  hurst: 200
+  kurtosis: 50
+  efficiency: 10
+  perm_entropy: 100
+  perm_m: 3
+  kyle: 50
+  yz: 20
+  cs_block: 10
+  funding_mom: 30
+  hawkes_span: 20
+  ma: 200
+  horizons:
+  - 1
+  - 4
+  - 16
+  - 64
+  calendar_floor_days: 7
+  max_lookback_days: 90
+splits:
+  version: splits_v1
+  train_end: '2023-07-01'
+  val_end: '2024-05-15'
+  oos_end: '2025-03-15'
+  unseen_start: '2025-03-15'
+  live_start: '2025-09-03'
+lags:
+  version: lags_v1
+  day_ms: 86400000
+  families:
+    trades: 0
+    time_bars: 0
+    dollar_bars: 0
+    funding: 0
+    open_interest: 300000
+    daily_panel: 86400000
+    wikipedia: 86400000
+    etf: 86400000
+    defillama: 86400000
+    deribit: 86400000
+    whale: 86400000
+    liq_proxy: 86400000
+    realized_vol: 86400000
+    hawkes_daily: 86400000
+    basis: 86400000
+    metrics_daily: 86400000
+dollar_thresholds:
+  version: dollar_thresholds_v1
+  calibration: TODO
+  assets:
+    BTCUSDT: 2000000
+    ETHUSDT: 700000
+    SOLUSDT: 200000
+    BNBUSDT: 300000
+    XRPUSDT: 350000
+    DOGEUSDT: 400000
+    ADAUSDT: 100000
+    AVAXUSDT: 80000
+    LINKUSDT: 70000
+    LTCUSDT: 50000
+  tick_trades_per_bar:
+    BTCUSDT: 5000
+    ETHUSDT: 4000
+    SOLUSDT: 3000
+    BNBUSDT: 2500
+    XRPUSDT: 2500
+    DOGEUSDT: 2500
+    ADAUSDT: 2000
+    AVAXUSDT: 2000
+    LINKUSDT: 2000
+    LTCUSDT: 2000
+    default: 2000
+  volume_base_qty_per_bar:
+    BTCUSDT: 5
+    ETHUSDT: 50
+    SOLUSDT: 500
+    BNBUSDT: 100
+    XRPUSDT: 20000
+    DOGEUSDT: 200000
+    ADAUSDT: 50000
+    AVAXUSDT: 2000
+    LINKUSDT: 2000
+    LTCUSDT: 200
+    default: 1000
+daily_thresholds:
+  version: daily_thresholds_v1
+  whale_usd:
+    BTCUSDT:
+    - 500000
+    - 1000000
+    ETHUSDT:
+    - 250000
+    - 500000
+    SOLUSDT:
+    - 100000
+    - 250000
+    BNBUSDT:
+    - 100000
+    - 250000
+    XRPUSDT:
+    - 50000
+    - 100000
+    DOGEUSDT:
+    - 50000
+    - 100000
+    ADAUSDT:
+    - 50000
+    - 100000
+    AVAXUSDT:
+    - 50000
+    - 100000
+    LINKUSDT:
+    - 50000
+    - 100000
+    LTCUSDT:
+    - 50000
+    - 100000
+    default:
+    - 50000
+    - 100000
+  liq_proxy_usd:
+    BTCUSDT: 100000
+    ETHUSDT: 50000
+    SOLUSDT: 25000
+    BNBUSDT: 30000
+    XRPUSDT: 15000
+    DOGEUSDT: 10000
+    ADAUSDT: 10000
+    AVAXUSDT: 10000
+    LINKUSDT: 10000
+    LTCUSDT: 10000
+    default: 10000
+universes:
+  u10:
+    name: u10
+    description: Core 10 assets, deep liquidity. Default for WM training and ranker
+      baselines.
+    n_assets: 10
+    liquidity_floor_usd_per_day: 100000000
+    history_floor_days: 1095
+    assets:
+    - symbol: BTCUSDT
+      dna: BLUE
+      pos_cap: 0.08
+      kelly_frac: 0.5
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 1184040048
+    - symbol: ETHUSDT
+      dna: BLUE
+      pos_cap: 0.08
+      kelly_frac: 0.5
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 617045999
+    - symbol: SOLUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 219673349
+    - symbol: BNBUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 64199723
+    - symbol: XRPUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 121449677
+    - symbol: DOGEUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 68003919
+    - symbol: ADAUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 30750828
+    - symbol: AVAXUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 20448324
+    - symbol: LINKUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 23064946
+    - symbol: LTCUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 13799081
+  u50:
+    name: u50
+    description: 50 assets, liquidity-audited. Production deployable universe.
+    n_assets: 50
+    liquidity_floor_usd_per_day: 3000000
+    history_floor_days: 180
+    parent: u10
+    assets:
+    - symbol: BTCUSDT
+      dna: BLUE
+      pos_cap: 0.08
+      kelly_frac: 0.5
+      tier: A
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 1184040048
+    - symbol: ETHUSDT
+      dna: BLUE
+      pos_cap: 0.08
+      kelly_frac: 0.5
+      tier: A
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 617045999
+    - symbol: SOLUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: A
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 219673349
+    - symbol: XRPUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: A
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 121449677
+    - symbol: BNBUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: A
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 64199723
+    - symbol: DOGEUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: A
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 68003919
+    - symbol: ZECUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: A
+      liquidity_tier: TIER_B
+      median_dollar_vol_30d: 68145131
+    - symbol: TRXUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: A
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 34347273
+    - symbol: PEPEUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: A
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 32251188
+    - symbol: ADAUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: A
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 30750828
+    - symbol: LINKUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: A
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 23064946
+    - symbol: SUIUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: A
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 23323552
+    - symbol: AVAXUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: A
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 20448324
+    - symbol: TAOUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: A
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 39574010
+    - symbol: FETUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: B
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 13589386
+    - symbol: ENJUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 6864047
+    - symbol: ORDIUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 1160122
+    - symbol: NEARUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 13548135
+    - symbol: WLDUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: B
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 10829585
+    - symbol: ENAUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 12528865
+    - symbol: LTCUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: B
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 13799081
+    - symbol: AAVEUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 12459938
+    - symbol: DASHUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 7889397
+    - symbol: UNIUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 8552561
+    - symbol: BCHUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 7229481
+    - symbol: PENGUUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 9315674
+    - symbol: DOTUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 6920292
+    - symbol: TONUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: B
+      liquidity_tier: TIER_C
+      median_dollar_vol_30d: 10751245
+    - symbol: APTUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 6160614
+    - symbol: FILUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 5604068
+    - symbol: RENDERUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 6082809
+    - symbol: HBARUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 6990003
+    - symbol: ARBUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 5840577
+    - symbol: TRUMPUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 8919493
+    - symbol: TREEUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 1874143
+    - symbol: SHIBUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 5412183
+    - symbol: ALGOUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4707376
+    - symbol: BONKUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4960989
+    - symbol: WIFUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4241411
+    - symbol: ICPUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3974898
+    - symbol: SEIUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3989105
+    - symbol: JSTUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3096838
+    - symbol: CRVUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3845567
+    - symbol: BLURUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2138115
+    - symbol: LDOUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3365857
+    - symbol: OPUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2969848
+    - symbol: ETCUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2399852
+    - symbol: SUPERUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: C
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 1204715
+  u100:
+    name: u100
+    description: Extended 100-asset target universe (currently 70 with data; 30 pending
+      fetch).
+    n_assets_target: 100
+    n_assets_current: 70
+    liquidity_floor_usd_per_day: 1000000
+    history_floor_days: 90
+    parent: u50
+    inherit_from: u50
+    extra_assets:
+    - symbol: POLUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4561607
+    - symbol: TIAUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2173615
+    - symbol: XLMUSDT
+      dna: STEADY
+      pos_cap: 0.06
+      kelly_frac: 0.4
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 6888234
+    - symbol: EIGENUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2159230
+    - symbol: ONDOUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4890762
+    - symbol: DYDXUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2586188
+    - symbol: FLOKIUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2183637
+    - symbol: CHZUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4707512
+    - symbol: ARUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2221464
+    - symbol: ZROUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3956173
+    - symbol: ARKMUSDT
+      dna: DEGEN
+      pos_cap: 0.02
+      kelly_frac: 0.2
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 1489318
+    - symbol: DEXEUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3009668
+    - symbol: ATOMUSDT
+      dna: STEADY
+      pos_cap: 0.05
+      kelly_frac: 0.35
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 1866307
+    - symbol: INJUSDT
+      dna: STEADY
+      pos_cap: 0.05
+      kelly_frac: 0.35
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2437820
+    - symbol: ZENUSDT
+      dna: STEADY
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3265961
+    - symbol: MOVRUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 1156109
+    - symbol: PROMUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 1154118
+    - symbol: VIRTUALUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4917082
+    - symbol: NEIROUSDT
+      dna: DEGEN
+      pos_cap: 0.025
+      kelly_frac: 0.25
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 2945590
+    - symbol: PNUTUSDT
+      dna: DEGEN
+      pos_cap: 0.025
+      kelly_frac: 0.25
+      tier: C
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 1541875
+    - symbol: BIOUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 3665798
+    - symbol: DUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4825388
+    - symbol: XPLUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 8253865
+    - symbol: XUSDUSDT
+      dna: STEADY
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 6201320
+    - symbol: WLFIUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 5607432
+    - symbol: ASTERUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 8294986
+    - symbol: GIGGLEUSDT
+      dna: DEGEN
+      pos_cap: 0.025
+      kelly_frac: 0.25
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 9231561
+    - symbol: PLUMEUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4556477
+    - symbol: ZBTUSDT
+      dna: VOLATILE
+      pos_cap: 0.04
+      kelly_frac: 0.3
+      tier: B
+      status: ready
+      liquidity_tier: EVENT_ONLY
+      median_dollar_vol_30d: 4151874
+    excluded_assets:
+    - NOMUSDT
+    - ONTUSDT
+    - STOUSDT
+    - GUSDT
+    - UUSDT
+    - KITEUSDT
+    - KATUSDT
+    - BARDUSDT
+    - NIGHTUSDT
+    - SKYUSDT
+    - TWTUSDT
+    - KERNELUSDT
+    - SPKUSDT
+    - SAPIENUSDT
+    - GUNUSDT
+    - GTCUSDT
+    - QIUSDT
+    - API3USDT
+    - WUSDT
+    - 1000SATSUSDT
+    - HIGHUSDT
+    - ALICEUSDT
+    - RSRUSDT
+    - SAGAUSDT
+    - BOMEUSDT
+    - PHBUSDT
+    - AUDIOUSDT
+    - MOVEUSDT
+    - MEMEUSDT
+    - RAREUSDT
+    - DOGSUSDT
+    - UTKUSDT
+  majors:
+    market: fx
+    assets:
+    - symbol: EURUSD
+      dna: MAJOR
+    - symbol: GBPUSD
+      dna: MAJOR
+    - symbol: USDJPY
+      dna: MAJOR
+    - symbol: AUDUSD
+      dna: MAJOR
+    - symbol: NZDUSD
+      dna: MAJOR
+    - symbol: USDCAD
+      dna: MAJOR
+    - symbol: USDCHF
+      dna: MAJOR
+fx:
+  default_universe: majors
+  majors:
+  - EURUSD
+  - GBPUSD
+  - USDJPY
+  - AUDUSD
+  - NZDUSD
+  - USDCAD
+  - USDCHF
+  crosses: []
+  price_divisor:
+    default: 100000
+    jpy: 1000
+  pip:
+    default: 0.0001
+    jpy: 0.01
+  min_interval_s: 0.35
+  max_retries: 6

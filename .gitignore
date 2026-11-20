@@ -1,6 +1,7 @@
 # New root. The pre-rebuild project is ml_systems_v1/ and keeps the
 # rules below, rewritten so ignored data stays ignored under that folder.
 __pycache__/
+.pytest_cache/
 *.py[cod]
 *.egg-info/
 .venv/
@@ -19,13 +20,9 @@ Thumbs.db
 *.npy
 *.bin
 
-# New pipeline working directories.
+# New pipeline working directories. Created at runtime, not committed.
 /data/
 /runs/
-/crypto/data/*
-!/crypto/data/.gitkeep
-/crypto/runs/*
-!/crypto/runs/.gitkeep
 
 # ---------------------------------------------------------------------------
 # Archived tree. Each path-specific rule from the pre-rebuild gitignore is
