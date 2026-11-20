@@ -42,3 +42,12 @@ def parse_symbol_list(items: list[str] | None) -> list[str]:
             seen.add(s)
             uniq.append(s)
     return uniq
+
+
+def canonical_instrument(raw: str) -> str:
+    """FX pairs stay six letters. Crypto symbols gain the USDT suffix."""
+    s = raw.strip().upper().replace(" ", "").replace("/", "").replace("-", "").replace("_", "")
+    if len(s) == 6 and s.isalpha() and not s.endswith("USDT"):
+        return canonical_fx_symbol(raw)
+    return canonical_symbol(raw)
+

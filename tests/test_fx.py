@@ -204,3 +204,32 @@ def test_offline_fx_run_reconciles(tmp_path):
     assert DukascopySource(["eur/usd"]).calendar() == "fx_week"
     assert BinanceVisionSource(["BTC"]).calendar() == "24/7"
     assert DukascopySource(["EURUSD"]).list_instruments() == ["EURUSD"]
+def test_fx_coarse_bars_use_clock_open_when_minutes_are_missing():
+    # Ticks only in the last 10 minutes of the 13:00 UTC hour.
+    close = int(_hour(2024, 1, 15, 14).timestamp() * 1000)
+    ticks = pl.DataFrame({
+        "ts_ms": [close - 600_000, close - 120_000, close],
+        "bid": [1.10, 1.11, 1.12],
+        "ask": [1.10, 1.11, 1.12],
+        "mid": [1.10, 1.11, 1.12],
+        "spread": [0.0, 0.0, 0.0],
+    })
+    ladder = build_fx_ladder(ticks, "EURUSD", ["time_1m", "time_1h"])
+    hour = ladder["time_1h"]
+    assert hour.height == 1
+    assert hour["ts_ms"][0] == close
+    assert hour["ts_open_ms"][0] == close - 3_600_000
+    assert hour["open"][0] == 1.10
+    assert hour["close"][0] == 1.12
+    assert hour["n_trades"][0] == 3
+def test_fx_weekend_gap_follows_new_york_close():
+    from pipeline.orchestrator import _fx_weekday_gaps
+    # Friday 16:30 New York is still open in winter (21:30 UTC) and already
+    # closed in summer (20:30 UTC). The filter must follow the zone, not a
+    # fixed 21:00 UTC cut.
+    winter = int(datetime(2024, 1, 12, 21, 30, tzinfo=timezone.utc).timestamp() * 1000)
+    summer = int(datetime(2024, 7, 12, 21, 30, tzinfo=timezone.utc).timestamp() * 1000)
+    monday = int(datetime(2024, 1, 15, 12, 0, tzinfo=timezone.utc).timestamp() * 1000)
+    assert _fx_weekday_gaps([winter]) == [winter]
+    assert _fx_weekday_gaps([summer]) == []
+    assert _fx_weekday_gaps([monday]) == [monday]

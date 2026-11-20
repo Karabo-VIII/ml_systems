@@ -428,9 +428,9 @@ Empty hours (weekends, no prints) are cached as an empty parquet. HTTP 503, 429,
 
 ### Universe and bars
 
-Default universe `majors`: EURUSD, GBPUSD, USDJPY, AUDUSD, NZDUSD, USDCAD, USDCHF. Crosses are not in that list. Add them under `fx.crosses` and pass `--assets`, or add a universe entry with `market: fx`. Time bars are the same clock as crypto: 1m aggregated to 5m, 15m, 1h, 4h, 1d, right-closed, labelled at `ts_ms = t_close`. Dollar, tick, and volume bars are not built for FX.
+Default universe `majors`: EURUSD, GBPUSD, USDJPY, AUDUSD, NZDUSD, USDCAD, USDCHF. Crosses are not in that list. Add them under `fx.crosses` and pass `--assets`, or add a universe entry with `market: fx`. Time bars are the same clock as crypto: 1m aggregated to 5m, 15m, 1h, 4h, 1d, right-closed, labelled at `ts_ms = t_close`. A coarser bar uses the clock window `ts_open_ms = ts_ms - width`, even when some minutes inside the bucket are missing. Dollar, tick, and volume bars are not built for FX.
 
-The Friday–Sunday close is the calendar. Missing 1-minute stamps that fall on Saturday, on Sunday before 22:00 UTC, or on Friday from 21:00 UTC, are not data-gap failures. Those bounds cover the 17:00 New York close in both EST and EDT. A hole inside the week still counts.
+The Friday–Sunday close is the calendar. Missing 1-minute stamps that fall on Saturday, or on Friday after / Sunday before 17:00 America/New_York, are not data-gap failures. The bound follows US daylight-saving time. A hole inside the week still counts.
 
 ### Features
 

@@ -179,7 +179,7 @@ from pathlib import Path
 import polars as pl
 
 from pipeline.paths import default_data_root
-from pipeline.symbols import canonical_symbol
+from pipeline.symbols import canonical_instrument, canonical_symbol
 
 
 def gold_dir(root: Path, bar_type: str) -> Path:
@@ -187,7 +187,7 @@ def gold_dir(root: Path, bar_type: str) -> Path:
 
 
 def latest_gold_path(root: Path, asset: str, bar_type: str) -> Path | None:
-    asset = canonical_symbol(asset)
+    asset = canonical_instrument(asset)
     directory = gold_dir(root, bar_type)
     if not directory.exists():
         return None
@@ -211,8 +211,8 @@ def load_gold(
     path = latest_gold_path(root, asset, bar_type)
     if path is None:
         raise FileNotFoundError(
-            f"no v2 gold for {canonical_symbol(asset)} {bar_type} under {root / 'gold'}. "
-            f"Build it with: python -m pipeline.cli run --assets {canonical_symbol(asset)} "
+            f"no v2 gold for {canonical_instrument(asset)} {bar_type} under {root / 'gold'}. "
+            f"Build it with: python -m pipeline.cli run --assets {canonical_instrument(asset)} "
             f"--bar-types {bar_type}"
         )
     df = pl.read_parquet(path)

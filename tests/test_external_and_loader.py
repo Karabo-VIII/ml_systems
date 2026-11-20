@@ -124,3 +124,20 @@ def test_farside_btc_and_eth_tables_concat():
     assert out.schema["etf_ibit"] == pl.Float64
     assert out.schema["etf_etha"] == pl.Float64
 
+
+def test_gold_loader_accepts_fx_pairs(tmp_path):
+    from pipeline.dataset import load_gold, latest_gold_path
+    from pipeline.symbols import canonical_instrument
+
+    assert canonical_instrument("eur/usd") == "EURUSD"
+    assert canonical_instrument("BTC") == "BTCUSDT"
+    folder = tmp_path / "gold" / "time_1h"
+    folder.mkdir(parents=True)
+    path = folder / "EURUSD_20240115.parquet"
+    frame = pl.DataFrame({
+        "asset": ["EURUSD"], "bar_type": ["time_1h"], "ts_ms": [1], "close": [1.1],
+    })
+    atomic_write_parquet(frame, path, schema_name="dataset_v1", params={"v": 1}, sort_cols=["ts_ms"])
+    assert latest_gold_path(tmp_path, "EUR/USD", "time_1h") == path
+    loaded = load_gold("EURUSD", "time_1h", root=tmp_path)
+    assert loaded["close"][0] == 1.1

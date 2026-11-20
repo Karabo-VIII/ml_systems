@@ -494,8 +494,10 @@ def fx_bars_to_time(bars_1m: pl.DataFrame, width_ms: int, asset: str, bar_type: 
             / pl.col("n_trades").sum()
         ).alias("spread_mean"),
         pl.col("spread_max").max().alias("spread_max"),
-        pl.col("ts_open_ms").min().alias("ts_open_ms"),
-    ]).with_columns(pl.col("_close").alias("ts_ms")).drop("_close")
+    ]).with_columns([
+        (pl.col("_close") - width_ms).alias("ts_open_ms"),
+        pl.col("_close").alias("ts_ms"),
+    ]).drop("_close")
     return finalize(grouped, asset, bar_type)
 
 

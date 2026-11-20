@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 import polars as pl
@@ -519,15 +520,19 @@ def run(cfg: RunConfig) -> int:
 
 
 def _fx_weekday_gaps(missing: list[int]) -> list[int]:
-    """The Friday-Sunday close is the FX calendar, not a missing-data hole."""
+    """The Friday-Sunday close is the FX calendar, not a missing-data hole.
+
+    Close and reopen are 17:00 America/New_York, so the UTC hour follows US DST.
+    """
+    ny = ZoneInfo("America/New_York")
     kept = []
     for ts in missing:
-        dt = datetime.fromtimestamp(ts / 1000.0, tz=timezone.utc)
+        dt = datetime.fromtimestamp(ts / 1000.0, tz=timezone.utc).astimezone(ny)
         if dt.weekday() == 5:
             continue
-        if dt.weekday() == 6 and dt.hour < 22:
+        if dt.weekday() == 6 and (dt.hour, dt.minute) < (17, 0):
             continue
-        if dt.weekday() == 4 and dt.hour >= 21:
+        if dt.weekday() == 4 and (dt.hour, dt.minute) >= (17, 0):
             continue
         kept.append(ts)
     return kept
