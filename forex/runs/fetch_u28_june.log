@@ -1,0 +1,63 @@
+[fetch] source=dukascopy
+[fetch] universe: u28 (28 pairs)
+[fetch] dispatching 28 tasks (mode=thread, workers=10)
+  [fetch 1/28] EURUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 2/28] USDJPY  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 4/28] AUDUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 3/28] GBPUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 5/28] USDCAD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 7/28] NZDUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 6/28] USDCHF  ok  written=0 skipped=26 closed=4 ticks=0
+  [dukascopy] EURCAD 2026-06-15 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURCAD/2026/05/15/12h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPAUD 2026-06-15 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPAUD/2026/05/15/12h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURCAD 2026-06-16 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURCAD/2026/05/16/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPAUD 2026-06-16 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPAUD/2026/05/16/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURCAD 2026-06-17 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURCAD/2026/05/17/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPAUD 2026-06-17 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPAUD/2026/05/17/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURCAD 2026-06-18 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURCAD/2026/05/18/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPAUD 2026-06-18 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPAUD/2026/05/18/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURAUD 2026-06-10 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURAUD/2026/05/10/15h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] EURJPY 2026-06-10 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURJPY/2026/05/10/18h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPJPY 2026-06-15 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPJPY/2026/05/15/20h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPCHF 2026-06-15 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPCHF/2026/05/15/23h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 16/28] GBPAUD  ok  written=22 skipped=0 closed=4 ticks=2739427
+  [fetch 12/28] EURCAD  ok  written=22 skipped=0 closed=4 ticks=2078846
+  [dukascopy] EURAUD 2026-06-25 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURAUD/2026/05/25/13h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURAUD 2026-06-26 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURAUD/2026/05/26/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURAUD 2026-06-28 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURAUD/2026/05/28/04h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 13/28] EURNZD  ok  written=26 skipped=0 closed=4 ticks=2668133
+  [fetch 10/28] EURCHF  ok  written=26 skipped=0 closed=4 ticks=1426797
+  [dukascopy] EURGBP 2026-06-30 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURGBP/2026/05/30/22h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 8/28] EURGBP  ok  written=25 skipped=0 closed=4 ticks=1177343
+  [fetch 14/28] GBPJPY  ok  written=25 skipped=0 closed=4 ticks=2688793
+  [fetch 17/28] GBPCAD  ok  written=26 skipped=0 closed=4 ticks=3103175
+  [dukascopy] AUDJPY 2026-06-16 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/AUDJPY/2026/05/16/07h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURJPY 2026-06-17 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURJPY/2026/05/17/17h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 15/28] GBPCHF  ok  written=25 skipped=0 closed=4 ticks=2586369
+  [dukascopy] GBPNZD 2026-06-07 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPNZD/2026/05/07/19h_ticks.bi5 (Caused by ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')))
+  [fetch 11/28] EURAUD  ok  written=22 skipped=0 closed=4 ticks=3250045
+  [dukascopy] CADJPY 2026-06-07 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/CADJPY/2026/05/07/04h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] CADJPY 2026-06-08 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/CADJPY/2026/05/08/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 19/28] AUDJPY  ok  written=25 skipped=0 closed=4 ticks=2440800
+  [dukascopy] NZDJPY 2026-06-02 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/NZDJPY/2026/05/02/10h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] NZDJPY 2026-06-03 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/NZDJPY/2026/05/03/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] NZDJPY 2026-06-04 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/NZDJPY/2026/05/04/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 9/28] EURJPY  ok  written=24 skipped=0 closed=4 ticks=3052538
+  [dukascopy] XAUUSD 2026-06-05 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XAUUSD/2026/05/05/04h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] AUDCAD 2026-06-30 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/AUDCAD/2026/05/30/02h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 24/28] AUDCAD  ok  written=25 skipped=0 closed=4 ticks=1818684
+  [dukascopy] NZDJPY 2026-06-05 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/NZDJPY/2026/05/05/17h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 25/28] CADCHF  ok  written=26 skipped=0 closed=4 ticks=688839
+  [fetch 23/28] AUDNZD  ok  written=26 skipped=0 closed=4 ticks=2274559
+  [fetch 20/28] CADJPY  ok  written=24 skipped=0 closed=4 ticks=1441377
+  [dukascopy] CHFJPY 2026-06-17 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/CHFJPY/2026/05/17/13h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] CHFJPY 2026-06-18 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/CHFJPY/2026/05/18/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] CHFJPY 2026-06-19 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/CHFJPY/2026/05/19/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 18/28] GBPNZD  ok  written=25 skipped=0 closed=4 ticks=2129409
+  [fetch 27/28] XAUUSD  ok  written=25 skipped=0 closed=4 ticks=7776760
+  [fetch 28/28] XAGUSD  ok  written=26 skipped=0 closed=4 ticks=8512823
+  [fetch 21/28] CHFJPY  ok  written=23 skipped=0 closed=4 ticks=1940983
+  [fetch 26/28] NZDCAD  ok  written=26 skipped=0 closed=4 ticks=1268618
+  [fetch 22/28] NZDJPY  ok  written=22 skipped=0 closed=4 ticks=1521254
+[fetch] done: 28 ok / 0 err / 28 total
+[fetch] DONE.

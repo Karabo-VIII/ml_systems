@@ -1,0 +1,112 @@
+[fetch] source=dukascopy
+[fetch] universe: u52 (52 pairs)
+[fetch] dispatching 52 tasks (mode=thread, workers=12)
+  [fetch 3/52] GBPUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 1/52] EURUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 2/52] USDJPY  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 5/52] USDCAD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 4/52] AUDUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 6/52] USDCHF  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 7/52] NZDUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 10/52] EURCHF  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 17/52] GBPCAD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 13/52] EURNZD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 19/52] AUDJPY  ok  written=1 skipped=25 closed=4 ticks=81113
+  [fetch 23/52] AUDNZD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 18/52] GBPNZD  ok  written=1 skipped=25 closed=4 ticks=4864
+  [fetch 25/52] CADCHF  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 26/52] NZDCAD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 15/52] GBPCHF  ok  written=1 skipped=25 closed=4 ticks=110211
+  [fetch 28/52] XAGUSD  ok  written=0 skipped=26 closed=4 ticks=0
+  [fetch 8/52] EURGBP  ok  written=1 skipped=25 closed=4 ticks=56064
+  [fetch 14/52] GBPJPY  ok  written=1 skipped=25 closed=4 ticks=105647
+  [fetch 24/52] AUDCAD  ok  written=1 skipped=25 closed=4 ticks=94800
+  [fetch 20/52] CADJPY  ok  written=2 skipped=24 closed=4 ticks=88474
+  [fetch 9/52] EURJPY  ok  written=2 skipped=24 closed=4 ticks=330146
+  [fetch 27/52] XAUUSD  ok  written=1 skipped=25 closed=4 ticks=424646
+  [fetch 21/52] CHFJPY  ok  written=3 skipped=23 closed=4 ticks=336780
+  [fetch 11/52] EURAUD  ok  written=4 skipped=22 closed=4 ticks=641667
+  [fetch 22/52] NZDJPY  ok  written=4 skipped=22 closed=4 ticks=287609
+  [fetch 12/52] EURCAD  ok  written=4 skipped=22 closed=4 ticks=464958
+  [fetch 16/52] GBPAUD  ok  written=4 skipped=22 closed=4 ticks=526357
+  [fetch 29/52] USDTRY  ok  written=25 skipped=0 closed=5 ticks=186522
+  [fetch 33/52] USDHKD  ok  written=26 skipped=0 closed=4 ticks=222647
+  [fetch 32/52] USDSGD  ok  written=26 skipped=0 closed=4 ticks=1025491
+  [fetch 31/52] USDMXN  ok  written=26 skipped=0 closed=4 ticks=4514320
+  [fetch 35/52] USDSEK  ok  written=26 skipped=0 closed=4 ticks=2505673
+  [fetch 30/52] USDZAR  ok  written=26 skipped=0 closed=4 ticks=6948156
+  [fetch 34/52] USDNOK  ok  written=26 skipped=0 closed=4 ticks=2903981
+  [fetch 36/52] USDPLN  ok  written=26 skipped=0 closed=4 ticks=2007703
+  [fetch 40/52] USDTHB  ok  written=22 skipped=0 closed=8 ticks=300565
+  [fetch 37/52] USDHUF  ok  written=26 skipped=0 closed=4 ticks=1862469
+  [fetch 39/52] USDCNH  ok  written=26 skipped=0 closed=4 ticks=1900156
+  [fetch 38/52] USDCZK  ok  written=26 skipped=0 closed=4 ticks=2980514
+  [dukascopy] EURTRY 2026-06-05 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURTRY/2026/05/05/04h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURTRY 2026-06-07 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURTRY/2026/05/07/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURTRY 2026-06-08 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURTRY/2026/05/08/01h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURTRY 2026-06-09 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURTRY/2026/05/09/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURHUF 2026-06-05 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURHUF/2026/05/05/06h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURCZK 2026-06-05 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURCZK/2026/05/05/08h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] EURPLN 2026-06-05 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURPLN/2026/05/05/11h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURPLN 2026-06-07 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURPLN/2026/05/07/01h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURPLN 2026-06-08 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURPLN/2026/05/08/00h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] EURZAR 2026-06-05 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/05/17h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] XPTUSD 2026-06-05 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/05/16h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURHUF 2026-06-07 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURHUF/2026/05/07/11h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURZAR 2026-06-07 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/07/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURHUF 2026-06-08 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURHUF/2026/05/08/02h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] XPTUSD 2026-06-07 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/07/02h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURHUF 2026-06-09 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURHUF/2026/05/09/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURCZK 2026-06-07 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURCZK/2026/05/07/09h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURCZK 2026-06-08 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURCZK/2026/05/08/01h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURZAR 2026-06-08 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/08/04h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] XPTUSD 2026-06-08 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/08/02h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURZAR 2026-06-09 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/09/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] XPTUSD 2026-06-09 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/09/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURZAR 2026-06-10 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/10/01h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURZAR 2026-06-11 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/11/00h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] GBPNOK 2026-06-15 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPNOK/2026/05/15/16h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPNOK 2026-06-16 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPNOK/2026/05/16/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPNOK 2026-06-17 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPNOK/2026/05/17/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] GBPNOK 2026-06-18 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/GBPNOK/2026/05/18/02h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURPLN 2026-06-18 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURPLN/2026/05/18/11h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURPLN 2026-06-19 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURPLN/2026/05/19/00h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] EURPLN 2026-06-25 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURPLN/2026/05/25/04h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] EURNOK 2026-06-25 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURNOK/2026/05/25/07h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURSEK 2026-06-25 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURSEK/2026/05/25/06h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURNOK 2026-06-26 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURNOK/2026/05/26/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURSEK 2026-06-26 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURSEK/2026/05/26/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURNOK 2026-06-28 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURNOK/2026/05/28/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURCZK 2026-06-23 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURCZK/2026/05/23/13h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] EURSEK 2026-06-28 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURSEK/2026/05/28/01h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURNOK 2026-06-29 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURNOK/2026/05/29/01h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [fetch 42/52] EURPLN  ok  written=20 skipped=0 closed=4 ticks=620910
+  [dukascopy] EURZAR 2026-06-22 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/22/15h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] XPTUSD 2026-06-19 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/19/16h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURZAR 2026-06-23 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/23/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] XPTUSD 2026-06-21 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/21/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURTRY 2026-06-25 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURTRY/2026/05/25/06h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURNOK 2026-06-30 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURNOK/2026/05/30/01h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 43/52] EURNOK  ok  written=21 skipped=0 closed=4 ticks=2000999
+  [dukascopy] EURTRY 2026-06-26 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURTRY/2026/05/26/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURSEK 2026-06-29 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURSEK/2026/05/29/03h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] XPTUSD 2026-06-22 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/22/03h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 48/52] GBPNOK  ok  written=22 skipped=0 closed=4 ticks=611982
+  [fetch 52/52] XPDUSD  ok  written=0 skipped=0 closed=30 ticks=0
+  [dukascopy] XPTUSD 2026-06-23 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/23/02h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURSEK 2026-06-30 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURSEK/2026/05/30/03h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 44/52] EURSEK  ok  written=21 skipped=0 closed=4 ticks=1700942
+  [dukascopy] EURZAR 2026-06-24 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/24/05h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] XPTUSD 2026-06-24 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/24/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] EURHUF 2026-06-24 FAIL: ConnectionError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURHUF/2026/05/24/20h_ticks.bi5 (Caused by ReadTimeoutError("HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Read timed out. (read timeout=30)"))
+  [dukascopy] EURZAR 2026-06-25 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/EURZAR/2026/05/25/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [dukascopy] XPTUSD 2026-06-25 FAIL: RetryError: HTTPSConnectionPool(host='datafeed.dukascopy.com', port=443): Max retries exceeded with url: /datafeed/XPTUSD/2026/05/25/00h_ticks.bi5 (Caused by ResponseError('too many 503 error responses'))
+  [fetch 46/52] EURCZK  ok  written=22 skipped=0 closed=4 ticks=782561
+  [fetch 50/52] GBPPLN  ok  written=26 skipped=0 closed=4 ticks=484734
+  [fetch 45/52] EURHUF  ok  written=18 skipped=0 closed=7 ticks=1179532
+  [fetch 51/52] XPTUSD  ok  written=0 skipped=0 closed=20 ticks=0
+  [fetch 41/52] EURTRY  ok  written=19 skipped=0 closed=5 ticks=1896206
+  [fetch 47/52] EURZAR  ok  written=16 skipped=0 closed=4 ticks=482157
+  [fetch 49/52] GBPSEK  ok  written=26 skipped=0 closed=4 ticks=714288
+[fetch] done: 52 ok / 0 err / 52 total
+[fetch] DONE.
