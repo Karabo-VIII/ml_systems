@@ -1,0 +1,31 @@
+# Whale print thresholds (USD notional) and liquidation-proxy thresholds.
+# Ported from the v1 ingest tables. A count of zero means no print cleared
+# the threshold that day; it is not a stand-in for a missing feed.
+# Liquidations here are a proxy from large aggressive trades, not exchange
+# liquidation prints.
+version: daily_thresholds_v1
+whale_usd:
+  # (small, large). Features use the large print.
+  BTCUSDT: [500000, 1000000]
+  ETHUSDT: [250000, 500000]
+  SOLUSDT: [100000, 250000]
+  BNBUSDT: [100000, 250000]
+  XRPUSDT: [50000, 100000]
+  DOGEUSDT: [50000, 100000]
+  ADAUSDT: [50000, 100000]
+  AVAXUSDT: [50000, 100000]
+  LINKUSDT: [50000, 100000]
+  LTCUSDT: [50000, 100000]
+  default: [50000, 100000]
+liq_proxy_usd:
+  BTCUSDT: 100000
+  ETHUSDT: 50000
+  SOLUSDT: 25000
+  BNBUSDT: 30000
+  XRPUSDT: 15000
+  DOGEUSDT: 10000
+  ADAUSDT: 10000
+  AVAXUSDT: 10000
+  LINKUSDT: 10000
+  LTCUSDT: 10000
+  default: 10000

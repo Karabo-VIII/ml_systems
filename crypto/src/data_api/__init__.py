@@ -44,12 +44,28 @@ from pathlib import Path
 from typing import Optional
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-sys.path.insert(0, str(PROJECT_ROOT / "src" / "pipeline"))
+# v1 was moved to crypto/archive/pipeline_v1. This module still reads old gold
+# through that tree. New gold is produced by pipeline_v2; a cutover of this
+# loader is a separate change.
+_V1_ARCHIVE = PROJECT_ROOT / "archive" / "pipeline_v1"
 
 import polars as pl  # noqa: E402
 
-from chimera_loader import ChimeraLoader  # noqa: E402
-import layout as _layout  # noqa: E402
+
+def _load_v1():
+    """Import the archived v1 loader. Reference reads of old gold only."""
+    if not _V1_ARCHIVE.is_dir():
+        raise ImportError(
+            "pipeline v1 is archived at crypto/archive/pipeline_v1 and that "
+            "directory is missing. data_api reads old gold from there. "
+            "New datasets are built with python -m pipeline_v2.cli."
+        )
+    archive = str(_V1_ARCHIVE)
+    if archive not in sys.path:
+        sys.path.insert(0, archive)
+    from chimera_loader import ChimeraLoader
+    import layout as layout
+    return ChimeraLoader, layout
 
 # Re-export validation gate so consumers can run it inline.
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
@@ -64,6 +80,7 @@ except Exception:
 
 def _resolve_universe(universe: str) -> list[str]:
     """Return uppercase asset symbols (no USDT) for the requested universe."""
+    _load_v1()
     from universe_loader import UniverseLoader
     syms = UniverseLoader.load().list(universe)
     return [s.upper().replace("USDT", "") for s in syms]
@@ -92,6 +109,7 @@ def load_v51(asset: str, cadence: str = "dollar",
                 f"data_api.load_v51({asset_root}): pipeline gate failed: "
                 + "; ".join(r.message for r in failed)
             )
+    ChimeraLoader, _layout = _load_v1()
     loader = ChimeraLoader()
     df = loader.load(asset_root, cadence=cadence)
     if columns is not None:
@@ -149,7 +167,8 @@ def load_panel(panel_name: str) -> pl.DataFrame:
 
     Known panels: see config/feature_registry.yaml + config/asset_dag.yaml.
     """
-    p = _layout.panel_latest(panel_name)
+    _ChimeraLoader, layout = _load_v1()
+    p = layout.panel_latest(panel_name)
     if p is None or not p.exists():
         raise FileNotFoundError(
             f"data_api.load_panel({panel_name}): no file found. "

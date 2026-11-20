@@ -1,0 +1,44 @@
+# Fixed dollar-bar thresholds (USD notional per bar).
+# Source: crypto/config/data_config.yaml tier-1 table. Owner-changeable.
+# Causal trailing-median recalibration is a TODO and is not applied.
+version: dollar_thresholds_v1
+calibration: TODO
+assets:
+  BTCUSDT: 2000000
+  ETHUSDT: 700000
+  SOLUSDT: 200000
+  BNBUSDT: 300000
+  XRPUSDT: 350000
+  DOGEUSDT: 400000
+  ADAUSDT: 100000
+  AVAXUSDT: 80000
+  LINKUSDT: 70000
+  LTCUSDT: 50000
+
+# Optional fabrics. Not used unless --bar-types includes tick or volume.
+# Placeholders, not a calibrated table.
+tick_trades_per_bar:
+  BTCUSDT: 5000
+  ETHUSDT: 4000
+  SOLUSDT: 3000
+  BNBUSDT: 2500
+  XRPUSDT: 2500
+  DOGEUSDT: 2500
+  ADAUSDT: 2000
+  AVAXUSDT: 2000
+  LINKUSDT: 2000
+  LTCUSDT: 2000
+  default: 2000
+
+volume_base_qty_per_bar:
+  BTCUSDT: 5
+  ETHUSDT: 50
+  SOLUSDT: 500
+  BNBUSDT: 100
+  XRPUSDT: 20000
+  DOGEUSDT: 200000
+  ADAUSDT: 50000
+  AVAXUSDT: 2000
+  LINKUSDT: 2000
+  LTCUSDT: 200
+  default: 1000

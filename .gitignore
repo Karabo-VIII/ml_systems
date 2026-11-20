@@ -106,8 +106,11 @@ data/_dag_state.lock
 runs/*_log.txt
 runs/**/*.log
 
-# Local cleanup archive (de-bloat relocation target; on-disk only, never tracked)
-archive/
+# Local cleanup dumps stay untracked. The v1 pipeline source archive is the
+# exception: it is the git-mv of crypto/src/pipeline and must stay in history.
+archive/*
+!archive/pipeline_v1/
+!archive/pipeline_v1/**
 
 # ============================================================================
 # Defense-in-depth: catch-all binary patterns (NEVER commit large binaries)
