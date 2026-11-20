@@ -82,3 +82,45 @@ def test_gold_loader_reads_the_latest_file(tmp_path):
     )
     loaded = load_gold("btc", "time_1h", root=tmp_path)
     assert loaded["close"][0] == 11.0
+
+
+def test_farside_mixed_ints_and_floats_across_many_rows():
+    """Live Farside pages have integer-looking early rows and later floats (e.g. 18.0)."""
+    from datetime import date, timedelta
+
+    rows = ["<tr><th>Date</th><th>IBIT</th><th>FBTC</th><th>Total</th></tr>"]
+    start = date(2024, 1, 11)
+    for i in range(120):
+        day = start + timedelta(days=i)
+        # First 100 rows look like ints; later rows include a true float.
+        ibit = str(i) if i < 110 else "18.0"
+        fbtc = "-" if i < 5 else ("0" if i < 110 else "2.5")
+        total = f"{i}.0"
+        rows.append(f"<tr><td>{day.strftime('%d %b %Y')}</td><td>{ibit}</td><td>{fbtc}</td><td>{total}</td></tr>")
+    df = parse_farside_html("<table>" + "".join(rows) + "</table>", "BTC")
+    assert df.height == 120
+    assert df.schema["etf_ibit"] == pl.Float64
+    assert df.schema["etf_fbtc"] == pl.Float64
+    assert df.schema["etf_total_usdm"] == pl.Float64
+    assert df["etf_ibit"][-1] == 18.0
+    assert df["etf_fbtc"][-1] == 2.5
+    assert df["etf_fbtc"][0] is None
+
+
+def test_farside_btc_and_eth_tables_concat():
+    btc = parse_farside_html(
+        "<table><tr><th>Date</th><th>IBIT</th><th>Total</th></tr>"
+        "<tr><td>11 Jan 2024</td><td>10</td><td>10.5</td></tr></table>",
+        "BTC",
+    )
+    eth = parse_farside_html(
+        "<table><tr><th>Date</th><th>ETHA 0.25%</th><th>Total</th></tr>"
+        "<tr><td>11 Jan 2024</td><td>18.0</td><td>18.0</td></tr></table>",
+        "ETH",
+    )
+    out = pl.concat([btc, eth], how="diagonal_relaxed")
+    assert out.height == 2
+    assert set(out["asset"].to_list()) == {"BTCUSDT", "ETHUSDT"}
+    assert out.schema["etf_ibit"] == pl.Float64
+    assert out.schema["etf_etha"] == pl.Float64
+

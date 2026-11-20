@@ -111,7 +111,11 @@ def parse_farside_html(html: str, asset: str) -> pl.DataFrame:
         out.append(record)
     if not out:
         return pl.DataFrame(schema={"asset": pl.Utf8, "event_time_ms": pl.Int64, "etf_total_usdm": pl.Float64})
-    df = pl.DataFrame(out).sort("event_time_ms")
+    # Issuer columns mix ints, floats, and nulls across hundreds of rows.
+    # Default inference (first 100 rows) then fails when a later cell is 18.0.
+    value_cols = sorted({k for rec in out for k in rec if k not in {"asset", "event_time_ms"}})
+    schema = {"asset": pl.Utf8, "event_time_ms": pl.Int64, **{c: pl.Float64 for c in value_cols}}
+    df = pl.DataFrame(out, schema=schema).sort("event_time_ms")
     return df.unique(subset=["event_time_ms"], keep="last", maintain_order=True)
 
 
