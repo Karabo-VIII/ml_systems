@@ -1,0 +1,19 @@
+# U10 — top-liquidity universe (10 assets)
+# Source: src/strategy/universe.py UNIVERSE_10 (frozen 2026-04-15).
+# Used for: V1.x WM training, quick-iteration backtests.
+name: u10
+description: "Core 10 assets, deep liquidity. Default for WM training and ranker baselines."
+n_assets: 10
+liquidity_floor_usd_per_day: 100_000_000
+history_floor_days: 1095   # ~3 years minimum
+assets:
+  - { symbol: BTCUSDT,  dna: BLUE,     pos_cap: 0.08, kelly_frac: 0.50, liquidity_tier: TIER_B, median_dollar_vol_30d: 1184040048 }
+  - { symbol: ETHUSDT,  dna: BLUE,     pos_cap: 0.08, kelly_frac: 0.50, liquidity_tier: TIER_B, median_dollar_vol_30d: 617045999 }
+  - { symbol: SOLUSDT,  dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, liquidity_tier: TIER_B, median_dollar_vol_30d: 219673349 }
+  - { symbol: BNBUSDT,  dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, liquidity_tier: TIER_B, median_dollar_vol_30d: 64199723 }
+  - { symbol: XRPUSDT,  dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, liquidity_tier: TIER_B, median_dollar_vol_30d: 121449677 }
+  - { symbol: DOGEUSDT, dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, liquidity_tier: TIER_B, median_dollar_vol_30d: 68003919 }
+  - { symbol: ADAUSDT,  dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, liquidity_tier: TIER_C, median_dollar_vol_30d: 30750828 }
+  - { symbol: AVAXUSDT, dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, liquidity_tier: TIER_C, median_dollar_vol_30d: 20448324 }
+  - { symbol: LINKUSDT, dna: VOLATILE, pos_cap: 0.04, kelly_frac: 0.30, liquidity_tier: TIER_C, median_dollar_vol_30d: 23064946 }
+  - { symbol: LTCUSDT,  dna: STEADY,   pos_cap: 0.06, kelly_frac: 0.40, liquidity_tier: TIER_C, median_dollar_vol_30d: 13799081 }

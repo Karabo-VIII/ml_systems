@@ -1,0 +1,25 @@
+# Trailing windows, in bars of the fabric they are computed on. Owner-changeable.
+# embargo_bars = max(max(horizons), frac_diff + z) on that fabric.
+version: windows_v1
+z: 200
+fast: 20
+vol_cluster: 50
+frac_diff: 1000
+frac_diff_d: 0.4
+hurst: 200
+kurtosis: 50
+efficiency: 10
+perm_entropy: 100
+perm_m: 3
+kyle: 50
+yz: 20
+cs_block: 10
+funding_mom: 30
+hawkes_span: 20
+ma: 200
+horizons: [1, 4, 16, 64]
+# Embargo is max(horizon, feature lookback) in bars of that cadence, and at
+# least calendar_floor_days of clock time. Feature windows are capped so a
+# daily bar does not inherit a 1200-day lookback. Owner-changeable.
+calendar_floor_days: 7
+max_lookback_days: 90

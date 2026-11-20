@@ -1,3 +1,38 @@
+# New root. The pre-rebuild project is ml_systems_v1/ and keeps the
+# rules below, rewritten so ignored data stays ignored under that folder.
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.DS_Store
+Thumbs.db
+
+# Banned binaries and large-data extensions. Also enforced by scripts/pre_commit_guard.py.
+*.parquet
+*.pt
+*.pth
+*.pkl
+*.pickle
+*.npz
+*.npy
+*.bin
+
+# New pipeline working directories.
+/data/
+/runs/
+/crypto/data/*
+!/crypto/data/.gitkeep
+/crypto/runs/*
+!/crypto/runs/.gitkeep
+
+# ---------------------------------------------------------------------------
+# Archived tree. Each path-specific rule from the pre-rebuild gitignore is
+# prefixed with ml_systems_v1/ so the same data stays untracked after git mv.
+# Patterns with no slash were left global above or repeated unchanged.
+# ---------------------------------------------------------------------------
+
 # Python
 __pycache__/
 *.py[cod]
@@ -12,35 +47,35 @@ venv/
 env/
 
 # Data (too large for git) — post-2026-04-26 layout
-data/raw/
-data/raw_external/
+ml_systems_v1/data/raw/
+ml_systems_v1/data/raw_external/
 # all gold + silver: chimera/, chimera_legacy/, frontier/, bars/, hawkes/, panels/
-data/processed/
-data/lob/
+ml_systems_v1/data/processed/
+ml_systems_v1/data/lob/
 
 # Per-build manifests (small JSON; regenerable)
-data/manifests/
+ml_systems_v1/data/manifests/
 
 # Legacy dirs (deleted in 2026-04-26 migration; kept ignored in case of partial restores)
-data/frontier/
-data/features/
-data/bars/
-data/_manifests/
-data/_config/
-data/universes/
-data/twin_bars/
-data/ml_training/
+ml_systems_v1/data/frontier/
+ml_systems_v1/data/features/
+ml_systems_v1/data/bars/
+ml_systems_v1/data/_manifests/
+ml_systems_v1/data/_config/
+ml_systems_v1/data/universes/
+ml_systems_v1/data/twin_bars/
+ml_systems_v1/data/ml_training/
 
 # TrainingLoader normalization stat cache (regenerable; computed lazily)
-data/_normalizers/
+ml_systems_v1/data/_normalizers/
 
 # Pipeline DAG runner state (runtime, regenerable from refresh.py)
-data/_dag_state.json
-data/_dag_state_live.json
+ml_systems_v1/data/_dag_state.json
+ml_systems_v1/data/_dag_state_live.json
 
 # Production / paper-trader runtime state (NOT source; regenerable)
-data/prod/
-data/prod_state/
+ml_systems_v1/data/prod/
+ml_systems_v1/data/prod_state/
 
 # (Universe specs moved to config/universes/ in 2026-04-26 layout cleanup)
 
@@ -64,10 +99,10 @@ Thumbs.db
 .DS_Store
 
 # Backup snapshots & temp archives (contain models, too large for git)
-backups/BKP*/
-backups/TMP/
-backups/TMP_*/
-backups/v4_crypto_system_bkp_*/
+ml_systems_v1/backups/BKP*/
+ml_systems_v1/backups/TMP/
+ml_systems_v1/backups/TMP_*/
+ml_systems_v1/backups/v4_crypto_system_bkp_*/
 reports/
 
 # Temp files
@@ -80,37 +115,37 @@ _preflight_check.py
 .ipynb_checkpoints/
 
 # Claude agent state (session-specific)
-.claude/agent_state/briefings/
+ml_systems_v1/.claude/agent_state/briefings/
 
 # Claude Code local settings (per-machine)
-.claude/settings.json
-.claude/settings.json.bak*
-.claude/settings.local.json
-.claude/settings.local.json.bak*
-.claude/scheduled_tasks.lock
-.claude/scheduled_tasks/
+ml_systems_v1/.claude/settings.json
+ml_systems_v1/.claude/settings.json.bak*
+ml_systems_v1/.claude/settings.local.json
+ml_systems_v1/.claude/settings.local.json.bak*
+ml_systems_v1/.claude/scheduled_tasks.lock
+ml_systems_v1/.claude/scheduled_tasks/
 
 # CatBoost training artifacts (regenerated every run — noise)
 catboost_info/
 
 # Oracle analysis outputs (regenerable from scripts/oracle/*.py)
 # Source scripts ARE tracked; outputs are not (they're large/noisy/regenerable).
-data/oracle/*.csv
-data/oracle/*.json
-data/oracle/_BROKEN_CATALOGS_PRE_AUDIT_*/
+ml_systems_v1/data/oracle/*.csv
+ml_systems_v1/data/oracle/*.json
+ml_systems_v1/data/oracle/_BROKEN_CATALOGS_PRE_AUDIT_*/
 
 # Pipeline DAG lock (runtime, regenerable)
-data/_dag_state.lock
+ml_systems_v1/data/_dag_state.lock
 
 # Training log files (regenerable; noisy)
-runs/*_log.txt
-runs/**/*.log
+ml_systems_v1/runs/*_log.txt
+ml_systems_v1/runs/**/*.log
 
 # Local cleanup dumps stay untracked. The v1 pipeline source archive is the
 # exception: it is the git-mv of crypto/src/pipeline and must stay in history.
-archive/*
-!archive/pipeline_v1/
-!archive/pipeline_v1/**
+ml_systems_v1/archive/*
+!ml_systems_v1/archive/pipeline_v1/
+!ml_systems_v1/archive/pipeline_v1/**
 
 # ============================================================================
 # Defense-in-depth: catch-all binary patterns (NEVER commit large binaries)
@@ -133,75 +168,75 @@ archive/*
 # Allow specific small reference files when explicitly tracked via -f
 # (use `git add -f path/to/keepfile.parquet` if a small reference parquet
 # really needs to be in the repo).
-external/Kronos/
+ml_systems_v1/external/Kronos/
 
 # Large TA-SML training outputs (regenerable from src/strategy/ta_sml/pipeline.py)
-runs/ta_sml/15m_u50/
-runs/ta_sml/1h_u50/
-runs/ta_sml/4h_u10/
-runs/ta_sml/4h_u50/
-runs/ta_sml/4h_u50_resilient/
-runs/ta_sml/live_sim/
+ml_systems_v1/runs/ta_sml/15m_u50/
+ml_systems_v1/runs/ta_sml/1h_u50/
+ml_systems_v1/runs/ta_sml/4h_u10/
+ml_systems_v1/runs/ta_sml/4h_u50/
+ml_systems_v1/runs/ta_sml/4h_u50_resilient/
+ml_systems_v1/runs/ta_sml/live_sim/
 
 # Large oracle-v2 training input (3.6MB; regenerable from chimera + clustering)
-runs/oracle_v2/winner_events.parquet
-runs/oracle_v2/emergent_clusters.parquet
-runs/oracle_v2/strat_fires_*.parquet
+ml_systems_v1/runs/oracle_v2/winner_events.parquet
+ml_systems_v1/runs/oracle_v2/emergent_clusters.parquet
+ml_systems_v1/runs/oracle_v2/strat_fires_*.parquet
 
 # Large winning-formula intermediate (regenerable from step2)
-runs/winning_formula/lane_weighted_fires.parquet
-runs/winning_formula/daily_pnl_by_k.parquet
+ml_systems_v1/runs/winning_formula/lane_weighted_fires.parquet
+ml_systems_v1/runs/winning_formula/daily_pnl_by_k.parquet
 
 # Oracle infrastructure -- large parquets (regenerable from chimera via scripts/oracle/build_*.py)
-runs/oracle_2024_val/move_events.parquet
-runs/oracle_2024_val/move_segments_*.parquet
-runs/oracle_layer2/daily_regime_cluster.parquet
-runs/oracle_layer3/**/*.parquet
-runs/oracle_layer3/**/*.csv
+ml_systems_v1/runs/oracle_2024_val/move_events.parquet
+ml_systems_v1/runs/oracle_2024_val/move_segments_*.parquet
+ml_systems_v1/runs/oracle_layer2/daily_regime_cluster.parquet
+ml_systems_v1/runs/oracle_layer3/**/*.parquet
+ml_systems_v1/runs/oracle_layer3/**/*.csv
 
 # 2026-05-24: T2-A Phase 1 BTC-only experiment artifact (58MB, regenerable)
-runs/oracle/bd_bar_grain_btc_panel.parquet
+ml_systems_v1/runs/oracle/bd_bar_grain_btc_panel.parquet
 
 # 2026-05-28: 8h-autonomous discovery outputs (203MB JSONs + PNGs, regenerable from scripts/wealth_bot/*.py)
 # MD reports + INDEX.html stay tracked; bulky outputs (JSON/CSV/PNG) ignored.
-runs/discovery/**/*.json
-runs/discovery/**/*.csv
-runs/discovery/**/*.png
-runs/discovery/visual_reports*/**/*.png
+ml_systems_v1/runs/discovery/**/*.json
+ml_systems_v1/runs/discovery/**/*.csv
+ml_systems_v1/runs/discovery/**/*.png
+ml_systems_v1/runs/discovery/visual_reports*/**/*.png
 
-runs/autonomy/
+ml_systems_v1/runs/autonomy/
 
 # --- experiment/session scratch (2026-06-07 git-tree cleanup): preserved on disk, kept OUT of git ---
-experiments/adaptive_ma/_*
-experiments/adaptive_ma/**/_*
-runs/research/_*
-runs/research/**/_*
-scripts/autonomy/metaop/_*
+ml_systems_v1/experiments/adaptive_ma/_*
+ml_systems_v1/experiments/adaptive_ma/**/_*
+ml_systems_v1/runs/research/_*
+ml_systems_v1/runs/research/**/_*
+ml_systems_v1/scripts/autonomy/metaop/_*
 # ...but DO version-control the metaop verification suite (the loop's trust harness must be reproducible on clone).
 # 2026-06-07 audit G-H: previously `metaop/_*` silently ignored _test_/_proof_/_falsifier_ probes too.
-!scripts/autonomy/metaop/_test_*.py
-!scripts/autonomy/metaop/_proof_*.py
-!scripts/autonomy/metaop/_falsifier_*.py
-runs/staging/directive_proposals/_last_write.txt
-**/*OUT.txt
-**/*.bak
+!ml_systems_v1/scripts/autonomy/metaop/_test_*.py
+!ml_systems_v1/scripts/autonomy/metaop/_proof_*.py
+!ml_systems_v1/scripts/autonomy/metaop/_falsifier_*.py
+ml_systems_v1/runs/staging/directive_proposals/_last_write.txt
+ml_systems_v1/**/*OUT.txt
+ml_systems_v1/**/*.bak
 
 # chess self-play visualizer regenerable outputs
-games/az/selfplay_viz.html
-games/az/selfplay_viz_data.json
-games/az/az_demo_checkpoints/
+ml_systems_v1/games/az/selfplay_viz.html
+ml_systems_v1/games/az/selfplay_viz_data.json
+ml_systems_v1/games/az/az_demo_checkpoints/
 # checkpoint dirs (too large for git; ~76GB+ -- regenerable). The previous rule here was a
 # malformed env-var-style assignment (ROBUST_CKPT=...) that matched nothing, leaving these exposed.
-games/az/robust_checkpoints/
-games/az/bootstrap_checkpoints/
-games/az/robust_anchored/
-games/az/robust_fast/
-games/az/robust_from_bootstrap/
+ml_systems_v1/games/az/robust_checkpoints/
+ml_systems_v1/games/az/bootstrap_checkpoints/
+ml_systems_v1/games/az/robust_anchored/
+ml_systems_v1/games/az/robust_fast/
+ml_systems_v1/games/az/robust_from_bootstrap/
 # stale run-state / logs (advertise a dead run as live; regenerable)
-games/az/train_supervisor.pid
-games/az/train_run.log
-games/az/train_run.err
-games/az/_real_boot.log
+ml_systems_v1/games/az/train_supervisor.pid
+ml_systems_v1/games/az/train_run.log
+ml_systems_v1/games/az/train_run.err
+ml_systems_v1/games/az/_real_boot.log
 
 # ============================================================================
 # 2026-06-09 git-tree cleanup (overseer): transient / large / scratch -> on-disk only, never tracked.
@@ -215,41 +250,41 @@ games/az/_real_boot.log
 /mathlib.py
 /tmp_proto_*.py
 # Oracle analysis raw outputs + scratch probes (regenerable from src/oracle/*.py; runs/oracle/decisions.md stays tracked)
-runs/oracle/_*
-runs/oracle/*.csv
-runs/oracle/*.out
-runs/oracle/*.err
-runs/oracle/leaderboard_partial.txt
+ml_systems_v1/runs/oracle/_*
+ml_systems_v1/runs/oracle/*.csv
+ml_systems_v1/runs/oracle/*.out
+ml_systems_v1/runs/oracle/*.err
+ml_systems_v1/runs/oracle/leaderboard_partial.txt
 # Strat probe self-test + fixture outputs (regenerable from src/strat/*.py)
-runs/strat/*_selftest_*
-runs/strat/*FIXTURE*
-runs/strat/exit_capture_*
+ml_systems_v1/runs/strat/*_selftest_*
+ml_systems_v1/runs/strat/*FIXTURE*
+ml_systems_v1/runs/strat/exit_capture_*
 # Research feature dumps (regenerable; runs/research/*REPORT*.md stays tracked)
-runs/research/*_dump.json
+ml_systems_v1/runs/research/*_dump.json
 # Staging = scratch workspace (commit-msg drafts, smoke scripts, .bak backups, one-off experiments)
-runs/staging/
+ml_systems_v1/runs/staging/
 # Chess side-project run artifacts (the existing rules missed robust_dual/ = 2.3GB of checkpoints)
-runs/autonomy/_proof_fib.py
-games/az/robust_dual/
-games/az/robust_anchored_dual/
-games/az/bootstrap_d4_run.*
-games/az/strength_curve.json
-games/az/*.bak.*
+ml_systems_v1/runs/autonomy/_proof_fib.py
+ml_systems_v1/games/az/robust_dual/
+ml_systems_v1/games/az/robust_anchored_dual/
+ml_systems_v1/games/az/bootstrap_d4_run.*
+ml_systems_v1/games/az/strength_curve.json
+ml_systems_v1/games/az/*.bak.*
 # chess_zero training run dirs + checkpoints (regenerable, large) -- GLOB so ANY new run-dir
 # name is covered (the per-dir lines above were fragile; a concurrent git-add-A must never
 # sweep GB of checkpoints into a commit)
-games/az/robust_*/
-games/az/*_checkpoints/
-games/az/*/heartbeat.json
-games/az/*/strength_curve.json
+ml_systems_v1/games/az/robust_*/
+ml_systems_v1/games/az/*_checkpoints/
+ml_systems_v1/games/az/*/heartbeat.json
+ml_systems_v1/games/az/*/strength_curve.json
 # dualnull scratch experiment
-projects/dualnull/
+ml_systems_v1/projects/dualnull/
 
-runs/strat/ma_per_instrument_u10_*.json
-runs/strat/ma_mechanics.json
-runs/strat/ma_mechanics_maker.json
+ml_systems_v1/runs/strat/ma_per_instrument_u10_*.json
+ml_systems_v1/runs/strat/ma_mechanics.json
+ml_systems_v1/runs/strat/ma_mechanics_maker.json
 
-runs/periods/**/raw/
+ml_systems_v1/runs/periods/**/raw/
 
 # portable games-engine bundle (build artifact -- on disk, not tracked)
 games-engine.zip
@@ -261,6 +296,6 @@ games-engine.zip
 # real crypto/... paths. These three were clear non-source noise / scratch.
 # ============================================================================
 (tmp)/
-crypto/backups/
-crypto/runs/autonomy/
-crypto/runs/strat/ladder/*_log.txt
+ml_systems_v1/crypto/backups/
+ml_systems_v1/crypto/runs/autonomy/
+ml_systems_v1/crypto/runs/strat/ladder/*_log.txt

@@ -3,7 +3,7 @@
 **Status:** accepted 2026-11-20. Open questions in §8 are closed by the Decisions section below. Those decisions are owner-changeable; they live in config, not in scattered literals.  
 **Date:** 2026-11-20 (Africa/Johannesburg).  
 **Scope:** what we fetch, what we compute, how every series is timestamped and joined, and how we prove charts and ML features cannot be misaligned or silently empty.  
-**Reference (read-only):** the archived tree at `crypto/archive/pipeline_v1/` (moved from `crypto/src/pipeline/`) and `crypto/config/`. File references below use the old `crypto/src/pipeline/` paths.  
+**Live package:** `crypto/src/pipeline`. **Reference snapshot:** `ml_systems_v1/` (read-only). Historical notes below that name `crypto/src/pipeline/<old module>` or `crypto/archive/pipeline_v1/` mean `ml_systems_v1/crypto/archive/pipeline_v1/`. Do not import that tree.  
 **Non-goals for this document:** implementation, FX ingest (interface only), model training, live execution.
 
 ---
@@ -11,17 +11,17 @@
 
 ## Decisions (owner-accepted 2026-11-20, owner-changeable)
 
-These close §8. Change them in `crypto/src/pipeline_v2/contract/` (and the split block below). Do not silently substitute a different rule in code.
+These close §8. Change them in `crypto/src/pipeline/contract/` (and the split block below). Do not silently substitute a different rule in code.
 
-The v1 tree now lives at `crypto/archive/pipeline_v1/` (reference only). The draft suggested `crypto/src/_archive/pipeline_legacy_2026_11_20/`; the archive used here is `crypto/archive/pipeline_v1/`.
+The pre-rebuild tree, including v1, is the read-only snapshot `ml_systems_v1/`. Do not import it.
 
 1. **Bar types.** Core bars are true time bars: a 1-minute base aggregated to 5m, 15m, 1h, 4h, and 1d with real OHLCV (open = first, high = max, low = min, close = last; volumes and trade counts are sums), plus dollar bars. Tick bars and volume bars are optional and are built only when requested. DIB, runs, range, and adaptive-vol are research-only and are omitted from pipeline v2.
 2. **Universe.** The first universe is U10 (`crypto/config/universes/u10.yaml`: BTC, ETH, SOL, BNB, XRP, DOGE, ADA, AVAX, LINK, LTC).
 3. **History start.** 2020-01-01 UTC, or the listing date in `crypto/config/asset_launch_dates.json` when that date is later. Every run is bounded by `--start` and `--end`.
 4. **Timestamps.** `ts_ms` int64 is the canonical clock on bars, features, panels, and gold datasets. Raw trades also keep `ts_us` and `agg_trade_id`. `ts_ms = ts_us // 1000`.
-5. **Dollar-bar thresholds.** v2 uses the current fixed table, versioned at `crypto/src/pipeline_v2/contract/dollar_thresholds.yaml` (BTC $2,000,000, ETH $700,000, SOL $200,000, BNB $300,000, XRP $350,000, DOGE $400,000, ADA $100,000, AVAX $80,000, LINK $70,000, LTC $50,000). Causal trailing-median recalibration is a TODO. It is not applied.
+5. **Dollar-bar thresholds.** v2 uses the current fixed table, versioned at `crypto/src/pipeline/contract/dollar_thresholds.yaml` (BTC $2,000,000, ETH $700,000, SOL $200,000, BNB $300,000, XRP $350,000, DOGE $400,000, ADA $100,000, AVAX $80,000, LINK $70,000, LTC $50,000). Causal trailing-median recalibration is a TODO. It is not applied.
 6. **Labels.** The default training labels are uncapped `target_return_{1,4,16,64}`. Clipped copies and `target_voladj_*` (the denominator is future realized volatility) are optional and off unless requested. Vol-adjusted columns are labels only, never features.
-7. **Splits and embargo.** The frozen boundaries stay: train `ts` date `< 2023-07-01`, val `< 2024-05-15`, oos `< 2025-03-15`, unseen `>= 2025-03-15`. The embargo is cadence-aware: `max(horizon, feature lookback)` counted in that file's bars, and at least 7 calendar days. Feature windows are capped at 90 days of clock time so a daily file does not inherit a flat 1,200-bar embargo. Rows inside the embargo are labelled `embargo` and belong to no segment. The embargo is not silently shrunk when a segment is short. Both the 7-day floor and the 90-day cap are in `pipeline_v2/contract/windows.yaml`.
+7. **Splits and embargo.** The frozen boundaries stay: train `ts` date `< 2023-07-01`, val `< 2024-05-15`, oos `< 2025-03-15`, unseen `>= 2025-03-15`. The embargo is cadence-aware: `max(horizon, feature lookback)` counted in that file's bars, and at least 7 calendar days. Feature windows are capped at 90 days of clock time so a daily file does not inherit a flat 1,200-bar embargo. Rows inside the embargo are labelled `embargo` and belong to no segment. The embargo is not silently shrunk when a segment is short. Both the 7-day floor and the 90-day cap are in `pipeline/contract/windows.yaml`.
 8. **Bar clock and joins.** A bar covering `(t_open, t_close]` is labelled `ts_ms = t_close`. Every non-native series joins by a backward as-of on `knowable_at <= ts_ms`.
 
 Also fixed while closing the draft, because two sentences disagreed:
@@ -325,10 +325,10 @@ Exit 0 = pass, 1 = warn (usable with explicit ack), 2 = hard fail (do not train,
 
 ### 7.1 New module layout (small)
 
-Proposed root: `crypto/src/pipeline_v2/` (name TBD) with a sibling contract at `/workspace/new_pipeline/` until it is moved into the repo.
+Proposed root: `crypto/src/pipeline/` (name TBD) with a sibling contract at `/workspace/new_pipeline/` until it is moved into the repo.
 
 ```
-pipeline_v2/
+pipeline/
   contract/          # this document + lag registry + feature list + bar-threshold YAML
   fetch/             # source adapters: vision.py, http.py, farside.py, defillama.py, deribit.py, wiki.py
   bars/              # time.py, dollar.py, tick_volume.py, optional dib.py, runs.py, range.py, adaptive.py
@@ -342,7 +342,7 @@ pipeline_v2/
 **One CLI:**
 
 ```text
-python -m pipeline_v2.cli run \
+python -m pipeline.cli run \
   --start 2020-01-01 --end 2026-11-18 \
   --assets BTCUSDT ETHUSDT \
   --universe u10 \
@@ -370,7 +370,7 @@ Bronze layout is already `data/bronze/.../{market}/{instrument}/`. Time bars, as
 1. Move `crypto/src/pipeline/` → `crypto/src/_archive/pipeline_legacy_2026_11_20/`.
 2. Leave a short `README` there: “reference only; do not import from production.”
 3. Existing `crypto/src/_archive/frontier/` and `crypto/src/pipeline/_archived/` travel with it (already dead or duplicated).
-4. Do not move `crypto/config/` wholesale (universes, listing dates, dollar-bar sizes are useful starting points); copy-and-trim into `pipeline_v2/contract/`.
+4. Do not move `crypto/config/` wholesale (universes, listing dates, dollar-bar sizes are useful starting points); copy-and-trim into `pipeline/contract/`.
 5. No Git push in this workstream until the user asks. Downstream `src/strat`, `src/wm`, `ChimeraLoader` stay pointed at the old gold until a cutover PR switches the loader to `dataset/` and we re-emit gold under the new contract.
 
 ---
