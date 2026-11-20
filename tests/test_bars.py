@@ -120,3 +120,26 @@ def test_gap_list_and_btc_hole():
     assert contiguous_hole_ms(missing) >= 15 * 60_000
     # Every trade still lands in a bar. The hole is minutes with no trades.
     assert int(bars["n_trades"].sum()) == trades.height
+
+
+def test_canonical_cadences_drop_15m_and_align_to_utc_midnight():
+    from pipeline.constants import CORE_BAR_TYPES, DAY_MS, TIME_WIDTH_MS
+    assert "time_15m" not in TIME_WIDTH_MS
+    assert "time_15m" not in CORE_BAR_TYPES
+    for name in ("time_30m", "time_2h", "time_6h", "time_8h"):
+        assert name in TIME_WIDTH_MS
+        assert name in CORE_BAR_TYPES
+    assert "dollar" in CORE_BAR_TYPES
+    for width in TIME_WIDTH_MS.values():
+        assert DAY_MS % width == 0
+    # A 24h window starting at midnight produces exact bucket counts.
+    trades = _clock_trades(24 * 60, start=datetime(2024, 6, 1, 0, 0, 30, tzinfo=timezone.utc))
+    one_m = trades_to_time(trades, 60_000, "BTCUSDT", "time_1m")
+    midnight = int(datetime(2024, 6, 1, tzinfo=timezone.utc).timestamp() * 1000)
+    for name, expected in (("time_2h", 12), ("time_6h", 4), ("time_8h", 3), ("time_30m", 48)):
+        bars = bars_to_time(one_m, TIME_WIDTH_MS[name], "BTCUSDT", name)
+        assert bars.height == expected
+        assert int(bars["ts_open_ms"][0]) == midnight
+        assert int(bars["ts_ms"][-1]) == midnight + DAY_MS
+        for ts in bars["ts_ms"].to_list():
+            assert (ts - midnight) % TIME_WIDTH_MS[name] == 0

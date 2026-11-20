@@ -2,16 +2,19 @@
 
 from __future__ import annotations
 
-CONTRACT_VERSION = "2.0.0"
+CONTRACT_VERSION = "2.1.0"
 PRODUCER = "pipeline"
 
 # Core chart/ML fabrics. Time bars are real OHLCV aggregates, not "last dollar bar".
 CORE_BAR_TYPES: tuple[str, ...] = (
     "time_1m",
     "time_5m",
-    "time_15m",
+    "time_30m",
     "time_1h",
+    "time_2h",
     "time_4h",
+    "time_6h",
+    "time_8h",
     "time_1d",
     "dollar",
 )
@@ -24,14 +27,21 @@ OMITTED_BAR_TYPES: tuple[str, ...] = ("dib", "runs_tick", "runs_volume", "range"
 TIME_WIDTH_MS: dict[str, int] = {
     "time_1m": 60_000,
     "time_5m": 5 * 60_000,
-    "time_15m": 15 * 60_000,
+    "time_30m": 30 * 60_000,
     "time_1h": 60 * 60_000,
+    "time_2h": 2 * 60 * 60_000,
     "time_4h": 4 * 60 * 60_000,
+    "time_6h": 6 * 60 * 60_000,
+    "time_8h": 8 * 60 * 60_000,
     "time_1d": 24 * 60 * 60_000,
 }
 
 DAY_MS = 86_400_000
 HOUR_MS = 3_600_000
+
+# 2h, 6h, and 8h (and the rest) divide 24 hours, so every bucket lines up
+# with 00:00:00 UTC. close_of uses the Unix epoch, which is midnight UTC.
+assert all(DAY_MS % w == 0 for w in TIME_WIDTH_MS.values())
 
 # Open interest, when explicitly enabled, is not attached to the same bar.
 OI_LAG_MS = 5 * 60_000

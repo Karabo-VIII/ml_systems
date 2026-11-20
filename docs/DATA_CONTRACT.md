@@ -15,7 +15,7 @@ These close §8. Change them in `config/pipeline.yaml` (and the split block belo
 
 The pre-rebuild tree, including v1, is the read-only snapshot `ml_systems_v1/`. Do not import it.
 
-1. **Bar types.** Core bars are true time bars: a 1-minute base aggregated to 5m, 15m, 1h, 4h, and 1d with real OHLCV (open = first, high = max, low = min, close = last; volumes and trade counts are sums), plus dollar bars. Tick bars and volume bars are optional and are built only when requested. DIB, runs, range, and adaptive-vol are research-only and are omitted from pipeline v2.
+1. **Bar types.** Core bars are true time bars: a 1-minute base aggregated to 5m, 30m, 1h, 2h, 4h, 6h, 8h, and 1d with real OHLCV (open = first, high = max, low = min, close = last; volumes and trade counts are sums), plus dollar bars. Tick bars and volume bars are optional and are built only when requested. DIB, runs, range, and adaptive-vol are research-only and are omitted from pipeline v2.
 2. **Universe.** The first crypto universe is U10 (in `config/pipeline.yaml` under `universes.u10`: BTC, ETH, SOL, BNB, XRP, DOGE, ADA, AVAX, LINK, LTC). The default FX universe is `universes.majors`.
 3. **History start.** 2020-01-01 UTC, or the listing date in `config/asset_launch_dates.json` when that date is later. Every run is bounded by `--start` and `--end`. FX uses the same floor. Dukascopy history before that date is not requested unless the floor in `effective_start` is changed.
 4. **Timestamps.** `ts_ms` int64 is the canonical clock on bars, features, panels, and gold datasets. Raw crypto trades also keep `ts_us` and `agg_trade_id`. `ts_ms = ts_us // 1000`. FX ticks are already in `ts_ms`.
@@ -37,7 +37,7 @@ Also fixed while closing the draft, because two sentences disagreed:
 2. **Canonical time unit is milliseconds** (`ts_ms`: int64). Raw aggTrades also keep `ts_us` (source microseconds) and `agg_trade_id` as the trade primary key. Every bar, feature, and dataset row is labeled in `ts_ms`.
 3. **Bar label = close.** A bar covering `(t_open, t_close]` is stamped `ts_ms = t_close`. Features may be joined onto a bar only when `knowable_at <= ts_ms`.
 4. **True time bars are first-class**, built from 1-minute (or tick) data with proper OHLCV aggregation. The old v51 “1d/4h/1h/15m cadence views” are **not** time bars: they take the *last dollar bar in the bucket* (`make_dataset.py` `materialize_cadence`, `group_by(ck).last()`, and `feature_registry.yaml` `cadence_materializations.agg: last`). Those views must not be used as chart or ML time series.
-5. **Core bar set:** 1m → 5m/15m/1h/4h/1d time bars, plus dollar bars. Tick/volume bars are in the core if wanted for flow work. DIB, runs, range, and adaptive-vol bars are optional research fabrics, not required for the default chart/ML path.
+5. **Core bar set:** 1m → 5m/30m/1h/2h/4h/6h/8h/1d time bars, plus dollar bars. Tick/volume bars are in the core if wanted for flow work. DIB, runs, range, and adaptive-vol bars are optional research fabrics, not required for the default chart/ML path.
 6. **Joins are bitemporal.** `knowable_at = event_time + publication_lag_ms`. The old `asof_join.py` already defines this, but **it is not wired into** `frontier_consolidator.py` or `make_dataset.py` (only a self-test in `asof_join.py`). The new pipeline will use it for every non-native series.
 7. **No silent fill of prices or returns with 0.** Warmup and missing joins stay null. Downstream must mask them.
 8. **Default build universe for the first solid cut: U10** (`config/universes/u10.yaml`: BTC, ETH, SOL, BNB, XRP, DOGE, ADA, AVAX, LINK, LTC). Schema must not assume a single asset (cross-asset features are undefined or null until ≥2 peers exist).
@@ -125,7 +125,7 @@ Every bar type writes the same core columns so charts and features can share cod
 | Column | Dtype | Meaning |
 |---|---|---|
 | `asset` | str | Canonical symbol |
-| `bar_type` | str | `time_1m`, `time_5m`, `time_15m`, `time_1h`, `time_4h`, `time_1d`, `dollar`, `tick`, `volume`, `dib`, `runs_tick`, `runs_volume`, `range`, `adaptive_vol` |
+| `bar_type` | str | `time_1m`, `time_5m`, `time_30m`, `time_1h`, `time_2h`, `time_4h`, `time_6h`, `time_8h`, `time_1d`, `dollar`, `tick`, `volume`, `dib`, `runs_tick`, `runs_volume`, `range`, `adaptive_vol` |
 | `bar_id` | i64 | Monotone unique id per `(asset, bar_type)`, 0-based in the file’s history |
 | `ts_open_ms` | i64 | Start of interval (first trade ts, or bucket open) |
 | `ts_ms` | i64 | **Close label** (last trade ts, or bucket close) |
@@ -145,7 +145,7 @@ No bar file is valid unless it is sorted by `ts_ms`, `bar_id` is unique and non-
 | Bar type | Definition | Threshold / params | Calibration (causal only) | Timestamp | Verdict |
 |---|---|---|---|---|---|
 | **Time 1m (base)** | Bucket trades (or official 1m klines, cross-checked) into UTC minutes. Aggregate OHLCV / vwap / buy-sell / n_trades. | Clock. Empty minutes are **omitted** (crypto is 24/7 but a silent minute is a gap, not a zero bar), except we record gap flags. | None | `ts_open_ms = bucket_start`, `ts_ms = bucket_start + 60_000` | **CORE (new).** Old pipeline can fetch 1m klines but does not build a time-bar fabric from them. |
-| **Time 5m / 15m / 1h / 4h / 1d** | *Aggregate* 1m bars (or trades) into the coarser bucket: open=first, high=max, low=min, close=last, volumes and trade counts **sum**. | Clock | None | Close of the bucket (e.g. the 14:00–15:00 UTC hour is labeled 15:00:00.000) | **CORE (new).** Replaces v51 cadence views. **Old bug:** `materialize_cadence` / registry `agg: last` copies the last *dollar bar* in the window. A “1h” row’s volume is one dollar bar’s volume (~$2M for BTC), not the hour’s volume. Targets were later recomputed at cadence grain (`recompute_cadence_targets`), but OHLC/volume/features were not. Charts and features on those files are misaligned by construction. |
+| **Time 5m / 30m / 1h / 2h / 4h / 6h / 8h / 1d** | *Aggregate* 1m bars (or trades) into the coarser bucket: open=first, high=max, low=min, close=last, volumes and trade counts **sum**. | Clock | None | Close of the bucket (e.g. the 14:00–15:00 UTC hour is labeled 15:00:00.000) | **CORE (new).** Replaces v51 cadence views. **Old bug:** `materialize_cadence` / registry `agg: last` copies the last *dollar bar* in the window. A “1h” row’s volume is one dollar bar’s volume (~$2M for BTC), not the hour’s volume. Targets were later recomputed at cadence grain (`recompute_cadence_targets`), but OHLC/volume/features were not. Charts and features on those files are misaligned by construction. |
 | **Dollar** | Close a bar when cumulative `price*qty` since last close ≥ threshold (`generate_dollar_bars`: `floor((cum_usd + residual) / threshold)` with residual carried across chunks). | Per-asset fixed USD threshold from a config table. Old BTC: `$2,000,000` aiming at ~5-minute bars at median ~$500M/day (`data_config.yaml`). | Fixed thresholds, **recalibrated causally** on a trailing window that ends before the bar (e.g. prior 30d median daily volume / 288). Never use future volume to set the threshold of a historical bar. Adaptive mid-history changes must be dated and versioned. | Close = last trade `ts_ms`; also store `ts_open_ms` | **CORE.** This is the old gold base (`make_dataset_legacy.py`). Keep as the default *event-time* fabric for microstructure features. |
 | **Tick** | Close when trade count since last close ≥ N. | Per-asset N, target ~same bars/day as dollar (old tick-runs target was ~30/day in `alt_bar_thresholds.yaml` — that is a different “runs” notion; see below). | Causal trailing median ticks/day / target bars/day | Close = last trade | **CORE-OPTIONAL.** Simple and chartable. Not first-class in the old gold path. |
 | **Volume** | Close when cumulative base qty ≥ V. | Per-asset V, same calibration style | Causal trailing median | Close = last trade | **CORE-OPTIONAL.** |
@@ -156,7 +156,7 @@ No bar file is valid unless it is sorted by `ts_ms`, `bar_id` is unique and non-
 
 ### 3.3 Recommended default for charts and ML
 
-- **Charts (default):** `time_1h` and `time_1d`, with a control to switch to dollar or 15m. These are real clock bars, so a 1h candle is a 1h candle.
+- **Charts (default):** `time_1h` and `time_1d`, with a control to switch to dollar or 30m/4h/etc.. These are real clock bars, so a 1h candle is a 1h candle.
 - **ML default fabric:** dollar bars (microstructure, existing 34-feature physics) **and** `time_1h` / `time_1d` (for daily/hourly features and any model that should think in clock time).
 - **Do not** train or plot against old v51 `v51_1h.parquet` et al. once the new fabric exists.
 
@@ -309,7 +309,7 @@ Exit 0 = pass, 1 = warn (usable with explicit ack), 2 = hard fail (do not train,
 | Sort / uniqueness | `ts_ms` (or `ts_us` for trades) monotone non-decreasing; primary key unique. |
 | Bronze integrity | Trade ids unique; `high/low` N/A; price and qty &gt; 0; `is_buyer_maker` boolean. Daily Vision row counts vs a tolerance for expected presence (T+1 lag allowed for “today”). |
 | Bar OHLC | `high >= low`, `high >= max(open,close)`, `low <= min(open,close)`, volumes ≥ 0, `buy+sell ≈ volume` (or `buy_usd+sell_usd ≈ volume_usd`) within a tight relative tolerance. |
-| Time-bar reconciliation | For each day and asset: `sum(time_1m.volume) == time_1d.volume` (and same for 5m/15m/1h/4h) within 1e-9 relative or 1e-8 abs. Same for `n_trades` and `volume_usd`. **Dollar / DIB / range bars are not required to sum to clock volume in a fixed window** (they are event-time); instead, `sum(n_trades)` over all dollar bars in a UTC day = that day’s bronze trade count. |
+| Time-bar reconciliation | For each day and asset: `sum(time_1m.volume) == time_1d.volume` (and same for 5m/30m/1h/2h/4h/6h/8h) within 1e-9 relative or 1e-8 abs. Same for `n_trades` and `volume_usd`. **Dollar / DIB / range bars are not required to sum to clock volume in a fixed window** (they are event-time); instead, `sum(n_trades)` over all dollar bars in a UTC day = that day’s bronze trade count. |
 | Raw vs bars | `sum(time_* .n_trades)` and `sum(dollar.n_trades)` over [start, end] equals bronze trade count in the same range (last open dollar/DIB bar may be excluded if incomplete). |
 | Gaps | Time bars: missing minutes/hours only where bronze has no trades; gap list is written. Unexpected holes in mid-day liquid BTC → fail. |
 | As-of / lag | Positive-control test (already sketched in `asof_join.py` self-test): a series with lag L must not appear on a bar with `ts_ms < event_time + L`. Also: no same-UTC-day daily aggregate on an intraday bar. |
@@ -379,7 +379,7 @@ Bronze layout is already `data/bronze/.../{market}/{instrument}/`. Time bars, as
 
 Resolved by the Decisions section at the top of this file. The original questions are kept so the choice is auditable. Proposed defaults are in parentheses; the owner choices match those defaults except the embargo, which is `max(horizon, window)` bars with no extra 7-day floor.
 
-1. **Bar types that must exist for charts and ML?** (Default: true time bars 1m→5m/15m/1h/4h/1d **and** dollar bars. DIB/runs/range/adaptive-vol optional, built on request.)
+1. **Bar types that must exist for charts and ML?** (Default: true time bars 1m→5m/30m/1h/2h/4h/6h/8h/1d **and** dollar bars. DIB/runs/range/adaptive-vol optional, built on request.)
 2. **First universe to make rock-solid?** (Default: U10. U50/U100 after the gates pass on U10.)
 3. **History start?** (Default: 2020-01-01 UTC, or listing date if later. Fetch is always bounded by `--end`.)
 4. **Timestamp unit?** (Default: milliseconds canonical; microseconds retained only on raw trades with `agg_trade_id`.)
@@ -428,7 +428,7 @@ Empty hours (weekends, no prints) are cached as an empty parquet. HTTP 503, 429,
 
 ### Universe and bars
 
-Default universe `majors`: EURUSD, GBPUSD, USDJPY, AUDUSD, NZDUSD, USDCAD, USDCHF. Crosses are not in that list. Add them under `fx.crosses` and pass `--assets`, or add a universe entry with `market: fx`. Time bars are the same clock as crypto: 1m aggregated to 5m, 15m, 1h, 4h, 1d, right-closed, labelled at `ts_ms = t_close`. A coarser bar uses the clock window `ts_open_ms = ts_ms - width`, even when some minutes inside the bucket are missing. Dollar, tick, and volume bars are not built for FX.
+Default universe `majors`: EURUSD, GBPUSD, USDJPY, AUDUSD, NZDUSD, USDCAD, USDCHF. Crosses are not in that list. Add them under `fx.crosses` and pass `--assets`, or add a universe entry with `market: fx`. Time bars are the same clock as crypto: 1m aggregated to 5m, 30m, 1h, 2h, 4h, 6h, 8h, 1d, right-closed, labelled at `ts_ms = t_close`. A coarser bar uses the clock window `ts_open_ms = ts_ms - width`, even when some minutes inside the bucket are missing. Every canonical width divides 24 hours evenly, and buckets are aligned to 00:00:00 UTC (the Unix epoch is midnight UTC, so 6h closes at 00:00/06:00/12:00/18:00, 8h at 00:00/08:00/16:00, 2h on the even UTC hours). Dollar, tick, and volume bars are not built for FX.
 
 The Friday–Sunday close is the calendar. Missing 1-minute stamps that fall on Saturday, or on Friday after / Sunday before 17:00 America/New_York, are not data-gap failures. The bound follows US daylight-saving time. A hole inside the week still counts.
 
