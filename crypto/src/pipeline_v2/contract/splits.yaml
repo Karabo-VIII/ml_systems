@@ -1,0 +1,9 @@
+# Frozen calendar splits. Owner-changeable.
+# Embargo is computed as max(horizon, window) bars; it is not a fixed 400
+# and it is not silently capped at 5% of a segment.
+version: splits_v1
+train_end: "2023-07-01"     # train: date < train_end
+val_end: "2024-05-15"       # val:   train_end <= date < val_end
+oos_end: "2025-03-15"       # oos:   val_end <= date < oos_end
+unseen_start: "2025-03-15"  # unseen: date >= unseen_start
+live_start: "2025-09-03"
