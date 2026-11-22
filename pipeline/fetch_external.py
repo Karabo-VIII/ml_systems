@@ -22,17 +22,19 @@ from pipeline.symbols import canonical_symbol
 
 LAG_MS = DAY_MS
 
+# First title is the current Wikipedia page. Earlier titles are fallbacks:
+# the pageviews API 404s a new title for dates before the article was moved.
 WIKI_ARTICLES = {
-    "BTCUSDT": "Bitcoin",
-    "ETHUSDT": "Ethereum",
-    "SOLUSDT": "Solana_(blockchain_platform)",
-    "BNBUSDT": "Binance",
-    "XRPUSDT": "Ripple_(payment_protocol)",
-    "DOGEUSDT": "Dogecoin",
-    "ADAUSDT": "Cardano_(blockchain_platform)",
-    "AVAXUSDT": "Avalanche_(blockchain_platform)",
-    "LINKUSDT": "Chainlink_(blockchain)",
-    "LTCUSDT": "Litecoin",
+    "BTCUSDT": ("Bitcoin",),
+    "ETHUSDT": ("Ethereum",),
+    "SOLUSDT": ("Solana_(blockchain_platform)", "Solana"),
+    "BNBUSDT": ("Binance",),
+    "XRPUSDT": ("Ripple_(payment_protocol)",),
+    "DOGEUSDT": ("Dogecoin",),
+    "ADAUSDT": ("Cardano_(blockchain_platform)", "Cardano"),
+    "AVAXUSDT": ("Avalanche_(blockchain_platform)", "Avalanche"),
+    "LINKUSDT": ("Chainlink_(blockchain)", "Chainlink"),
+    "LTCUSDT": ("Litecoin",),
 }
 
 ETF_URLS = {
@@ -281,25 +283,36 @@ def fetch_wikipedia(root: Path, assets: list[str], start: date, end: date, *, ti
     start_s = start.strftime("%Y%m%d")
     end_s = end.strftime("%Y%m%d")
     for asset in assets:
-        article = WIKI_ARTICLES.get(canonical_symbol(asset))
-        if not article:
+        titles = WIKI_ARTICLES.get(canonical_symbol(asset))
+        if not titles:
             continue
-        url = (
-            "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/"
-            f"en.wikipedia/all-access/user/{article}/daily/{start_s}/{end_s}"
-        )
-        status, body, err = http_get(url, timeout=timeout)
-        if status != 200 or err or not body:
-            errors.append(f"{asset}: {err or status}")
-            continue
-        try:
-            items = json.loads(body.decode("utf-8", errors="replace")).get("items", [])
-        except Exception as exc:
-            errors.append(f"{asset}: {exc}")
-            continue
-        df = parse_wiki_items(items, asset)
-        if not df.is_empty():
-            frames.append(df)
+        if isinstance(titles, str):
+            titles = (titles,)
+        last_err = None
+        got = None
+        for article in titles:
+            url = (
+                "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/"
+                f"en.wikipedia/all-access/user/{article}/daily/{start_s}/{end_s}"
+            )
+            status, body, err = http_get(url, timeout=timeout)
+            if status != 200 or err or not body:
+                last_err = f"{asset}: {err or status} ({article})"
+                continue
+            try:
+                items = json.loads(body.decode("utf-8", errors="replace")).get("items", [])
+            except Exception as exc:
+                last_err = f"{asset}: {exc} ({article})"
+                continue
+            df = parse_wiki_items(items, asset)
+            if not df.is_empty():
+                got = df
+                break
+            last_err = f"{asset}: empty ({article})"
+        if got is not None:
+            frames.append(got)
+        elif last_err:
+            errors.append(last_err)
     if not frames:
         return "; ".join(errors) or "empty", 0
     df = pl.concat(frames, how="diagonal_relaxed")

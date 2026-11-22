@@ -141,3 +141,31 @@ def test_gold_loader_accepts_fx_pairs(tmp_path):
     assert latest_gold_path(tmp_path, "EUR/USD", "time_1h") == path
     loaded = load_gold("EURUSD", "time_1h", root=tmp_path)
     assert loaded["close"][0] == 1.1
+
+
+def test_wikipedia_falls_back_to_earlier_title(monkeypatch, tmp_path):
+    """Current Wikipedia titles 404 for dates before a page was moved (e.g. SOL in 2020)."""
+    from datetime import date
+    import pipeline.fetch_external as fe
+
+    calls = []
+
+    def fake_get(url, timeout=60):
+        calls.append(url)
+        if "Solana_(blockchain_platform)" in url:
+            return 404, b"", "HTTP 404"
+        if url.endswith("Solana/daily/20200811/20200813") or "user/Solana/daily/" in url:
+            payload = {"items": [{"timestamp": "2020081100", "views": 42}]}
+            import json
+            return 200, json.dumps(payload).encode(), None
+        return 404, b"", "HTTP 404"
+
+    monkeypatch.setattr(fe, "http_get", fake_get)
+    status, n = fe.fetch_wikipedia(tmp_path, ["SOLUSDT"], date(2020, 8, 11), date(2020, 8, 13))
+    assert status == "ok"
+    assert n == 1
+    assert any("Solana_(blockchain_platform)" in u for u in calls)
+    assert any("/user/Solana/daily/" in u for u in calls)
+    df = fe.load_external(tmp_path, "wikipedia")
+    assert df.height == 1
+    assert int(df["soc_wiki_views"][0]) == 42

@@ -137,3 +137,23 @@ def _zip(payload: bytes) -> bytes:
     with zipfile.ZipFile(buf, "w") as zf:
         zf.writestr("file.csv", payload)
     return buf.getvalue()
+
+
+def test_u10_listing_dates_floor_sol_and_avax_at_binance_spot_launch():
+    """SOL and AVAX listed on Binance after 2020-01-01; a Jan start must not fetch earlier."""
+    from datetime import date
+    from pipeline.config import effective_start, load_listing_dates, universe_symbols
+
+    listings = load_listing_dates()
+    assert listings["SOLUSDT"] == date(2020, 8, 11)
+    assert listings["AVAXUSDT"] == date(2020, 9, 22)
+    jan = date(2020, 1, 1)
+    dec = date(2020, 12, 31)
+    assert effective_start("SOLUSDT", jan, listings) == date(2020, 8, 11)
+    assert effective_start("AVAXUSDT", jan, listings) == date(2020, 9, 22)
+    # Already-listed U10 names still start at the 2020-01-01 history floor.
+    assert effective_start("BTCUSDT", jan, listings) == jan
+    assert "SOLUSDT" in universe_symbols("u10")
+    assert "AVAXUSDT" in universe_symbols("u10")
+    # A window that ends before the listing is unusable as a start>end signal.
+    assert effective_start("SOLUSDT", jan, listings) > date(2020, 8, 10)
