@@ -130,6 +130,7 @@ class RunConfig:
     # Tests pass a small notional so a short fixture still closes bars.
     # Production leaves this empty and uses dollar_thresholds.yaml.
     threshold_overrides: dict[str, float] | None = None
+    skip_network: bool = False
 
 
 def resolve_assets(cfg: RunConfig) -> list[str]:
@@ -351,6 +352,34 @@ def _write_frame(df: pl.DataFrame, path: Path, schema_name: str, params: dict) -
     return file_sha256(path)
 
 
+def _independent_validate(cfg: RunConfig, worst: int) -> int:
+    """Run scripts-compatible independent checks and print one PASS/WARN/FAIL summary."""
+    from pipeline.validate_run import Report, run_validation
+
+    report = Report()
+    if worst == 0:
+        report.add("in_pipeline", "PASS", "cadence gates passed")
+    elif worst == 1:
+        report.add("in_pipeline", "WARN", "cadence gates reported warnings; see the run log")
+    else:
+        report.add("in_pipeline", "FAIL", "cadence gates failed; see the run log")
+    report = run_validation(
+        cfg.data_root,
+        start=cfg.start,
+        end=cfg.end,
+        assets=list(resolve_assets(cfg)),
+        market=cfg.market,
+        skip_network=bool(cfg.skip_network),
+        report=report,
+        z_window=(cfg.windows.z if cfg.windows is not None else None),
+        threshold_overrides=cfg.threshold_overrides,
+    )
+    print()
+    print("=== data layer validation ===")
+    report.print()
+    return max(worst, report.code)
+
+
 def run(cfg: RunConfig) -> int:
     if cfg.market == "fx":
         return run_fx(cfg)
@@ -570,6 +599,7 @@ def run(cfg: RunConfig) -> int:
                     worst = 2
             if coverage:
                 print_coverage_report(coverage)
+            worst = _independent_validate(cfg, worst)
     except KeyboardInterrupt:
         session.info("[run] interrupted (Ctrl+C). Re-run the same command to resume.")
         session.finish(130)
@@ -767,6 +797,7 @@ def run_fx(cfg: RunConfig) -> int:
                     worst = 2
             if coverage:
                 print_coverage_report(coverage)
+            worst = _independent_validate(cfg, worst)
     except KeyboardInterrupt:
         session.info("[run] interrupted (Ctrl+C). Re-run the same command to resume.")
         session.finish(130)

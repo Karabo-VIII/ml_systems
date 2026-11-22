@@ -20,6 +20,9 @@ dependencies = [
 dev = [
     "pytest>=8,<9",
 ]
+viz = [
+    "plotly>=5.20,<7",
+]
 
 [project.scripts]
 mlsys = "pipeline.cli:main"

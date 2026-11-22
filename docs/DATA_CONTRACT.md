@@ -112,7 +112,7 @@ A run is not “usable” until these gates are considered. In-pipeline validate
 
 ## 8. CLI and layout
 
-One CLI: `python -m pipeline.cli` or the console script `mlsys`. Subcommands: `run` and `status`. `--market crypto` (Binance Vision) or `--market fx` (Dukascopy). Stages: `fetch,bars,features,dataset,validate`. Default bar types are the canonical set (FX drops dollar). `--force` rebuilds partitions and resets dollar-bar state. Progress is printed with tqdm; a log is written under `runs/`.
+One CLI: `python -m pipeline.cli` or the console script `mlsys`. Subcommands: `run`, `status`, `validate`, and `inspect`. `--market crypto` (Binance Vision) or `--market fx` (Dukascopy). Stages: `fetch,bars,features,dataset,validate`. Default stages end with `validate`, which also runs the independent checks (`mlsys validate`; `--skip-network` skips venue close cross-checks). Default bar types are the canonical set (FX drops dollar). `--force` rebuilds partitions and resets dollar-bar state. Progress is printed with tqdm; a log is written under `runs/`.
 
 Crypto and FX share bars, align, dataset, and validate. There is no second package.
 
@@ -151,16 +151,18 @@ The second table lists on-disk data families. Those paths are created at runtime
 | `pipeline/fetch_external.py` | Farside, DefiLlama, Deribit DVOL, and Wikipedia pageviews |
 | `pipeline/fetch_fx.py` | Dukascopy hourly tick fetch |
 | `pipeline/io.py` | Atomic parquet/JSON writes and sha256 sidecars |
+| `pipeline/inspect.py` | Text and optional HTML inspection of built views |
 | `pipeline/orchestrator.py` | Run, resume, validate, and status orchestration |
 | `pipeline/partitions.py` | Skip-fresh checks and partition readers |
 | `pipeline/paths.py` | Bronze, silver, gold, and state path helpers |
 | `pipeline/progress.py` | tqdm progress and `runs/` logs |
 | `pipeline/symbols.py` | Symbol canonicalization |
 | `pipeline/validate.py` | In-pipeline validation gates |
+| `pipeline/validate_run.py` | Independent PASS/WARN/FAIL checks used by `mlsys validate` and the last stage of `run` |
 | `pyproject.toml` | Package metadata, dependencies, and the `mlsys` console script |
 | `scripts/install_pre_commit.sh` | Installs the pre-commit size and binary guard |
 | `scripts/pre_commit_guard.py` | Blocks large and data files from being committed |
-| `scripts/validate_run.py` | Independent PASS/FAIL checks on a data root |
+| `scripts/validate_run.py` | Thin wrapper that calls `pipeline.validate_run.main` |
 | `strategy/__init__.py` | Strategy package exports |
 | `strategy/engine.py` | Backtest engine |
 | `strategy/signals.py` | The first three strategy functions |
@@ -172,6 +174,7 @@ The second table lists on-disk data families. Those paths are created at runtime
 | `tests/test_external_and_loader.py` | External ingest and gold loader tests |
 | `tests/test_features_align.py` | Feature and as-of join tests |
 | `tests/test_fx.py` | Offline FX pipeline tests |
+| `tests/test_inspect.py` | Inspect summaries and scoped independent validation |
 | `tests/test_fx_smoke.py` | Optional live Dukascopy smoke |
 | `tests/test_network_smoke.py` | Optional live Vision smoke |
 | `tests/test_parse_and_contract.py` | Parser and contract tests |

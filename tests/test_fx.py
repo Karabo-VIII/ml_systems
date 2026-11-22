@@ -198,6 +198,7 @@ def test_offline_fx_run_reconciles(tmp_path):
         bar_types=["time_1m", "time_1h"],
         data_root=tmp_path,
         force=True,
+        skip_network=True,
     ))
     assert code < 2
     assert universe_symbols("majors")[0] == "EURUSD"

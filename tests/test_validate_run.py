@@ -8,11 +8,7 @@ from pathlib import Path
 
 import polars as pl
 
-_SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
-if str(_SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(_SCRIPTS))
-
-import validate_run as vr  # noqa: E402
+from pipeline import validate_run as vr  # noqa: E402
 from pipeline.io import atomic_write_parquet  # noqa: E402
 
 

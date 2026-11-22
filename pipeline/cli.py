@@ -3,6 +3,8 @@
     python -m pipeline.cli run --start 2020-01-01 --end 2026-11-20 --universe u10
     python -m pipeline.cli run --market fx --start 2024-01-02 --end 2024-01-02 --universe majors
     python -m pipeline.cli status --data-root data
+    python -m pipeline.cli validate --data-root data --skip-network
+    python -m pipeline.cli inspect --asset BTCUSDT --start 2020-03-11 --end 2020-03-13
 """
 
 from __future__ import annotations
@@ -29,7 +31,7 @@ def _date(s: str):
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="pipeline",
-        description="run accepts --start --end --assets --universe --force --market",
+        description="run, status, validate, and inspect a crypto or FX data root",
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -48,6 +50,8 @@ def build_parser() -> argparse.ArgumentParser:
     run_p.add_argument("--voladj", action="store_true", help="optional future-vol labels")
     run_p.add_argument("--clipped", action="store_true", help="optional clipped return labels")
     run_p.add_argument("--timeout", type=int, default=120)
+    run_p.add_argument("--skip-network", action="store_true",
+                      help="skip Vision / Frankfurter cross-checks in the final validate stage")
 
     st = sub.add_parser(
         "status",
@@ -61,6 +65,28 @@ def build_parser() -> argparse.ArgumentParser:
     st.add_argument("--stages", default="fetch,bars,features,dataset")
     st.add_argument("--bar-types", default=None, help="default: canonical core bars")
     st.add_argument("--data-root", type=Path, default=None)
+
+    val = sub.add_parser(
+        "validate",
+        help="independent PASS/WARN/FAIL checks on a data root (also the last stage of run)",
+    )
+    val.add_argument("--data-root", type=Path, default=None)
+    val.add_argument("--start", type=_date, default=None)
+    val.add_argument("--end", type=_date, default=None)
+    val.add_argument("--assets", nargs="*", default=None)
+    val.add_argument("--market", choices=("crypto", "fx"), default=None)
+    val.add_argument("--skip-network", action="store_true", help="skip Vision / Frankfurter cross-checks")
+
+    insp = sub.add_parser(
+        "inspect",
+        help="print view stats for an asset and range; optional HTML chart with --html",
+    )
+    insp.add_argument("--asset", required=True)
+    insp.add_argument("--start", required=True, type=_date)
+    insp.add_argument("--end", required=True, type=_date)
+    insp.add_argument("--data-root", type=Path, default=None)
+    insp.add_argument("--bar-types", default=None)
+    insp.add_argument("--html", type=Path, default=None, help="write a shared-axis HTML chart")
     return p
 
 
@@ -72,6 +98,26 @@ def main(argv: list[str] | None = None) -> int:
     from pipeline.orchestrator import RunConfig, run, status
     from pipeline.symbols import canonical_fx_symbol
     root = args.data_root or default_data_root()
+    if args.cmd == "validate":
+        from pipeline.symbols import canonical_instrument
+        from pipeline.validate_run import run_validation
+        assets = None
+        if args.assets:
+            assets = [canonical_instrument(a) for item in args.assets for a in item.split(",") if a.strip()]
+        report = run_validation(
+            root, start=args.start, end=args.end, assets=assets,
+            market=args.market, skip_network=args.skip_network,
+        )
+        print()
+        report.print()
+        return report.code
+    if args.cmd == "inspect":
+        from pipeline.inspect import inspect
+        bar_types = [s.strip() for s in args.bar_types.split(",") if s.strip()] if args.bar_types else None
+        return inspect(
+            asset=args.asset, start=args.start, end=args.end,
+            data_root=root, html=args.html, bar_types=bar_types,
+        )
     if args.cmd == "status":
         if args.start is None or args.end is None:
             return status(root)
@@ -133,6 +179,7 @@ def main(argv: list[str] | None = None) -> int:
         splits=load_splits(),
         fetch_timeout=args.timeout,
         market=args.market,
+        skip_network=args.skip_network,
     )
     try:
         return run(cfg)
