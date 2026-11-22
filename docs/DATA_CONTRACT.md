@@ -1,6 +1,6 @@
 # Data contract
 
-**Version:** 2.2.0 (`pipeline.constants.CONTRACT_VERSION`; changes in §10).  
+**Version:** 2.3.0 (`pipeline.constants.CONTRACT_VERSION`; changes in §10).  
 **Live code:** the flat package `pipeline/` plus `strategy/`. **Config:** `config/pipeline.yaml` and `config/asset_launch_dates.json`.  
 **Snapshot:** `ml_systems_v1/` is a read-only archive. Do not import it.  
 **Scope:** what we fetch, which bar fabrics exist, how every series is timestamped and joined, how gold is written, and how a run is proven usable. Training and live execution are out of scope.
@@ -29,7 +29,7 @@ These bind any change to `pipeline/`. Change policy in config, not as a silent l
 - **History start.** 2020-01-01 UTC, or the listing date in `config/asset_launch_dates.json` when that date is later. Every run is bounded by `--start` and `--end`. FX uses the same floor.
 - **Labels.** Default training labels are uncapped `target_return_{1,4,16,64}`. Clipped copies (`--clipped`) and `target_voladj_*` (`--voladj`; the denominator is future realized volatility) are optional and off unless requested. Vol-adjusted columns are labels only, never features.
 - **Splits.** Train `ts` date `< 2023-07-01`, val `< 2024-05-15`, oos `< 2025-03-15`, unseen `>= 2025-03-15`. Crypto and FX share these cuts.
-- **Embargo.** `max(horizon, feature lookback)` in that cadence’s bars, and at least 7 calendar days. Feature windows are capped at 90 days of clock time. The 7-day floor and 90-day cap are under `windows` in `config/pipeline.yaml`. Rows inside the embargo are labelled `embargo` and belong to no segment. The embargo is not shrunk when a segment is short.
+- **Embargo.** `max(horizon, feature lookback)` in that cadence’s bars, and at least 7 calendar days. Feature windows are capped at 90 days of clock time. The 7-day floor and 90-day cap are under `windows` in `config/pipeline.yaml`. The length is computed once per asset and fabric from the global series (fixed clock width for time bars; the median duration of the whole on-disk fabric for dollar/tick/volume bars), not from a per-month median, so a split that sits on a month boundary is labelled the same way in both partitions. Rows inside the embargo are labelled `embargo` and belong to no segment. The embargo is not shrunk when a segment is short.
 
 ---
 
@@ -54,7 +54,7 @@ Time bars do not straddle UTC month boundaries (widths divide 24h; months start 
 
 ## 4. Sources and bronze
 
-**Crypto** is Binance Vision (`pipeline.fetch_crypto`). Past months use monthly zips; the current month uses daily files. Daily bronze files are still written. Series: spot aggTrades, spot 1m klines, UM funding (monthly), UM metrics (daily), UM 1d klines (basis). Official funding lives at the monthly Vision prefix; the daily funding prefix is not requested.
+**Crypto** is Binance Vision (`pipeline.fetch_crypto`). Past months use monthly zips, streamed to disk and parsed in row chunks so a large month stays well under 1.5 GB of RAM; the current month uses daily files. Daily bronze files are still written. A day with no rows in a successfully parsed monthly zip is recorded in the fetch manifest as `status=empty` and is not fetched again (unless `--force`). Series: spot aggTrades, spot 1m klines, UM funding (monthly), UM metrics (daily), UM 1d klines (basis). Official funding lives at the monthly Vision prefix; the daily funding prefix is not requested.
 
 **FX** is Dukascopy hourly bi5 (`pipeline.fetch_fx`):
 
@@ -74,9 +74,9 @@ Path patterns, schema names, and producers are in the [artifact registry](#9-art
 
 Alignment, unless a series is native to the bar: backward as-of on `knowable_at(S) <= B.ts_ms`. Rolling windows are in bars of the fabric they are computed on, and are causal. Warmup is null.
 
-**Crypto physics** (same formulas on dollar and time fabrics; `norm_bar_duration` is not emitted on time bars because the clock is fixed): `norm_deviation`, `norm_fd_close`, `norm_vpin`, `norm_flow_imbalance`, `norm_vol_cluster`, `norm_funding`, `norm_tick_count`, `norm_log_volume`, `norm_hl_spread`, `hurst_regime`, `norm_return_{1,4,16}`, `norm_spread_bps`, `norm_ma_distance`, `norm_whale`, `norm_efficiency`, `norm_return_kurtosis`, `norm_funding_momentum`, Hawkes intensity columns, `norm_momentum_accel`, `norm_vol_price_corr`, `norm_vol_ratio`, `norm_flow_persistence`, `norm_oi_price_divergence`, `norm_yz_volatility`, `norm_cs_spread`, `norm_perm_entropy`, `norm_kyle_lambda`. `norm_oi_change` is computed only with `--include-oi`. Audit result (2.2.0): it does not leak. Vision `metrics` stamps the START of a 5-minute window (`create_time`) and the value describes the state at T+5m, so the open-interest lag is 10 minutes (`lags.families.open_interest = 600000`, 5 minutes plus one window of slack); the earlier 5-minute lag was exactly marginal. Every feature is trailing or lagged: perturbing bronze after time T leaves every feature at bars `<= T` bit-identical (`tests/test_audit_v22.py`).
+**Crypto physics** (same formulas on dollar and time fabrics; `norm_bar_duration` is not emitted on time bars because the clock is fixed): `norm_deviation`, `norm_fd_close`, `norm_vpin`, `norm_flow_imbalance`, `norm_vol_cluster`, `norm_funding`, `norm_tick_count`, `norm_log_volume`, `norm_hl_spread`, `hurst_regime`, `norm_return_{1,4,16}`, `norm_spread_bps`, `norm_ma_distance`, `norm_whale`, `norm_efficiency`, `norm_return_kurtosis`, `norm_funding_momentum`, Hawkes intensity columns, `norm_momentum_accel`, `norm_vol_price_corr`, `norm_vol_ratio`, `norm_flow_persistence`, `norm_yz_volatility`, `norm_cs_spread`, `norm_perm_entropy`, `norm_kyle_lambda`. `norm_oi_change` and `norm_oi_price_divergence` are computed only with `--include-oi`. Open interest is first capped at 5× its 50-bar rolling median; `_oi_chg` is the pct_change of that capped series; `norm_oi_change` is the trailing z-score of `_oi_chg`. `norm_oi_price_divergence` is the trailing z-score of `ewm(|_oi_chg|, span=10) / (ewm(|close.pct_change()|, span=10) + 1e-12) - 1`, i.e. how much absolute OI change outruns absolute return, not a price−OI correlation. Audit result (2.2.0): neither leaks. Vision `metrics` stamps the START of a 5-minute window (`create_time`) and the value describes the state at T+5m, so the open-interest lag is 10 minutes (`lags.families.open_interest = 600000`, 5 minutes plus one window of slack); the earlier 5-minute lag was exactly marginal. Every feature is trailing or lagged: perturbing bronze after time T leaves every feature at bars `<= T` bit-identical (`tests/test_audit_v22.py`).
 
-**Daily / slow series** are built per month and as-of joined: funding and metrics daily panels, spot–perp basis, whale/liquidation summaries from trades (`wh_*`, `liq_*`), plus the external series above. Cross-asset columns (`xd_btc_return`, `xd_btc_volatility`, `xd_funding_spread`, `xd_cross_return_mean`, `xd_cross_vol_mean`, `xd_ma_distance`, `xd_momentum_rank`) are a per-month cohort pass; they stay null when peer count is insufficient.
+**Daily / slow series** are built per month and as-of joined: funding and metrics daily panels, spot–perp basis, whale/liquidation summaries from trades (`wh_*`, `liq_*`, plus `wh_threshold_usd`, the size in force that day), plus the external series above. Whale size (`daily_thresholds_v2`) for UTC day D is the 0.999-quantile of per-trade notional over the last 30 observed complete days before D (log-histogram approximation); day D's own trades never move day D's size. The static `whale_usd` table is only the bootstrap on an asset's first day, so a small-coin era such as BNB 2020 is not stuck at a 2024-scale floor of constant-zero `wh_*`. Cross-asset columns (`xd_btc_return`, `xd_btc_volatility`, `xd_funding_spread`, `xd_cross_return_mean`, `xd_cross_vol_mean`, `xd_ma_distance`, `xd_momentum_rank`) are a per-month cohort pass; they stay null when peer count is insufficient.
 
 **FX features** (windows in bars of that frame): `log_ret_1`, `ret_{1,3,5,10,20,50}`, `rv_{10,20,50}`, `parkinson_{10,20,50}`, `garman_klass_20`, `atr_pips_{10,20,50}`, `spread_pips`, `rel_spread_bps`, `spread_z_100`, `tick_intensity_z_100`, `efficiency_ratio_{20,50}`, session flags `is_tokyo` / `is_london` / `is_newyork` / `is_ldn_ny_overlap` (a bar is in session when `(t_open, t_close]` overlaps Tokyo 09:00–18:00 Asia/Tokyo, London 08:00–17:00 Europe/London, or New York 08:00–17:00 America/New_York), `weekend_gap_pips` (only on the first bar after a hole that contains a Saturday), and `usd_strength_ret` (mean of signed `ret_1` across USD legs in the run; null unless at least two legs are present). Not ported, because this feed lacks the inputs: triangular residuals, carry, a wider USD index, and Amihud illiquidity.
 
@@ -107,7 +107,7 @@ A run is not “usable” until these gates are considered. In-pipeline validate
 | As-of / lag | The lags are read from `lags.families` in `config/pipeline.yaml` (version `lags_v2`: funding 0, funding_daily and daily panel 1 day, open_interest 10 min, etf and wikipedia 2 days). A series with lag L must not appear on a bar with `ts_ms < event_time + L`. No same-UTC-day daily aggregate on an intraday bar. |
 | Lookahead correlation | For every feature (not target): correlation vs `target_return_1` with a 0.20 threshold. Failures block the feature, not the whole dataset, unless a core feature fails. Short windows can fire noisily. |
 | Cross-cadence features | A daily feature joined onto an intraday bar is null before it is knowable, and constant across the intra-day bars of the day it becomes knowable. |
-| Split / embargo | No row in two segments; embargo lengths honored. |
+| Split / embargo | No row in two segments; embargo lengths honored and identical across the month partitions that share a split edge. |
 | Universe | Cross-asset features null (not zero) when peer count is insufficient. |
 | Idempotence | A second run with the same params does not change output sha256 (except `built_at`). |
 
@@ -176,6 +176,7 @@ The second table lists on-disk data families. Those paths are created at runtime
 | `tests/test_backtest.py` | Backtest engine tests |
 | `tests/test_bars.py` | Bar construction and cadence tests |
 | `tests/test_external_and_loader.py` | External ingest and gold loader tests |
+| `tests/test_followup_v23.py` | Fetch streaming/empty-day cache, adaptive whale size, global dollar embargo |
 | `tests/test_features_align.py` | Feature and as-of join tests |
 | `tests/test_fx.py` | Offline FX pipeline tests |
 | `tests/test_inspect.py` | Inspect summaries and scoped independent validation |
@@ -216,6 +217,13 @@ The second table lists on-disk data families. Those paths are created at runtime
 ---
 
 ## 10. Changelog
+
+**2.3.0** (crypto follow-up). Silver and gold built under 2.2.0 are stale; bronze is unchanged and reusable.
+
+- Monthly Vision zips are streamed to disk and parsed in 250,000-row chunks. A legitimately empty day (no rows in a successfully parsed monthly zip) is recorded in the fetch manifest as `empty` and is not refetched.
+- Whale size is adaptive and causal (`daily_thresholds_v2`): the 0.999-quantile of per-trade notional over the trailing 30 complete days, with the static table as first-day bootstrap. `wh_threshold_usd` is stored on the daily panel.
+- Embargo length for event bars is taken from the global fabric, not a per-month median, so a split on a month boundary is labelled consistently.
+- Contract text for `norm_oi_price_divergence` now matches the code: it is `--include-oi` only, and is the z-score of smoothed |OI change| over smoothed |return|, minus one.
 
 **2.2.0** (crypto-layer audit). Every silver and gold file built under 2.1.0 is rejected as stale (`partition_fresh` now compares the file's `contract_version`); bronze is unchanged and reusable.
 
