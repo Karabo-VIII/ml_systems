@@ -89,7 +89,8 @@ def test_include_oi_is_opt_in_and_lagged():
     # An OI print at the same instant as a bar must not attach when the lag is 5 minutes.
     oi_ts = int(bars["ts_ms"][10])
     metrics = pl.DataFrame({"ts_ms": [oi_ts], "oi_value": [1_000_000.0]})
-    from pipeline.constants import OI_LAG_MS
+    from pipeline.config import lag_ms
+    OI_LAG_MS = lag_ms("open_interest")
     from pipeline.align import asof_join_knowable as join
     lagged = join(bars, metrics, ["oi_value"], OI_LAG_MS)
     assert lagged["oi_value"][10] is None

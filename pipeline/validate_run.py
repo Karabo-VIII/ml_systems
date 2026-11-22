@@ -29,7 +29,7 @@ if str(_REPO) not in sys.path:
 
 from pipeline.bars import close_of, gaps_ms
 from pipeline.constants import DAY_MS, TIME_WIDTH_MS
-from pipeline.config import dollar_threshold, fx_pip, whale_large_usd
+from pipeline.config import fx_pip, whale_large_usd
 from pipeline.fetch_crypto import http_get, parse_klines
 from pipeline.features import compute_fx_features, summarize_day, rows_to_frame
 from pipeline.paths import fx_hour_path, klines_1m_path, trades_path
@@ -261,9 +261,13 @@ def _session_overlap(open_ms: int, close_ms: int, zone: str, start_h: int, end_h
     return False
 
 
-def check_monotonic(report: Report, frames: dict[tuple[str, str], pl.DataFrame]) -> None:
-    for (asset, bt), df in sorted(frames.items()):
+def check_monotonic(report: Report, frames: dict[tuple[str, str], pl.DataFrame | Path]) -> None:
+    """``ts_ms`` unique and increasing. A value may be a frame or a path (read ``ts_ms`` only)."""
+    for (asset, bt), item in sorted(frames.items()):
         name = f"monotonic:{asset}:{bt}"
+        df = item
+        if isinstance(item, Path):
+            df = _ts_only(item)
         if df.is_empty():
             report.add(name, "WARN", "empty frame")
             continue
@@ -420,64 +424,287 @@ def check_trade_counts(
                 check_spreads(report, asset, ticks, bars)
         else:
             days = _trade_days(root, asset, start, end)
-            trades = _read_trades(root, asset, days)
-            bronze = trades.height
+            bronze = 0
+            for day in days:
+                path = trades_path(root, asset, day)
+                if path.exists():
+                    bronze += int(pl.scan_parquet(path).select(pl.len()).collect().item())
             name = f"trade_count:{asset}"
             if bar_n != bronze:
                 report.add(name, "FAIL", f"1m n_trades {bar_n} != bronze trades {bronze}")
             else:
                 report.add(name, "PASS", f"{bronze} trades accounted for in 1m bars")
             dollar = ladder.get("dollar")
-            if dollar is not None and not trades.is_empty():
-                check_dollar(report, asset, trades, dollar, threshold_overrides=threshold_overrides)
+            if dollar is not None and bronze:
+                check_dollar(report, root, asset, days, dollar, bronze, threshold_overrides=threshold_overrides)
+
+
+def _daily_notional(root: Path, asset: str) -> dict[int, float]:
+    """USD notional per UTC day for every bronze trade day on disk, streamed one file at a time."""
+    out: dict[int, float] = {}
+    for day in _trade_days(root, asset):
+        path = trades_path(root, asset, day)
+        if not path.exists():
+            continue
+        usd = pl.scan_parquet(path).select((pl.col("price") * pl.col("qty")).sum()).collect().item()
+        out[int(datetime(day.year, day.month, day.day, tzinfo=timezone.utc).timestamp() * 1000) // DAY_MS] = float(usd or 0.0)
+    return out
+
+
+def dollar_schedule(daily: dict[int, float], spec) -> dict[int, float]:
+    """Threshold per UTC day, recomputed here from bronze only (no state files).
+
+    Mirrors the contract: the size of day D is the median notional of the last
+    ``window_days`` observed days before D divided by the bars-per-day target,
+    and the static bootstrap on the first day. ``spec.target_bars_per_day is
+    None`` means a constant size.
+    """
+    from pipeline.bars import trailing_threshold
+
+    out: dict[int, float] = {}
+    hist: list[float] = []
+    for d in sorted(daily):
+        if spec.target_bars_per_day is None:
+            out[d] = spec.bootstrap
+        else:
+            out[d] = trailing_threshold(hist, spec.target_bars_per_day, spec.bootstrap)
+        hist.append(daily[d])
+        hist = hist[-spec.window_days:]
+    return out
 
 
 def check_dollar(
     report: Report,
+    root: Path,
     asset: str,
-    trades: pl.DataFrame,
+    days: list[date],
     dollar: pl.DataFrame,
+    bronze_n: int,
     threshold_overrides: dict[str, float] | None = None,
 ) -> None:
+    """Dollar bars against bronze: counts, notional, and the size each bar had to reach."""
+    from pipeline.config import dollar_spec
+
     name = f"dollar_notional:{asset}"
     if dollar.is_empty():
         report.add(name, "WARN", "no dollar bars")
         return
-    override = (threshold_overrides or {}).get(asset)
-    threshold = float(override) if override is not None else float(dollar_threshold(asset))
-    usd = (trades["price"] * trades["qty"]).sum()
+    spec = dollar_spec(asset, (threshold_overrides or {}).get(asset))
+    daily = _daily_notional(root, asset)
+    in_range = {
+        int(datetime(d.year, d.month, d.day, tzinfo=timezone.utc).timestamp() * 1000) // DAY_MS for d in days
+    }
+    usd = sum(v for k, v in daily.items() if k in in_range)
     bar_usd = float(dollar["volume_usd"].sum())
     bar_n = int(dollar["n_trades"].sum())
-    bronze_n = trades.height
     tail_n = bronze_n - bar_n
     if tail_n < 0:
         report.add(name, "FAIL", f"dollar n_trades {bar_n} exceeds bronze {bronze_n}")
         return
     # Tail notional is whatever was not closed into a bar.
-    leftover = float(usd) - bar_usd
-    if leftover < -1e-2:
-        report.add(name, "FAIL", f"dollar volume_usd {bar_usd} exceeds trade notional {float(usd)}")
+    leftover = usd - bar_usd
+    if leftover < -1e-2 * max(1.0, usd * 1e-9):
+        report.add(name, "FAIL", f"dollar volume_usd {bar_usd} exceeds trade notional {usd}")
         return
     bad = dollar.filter(pl.col("volume_usd") <= 0).height
     if bad:
         report.add(name, "FAIL", f"{bad} dollar bars have non-positive notional")
         return
+    schedule = dollar_schedule(daily, spec)
+    sched = pl.DataFrame({"_day": list(schedule), "_t": list(schedule.values())}, schema={"_day": pl.Int64, "_t": pl.Float64})
+    chk = dollar.with_columns((pl.col("ts_open_ms") // DAY_MS).alias("_day")).join(sched, on="_day", how="left")
+    if chk["_t"].null_count():
+        report.add(name, "FAIL", f"{chk['_t'].null_count()} dollar bars open on a day with no bronze trades")
+        return
+    # A bar closes on the trade that reaches the size it opened with, so no completed bar is smaller.
+    short = chk.filter(pl.col("volume_usd") < pl.col("_t") * (1.0 - 1e-6))
+    if short.height:
+        worst = short.with_columns((pl.col("volume_usd") / pl.col("_t")).alias("_r")).sort("_r").row(0, named=True)
+        report.add(
+            name, "FAIL",
+            f"{short.height} dollar bars hold less than the threshold they opened with "
+            f"(worst {worst['_r']:.3f}x at ts_ms={worst['ts_ms']})",
+        )
+        return
+    per_day = chk.group_by("_day").agg(pl.len().alias("n"), pl.col("_t").first().alias("t"))
+    med_bars = float(per_day["n"].median())
     med = float(dollar["volume_usd"].median())
     mx = float(dollar["volume_usd"].max())
-    # Crossing trades can overshoot; the median should still sit near the threshold.
-    if med < 0.2 * threshold or med > 5 * threshold:
+    mode = (
+        f"constant {spec.bootstrap:.0f}" if spec.target_bars_per_day is None
+        else f"trailing-{spec.window_days}d median/{spec.target_bars_per_day:.0f} per day"
+    )
+    # Overshoot comes from single large prints; the typical bar should sit near its size.
+    ratio = float((chk["volume_usd"] / chk["_t"]).median())
+    if ratio > 3.0:
         report.add(
             name, "WARN",
-            f"median bar notional {med:.0f} is far from threshold {threshold:.0f} "
-            f"(max={mx:.0f}, tail_trades={tail_n}, leftover_usd={leftover:.0f})",
+            f"median bar is {ratio:.1f}x its threshold ({mode}); max_usd={mx:.0f}, "
+            f"tail_trades={tail_n}, leftover_usd={leftover:.0f}",
         )
         return
     report.add(
         name, "PASS",
-        f"{dollar.height} bars, threshold={threshold:.0f}, median_usd={med:.0f}, "
+        f"{dollar.height} bars, size={mode}, median_usd={med:.0f}, median_bars_per_day={med_bars:.0f}, "
         f"max_usd={mx:.0f}, tail_trades={tail_n}, leftover_usd={leftover:.0f}, "
         f"trades {bar_n}+{tail_n}={bronze_n}",
     )
+
+
+def _ts_only(path: Path) -> pl.DataFrame:
+    from pipeline.partitions import list_partition_paths
+
+    asset = path.name.rsplit("_", 1)[0]
+    files = list_partition_paths(path.parent, asset)
+    if not files:
+        return pl.read_parquet(path, columns=["ts_ms"])
+    return pl.concat([pl.read_parquet(f, columns=["ts_ms"]) for f in files]).sort("ts_ms")
+
+
+def check_klines(
+    report: Report,
+    root: Path,
+    ladders: dict[str, dict[str, pl.DataFrame]],
+    start: date | None = None,
+    end: date | None = None,
+) -> None:
+    """1m bars built from trades against the exchange's own 1m klines (bronze, fetched separately).
+
+    Open, high, low, close and volume must agree minute by minute. This is what
+    catches a wrong bucket edge (a trade on a minute boundary in the wrong bar),
+    which the sum-based reconciliation gates can not see.
+    """
+    for asset, ladder in sorted(ladders.items()):
+        if _is_fx(asset):
+            continue
+        base = ladder.get("time_1m")
+        name = f"klines_1m:{asset}"
+        if base is None or base.is_empty():
+            continue
+        frames = []
+        for day in _trade_days(root, asset, start, end):
+            path = klines_1m_path(root, asset, day)
+            if path.exists():
+                frames.append(pl.read_parquet(path))
+        if not frames:
+            report.add(name, "WARN", "no bronze 1m klines to compare against")
+            continue
+        k = pl.concat(frames, how="diagonal_relaxed")
+        # Spot files switched to microseconds in 2025; older bronze may hold them unconverted.
+        k = k.with_columns(
+            pl.when(pl.col("ts_open_ms") > 100_000_000_000_000)
+            .then(pl.col("ts_open_ms") // 1000).otherwise(pl.col("ts_open_ms")).alias("ts_open_ms")
+        ).with_columns((pl.col("ts_open_ms") + 60_000).alias("ts_ms")).unique(subset=["ts_ms"], keep="last")
+        lo, hi = int(k["ts_ms"].min()), int(k["ts_ms"].max())
+        # Binance pads minutes with no trades with a flat zero-volume candle. Bars never
+        # invent those (they are the declared gaps), so they are checked for being empty
+        # and then left out of the comparison.
+        filler = k.filter(pl.col("n_trades") == 0) if "n_trades" in k.columns else k.clear()
+        bad_filler = filler.filter((pl.col("volume") != 0) | (pl.col("quote_volume") != 0)).height
+        k = k.filter(pl.col("n_trades") > 0) if "n_trades" in k.columns else k
+        b = base.filter((pl.col("ts_ms") >= lo) & (pl.col("ts_ms") <= hi))
+        j = b.join(
+            k.select(["ts_ms", "open", "high", "low", "close", "volume", "quote_volume"]),
+            on="ts_ms", how="full", suffix="_k", coalesce=True,
+        )
+        only_bars = j.filter(pl.col("open_k").is_null()).height
+        only_klines = j.filter(pl.col("open").is_null()).height
+        both = j.drop_nulls(["open", "open_k"])
+        def _px(col: str) -> pl.Expr:
+            return (pl.col(col) - pl.col(f"{col}_k")).abs() > 1e-9 * pl.col(f"{col}_k").abs()
+        bad = both.filter(
+            _px("open") | _px("high") | _px("low") | _px("close")
+            | ((pl.col("volume") - pl.col("volume_k")).abs() > 1e-8 * pl.col("volume_k").abs() + 1e-9)
+            | ((pl.col("volume_usd") - pl.col("quote_volume")).abs() > 1e-6 * pl.col("quote_volume").abs() + 1e-6)
+        )
+        n = max(both.height, 1)
+        detail = (
+            f"{both.height} minutes compared; {bad.height} differ, "
+            f"{only_bars} only in bars, {only_klines} only in klines"
+        )
+        if filler.height:
+            detail += f"; {filler.height} zero-trade filler candles skipped ({bad_filler} not empty)"
+        bad_n = bad.height + only_bars + only_klines + bad_filler
+        frac = bad_n / n
+        if bad_n == 0:
+            report.add(name, "PASS", detail)
+        elif frac <= 1e-4:
+            sample = bad.select(["ts_ms", "close", "close_k", "volume", "volume_k"]).head(2).to_dicts()
+            report.add(name, "WARN", f"{detail}; e.g. {sample}")
+        else:
+            sample = bad.select(["ts_ms", "close", "close_k", "volume", "volume_k"]).head(2).to_dicts()
+            report.add(name, "FAIL", f"{detail}; e.g. {sample}")
+
+
+def check_manifests(
+    report: Report,
+    root: Path,
+    start: date | None = None,
+    end: date | None = None,
+) -> None:
+    """Every gold manifest: right contract, matches its parquet and its sidecar, fields present."""
+    import hashlib
+
+    import pyarrow.parquet as pq
+
+    from pipeline.constants import CONTRACT_VERSION
+
+    gold = root / "gold"
+    if not gold.exists():
+        return
+    lo, hi = range_ms(start, end)
+    n_ok = 0
+    problems: list[str] = []
+    required = (
+        "contract_version", "schema_name", "producer", "asset", "bar_type", "params_hash",
+        "ts_ms_min", "ts_ms_max", "n_rows", "n_null_by_col", "inputs", "lags_applied",
+        "split_boundaries", "embargo_bars", "built_at_ms", "sha256",
+    )
+    for man_path in sorted(gold.glob("*/*.manifest.json")):
+        try:
+            man = json.loads(man_path.read_text())
+        except ValueError:
+            problems.append(f"{man_path.name}: not valid JSON")
+            continue
+        if lo is not None and hi is not None and not (lo < int(man.get("ts_ms_max") or 0) and int(man.get("ts_ms_min") or 0) <= hi):
+            continue
+        pq_path = man_path.with_name(man_path.name.replace(".manifest.json", ".parquet"))
+        tag = f"{man_path.parent.name}/{pq_path.name}"
+        missing = [k for k in required if k not in man or man[k] is None]
+        # Null is a legitimate value only for an empty inputs/lags on a frame with none attached.
+        missing = [k for k in missing if k not in ("inputs", "lags_applied") or k not in man]
+        if missing:
+            problems.append(f"{tag}: manifest lacks {missing}")
+            continue
+        if man["contract_version"] != CONTRACT_VERSION:
+            problems.append(f"{tag}: contract_version {man['contract_version']} != {CONTRACT_VERSION}")
+        if not pq_path.exists():
+            problems.append(f"{tag}: manifest without a parquet")
+            continue
+        digest = hashlib.sha256(pq_path.read_bytes()).hexdigest()
+        if digest != man["sha256"]:
+            problems.append(f"{tag}: sha256 in manifest != file")
+        side = pq_path.with_suffix(pq_path.suffix + ".sha256")
+        if not side.exists() or side.read_text().strip() != digest:
+            problems.append(f"{tag}: .sha256 sidecar missing or stale")
+        try:
+            meta = pq.ParquetFile(pq_path).metadata
+            if meta.num_rows != man["n_rows"]:
+                problems.append(f"{tag}: n_rows {man['n_rows']} != parquet {meta.num_rows}")
+            ts = pl.read_parquet(pq_path, columns=["ts_ms"])["ts_ms"]
+            if int(ts.min()) != man["ts_ms_min"] or int(ts.max()) != man["ts_ms_max"]:
+                problems.append(f"{tag}: ts range differs from the manifest")
+            ph = (pq.read_schema(pq_path).metadata or {}).get(b"params_hash", b"").decode()
+            if ph != man["params_hash"]:
+                problems.append(f"{tag}: params_hash differs from the parquet footer")
+        except Exception as exc:  # a corrupt file is a finding, not a crash of the validator
+            problems.append(f"{tag}: unreadable parquet ({type(exc).__name__})")
+            continue
+        n_ok += 1
+    if problems:
+        report.add("manifests", "FAIL", f"{len(problems)} problems; " + "; ".join(problems[:4]))
+    elif n_ok:
+        report.add("manifests", "PASS", f"{n_ok} gold manifests match their parquet, sidecar and contract {CONTRACT_VERSION}")
 
 
 def check_spreads(report: Report, asset: str, ticks: pl.DataFrame, bars: pl.DataFrame) -> None:
@@ -1099,11 +1326,13 @@ def run_validation(
     layer = found["gold"] or found["silver"]
     for bt, by_asset in layer.items():
         for asset, path in by_asset.items():
-            frames[(asset, bt)] = _frame_for(path, start, end)
+            frames[(asset, bt)] = clip_frame(_ts_only(path), start, end)
 
     check_monotonic(report, frames)
     check_time_reconcile(report, ladders)
     check_trade_counts(report, root, ladders, start, end, threshold_overrides=threshold_overrides)
+    check_klines(report, root, ladders, start, end)
+    check_manifests(report, root, start, end)
     check_gaps(report, ladders)
     check_sessions(report, found["gold"] or found["silver"], start, end)
     if z_window is None:

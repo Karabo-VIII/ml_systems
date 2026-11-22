@@ -61,17 +61,25 @@ backtest:
     # Not a typical pip width presented as fact.
     half_spread_bps: 0.0
 lags:
-  version: lags_v1
+  version: lags_v2
   day_ms: 86400000
   families:
     trades: 0
     time_bars: 0
     dollar_bars: 0
     funding: 0
-    open_interest: 300000
+    # Vision metrics stamp a 5-minute window by its START (create_time T). Measured
+    # on 2026-11-09..15: corr(|dOI(T)|, |ret of the 5m bar ending T+5m|) = 0.74-0.87
+    # versus 0.15-0.25 for the bars ending at T-5m..T+15m, so the value stamped T
+    # describes the state at T+5m. One window (5m) is the earliest it can exist;
+    # a second window (10m total) is the publication margin.
+    open_interest: 600000
     daily_panel: 86400000
-    wikipedia: 86400000
-    etf: 86400000
+    funding_daily: 86400000
+    # Pageviews and Farside flows for day D are posted after day D closes and
+    # Farside revises; two days keeps them behind any plausible publication time.
+    wikipedia: 172800000
+    etf: 172800000
     defillama: 86400000
     deribit: 86400000
     whale: 86400000
@@ -81,8 +89,19 @@ lags:
     basis: 86400000
     metrics_daily: 86400000
 dollar_thresholds:
-  version: dollar_thresholds_v1
-  calibration: TODO
+  version: dollar_thresholds_v2
+  # Adaptive size (contract 2.2.0). The threshold for UTC day D is
+  #   median(USD notional of the last window_days complete days before D) / target_bars_per_day
+  # so every asset carries about target_bars_per_day dollar bars per day in 2020 and
+  # in 2026 alike (288 = the count of 5-minute time bars, so the two fabrics are
+  # directly comparable). It is causal: day D's own trades never set day D's size,
+  # and a bar that is open at midnight keeps the size it opened with.
+  # `assets` below is only the bootstrap: the size used on an asset's first day,
+  # before any history exists. It is a 2024-era table and is not used afterwards.
+  calibration:
+    method: trailing_median_daily_notional
+    window_days: 30
+    target_bars_per_day: 288
   assets:
     BTCUSDT: 2000000
     ETHUSDT: 700000

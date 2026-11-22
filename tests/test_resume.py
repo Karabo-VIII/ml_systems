@@ -78,8 +78,8 @@ def test_interrupt_mid_bars_then_resume_matches_clean_run(tmp_path, monkeypatch)
     original = chunked.write_bars_month
     calls = {"n": 0}
 
-    def boom(cfg, asset, year, month, acc, session=None):
-        result = original(cfg, asset, year, month, acc, session)
+    def boom(cfg, asset, year, month, acc, session=None, **kwargs):
+        result = original(cfg, asset, year, month, acc, session, **kwargs)
         calls["n"] += 1
         if calls["n"] >= 1:
             raise KeyboardInterrupt()

@@ -16,16 +16,15 @@ from pipeline.constants import (
     ALL_BAR_TYPES,
     CORE_BAR_TYPES,
     DAY_MS,
-    OI_LAG_MS,
     TIME_WIDTH_MS,
 )
 from pipeline.config import (
     fx_pip,
     Splits,
     Windows,
-    dollar_threshold,
     effective_start,
     embargo_bars_for,
+    lag_ms,
     liq_proxy_usd,
     load_embargo_policy,
     load_listing_dates,
@@ -57,7 +56,7 @@ from pipeline.fetch_external import fetch_all_external, load_external
 from pipeline.calendar import clip_month, iter_days, iter_months
 from pipeline.chunked import (
     load_bar_months,
-    load_dollar_state,
+    plan_dollar,
     load_feature_months,
     write_bars_month,
     write_dataset_month,
@@ -202,10 +201,11 @@ def _join_oi(bars: pl.DataFrame, metrics: pl.DataFrame) -> pl.DataFrame:
         "ts_ms",
         pl.col("sum_open_interest_value").alias("oi_value"),
     ]).drop_nulls(["oi_value"])
-    return asof_join_knowable(bars, feat, ["oi_value"], OI_LAG_MS)
+    return asof_join_knowable(bars, feat, ["oi_value"], lag_ms("open_interest"))
 
 
-def _join_daily(bars: pl.DataFrame, panel: pl.DataFrame, cols: list[str]) -> pl.DataFrame:
+def _join_daily(bars: pl.DataFrame, panel: pl.DataFrame, cols: list[str], family: str) -> pl.DataFrame:
+    """As-of join of a daily series. Its lag comes from ``lags.families[family]``."""
     if panel.is_empty() or not cols:
         return bars
     present = [c for c in cols if c in panel.columns]
@@ -213,87 +213,29 @@ def _join_daily(bars: pl.DataFrame, panel: pl.DataFrame, cols: list[str]) -> pl.
         return bars
     feat = panel.select(["event_time_ms", *present])
     return asof_join_knowable(
-        bars, feat, present, DAY_MS,
+        bars, feat, present, lag_ms(family),
         feature_time_col="event_time_ms",
     )
 
 
-def build_bars_for_asset(cfg: RunConfig, asset: str, start: date) -> dict:
-    """Stream bronze days into time bars, dollar bars, and a daily panel."""
-    windows = cfg.windows or load_windows()
-    override = (cfg.threshold_overrides or {}).get(asset)
-    threshold = float(override) if override is not None else dollar_threshold(asset)
-    partials = []
-    acc = DollarAccumulator(threshold)
-    tick_chunks: list[pl.DataFrame] = []
-    vol_chunks: list[pl.DataFrame] = []
-    daily_rows = []
-    n_bronze = 0
-    want_tick = "tick" in cfg.bar_types
-    want_vol = "volume" in cfg.bar_types
-    for day in iter_days(start, cfg.end):
-        path = trades_path(cfg.data_root, asset, day)
-        if not path.exists():
-            continue
-        trades = pl.read_parquet(path)
-        sort_cols = ["ts_us", "agg_trade_id"] if "ts_us" in trades.columns else ["ts_ms"]
-        trades = trades.sort(sort_cols)
-        n_bronze += trades.height
-        one_m = trades_to_time(trades, TIME_WIDTH_MS["time_1m"], asset, "time_1m")
-        partials.append(one_m)
-        acc.add(trades)
-        if want_tick or want_vol:
-            # Optional fabrics are small relative to a day; keep the day frame only
-            # when the caller asked for them.
-            if want_tick:
-                tick_chunks.append(trades)
-            if want_vol:
-                vol_chunks.append(trades)
-        daily_rows.append(summarize_day(
-            trades, one_m, asset=asset, day=day,
-            whale_usd=whale_large_usd(asset), liq_usd=liq_proxy_usd(asset),
-        ))
-        del trades
-
-    bars_1m = merge_partial_time(partials, asset, "time_1m", TIME_WIDTH_MS["time_1m"])
-    # Coarser clocks from the merged 1m bars. build_time_ladder would re-bin trades;
-    # here the 1m frame is already the base, so aggregate from it.
-    from pipeline.bars import bars_to_time
-    ladder = {"time_1m": bars_1m}
-    for name in cfg.bar_types:
-        if name in TIME_WIDTH_MS and name != "time_1m":
-            ladder[name] = bars_to_time(bars_1m, TIME_WIDTH_MS[name], asset, name)
-    dollar, excluded = acc.finish(asset)
-    out_bars: dict[str, pl.DataFrame] = {}
-    for name in cfg.bar_types:
-        if name in ladder:
-            out_bars[name] = ladder[name]
-    if "dollar" in cfg.bar_types:
-        out_bars["dollar"] = dollar
-    if want_tick and tick_chunks:
-        ticks, _ = tick_bars(pl.concat(tick_chunks), int(optional_threshold(asset, "tick_trades_per_bar")), asset)
-        out_bars["tick"] = ticks
-    if want_vol and vol_chunks:
-        vols, _ = volume_bars(pl.concat(vol_chunks), optional_threshold(asset, "volume_base_qty_per_bar"), asset)
-        out_bars["volume"] = vols
-    return {
-        "bars": out_bars,
-        "ladder": ladder,
-        "daily": rows_to_frame(daily_rows),
-        "n_bronze": n_bronze,
-        "dollar_excluded": excluded,
-        "gaps": gaps_ms(bars_1m),
-        "windows": windows,
-    }
-
-
 def _attach_slow_features(cfg: RunConfig, asset: str, start: date, bars: dict[str, pl.DataFrame], daily: pl.DataFrame) -> dict[str, pl.DataFrame]:
-    funding = _read_funding(cfg.data_root, asset, start, cfg.end)
-    metrics = _read_metrics(cfg.data_root, asset, start, cfg.end) if cfg.include_oi else pl.DataFrame()
+    # Read only as far as the frame goes. Anything later could never be knowable
+    # for these bars, and reading to cfg.end made every partition scan the whole run.
+    last_ts = max(int(f["ts_ms"].max()) for f in bars.values() if not f.is_empty())
+    read_end = min(cfg.end, datetime.fromtimestamp(last_ts / 1000, tz=timezone.utc).date())
+    funding = _read_funding(cfg.data_root, asset, start, read_end)
+    # The daily metrics panel (s3_*) is a slow, day-lagged series and is always built
+    # when Vision shipped metrics. Only the 5-minute OI feature is opt-in (--include-oi).
+    metrics = _read_metrics(cfg.data_root, asset, start, read_end)
     fund_daily = funding_daily(funding, asset)
-    met_daily = metrics_daily(metrics, asset) if cfg.include_oi else pl.DataFrame()
-    perp = _read_perp(cfg.data_root, asset, start, cfg.end)
+    met_daily = metrics_daily(metrics, asset)
+    perp = _read_perp(cfg.data_root, asset, start, read_end)
+    # Basis needs true daily spot closes whatever cadence is being featured, so the
+    # 1d silver bars are read here when the frame being built is not the 1d one.
     spot_1d = bars.get("time_1d")
+    if spot_1d is None:
+        loaded = load_bar_months(cfg.data_root, asset, "time_1d", start, read_end)
+        spot_1d = loaded if not loaded.is_empty() else None
     basis = basis_daily(spot_1d, perp, asset) if spot_1d is not None else pl.DataFrame()
     windows = cfg.windows or load_windows()
     _floor_days, max_days = load_embargo_policy()
@@ -324,21 +266,21 @@ def _attach_slow_features(cfg: RunConfig, asset: str, start: date, bars: dict[st
         median = int(diffs.median()) if diffs is not None and diffs.len() else None
         scaled = scale_windows(windows, bar_type, median, max_lookback_days=max_days)
         df = compute_physics(df, scaled, include_oi=cfg.include_oi)
-        df = _join_daily(df, daily, daily_cols)
-        df = _join_daily(df, fund_daily, fund_cols)
-        df = _join_daily(df, met_daily, met_cols)
-        df = _join_daily(df, basis, basis_cols)
-        df = _join_daily(df, stables, stable_cols)
+        df = _join_daily(df, daily, daily_cols, "daily_panel")
+        df = _join_daily(df, fund_daily, fund_cols, "funding_daily")
+        df = _join_daily(df, met_daily, met_cols, "metrics_daily")
+        df = _join_daily(df, basis, basis_cols, "basis")
+        df = _join_daily(df, stables, stable_cols, "defillama")
         if dvol_cols and not dvol.is_empty():
             own = dvol.filter(pl.col("asset") == asset)
-            df = _join_daily(df, own, dvol_cols)
-        df = _join_daily(df, btc_dvol, ["dv_btc_dvol_close"] if "dv_btc_dvol_close" in btc_dvol.columns else [])
+            df = _join_daily(df, own, dvol_cols, "deribit")
+        df = _join_daily(df, btc_dvol, ["dv_btc_dvol_close"] if "dv_btc_dvol_close" in btc_dvol.columns else [], "deribit")
         if etf_cols and not etf.is_empty():
             own_etf = etf.filter(pl.col("asset") == asset) if "asset" in etf.columns else etf
-            df = _join_daily(df, own_etf, etf_cols)
+            df = _join_daily(df, own_etf, etf_cols, "etf")
         if wiki_cols and not wiki.is_empty():
             own_wiki = wiki.filter(pl.col("asset") == asset)
-            df = _join_daily(df, own_wiki, wiki_cols)
+            df = _join_daily(df, own_wiki, wiki_cols, "wikipedia")
         out[bar_type] = df
     return out
 
@@ -453,26 +395,18 @@ def run(cfg: RunConfig) -> int:
             for asset, start in active:
                 try:
                     months = list(iter_months(start, cfg.end))
-                    threshold = float((cfg.threshold_overrides or {}).get(asset) or dollar_threshold(asset))
-                    from pipeline.chunked import bars_params
-                    from pipeline.partitions import partition_fresh
-                    y0, m0 = months[0]
-                    first0, last0 = clip_month(y0, m0, start, cfg.end)
-                    extra0 = {"threshold": threshold} if "dollar" in cfg.bar_types else {}
-                    first_fresh = (not cfg.force) and all(
-                        partition_fresh(
-                            bars_month_path(cfg.data_root, bt, asset, y0, m0),
-                            bars_params(asset, bt, first0, last0, extra0 if bt == "dollar" else None),
-                        )
-                        for bt in cfg.bar_types
-                    )
-                    acc = load_dollar_state(cfg.data_root, asset, threshold) if first_fresh else DollarAccumulator(threshold)
+                    # Months below f keep their dollar partitions; the rest are rebuilt in
+                    # order from `acc` (see chunked.plan_dollar). Time bars are independent.
+                    f, acc = plan_dollar(cfg, asset, months, start)
                     n_bronze = 0
                     gaps = []
                     excluded = 0
                     with session.bar(f"bars {asset}", len(months), "month") as bar:
-                        for year, month in months:
-                            packed = write_bars_month(cfg, asset, year, month, acc, session)
+                        for i, (year, month) in enumerate(months):
+                            packed = write_bars_month(
+                                cfg, asset, year, month, acc, session,
+                                start=start, rebuild_dollar=(i >= f),
+                            )
                             n_bronze += int(packed.get("n_bronze") or 0)
                             if packed.get("dollar_excluded") is not None:
                                 excluded = int(packed.get("dollar_excluded") or 0)

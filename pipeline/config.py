@@ -183,6 +183,22 @@ def load_splits(path: Path | None = None) -> Splits:
     )
 
 
+def load_lags(path: Path | None = None) -> dict:
+    """The ``lags.families`` table: publication lag in ms per series family."""
+    return dict(_section(path, "lags", "families")["families"])
+
+
+def lag_ms(family: str, table: dict | None = None) -> int:
+    """Publication lag of one series family. A family that is not listed is an error."""
+    table = table if table is not None else load_lags()
+    if family not in table:
+        raise KeyError(f"no publication lag for {family!r} in config/pipeline.yaml lags.families")
+    value = int(table[family])
+    if value < 0:
+        raise ValueError(f"lag for {family!r} must be >= 0, got {value}")
+    return value
+
+
 def load_dollar_thresholds(path: Path | None = None) -> dict:
     return _section(path, "dollar_thresholds", "assets")
 
@@ -197,6 +213,42 @@ def dollar_threshold(asset: str, table: dict | None = None) -> float:
             f"(version {table.get('version')}). Add one; do not invent a size."
         )
     return float(assets[asset])
+
+
+@dataclass(frozen=True)
+class DollarSpec:
+    """How dollar bars are sized for one asset.
+
+    ``target_bars_per_day`` is ``None`` for a constant size (tests and explicit
+    overrides): every bar uses ``bootstrap``. Otherwise ``bootstrap`` is only the
+    first-day size and later days use the trailing median (see ``bars.trailing_threshold``).
+    """
+
+    bootstrap: float
+    target_bars_per_day: float | None
+    window_days: int
+
+    def as_params(self) -> dict:
+        return {
+            "bootstrap": self.bootstrap,
+            "target_bars_per_day": self.target_bars_per_day,
+            "window_days": self.window_days,
+        }
+
+
+def dollar_spec(asset: str, override: float | None = None, table: dict | None = None) -> DollarSpec:
+    """Dollar-bar sizing. An explicit ``override`` means a constant threshold."""
+    table = table if table is not None else load_dollar_thresholds()
+    if override is not None:
+        return DollarSpec(float(override), None, 30)
+    cal = table.get("calibration") or {}
+    if not isinstance(cal, dict) or "target_bars_per_day" not in cal:
+        return DollarSpec(dollar_threshold(asset, table), None, 30)
+    return DollarSpec(
+        dollar_threshold(asset, table),
+        float(cal["target_bars_per_day"]),
+        int(cal.get("window_days", 30)),
+    )
 
 
 def optional_threshold(asset: str, kind: str, table: dict | None = None) -> float:

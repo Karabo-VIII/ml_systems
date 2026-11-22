@@ -125,6 +125,59 @@ def null_fraction(df: pl.DataFrame, cols: list[str]) -> dict[str, float]:
     return out
 
 
+# Series families that are attached to a bar by an as-of join. The key is the
+# ``lags.families`` entry that sets the publication lag; the tuple lists the
+# column names or prefixes that belong to the family.
+INPUT_FAMILIES: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("funding", ("funding_rate",)),
+    ("daily_panel", ("wh_", "liq_", "rv_", "hbr_")),
+    ("funding_daily", ("funding_day_",)),
+    ("metrics_daily", ("s3_",)),
+    ("basis", ("bs_",)),
+    ("defillama", ("stbl_",)),
+    ("deribit", ("dv_",)),
+    ("etf", ("etf_",)),
+    ("wikipedia", ("soc_",)),
+    ("open_interest", ("oi_value", "norm_oi_")),
+)
+
+# Columns that are empty because the source did not publish yet (not a bug).
+_SOURCE_FAMILIES = {"deribit", "etf", "wikipedia", "defillama", "metrics_daily", "basis", "open_interest", "funding", "funding_daily"}
+
+
+def input_families(columns: list[str], lag_table: dict[str, int]) -> tuple[list[dict], dict[str, int]]:
+    """Families present in a frame, with their columns and the lag that was applied."""
+    inputs: list[dict] = []
+    lags: dict[str, int] = {}
+    for family, patterns in INPUT_FAMILIES:
+        cols = [c for c in columns if any(c == p or (p.endswith("_") and c.startswith(p)) for p in patterns)]
+        if not cols:
+            continue
+        lag = int(lag_table.get(family, 0))
+        inputs.append({"family": family, "columns": cols, "lag_ms": lag})
+        lags[family] = lag
+    return inputs, lags
+
+
+def null_by_design(df: pl.DataFrame, feature_cols: list[str], families: list[dict]) -> dict[str, str]:
+    """Columns that are 100% null in this partition, each with the reason."""
+    owner = {c: f["family"] for f in families for c in f["columns"]}
+    out: dict[str, str] = {}
+    if df.height == 0:
+        return out
+    for c in feature_cols:
+        if c not in df.columns or df[c].null_count() != df.height:
+            continue
+        family = owner.get(c)
+        if family in _SOURCE_FAMILIES:
+            out[c] = f"source '{family}' has no data knowable in this period"
+        elif c.startswith(("norm_", "hurst_", "xd_")):
+            out[c] = "rolling-window warmup (or too few peers for xd_*) covers the partition"
+        else:
+            out[c] = "all null; not explained by a known source or warmup"
+    return out
+
+
 def manifest_payload(
     *,
     asset: str,
@@ -136,25 +189,35 @@ def manifest_payload(
     inputs: list[dict],
     lags: dict[str, int],
     built_at_ms: int,
+    splits: object | None = None,
 ) -> dict:
+    from pipeline.io import params_hash
+
     ts_min = int(df["ts_ms"].min()) if df.height else None
     ts_max = int(df["ts_ms"].max()) if df.height else None
+    boundaries = None
+    if splits is not None:
+        boundaries = {
+            k: getattr(splits, k).isoformat()
+            for k in ("train_end", "val_end", "oos_end", "unseen_start")
+        }
     return {
         "contract_version": CONTRACT_VERSION,
         "schema_name": "dataset_v1",
         "producer": "pipeline",
         "asset": asset,
         "bar_type": bar_type,
-        "params_hash": params.get("params_hash"),
+        "params_hash": params_hash(params),
         "params": params,
         "ts_ms_min": ts_min,
         "ts_ms_max": ts_max,
         "n_rows": df.height,
         "n_feature_cols": len(feature_cols),
         "n_null_by_col": null_fraction(df, feature_cols),
+        "null_by_design": null_by_design(df, feature_cols, inputs),
         "inputs": inputs,
         "lags_applied": lags,
-        "split_boundaries": params.get("splits"),
+        "split_boundaries": boundaries,
         "purge_bars": embargo_bars,
         "embargo_bars": embargo_bars,
         "built_at_ms": built_at_ms,

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-CONTRACT_VERSION = "2.1.0"
+CONTRACT_VERSION = "2.2.0"
 PRODUCER = "pipeline"
 
 # Core chart/ML fabrics. Time bars are real OHLCV aggregates, not "last dollar bar".
@@ -42,9 +42,6 @@ HOUR_MS = 3_600_000
 # 2h, 6h, and 8h (and the rest) divide 24 hours, so every bucket lines up
 # with 00:00:00 UTC. close_of uses the Unix epoch, which is midnight UTC.
 assert all(DAY_MS % w == 0 for w in TIME_WIDTH_MS.values())
-
-# Open interest, when explicitly enabled, is not attached to the same bar.
-OI_LAG_MS = 5 * 60_000
 
 # Peer as-of tolerance for dollar bars (old MAX_JOIN_STALENESS was 10 minutes).
 DOLLAR_PEER_TOLERANCE_MS = 10 * 60_000

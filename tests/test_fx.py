@@ -48,8 +48,9 @@ def test_bi5_roundtrip_scales_jpy_and_majors():
     assert "2024/00/15/12h_ticks.bi5" in hour_url("EURUSD", start)
 
 
-def test_tick_bar_is_right_closed_and_uses_tick_count():
-    # A print exactly on the boundary belongs to the bar that closes there.
+def test_tick_bar_is_stamped_at_close_and_uses_tick_count():
+    # A bar covers [open, close) and is stamped at close, as for crypto trades: a print
+    # exactly on the boundary is the first tick of the NEXT bar.
     close_ms = int(_hour(2024, 1, 15, 13).timestamp() * 1000)
     ticks = pl.DataFrame({
         "ts_ms": [close_ms - 30_000, close_ms, close_ms + 30_000],
@@ -61,11 +62,14 @@ def test_tick_bar_is_right_closed_and_uses_tick_count():
     bars = fx_ticks_to_time(ticks, 3_600_000, "EURUSD", "time_1h")
     assert bars["ts_ms"].to_list() == [close_ms, close_ms + 3_600_000]
     first = bars.filter(pl.col("ts_ms") == close_ms)
-    assert first["n_trades"][0] == 2
-    assert first["volume"][0] == 2.0
-    assert first["close"][0] == 1.20
+    assert first["n_trades"][0] == 1
+    assert first["volume"][0] == 1.0
+    assert first["close"][0] == 1.10
     assert first["volume_usd"][0] is None
     assert first["buy_volume"][0] is None
+    second = bars.filter(pl.col("ts_ms") == close_ms + 3_600_000)
+    assert second["n_trades"][0] == 2
+    assert second["open"][0] == 1.20
 
 
 def test_sessions_follow_dst_and_weekend_gap_is_causal():
@@ -209,7 +213,7 @@ def test_fx_coarse_bars_use_clock_open_when_minutes_are_missing():
     # Ticks only in the last 10 minutes of the 13:00 UTC hour.
     close = int(_hour(2024, 1, 15, 14).timestamp() * 1000)
     ticks = pl.DataFrame({
-        "ts_ms": [close - 600_000, close - 120_000, close],
+        "ts_ms": [close - 600_000, close - 120_000, close - 1],
         "bid": [1.10, 1.11, 1.12],
         "ask": [1.10, 1.11, 1.12],
         "mid": [1.10, 1.11, 1.12],

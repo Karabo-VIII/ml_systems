@@ -41,9 +41,13 @@ def empty_bars() -> pl.DataFrame:
 
 
 def close_of(ts_ms: pl.Expr, width_ms: int) -> pl.Expr:
-    """Right edge of the left-open, right-closed bucket containing ``ts_ms``.
+    """Close of the bucket that a *finished child bar* belongs to.
 
-    A trade at exactly a boundary belongs to the bucket that closes there.
+    A child bar is already stamped at its own close. A 1m bar that closes at
+    exactly 12:00:00 is the last child of the 1h bar that closes at 12:00:00,
+    so a stamp on a boundary stays on it (left-open, right-closed). Raw trades
+    and ticks use :func:`event_close_of` instead.
+
     Buckets are aligned to 00:00:00 UTC: ``width_ms`` always divides a UTC
     day, and the Unix epoch used here is midnight UTC, so 2h/6h/8h closes
     land on 00:00, 02:00, … or 00:00, 06:00, 12:00, 18:00, and so on.
@@ -53,6 +57,21 @@ def close_of(ts_ms: pl.Expr, width_ms: int) -> pl.Expr:
         .then(ts_ms)
         .otherwise((ts_ms // width_ms + 1) * width_ms)
     )
+
+
+def event_close_of(ts_ms: pl.Expr, width_ms: int) -> pl.Expr:
+    """Close of the bucket that a raw event (trade or tick) belongs to.
+
+    A bar covers ``[t_open, t_close)`` and is stamped ``t_close``. An event at
+    exactly ``t_close`` belongs to the *next* bar. This is the Binance kline
+    convention (``open_time`` inclusive, the next ``open_time`` exclusive), so
+    a 1m bar built from trades matches the exchange kline exactly. It is also
+    causal: the bar stamped ``t`` holds only events strictly before ``t``, and
+    nothing in a bar is knowable later than its stamp. A trade at 00:00:00.000
+    on the first of a month lands in the first 1m bar of that month, so no time
+    bar straddles a month boundary.
+    """
+    return (ts_ms // width_ms + 1) * width_ms
 
 
 def cast_bars(df: pl.DataFrame) -> pl.DataFrame:
@@ -90,6 +109,7 @@ def collapse_duplicate_closes(df: pl.DataFrame) -> pl.DataFrame:
         pl.col("buy_usd").sum().alias("buy_usd"),
         pl.col("sell_usd").sum().alias("sell_usd"),
         pl.col("n_trades").sum().cast(pl.Int64).alias("n_trades"),
+        *([pl.col("bar_id").sort_by("_ord").first().alias("bar_id")] if "bar_id" in df.columns else []),
     ])
 
 
@@ -108,8 +128,12 @@ def finalize(df: pl.DataFrame, asset: str, bar_type: str) -> pl.DataFrame:
         vwap.alias("vwap"),
         (pl.col("buy_usd") - pl.col("sell_usd")).alias("signed_usd"),
     ])
-    df = df.drop("bar_id") if "bar_id" in df.columns else df
-    df = df.with_row_index("bar_id").with_columns(pl.col("bar_id").cast(pl.Int64))
+    # bar_id is unique per asset and bar type across every partition: time bars
+    # carry their close index (ts_ms // width) and event bars carry the global
+    # sequence number the accumulator assigned. Only a bare frame is numbered here.
+    if "bar_id" not in df.columns:
+        df = df.with_row_index("bar_id")
+    df = df.with_columns(pl.col("bar_id").cast(pl.Int64))
     return cast_bars(df)
 
 
@@ -184,11 +208,12 @@ def trades_to_time(trades: pl.DataFrame, width_ms: int, asset: str, bar_type: st
         return finalize(trades, asset, bar_type)
     df = trades.sort(["ts_us", "agg_trade_id"] if "ts_us" in trades.columns else ["ts_ms"])
     df = df.with_columns((pl.col("price") * pl.col("qty")).alias("_usd"))
-    df = df.with_columns(close_of(pl.col("ts_ms"), width_ms).alias("_close"))
+    df = df.with_columns(event_close_of(pl.col("ts_ms"), width_ms).alias("_close"))
     grouped = aggregate_trades(df, "_close")
     grouped = grouped.with_columns([
         (pl.col("_close") - width_ms).alias("ts_open_ms"),
         pl.col("_close").alias("ts_ms"),
+        (pl.col("_close") // width_ms).alias("bar_id"),
     ]).drop(["_close", "ts_close_trade_ms"])
     return finalize(grouped, asset, bar_type)
 
@@ -202,6 +227,7 @@ def bars_to_time(bars_1m: pl.DataFrame, width_ms: int, asset: str, bar_type: str
     grouped = grouped.with_columns([
         (pl.col("_close") - width_ms).alias("ts_open_ms"),
         pl.col("_close").alias("ts_ms"),
+        (pl.col("_close") // width_ms).alias("bar_id"),
     ]).drop("_close")
     return finalize(grouped, asset, bar_type)
 
@@ -232,6 +258,7 @@ def merge_partial_time(partials: list[pl.DataFrame], asset: str, bar_type: str, 
     grouped = grouped.with_columns([
         (pl.col("_close") - width_ms).alias("ts_open_ms"),
         pl.col("_close").alias("ts_ms"),
+        (pl.col("_close") // width_ms).alias("bar_id"),
     ]).drop("_close")
     return finalize(grouped, asset, bar_type)
 
@@ -266,20 +293,31 @@ def contiguous_hole_ms(missing: list[int], width_ms: int = 60_000) -> int:
             run = 1
     return longest * width_ms
 
-"""Dollar, tick, and volume bars.
+"""Dollar, tick, and volume bars (event bars).
 
-Assignment is the global ``floor(cumsum / threshold)`` rule named in the
-contract, applied as one series so chunk boundaries cannot renumber bars.
-The open tail (the last id, when the running total is not an exact multiple
-of the threshold) is not written. Its trade count is returned so the
-reconciliation gate can add it back.
+A bar closes on the trade that makes its running total reach the threshold,
+and that trade is the LAST trade of the bar. The next bar starts at zero with
+the next trade. So a bar stamped ``t`` contains only trades up to ``t`` and it
+is knowable at ``t``: nothing about its close depends on a later trade. Every
+completed bar holds at least ``threshold`` (a single large print can overshoot
+it). The trades after the last completed bar are the open tail. They are not
+written, and their count is returned so the reconciliation gate can add it back.
+
+The dollar threshold can change from one UTC day to the next (see
+:class:`DollarAccumulator`). It is fixed when a bar opens and never changes
+mid-bar, so a bar's size is known from information before its first trade.
 """
-
 
 import math
 
+import numpy as np
 import polars as pl
 
+from pipeline.constants import DAY_MS
+
+# A trade that lands within this fraction of the threshold counts as reaching it.
+# It only absorbs float error in the running sum (1e-9 of a $2M bar is $0.002).
+_EPS = 1e-9
 
 
 def _prepare(trades: pl.DataFrame, value: pl.Expr) -> pl.DataFrame:
@@ -290,23 +328,53 @@ def _prepare(trades: pl.DataFrame, value: pl.Expr) -> pl.DataFrame:
     ])
 
 
-def _ids(df: pl.DataFrame, threshold: float, cum_start: float) -> pl.DataFrame:
-    return df.with_columns(
-        ((pl.col("_value").cum_sum() + cum_start) / threshold).floor().cast(pl.Int64).alias("_raw")
-    )
+def assign_ids(
+    values: np.ndarray,
+    *,
+    open_threshold: float | None,
+    open_cum: float,
+    new_threshold: float,
+    first_id: int,
+) -> tuple[np.ndarray, int, float | None, float]:
+    """Number the trades of one chunk into bars.
+
+    ``open_threshold`` / ``open_cum`` describe a bar already open from earlier
+    chunks (``None`` when there is none). Returns ``(ids, next_id,
+    open_threshold, open_cum)``. When the chunk ends exactly on a close, there
+    is no open bar afterwards and ``open_threshold`` is ``None``.
+    """
+    n = len(values)
+    ids = np.empty(n, dtype=np.int64)
+    if n == 0:
+        return ids, first_id, open_threshold, open_cum
+    c = np.cumsum(values, dtype=np.float64)
+    cur = first_id
+    pos = 0
+    base = 0.0
+    if open_threshold is not None:
+        target = base + (open_threshold - open_cum)
+        j = int(np.searchsorted(c, target - _EPS * open_threshold, side="left"))
+        if j >= n:
+            ids[:] = cur
+            return ids, cur, open_threshold, open_cum + float(c[-1])
+        ids[: j + 1] = cur
+        pos, base, cur = j + 1, float(c[j]), cur + 1
+    t = float(new_threshold)
+    while pos < n:
+        j = int(np.searchsorted(c, base + t - _EPS * t, side="left"))
+        if j >= n:
+            ids[pos:] = cur
+            return ids, cur, t, float(c[-1]) - base
+        ids[pos : j + 1] = cur
+        base, pos, cur = float(c[j]), j + 1, cur + 1
+    return ids, cur, None, 0.0
 
 
 def _partial(df: pl.DataFrame) -> pl.DataFrame:
+    from pipeline.bars import aggregate_trades
+
     grouped = aggregate_trades(df, "_raw")
     return grouped.rename({"ts_close_trade_ms": "ts_ms"})
-
-
-def _exact(total: float, threshold: float) -> bool:
-    if threshold <= 0:
-        raise ValueError("threshold must be positive")
-    ratio = total / threshold
-    frac = ratio - math.floor(ratio)
-    return frac < 1e-8 or frac > 1 - 1e-8
 
 
 def threshold_bars(
@@ -318,21 +386,28 @@ def threshold_bars(
     value: pl.Expr,
     cum_start: float = 0.0,
 ) -> tuple[pl.DataFrame, int, float]:
-    """Return (complete bars, excluded open-tail trade count, new cum of value)."""
+    """One-shot event bars. Returns (complete bars, open-tail trade count, open-tail total)."""
+    if threshold <= 0:
+        raise ValueError("threshold must be positive")
     if trades.is_empty():
         return finalize(trades, asset, bar_type), 0, cum_start
-    df = _ids(_prepare(trades, value), threshold, cum_start)
-    total = float(df["_value"].sum()) + cum_start
+    df = _prepare(trades, value)
+    open_t = float(threshold) if cum_start > 0 else None
+    ids, _next, tail_t, tail_cum = assign_ids(
+        df["_value"].to_numpy(), open_threshold=open_t, open_cum=cum_start,
+        new_threshold=float(threshold), first_id=0,
+    )
+    df = df.with_columns(pl.Series("_raw", ids))
     partial = _partial(df)
     excluded = 0
-    if not _exact(total, threshold):
-        last = int(df["_raw"].max())
-        excluded = int(df.filter(pl.col("_raw") == last).height)
+    if tail_t is not None:
+        last = int(ids[-1])
+        excluded = int((ids == last).sum())
         partial = partial.filter(pl.col("_raw") < last)
     if partial.is_empty():
-        return finalize(partial, asset, bar_type), excluded, total
-    partial = partial.drop("_raw")
-    return finalize(partial, asset, bar_type), excluded, total
+        return finalize(partial, asset, bar_type), excluded, tail_cum
+    partial = partial.with_columns(pl.col("_raw").alias("bar_id")).drop("_raw")
+    return finalize(partial, asset, bar_type), excluded, tail_cum
 
 
 def dollar_bars(trades: pl.DataFrame, threshold: float, asset: str) -> tuple[pl.DataFrame, int]:
@@ -359,26 +434,125 @@ def volume_bars(trades: pl.DataFrame, qty_per_bar: float, asset: str) -> tuple[p
     return bars, excluded
 
 
-class DollarAccumulator:
-    """Day-at-a-time dollar bars. The running sum is the only state carried across days."""
+def trailing_threshold(history: list[float], target_bars_per_day: float, bootstrap: float) -> float:
+    """Dollar threshold for a new UTC day.
 
-    def __init__(self, threshold: float):
+    ``history`` holds the notional of the most recent complete days, oldest first.
+    The threshold is their median divided by the bars-per-day target, so the
+    fabric carries about the same number of bars per day in 2020 and in 2026.
+    With no usable history (the first day of an asset) the static bootstrap is
+    used. Only days before the day being opened ever enter ``history``.
+    """
+    usable = [float(x) for x in history if x is not None and math.isfinite(x) and x > 0]
+    if not usable:
+        return float(bootstrap)
+    return float(np.median(usable)) / float(target_bars_per_day)
+
+
+class DollarAccumulator:
+    """Day-at-a-time dollar bars with a carried open bar.
+
+    Constant mode (``target_bars_per_day=None``): every bar uses ``threshold``.
+    Adaptive mode: the threshold for UTC day D is
+    ``median(notional of the last window_days complete days before D) /
+    target_bars_per_day`` (see :func:`trailing_threshold`), falling back to
+    ``threshold`` as the bootstrap on an asset's first day. It is causal: day D's
+    own trades never move day D's threshold. A bar that is still open at
+    midnight keeps the threshold it opened with.
+
+    State across calls (and across months, via :meth:`state` / :meth:`restore`):
+    the open bar's partial trades, its running total and threshold, the next bar
+    id, the day-notional history, and the current day's running notional.
+    """
+
+    def __init__(
+        self,
+        threshold: float,
+        *,
+        target_bars_per_day: float | None = None,
+        window_days: int = 30,
+    ):
         if threshold <= 0:
             raise ValueError("threshold must be positive")
-        self.threshold = float(threshold)
-        self.cum = 0.0
-        self._partials: list[pl.DataFrame] = []
+        if target_bars_per_day is not None and target_bars_per_day <= 0:
+            raise ValueError("target_bars_per_day must be positive")
+        self.threshold = float(threshold)  # constant size, or the bootstrap in adaptive mode
+        self.target_bars_per_day = None if target_bars_per_day is None else float(target_bars_per_day)
+        self.window_days = int(window_days)
+        self.history: list[float] = []
+        self.cur_day: int | None = None
+        self.cur_day_notional = 0.0
+        self.cur_day_threshold: float = self.threshold
+        self.cum = 0.0  # running total inside the open bar
+        self.open_threshold: float | None = None
+        self.next_id = 0
+        self.through: str | None = None  # last month whose bars are written ("YYYY-MM")
+        self._open: list[pl.DataFrame] = []  # fragments of the open bar
+        self._done: list[pl.DataFrame] = []  # completed bars not yet emitted
 
+    # -- threshold schedule -------------------------------------------------
+    def _open_day(self, day: int) -> None:
+        if self.cur_day is not None:
+            self.history.append(self.cur_day_notional)
+            self.history = self.history[-self.window_days:]
+        self.cur_day = day
+        self.cur_day_notional = 0.0
+        if self.target_bars_per_day is None:
+            self.cur_day_threshold = self.threshold
+        else:
+            self.cur_day_threshold = trailing_threshold(
+                self.history, self.target_bars_per_day, self.threshold,
+            )
+
+    # -- feeding trades -----------------------------------------------------
     def add(self, trades: pl.DataFrame) -> None:
         if trades is None or trades.is_empty():
             return
-        df = _ids(_prepare(trades, pl.col("price") * pl.col("qty")), self.threshold, self.cum)
-        self._partials.append(_partial(df))
-        self.cum += float(df["_value"].sum())
+        df = _prepare(trades, pl.col("price") * pl.col("qty"))
+        days = (df["ts_ms"] // DAY_MS).to_numpy()
+        if days[0] != days[-1] or not (np.diff(days) == 0).all():
+            for day in sorted({int(d) for d in days}):
+                self._add_day(df.filter(pl.col("ts_ms") // DAY_MS == day), day)
+        else:
+            self._add_day(df, int(days[0]))
 
-    def _merged(self) -> pl.DataFrame:
-        df = pl.concat(self._partials, how="diagonal_relaxed")
-        # Fragments of the same raw id, in time order, collapse to one bar.
+    def _add_day(self, df: pl.DataFrame, day: int) -> None:
+        if self.cur_day is None or day != self.cur_day:
+            if self.cur_day is not None and day < self.cur_day:
+                raise ValueError("trades must be added in day order")
+            self._open_day(day)
+        usd = df["_value"].to_numpy()
+        carried_id = self.next_id if self.open_threshold is not None else None
+        ids, next_id, open_t, open_cum = assign_ids(
+            usd, open_threshold=self.open_threshold, open_cum=self.cum,
+            new_threshold=self.cur_day_threshold, first_id=self.next_id,
+        )
+        parts = _partial(df.with_columns(pl.Series("_raw", ids)))
+        last = int(ids[-1])
+        still_open = open_t is not None
+        done = parts.filter(pl.col("_raw") < last) if still_open else parts
+        tail = parts.filter(pl.col("_raw") == last) if still_open else parts.clear()
+        if carried_id is not None:
+            # Fold the fragments carried from earlier chunks into the first id of this one.
+            first = parts.filter(pl.col("_raw") == carried_id)
+            if still_open and last == carried_id:
+                self._open = [*self._open, first]
+                tail = parts.clear()
+            else:
+                merged = self._merge(pl.concat([*self._open, first], how="diagonal_relaxed"))
+                done = pl.concat([merged, done.filter(pl.col("_raw") != carried_id)], how="diagonal_relaxed")
+                self._open = []
+        if still_open and not tail.is_empty():
+            self._open = [tail]
+        if not still_open:
+            self._open = []
+        if not done.is_empty():
+            self._done.append(done)
+        self.cur_day_notional += float(usd.sum())
+        self.next_id, self.open_threshold, self.cum = next_id, open_t, open_cum
+
+    @staticmethod
+    def _merge(df: pl.DataFrame) -> pl.DataFrame:
         df = df.with_row_index("_seq")
         return df.group_by("_raw", maintain_order=True).agg([
             pl.col("ts_open_ms").sort_by("_seq").first().alias("ts_open_ms"),
@@ -396,36 +570,64 @@ class DollarAccumulator:
             pl.col("n_trades").sum().cast(pl.Int64).alias("n_trades"),
         ])
 
+    # -- reading bars out ---------------------------------------------------
+    def tail_trades(self) -> int:
+        if not self._open:
+            return 0
+        return int(pl.concat(self._open, how="diagonal_relaxed")["n_trades"].sum() or 0)
+
     def emit_completed(self, asset: str) -> tuple[pl.DataFrame, int]:
-        """Completed bars only. The open tail stays in memory for the next chunk."""
-        if not self._partials:
-            return finalize(pl.DataFrame(), asset, "dollar"), 0
-        merged = self._merged()
-        excluded = 0
-        if not _exact(self.cum, self.threshold):
-            last = int(merged["_raw"].max())
-            tail = merged.filter(pl.col("_raw") == last)
-            excluded = int(tail["n_trades"].sum() or 0)
-            merged = merged.filter(pl.col("_raw") < last)
-            self._partials = [tail] if not tail.is_empty() else []
-        else:
-            self._partials = []
-        if merged.is_empty():
-            return finalize(merged, asset, "dollar"), excluded
-        return finalize(merged.drop("_raw"), asset, "dollar"), excluded
+        """Completed bars since the last call. The open tail stays for the next chunk."""
+        excluded = self.tail_trades()
+        if not self._done:
+            return finalize(pl.DataFrame(), asset, "dollar"), excluded
+        merged = pl.concat(self._done, how="diagonal_relaxed").sort("_raw")
+        self._done = []
+        merged = merged.with_columns(pl.col("_raw").alias("bar_id")).drop("_raw")
+        return finalize(merged, asset, "dollar"), excluded
 
     def finish(self, asset: str) -> tuple[pl.DataFrame, int]:
-        if not self._partials:
-            return finalize(pl.DataFrame(), asset, "dollar"), 0
-        merged = self._merged()
-        excluded = 0
-        if not _exact(self.cum, self.threshold):
-            last = int(merged["_raw"].max())
-            excluded = int(merged.filter(pl.col("_raw") == last)["n_trades"].sum() or 0)
-            merged = merged.filter(pl.col("_raw") < last)
-        if merged.is_empty():
-            return finalize(merged, asset, "dollar"), excluded
-        return finalize(merged.drop("_raw"), asset, "dollar"), excluded
+        return self.emit_completed(asset)
+
+    # -- persistence --------------------------------------------------------
+    def state(self) -> tuple[dict, pl.DataFrame | None]:
+        """JSON-able scalars and the open bar's fragments, for ``_state/``."""
+        meta = {
+            "threshold": self.threshold,
+            "target_bars_per_day": self.target_bars_per_day,
+            "window_days": self.window_days,
+            "history": self.history,
+            "cur_day": self.cur_day,
+            "cur_day_notional": self.cur_day_notional,
+            "cur_day_threshold": self.cur_day_threshold,
+            "cum": self.cum,
+            "open_threshold": self.open_threshold,
+            "next_id": self.next_id,
+            "through": self.through,
+            "n_partials": len(self._open),
+            "excluded": self.tail_trades(),
+        }
+        frag = pl.concat(self._open, how="diagonal_relaxed") if self._open else None
+        return meta, frag
+
+    @classmethod
+    def restore(cls, meta: dict, frag: pl.DataFrame | None) -> "DollarAccumulator":
+        acc = cls(
+            float(meta["threshold"]),
+            target_bars_per_day=meta.get("target_bars_per_day"),
+            window_days=int(meta.get("window_days", 30)),
+        )
+        acc.history = [float(x) for x in meta.get("history", [])]
+        acc.cur_day = meta.get("cur_day")
+        acc.cur_day_notional = float(meta.get("cur_day_notional", 0.0))
+        acc.cur_day_threshold = float(meta.get("cur_day_threshold", acc.threshold))
+        acc.cum = float(meta.get("cum", 0.0))
+        acc.open_threshold = meta.get("open_threshold")
+        acc.next_id = int(meta.get("next_id", 0))
+        acc.through = meta.get("through")
+        if frag is not None and not frag.is_empty():
+            acc._open = [frag]
+        return acc
 
 
 def dollar_bars_chunked(
@@ -433,29 +635,11 @@ def dollar_bars_chunked(
     threshold: float,
     asset: str,
 ) -> tuple[pl.DataFrame, int]:
-    """Same bar ids as concatenating the chunks first. Residual crosses chunks."""
-    if not chunks:
-        return finalize(pl.DataFrame(), asset, "dollar"), 0
-    prepared = []
-    cum = 0.0
+    """Same bars as concatenating the chunks first. The open bar crosses chunks."""
+    acc = DollarAccumulator(threshold)
     for chunk in chunks:
-        if chunk is None or chunk.is_empty():
-            continue
-        df = _ids(_prepare(chunk, pl.col("price") * pl.col("qty")), threshold, cum)
-        prepared.append(df)
-        cum += float(df["_value"].sum())
-    if not prepared:
-        return finalize(pl.DataFrame(), asset, "dollar"), 0
-    df = pl.concat(prepared, how="diagonal_relaxed")
-    partial = _partial(df)
-    excluded = 0
-    if not _exact(cum, threshold):
-        last = int(df["_raw"].max())
-        excluded = int(df.filter(pl.col("_raw") == last).height)
-        partial = partial.filter(pl.col("_raw") < last)
-    if partial.is_empty():
-        return finalize(partial, asset, "dollar"), excluded
-    return finalize(partial.drop("_raw"), asset, "dollar"), excluded
+        acc.add(chunk)
+    return acc.emit_completed(asset)
 
 
 def _fx_null_sides() -> list[pl.Expr]:
@@ -476,7 +660,7 @@ def fx_ticks_to_time(ticks: pl.DataFrame, width_ms: int, asset: str, bar_type: s
     """
     if ticks.is_empty():
         return finalize(ticks, asset, bar_type)
-    df = ticks.sort("ts_ms").with_columns(close_of(pl.col("ts_ms"), width_ms).alias("_close"))
+    df = ticks.sort("ts_ms").with_columns(event_close_of(pl.col("ts_ms"), width_ms).alias("_close"))
     grouped = df.group_by("_close", maintain_order=True).agg([
         pl.col("mid").sort_by("ts_ms").first().alias("open"),
         pl.col("mid").max().alias("high"),
@@ -493,6 +677,7 @@ def fx_ticks_to_time(ticks: pl.DataFrame, width_ms: int, asset: str, bar_type: s
     ]).with_columns([
         (pl.col("_close") - width_ms).alias("ts_open_ms"),
         pl.col("_close").alias("ts_ms"),
+        (pl.col("_close") // width_ms).alias("bar_id"),
     ]).drop("_close")
     return finalize(grouped, asset, bar_type)
 
@@ -521,6 +706,7 @@ def fx_bars_to_time(bars_1m: pl.DataFrame, width_ms: int, asset: str, bar_type: 
     ]).with_columns([
         (pl.col("_close") - width_ms).alias("ts_open_ms"),
         pl.col("_close").alias("ts_ms"),
+        (pl.col("_close") // width_ms).alias("bar_id"),
     ]).drop("_close")
     return finalize(grouped, asset, bar_type)
 

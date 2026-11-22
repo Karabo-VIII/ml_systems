@@ -7,6 +7,7 @@ from pathlib import Path
 
 import polars as pl
 
+from pipeline.constants import CONTRACT_VERSION
 from pipeline.io import file_sha256, params_hash, read_parquet_metadata
 from pipeline.paths import (
     bars_month_path,
@@ -41,6 +42,9 @@ def partition_fresh(path: Path, params: dict, *, force: bool = False) -> bool:
     try:
         meta = read_parquet_metadata(path)
     except Exception:
+        return False
+    # A contract bump changes what the files mean. Never trust an older build.
+    if meta.get("contract_version") != CONTRACT_VERSION:
         return False
     return meta.get("params_hash") == params_hash(params)
 

@@ -325,8 +325,11 @@ def parse_klines(content: bytes, *, width_ms: int = 60_000) -> pl.DataFrame:
                 return n
         raise ValueError(f"kline missing {names}; got {df.columns}")
     open_name = col("open_time", "open time")
+    # Spot Vision files switched to microseconds on 2025-01-01. Futures stay in ms.
+    open_ms = pl.col(open_name).cast(pl.Int64)
+    open_ms = pl.when(open_ms > 100_000_000_000_000).then(open_ms // 1000).otherwise(open_ms)
     df = df.select([
-        pl.col(open_name).cast(pl.Int64).alias("ts_open_ms"),
+        open_ms.alias("ts_open_ms"),
         pl.col(col("open")).cast(pl.Float64),
         pl.col(col("high")).cast(pl.Float64),
         pl.col(col("low")).cast(pl.Float64),

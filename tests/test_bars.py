@@ -40,21 +40,43 @@ def test_time_bars_sum_and_right_closed_boundary():
     assert gate_trade_count(int(one_m["n_trades"].sum()), trades.height).severity == "pass"
 
 
-def test_trade_on_the_boundary_belongs_to_the_closing_bar():
-    # Exactly 00:01:00.000 belongs to the bar that closes at 00:01, not the next one.
+def test_trade_on_the_boundary_opens_the_next_bar():
+    # A bar covers [t_open, t_close) and is stamped t_close, like a Binance kline.
+    # A trade at exactly 00:01:00.000 is the FIRST trade of the bar that closes at 00:02.
     ts = int(datetime(2024, 6, 1, 0, 1, tzinfo=timezone.utc).timestamp() * 1000)
     trades = pl.DataFrame({
-        "agg_trade_id": [1, 2],
-        "ts_us": [ts * 1000, (ts + 1) * 1000],
-        "ts_ms": [ts, ts + 1],
-        "price": [10.0, 11.0],
-        "qty": [1.0, 1.0],
-        "is_buyer_maker": [False, True],
+        "agg_trade_id": [1, 2, 3],
+        "ts_us": [(ts - 1) * 1000, ts * 1000, (ts + 1) * 1000],
+        "ts_ms": [ts - 1, ts, ts + 1],
+        "price": [9.0, 10.0, 11.0],
+        "qty": [1.0, 1.0, 1.0],
+        "is_buyer_maker": [False, False, True],
     })
     bars = trades_to_time(trades, 60_000, "ETHUSDT", "time_1m")
-    assert bars.height == 2
     assert bars["ts_ms"].to_list() == [ts, ts + 60_000]
-    assert bars["close"].to_list() == [10.0, 11.0]
+    assert bars["close"].to_list() == [9.0, 11.0]
+    assert bars["open"].to_list() == [9.0, 10.0]
+    assert bars["n_trades"].to_list() == [1, 2]
+    # bar_id is the close index, so it is unique across month partitions.
+    assert bars["bar_id"].to_list() == [ts // 60_000, ts // 60_000 + 1]
+
+
+def test_trade_at_midnight_of_the_first_of_a_month_belongs_to_the_new_month():
+    # The old convention stamped it onto the last bar of the previous month, so that bar
+    # appeared in two monthly partitions and one of them held a single trade.
+    ts = int(datetime(2020, 9, 1, tzinfo=timezone.utc).timestamp() * 1000)
+    trades = pl.DataFrame({
+        "agg_trade_id": [1, 2],
+        "ts_us": [(ts - 500) * 1000, ts * 1000],
+        "ts_ms": [ts - 500, ts],
+        "price": [1.0, 2.0],
+        "qty": [1.0, 1.0],
+        "is_buyer_maker": [False, False],
+    })
+    for width in (60_000, 3_600_000, 86_400_000):
+        bars = trades_to_time(trades, width, "BTCUSDT", "x")
+        assert bars["ts_ms"].to_list() == [ts, ts + width]
+        assert bars["n_trades"].to_list() == [1, 1]
 
 
 def test_dollar_bars_match_one_shot_and_drop_the_open_tail():
@@ -72,7 +94,7 @@ def test_dollar_bars_match_one_shot_and_drop_the_open_tail():
     assert int(one["n_trades"].sum()) + excluded == trades.height
     # The excluded tail is a suffix and is strictly the incomplete id.
     assert one["ts_ms"].is_sorted()
-    assert one["bar_id"].to_list() == list(range(one.height))
+    assert one["bar_id"].is_unique().all() and one["bar_id"].is_sorted()
     # Buyer-maker true is the sell aggressor.
     assert abs(float((one["buy_volume"] + one["sell_volume"]).sum()) - float(one["volume"].sum())) < 1e-8
 

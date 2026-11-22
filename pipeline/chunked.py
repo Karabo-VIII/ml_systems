@@ -12,28 +12,30 @@ from pipeline.bars import merge_partial_time, trades_to_time
 from pipeline.calendar import clip_month, iter_days, iter_months, month_first, month_last
 from pipeline.config import (
     Windows,
-    dollar_threshold,
+    dollar_spec,
     embargo_bars_for,
     liq_proxy_usd,
     load_embargo_policy,
+    load_lags,
     load_listing_dates,
     load_windows,
     scale_windows,
     whale_large_usd,
 )
-from pipeline.constants import DAY_MS, TIME_WIDTH_MS
+from pipeline.constants import CONTRACT_VERSION, DAY_MS, TIME_WIDTH_MS
 from pipeline.dataset import (
     add_targets,
     add_universe_columns,
     apply_embargo,
     assign_split,
+    input_families,
     manifest_payload,
     utc_now_ms,
 )
 from pipeline.features import add_cross_asset, rows_to_frame, summarize_day
 from pipeline.fetch_crypto import iter_days as _iter_days  # noqa: F401
 from pipeline.fetch_fx import read_fx_ticks
-from pipeline.io import atomic_write_json, atomic_write_parquet, file_sha256, params_hash
+from pipeline.io import atomic_write_json, atomic_write_parquet, file_sha256, params_hash, read_parquet_metadata
 from pipeline.partitions import partition_fresh, partition_params, sidecar_ok
 from pipeline.paths import (
     bars_month_path,
@@ -74,12 +76,6 @@ def _daily_path(root: Path, asset: str, year: int, month: int) -> Path:
     return root / "silver" / "bars" / "_daily" / f"{asset}_{year:04d}-{month:02d}.parquet"
 
 
-def _tail_trades(acc: DollarAccumulator) -> int:
-    if not acc._partials:
-        return 0
-    return int(pl.concat(acc._partials, how="diagonal_relaxed")["n_trades"].sum() or 0)
-
-
 def count_bronze_trades(root: Path, asset: str, first: date, last: date) -> int:
     n = 0
     for day in iter_days(first, last):
@@ -89,24 +85,30 @@ def count_bronze_trades(root: Path, asset: str, first: date, last: date) -> int:
     return n
 
 
-def save_dollar_state(root: Path, asset: str, acc: DollarAccumulator) -> None:
-    meta = {
-        "asset": asset,
-        "threshold": acc.threshold,
-        "cum": acc.cum,
-        "n_partials": len(acc._partials),
-        "excluded": _tail_trades(acc),
-    }
-    atomic_write_json(dollar_state_meta_path(root, asset), meta)
-    if acc._partials:
-        tail = pl.concat(acc._partials, how="diagonal_relaxed")
+def save_dollar_state(root: Path, asset: str, acc: DollarAccumulator, through: str) -> None:
+    """Persist the accumulator after month ``through`` ("YYYY-MM") is fully written.
+
+    The marker is what makes resume safe: a dollar partition only counts as done
+    when the state says it has been folded in (``state.through >= month``). A
+    crash between writing the partition and this call leaves ``through`` one
+    month behind, and the next run rebuilds that month from this very state.
+    """
+    acc.through = through
+    meta, tail = acc.state()
+    meta["asset"] = asset
+    meta["contract_version"] = CONTRACT_VERSION
+    path = dollar_state_path(root, asset)
+    # Two files make one state. Write the fragments first and the JSON (which names
+    # them) last, so a crash in between is detectable: the footer hash of the
+    # fragments is checked against the JSON on read.
+    if tail is not None:
         atomic_write_parquet(
-            tail, dollar_state_path(root, asset),
+            tail, path,
             schema_name="dollar_state_v1",
-            params={"asset": asset, "threshold": acc.threshold, "cum": acc.cum},
+            params=_state_tail_params(meta),
         )
-    else:
-        path = dollar_state_path(root, asset)
+    atomic_write_json(dollar_state_meta_path(root, asset), meta)
+    if tail is None:
         if path.exists():
             path.unlink()
         sidecar = path.with_suffix(path.suffix + ".sha256")
@@ -114,28 +116,111 @@ def save_dollar_state(root: Path, asset: str, acc: DollarAccumulator) -> None:
             sidecar.unlink()
 
 
-def load_dollar_state(root: Path, asset: str, threshold: float) -> DollarAccumulator:
-    acc = DollarAccumulator(threshold)
-    meta_path = dollar_state_meta_path(root, asset)
-    path = dollar_state_path(root, asset)
-    if not meta_path.exists():
-        return acc
+def _state_tail_params(meta: dict) -> dict:
+    return {
+        "asset": meta.get("asset"),
+        "through": meta.get("through"),
+        "next_id": meta.get("next_id"),
+        "cum": meta.get("cum"),
+        "n_partials": meta.get("n_partials"),
+    }
+
+
+def read_dollar_state(root: Path, asset: str, spec) -> DollarAccumulator | None:
+    """The saved accumulator, or ``None`` when absent, unreadable, or built for another spec."""
     import json
-    meta = json.loads(meta_path.read_text())
-    if abs(float(meta.get("threshold", threshold)) - threshold) > 1e-9:
-        return acc
-    acc.cum = float(meta.get("cum", 0.0))
-    if path.exists() and sidecar_ok(path):
-        acc._partials = [pl.read_parquet(path)]
-    return acc
+
+    meta_path = dollar_state_meta_path(root, asset)
+    if not meta_path.exists():
+        return None
+    try:
+        meta = json.loads(meta_path.read_text())
+    except (OSError, ValueError):
+        return None
+    if (
+        abs(float(meta.get("threshold", -1)) - spec.bootstrap) > 1e-9
+        or meta.get("target_bars_per_day") != spec.target_bars_per_day
+        or int(meta.get("window_days", -1)) != spec.window_days
+    ):
+        return None
+    if meta.get("contract_version") != CONTRACT_VERSION:
+        return None
+    path = dollar_state_path(root, asset)
+    frag = None
+    if int(meta.get("n_partials", 0)) > 0:
+        if not sidecar_ok(path):
+            return None
+        try:
+            if read_parquet_metadata(path).get("params_hash") != params_hash(_state_tail_params(meta)):
+                return None  # torn write: fragments and JSON come from different months
+        except Exception:
+            return None
+        frag = pl.read_parquet(path)
+    return DollarAccumulator.restore(meta, frag)
+
+
+def new_accumulator(spec) -> DollarAccumulator:
+    return DollarAccumulator(
+        spec.bootstrap, target_bars_per_day=spec.target_bars_per_day, window_days=spec.window_days,
+    )
+
+
+def dollar_spec_for(cfg, asset: str):
+    return dollar_spec(asset, (cfg.threshold_overrides or {}).get(asset))
+
+
+def dollar_extra(cfg, asset: str, start: date) -> dict:
+    """Partition params of a dollar month. ``chain_start`` ties every month to one origin.
+
+    Dollar bar edges depend on where accumulation began, so a different start
+    date must invalidate the whole fabric, not just its first month.
+    """
+    return {"dollar": dollar_spec_for(cfg, asset).as_params(), "chain_start": start.isoformat()}
+
+
+def plan_dollar(cfg, asset: str, months: list[tuple[int, int]], start: date) -> tuple[int, DollarAccumulator | None]:
+    """How many leading months are already consistent, and the accumulator to continue from.
+
+    Returns ``(f, acc)``. Months ``< f`` keep their dollar partitions. Months
+    ``>= f`` must be rebuilt, in order, starting from ``acc``. When nothing can
+    be reused, ``f == 0`` and ``acc`` is fresh. When every month is reusable,
+    ``f == len(months)`` and ``acc`` is the saved state (it is not fed again).
+    """
+    spec = dollar_spec_for(cfg, asset)
+    if cfg.force or "dollar" not in cfg.bar_types:
+        return 0, new_accumulator(spec)
+    state = read_dollar_state(cfg.data_root, asset, spec)
+    extra = dollar_extra(cfg, asset, start)
+    f = 0
+    for y, m in months:
+        first, last = clip_month(y, m, *(_asset_range(cfg, asset)))
+        path = bars_month_path(cfg.data_root, "dollar", asset, y, m)
+        fresh = partition_fresh(path, bars_params(asset, "dollar", first, last, extra))
+        if not (fresh and state is not None and state.through is not None and state.through >= f"{y:04d}-{m:02d}"):
+            break
+        f += 1
+    if f == len(months):
+        return f, state
+    if f == 0:
+        return 0, new_accumulator(spec)
+    prev = f"{months[f - 1][0]:04d}-{months[f - 1][1]:02d}"
+    if state is not None and state.through == prev:
+        return f, state
+    # The state is ahead of (or unrelated to) the last good month; there is nothing
+    # to continue from, so the whole fabric is rebuilt.
+    return 0, new_accumulator(spec)
 
 
 def bars_params(asset: str, bar_type: str, first: date, last: date, extra: dict | None = None) -> dict:
     return partition_params(asset=asset, bar_type=bar_type, start=first, end=last, extra=extra)
 
 
-def build_crypto_month(cfg, asset: str, first: date, last: date, acc: DollarAccumulator) -> dict:
-    """Stream one month of bronze trades into 1m / coarser / dollar bars. Bounded memory."""
+def build_crypto_month(cfg, asset: str, first: date, last: date, acc: DollarAccumulator | None) -> dict:
+    """Stream one month of bronze trades into 1m / coarser / dollar bars. Bounded memory.
+
+    ``acc`` is ``None`` when the dollar fabric is not being rebuilt for this month;
+    trades are then never fed to it, so a cached month can not be counted twice.
+    """
     partials = []
     daily_rows = []
     n_bronze = 0
@@ -149,7 +234,8 @@ def build_crypto_month(cfg, asset: str, first: date, last: date, acc: DollarAccu
         n_bronze += trades.height
         one_m = trades_to_time(trades, TIME_WIDTH_MS["time_1m"], asset, "time_1m")
         partials.append(one_m)
-        acc.add(trades)
+        if acc is not None:
+            acc.add(trades)
         daily_rows.append(summarize_day(
             trades, one_m, asset=asset, day=day,
             whale_usd=whale_large_usd(asset), liq_usd=liq_proxy_usd(asset),
@@ -161,9 +247,10 @@ def build_crypto_month(cfg, asset: str, first: date, last: date, acc: DollarAccu
     for name in cfg.bar_types:
         if name in TIME_WIDTH_MS and name != "time_1m":
             ladder[name] = bars_to_time(bars_1m, TIME_WIDTH_MS[name], asset, name)
-    dollar, excluded = acc.emit_completed(asset)
     out_bars = {k: v for k, v in ladder.items() if k in cfg.bar_types}
-    if "dollar" in cfg.bar_types:
+    excluded = None
+    if acc is not None and "dollar" in cfg.bar_types:
+        dollar, excluded = acc.emit_completed(asset)
         out_bars["dollar"] = dollar
     return {
         "bars": out_bars,
@@ -175,47 +262,55 @@ def build_crypto_month(cfg, asset: str, first: date, last: date, acc: DollarAccu
     }
 
 
-def write_bars_month(cfg, asset: str, year: int, month: int, acc: DollarAccumulator, session=None) -> dict:
+def write_bars_month(
+    cfg, asset: str, year: int, month: int, acc: DollarAccumulator | None, session=None,
+    *, start: date | None = None, rebuild_dollar: bool = False,
+) -> dict:
+    """Write the month's bar partitions that are missing or stale.
+
+    ``rebuild_dollar`` says the dollar partition for this month must be rebuilt
+    from ``acc`` (see :func:`plan_dollar`). Otherwise the accumulator is untouched.
+    """
     first, last = clip_month(year, month, *(_asset_range(cfg, asset)))
-    extra = {"threshold": (cfg.threshold_overrides or {}).get(asset) or dollar_threshold(asset)} if "dollar" in cfg.bar_types else {}
+    start = start or _asset_range(cfg, asset)[0]
+    want_dollar = "dollar" in cfg.bar_types
+    extra = dollar_extra(cfg, asset, start) if want_dollar else {}
     needed = []
     for bt in cfg.bar_types:
+        if bt == "dollar":
+            if rebuild_dollar:
+                needed.append(bt)
+            continue
         path = bars_month_path(cfg.data_root, bt, asset, year, month)
-        params = bars_params(asset, bt, first, last, extra if bt == "dollar" else None)
-        if partition_fresh(path, params, force=cfg.force):
+        if partition_fresh(path, bars_params(asset, bt, first, last), force=cfg.force):
             continue
         needed.append(bt)
     if not needed:
-        # Still keep dollar accumulator in sync when skipping a fresh month.
-        if "dollar" in cfg.bar_types:
-            acc_loaded = load_dollar_state(cfg.data_root, asset, acc.threshold)
-            acc.cum = acc_loaded.cum
-            acc._partials = acc_loaded._partials
         return {
             "cached": True,
             "n_bronze": count_bronze_trades(cfg.data_root, asset, first, last),
-            "dollar_excluded": _tail_trades(acc),
+            "dollar_excluded": acc.tail_trades() if acc is not None else None,
             "gaps": [],
         }
-    packed = build_crypto_month(cfg, asset, first, last, acc)
+    use_acc = acc if (want_dollar and rebuild_dollar) else None
+    packed = build_crypto_month(cfg, asset, first, last, use_acc)
     for bt, df in packed["bars"].items():
-        params = bars_params(asset, bt, first, last, extra if bt == "dollar" else None)
-        path = bars_month_path(cfg.data_root, bt, asset, year, month)
-        if df.is_empty():
+        if bt not in needed or df.is_empty():
             continue
-        write_frame(df, path, "bars_v1", params)
+        params = bars_params(asset, bt, first, last, extra if bt == "dollar" else None)
+        write_frame(df, bars_month_path(cfg.data_root, bt, asset, year, month), "bars_v1", params)
     daily = packed["daily"]
     if daily is not None and not daily.is_empty():
         dpath = _daily_path(cfg.data_root, asset, year, month)
         write_frame(daily, dpath, "daily_panel_v1", bars_params(asset, "daily", first, last))
+    gpath = gap_path(cfg.data_root, asset, month_bounds_ms(first, last)[1])
     if packed["gaps"]:
         # Stamp with month end close.
-        atomic_write_json(
-            gap_path(cfg.data_root, asset, month_bounds_ms(first, last)[1]),
-            {"missing_ts_ms": packed["gaps"][:10000], "n_gaps": len(packed["gaps"])},
-        )
-    if "dollar" in cfg.bar_types:
-        save_dollar_state(cfg.data_root, asset, acc)
+        atomic_write_json(gpath, {"missing_ts_ms": packed["gaps"][:10000], "n_gaps": len(packed["gaps"])})
+    elif gpath.exists():
+        gpath.unlink()  # a rebuild that closed the holes must not leave the old list behind
+    if use_acc is not None:
+        save_dollar_state(cfg.data_root, asset, use_acc, f"{year:04d}-{month:02d}")
     packed["cached"] = False
     return packed
 
@@ -296,6 +391,32 @@ def load_feature_months(root: Path, asset: str, bar_type: str, start: date, end:
     return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms").unique(subset=["ts_ms"], keep="last", maintain_order=True)
 
 
+def _next_features_digest(cfg, asset: str, bar_type: str, year: int, month: int) -> str | None:
+    """Digest of the *next* month's feature partition, or None when it does not exist.
+
+    Gold targets look ``max(horizons)`` bars ahead, so the last rows of month M need
+    month M+1. A gold partition built before M+1 existed has null targets there and
+    must be rebuilt once M+1 appears. Putting this digest in the partition params
+    makes that happen and nothing else.
+    """
+    ny, nm = (year + 1, 1) if month == 12 else (year, month + 1)
+    path = features_month_path(cfg.data_root, bar_type, asset, ny, nm)
+    if not sidecar_ok(path):
+        return None
+    return path.with_suffix(path.suffix + ".sha256").read_text().strip()
+
+
+def _dataset_params(cfg, asset: str, bar_type: str, first: date, last: date, year: int, month: int) -> dict:
+    return partition_params(
+        asset=asset, bar_type=bar_type, start=first, end=last,
+        extra={
+            "stage": "dataset", "include_oi": cfg.include_oi, "voladj": cfg.voladj,
+            "clipped": cfg.clipped,
+            "next_features": _next_features_digest(cfg, asset, bar_type, year, month),
+        },
+    )
+
+
 def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month: int, meta: dict, *, cross_asset: bool = True) -> dict[str, str]:
     """Cross-asset, targets, splits, embargo for one month; write gold partitions."""
     windows: Windows = cfg.windows or load_windows()
@@ -314,10 +435,7 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
     for asset in assets:
         first, last = clip_month(year, month, *(_asset_range(cfg, asset)))
         ranges[asset] = (first, last)
-        params = partition_params(
-            asset=asset, bar_type=bar_type, start=first, end=last,
-            extra={"stage": "dataset", "include_oi": cfg.include_oi, "voladj": cfg.voladj, "clipped": cfg.clipped},
-        )
+        params = _dataset_params(cfg, asset, bar_type, first, last, year, month)
         path = gold_month_path(cfg.data_root, bar_type, asset, year, month)
         if partition_fresh(path, params, force=cfg.force):
             status[asset] = "cached"
@@ -335,10 +453,7 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
     listings = load_listing_dates()
     for asset, df in todo.items():
         first, last = ranges[asset]
-        params = partition_params(
-            asset=asset, bar_type=bar_type, start=first, end=last,
-            extra={"stage": "dataset", "include_oi": cfg.include_oi, "voladj": cfg.voladj, "clipped": cfg.clipped},
-        )
+        params = _dataset_params(cfg, asset, bar_type, first, last, year, month)
         df = add_targets(df, windows.horizons, clipped=cfg.clipped, voladj=cfg.voladj)
         df = assign_split(df, splits)
         diffs = df["ts_ms"].diff().drop_nulls() if df.height > 2 else None
@@ -354,11 +469,17 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
             continue
         path = gold_month_path(cfg.data_root, bar_type, asset, year, month)
         digest = write_frame(month_df, path, "dataset_v1", params)
-        feats = [c for c in month_df.columns if c.startswith(("norm_", "xd_", "wh_", "liq_", "rv_", "hbr_", "funding_day", "s3_", "bs_")) or c == "hurst_regime"]
+        feats = [
+            c for c in month_df.columns
+            if c.startswith(("norm_", "xd_", "wh_", "liq_", "rv_", "hbr_", "funding_day", "s3_", "bs_",
+                             "etf_", "dv_", "soc_", "stbl_"))
+            or c in ("hurst_regime", "funding_rate", "oi_value")
+        ]
+        inputs, lags = input_families(month_df.columns, load_lags())
         man = manifest_payload(
             asset=asset, bar_type=bar_type, df=month_df, feature_cols=feats, params=params,
-            embargo_bars=embargo_n, inputs=[], lags={},
-            built_at_ms=utc_now_ms(),
+            embargo_bars=embargo_n, inputs=inputs, lags=lags,
+            built_at_ms=utc_now_ms(), splits=splits,
         )
         man["sha256"] = digest
         packed = meta.get(asset, {})
