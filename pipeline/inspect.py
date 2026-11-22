@@ -120,6 +120,38 @@ def format_inspect(
     return "\n".join(lines)
 
 
+
+def candle_x(ts_open_ms: int, ts_ms: int) -> tuple[int, int]:
+    """Return ``(mid_ms, width_ms)`` so a candle covers ``(ts_open_ms, ts_ms]``.
+
+    Bars are labelled at ``ts_ms = t_close``. Plot at the midpoint of the
+    interval with width equal to the bar duration.
+    """
+    open_ms = int(ts_open_ms)
+    close_ms = int(ts_ms)
+    width = close_ms - open_ms
+    mid = open_ms + width // 2
+    return mid, width
+
+
+def _open_ms_list(df: pl.DataFrame, bar_type: str) -> list[int]:
+    closes = [int(t) for t in df["ts_ms"].to_list()]
+    if "ts_open_ms" in df.columns:
+        opens = df["ts_open_ms"].to_list()
+        out = []
+        for open_ms, close_ms in zip(opens, closes):
+            if open_ms is None:
+                width = TIME_WIDTH_MS.get(bar_type)
+                out.append(close_ms - width if width is not None else close_ms)
+            else:
+                out.append(int(open_ms))
+        return out
+    width = TIME_WIDTH_MS.get(bar_type)
+    if width is None:
+        raise ValueError(f"cannot infer ts_open_ms for {bar_type}")
+    return [c - width for c in closes]
+
+
 def write_html_chart(
     path: Path,
     asset: str,
@@ -143,30 +175,94 @@ def write_html_chart(
         subplot_titles=tuple(f"{asset} {bt}" for bt in rows),
     )
     lo, hi = range_ms(start, end)
+    up, down = "#26a69a", "#ef5350"
     for i, bt in enumerate(rows, start=1):
         df = views[bt]
-        ts = [datetime.fromtimestamp(int(t) / 1000.0, tz=timezone.utc) for t in df["ts_ms"].to_list()]
+        opens = _open_ms_list(df, bt)
+        closes = [int(t) for t in df["ts_ms"].to_list()]
+        mids = []
+        widths = []
+        hover = []
+        for open_ms, close_ms in zip(opens, closes):
+            mid, width = candle_x(open_ms, close_ms)
+            mids.append(datetime.fromtimestamp(mid / 1000.0, tz=timezone.utc))
+            widths.append(width)
+            hover.append([_utc(open_ms), _utc(close_ms)])
+        o = df["open"].to_list()
+        h = df["high"].to_list()
+        low = df["low"].to_list()
+        c = df["close"].to_list()
+        colors = [up if (cv or 0) >= (ov or 0) else down for ov, cv in zip(o, c)]
+        wick_x: list[datetime | None] = []
+        wick_y: list[float | None] = []
+        for mid, lo_px, hi_px in zip(mids, low, h):
+            wick_x.extend([mid, mid, None])
+            wick_y.extend([lo_px, hi_px, None])
         fig.add_trace(
-            go.Candlestick(
-                x=ts, open=df["open"], high=df["high"], low=df["low"], close=df["close"],
+            go.Scatter(
+                x=wick_x, y=wick_y, mode="lines",
+                line=dict(width=1, color="#444444"),
+                hoverinfo="skip", showlegend=False, name=f"{bt} wick",
+            ),
+            row=i, col=1,
+        )
+        body = []
+        base = []
+        for ov, cv, lo_px, hi_px in zip(o, c, low, h):
+            ov = 0.0 if ov is None else float(ov)
+            cv = 0.0 if cv is None else float(cv)
+            top, bot = (cv, ov) if cv >= ov else (ov, cv)
+            height = top - bot
+            if height <= 0:
+                span = (hi_px or top) - (lo_px or bot)
+                height = span * 0.002 if span else 1e-9
+                bot = (ov + cv) / 2.0 - height / 2.0
+            body.append(height)
+            base.append(bot)
+        fig.add_trace(
+            go.Bar(
+                x=mids, y=body, base=base, width=widths,
+                marker_color=colors, marker_line_width=0,
                 name=bt, showlegend=False,
+                customdata=[[ho[0], ho[1], ov, hi, lo_v, cv] for ho, ov, hi, lo_v, cv in zip(hover, o, h, low, c)],
+                hovertemplate=(
+                    "open time %{customdata[0]}<br>"
+                    "close time %{customdata[1]}<br>"
+                    "open %{customdata[2]}<br>"
+                    "high %{customdata[3]}<br>"
+                    "low %{customdata[4]}<br>"
+                    "close %{customdata[5]}"
+                    "<extra></extra>"
+                ),
             ),
             row=i, col=1,
         )
         if i == 1 and "dollar" in views:
             d = views["dollar"]
-            dts = [datetime.fromtimestamp(int(t) / 1000.0, tz=timezone.utc) for t in d["ts_ms"].to_list()]
+            d_open = _open_ms_list(d, "dollar") if "ts_open_ms" in d.columns else [int(t) for t in d["ts_ms"].to_list()]
+            d_close = [int(t) for t in d["ts_ms"].to_list()]
+            dts = [datetime.fromtimestamp(t / 1000.0, tz=timezone.utc) for t in d_close]
+            d_hover = [[_utc(o_ms), _utc(c_ms)] for o_ms, c_ms in zip(d_open, d_close)]
             fig.add_trace(
                 go.Scatter(
                     x=dts, y=d["close"], mode="markers",
                     marker=dict(size=5, color="#d62728"),
                     name="dollar close",
+                    customdata=d_hover,
+                    hovertemplate=(
+                        "dollar close %{y}<br>"
+                        "open time %{customdata[0]}<br>"
+                        "close time %{customdata[1]}"
+                        "<extra></extra>"
+                    ),
                 ),
                 row=1, col=1,
             )
     fig.update_layout(
-        title=f"{asset}  {start} → {end}  (time bars share one axis; red markers are dollar-bar closes)",
+        title=f"{asset}  {start} → {end}  (candles span [open, close]; red markers are dollar-bar closes)",
         xaxis_rangeslider_visible=False,
+        barmode="overlay",
+        bargap=0,
         height=320 * len(rows) + 80,
         margin=dict(l=60, r=20, t=80, b=40),
         legend=dict(orientation="h", y=1.04),

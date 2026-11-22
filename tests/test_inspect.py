@@ -7,7 +7,7 @@ from pathlib import Path
 
 import polars as pl
 
-from pipeline.inspect import collect_views, format_inspect
+from pipeline.inspect import candle_x, collect_views, format_inspect
 from pipeline.io import atomic_write_parquet
 from pipeline.validate_run import run_validation
 
@@ -74,3 +74,19 @@ def test_inspect_and_scoped_validate(tmp_path):
     assert not any(n.endswith("ETHUSDT") or ":ETHUSDT" in n or n.endswith("ETHUSDT") for n in names)
     # Scoped to BTC; ETH must not appear.
     assert all("ETHUSDT" not in (c.name + c.detail) for c in report.checks)
+
+
+def test_candle_x_uses_interval_midpoint():
+    day = 24 * 60 * 60 * 1000
+    open_ms = int(datetime(2020, 3, 12, tzinfo=timezone.utc).timestamp() * 1000)
+    close_ms = open_ms + day
+    mid, width = candle_x(open_ms, close_ms)
+    assert width == day
+    assert mid == open_ms + day // 2
+    assert mid == int(datetime(2020, 3, 12, 12, tzinfo=timezone.utc).timestamp() * 1000)
+
+    hour = 60 * 60 * 1000
+    h_open = int(datetime(2020, 3, 12, 14, tzinfo=timezone.utc).timestamp() * 1000)
+    mid_h, width_h = candle_x(h_open, h_open + hour)
+    assert width_h == hour
+    assert mid_h == int(datetime(2020, 3, 12, 14, 30, tzinfo=timezone.utc).timestamp() * 1000)
