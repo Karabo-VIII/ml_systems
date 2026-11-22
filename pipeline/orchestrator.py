@@ -33,7 +33,6 @@ from pipeline.config import (
     optional_threshold,
     scale_windows,
     universe_symbols,
-    whale_large_usd,
 )
 from pipeline.dataset import (
     add_targets,

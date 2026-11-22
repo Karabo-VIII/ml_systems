@@ -265,10 +265,45 @@ def load_daily_thresholds(path: Path | None = None) -> dict:
 
 
 def whale_large_usd(asset: str, table: dict | None = None) -> float:
+    """Bootstrap whale size (the upper of the static pair). Used only with no history."""
     table = table if table is not None else load_daily_thresholds()
     asset = canonical_symbol(asset)
     pair = table["whale_usd"].get(asset, table["whale_usd"]["default"])
     return float(pair[1])
+
+
+@dataclass(frozen=True)
+class WhaleSpec:
+    """Causal per-day whale size for ``wh_*`` features.
+
+    The threshold of UTC day D is the ``quantile`` of per-trade notional over
+    the last ``window_days`` observed complete days *before* D. Day D's own
+    trades never move day D's size. With no history the static bootstrap is used.
+    """
+
+    bootstrap: float
+    quantile: float
+    window_days: int
+    version: str
+
+    def as_params(self) -> dict:
+        return {
+            "bootstrap": self.bootstrap,
+            "quantile": self.quantile,
+            "window_days": self.window_days,
+            "version": self.version,
+        }
+
+
+def whale_spec(asset: str, table: dict | None = None) -> WhaleSpec:
+    table = table if table is not None else load_daily_thresholds()
+    cal = table.get("whale") or {}
+    return WhaleSpec(
+        whale_large_usd(asset, table),
+        float(cal.get("quantile", 0.999)),
+        int(cal.get("window_days", 30)),
+        str(table.get("version", "daily_thresholds_v2")),
+    )
 
 
 def liq_proxy_usd(asset: str, table: dict | None = None) -> float:

@@ -40,6 +40,8 @@ An empty or unexpected body is a recorded miss, not a crash.
 
 import io
 import json
+import shutil
+import tempfile
 import urllib.error
 import urllib.request
 import zipfile
@@ -128,7 +130,7 @@ def perp_1d_month_url(symbol: str, year: int, month: int) -> str:
 
 
 def http_get(url: str, timeout: int = 120) -> tuple[int, bytes, str | None]:
-    """Return (status, body, error). HTTP errors do not raise."""
+    """Return (status, body, error). HTTP errors do not raise. For small daily files."""
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -137,6 +139,42 @@ def http_get(url: str, timeout: int = 120) -> tuple[int, bytes, str | None]:
         return int(exc.code), b"", f"HTTP {exc.code}"
     except Exception as exc:  # network, timeout, decode
         return 0, b"", f"{type(exc).__name__}: {exc}"
+
+
+def http_get_to_path(url: str, dest: Path, timeout: int = 120) -> tuple[int, str | None]:
+    """Stream a response onto disk. The body is never held as one bytes object.
+
+    Used for Vision monthly zips, which can be a gigabyte compressed. A failure
+    leaves no dest file.
+    """
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    dest = Path(dest)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(dest.name + ".part")
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            with open(tmp, "wb") as f:
+                shutil.copyfileobj(resp, f, length=1024 * 1024)
+            tmp.replace(dest)
+            return int(resp.status), None
+    except urllib.error.HTTPError as exc:
+        if tmp.exists():
+            tmp.unlink()
+        return int(exc.code), f"HTTP {exc.code}"
+    except Exception as exc:  # network, timeout, disk
+        if tmp.exists():
+            tmp.unlink()
+        return 0, f"{type(exc).__name__}: {exc}"
+
+
+CSV_CHUNK_ROWS = 250_000
+
+
+def _first_zip_member(zf: zipfile.ZipFile) -> str:
+    names = [n for n in zf.namelist() if not n.endswith("/")]
+    if not names:
+        raise ValueError("zip has no files")
+    return names[0]
 
 
 def _zip_bytes(content: bytes) -> bytes:
@@ -176,6 +214,58 @@ def _csv(raw: bytes, columns: list[str] | None = None) -> pl.DataFrame:
     )
 
 
+def _iter_csv_chunks(fh, columns: list[str] | None, chunk_rows: int = CSV_CHUNK_ROWS):
+    """Yield DataFrames of at most ``chunk_rows`` from a binary CSV stream."""
+    first = fh.readline()
+    while first is not None and first.strip() == b"":
+        first = fh.readline()
+        if first == b"":
+            return
+    if not first:
+        return
+    header = first if _has_header(first) else None
+    leftover = [] if header else [first]
+
+    def flush(lines: list[bytes]) -> pl.DataFrame:
+        if header is not None:
+            raw = header + (b"" if header.endswith(b"\n") else b"\n") + b"".join(lines)
+            return _csv(raw, columns)
+        return _csv(b"".join(lines), columns)
+
+    batch: list[bytes] = leftover
+    for line in fh:
+        if not line.strip():
+            continue
+        batch.append(line)
+        if len(batch) >= chunk_rows:
+            yield flush(batch)
+            batch = []
+    if batch:
+        yield flush(batch)
+
+
+def _iter_source_csv(source: bytes | Path, columns: list[str] | None, chunk_rows: int = CSV_CHUNK_ROWS):
+    """Iterate CSV tables from a zip/CSV path or an in-memory zip/CSV body."""
+    if isinstance(source, (bytes, bytearray)):
+        if source[:2] == b"PK":
+            with zipfile.ZipFile(io.BytesIO(source)) as zf:
+                with zf.open(_first_zip_member(zf)) as fh:
+                    yield from _iter_csv_chunks(fh, columns, chunk_rows)
+        else:
+            yield from _iter_csv_chunks(io.BytesIO(source), columns, chunk_rows)
+        return
+    path = Path(source)
+    with path.open("rb") as probe:
+        magic = probe.read(2)
+    if magic == b"PK":
+        with zipfile.ZipFile(path) as zf:
+            with zf.open(_first_zip_member(zf)) as fh:
+                yield from _iter_csv_chunks(fh, columns, chunk_rows)
+    else:
+        with path.open("rb") as fh:
+            yield from _iter_csv_chunks(fh, columns, chunk_rows)
+
+
 def _as_bool(df: pl.DataFrame, col: str) -> pl.DataFrame:
     if col not in df.columns:
         return df
@@ -205,16 +295,7 @@ _AGG_HEADERLESS = [
 ]
 
 
-def parse_aggtrades(content: bytes) -> pl.DataFrame:
-    """Parse a Vision aggTrades zip or raw CSV.
-
-    Sorted by ``(ts_us, agg_trade_id)`` and deduped on ``agg_trade_id``.
-    ``unique()`` without an explicit sort is not used: it shuffled v1 files.
-    """
-    raw = content
-    if content[:2] == b"PK":
-        raw = _zip_bytes(content)
-    df = _csv(raw, _AGG_HEADERLESS)
+def _normalize_aggtrades(df: pl.DataFrame) -> pl.DataFrame:
     lower = {c.lower().strip(): c for c in df.columns}
     rename = {}
     aliases = {
@@ -253,11 +334,37 @@ def parse_aggtrades(content: bytes) -> pl.DataFrame:
     if "is_best_match" in df.columns:
         cols.append(pl.col("is_best_match").cast(pl.Boolean))
     df = df.select(cols)
-    df = df.filter((pl.col("price") > 0) & (pl.col("qty") > 0))
-    df = df.sort(["ts_us", "agg_trade_id"]).unique(
-        subset=["agg_trade_id"], keep="last", maintain_order=True,
+    return df.filter((pl.col("price") > 0) & (pl.col("qty") > 0))
+
+
+def _finalize_aggtrades(df: pl.DataFrame) -> pl.DataFrame:
+    if df is None or df.is_empty():
+        return df if df is not None else pl.DataFrame()
+    return (
+        df.sort(["ts_us", "agg_trade_id"])
+        .unique(subset=["agg_trade_id"], keep="last", maintain_order=True)
+        .sort(["ts_us", "agg_trade_id"])
     )
-    return df.sort(["ts_us", "agg_trade_id"])
+
+
+def iter_aggtrades(source: bytes | Path, chunk_rows: int = CSV_CHUNK_ROWS):
+    """Yield normalized trade chunks from a zip/CSV path or body. Does not unique across chunks."""
+    for raw in _iter_source_csv(source, _AGG_HEADERLESS, chunk_rows):
+        part = _normalize_aggtrades(raw)
+        if not part.is_empty():
+            yield part
+
+
+def parse_aggtrades(content: bytes) -> pl.DataFrame:
+    """Parse a Vision aggTrades zip or raw CSV.
+
+    Sorted by ``(ts_us, agg_trade_id)`` and deduped on ``agg_trade_id``.
+    ``unique()`` without an explicit sort is not used: it shuffled v1 files.
+    """
+    parts = list(iter_aggtrades(content))
+    if not parts:
+        return pl.DataFrame()
+    return _finalize_aggtrades(pl.concat(parts, how="diagonal_relaxed"))
 
 
 def parse_funding(content: bytes) -> pl.DataFrame:
@@ -310,13 +417,8 @@ _KLINE_HEADERLESS = [
 ]
 
 
-def parse_klines(content: bytes, *, width_ms: int = 60_000) -> pl.DataFrame:
-    raw = content
-    if content[:2] == b"PK":
-        raw = _zip_bytes(content)
-    df = _csv(raw, _KLINE_HEADERLESS)
+def _normalize_klines(df: pl.DataFrame, width_ms: int) -> pl.DataFrame:
     lower = {c.lower().strip(): c for c in df.columns}
-    # headerless path already has our names; headered path uses binance names
     def col(*names: str) -> str:
         for n in names:
             if n in lower:
@@ -340,8 +442,27 @@ def parse_klines(content: bytes, *, width_ms: int = 60_000) -> pl.DataFrame:
         pl.col(col("taker_buy_base", "taker_buy_base_asset_volume", "taker_buy_volume")).cast(pl.Float64).alias("taker_buy_base"),
         pl.col(col("taker_buy_quote", "taker_buy_quote_asset_volume", "taker_buy_quote_volume")).cast(pl.Float64).alias("taker_buy_quote"),
     ])
-    df = df.with_columns((pl.col("ts_open_ms") + width_ms).alias("ts_ms"))
+    return df.with_columns((pl.col("ts_open_ms") + width_ms).alias("ts_ms"))
+
+
+def _finalize_klines(df: pl.DataFrame) -> pl.DataFrame:
+    if df is None or df.is_empty():
+        return df if df is not None else pl.DataFrame()
     return df.sort("ts_open_ms").unique(subset=["ts_open_ms"], keep="last", maintain_order=True)
+
+
+def iter_klines(source: bytes | Path, *, width_ms: int = 60_000, chunk_rows: int = CSV_CHUNK_ROWS):
+    for raw in _iter_source_csv(source, _KLINE_HEADERLESS, chunk_rows):
+        part = _normalize_klines(raw, width_ms)
+        if not part.is_empty():
+            yield part
+
+
+def parse_klines(content: bytes, *, width_ms: int = 60_000) -> pl.DataFrame:
+    parts = list(iter_klines(content, width_ms=width_ms))
+    if not parts:
+        return pl.DataFrame()
+    return _finalize_klines(pl.concat(parts, how="diagonal_relaxed"))
 
 
 def parse_metrics(content: bytes) -> pl.DataFrame:
@@ -443,9 +564,16 @@ def _save_manifest(path: Path, payload: dict) -> None:
 
 
 def _fresh(record: dict, dest: Path, force: bool) -> bool:
-    """Per-artifact freshness. A directory mtime is not a freshness check."""
+    """Per-artifact freshness. A directory mtime is not a freshness check.
+
+    Status empty means a successful fetch found no rows for that day (for
+    example a pre-listing day inside a monthly zip). There is no parquet, and
+    the day must not trigger another download of the monthly zip.
+    """
     if force:
         return False
+    if record.get("status") == "empty":
+        return True
     if record.get("status") != "ok":
         return False
     if not dest.exists():
@@ -496,13 +624,38 @@ def _store_day(rec_key, dest, df, schema_name, params, url, arts, report, today_
 
 
 def _cached_record(key, dest, url, prev, report, arts):
+    status = prev.get("status") or "ok"
     rec = ArtifactRecord(
-        key, "ok", int(prev.get("n_rows", 0)), url, str(dest),
+        key, status, int(prev.get("n_rows", 0)), url,
+        str(dest) if status == "ok" else None,
         prev.get("sha256"), error="cached", retrieved_at_ms=prev.get("retrieved_at_ms"),
     )
     report.records.append(rec)
     arts[key] = {**prev, "error": "cached"}
     return rec
+
+
+def _split_chunks_to_day_parts(chunks, time_col: str, tmpdir: Path) -> dict:
+    """Write each chunk's per-day slice to a temp parquet. One chunk in memory at a time."""
+    parts: dict = {}
+    tmpdir = Path(tmpdir)
+    tmpdir.mkdir(parents=True, exist_ok=True)
+    for i, chunk in enumerate(chunks):
+        if chunk is None or chunk.is_empty() or time_col not in chunk.columns:
+            continue
+        tagged = chunk.with_columns(pl.from_epoch(pl.col(time_col), time_unit="ms").dt.date().alias("_day"))
+        for (day,), part in tagged.group_by("_day", maintain_order=True):
+            path = tmpdir / f"{day.isoformat()}_{i}.parquet"
+            part.drop("_day").write_parquet(path)
+            parts.setdefault(day, []).append(path)
+    return parts
+
+
+def _concat_day_parts(paths: list, finalize) -> pl.DataFrame:
+    if not paths:
+        return pl.DataFrame()
+    frames = [pl.read_parquet(p) for p in paths]
+    return finalize(pl.concat(frames, how="diagonal_relaxed"))
 
 
 def fetch_trades(root: Path, asset: str, start: date, end: date, *, force: bool = False, timeout: int = 120, progress=None) -> FetchReport:
@@ -533,29 +686,32 @@ def fetch_trades(root: Path, asset: str, start: date, end: date, *, force: bool 
         wrote_from_month = False
         if use_monthly:
             url = trades_month_url(asset, year, month)
-            status, body, err = http_get(url, timeout=timeout)
-            if status == 200 and body:
-                try:
-                    frame = parse_aggtrades(body)
-                    by_day = _split_frame_by_day(frame, "ts_ms")
-                    for day in pending:
-                        key = day.isoformat()
-                        dest = trades_path(root, asset, day)
-                        part = by_day.get(day, pl.DataFrame())
-                        rec = _store_day(
-                            key, dest, part, "trades_v1",
-                            {"asset": asset, "day": key, "source_url": url},
-                            url, arts, report, _now_ms(),
+            with tempfile.TemporaryDirectory(prefix="vision_trades_") as td:
+                zpath = Path(td) / "month.zip"
+                status, err = http_get_to_path(url, zpath, timeout=timeout)
+                if status == 200 and zpath.exists() and zpath.stat().st_size:
+                    try:
+                        day_parts = _split_chunks_to_day_parts(
+                            iter_aggtrades(zpath), "ts_ms", Path(td) / "days",
                         )
-                        if progress:
-                            progress("written" if rec.status == "ok" else "failed")
-                    wrote_from_month = True
-                except Exception as exc:  # noqa: BLE001
-                    # Fall back to daily files for this month.
-                    wrote_from_month = False
-                    fallback_err = f"{type(exc).__name__}: {exc}"
-            else:
-                fallback_err = err or f"HTTP {status}"
+                        for day in pending:
+                            key = day.isoformat()
+                            dest = trades_path(root, asset, day)
+                            part = _concat_day_parts(day_parts.get(day, []), _finalize_aggtrades)
+                            rec = _store_day(
+                                key, dest, part, "trades_v1",
+                                {"asset": asset, "day": key, "source_url": url},
+                                url, arts, report, _now_ms(),
+                            )
+                            if progress:
+                                progress("written" if rec.status in {"ok", "empty"} else "failed")
+                        wrote_from_month = True
+                    except Exception as exc:  # noqa: BLE001
+                        # Fall back to daily files for this month.
+                        wrote_from_month = False
+                        fallback_err = f"{type(exc).__name__}: {exc}"
+                else:
+                    fallback_err = err or f"HTTP {status}"
         if not wrote_from_month:
             for day in pending:
                 key = day.isoformat()
@@ -621,25 +777,28 @@ def fetch_klines_1m(root: Path, asset: str, start: date, end: date, *, force: bo
         wrote_from_month = False
         if use_monthly:
             url = klines_1m_month_url(asset, year, month)
-            status, body, err = http_get(url, timeout=timeout)
-            if status == 200 and body:
-                try:
-                    frame = parse_klines(body, width_ms=60_000)
-                    by_day = _split_frame_by_day(frame, "ts_open_ms")
-                    for day in pending:
-                        key = day.isoformat()
-                        dest = klines_1m_path(root, asset, day)
-                        part = by_day.get(day, pl.DataFrame())
-                        rec = _store_day(
-                            key, dest, part, "kline_1m_v1",
-                            {"asset": asset, "day": key, "source_url": url},
-                            url, arts, report, _now_ms(),
+            with tempfile.TemporaryDirectory(prefix="vision_klines_") as td:
+                zpath = Path(td) / "month.zip"
+                status, err = http_get_to_path(url, zpath, timeout=timeout)
+                if status == 200 and zpath.exists() and zpath.stat().st_size:
+                    try:
+                        day_parts = _split_chunks_to_day_parts(
+                            iter_klines(zpath, width_ms=60_000), "ts_open_ms", Path(td) / "days",
                         )
-                        if progress:
-                            progress("written" if rec.status in {"ok", "empty"} else "failed")
-                    wrote_from_month = True
-                except Exception:
-                    wrote_from_month = False
+                        for day in pending:
+                            key = day.isoformat()
+                            dest = klines_1m_path(root, asset, day)
+                            part = _concat_day_parts(day_parts.get(day, []), _finalize_klines)
+                            rec = _store_day(
+                                key, dest, part, "kline_1m_v1",
+                                {"asset": asset, "day": key, "source_url": url},
+                                url, arts, report, _now_ms(),
+                            )
+                            if progress:
+                                progress("written" if rec.status in {"ok", "empty"} else "failed")
+                        wrote_from_month = True
+                    except Exception:
+                        wrote_from_month = False
         if not wrote_from_month:
             for day in pending:
                 key = day.isoformat()

@@ -29,9 +29,12 @@ if str(_REPO) not in sys.path:
 
 from pipeline.bars import close_of, gaps_ms
 from pipeline.constants import DAY_MS, TIME_WIDTH_MS
-from pipeline.config import fx_pip, whale_large_usd
+from pipeline.config import fx_pip, whale_spec
 from pipeline.fetch_crypto import http_get, parse_klines
-from pipeline.features import compute_fx_features, summarize_day, rows_to_frame
+from pipeline.features import (
+    compute_fx_features, load_whale_hists, rows_to_frame, summarize_day,
+    trade_notional_hist, whale_threshold,
+)
 from pipeline.paths import fx_hour_path, klines_1m_path, trades_path
 from pipeline.symbols import canonical_instrument
 
@@ -958,6 +961,8 @@ def check_asof_and_hand_features(
             days = _trade_days(root, asset, start, end)
             if days and "wh_large_usd" in df.columns:
                 daily_rows = []
+                wspec = whale_spec(asset)
+                whale_hists = load_whale_hists(root, asset, days[0], wspec.window_days)
                 for day in days:
                     tpath = trades_path(root, asset, day)
                     trades = pl.read_parquet(tpath) if tpath.exists() else None
@@ -968,12 +973,17 @@ def check_asof_and_hand_features(
                         one_m = ladders[asset]["time_1m"].filter(
                             (pl.col("ts_ms") > day_start) & (pl.col("ts_ms") <= day_end)
                         )
+                    thresh = whale_threshold(whale_hists, wspec)
                     daily_rows.append(
                         summarize_day(
                             trades, one_m, asset=asset, day=day,
-                            whale_usd=whale_large_usd(asset), liq_usd=1e18,
+                            whale_usd=thresh, liq_usd=1e18,
                         )
                     )
+                    if trades is not None and not trades.is_empty():
+                        usd = (trades["price"] * trades["qty"]).to_numpy()
+                        whale_hists.append(trade_notional_hist(usd))
+                        whale_hists = whale_hists[-wspec.window_days:]
                 panel = rows_to_frame(daily_rows)
                 if not panel.is_empty() and "wh_large_usd" in panel.columns:
                     events = list(zip(panel["event_time_ms"].to_list(), panel["wh_large_usd"].to_list()))

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from datetime import timedelta
+from datetime import date, timedelta
 from zoneinfo import ZoneInfo
 
 import numpy as np
@@ -527,6 +527,84 @@ def _minute_counts(ts_ms: np.ndarray, mask: np.ndarray, day_ms: int) -> np.ndarr
     return counts
 
 
+# Causal whale size: a log-histogram of per-trade notional, one day at a time.
+# Bins cover [$1, $100M] in log10 space (16 per decade) plus under/overflow.
+WHALE_LOG_LO = 0.0
+WHALE_LOG_HI = 8.0
+WHALE_BINS_PER_DECADE = 16
+WHALE_N_BINS = int((WHALE_LOG_HI - WHALE_LOG_LO) * WHALE_BINS_PER_DECADE)
+
+
+def trade_notional_hist(usd: np.ndarray | None) -> np.ndarray:
+    """Integer counts, length ``WHALE_N_BINS + 2`` (underflow, bins, overflow)."""
+    hist = np.zeros(WHALE_N_BINS + 2, dtype=np.int64)
+    if usd is None or len(usd) == 0:
+        return hist
+    x = np.asarray(usd, dtype=np.float64)
+    x = x[np.isfinite(x) & (x > 0)]
+    if len(x) == 0:
+        return hist
+    scale = WHALE_N_BINS / (WHALE_LOG_HI - WHALE_LOG_LO)
+    idx = np.floor((np.log10(x) - WHALE_LOG_LO) * scale).astype(np.int64) + 1
+    np.add.at(hist, np.clip(idx, 0, WHALE_N_BINS + 1), 1)
+    return hist
+
+
+def quantile_from_hists(hists: list[np.ndarray], q: float) -> float | None:
+    """Approximate ``q``-quantile of the pooled histograms, in USD."""
+    if not hists:
+        return None
+    hist = np.sum(np.stack(hists, axis=0), axis=0)
+    total = int(hist.sum())
+    if total <= 0:
+        return None
+    target = float(q) * total
+    cum = 0.0
+    width = (WHALE_LOG_HI - WHALE_LOG_LO) / WHALE_N_BINS
+    for i, n in enumerate(hist):
+        cum += n
+        if cum >= target:
+            if i == 0:
+                return 10.0 ** WHALE_LOG_LO
+            if i >= WHALE_N_BINS + 1:
+                return 10.0 ** WHALE_LOG_HI
+            lo = WHALE_LOG_LO + (i - 1) * width
+            return float(10.0 ** (lo + 0.5 * width))
+    return 10.0 ** WHALE_LOG_HI
+
+
+def whale_threshold(history: list[np.ndarray], spec) -> float:
+    """Size for a new UTC day from complete days already in ``history``. Causal."""
+    usable = [h for h in history if h is not None and int(np.asarray(h).sum()) > 0]
+    if not usable:
+        return float(spec.bootstrap)
+    value = quantile_from_hists(usable[-int(spec.window_days):], float(spec.quantile))
+    return float(value) if value is not None else float(spec.bootstrap)
+
+
+def load_whale_hists(root, asset: str, before: date, window_days: int) -> list[np.ndarray]:
+    """Histograms of complete trade days strictly before ``before``, oldest first."""
+    from datetime import timedelta
+    from pipeline.paths import trades_path
+
+    out: list[np.ndarray] = []
+    day = before - timedelta(days=1)
+    oldest = before - timedelta(days=int(window_days) * 4 + 30)
+    while day >= oldest and len(out) < int(window_days):
+        path = trades_path(root, asset, day)
+        if path.exists():
+            usd = (
+                pl.scan_parquet(path)
+                .select((pl.col("price") * pl.col("qty")).alias("u"))
+                .collect()["u"]
+                .to_numpy()
+            )
+            out.append(trade_notional_hist(usd))
+        day -= timedelta(days=1)
+    out.reverse()
+    return out
+
+
 def summarize_day(
     trades: pl.DataFrame,
     bars_1m: pl.DataFrame,
@@ -546,6 +624,7 @@ def summarize_day(
         "wh_large_buy_usd": 0.0,
         "wh_large_sell_usd": 0.0,
         "wh_max_print_usd": 0.0,
+        "wh_threshold_usd": float(whale_usd),
         "liq_proxy_count": 0,
         "liq_proxy_usd": 0.0,
         "liq_proxy_buy_usd": 0.0,

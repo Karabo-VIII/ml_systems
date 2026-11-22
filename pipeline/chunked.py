@@ -20,7 +20,7 @@ from pipeline.config import (
     load_listing_dates,
     load_windows,
     scale_windows,
-    whale_large_usd,
+    whale_spec,
 )
 from pipeline.constants import CONTRACT_VERSION, DAY_MS, TIME_WIDTH_MS
 from pipeline.dataset import (
@@ -32,7 +32,10 @@ from pipeline.dataset import (
     manifest_payload,
     utc_now_ms,
 )
-from pipeline.features import add_cross_asset, rows_to_frame, summarize_day
+from pipeline.features import (
+    add_cross_asset, load_whale_hists, rows_to_frame, summarize_day,
+    trade_notional_hist, whale_threshold,
+)
 from pipeline.fetch_crypto import iter_days as _iter_days  # noqa: F401
 from pipeline.fetch_fx import read_fx_ticks
 from pipeline.io import atomic_write_json, atomic_write_parquet, file_sha256, params_hash, read_parquet_metadata
@@ -224,6 +227,8 @@ def build_crypto_month(cfg, asset: str, first: date, last: date, acc: DollarAccu
     partials = []
     daily_rows = []
     n_bronze = 0
+    wspec = whale_spec(asset)
+    whale_hists = load_whale_hists(cfg.data_root, asset, first, wspec.window_days)
     for day in iter_days(first, last):
         path = trades_path(cfg.data_root, asset, day)
         if not path.exists():
@@ -236,10 +241,14 @@ def build_crypto_month(cfg, asset: str, first: date, last: date, acc: DollarAccu
         partials.append(one_m)
         if acc is not None:
             acc.add(trades)
+        thresh = whale_threshold(whale_hists, wspec)
         daily_rows.append(summarize_day(
             trades, one_m, asset=asset, day=day,
-            whale_usd=whale_large_usd(asset), liq_usd=liq_proxy_usd(asset),
+            whale_usd=thresh, liq_usd=liq_proxy_usd(asset),
         ))
+        usd = (trades["price"] * trades["qty"]).to_numpy()
+        whale_hists.append(trade_notional_hist(usd))
+        whale_hists = whale_hists[-wspec.window_days:]
         del trades
     bars_1m = merge_partial_time(partials, asset, "time_1m", TIME_WIDTH_MS["time_1m"])
     del partials
@@ -302,7 +311,10 @@ def write_bars_month(
     daily = packed["daily"]
     if daily is not None and not daily.is_empty():
         dpath = _daily_path(cfg.data_root, asset, year, month)
-        write_frame(daily, dpath, "daily_panel_v1", bars_params(asset, "daily", first, last))
+        write_frame(
+            daily, dpath, "daily_panel_v1",
+            bars_params(asset, "daily", first, last, extra={"whale": whale_spec(asset).as_params()}),
+        )
     gpath = gap_path(cfg.data_root, asset, month_bounds_ms(first, last)[1])
     if packed["gaps"]:
         # Stamp with month end close.
@@ -417,21 +429,47 @@ def _dataset_params(cfg, asset: str, bar_type: str, first: date, last: date, yea
     )
 
 
+
+def _embargo_padding(cfg, asset: str, bar_type: str, windows, floor_days: int, max_days: int) -> tuple[int, int, int]:
+    """Global embargo length and the calendar padding needed to apply it.
+
+    Time bars use the fixed clock width. Event bars (dollar, tick, volume) use
+    the median duration of the *entire* fabric already on disk, so a split that
+    sits on a month boundary is labelled the same way in both partitions. The
+    lookback is long enough to hold that many bars, not a 5-minute guess.
+    """
+    if bar_type in TIME_WIDTH_MS:
+        median = TIME_WIDTH_MS[bar_type]
+    else:
+        start, end = _asset_range(cfg, asset)
+        bars = load_bar_months(cfg.data_root, asset, bar_type, start, end)
+        median = None
+        if bars.height > 2:
+            diffs = bars["ts_ms"].diff().drop_nulls()
+            if diffs.len():
+                median = int(diffs.median())
+    embargo_n = embargo_bars_for(
+        bar_type, windows, median, calendar_floor_days=floor_days, max_lookback_days=max_days,
+    )
+    width = median if median and median > 0 else 5 * 60_000
+    if bar_type in TIME_WIDTH_MS:
+        width = TIME_WIDTH_MS[bar_type]
+    lookback_days = max(floor_days, int((embargo_n * width) / DAY_MS) + 2)
+    horizon_days = max(1, int((max(windows.horizons) * width) / DAY_MS) + 2)
+    return embargo_n, lookback_days, horizon_days
+
+
 def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month: int, meta: dict, *, cross_asset: bool = True) -> dict[str, str]:
     """Cross-asset, targets, splits, embargo for one month; write gold partitions."""
     windows: Windows = cfg.windows or load_windows()
     splits = cfg.splits
     floor_days, max_days = load_embargo_policy()
-    width = TIME_WIDTH_MS.get(bar_type) or 5 * 60_000
-    embargo = embargo_bars_for(bar_type, windows, width if bar_type in TIME_WIDTH_MS else None,
-                               calendar_floor_days=floor_days, max_lookback_days=max_days)
-    lookback_days = max(floor_days, int((embargo * width) / DAY_MS) + 2)
-    horizon_days = max(1, int((max(windows.horizons) * width) / DAY_MS) + 2)
     status = {}
     # Determine the union range covering all assets this month.
     # Load a padded window, join cross-asset, then write each asset's month slice.
     frames: dict[str, pl.DataFrame] = {}
     ranges = {}
+    embargo_for: dict[str, int] = {}
     for asset in assets:
         first, last = clip_month(year, month, *(_asset_range(cfg, asset)))
         ranges[asset] = (first, last)
@@ -440,6 +478,10 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
         if partition_fresh(path, params, force=cfg.force):
             status[asset] = "cached"
             continue
+        embargo_n, lookback_days, horizon_days = _embargo_padding(
+            cfg, asset, bar_type, windows, floor_days, max_days,
+        )
+        embargo_for[asset] = embargo_n
         warm = first - timedelta(days=lookback_days)
         tail = last + timedelta(days=horizon_days)
         feat = load_feature_months(cfg.data_root, asset, bar_type, warm, tail)
@@ -456,11 +498,7 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
         params = _dataset_params(cfg, asset, bar_type, first, last, year, month)
         df = add_targets(df, windows.horizons, clipped=cfg.clipped, voladj=cfg.voladj)
         df = assign_split(df, splits)
-        diffs = df["ts_ms"].diff().drop_nulls() if df.height > 2 else None
-        median = int(diffs.median()) if diffs is not None and diffs.len() else None
-        embargo_n = embargo_bars_for(
-            bar_type, windows, median, calendar_floor_days=floor_days, max_lookback_days=max_days,
-        )
+        embargo_n = embargo_for[asset]
         df = apply_embargo(df, embargo_n)
         df = add_universe_columns(df, asset, listings.get(asset))
         month_df = _in_month(df, first, last)

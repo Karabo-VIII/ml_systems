@@ -138,8 +138,13 @@ dollar_thresholds:
     LTCUSDT: 200
     default: 1000
 daily_thresholds:
-  version: daily_thresholds_v1
+  version: daily_thresholds_v2
+  whale:
+    method: trailing_quantile_trade_notional
+    window_days: 30
+    quantile: 0.999
   whale_usd:
+    # Bootstrap only: used on an asset's first day, before any complete day exists.
     BTCUSDT:
     - 500000
     - 1000000
