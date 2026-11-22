@@ -63,7 +63,7 @@ Stages stream month by month (Dukascopy hour by hour), skip work already on disk
 | View | Markets | Role |
 |---|---|---|
 | Time bars 1m, 5m, 30m, 1h, 2h, 4h, 6h, 8h, 1d | crypto and FX | True clock OHLCV. Charts and clock-time models. Default chart views: 1h and 1d. |
-| Dollar bars | crypto only | Event-time bars that close at a fixed notional (see `dollar_thresholds`). Microstructure and flow; default ML fabric alongside 1h/1d. |
+| Dollar bars | crypto only | Event-time bars that close on the trade that reaches a notional set per asset and day from its own trailing 30-day median (see `dollar_thresholds` and the contract §3). Microstructure and flow; default ML fabric alongside 1h/1d. |
 | Tick / volume bars | crypto, optional | Built only when you pass them in `--bar-types`. |
 
 DIB, runs, range, and adaptive-vol bars are not produced. All time bars align to 00:00 UTC.

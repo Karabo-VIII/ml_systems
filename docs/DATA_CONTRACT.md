@@ -1,6 +1,6 @@
 # Data contract
 
-**Version:** 2.1.0 (`pipeline.constants.CONTRACT_VERSION`).  
+**Version:** 2.2.0 (`pipeline.constants.CONTRACT_VERSION`; changes in §10).  
 **Live code:** the flat package `pipeline/` plus `strategy/`. **Config:** `config/pipeline.yaml` and `config/asset_launch_dates.json`.  
 **Snapshot:** `ml_systems_v1/` is a read-only archive. Do not import it.  
 **Scope:** what we fetch, which bar fabrics exist, how every series is timestamped and joined, how gold is written, and how a run is proven usable. Training and live execution are out of scope.
@@ -13,7 +13,7 @@ These bind any change to `pipeline/`. Change policy in config, not as a silent l
 
 - **UTC.** Stored timestamps are Unix instants interpreted as UTC. FX session flags use `Asia/Tokyo`, `Europe/London`, and `America/New_York`.
 - **`ts_ms` int64** is the canonical clock on bars, features, and gold. Raw crypto trades also keep `ts_us` and `agg_trade_id`. `ts_ms = ts_us // 1000`. FX ticks are already in `ts_ms`.
-- **Close-labelled bars.** A bar covering `(t_open, t_close]` is stamped `ts_ms = t_close`. Time bars are real OHLCV aggregates (open = first, high = max, low = min, close = last; volumes and trade counts sum). They are not the last event bar in a clock bucket.
+- **Close-labelled bars.** A bar covering `[t_open, t_close)` is stamped `ts_ms = t_close`, the same convention as a Binance kline (open_time = `t_open`, next open_time = `t_close`). A trade stamped exactly on a boundary is the first trade of the bar that closes one width later, so a bar never holds data from after its own stamp, and the first millisecond of a month belongs to the new month's first bar. Event bars (dollar, tick, volume) are stamped at the close of the trade that completes them. Time bars are real OHLCV aggregates (open = first, high = max, low = min, close = last; volumes and trade counts sum). They are not the last event bar in a clock bucket.
 - **UTC midnight alignment.** Every canonical time-bar width divides 24 hours, and `close_of` uses the Unix epoch (midnight UTC). 6h closes at 00:00/06:00/12:00/18:00, 8h at 00:00/08:00/16:00, 2h on the even UTC hours. Coarser time bars use the clock window `ts_open_ms = ts_ms - width`, even when some minutes in the bucket are missing.
 - **As-of joins.** A non-native series attaches only when `knowable_at <= bar.ts_ms`. `knowable_at = event_time + publication_lag_ms`. A negative lag is rejected. A daily UTC aggregate of day D is knowable at **(D+1) 00:00:00 UTC** (`event_time = D 00:00:00 UTC`, `lag_ms = 86_400_000`).
 - **No invented constants.** Do not fill price, volume, or returns with 0. Do not synthesize a column the source did not ship. Warmup stays null. FX has no traded notional and no aggressor: `volume_usd` and the side columns stay null; `volume` and `n_trades` are the tick count.
@@ -40,15 +40,15 @@ Default `--bar-types` is the canonical set below. Tick and volume bars are built
 | Fabric | Markets | What it is | What it is for |
 |---|---|---|---|
 | Time bars: 1m, 5m, 30m, 1h, 2h, 4h, 6h, 8h, 1d | crypto and FX | True clock OHLCV from 1m (crypto trades or FX ticks) | Charts and any model that should think in clock time. Default chart views: 1h and 1d. |
-| Dollar bars | crypto only | Event-time bars that close when cumulative notional reaches a fixed per-asset threshold | Microstructure and flow features. Default ML fabric alongside 1h/1d. Not built for FX (no traded notional). |
+| Dollar bars | crypto only | Event-time bars that close on the trade that makes cumulative notional reach the threshold; that trade is the last of the bar and the next bar restarts at zero, so every completed bar holds at least its threshold | Microstructure and flow features. Default ML fabric alongside 1h/1d. Not built for FX (no traded notional). |
 | Tick bars | crypto, optional | Event-time bars of a fixed trade count | Flow work when requested. |
 | Volume bars | crypto, optional | Event-time bars of a fixed traded quantity | Flow work when requested. |
 
-Dollar-bar thresholds are the fixed table in `config/pipeline.yaml` under `dollar_thresholds` (BTC $2,000,000, ETH $700,000, SOL $200,000, BNB $300,000, XRP $350,000, DOGE $400,000, ADA $100,000, AVAX $80,000, LINK $70,000, LTC $50,000). Causal trailing-median recalibration is a TODO and is not applied.
+**Dollar-bar size (`dollar_thresholds_v2`, adaptive and causal).** The threshold of UTC day D is `median(notional of the last 30 observed complete days before D) / 288`, so a bar is on average a 5-minute slice of that asset's own recent activity and the fabric carries a comparable number of bars per day in 2020 and in 2026. A static size could not do this: the table below gives about 60 bars a day for BTC in 2020 but several thousand in 2024. Day D's own trades never enter day D's size (no lookahead). A bar that is open at midnight keeps the size it opened with. On an asset's first day there is no history, so the static bootstrap table in `config/pipeline.yaml` under `dollar_thresholds.assets` is used (BTC $2,000,000, ETH $700,000, SOL $200,000, BNB $300,000, XRP $350,000, DOGE $400,000, ADA $100,000, AVAX $80,000, LINK $70,000, LTC $50,000). `threshold_overrides` (tests only) switch to a constant size. Missing days are not zero-filled: the window is the last 30 days that have trades.
 
 Shared bar schema `bars_v1`: `asset`, `bar_type`, `bar_id`, `ts_open_ms`, `ts_ms`, `open`, `high`, `low`, `close`, `vwap`, `volume`, `volume_usd`, `buy_volume`, `sell_volume`, `buy_usd`, `sell_usd`, `n_trades`, `signed_usd`. FX adds quote fields (`bid_close`, `ask_close`, `spread_mean`, `spread_max`) and leaves aggressor and `volume_usd` null.
 
-Time bars do not straddle UTC month boundaries (widths divide 24h; months start at midnight). Dollar bars can straddle months: `DollarAccumulator.emit_completed` writes closed bars and persists the open tail under `data/silver/bars/_state/`. That state is loaded only when the first month of a run is already fresh; `--force` or a first-month rebuild starts a new accumulator.
+Time bars do not straddle UTC month boundaries (widths divide 24h; months start at midnight). Dollar bars can straddle months and also days, so they carry state. `silver/bars/_state/dollar_<ASSET>.json` (+ `.parquet` for the open bar's trade fragments) holds the open bar, its running total and size, the next `bar_id`, the 30-day notional history, and `through`, the last month whose dollar partition is written. Resume rules: a dollar month counts as done only when its partition is fresh **and** `state.through >= month`; months before the first undone one keep their files; the rest are rebuilt in order from the saved state (a crash between writing a partition and saving the state is therefore redone, never double counted); if the state is ahead of, or unrelated to, the last good month the whole chain is rebuilt from the start. The fragments are written before the JSON and checked against it by hash, so a torn write is refused. `chain_start` is part of every dollar partition's params, so a different `--start` invalidates the chain. Trades are never fed to the accumulator in a month it is not rebuilding. `bar_id` is the close index for time bars (`ts_ms // width`) and a running counter for dollar bars; it is unique across the partitions of an asset.
 
 ---
 
@@ -74,7 +74,7 @@ Path patterns, schema names, and producers are in the [artifact registry](#9-art
 
 Alignment, unless a series is native to the bar: backward as-of on `knowable_at(S) <= B.ts_ms`. Rolling windows are in bars of the fabric they are computed on, and are causal. Warmup is null.
 
-**Crypto physics** (same formulas on dollar and time fabrics; `norm_bar_duration` is not emitted on time bars because the clock is fixed): `norm_deviation`, `norm_fd_close`, `norm_vpin`, `norm_flow_imbalance`, `norm_vol_cluster`, `norm_funding`, `norm_tick_count`, `norm_log_volume`, `norm_hl_spread`, `hurst_regime`, `norm_return_{1,4,16}`, `norm_spread_bps`, `norm_ma_distance`, `norm_whale`, `norm_efficiency`, `norm_return_kurtosis`, `norm_funding_momentum`, Hawkes intensity columns, `norm_momentum_accel`, `norm_vol_price_corr`, `norm_vol_ratio`, `norm_flow_persistence`, `norm_oi_price_divergence`, `norm_yz_volatility`, `norm_cs_spread`, `norm_perm_entropy`, `norm_kyle_lambda`. `norm_oi_change` is computed only with `--include-oi` and stays flagged (OI needs a publication lag; a short-window lookahead fire was seen historically).
+**Crypto physics** (same formulas on dollar and time fabrics; `norm_bar_duration` is not emitted on time bars because the clock is fixed): `norm_deviation`, `norm_fd_close`, `norm_vpin`, `norm_flow_imbalance`, `norm_vol_cluster`, `norm_funding`, `norm_tick_count`, `norm_log_volume`, `norm_hl_spread`, `hurst_regime`, `norm_return_{1,4,16}`, `norm_spread_bps`, `norm_ma_distance`, `norm_whale`, `norm_efficiency`, `norm_return_kurtosis`, `norm_funding_momentum`, Hawkes intensity columns, `norm_momentum_accel`, `norm_vol_price_corr`, `norm_vol_ratio`, `norm_flow_persistence`, `norm_oi_price_divergence`, `norm_yz_volatility`, `norm_cs_spread`, `norm_perm_entropy`, `norm_kyle_lambda`. `norm_oi_change` is computed only with `--include-oi`. Audit result (2.2.0): it does not leak. Vision `metrics` stamps the START of a 5-minute window (`create_time`) and the value describes the state at T+5m, so the open-interest lag is 10 minutes (`lags.families.open_interest = 600000`, 5 minutes plus one window of slack); the earlier 5-minute lag was exactly marginal. Every feature is trailing or lagged: perturbing bronze after time T leaves every feature at bars `<= T` bit-identical (`tests/test_audit_v22.py`).
 
 **Daily / slow series** are built per month and as-of joined: funding and metrics daily panels, spot–perp basis, whale/liquidation summaries from trades (`wh_*`, `liq_*`), plus the external series above. Cross-asset columns (`xd_btc_return`, `xd_btc_volatility`, `xd_funding_spread`, `xd_cross_return_mean`, `xd_cross_vol_mean`, `xd_ma_distance`, `xd_momentum_rank`) are a per-month cohort pass; they stay null when peer count is insufficient.
 
@@ -88,7 +88,7 @@ Dropped on purpose (do not reintroduce): invented `long_short_ratio = 1.0`, toke
 
 Stages write monthly silver and gold partitions named `<ASSET>_YYYY-MM.parquet`. `load_gold` concatenates every partition for an asset (including any leftover legacy `<ASSET>_YYYYMMDD.parquet` files). Read gold through `pipeline.dataset.load_gold`.
 
-Each gold parquet has a sibling `<name>.manifest.json` (`schema_name` `dataset_v1`) with contract version, producer `pipeline`, asset, bar type, `params_hash`, `ts_ms` range, row count, feature null fractions, inputs, lags, split boundaries, embargo length, and `built_at_ms`. Idempotent re-runs must not change the sha256 of outputs except `built_at`.
+Each gold parquet has a sibling `<name>.manifest.json` (`schema_name` `dataset_v1`) with contract version, producer `pipeline`, asset, bar type, `params_hash` (equal to the parquet footer), `ts_ms` range, row count, feature null fractions, `null_by_design` (columns that are null for a documented reason: warm-up, funding/OI absent, ETF before launch), `inputs` (families of non-native series attached, with the columns and the lag applied), `lags_applied`, `split_boundaries`, embargo length, `sha256` of the parquet, and `built_at_ms`. Month M's gold params include the sha256 of month M+1's features (targets look up to 64 bars ahead), so gold is rebuilt when the next month appears. Idempotent re-runs must not change the sha256 of outputs except `built_at`.
 
 ---
 
@@ -100,8 +100,11 @@ A run is not “usable” until these gates are considered. In-pipeline validate
 |---|---|
 | Time-bar reconciliation | For each asset, `sum(time_1m.volume)` equals each coarser time bar’s volume (and the same for `n_trades` and `volume_usd`) within 1e-9 relative or 1e-8 abs. |
 | Raw vs bars | `sum(time_*.n_trades)` and `sum(dollar.n_trades)` over the range equals bronze trade count. The last open dollar bar may be excluded if incomplete. |
+| Klines | 1m bars built from trades equal Binance's own 1m klines minute by minute (OHLC 1e-9, volume 1e-8, quote volume 1e-6 relative). Zero-trade filler candles are skipped and must be empty. This is the gate that catches a wrong bucket edge. |
+| Dollar | The threshold schedule is recomputed from bronze only; every bar's `volume_usd` is at least the threshold it opened with; counts and notional reconcile to bronze (completed bars plus the open tail). |
+| Manifests | Every gold manifest has all required keys, the current contract version, a sha256 equal to the file and its sidecar, and row count, ts range and `params_hash` equal to the parquet. |
 | Gaps | Time bars: unexpected mid-day holes in liquid BTC fail. FX weekend holes (see §4) are not failures. Isolated FX quiet minutes warn when the longest hole is short. |
-| As-of / lag | A series with lag L must not appear on a bar with `ts_ms < event_time + L`. No same-UTC-day daily aggregate on an intraday bar. |
+| As-of / lag | The lags are read from `lags.families` in `config/pipeline.yaml` (version `lags_v2`: funding 0, funding_daily and daily panel 1 day, open_interest 10 min, etf and wikipedia 2 days). A series with lag L must not appear on a bar with `ts_ms < event_time + L`. No same-UTC-day daily aggregate on an intraday bar. |
 | Lookahead correlation | For every feature (not target): correlation vs `target_return_1` with a 0.20 threshold. Failures block the feature, not the whole dataset, unless a core feature fails. Short windows can fire noisily. |
 | Cross-cadence features | A daily feature joined onto an intraday bar is null before it is knowable, and constant across the intra-day bars of the day it becomes knowable. |
 | Split / embargo | No row in two segments; embargo lengths honored. |
@@ -169,6 +172,7 @@ The second table lists on-disk data families. Those paths are created at runtime
 | `tests/conftest.py` | Shared pytest fixtures |
 | `tests/fixtures.py` | Offline fixture builders |
 | `tests/test_artifacts.py` | Asserts every tracked file outside the archive is in this registry |
+| `tests/test_audit_v22.py` | Crypto-layer audit regressions: bar edges, dollar bars and resume, lags, manifests, splits, validators |
 | `tests/test_backtest.py` | Backtest engine tests |
 | `tests/test_bars.py` | Bar construction and cadence tests |
 | `tests/test_external_and_loader.py` | External ingest and gold loader tests |
@@ -208,3 +212,18 @@ The second table lists on-disk data families. Those paths are created at runtime
 | Run log | `runs/<market>_<start>_<end>_<YYYYMMDDTHHMMSSZ>.log` | one file per run | text | `pipeline.progress` |
 
 `load_partitions` also reads leftover legacy names `<ASSET>_YYYYMMDD.parquet` if they are still on disk. New writes use the monthly `YYYY-MM` name only.
+
+---
+
+## 10. Changelog
+
+**2.2.0** (crypto-layer audit). Every silver and gold file built under 2.1.0 is rejected as stale (`partition_fresh` now compares the file's `contract_version`); bronze is unchanged and reusable.
+
+- Bars are `[t_open, t_close)` stamped at close, not `(t_open, t_close]`. Under 2.1.0 a trade exactly on a minute boundary went into the earlier bar, so about 1% of 1m bars disagreed with Binance klines, and a trade at 00:00:00.000 on the 1st sat in the previous month's last bar (duplicated `ts_ms` across two partitions). Applies to FX ticks too.
+- Event bars close on the crossing trade and restart at zero (2.1.0 put the crossing trade in the next bar, and bars as small as half the threshold appeared).
+- Dollar size is adaptive and causal (`dollar_thresholds_v2`, see §3). Resume is state-versioned (`through`), torn writes are detected.
+- `bar_id` unique across partitions. `bs_basis` on every cadence (was 1d only). Daily-panel (`s3_*`) features no longer depend on `--include-oi`. Feature reads are capped at the frame's own end (was O(months^2)).
+- Lags: open interest 5 -> 10 minutes, ETF and Wikipedia 1 -> 2 days; all lags from config, written to the manifest.
+- Manifests: `inputs`, `lags_applied`, `split_boundaries`, `null_by_design`, `params_hash` now populated. Gold depends on the next month's features.
+- Spot kline `open_time` in microseconds (from 2025-01-01) is normalised to ms.
+- Validator: streaming (no full-frame loads), new klines, dollar and manifest gates.
