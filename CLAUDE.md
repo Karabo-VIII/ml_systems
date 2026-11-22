@@ -8,8 +8,9 @@ These bind any change to `pipeline/`. The full contract is `docs/DATA_CONTRACT.m
 - **As-of joins.** A non-native series attaches only when `knowable_at <= bar.ts_ms`. `knowable_at = event_time + publication_lag_ms`. A negative lag is rejected. A daily aggregate of day D is knowable at (D+1) 00:00:00 UTC.
 - **No invented constants.** Do not fill price, volume, or returns with 0. Do not synthesize a column the source did not ship (the old `long_short_ratio = 1.0` is the example). Warmup stays null. FX has no traded notional and no aggressor: `volume_usd` and the side columns stay null, and `volume` is the tick count.
 - **Atomic writes.** Parquet goes to a temp file, is fsynced, then `os.replace`d. Required columns are checked before the replace. Dukascopy hours are cached one file per hour so a retry does not refetch a finished hour.
-- **One CLI.** `python -m pipeline.cli run` takes `--start`, `--end`, `--assets` or `--universe`, `--market` (`crypto` or `fx`), and `--force`.
+- **One CLI.** `python -m pipeline.cli` or `mlsys`. `run` takes `--start`, `--end`, `--assets` or `--universe`, `--market` (`crypto` or `fx`), and `--force`.
 - **Embargo.** `max(horizon, feature lookback)` in that cadence's bars, and at least 7 calendar days. Feature windows are capped at 90 days of clock time. Crypto and FX use the same splits.
 - **Layout.** A directory exists only when it holds something. Do not add an empty package, an empty `crypto/` tree, or a committed `data/` or `runs/` directory.
+- **Artifact registry.** Every tracked file outside `ml_systems_v1/` is listed in `docs/DATA_CONTRACT.md`. Update that list in the same commit as the file change. Install the package with `pip install -e ".[dev]"`.
 
 The pre-commit guard is `scripts/pre_commit_guard.py`. The old CDAP audit stays inside `ml_systems_v1/` and must not be wired to this tree.

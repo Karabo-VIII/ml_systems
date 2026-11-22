@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ml-systems"
+dynamic = ["version"]
+description = "Crypto and FX data pipeline and backtest engine"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.1,<3",
+    "polars>=1.21,<2",
+    "pyarrow>=17,<24",
+    "pyyaml>=6,<7",
+    "tqdm>=4.66,<5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<9",
+]
+
+[project.scripts]
+mlsys = "pipeline.cli:main"
+
+[tool.setuptools.dynamic]
+version = {attr = "pipeline.constants.CONTRACT_VERSION"}
+
+[tool.setuptools.packages.find]
+include = ["pipeline", "pipeline.*", "strategy", "strategy.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "network: live fetch (crypto: PIPELINE_V2_NETWORK=1, fx: PIPELINE_FX_NETWORK=1)",
+]

@@ -15,15 +15,15 @@ scripts/           pre-commit guard
 
 ## Setup
 
-Python 3.12 or 3.13. Do not install `numpy==1.26` (it does not build on 3.13).
+Python 3.11 or newer (tested on 3.13). Do not install `numpy==1.26` (it does not build on 3.13).
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e ".[dev]"
 ```
 
-From the repository root, `python -m pipeline.cli` works without `PYTHONPATH`.
+On Windows PowerShell, activate with `.\.venv\Scripts\Activate.ps1` and use the same `pip install -e ".[dev]"`. The install provides the `mlsys` command; `python -m pipeline.cli` keeps working from the repository root.
 
 Install the pre-commit guard (files over 5 MB, and `.parquet` / `.pkl` / `.pt` / `.npz` and the same family). It does not run the old CDAP audit.
 
@@ -35,7 +35,7 @@ sh scripts/install_pre_commit.sh
 
 ```bash
 python -m pytest tests -q -m 'not network'
-python -m pipeline.cli --help
+python -m pipeline.cli --help   # or: mlsys --help
 ```
 
 Crypto smoke (a few days of BTC from Binance Vision):
