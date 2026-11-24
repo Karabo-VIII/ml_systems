@@ -117,8 +117,10 @@ def test_status_reports_range_completeness(tmp_path, capsys):
         "--assets", "BTC", "--stages", "fetch,bars",
         "--bar-types", "time_1m,time_1h",
     ])
-    assert code == 0
+    # Nothing is on disk, so the range is incomplete: exit 1 lets a script gate on it.
+    assert code == 1
     out = capsys.readouterr().out
+    assert "[status] incomplete" in out
     assert "BTCUSDT" in out
     assert "fetch" in out
     assert "bars" in out

@@ -1,9 +1,15 @@
 """External daily sources. Each row carries event_time_ms of the UTC day it describes.
 
-The orchestrator joins them with a 1-day publication lag, so a day-D value is
-first visible at (D+1) 00:00:00 UTC. Parsers accept fixtures and do not require
-the network. Fetch functions record an error and return an empty frame rather
-than raising on a bad response.
+The orchestrator joins each source with its publication lag from
+``lags.families`` in ``config/pipeline.yaml`` (DefiLlama and Deribit one day,
+Farside ETF flows and Wikipedia two days). Parsers accept fixtures and do not
+require the network. Fetch functions record an error and return an empty frame
+rather than raising on a bad response.
+
+Each source is one file per source, and every fetch *merges* into it keyed by
+(asset, day): a run over a short range adds or revises those days and never
+drops the rest of the history. The newest fetch wins for a day it covers
+(Farside revises recent rows).
 """
 
 from __future__ import annotations
@@ -207,10 +213,19 @@ def parse_wiki_items(items: list, asset: str) -> pl.DataFrame:
 
 
 def _write(df: pl.DataFrame, path: Path, schema_name: str, params: dict) -> None:
+    """Merge ``df`` into the file at ``path`` keyed by (asset, event_time_ms); new rows win."""
     if df.is_empty():
         return
-    sort = ["event_time_ms"] if "asset" not in df.columns else ["asset", "event_time_ms"]
-    atomic_write_parquet(df, path, schema_name=schema_name, params=params, sort_cols=sort)
+    key = ["event_time_ms"] if "asset" not in df.columns else ["asset", "event_time_ms"]
+    if path.exists():
+        try:
+            old = pl.read_parquet(path)
+        except Exception:  # noqa: BLE001  an unreadable file is replaced, not merged
+            old = pl.DataFrame()
+        if not old.is_empty() and all(k in old.columns for k in key):
+            df = pl.concat([old, df], how="diagonal_relaxed")
+    df = df.unique(subset=key, keep="last", maintain_order=True)
+    atomic_write_parquet(df, path, schema_name=schema_name, params=params, sort_cols=key)
 
 
 def external_dir(root: Path, source: str) -> Path:
@@ -231,24 +246,33 @@ def fetch_defillama(root: Path, *, timeout: int = 60) -> tuple[str, int]:
     return "ok", df.height
 
 
+DERIBIT_WINDOW_DAYS = 500
+
+
 def fetch_deribit(root: Path, start: date, end: date, *, timeout: int = 60) -> tuple[str, int]:
     frames = []
     errors = []
-    start_ms = _midnight(start)
-    end_ms = _midnight(end + timedelta(days=1))
+    # The API caps the points per call, so the range is requested in windows.
+    windows = []
+    cur = start
+    while cur <= end:
+        stop = min(end, cur + timedelta(days=DERIBIT_WINDOW_DAYS - 1))
+        windows.append((_midnight(cur), _midnight(stop + timedelta(days=1))))
+        cur = stop + timedelta(days=1)
     for currency, asset in (("BTC", "BTCUSDT"), ("ETH", "ETHUSDT")):
-        url = (
-            "https://www.deribit.com/api/v2/public/get_volatility_index_data"
-            f"?currency={currency}&start_timestamp={start_ms}&end_timestamp={end_ms}&resolution=1D"
-        )
-        status, body, err = http_get(url, timeout=timeout)
-        if status != 200 or err or not body:
-            errors.append(err or f"HTTP {status}")
-            continue
-        try:
-            frames.append(parse_deribit_dvol(json.loads(body.decode("utf-8", errors="replace")), asset))
-        except Exception as exc:
-            errors.append(f"{type(exc).__name__}: {exc}")
+        for start_ms, end_ms in windows:
+            url = (
+                "https://www.deribit.com/api/v2/public/get_volatility_index_data"
+                f"?currency={currency}&start_timestamp={start_ms}&end_timestamp={end_ms}&resolution=1D"
+            )
+            status, body, err = http_get(url, timeout=timeout)
+            if status != 200 or err or not body:
+                errors.append(f"{currency} {_day_from_ms(start_ms)}: {err or f'HTTP {status}'}")
+                continue
+            try:
+                frames.append(parse_deribit_dvol(json.loads(body.decode("utf-8", errors="replace")), asset))
+            except Exception as exc:
+                errors.append(f"{type(exc).__name__}: {exc}")
     frames = [f for f in frames if not f.is_empty()]
     if not frames:
         return "; ".join(errors) or "empty", 0

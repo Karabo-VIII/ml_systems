@@ -29,13 +29,13 @@ if str(_REPO) not in sys.path:
 
 from pipeline.bars import close_of, gaps_ms
 from pipeline.constants import DAY_MS, TIME_WIDTH_MS
-from pipeline.config import fx_pip, whale_spec
+from pipeline.config import fx_pip, lag_ms, load_lags, whale_spec
 from pipeline.fetch_crypto import http_get, parse_klines
 from pipeline.features import (
-    compute_fx_features, load_whale_hists, rows_to_frame, summarize_day,
-    trade_notional_hist, whale_threshold,
+    compute_fx_features, funding_daily, load_whale_hists, metrics_daily, rows_to_frame,
+    summarize_day, trade_notional_hist, whale_threshold,
 )
-from pipeline.paths import fx_hour_path, klines_1m_path, trades_path
+from pipeline.paths import funding_path, fx_hour_path, klines_1m_path, metrics_path, trades_path
 from pipeline.symbols import canonical_instrument
 
 
@@ -47,6 +47,8 @@ FX_NULL_OK = {
     "volume_usd", "buy_volume", "sell_volume", "buy_usd", "sell_usd", "signed_usd",
     "usd_strength_ret",
 }
+# Month/day (America/New_York) on which a quiet or closed FX market is not a fetch hole.
+FX_HOLIDAYS = {(12, 25), (1, 1)}
 SESSION_ZONES = {
     "is_tokyo": ("Asia/Tokyo", 9, 18),
     "is_london": ("Europe/London", 8, 17),
@@ -222,11 +224,16 @@ def _fx_weekend_expected(ts_ms: int) -> bool:
     dt = _utc(ts_ms)
     ny = dt.astimezone(ZoneInfo("America/New_York"))
     # The bar *closing* at ts_ms. A gap close during the weekend shutdown is expected.
+    # The bar closing at Sunday 17:00 covers the last pre-open minute, so it is
+    # part of the hole too.
     if ny.weekday() == 5:
         return True
-    if ny.weekday() == 6 and (ny.hour, ny.minute) < (17, 0):
+    if ny.weekday() == 6 and (ny.hour, ny.minute) <= (17, 0):
         return True
     if ny.weekday() == 4 and (ny.hour, ny.minute) >= (17, 0):
+        return True
+    # Christmas and New Year: the interbank market is closed or nearly so.
+    if (ny.month, ny.day) in FX_HOLIDAYS:
         return True
     return False
 
@@ -401,6 +408,11 @@ def _read_fx_ticks(root: Path, asset: str, days: list[date]) -> pl.DataFrame:
     return pl.concat(frames, how="vertical").sort("ts_ms")
 
 
+def _row_count(path: Path) -> int:
+    import pyarrow.parquet as pq
+    return int(pq.read_metadata(path).num_rows)
+
+
 def check_trade_counts(
     report: Report,
     root: Path,
@@ -409,43 +421,107 @@ def check_trade_counts(
     end: date | None = None,
     threshold_overrides: dict[str, float] | None = None,
 ) -> None:
+    """1m ``n_trades`` against the bronze rows of the same days.
+
+    Counts come from parquet footers, so this costs one small read per file.
+    Dollar bars are checked by :func:`check_dollar_fabric` over the whole range.
+    """
     for asset, ladder in sorted(ladders.items()):
         bars = ladder.get("time_1m")
         if bars is None or bars.is_empty():
             continue
         bar_n = int(bars["n_trades"].sum())
         if _is_fx(asset):
-            days = _fx_tick_days(root, asset, start, end)
-            ticks = _read_fx_ticks(root, asset, days)
-            bronze = ticks.height
+            bronze = 0
+            for day in _fx_tick_days(root, asset, start, end):
+                for hour in range(24):
+                    path = fx_hour_path(root, asset, day, hour)
+                    if path.exists():
+                        bronze += _row_count(path)
             name = f"tick_count:{asset}"
             if bar_n != bronze:
                 report.add(name, "FAIL", f"1m n_trades {bar_n} != tick files {bronze}")
             else:
                 report.add(name, "PASS", f"{bronze} ticks accounted for in 1m bars")
-            if "spread" in ticks.columns and not ticks.is_empty():
-                check_spreads(report, asset, ticks, bars)
+            check_spreads_streamed(report, root, asset, start, end, bars)
         else:
-            days = _trade_days(root, asset, start, end)
-            bronze = 0
-            for day in days:
-                path = trades_path(root, asset, day)
-                if path.exists():
-                    bronze += int(pl.scan_parquet(path).select(pl.len()).collect().item())
+            bronze = sum(
+                _row_count(trades_path(root, asset, day))
+                for day in _trade_days(root, asset, start, end)
+            )
             name = f"trade_count:{asset}"
             if bar_n != bronze:
                 report.add(name, "FAIL", f"1m n_trades {bar_n} != bronze trades {bronze}")
             else:
                 report.add(name, "PASS", f"{bronze} trades accounted for in 1m bars")
-            dollar = ladder.get("dollar")
-            if dollar is not None and bronze:
-                check_dollar(report, root, asset, days, dollar, bronze, threshold_overrides=threshold_overrides)
 
 
-def _daily_notional(root: Path, asset: str) -> dict[int, float]:
-    """USD notional per UTC day for every bronze trade day on disk, streamed one file at a time."""
+def check_bronze_coverage(report: Report, root: Path, asset: str, start: date, end: date) -> None:
+    """Every day in range has a bronze trade file, or Vision itself shipped no rows.
+
+    A day recorded ``empty`` (the monthly zip had no rows that day) is venue
+    downtime and only warns. A day with no file and any other status (absent,
+    missing, error, unknown) is a hole that every count-based gate would miss,
+    because the bars and the bronze would agree on zero.
+    """
+    from pipeline.config import effective_start
+    from pipeline.paths import manifest_path
+
+    first = max(start, effective_start(asset, start))
+    man = manifest_path(root, "trades", asset)
+    arts = json.loads(man.read_text()).get("artifacts", {}) if man.exists() else {}
+    holes, empty = [], []
+    d = first
+    while d <= end:
+        if not trades_path(root, asset, d).exists():
+            (empty if arts.get(d.isoformat(), {}).get("status") == "empty" else holes).append(d)
+        d += timedelta(days=1)
+    name = f"bronze_coverage:{asset}"
+    n = (end - first).days + 1
+    if holes:
+        report.add(name, "FAIL", f"{len(holes)} of {n} days have no trades and no venue-empty record; first {holes[:5]}")
+    elif empty:
+        report.add(name, "WARN", f"{len(empty)} of {n} days had no trades in Vision's own files: {empty[:5]}")
+    else:
+        report.add(name, "PASS", f"all {n} days from {first} have bronze trades")
+
+
+def check_dollar_fabric(
+    report: Report,
+    root: Path,
+    asset: str,
+    start: date | None,
+    end: date | None,
+    threshold_overrides: dict[str, float] | None = None,
+) -> None:
+    """Dollar bars over the whole range of one asset (they straddle months and years)."""
+    from pipeline.partitions import list_partition_paths
+
+    files = list_partition_paths(root / "silver" / "bars" / "dollar", asset)
+    if not files:
+        return
+    cols = ["ts_ms", "ts_open_ms", "volume_usd", "n_trades"]
+    frames = [pl.read_parquet(f, columns=cols) for f in files]
+    frames = [f for f in frames if f.height]
+    if not frames:
+        report.add(f"dollar_notional:{asset}", "WARN", "no dollar bars")
+        return
+    dollar = clip_frame(pl.concat(frames).sort("ts_ms"), start, end)
+    days = _trade_days(root, asset, start, end)
+    bronze = sum(_row_count(trades_path(root, asset, d)) for d in days)
+    if bronze:
+        check_dollar(report, root, asset, days, dollar, bronze, threshold_overrides=threshold_overrides,
+                     start=start)
+
+
+def _daily_notional(root: Path, asset: str, start: date | None = None) -> dict[int, float]:
+    """USD notional per UTC day for bronze trade days from ``start`` on, one file at a time.
+
+    The dollar chain starts at the run's start (``chain_start``), so days before
+    it never fed the schedule and are left out.
+    """
     out: dict[int, float] = {}
-    for day in _trade_days(root, asset):
+    for day in _trade_days(root, asset, start, None):
         path = trades_path(root, asset, day)
         if not path.exists():
             continue
@@ -484,6 +560,7 @@ def check_dollar(
     dollar: pl.DataFrame,
     bronze_n: int,
     threshold_overrides: dict[str, float] | None = None,
+    start: date | None = None,
 ) -> None:
     """Dollar bars against bronze: counts, notional, and the size each bar had to reach."""
     from pipeline.config import dollar_spec
@@ -493,7 +570,7 @@ def check_dollar(
         report.add(name, "WARN", "no dollar bars")
         return
     spec = dollar_spec(asset, (threshold_overrides or {}).get(asset))
-    daily = _daily_notional(root, asset)
+    daily = _daily_notional(root, asset, start or (days[0] if days else None))
     in_range = {
         int(datetime(d.year, d.month, d.day, tzinfo=timezone.utc).timestamp() * 1000) // DAY_MS for d in days
     }
@@ -513,6 +590,15 @@ def check_dollar(
     if bad:
         report.add(name, "FAIL", f"{bad} dollar bars have non-positive notional")
         return
+    if bar_n and tail_n > 0:
+        typical = bar_n / max(dollar.height, 1)
+        if tail_n > 3 * typical + 1000:
+            report.add(
+                name, "FAIL",
+                f"{tail_n} bronze trades are in no dollar bar (typical bar holds {typical:.0f}); "
+                f"a month of the fabric is probably missing",
+            )
+            return
     schedule = dollar_schedule(daily, spec)
     sched = pl.DataFrame({"_day": list(schedule), "_t": list(schedule.values())}, schema={"_day": pl.Int64, "_t": pl.Float64})
     chk = dollar.with_columns((pl.col("ts_open_ms") // DAY_MS).alias("_day")).join(sched, on="_day", how="left")
@@ -585,7 +671,16 @@ def check_klines(
         if base is None or base.is_empty():
             continue
         frames = []
-        for day in _trade_days(root, asset, start, end):
+        kdir = root / "bronze" / "klines" / "spot_1m" / asset
+        kdays = set()
+        if kdir.exists():
+            for path in kdir.glob("*.parquet"):
+                try:
+                    kdays.add(date.fromisoformat(path.stem))
+                except ValueError:
+                    continue
+        # Klines of a day with no trade file still count: a missing trade day is a hole.
+        for day in sorted(set(_trade_days(root, asset, start, end)) | {d for d in kdays if _day_in_range(d, start, end)}):
             path = klines_1m_path(root, asset, day)
             if path.exists():
                 frames.append(pl.read_parquet(path))
@@ -621,22 +716,38 @@ def check_klines(
             | ((pl.col("volume_usd") - pl.col("quote_volume")).abs() > 1e-6 * pl.col("quote_volume").abs() + 1e-6)
         )
         n = max(both.height, 1)
+        # A traded minute missing from the kline file is a kline outage on the venue
+        # side: bars only exist where trades exist (trade_count proves that), and the
+        # trades are the source of truth. The candles on the two edges of such a hole
+        # carry the outage's partial aggregates. Holes and their edges are reported;
+        # scattered disagreements are what an aggregation bug produces and are judged.
+        hole_ts = sorted(j.filter(pl.col("open_k").is_null())["ts_ms"].to_list())
+        hole_set = set(hole_ts)
+        edges = {t - 60_000 for t in hole_set} | {t + 60_000 for t in hole_set}
+        edge_bad = bad.filter(pl.col("ts_ms").is_in(sorted(edges))).height if hole_set else 0
+        runs = 1 + sum(1 for a, b in zip(hole_ts, hole_ts[1:]) if b - a != 60_000) if hole_ts else 0
+        scattered = bad.filter(~pl.col("ts_ms").is_in(sorted(edges))) if hole_set else bad
         detail = (
             f"{both.height} minutes compared; {bad.height} differ, "
             f"{only_bars} only in bars, {only_klines} only in klines"
         )
+        if hole_ts:
+            first_h = datetime.fromtimestamp((hole_ts[0] - 60_000) / 1000, tz=timezone.utc)
+            detail += (
+                f"; {only_bars} traded minutes in {runs} kline-file outage(s) plus {edge_bad} "
+                f"edge candle(s) (venue side, trades authoritative; first {first_h:%Y-%m-%d %H:%M} UTC)"
+            )
         if filler.height:
             detail += f"; {filler.height} zero-trade filler candles skipped ({bad_filler} not empty)"
-        bad_n = bad.height + only_bars + only_klines + bad_filler
+        bad_n = scattered.height + only_klines + bad_filler
         frac = bad_n / n
-        if bad_n == 0:
+        sample = scattered.select(["ts_ms", "close", "close_k", "volume", "volume_k"]).head(2).to_dicts()
+        if bad_n == 0 and not hole_ts:
             report.add(name, "PASS", detail)
         elif frac <= 1e-4:
-            sample = bad.select(["ts_ms", "close", "close_k", "volume", "volume_k"]).head(2).to_dicts()
-            report.add(name, "WARN", f"{detail}; e.g. {sample}")
+            report.add(name, "WARN", f"{detail}; {bad_n} scattered" + (f", e.g. {sample}" if sample else ""))
         else:
-            sample = bad.select(["ts_ms", "close", "close_k", "volume", "volume_k"]).head(2).to_dicts()
-            report.add(name, "FAIL", f"{detail}; e.g. {sample}")
+            report.add(name, "FAIL", f"{detail}; {bad_n} scattered ({frac:.1e} > 1e-4), e.g. {sample}")
 
 
 def check_manifests(
@@ -710,6 +821,59 @@ def check_manifests(
         report.add("manifests", "PASS", f"{n_ok} gold manifests match their parquet, sidecar and contract {CONTRACT_VERSION}")
 
 
+def check_spreads_streamed(
+    report: Report, root: Path, asset: str, start: date | None, end: date | None, bars: pl.DataFrame,
+) -> None:
+    """Spread sanity over every tick of the range, one hour file at a time.
+
+    Counts are exact. Quantiles use every 20th tick, which is plenty for a p99.
+    """
+    name = f"spread:{asset}"
+    pip = fx_pip(asset)
+    n = nonpos = crossed = mid_bad = 0
+    sample: list[pl.Series] = []
+    for day in _fx_tick_days(root, asset, start, end):
+        for hour in range(24):
+            path = fx_hour_path(root, asset, day, hour)
+            if not path.exists():
+                continue
+            t = pl.read_parquet(path, columns=["bid", "ask", "mid", "spread"])
+            if t.is_empty():
+                continue
+            n += t.height
+            nonpos += t.filter(pl.col("spread") <= 0).height
+            crossed += t.filter(pl.col("ask") < pl.col("bid")).height
+            mid_bad += t.filter(((pl.col("bid") + pl.col("ask")) / 2 - pl.col("mid")).abs() > 1e-10).height
+            sample.append(t["spread"].gather_every(20))
+    if not n:
+        return
+    if crossed > 0.001 * n:
+        report.add(name, "FAIL", f"{crossed} of {n} ticks have ask < bid")
+        return
+    if mid_bad:
+        report.add(name, "FAIL", f"{mid_bad} ticks have mid != (bid+ask)/2")
+        return
+    if "bid_close" in bars.columns:
+        inv = bars.filter(
+            pl.col("bid_close").is_not_null()
+            & pl.col("ask_close").is_not_null()
+            & (pl.col("ask_close") < pl.col("bid_close"))
+        ).height
+        if inv:
+            report.add(name, "FAIL", f"{inv} bars have ask_close < bid_close")
+            return
+    pips = pl.concat(sample) / pip
+    p50 = float(pips.median())
+    p99 = float(pips.quantile(0.99))
+    mx = float(pips.max())
+    # A locked quote (bid == ask) happens on real feeds; a large share of them does not.
+    sev = "WARN" if (p99 > 50 or nonpos > 0.01 * n or p50 <= 0 or crossed) else "PASS"
+    report.add(
+        name, sev,
+        f"ticks={n} median={p50:.2f} pips  p99={p99:.2f}  max={mx:.2f}  locked_or_crossed={nonpos}  pip={pip}",
+    )
+
+
 def check_spreads(report: Report, asset: str, ticks: pl.DataFrame, bars: pl.DataFrame) -> None:
     name = f"spread:{asset}"
     pip = fx_pip(asset)
@@ -751,7 +915,70 @@ def check_spreads(report: Report, asset: str, ticks: pl.DataFrame, bars: pl.Data
     )
 
 
-def check_gaps(report: Report, ladders: dict[str, dict[str, pl.DataFrame]]) -> None:
+def venue_kline_days(root: Path, asset: str, start: date | None, end: date | None) -> set[int]:
+    """UTC day indexes (``ts // DAY_MS``) that have a bronze 1m kline file."""
+    kdir = root / "bronze" / "klines" / "spot_1m" / asset
+    out: set[int] = set()
+    if kdir.exists():
+        for path in kdir.glob("*.parquet"):
+            try:
+                day = date.fromisoformat(path.stem)
+            except ValueError:
+                continue
+            if _day_in_range(day, start, end):
+                out.add(int(datetime(day.year, day.month, day.day, tzinfo=timezone.utc).timestamp() * 1000) // DAY_MS)
+    return out
+
+
+def classify_missing(root: Path, asset: str, missing: list[int], start: date | None, end: date | None) -> tuple[list[int], int] | None:
+    """Split missing 1m closes into lost minutes and venue downtime.
+
+    A minute is downtime only when the venue's klines for that day exist and show
+    no trade in it. A minute on a day with no kline file is unknown, and is
+    counted as lost: a day missing from both trades and klines is a fetch hole,
+    not an outage. ``None`` when there are no klines at all for the range.
+    """
+    traded = venue_traded_minutes(root, asset, start, end)
+    if traded is None:
+        return None
+    covered = venue_kline_days(root, asset, start, end)
+    lost = [t for t in missing if t in traded or ((t - 1) // DAY_MS) not in covered]
+    return lost, len(missing) - len(lost)
+
+
+def venue_traded_minutes(root: Path, asset: str, start: date | None, end: date | None) -> set[int] | None:
+    """Close stamps of the minutes Binance's own 1m klines show trades in, or ``None`` without klines.
+
+    A minute missing from our bars but traded in the venue's klines is lost data.
+    A minute the venue has no trades for (no kline, or a zero-trade filler candle)
+    is venue downtime: an exchange maintenance window, not a pipeline hole.
+    """
+    kdir = root / "bronze" / "klines" / "spot_1m" / asset
+    if not kdir.exists():
+        return None
+    out: set[int] = set()
+    found = False
+    for path in sorted(kdir.glob("*.parquet")):
+        try:
+            day = date.fromisoformat(path.stem)
+        except ValueError:
+            continue
+        if not _day_in_range(day, start, end):
+            continue
+        found = True
+        k = pl.read_parquet(path, columns=["ts_open_ms", "n_trades"])
+        k = k.with_columns(
+            pl.when(pl.col("ts_open_ms") > 100_000_000_000_000)
+            .then(pl.col("ts_open_ms") // 1000).otherwise(pl.col("ts_open_ms")).alias("ts_open_ms")
+        ).filter(pl.col("n_trades") > 0)
+        out.update((k["ts_open_ms"] + 60_000).to_list())
+    return out if found else None
+
+
+def check_gaps(
+    report: Report, ladders: dict[str, dict[str, pl.DataFrame]],
+    root: Path | None = None, start: date | None = None, end: date | None = None,
+) -> None:
     for asset, ladder in sorted(ladders.items()):
         bars = ladder.get("time_1m")
         if bars is None or bars.is_empty():
@@ -779,13 +1006,31 @@ def check_gaps(report: Report, ladders: dict[str, dict[str, pl.DataFrame]]) -> N
                     f"NY 17:00 close",
                 )
         else:
-            if missing:
+            split = classify_missing(root, asset, missing, start, end) if (root is not None and missing) else None
+            if missing and split is not None:
+                lost, downtime = split
+                if lost:
+                    longest = _longest_run_minutes(lost)
+                    report.add(
+                        name, "FAIL" if longest > 15 else "WARN",
+                        f"{len(lost)} minutes traded on the venue (or on days with no venue klines) are missing from the bars "
+                        f"(longest {longest} min, first {_utc(lost[0]).isoformat()}); "
+                        f"{downtime} more are venue downtime",
+                    )
+                else:
+                    report.add(
+                        name, "PASS",
+                        f"{len(missing)} missing minutes, all venue downtime (no traded kline), "
+                        f"longest hole={_longest_run_minutes(missing)} min",
+                    )
+            elif missing:
                 longest = _longest_run_minutes(missing)
                 sev = "FAIL" if asset == "BTCUSDT" and longest > 15 else "WARN"
                 first = _utc(missing[0]).isoformat()
                 report.add(
                     name, sev,
-                    f"{len(missing)} missing minutes, longest hole={longest} min, first={first}",
+                    f"{len(missing)} missing minutes, longest hole={longest} min, first={first} "
+                    f"(no venue klines to tell downtime from lost data)",
                 )
             else:
                 first, last = _utc(int(bars["ts_ms"].min())), _utc(int(bars["ts_ms"].max()))
@@ -850,6 +1095,46 @@ def check_sessions(report: Report, gold: dict[str, dict[str, Path]], start: date
         )
 
 
+def _expected_asof(ts: list[int], event_ms: list[int], values: list, lag: int) -> list:
+    """Value of the last event with ``event_ms + lag <= t``, for each ``t`` (independent of polars)."""
+    import numpy as np
+
+    if not event_ms:
+        return [None] * len(ts)
+    order = np.argsort(np.asarray(event_ms, dtype=np.int64), kind="stable")
+    knowable = np.asarray(event_ms, dtype=np.int64)[order] + int(lag)
+    vals = [values[i] for i in order]
+    idx = np.searchsorted(knowable, np.asarray(ts, dtype=np.int64), side="right") - 1
+    return [vals[i] if i >= 0 else None for i in idx.tolist()]
+
+
+def _compare_asof(asset: str, col: str, ts: list[int], got: list, expected: list, problems: list[str]) -> int:
+    ok = 0
+    for t, g, e in zip(ts, got, expected):
+        if g is None and e is None:
+            ok += 1
+            continue
+        if e is None:
+            problems.append(f"{asset} {col} present at {_utc(t).isoformat()} before any knowable row")
+            return ok
+        if g is None:
+            problems.append(f"{asset} {col} null at {_utc(t).isoformat()}; expected {e}")
+            return ok
+        if abs(float(g) - float(e)) > 1e-6 * max(1.0, abs(float(e))):
+            problems.append(f"{asset} {col} at {_utc(t).isoformat()} got={g} expected={e}")
+            return ok
+        ok += 1
+    return ok
+
+
+def _whale_blocks(days: list[date], block: int = 20) -> list[list[date]]:
+    """All days when the range is short, else three blocks (start, middle, end)."""
+    if len(days) <= 3 * block:
+        return [days]
+    mid = len(days) // 2
+    return [days[:block], days[mid - block // 2: mid + block // 2], days[-block:]]
+
+
 def check_asof_and_hand_features(
     report: Report,
     root: Path,
@@ -859,19 +1144,29 @@ def check_asof_and_hand_features(
     end: date | None = None,
     z_window: int = 200,
 ) -> None:
-    # Prefer 1m gold so z-scored features have enough warmup; fall back to 1h.
-    for bt in ("time_1m", "time_1h"):
+    """Returns recomputed by hand, and every daily series checked against its lag.
+
+    Daily joins are identical on every intraday cadence, so the 1h gold is used
+    (sixty times smaller than 1m). The expected value for a bar at ``t`` is the
+    last event with ``event_time + lag <= t``, with the lag read from
+    ``lags.families`` (not assumed to be one day). The whale panel is recomputed
+    from bronze on up to three 20-day blocks of the range; the funding and
+    metrics panels from the bronze funding and metrics files.
+    """
+    for bt in ("time_1h", "time_1m"):
         assets = gold_files.get(bt, {})
         if assets:
             break
     else:
         report.add("hand_features", "WARN", "no gold files")
         return
+    lags = load_lags()
 
     ret_problems: list[str] = []
     asof_problems: list[str] = []
     asof_ok = 0
     ret_ok = 0
+    families_checked: set[str] = set()
 
     def _rolling_z(values, window: int) -> list:
         out = [None] * len(values)
@@ -939,8 +1234,10 @@ def check_asof_and_hand_features(
                 else:
                     raw.append(None)
             lagged = [None] + raw[:-1]
-            z = _rolling_z(lagged, z_window)
-            series = df["norm_return_1"].to_list()
+            # Only the first ~z+200 rows are needed for 200 comparisons.
+            head = min(len(lagged), z_window + 400)
+            z = _rolling_z(lagged[:head], z_window)
+            series = df["norm_return_1"].to_list()[:head]
             compared = 0
             for i, (got, expected) in enumerate(zip(series, z)):
                 if expected is None or got is None:
@@ -957,62 +1254,81 @@ def check_asof_and_hand_features(
                     if compared >= 200:
                         break
 
-        if not _is_fx(asset):
-            days = _trade_days(root, asset, start, end)
-            if days and "wh_large_usd" in df.columns:
+        if _is_fx(asset):
+            continue
+
+        # Whale panel (daily_panel family), recomputed from bronze on bounded blocks.
+        days = _trade_days(root, asset, start, end)
+        if days and "wh_large_usd" in df.columns:
+            lag = lag_ms("daily_panel", lags)
+            wspec = whale_spec(asset)
+            for block in _whale_blocks(days):
                 daily_rows = []
-                wspec = whale_spec(asset)
-                whale_hists = load_whale_hists(root, asset, days[0], wspec.window_days)
-                for day in days:
+                whale_hists = load_whale_hists(root, asset, block[0], wspec.window_days)
+                for day in block:
                     tpath = trades_path(root, asset, day)
                     trades = pl.read_parquet(tpath) if tpath.exists() else None
                     one_m = None
                     if trades is not None and not trades.is_empty() and asset in ladders and "time_1m" in ladders[asset]:
                         day_start = int(datetime(day.year, day.month, day.day, tzinfo=timezone.utc).timestamp() * 1000)
-                        day_end = day_start + DAY_MS
                         one_m = ladders[asset]["time_1m"].filter(
-                            (pl.col("ts_ms") > day_start) & (pl.col("ts_ms") <= day_end)
+                            (pl.col("ts_ms") > day_start) & (pl.col("ts_ms") <= day_start + DAY_MS)
                         )
                     thresh = whale_threshold(whale_hists, wspec)
-                    daily_rows.append(
-                        summarize_day(
-                            trades, one_m, asset=asset, day=day,
-                            whale_usd=thresh, liq_usd=1e18,
-                        )
-                    )
+                    daily_rows.append(summarize_day(trades, one_m, asset=asset, day=day, whale_usd=thresh, liq_usd=1e18))
                     if trades is not None and not trades.is_empty():
-                        usd = (trades["price"] * trades["qty"]).to_numpy()
-                        whale_hists.append(trade_notional_hist(usd))
+                        whale_hists.append(trade_notional_hist((trades["price"] * trades["qty"]).to_numpy()))
                         whale_hists = whale_hists[-wspec.window_days:]
                 panel = rows_to_frame(daily_rows)
-                if not panel.is_empty() and "wh_large_usd" in panel.columns:
-                    events = list(zip(panel["event_time_ms"].to_list(), panel["wh_large_usd"].to_list()))
-                    joined = df["wh_large_usd"].to_list()
-                    for t, val in zip(ts, joined):
-                        allowed = [v for ev, v in events if ev + DAY_MS <= t]
-                        expected = allowed[-1] if allowed else None
-                        if val is None and expected is None:
-                            asof_ok += 1
-                            continue
-                        if val is None or expected is None or abs(float(val) - float(expected)) > 1e-4:
-                            asof_problems.append(
-                                f"{asset} wh_large_usd at {_utc(t).isoformat()} got={val} expected={expected}"
-                            )
-                            if len(asof_problems) >= 6:
-                                break
-                        else:
-                            asof_ok += 1
-                    for t, val in zip(ts, joined):
-                        if val is None:
-                            continue
-                        future = [v for ev, v in events if ev + DAY_MS > t and v == val]
-                        past = [v for ev, v in events if ev + DAY_MS <= t and v == val]
-                        if future and not past:
-                            asof_problems.append(
-                                f"{asset} wh_large_usd={val} at {_utc(t).isoformat()} matches only a not-yet-knowable day"
-                            )
+                if panel.is_empty() or "wh_large_usd" not in panel.columns:
+                    continue
+                lo = int(panel["event_time_ms"].min()) + lag
+                hi = int(panel["event_time_ms"].max()) + lag + DAY_MS
+                window = df.filter((pl.col("ts_ms") >= lo) & (pl.col("ts_ms") < hi))
+                wts = window["ts_ms"].to_list()
+                exp = _expected_asof(wts, panel["event_time_ms"].to_list(), panel["wh_large_usd"].to_list(), lag)
+                asof_ok += _compare_asof(asset, "wh_large_usd", wts, window["wh_large_usd"].to_list(), exp, asof_problems)
+                families_checked.add("daily_panel")
 
-        for col, source in (("stbl_supply_usd", "defillama"), ("etf_total_usdm", "farside")):
+        # Funding and metrics panels from bronze, each with its own lag.
+        lo_day = (start or _utc(ts[0]).date()) - timedelta(days=3)
+        hi_day = end or _utc(ts[-1]).date()
+        fund_frames = []
+        y, m = lo_day.year, lo_day.month
+        while (y, m) <= (hi_day.year, hi_day.month):
+            fp = funding_path(root, asset, y, m)
+            if fp.exists():
+                fund_frames.append(pl.read_parquet(fp))
+            y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+        if fund_frames:
+            fpanel = funding_daily(pl.concat(fund_frames, how="diagonal_relaxed"), asset)
+            if not fpanel.is_empty() and "funding_day_mean" in fpanel.columns and "funding_day_mean" in df.columns:
+                exp = _expected_asof(ts, fpanel["event_time_ms"].to_list(), fpanel["funding_day_mean"].to_list(),
+                                     lag_ms("funding_daily", lags))
+                asof_ok += _compare_asof(asset, "funding_day_mean", ts, df["funding_day_mean"].to_list(), exp, asof_problems)
+                families_checked.add("funding_daily")
+        met_frames = []
+        d = lo_day
+        while d <= hi_day:
+            mp = metrics_path(root, asset, d)
+            if mp.exists():
+                met_frames.append(pl.read_parquet(mp))
+            d += timedelta(days=1)
+        if met_frames:
+            mpanel = metrics_daily(pl.concat(met_frames, how="diagonal_relaxed").sort("ts_ms"), asset)
+            mcols = [c for c in mpanel.columns if c.startswith("s3_") and c in df.columns]
+            if mcols:
+                col = mcols[0]
+                exp = _expected_asof(ts, mpanel["event_time_ms"].to_list(), mpanel[col].to_list(),
+                                     lag_ms("metrics_daily", lags))
+                asof_ok += _compare_asof(asset, col, ts, df[col].to_list(), exp, asof_problems)
+                families_checked.add("metrics_daily")
+
+        # External series: compare to the bronze file with the configured lag.
+        for col, source, family in (
+            ("stbl_supply_usd", "defillama", "defillama"),
+            ("etf_total_usdm", "farside", "etf"),
+        ):
             if col not in df.columns:
                 continue
             ext_dir = root / "bronze" / "external" / source
@@ -1028,23 +1344,9 @@ def check_asof_and_hand_features(
                 own = ext
             if own.is_empty() or "event_time_ms" not in own.columns or col not in own.columns:
                 continue
-            ev = list(zip(own["event_time_ms"].to_list(), own[col].to_list()))
-            ev.sort()
-            for t, val in zip(ts, df[col].to_list()):
-                allowed = [v for e, v in ev if e + DAY_MS <= t]
-                expected = allowed[-1] if allowed else None
-                if val is None and expected is None:
-                    asof_ok += 1
-                    continue
-                if expected is None and val is not None:
-                    asof_problems.append(f"{asset} {col} present at {_utc(t).isoformat()} before any knowable row")
-                    break
-                if val is not None and expected is not None and abs(float(val) - float(expected)) > 1e-4 * max(1.0, abs(float(expected))):
-                    asof_problems.append(
-                        f"{asset} {col} at {_utc(t).isoformat()} got={val} expected={expected}"
-                    )
-                    break
-                asof_ok += 1
+            exp = _expected_asof(ts, own["event_time_ms"].to_list(), own[col].to_list(), lag_ms(family, lags))
+            asof_ok += _compare_asof(asset, col, ts, df[col].to_list(), exp, asof_problems)
+            families_checked.add(family)
 
     if ret_problems:
         report.add("hand_features", "FAIL", "; ".join(ret_problems[:5]))
@@ -1055,59 +1357,147 @@ def check_asof_and_hand_features(
     if asof_problems:
         report.add("asof", "FAIL", "; ".join(asof_problems[:5]))
     else:
-        report.add("asof", "PASS", f"{asof_ok} daily as-of values match event_time + 1 day lag")
+        report.add(
+            "asof", "PASS",
+            f"{asof_ok} daily as-of values match event_time + configured lag "
+            f"({', '.join(sorted(families_checked)) or 'no daily series present'})",
+        )
 
 
-def check_dead_columns(report: Report, gold_files: dict[str, dict[str, Path]], start: date | None = None, end: date | None = None) -> None:
+def _source_live(root: Path, asset: str, col: str, start: date | None, end: date | None, gold_path: Path) -> bool:
+    """Whether the source behind ``col`` has any data for ``asset`` in ``[start, end]``.
+
+    Columns of a source that is live but are all null are a broken join and are
+    reported dead; columns of a source with nothing to give are null by design.
+    """
+    lo, hi = range_ms(start, end)
+
+    def rows_in(source: str, own: bool) -> bool:
+        d = root / "bronze" / "external" / source
+        files = sorted(d.glob("*.parquet")) if d.exists() else []
+        if not files:
+            return False
+        df = pl.concat([pl.read_parquet(f) for f in files], how="diagonal_relaxed")
+        if own and "asset" in df.columns:
+            df = df.filter(pl.col("asset") == asset)
+        if "event_time_ms" in df.columns:
+            if lo is not None:
+                df = df.filter(pl.col("event_time_ms") + 2 * DAY_MS > lo)
+            if hi is not None:
+                df = df.filter(pl.col("event_time_ms") <= hi)
+        return df.height > 0
+
+    def bronze_days(kind: str) -> bool:
+        d = root / "bronze" / kind / asset
+        if not d.exists():
+            return False
+        for p in d.glob("*.parquet"):
+            stem = p.stem
+            try:
+                day = date.fromisoformat(stem) if len(stem) == 10 else date.fromisoformat(stem + "-01")
+            except ValueError:
+                continue
+            if _day_in_range(day, start, end) or (len(stem) == 7 and _day_in_range(day, (start or day).replace(day=1), end)):
+                return True
+        return False
+
+    if col.startswith("xd_"):
+        try:
+            man = json.loads(gold_path.with_name(gold_path.name.replace(".parquet", ".manifest.json")).read_text())
+            return bool(man.get("cohort"))
+        except (OSError, ValueError):
+            return True
+    if col.startswith("etf_"):
+        return rows_in("farside", own=True)
+    if col.startswith("dv_btc"):
+        return rows_in("deribit", own=False)
+    if col.startswith("dv_"):
+        return rows_in("deribit", own=True)
+    if col.startswith("soc_"):
+        return rows_in("wikipedia", own=True)
+    if col.startswith("stbl_"):
+        return rows_in("defillama", own=False)
+    if col.startswith("s3_") or col in ("oi_value", "norm_oi_change", "norm_oi_price_divergence"):
+        return bronze_days("metrics/um")
+    if col.startswith("bs_"):
+        return bronze_days("klines/um_1d")
+    return True
+
+
+def check_dead_columns(report: Report, gold_files: dict[str, dict[str, Path]], start: date | None = None, end: date | None = None, root: Path | None = None) -> None:
+    """Columns that are null (or constant) across the whole range.
+
+    Computed with lazy per-column aggregates over the gold partitions in range,
+    so a full-history 1m gold is never loaded at once.
+    """
+    from pipeline.partitions import list_partition_paths
+
     allow = {
         "asset", "bar_type", "split", "regime_label", "is_u10", "is_u50", "is_u100",
         "is_warmup", "asset_dna", "listing_date", "bar_id",
         "is_tokyo", "is_london", "is_newyork", "is_ldn_ny_overlap",
     }
     funding_prefix = ("norm_funding", "funding_", "xd_funding")
+    lo, hi = range_ms(start, end)
     for bt, assets in sorted(gold_files.items()):
         for asset, path in sorted(assets.items()):
-            df = _frame_for(path, start, end)
-            dead = []
-            const = []
-            warmup = []
-            for col in df.columns:
-                if col in allow or col.startswith("target_"):
-                    continue
+            files = [f for f in list_partition_paths(path.parent, asset)]
+            if not files:
+                continue
+            frames = [pl.scan_parquet(f) for f in files]
+            lf = pl.concat(frames, how="diagonal_relaxed")
+            if lo is not None:
+                lf = lf.filter(pl.col("ts_ms") > lo)
+            if hi is not None:
+                lf = lf.filter(pl.col("ts_ms") <= hi)
+            schema = lf.collect_schema()
+            cols = [c for c in schema.names() if c not in allow and not c.startswith("target_")]
+            aggs = [pl.len().alias("__n")]
+            for c in cols:
+                aggs.append(pl.col(c).count().alias(f"{c}__nn"))
+                if schema[c].is_numeric() or schema[c] == pl.Boolean:
+                    aggs.append(pl.col(c).min().cast(pl.Float64).alias(f"{c}__min"))
+                    aggs.append(pl.col(c).max().cast(pl.Float64).alias(f"{c}__max"))
+            stats = lf.select(aggs).collect().row(0, named=True)
+            height = int(stats["__n"])
+            dead, const, warmup = [], [], []
+            for col in cols:
                 if col.startswith("etf_") and col != "etf_total_usdm":
-                    # Issuer columns from the other ETF table stay null after a diagonal concat.
                     continue
                 if col.startswith("dv_") and asset not in {"BTCUSDT", "ETHUSDT"}:
                     continue
                 if col in {"xd_btc_return", "xd_btc_volatility"} and asset == "BTCUSDT":
-                    # BTC's own return is not a cross-asset feature.
                     continue
-                vals = df[col].drop_nulls()
-                if vals.len() == 0:
+                nn = int(stats[f"{col}__nn"])
+                if nn == 0:
                     if any(col.startswith(p) for p in funding_prefix):
                         warmup.append(f"{col}=all-null(funding unpublished)")
-                    elif col == "norm_fd_close" and df.height < 1200:
+                    elif root is not None and not _source_live(root, asset, col, start, end, path):
+                        # The source has nothing for this asset in this range (ETFs before
+                        # 2024, DVOL before 2021, metrics before 2020-09, no peers, no
+                        # Wikipedia article): null by design, not a broken join.
+                        warmup.append(f"{col}=source-not-live")
+                    elif col == "norm_fd_close" and height < 1200:
                         warmup.append(f"{col}=warmup(frac_diff)")
-                    elif (col.startswith("norm_") or col == "hurst_regime") and df.height < 400:
-                        warmup.append(f"{col}=warmup")
-                    elif col.startswith("xd_") and df.height < 30:
+                    elif (col.startswith("norm_") or col == "hurst_regime") and height < 400:
                         warmup.append(f"{col}=warmup")
                     elif _is_fx(asset) and col in FX_NULL_OK:
                         warmup.append(f"{col}=fx-null")
-                    elif (lb := _lookback_bars(col)) is not None and df.height < lb:
+                    elif (lb := _lookback_bars(col)) is not None and height < lb:
                         warmup.append(f"{col}=warmup")
                     else:
                         dead.append(col)
-                elif vals.len() >= 50 and vals.n_unique() == 1:
-                    const.append(f"{col}={vals[0]}")
+                elif nn >= 50 and f"{col}__min" in stats and stats[f"{col}__min"] is not None \
+                        and stats[f"{col}__min"] == stats[f"{col}__max"]:
+                    const.append(f"{col}={stats[f'{col}__min']}")
             name = f"columns:{asset}:{bt}"
             if dead:
                 report.add(name, "WARN", f"all-null: {', '.join(dead[:8])}")
             elif const:
                 report.add(name, "WARN", f"constant: {', '.join(const[:8])}")
             else:
-                extra = f"; {len(warmup)} warmup/funding-null cols" if warmup else ""
-                report.add(name, "PASS", f"{len(df.columns)} columns, no unexpected dead series{extra}")
+                extra = f"; {len(warmup)} warmup/not-yet-live cols" if warmup else ""
+                report.add(name, "PASS", f"{len(schema.names())} columns over {height} rows, no unexpected dead series{extra}")
 
 
 def _vision_spot_1d_url(asset: str, day: date) -> str:
@@ -1117,53 +1507,96 @@ def _vision_spot_1d_url(asset: str, day: date) -> str:
     )
 
 
+def _vision_spot_1d_month_url(asset: str, year: int, month: int) -> str:
+    return (
+        f"https://data.binance.vision/data/spot/monthly/klines/{asset}/1d/"
+        f"{asset}-1d-{year:04d}-{month:02d}.zip"
+    )
+
+
+def _venue_daily_closes(asset: str, days: list[date]) -> tuple[dict[date, float], list[str]]:
+    """Vision spot 1d closes for ``days``: one monthly zip per past month, daily files otherwise.
+
+    Returns the closes found and the periods Vision could not serve. An
+    unavailable file is not a mismatch; it is reported separately.
+    """
+    today = datetime.now(tz=timezone.utc).date()
+    closes: dict[date, float] = {}
+    unavailable: list[str] = []
+    by_month: dict[tuple[int, int], list[date]] = defaultdict(list)
+    for d in days:
+        by_month[(d.year, d.month)].append(d)
+    for (y, m), month_days in sorted(by_month.items()):
+        got_month = False
+        if (y, m) < (today.year, today.month):
+            status, body, err = http_get(_vision_spot_1d_month_url(asset, y, m), timeout=60)
+            if status == 200 and body:
+                try:
+                    k = parse_klines(body, width_ms=DAY_MS)
+                    for row in k.iter_rows(named=True):
+                        closes[_utc(int(row["ts_open_ms"])).date()] = float(row["close"])
+                    got_month = True
+                except Exception:  # noqa: BLE001
+                    got_month = False
+        if got_month:
+            continue
+        for d in month_days:
+            status, body, err = http_get(_vision_spot_1d_url(asset, d), timeout=60)
+            if status != 200 or not body:
+                unavailable.append(f"{d} HTTP {status or err}")
+                continue
+            try:
+                k = parse_klines(body, width_ms=DAY_MS)
+            except Exception as exc:  # noqa: BLE001
+                unavailable.append(f"{d} parse {type(exc).__name__}")
+                continue
+            if not k.is_empty():
+                closes[d] = float(k["close"][0])
+    return closes, unavailable
+
+
 def check_external_closes(
     report: Report,
     root: Path,
     ladders: dict[str, dict[str, pl.DataFrame]],
     skip_network: bool,
+    start: date | None = None,
+    end: date | None = None,
 ) -> None:
     crypto_assets = [a for a in ladders if not _is_fx(a) and "time_1d" in ladders[a]]
     if crypto_assets and not skip_network:
-        mismatches = []
+        mismatches: list[str] = []
+        unavailable: list[str] = []
         compared = 0
-        samples = []
-        for asset in crypto_assets[:4]:
+        samples: list[str] = []
+        for asset in crypto_assets:
             daily = ladders[asset]["time_1d"].sort("ts_ms")
-            for row in daily.iter_rows(named=True):
-                # Our 1d bar closing at D+1 00:00 is the UTC day D candle.
-                close_ts = int(row["ts_ms"])
-                day = _utc(close_ts - DAY_MS).date()
-                url = _vision_spot_1d_url(asset, day)
-                status, body, err = http_get(url, timeout=60)
-                if status != 200 or not body:
-                    mismatches.append(f"{asset} {day} vision HTTP {status or err}")
+            # Our 1d bar closing at D+1 00:00 is the UTC day D candle.
+            ours = {_utc(int(t) - DAY_MS).date(): float(c) for t, c in zip(daily["ts_ms"], daily["close"])}
+            venue, missing = _venue_daily_closes(asset, sorted(ours))
+            unavailable += [f"{asset} {x}" for x in missing]
+            for day, our_close in sorted(ours.items()):
+                if day not in venue:
                     continue
-                try:
-                    k = parse_klines(body, width_ms=DAY_MS)
-                except Exception as exc:  # noqa: BLE001
-                    mismatches.append(f"{asset} {day} parse {exc}")
-                    continue
-                if k.is_empty():
-                    mismatches.append(f"{asset} {day} empty kline")
-                    continue
-                venue_close = float(k["close"][0])
-                our_close = float(row["close"])
                 compared += 1
-                if abs(venue_close - our_close) / max(our_close, 1e-9) > 1e-6:
-                    mismatches.append(
-                        f"{asset} {day} our_close={our_close} vision_1d={venue_close}"
-                    )
-                else:
+                if abs(venue[day] - our_close) / max(our_close, 1e-9) > 1e-6:
+                    mismatches.append(f"{asset} {day} our_close={our_close} vision_1d={venue[day]}")
+                elif len(samples) < 3:
                     samples.append(f"{asset} {day} close={our_close}")
-        if compared == 0:
-            report.add("crosscheck_crypto", "WARN", "could not fetch Vision spot 1d klines")
-        elif mismatches:
-            report.add("crosscheck_crypto", "FAIL", "; ".join(mismatches[:6]))
+        if mismatches:
+            report.add("crosscheck_crypto", "FAIL", f"{len(mismatches)} closes differ; " + "; ".join(mismatches[:6]))
+        elif compared == 0:
+            report.add("crosscheck_crypto", "WARN", "could not fetch Vision spot 1d klines; " + "; ".join(unavailable[:3]))
+        elif unavailable:
+            report.add(
+                "crosscheck_crypto", "WARN",
+                f"{compared} daily closes match Vision; {len(unavailable)} days unavailable "
+                f"(e.g. {'; '.join(unavailable[:3])})",
+            )
         else:
             report.add(
                 "crosscheck_crypto", "PASS",
-                f"{compared} daily closes match Vision spot 1d klines; e.g. " + "; ".join(samples[:3]),
+                f"{compared} daily closes match Vision spot 1d klines; e.g. " + "; ".join(samples),
             )
     elif crypto_assets and skip_network:
         # Offline: compare our 1d close to the last bronze 1m kline of that UTC day.
@@ -1194,28 +1627,30 @@ def check_external_closes(
     fx_assets = [a for a in ladders if _is_fx(a) and "time_1d" in ladders[a]]
     if not fx_assets:
         return
-    # Internal consistency is always reported; an external mid is best-effort.
+    # Internal consistency: the 1d mid close is the last tick mid of its UTC day.
+    # Only the last non-empty hour of each day is read.
     internal_ok = []
     for asset in fx_assets:
-        days = _fx_tick_days(root, asset)
-        ticks = _read_fx_ticks(root, asset, days)
         daily = ladders[asset]["time_1d"].sort("ts_ms")
-        if ticks.is_empty():
-            continue
+        bad = None
         for row in daily.iter_rows(named=True):
             close_ts = int(row["ts_ms"])
-            # Last tick in (open, close].
-            window = ticks.filter((pl.col("ts_ms") > close_ts - DAY_MS) & (pl.col("ts_ms") <= close_ts))
-            if window.is_empty():
+            day = _utc(close_ts - DAY_MS).date()
+            last_mid = None
+            for hour in range(23, -1, -1):
+                path = fx_hour_path(root, asset, day, hour)
+                if path.exists():
+                    t = pl.read_parquet(path, columns=["ts_ms", "mid"])
+                    if t.height:
+                        last_mid = float(t.sort("ts_ms")["mid"][-1])
+                        break
+            if last_mid is None:
                 continue
-            last_mid = float(window["mid"][-1])
             if abs(last_mid - float(row["close"])) > 1e-8:
-                report.add(
-                    f"crosscheck_fx:{asset}", "FAIL",
-                    f"1d close {row['close']} != last mid in the UTC day {last_mid} "
-                    f"ending {_utc(close_ts).date()}",
-                )
+                bad = f"1d close {row['close']} != last mid in the UTC day {last_mid} ending {_utc(close_ts).date()}"
                 break
+        if bad:
+            report.add(f"crosscheck_fx:{asset}", "FAIL", bad)
         else:
             internal_ok.append(asset)
     if internal_ok:
@@ -1272,13 +1707,45 @@ def load_ladders(
     found: dict,
     start: date | None = None,
     end: date | None = None,
+    *,
+    skip: tuple[str, ...] = (),
 ) -> dict[str, dict[str, pl.DataFrame]]:
+    """Bars of every fabric in ``found`` for ``[start, end]``, read only from the partitions in range."""
     ladders: dict[str, dict[str, pl.DataFrame]] = defaultdict(dict)
     layer = found["silver"] or found["gold"]
     for bt, assets in layer.items():
+        if bt in skip:
+            continue
         for asset, path in assets.items():
-            ladders[asset][bt] = _frame_for(path, start, end)
+            ladders[asset][bt] = _frame_in_range(path, start, end)
     return dict(ladders)
+
+
+def _frame_in_range(path: Path, start: date | None, end: date | None) -> pl.DataFrame:
+    """Concat only the monthly partitions that can hold bars in ``[start, end]``."""
+    from pipeline.partitions import list_partition_paths
+
+    asset = path.name.rsplit("_", 1)[0]
+    files = list_partition_paths(path.parent, asset)
+    keep = []
+    for f in files:
+        stem = f.stem.rsplit("_", 1)[-1]
+        if len(stem) == 7 and stem[4] == "-":  # YYYY-MM
+            y, m = int(stem[:4]), int(stem[5:])
+            first = date(y, m, 1)
+            last = (date(y + 1, 1, 1) if m == 12 else date(y, m + 1, 1)) - timedelta(days=1)
+            # A bar closing at 00:00 of the 1st belongs to the previous day's range.
+            if start is not None and last < start - timedelta(days=1):
+                continue
+            if end is not None and first > end + timedelta(days=1):
+                continue
+        keep.append(f)
+    frames = [pl.read_parquet(f) for f in keep]
+    frames = [f for f in frames if f.height]
+    if not frames:
+        return pl.DataFrame()
+    out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms").unique(subset=["ts_ms"], keep="last", maintain_order=True)
+    return clip_frame(out, start, end)
 
 
 def _filter_found(
@@ -1296,6 +1763,71 @@ def _filter_found(
     return out
 
 
+def _only(found: dict, asset: str) -> dict:
+    return {
+        layer: {bt: {asset: p} for bt, by_asset in found[layer].items() for a, p in by_asset.items() if a == asset}
+        for layer in ("gold", "silver")
+    }
+
+
+def _asset_span(root: Path, found: dict, asset: str) -> tuple[date, date] | None:
+    """First and last day covered by this asset's bars (from partition names)."""
+    months = []
+    for layer in ("silver", "gold"):
+        for bt, by_asset in found[layer].items():
+            path = by_asset.get(asset)
+            if path is None:
+                continue
+            from pipeline.partitions import list_partition_paths
+            for f in list_partition_paths(path.parent, asset):
+                stem = f.stem.rsplit("_", 1)[-1]
+                if len(stem) == 7 and stem[4] == "-":
+                    months.append((int(stem[:4]), int(stem[5:])))
+                elif len(stem) == 8 and stem.isdigit():
+                    months.append((int(stem[:4]), int(stem[4:6])))
+    if not months:
+        return None
+    (y0, m0), (y1, m1) = min(months), max(months)
+    last = (date(y1 + 1, 1, 1) if m1 == 12 else date(y1, m1 + 1, 1)) - timedelta(days=1)
+    return date(y0, m0, 1), last
+
+
+def _year_chunks(lo: date, hi: date) -> list[tuple[date, date]]:
+    out = []
+    y = lo.year
+    while y <= hi.year:
+        a = max(lo, date(y, 1, 1))
+        b = min(hi, date(y, 12, 31))
+        out.append((a, b))
+        y += 1
+    return out
+
+
+class _ChunkedReport(Report):
+    """Collects one check name across chunks: worst severity wins, details keep the first problem."""
+
+    def merge(self, other: "Report", label: str) -> None:
+        for item in other.checks:
+            prev = next((c for c in self.checks if c.name == item.name), None)
+            tagged = f"[{label}] {item.detail}"
+            if prev is None:
+                self.checks.append(Check(item.name, item.severity, tagged))
+                continue
+            if SEVERITY_ORDER[item.severity] > SEVERITY_ORDER[prev.severity]:
+                prev.severity = item.severity
+                prev.detail = tagged
+            elif item.severity == "PASS" and prev.severity == "PASS":
+                prev.detail = _summed_pass(prev.detail, tagged)
+
+
+def _summed_pass(a: str, b: str) -> str:
+    head = a.split("] ", 1)[0].lstrip("[")
+    tail = b.split("] ", 1)[0].lstrip("[")
+    start = head.split("..")[0]
+    end = tail.split("..")[-1]
+    return f"[{start}..{end}] {b.split('] ', 1)[-1]}"
+
+
 def run_validation(
     root: Path,
     *,
@@ -1308,7 +1840,13 @@ def run_validation(
     z_window: int | None = None,
     threshold_overrides: dict[str, float] | None = None,
 ) -> Report:
-    """Run independent checks. Returns the report (code 0/1/2)."""
+    """Run independent checks. Returns the report (code 0/1/2).
+
+    Work is bounded: one asset and one calendar year are in memory at a time.
+    Per-chunk results are merged per check (the worst severity is kept, with
+    the chunk it came from). Dollar bars, which carry state across months and
+    years, and the manifests are checked once over the whole range.
+    """
     if not root.is_absolute():
         root = (_REPO / root).resolve()
     found = _filter_found(discover(root), assets=assets, market=market)
@@ -1330,28 +1868,43 @@ def run_validation(
     if not found["gold"] and not found["silver"]:
         report.add("discover", "FAIL", "no gold or silver bars found for this scope")
         return report
-
-    ladders = load_ladders(found, start, end)
-    frames: dict[tuple[str, str], pl.DataFrame] = {}
-    layer = found["gold"] or found["silver"]
-    for bt, by_asset in layer.items():
-        for asset, path in by_asset.items():
-            frames[(asset, bt)] = clip_frame(_ts_only(path), start, end)
-
-    check_monotonic(report, frames)
-    check_time_reconcile(report, ladders)
-    check_trade_counts(report, root, ladders, start, end, threshold_overrides=threshold_overrides)
-    check_klines(report, root, ladders, start, end)
-    check_manifests(report, root, start, end)
-    check_gaps(report, ladders)
-    check_sessions(report, found["gold"] or found["silver"], start, end)
     if z_window is None:
         from pipeline.config import load_windows
         z_window = load_windows().z
-    check_asof_and_hand_features(report, root, found["gold"] or found["silver"], ladders, start, end, z_window=z_window)
-    if found["gold"]:
-        check_dead_columns(report, found["gold"], start, end)
-    check_external_closes(report, root, ladders, skip_network=skip_network)
+
+    check_manifests(report, root, start, end)
+    merged = _ChunkedReport()
+    for asset in sorted(set(gold_assets) | set(silver_assets)):
+        mine = _only(found, asset)
+        span = _asset_span(root, mine, asset)
+        if span is None:
+            continue
+        lo = max(start, span[0]) if start else span[0]
+        hi = min(end, span[1]) if end else span[1]
+        if lo > hi:
+            continue
+        layer = mine["gold"] or mine["silver"]
+        frames = {(asset, bt): clip_frame(_ts_only(path), start, end) for bt, by in layer.items() for _a, path in by.items()}
+        check_monotonic(merged, frames)
+        for c0, c1 in _year_chunks(lo, hi):
+            chunk = Report()
+            ladders = load_ladders(mine, c0, c1, skip=("dollar",))
+            check_time_reconcile(chunk, ladders)
+            check_trade_counts(chunk, root, ladders, c0, c1, threshold_overrides=threshold_overrides)
+            check_klines(chunk, root, ladders, c0, c1)
+            check_gaps(chunk, ladders, root, c0, c1)
+            check_sessions(chunk, mine["gold"] or mine["silver"], c0, c1)
+            check_asof_and_hand_features(chunk, root, mine["gold"] or mine["silver"], ladders, c0, c1, z_window=z_window)
+            check_external_closes(chunk, root, ladders, skip_network=skip_network, start=c0, end=c1)
+            merged.merge(chunk, f"{c0}..{c1}")
+            del ladders
+        if not _is_fx(asset):
+            check_bronze_coverage(merged, root, asset, lo, hi)
+            check_dollar_fabric(merged, root, asset, lo, hi, threshold_overrides=threshold_overrides)
+        if mine["gold"]:
+            check_dead_columns(merged, mine["gold"], start, end, root)
+    for item in merged.checks:
+        report.add(item.name, item.severity, item.detail)
     return report
 
 

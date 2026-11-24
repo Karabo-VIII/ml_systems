@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-CONTRACT_VERSION = "2.3.0"
+CONTRACT_VERSION = "2.4.1"
 PRODUCER = "pipeline"
 
 # Core chart/ML fabrics. Time bars are real OHLCV aggregates, not "last dollar bar".

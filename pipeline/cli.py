@@ -5,6 +5,7 @@
     python -m pipeline.cli status --data-root data
     python -m pipeline.cli validate --data-root data --skip-network
     python -m pipeline.cli inspect --asset BTCUSDT --start 2020-03-11 --end 2020-03-13
+    python -m pipeline.cli crosscheck --universe u10 --start 2020-01-01 --end 2020-12-31 --data-root data/u10
 """
 
 from __future__ import annotations
@@ -31,7 +32,7 @@ def _date(s: str):
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="pipeline",
-        description="run, status, validate, and inspect a crypto or FX data root",
+        description="run, status, validate, inspect, and crosscheck a crypto or FX data root",
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -81,12 +82,28 @@ def build_parser() -> argparse.ArgumentParser:
         "inspect",
         help="print view stats for an asset and range; optional HTML chart with --html",
     )
-    insp.add_argument("--asset", required=True)
+    insp.add_argument("--asset", default=None, help="one asset; with --report, a comma list")
+    insp.add_argument("--universe", default=None, help="with --report: every asset of a universe")
     insp.add_argument("--start", required=True, type=_date)
     insp.add_argument("--end", required=True, type=_date)
     insp.add_argument("--data-root", type=Path, default=None)
     insp.add_argument("--bar-types", default=None)
     insp.add_argument("--html", type=Path, default=None, help="write a shared-axis HTML chart")
+    insp.add_argument("--report", type=Path, default=None,
+                      help="write an index plus one page per asset covering every view (needs the viz extra)")
+
+    cc = sub.add_parser(
+        "crosscheck",
+        help="compare crypto gold with public APIs: Binance REST klines and funding, and OKX/KuCoin closes",
+    )
+    cc.add_argument("--start", required=True, type=_date)
+    cc.add_argument("--end", required=True, type=_date)
+    cc.add_argument("--assets", nargs="*", default=None)
+    cc.add_argument("--universe", default=None)
+    cc.add_argument("--bar-types", default=None, help="default: every time cadence and dollar")
+    cc.add_argument("--data-root", type=Path, default=None)
+    cc.add_argument("--skip-venue", action="store_true", help="skip the second-venue close comparison")
+    cc.add_argument("--skip-funding", action="store_true", help="skip the funding comparison")
     return p
 
 
@@ -114,10 +131,40 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "inspect":
         from pipeline.inspect import inspect
         bar_types = [s.strip() for s in args.bar_types.split(",") if s.strip()] if args.bar_types else None
+        if args.report is not None:
+            from pipeline.config import universe_symbols
+            from pipeline.inspect import write_report
+            from pipeline.symbols import canonical_instrument
+            assets = [canonical_instrument(a) for a in (args.asset or "").split(",") if a.strip()]
+            if args.universe:
+                assets += [a for a in universe_symbols(args.universe) if a not in assets]
+            if not assets:
+                print("inspect --report needs --asset or --universe", file=sys.stderr)
+                return 2
+            print(write_report(args.report, root, assets, args.start, args.end, bar_types))
+            return 0
+        if not args.asset:
+            print("inspect needs --asset", file=sys.stderr)
+            return 2
         return inspect(
             asset=args.asset, start=args.start, end=args.end,
             data_root=root, html=args.html, bar_types=bar_types,
         )
+    if args.cmd == "crosscheck":
+        from pipeline.config import universe_symbols
+        from pipeline.crosscheck import crosscheck
+        assets = parse_symbol_list(args.assets) if args.assets else []
+        if args.universe:
+            assets += [a for a in universe_symbols(args.universe) if a not in assets]
+        if not assets:
+            print("crosscheck needs --assets or --universe", file=sys.stderr)
+            return 2
+        bar_types = [s.strip() for s in args.bar_types.split(",") if s.strip()] if args.bar_types else None
+        report = crosscheck(root, assets, args.start, args.end, bar_types,
+                            venue=not args.skip_venue, funding=not args.skip_funding)
+        print()
+        report.print()
+        return report.code
     if args.cmd == "status":
         if args.start is None or args.end is None:
             return status(root)
@@ -185,6 +232,10 @@ def main(argv: list[str] | None = None) -> int:
         return run(cfg)
     except KeyboardInterrupt:
         return 130
+    except (ValueError, FileNotFoundError, KeyError) as exc:
+        # A bad argument or config is a failed run (exit 2), not a warning.
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":

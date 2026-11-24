@@ -305,13 +305,13 @@ def compute_physics(
     df = df.with_columns((pl.col("_h_buy") - pl.col("_h_sell")).alias("_h_imb"))
     df = df.with_columns((pl.col("_ret4") - pl.col("_ret4").shift(4)).alias("_mom_acc"))
 
-    # Kurtosis of returns. Null while the window is incomplete.
+    # Excess kurtosis of returns over one window of k bars (population moments,
+    # all centred on that window's mean). Null while the window is incomplete.
+    # The 2.4.0 form centred each 4th power on a different trailing mean, which
+    # was not a kurtosis and needed 2k-1 bars, more than the declared lookback.
     k = w.kurtosis
-    ret = pl.col("_ret")
-    mu = ret.rolling_mean(window_size=k, min_samples=k)
-    sd = ret.rolling_std(window_size=k, min_samples=k)
     df = df.with_columns(
-        (((ret - mu).pow(4)).rolling_mean(window_size=k, min_samples=k) / sd.pow(4) - 3.0).alias("_kurt")
+        pl.col("_ret").rolling_kurtosis(window_size=k, fisher=True, bias=True, min_samples=k).alias("_kurt")
     )
 
     # Vol term structure on Rogers-Satchell.
@@ -320,10 +320,10 @@ def compute_physics(
          / pl.col("_rs").ewm_mean(span=max(w.fast, 2), adjust=False, ignore_nulls=True)
          - 1.0).alias("_vol_ratio")
     )
-    # The long leg of the ratio is a slower EMA. Recompute with span 50 when fast is small.
+    # The long leg of the ratio is a slower EMA (``slow_span``, capped with the other windows).
     df = df.with_columns(
         (pl.col("_rs").ewm_mean(span=10, adjust=False, ignore_nulls=True)
-         / (pl.col("_rs").ewm_mean(span=50, adjust=False, ignore_nulls=True) + 1e-12)
+         / (pl.col("_rs").ewm_mean(span=w.slow_span, adjust=False, ignore_nulls=True) + 1e-12)
          - 1.0).alias("_vol_ratio")
     )
 
@@ -442,7 +442,7 @@ def compute_physics(
         df = df.with_columns(rolling_z("_bar_dur", w.z).alias("norm_bar_duration"))
 
     if include_oi and "oi_value" in df.columns:
-        med = pl.col("oi_value").rolling_median(window_size=50, min_samples=20)
+        med = pl.col("oi_value").rolling_median(window_size=w.slow_span, min_samples=min(20, w.slow_span))
         capped = pl.when(pl.col("oi_value").is_not_null() & med.is_not_null() & (pl.col("oi_value") > 5.0 * med)).then(5.0 * med).otherwise(pl.col("oi_value"))
         df = df.with_columns(capped.alias("_oi_cap"))
         df = df.with_columns(pl.col("_oi_cap").pct_change().alias("_oi_chg"))
@@ -972,6 +972,10 @@ def _pos_log_ratio(num: str, den: str) -> pl.Expr:
 def _rolling_sqrt_mean(expr: pl.Expr, window: int) -> pl.Expr:
     mu = expr.rolling_mean(window_size=window, min_samples=window)
     return pl.when(mu.is_null() | (mu < 0)).then(None).otherwise(mu.sqrt())
+
+
+# Longest fixed window of any FX feature (spread_z_100, tick_intensity_z_100).
+FX_MAX_WINDOW = 100
 
 
 def compute_fx_features(bars: pl.DataFrame, pip: float) -> pl.DataFrame:

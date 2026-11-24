@@ -258,28 +258,38 @@ def test_bs_basis_is_present_on_every_cadence(tmp_path):
 
 
 def test_splits_and_embargo_hold_across_month_partitions(tmp_path):
-    """Daily bars: 7-bar embargo each side of 2024-06-01, with the head spilling into June."""
-    d1, d2 = date(2024, 5, 17), date(2024, 6, 8)
+    """Daily bars: the embargo each side of a split edge, across three partitions.
+
+    The edge is 2024-05-10, so the tail of train reaches back into the April
+    partition, further from the edge than the target horizon. Under 2.3.0 the
+    gold frame of April was padded only by the horizon, never saw the edge, and
+    left that tail labelled ``train``.
+    """
+    from pipeline.config import embargo_bars_for
+    d1, d2 = date(2024, 3, 20), date(2024, 6, 5)
     days = [d1 + timedelta(days=i) for i in range((d2 - d1).days + 1)]
     _seed(tmp_path, days)
-    splits = Splits(train_end=date(2024, 6, 1), val_end=date(2030, 1, 1), oos_end=date(2031, 1, 1),
+    splits = Splits(train_end=date(2024, 5, 10), val_end=date(2030, 1, 1), oos_end=date(2031, 1, 1),
                     unseen_start=date(2031, 1, 1), live_start=date(2032, 1, 1))
-    cfg = _cfg(tmp_path, d1, d2, splits=splits, bar_types=["time_1d"], windows=small_windows(
+    windows = small_windows(
         z=3, fast=3, vol_cluster=3, frac_diff=4, hurst=4, kurtosis=3, efficiency=2, perm_entropy=4,
-        kyle=3, yz=3, cs_block=2, funding_mom=3, hawkes_span=3, ma=3, horizons=(1, 2)))
+        kyle=3, yz=3, cs_block=2, funding_mom=3, hawkes_span=3, ma=3, slow_span=3, horizons=(1, 2))
+    cfg = _cfg(tmp_path, d1, d2, splits=splits, bar_types=["time_1d"], windows=windows)
     assert run(cfg) == 0
-    may = pl.read_parquet(tmp_path / "gold" / "time_1d" / "BTCUSDT_2024-05.parquet")
-    jun = pl.read_parquet(tmp_path / "gold" / "time_1d" / "BTCUSDT_2024-06.parquet")
-    n = json.loads((tmp_path / "gold" / "time_1d" / "BTCUSDT_2024-05.manifest.json").read_text())["embargo_bars"]
-    assert n == 7
-    both = pl.concat([may, jun]).sort("ts_ms")
-    edge = _ms(2024, 6, 1)
+    gold = tmp_path / "gold" / "time_1d"
+    n = json.loads((gold / "BTCUSDT_2024-05.manifest.json").read_text())["embargo_bars"]
+    # Input window 17 (the 16-bar return) + 1, then the 3-bar z-score; floor 7 days.
+    assert n == embargo_bars_for("time_1d", windows, calendar_floor_days=7) == 21
+    both = pl.concat([pl.read_parquet(p) for p in sorted(gold.glob("BTCUSDT_*.parquet"))]).sort("ts_ms")
+    edge = _ms(2024, 5, 10)
     pre = [l for t, l in zip(both["ts_ms"], both["split"]) if t < edge]
     post = [l for t, l in zip(both["ts_ms"], both["split"]) if t >= edge]
-    assert pre[-n:] == ["embargo"] * n          # tail of train (in the May partition)
+    assert pre[-n:] == ["embargo"] * n          # tail of train, spilling into April
     assert set(pre[:-n]) == {"train"} and len(pre) > n
-    assert post[:n] == ["embargo"] * n          # head of val (in the June partition)
+    assert post[:n] == ["embargo"] * n          # head of val
     assert post[n] == "val"
+    april = pl.read_parquet(gold / "BTCUSDT_2024-04.parquet")
+    assert "embargo" in april["split"].to_list()
 
 
 # --- dollar fabric: resume, invalidation, no double counting ---------------------

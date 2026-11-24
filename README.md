@@ -41,7 +41,7 @@ This is the path to test end to end before any strategy work. One `run` command 
 
 - Spot aggTrades, spot 1m klines
 - UM funding (monthly), UM metrics / open interest (daily, often missing in 2020), UM 1d klines (basis)
-- Externals, as-of joined with a one-day lag: Farside ETF flows (BTC/ETH; US spot ETF history starts 2024), DefiLlama stablecoin supply, Deribit DVOL (history the API still serves), Wikipedia pageviews
+- Externals, as-of joined with the publication lags in `config/pipeline.yaml` (one day for DefiLlama and Deribit, two for Farside and Wikipedia): Farside ETF flows (BTC/ETH; US spot ETF history starts 2024), DefiLlama stablecoin supply, Deribit DVOL (from 2021), Wikipedia pageviews (u10)
 
 A symbol listed after `--start` begins at its Binance listing date in `config/asset_launch_dates.json` (and never before 2020-01-01). SOL lists on 2020-08-11, AVAX on 2020-09-22.
 
@@ -56,7 +56,7 @@ bronze  raw trades, ticks, klines, funding, metrics, externals
   -> gold             features + labels + splits + embargo, one monthly partition per view
 ```
 
-Stages stream month by month (Dukascopy hour by hour), skip work already on disk, and are safe to interrupt with Ctrl+C and re-run with the same command. Progress goes to the terminal and to `runs/`.
+Stages stream month by month (Dukascopy hour by hour), skip work already on disk, and are safe to interrupt with Ctrl+C and re-run with the same command. A partition is rebuilt when anything it was built from changes (a refetched day, a late funding file, a newly fetched month), so extending `--end` or re-running after a failed fetch rebuilds only what is affected. Progress goes to the terminal and to `runs/`.
 
 ### What each view is for
 
@@ -64,9 +64,8 @@ Stages stream month by month (Dukascopy hour by hour), skip work already on disk
 |---|---|---|
 | Time bars 1m, 5m, 30m, 1h, 2h, 4h, 6h, 8h, 1d | crypto and FX | True clock OHLCV. Charts and clock-time models. Default chart views: 1h and 1d. |
 | Dollar bars | crypto only | Event-time bars that close on the trade that reaches a notional set per asset and day from its own trailing 30-day median (see `dollar_thresholds` and the contract §3). Microstructure and flow; default ML fabric alongside 1h/1d. |
-| Tick / volume bars | crypto, optional | Built only when you pass them in `--bar-types`. |
 
-DIB, runs, range, and adaptive-vol bars are not produced. All time bars align to 00:00 UTC.
+Tick, volume, DIB, runs, range, and adaptive-vol bars are not produced. All time bars align to 00:00 UTC.
 
 ### Where files land
 
@@ -106,7 +105,14 @@ mlsys inspect --asset BTCUSDT --start 2020-03-11 --end 2020-03-13 --data-root da
 mlsys inspect --asset BTCUSDT --start 2020-03-11 --end 2020-03-13 --data-root data --html crash.html
 ```
 
-`run` ends with one `SUMMARY  PASS=...  WARN=...  FAIL=...  EXIT=...` line (exit 0 pass, 1 warn, 2 fail). `inspect --html` needs `pip install -e ".[viz]"`.
+To review a finished build, compare it with public APIs and draw every view:
+
+```bash
+mlsys crosscheck --universe u10 --start 2020-01-01 --end 2020-12-31 --data-root data/u10
+mlsys inspect --report data/u10/report --universe u10 --start 2020-01-01 --end 2020-12-31 --data-root data/u10
+```
+
+`run` ends with one `SUMMARY  PASS=...  WARN=...  FAIL=...  EXIT=...` line (exit 0 pass, 1 warn, 2 fail). `status` exits 0 when the range is complete and 1 when it is not. `inspect --html` needs `pip install -e ".[viz]"`.
 
 A recent 7-day window (Monday 9 Nov 2026 to Sunday 15 Nov 2026; US and UK standard time, after the 2026 DST fallbacks):
 

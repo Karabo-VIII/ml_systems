@@ -22,6 +22,10 @@ OHLCV_FEATURES = tuple(
     c for c in PHYSICS_FEATURES if c not in ("norm_funding", "norm_funding_momentum")
 )
 FUNDING_FEATURES = ("norm_funding", "norm_funding_momentum")
+# Features whose lookahead failure fails the run. FX features only warn: 1-minute
+# FX mid returns have real short-lag autocorrelation, so a trailing return can
+# exceed the threshold without seeing the future.
+LOOKAHEAD_CORE = tuple(OHLCV_FEATURES)
 
 
 @dataclass
@@ -179,6 +183,11 @@ def gate_constants(
     """
     results = []
     short = df.height < min_history
+    if "is_warmup" in df.columns:
+        # A short-lived asset can have more rows than min_history yet almost none
+        # past its warmup: a slow feature that never settled is still warmup.
+        settled = df.height - int(df["is_warmup"].fill_null(True).sum())
+        short = short or settled < min_rows
     for col in cols:
         if col not in df.columns or col in CONSTANT_ALLOW or col.startswith("target_"):
             continue
@@ -197,6 +206,10 @@ def gate_constants(
     if not results:
         results.append(GateResult("constant", "pass", "no invented constants"))
     return results
+
+
+def _n_pairs(x: np.ndarray, y: np.ndarray) -> int:
+    return int((np.isfinite(x) & np.isfinite(y)).sum())
 
 
 def _finite_pair(x: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, np.ndarray] | None:
@@ -240,8 +253,18 @@ def gate_lookahead(
     *,
     threshold: float = 0.20,
     target: str = "target_return_1",
+    fail_z: float = 5.0,
 ) -> list[GateResult]:
-    """Correlation of each feature with the forward return. Core failures are hard."""
+    """Correlation of each feature with the forward return: a smoke alarm.
+
+    A core feature (crypto physics) fails the run when its |corr| is over the
+    threshold AND significant: |corr| * sqrt(n) >= fail_z, i.e. at least five
+    standard errors under independence. On a short frame (a coin listed late
+    in the year, a 1d cadence) a 0.2 correlation is noise and only warns; the
+    causality proof (truncation recompute in the validate stage) is what proves
+    a feature uses no future data. Any other feature, FX included, warns.
+    Nothing is removed from gold: the run's exit code stops a leaking build.
+    """
     if target not in df.columns:
         return [GateResult("lookahead", "fail", f"missing {target}")]
     y = df[target].to_numpy().astype(np.float64)
@@ -256,10 +279,13 @@ def gate_lookahead(
             continue
         worst = max(abs(pear or 0.0), abs(spear or 0.0))
         if worst > threshold:
-            level = "fail" if col in OHLCV_FEATURES else "warn"
+            n = _n_pairs(x, y)
+            z = worst * float(np.sqrt(n))
+            level = "fail" if col in LOOKAHEAD_CORE and z >= fail_z else "warn"
             results.append(GateResult(
                 "lookahead", level,
-                f"{col} |corr|={worst:.3f} > {threshold} vs {target} (feature blocked)",
+                f"{col} |corr|={worst:.3f} > {threshold} vs {target} on n={n} "
+                f"(z={z:.1f}, fail needs {fail_z:g}; possible lookahead)",
             ))
     if not any(r.severity == "fail" for r in results):
         if not results:

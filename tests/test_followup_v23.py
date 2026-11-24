@@ -233,4 +233,7 @@ def test_dollar_embargo_is_identical_across_a_month_boundary(tmp_path, monkeypat
         assert pre[-n - 1] == "train"
     if len(post) > n:
         assert post[n] == "val"
-    assert CONTRACT_VERSION == "2.3.0"
+    # The code's contract version is the one the contract document declares.
+    from pathlib import Path
+    doc = (Path(__file__).resolve().parents[1] / "docs" / "DATA_CONTRACT.md").read_text(encoding="utf-8")
+    assert f"**Version:** {CONTRACT_VERSION} " in doc

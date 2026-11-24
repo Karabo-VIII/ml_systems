@@ -47,24 +47,31 @@ class Windows:
     funding_mom: int = 30
     hawkes_span: int = 20
     ma: int = 200
+    slow_span: int = 50
     horizons: tuple[int, ...] = (1, 4, 16, 64)
+
+    def input_window(self) -> int:
+        """Longest window of any series that is later z-scored (in bars).
+
+        Every ``norm_*`` feature is ``rolling_z(x, z)`` of a series ``x`` that is
+        itself built over one of these windows, so the total lookback is
+        ``input_window + z``. 17 is ``_ret16`` (one shift plus 16).
+        """
+        return max(
+            self.frac_diff, self.hurst, self.perm_entropy, self.kyle,
+            self.vol_cluster, self.ma, self.kurtosis, self.funding_mom,
+            self.yz, self.efficiency, self.fast, self.slow_span,
+            2 * self.cs_block, 17,
+        ) + 1
 
     @property
     def max_lookback(self) -> int:
-        """Longest trailing history any enabled default feature can touch.
+        """Longest trailing history any emitted column can touch (in bars).
 
-        Fractional difference at t uses ``frac_diff`` bars, then the z-score
-        uses another ``z`` bars of that series.
+        An input window followed by the ``z``-bar z-score, or the regime label's
+        ``ma`` distance followed by its ``ma``-bar standard deviation.
         """
-        return max(
-            self.frac_diff + self.z,
-            self.hurst + self.z,
-            self.perm_entropy + self.z,
-            self.kyle + self.z,
-            self.vol_cluster + self.z,
-            self.ma + self.z,
-            self.z,
-        )
+        return max(self.input_window() + self.z, 2 * self.ma + 1)
 
     def embargo_bars(self) -> int:
         """Flat bar count. Prefer embargo_bars_for(bar_type), which is cadence-aware."""
@@ -93,35 +100,46 @@ def scale_windows(
     *,
     max_lookback_days: int = 90,
 ) -> Windows:
-    """Shrink trailing windows so none spans more than ``max_lookback_days``.
+    """Shrink windows so the *chained* lookback spans at most ``max_lookback_days``.
 
     A 1000-bar fractional difference is about 17 hours of 1-minute bars and
-    1000 days of daily bars. The cap keeps the daily lookback on a calendar
-    scale. Windows that are already shorter are left alone.
+    1000 days of daily bars. Capping each window alone is not enough: every
+    feature is an input window followed by a ``z``-bar z-score, so two 90-day
+    windows chain to 180 days (the 2.3.0 defect). Here ``z`` takes at most half
+    of the cap and every input window at most the rest, so
+    ``max_lookback * width <= max_lookback_days``. Windows that already fit are
+    left alone, which keeps fine cadences (1m to 1h) unchanged.
     """
     width = bar_duration_ms(bar_type, median_bar_ms)
-    cap = max(int(windows.fast), int(max_lookback_days * 86_400_000 / width))
+    cap = max(4, int(max_lookback_days * 86_400_000 / width))
+    if windows.max_lookback <= cap:
+        return windows
+    z = max(2, min(int(windows.z), cap // 2))
+    # Input windows get what is left after z (and the +1 shift in input_window).
+    rest = max(2, cap - z - 1)
 
-    def cap_n(n: int, floor: int = 2) -> int:
-        return max(floor, min(int(n), cap))
+    def cap_n(n: int, limit: int = rest, floor: int = 2) -> int:
+        return max(floor, min(int(n), limit))
 
     return Windows(
-        z=cap_n(windows.z),
-        fast=min(int(windows.fast), cap_n(windows.fast)),
+        z=z,
+        fast=cap_n(windows.fast),
         vol_cluster=cap_n(windows.vol_cluster),
         frac_diff=cap_n(windows.frac_diff),
         frac_diff_d=windows.frac_diff_d,
         hurst=cap_n(windows.hurst),
         kurtosis=cap_n(windows.kurtosis),
-        efficiency=min(int(windows.efficiency), cap_n(windows.efficiency)),
+        efficiency=cap_n(windows.efficiency),
         perm_entropy=cap_n(windows.perm_entropy),
         perm_m=windows.perm_m,
         kyle=cap_n(windows.kyle),
         yz=cap_n(windows.yz),
-        cs_block=max(2, min(int(windows.cs_block), max(2, cap // 4))),
+        cs_block=max(2, min(int(windows.cs_block), rest // 2)),
         funding_mom=cap_n(windows.funding_mom),
-        hawkes_span=min(int(windows.hawkes_span), cap_n(windows.hawkes_span)),
-        ma=cap_n(windows.ma),
+        hawkes_span=cap_n(windows.hawkes_span),
+        # The regime label chains ma twice.
+        ma=cap_n(windows.ma, min(rest, max(2, (cap - 1) // 2))),
+        slow_span=cap_n(windows.slow_span),
         horizons=windows.horizons,
     )
 
@@ -154,7 +172,7 @@ def load_windows(path: Path | None = None) -> Windows:
     fields = {k: raw[k] for k in (
         "z", "fast", "vol_cluster", "frac_diff", "frac_diff_d", "hurst",
         "kurtosis", "efficiency", "perm_entropy", "perm_m", "kyle", "yz",
-        "cs_block", "funding_mom", "hawkes_span", "ma",
+        "cs_block", "funding_mom", "hawkes_span", "ma", "slow_span",
     ) if k in raw}
     return Windows(horizons=horizons, **fields)
 
@@ -204,15 +222,36 @@ def load_dollar_thresholds(path: Path | None = None) -> dict:
 
 
 def dollar_threshold(asset: str, table: dict | None = None) -> float:
+    """First-day (bootstrap) dollar size of ``asset``.
+
+    The ``dollar_thresholds.assets`` table covers u10. Any other asset uses its
+    measured ``median_dollar_vol_30d`` from the universe tables divided by the
+    bars-per-day target, the same quantity the trailing rule computes once
+    history exists. It only sizes the asset's first day. An asset with neither
+    is an error: a size is never invented.
+    """
     table = table if table is not None else load_dollar_thresholds()
     asset = canonical_symbol(asset)
     assets = table["assets"]
-    if asset not in assets:
-        raise KeyError(
-            f"no dollar threshold for {asset} in dollar_thresholds.yaml "
-            f"(version {table.get('version')}). Add one; do not invent a size."
-        )
-    return float(assets[asset])
+    if asset in assets:
+        return float(assets[asset])
+    target = (table.get("calibration") or {}).get("target_bars_per_day")
+    median = _universe_median_dollar_volume(asset)
+    if target and median:
+        return float(median) / float(target)
+    raise KeyError(
+        f"no dollar threshold for {asset}: not in dollar_thresholds.assets and no "
+        f"median_dollar_vol_30d in any universe. Add one; do not invent a size."
+    )
+
+
+def _universe_median_dollar_volume(asset: str) -> float | None:
+    universes = _read(config_file()).get("universes") or {}
+    for data in universes.values():
+        for row in list(data.get("assets") or []) + list(data.get("extra_assets") or []):
+            if canonical_symbol(row.get("symbol", "")) == asset and row.get("median_dollar_vol_30d"):
+                return float(row["median_dollar_vol_30d"])
+    return None
 
 
 @dataclass(frozen=True)

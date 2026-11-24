@@ -5,9 +5,10 @@ from __future__ import annotations
 from datetime import date, datetime, timezone
 from pathlib import Path
 
+import numpy as np
 import polars as pl
 
-from pipeline.constants import CORE_BAR_TYPES, TIME_WIDTH_MS
+from pipeline.constants import CORE_BAR_TYPES, DAY_MS, HOUR_MS, TIME_WIDTH_MS
 from pipeline.partitions import load_partitions
 from pipeline.paths import default_data_root
 from pipeline.symbols import canonical_instrument
@@ -281,6 +282,229 @@ def write_html_chart(
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.write_html(path, include_plotlyjs="cdn", full_html=True)
     return path
+
+
+# ---------------------------------------------------------------- QA report (every view)
+
+# Bar columns and metadata; everything else numeric in gold is a feature or label.
+NON_FEATURE = {
+    "asset", "bar_type", "bar_id", "ts_open_ms", "ts_ms", "open", "high", "low", "close", "vwap",
+    "volume", "volume_usd", "buy_volume", "sell_volume", "buy_usd", "sell_usd", "n_trades",
+    "signed_usd", "split", "is_u10", "is_u50", "is_u100", "asset_dna", "listing_date", "is_warmup",
+}
+LINE_MAX = 20_000
+ENVELOPE_VIEWS = ("time_1m", "time_5m")  # too many bars for a line: plotted as an hourly high/low band
+EXTERNAL_COLS = ("stbl_supply_usd", "soc_wiki_views", "dv_btc_dvol_close", "funding_day_mean")
+
+
+def view_stats(root: Path, bar_type: str, asset: str, start: date, end: date) -> dict | None:
+    """Everything the report draws for one view, reduced to small frames."""
+    df = _load_view(root, "gold", bar_type, asset, start, end)
+    if df is None or df.is_empty():
+        return None
+    df = df.sort("ts_ms")
+    feats = [c for c in df.columns if c not in NON_FEATURE and df[c].dtype.is_numeric()]
+    settled = df.filter(~pl.col("is_warmup").fill_null(True)) if "is_warmup" in df.columns else df
+    coverage, scale = {}, {}
+    for c in feats:
+        s = settled[c].cast(pl.Float64)
+        coverage[c] = 1.0 - (s.null_count() + s.is_nan().sum()) / settled.height if settled.height else 0.0
+        finite = s.filter(s.is_finite())
+        scale[c] = float(finite.abs().quantile(0.99)) if finite.len() else None
+    daily = (
+        df.group_by((pl.col("ts_open_ms") // DAY_MS).alias("day"))
+        .agg(pl.col("volume_usd").sum(), pl.len().alias("bars"))
+        .sort("day")
+    )
+    if bar_type in ENVELOPE_VIEWS:
+        price = (
+            df.group_by((pl.col("ts_open_ms") // HOUR_MS * HOUR_MS + HOUR_MS).alias("ts_ms"))
+            .agg(pl.col("high").max(), pl.col("low").min(), pl.col("close").last())
+            .sort("ts_ms")
+        )
+    else:
+        step = max(1, df.height // LINE_MAX)
+        price = df.select(["ts_ms", "close"]).gather_every(step)
+    extra = [c for c in ("funding_rate", *EXTERNAL_COLS) if c in df.columns]
+    return {
+        "rows": df.height,
+        "first": _utc(int(df["ts_ms"].min())),
+        "last": _utc(int(df["ts_ms"].max())),
+        "coverage": coverage,
+        "scale": scale,
+        "daily": daily,
+        "price": price,
+        "series": df.select(["ts_ms", *extra]) if bar_type in ("time_8h", "time_1d") else None,
+    }
+
+
+def _severity_color(sev: str) -> str:
+    return {"PASS": "#1b7f3b", "WARN": "#b26a00", "FAIL": "#b3261e"}.get(sev, "#666666")
+
+
+def _crosscheck_rows(root: Path, asset: str) -> list[tuple[str, str, str]]:
+    path = root / "crosscheck" / "report.json"
+    if not path.exists():
+        return []
+    import json
+    data = json.loads(path.read_text())
+    return [(c["name"], c["severity"], c["detail"]) for c in data.get("checks", [])
+            if c["detail"].startswith(asset)]
+
+
+def _html_table(rows: list[tuple[str, str, str]]) -> str:
+    import html as _h
+    body = "".join(
+        f"<tr><td>{_h.escape(n)}</td><td style='color:{_severity_color(s)};font-weight:600'>{s}</td>"
+        f"<td>{_h.escape(d)}</td></tr>" for n, s, d in rows
+    )
+    return f"<table class='t'><tr><th>check</th><th>result</th><th>detail</th></tr>{body}</table>"
+
+
+PAGE_CSS = """<style>
+body{font-family:system-ui,sans-serif;margin:16px;background:#fff;color:#111}
+h1{font-size:20px} h2{font-size:16px;margin-top:20px}
+.t{border-collapse:collapse;font-size:12px;width:100%} .t td,.t th{border:1px solid #ddd;padding:3px 6px;text-align:left;vertical-align:top}
+.t th{background:#f4f4f4}
+</style>"""
+
+
+def write_asset_report(path: Path, root: Path, asset: str, start: date, end: date,
+                       bar_types: list[str] | None = None) -> dict:
+    """One page per asset: every view on shared axes, reconciliations, feature coverage and scale."""
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+    types = list(bar_types or CORE_BAR_TYPES)
+    stats = {bt: s for bt in types if (s := view_stats(root, bt, asset, start, end)) is not None}
+    if not stats:
+        raise SystemExit(f"no gold views for {asset}")
+    base = stats.get("time_1m")
+    recon: dict[str, float] = {}
+    if base is not None:
+        b = base["daily"].rename({"volume_usd": "base"})
+        for bt, s in stats.items():
+            j = s["daily"].join(b, on="day", how="full", coalesce=True)
+            rel = ((j["volume_usd"].fill_null(0) - j["base"].fill_null(0)).abs() / j["base"].fill_null(0).clip(1e-9))
+            recon[bt] = float(rel.max())
+    titles = (
+        "close in every view (1m/5m drawn as an hourly high-low band; dots: dollar bars)",
+        "notional per UTC day, every view (lines should coincide; dollar bars are bucketed by the day they open)",
+        "bars per day (1m: 1440 when no minute is missing; dollar: event count)",
+        "funding_rate (8h gold) and the daily external series (1d gold, each scaled to its max)",
+        "feature coverage after warmup (share non-null), view x column",
+        "feature scale: log10 of p99 |value| after warmup, view x column",
+    )
+    fig = make_subplots(rows=6, cols=1, subplot_titles=titles, vertical_spacing=0.045,
+                        row_heights=[0.2, 0.13, 0.09, 0.12, 0.23, 0.23])
+    palette = ["#1f77b4", "#ff7f0e", "#2ca02c", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#d62728"]
+    color = {bt: palette[i % len(palette)] for i, bt in enumerate(types)}
+    for bt, s in stats.items():
+        p = s["price"]
+        x = [_dt(t) for t in p["ts_ms"].to_list()]
+        if bt in ENVELOPE_VIEWS:
+            fig.add_trace(go.Scattergl(x=x, y=p["high"], mode="lines", line=dict(width=0.6, color=color[bt]),
+                                       name=f"{bt} hourly high", legendgroup=bt), row=1, col=1)
+            fig.add_trace(go.Scattergl(x=x, y=p["low"], mode="lines", line=dict(width=0.6, color=color[bt]),
+                                       name=f"{bt} hourly low", legendgroup=bt, showlegend=False), row=1, col=1)
+        elif bt == "dollar":
+            fig.add_trace(go.Scattergl(x=x, y=p["close"], mode="markers", marker=dict(size=2, color=color[bt]),
+                                       name="dollar close"), row=1, col=1)
+        else:
+            fig.add_trace(go.Scattergl(x=x, y=p["close"], mode="lines", line=dict(width=1, color=color[bt]),
+                                       name=f"{bt} close"), row=1, col=1)
+        d = s["daily"]
+        dx = [_dt(int(t) * DAY_MS) for t in d["day"].to_list()]
+        fig.add_trace(go.Scattergl(x=dx, y=d["volume_usd"], mode="lines", line=dict(width=1, color=color[bt]),
+                                   name=f"{bt} notional/day", legendgroup=bt, showlegend=False), row=2, col=1)
+        if bt in ("time_1m", "dollar"):
+            fig.add_trace(go.Scattergl(x=dx, y=d["bars"], mode="lines", line=dict(width=1, color=color[bt]),
+                                       name=f"{bt} bars/day", legendgroup=bt, showlegend=False), row=3, col=1)
+    for bt, cols in (("time_8h", ("funding_rate",)), ("time_1d", EXTERNAL_COLS)):
+        s = stats.get(bt)
+        if s is None or s["series"] is None:
+            continue
+        ser = s["series"]
+        x = [_dt(t) for t in ser["ts_ms"].to_list()]
+        for c in cols:
+            if c not in ser.columns or ser[c].null_count() == ser.height:
+                continue
+            y = ser[c]
+            top = float(y.abs().max() or 1.0)
+            fig.add_trace(go.Scattergl(x=x, y=y / top, mode="lines",
+                                       line=dict(width=1), name=f"{c} (max {top:.3g})"), row=4, col=1)
+    cols = sorted({c for s in stats.values() for c in s["coverage"]})
+    views = list(stats)
+    cov = [[stats[v]["coverage"].get(c) for v in views] for c in cols]
+    sc = [[(np.log10(x) if x and x > 0 else None) for x in (stats[v]["scale"].get(c) for v in views)] for c in cols]
+    fig.add_trace(go.Heatmap(z=cov, x=views, y=cols, zmin=0, zmax=1, colorscale="Viridis", showscale=False,
+                             hovertemplate="%{y} @ %{x}: %{z:.3f}<extra></extra>"), row=5, col=1)
+    fig.add_trace(go.Heatmap(z=sc, x=views, y=cols, colorscale="RdBu_r", zmid=0, showscale=False,
+                             hovertemplate="%{y} @ %{x}: log10 p99|v| = %{z:.2f}<extra></extra>"), row=6, col=1)
+    for r in (2, 3, 4):
+        fig.update_xaxes(matches="x", row=r, col=1)
+    fig.update_yaxes(type="log", row=1, col=1)
+    fig.update_yaxes(type="log", row=2, col=1)
+    fig.update_yaxes(tickfont=dict(size=7), row=5, col=1)
+    fig.update_yaxes(tickfont=dict(size=7), row=6, col=1)
+    fig.update_layout(height=3400, margin=dict(l=170, r=20, t=90, b=30),
+                      legend=dict(orientation="h", yanchor="bottom", y=1.012, font=dict(size=10)))
+    import html as _h
+    view_rows = "".join(
+        f"<tr><td>{bt}</td><td>{s['rows']}</td><td>{s['first']}</td><td>{s['last']}</td>"
+        f"<td>{recon.get(bt, float('nan')):.2e}</td></tr>" for bt, s in stats.items()
+    )
+    head = (
+        f"<h1>{_h.escape(asset)} &middot; {start} to {end}</h1>"
+        "<h2>Views</h2><table class='t'><tr><th>view</th><th>rows</th><th>first close (UTC)</th>"
+        "<th>last close (UTC)</th><th>max daily notional diff vs 1m (relative)</th></tr>"
+        f"{view_rows}</table>"
+    )
+    cc = _crosscheck_rows(root, asset)
+    if cc:
+        head += "<h2>Public-API cross-check</h2>" + _html_table(cc)
+    page = fig.to_html(full_html=True, include_plotlyjs="cdn")
+    page = page.replace("<head>", "<head><meta charset='utf-8'><title>" + _h.escape(asset) + " views</title>" + PAGE_CSS, 1)
+    page = page.replace("<body>", "<body>" + head, 1)
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(page, encoding="utf-8")
+    return {"views": {bt: s["rows"] for bt, s in stats.items()}, "recon": recon}
+
+
+def write_report(out_dir: Path, root: Path, assets: list[str], start: date, end: date,
+                 bar_types: list[str] | None = None) -> Path:
+    """An index page plus one page per asset (see ``write_asset_report``)."""
+    import html as _h
+    out_dir = Path(out_dir)
+    rows = []
+    for asset in assets:
+        print(f"[report] {asset}", flush=True)
+        info = write_asset_report(out_dir / f"{asset}.html", root, asset, start, end, bar_types)
+        worst_recon = max((v for k, v in info["recon"].items()), default=float("nan"))
+        cc = _crosscheck_rows(root, asset)
+        sev = {"FAIL": 0, "WARN": 0, "PASS": 0}
+        for _, s, _d in cc:
+            sev[s] = sev.get(s, 0) + 1
+        rows.append(
+            f"<tr><td><a href='{_h.escape(asset)}.html'>{_h.escape(asset)}</a></td>"
+            f"<td>{len(info['views'])}</td><td>{sum(info['views'].values())}</td><td>{worst_recon:.2e}</td>"
+            f"<td>{sev['PASS']}</td><td style='color:{_severity_color('WARN')}'>{sev['WARN']}</td>"
+            f"<td style='color:{_severity_color('FAIL')}'>{sev['FAIL']}</td></tr>"
+        )
+    page = (
+        "<!doctype html><html><head><meta charset='utf-8'><title>Views report</title>" + PAGE_CSS + "</head><body>"
+        f"<h1>Views report &middot; {start} to {end} &middot; {_h.escape(str(root))}</h1>"
+        "<table class='t'><tr><th>asset</th><th>views</th><th>bars</th><th>worst daily notional diff vs 1m</th>"
+        "<th>cross-check PASS</th><th>WARN</th><th>FAIL</th></tr>" + "".join(rows) + "</table></body></html>"
+    )
+    index = out_dir / "index.html"
+    index.write_text(page, encoding="utf-8")
+    return index
+
+
+def _dt(ts_ms: int) -> datetime:
+    return datetime.fromtimestamp(ts_ms / 1000.0, tz=timezone.utc)
 
 
 def inspect(

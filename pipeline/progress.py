@@ -21,7 +21,11 @@ def _now_stamp() -> str:
 
 
 def default_runs_root() -> Path:
-    return repo_root() / "runs"
+    """``runs/`` at the repository root, or ``$MLSYS_RUNS_DIR`` (the test suite sets it)."""
+    import os
+
+    override = os.environ.get("MLSYS_RUNS_DIR")
+    return Path(override) if override else repo_root() / "runs"
 
 
 class RunLog:

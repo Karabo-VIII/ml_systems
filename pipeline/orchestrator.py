@@ -115,7 +115,7 @@ class RunConfig:
     universe: str | None = None
     stages: list[str] = field(default_factory=lambda: list(STAGE_ORDER))
     bar_types: list[str] = field(default_factory=lambda: list(CORE_BAR_TYPES))
-    data_root: Path = field(default_factory=lambda: Path("data/pipeline"))
+    data_root: Path = field(default_factory=lambda: Path("data"))
     force: bool = False
     dry_run: bool = False
     include_oi: bool = False
@@ -293,6 +293,211 @@ def _write_frame(df: pl.DataFrame, path: Path, schema_name: str, params: dict) -
     return file_sha256(path)
 
 
+CHUNKED_VALIDATE = ("time_1m", "time_5m", "dollar")
+
+
+def _year_chunks(lo: date, hi: date) -> list[tuple[date, date]]:
+    out = []
+    for y in range(lo.year, hi.year + 1):
+        out.append((max(lo, date(y, 1, 1)), min(hi, date(y, 12, 31))))
+    return out
+
+
+def _load_gold_range(root: Path, bar_type: str, asset: str, lo: date, hi: date, columns: list[str] | None = None) -> pl.DataFrame:
+    """Gold partitions of ``[lo, hi]`` only, clipped to bars closing in that range."""
+    frames = []
+    for y, m in iter_months(lo, hi):
+        path = gold_month_path(root, bar_type, asset, y, m)
+        if sidecar_ok(path):
+            df = pl.read_parquet(path, columns=columns) if columns else pl.read_parquet(path)
+            if df.height:
+                frames.append(df)
+    if not frames:
+        return pl.DataFrame()
+    lo_ms = int(datetime(lo.year, lo.month, lo.day, tzinfo=timezone.utc).timestamp() * 1000)
+    hi_ms = int(datetime(hi.year, hi.month, hi.day, tzinfo=timezone.utc).timestamp() * 1000) + DAY_MS
+    out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms")
+    return out.filter((pl.col("ts_ms") > lo_ms) & (pl.col("ts_ms") <= hi_ms))
+
+
+def _merge_gate(results: dict, item, label: str) -> None:
+    rank = {"pass": 0, "warn": 1, "fail": 2}
+    prev = results.get(item.name)
+    if prev is None or rank[item.severity] > rank[prev[0]]:
+        results[item.name] = (item.severity, f"[{label}] {item.detail}")
+
+
+CAUSALITY_CUTS = 2
+
+
+def _causality_gate(cfg: "RunConfig", asset: str, bar_type: str, chunk_end: date) -> GateResult | None:
+    """Truncation proof on the last feature month of a chunk.
+
+    For a few bars of that month, the features are recomputed from only the
+    data knowable at the bar's close (bars up to it, daily panel rows whose lag
+    has passed, funding/metrics/perp read to that day) on the same warm frame
+    the features stage used. Every stored column must match. A correlation gate
+    can only suspect a leak; this proves its absence for the sampled bars.
+    External series are covered by the as-of control check instead.
+    """
+    import dataclasses
+    import math
+    from datetime import timedelta
+
+    from pipeline.chunked import _asset_range, feature_lookback_days, load_daily_months
+    from pipeline.validate import GateResult
+
+    y, m = chunk_end.year, chunk_end.month
+    try:
+        first, last = clip_month(y, m, *_asset_range(cfg, asset))
+    except ValueError:
+        return None
+    path = features_month_path(cfg.data_root, bar_type, asset, y, m)
+    if not path.exists():
+        return None
+    stored = pl.read_parquet(path).sort("ts_ms")
+    if stored.height < 2:
+        return None
+    warm_start = first - timedelta(days=feature_lookback_days(cfg, bar_type))
+    bars = load_bar_months(cfg.data_root, asset, bar_type, warm_start, last).sort("ts_ms")
+    daily = load_daily_months(cfg.data_root, asset, warm_start, last)
+    lag = lag_ms("daily_panel")
+    picks = sorted({stored.height // 2, stored.height - 1})[:CAUSALITY_CUTS]
+    bad: dict[str, float] = {}
+    cols = [c for c in stored.columns if c != "ts_ms"]
+    for i in picks:
+        cut_ts = int(stored["ts_ms"][i])
+        cut_day = datetime.fromtimestamp(cut_ts / 1000, tz=timezone.utc).date()
+        sub = dataclasses.replace(cfg, end=cut_day)
+        b = bars.filter(pl.col("ts_ms") <= cut_ts)
+        d = daily.filter(pl.col("event_time_ms") + lag <= cut_ts) if "event_time_ms" in daily.columns else daily
+        out = _attach_slow_features(sub, asset, warm_start, {bar_type: b}, d)[bar_type]
+        row = out.filter(pl.col("ts_ms") == cut_ts)
+        if row.height != 1:
+            bad["<row>"] = float("inf")
+            continue
+        want, got = stored.row(i, named=True), row.row(0, named=True)
+        for c in cols:
+            # A column the truncated frame lacks (e.g. no daily row knowable yet)
+            # is null there; a stored non-null value then fails.
+            a, v = want.get(c), got.get(c)
+            if isinstance(a, float) and isinstance(v, float):
+                if math.isnan(a) and math.isnan(v):
+                    continue
+                if abs(a - v) <= 1e-9 * max(1.0, abs(a)):
+                    continue
+                bad[c] = max(bad.get(c, 0.0), abs(a - v))
+            elif a != v:
+                bad[c] = float("inf")
+    month = f"{y:04d}-{m:02d}"
+    if bad:
+        worst = sorted(bad.items(), key=lambda kv: -kv[1])[:6]
+        return GateResult("causality", "fail",
+                          f"{len(bad)} column(s) change when the future is cut off at {len(picks)} bar(s) of {month}: {worst}")
+    return GateResult("causality", "pass",
+                      f"{len(cols)} columns at {len(picks)} bar(s) of {month} match a recompute from data up to the bar")
+
+
+def _validate_asset(cfg: "RunConfig", asset: str, start: date, n_assets: int, packed: dict, session) -> int:
+    """In-pipeline gates for one asset over the run's range, in bounded chunks.
+
+    Fine fabrics (1m, 5m, dollar) are validated one calendar year at a time;
+    coarser ones in one piece (they are small and their 90-day embargoes can
+    straddle a year end). Bronze counts and gaps are recomputed here when the
+    bars stage did not run in this invocation.
+    """
+    from pipeline.chunked import _embargo_padding, count_bronze_trades, count_fx_ticks
+    from pipeline.validate_run import _fx_weekend_expected
+
+    windows = cfg.windows or load_windows()
+    floor_days, max_days = load_embargo_policy()
+    worst = 0
+    rows_seen: dict[str, int] = {}
+    for bt in cfg.bar_types:
+        embargo, _pad = _embargo_padding(cfg, asset, bt, windows, floor_days, max_days)
+        scaled = scale_windows(windows, bt, None, max_lookback_days=max_days)
+        chunks = _year_chunks(start, cfg.end) if bt in CHUNKED_VALIDATE else [(start, cfg.end)]
+        results: dict = {}
+        n_rows = 0
+        for c0, c1 in chunks:
+            df = _load_gold_range(cfg.data_root, bt, asset, c0, c1)
+            if df.is_empty():
+                continue
+            n_rows += df.height
+            missing = None
+            if bt == "time_1m":
+                one_m = load_bar_months(cfg.data_root, asset, "time_1m", c0, c1)
+                missing = gaps_ms(one_m) if not one_m.is_empty() else []
+                if cfg.market == "fx":
+                    missing = [t for t in missing if not _fx_weekend_expected(t)]
+                elif missing:
+                    # Exchange downtime is not a hole: keep minutes the venue traded, and
+                    # minutes on days with no venue klines (unknown counts as lost).
+                    from pipeline.validate_run import classify_missing
+                    split = classify_missing(cfg.data_root, asset, missing, c0, c1)
+                    if split is not None:
+                        missing = split[0]
+            report = validate_frame(
+                df, feature_cols=feature_columns(df), embargo_bars=embargo,
+                n_assets_in_run=n_assets, asset=asset,
+                missing_minutes=missing, min_history=max(scaled.max_lookback, 100),
+            )
+            label = f"{c0}..{c1}"
+            for item in report.results:
+                _merge_gate(results, item, label)
+            if cfg.market != "fx":
+                proof = _causality_gate(cfg, asset, bt, c1)
+                if proof is not None:
+                    _merge_gate(results, proof, label)
+            if bt == "time_1m":
+                ladder = {}
+                for name in cfg.bar_types:
+                    if name in TIME_WIDTH_MS:
+                        frame = load_bar_months(cfg.data_root, asset, name, c0, c1)
+                        if not frame.is_empty():
+                            ladder[name] = frame
+                if "time_1m" in ladder:
+                    _merge_gate(results, gate_time_reconcile(ladder), label)
+                    if cfg.market == "fx":
+                        n_src, what = count_fx_ticks(cfg.data_root, asset, c0, c1), "fx_ticks"
+                    else:
+                        n_src, what = count_bronze_trades(cfg.data_root, asset, c0, c1), "time_1m"
+                    _merge_gate(results, gate_trade_count(int(ladder["time_1m"]["n_trades"].sum()), n_src, what=what), label)
+        if not n_rows:
+            session.info(f"[validate] {asset} {bt} no gold")
+            continue
+        rows_seen[bt] = n_rows
+        if bt == "dollar":
+            # Dollar bars carry state across months: count over the whole range.
+            d = _load_gold_range(cfg.data_root, "dollar", asset, start, cfg.end, columns=["ts_ms", "n_trades"])
+            n_bronze = count_bronze_trades(cfg.data_root, asset, start, cfg.end)
+            if packed.get("dollar_excluded") is None:
+                # The bars stage did not run in this call: the open tail is in the
+                # snapshot taken after the last month.
+                from pipeline.chunked import dollar_spec_for, read_dollar_state
+                state = read_dollar_state(
+                    cfg.data_root, asset, dollar_spec_for(cfg, asset),
+                    through=f"{cfg.end.year:04d}-{cfg.end.month:02d}",
+                )
+                packed["dollar_excluded"] = state.tail_trades() if state is not None else 0
+            _merge_gate(results, gate_trade_count(
+                int(d["n_trades"].sum()) if d.height else 0, n_bronze,
+                excluded_tail=int(packed.get("dollar_excluded") or 0), what="dollar",
+            ), f"{start}..{cfg.end}")
+        code = max(({"pass": 0, "warn": 1, "fail": 2}[sev] for sev, _ in results.values()), default=0)
+        session.info(f"[validate] {asset} {bt} rows={n_rows} exit={code}")
+        for name, (sev, detail) in results.items():
+            if sev != "pass":
+                session.info(f"  {sev}: {name}: {detail}")
+        worst = max(worst, code)
+        packed.setdefault("_coverage", []).append({
+            "asset": asset, "bar_type": bt, "rows": n_rows,
+            "status": "pass" if code == 0 else ("warn" if code == 1 else "fail"),
+        })
+    return worst
+
+
+
 def _independent_validate(cfg: RunConfig, worst: int) -> int:
     """Run scripts-compatible independent checks and print one PASS/WARN/FAIL summary."""
     from pipeline.validate_run import Report, run_validation
@@ -330,9 +535,12 @@ def run(cfg: RunConfig) -> int:
     splits = cfg.splits or load_splits()
     cfg.windows = windows
     cfg.splits = splits
-    unknown = [b for b in cfg.bar_types if b not in ALL_BAR_TYPES]
+    unknown = [b for b in cfg.bar_types if b not in CORE_BAR_TYPES]
     if unknown:
-        raise ValueError(f"unknown bar types {unknown}; omitted research fabrics are not built")
+        raise ValueError(
+            f"bar types {unknown} are not built by this pipeline; "
+            f"use any of {', '.join(CORE_BAR_TYPES)}"
+        )
 
     plan = []
     for asset in assets:
@@ -470,61 +678,9 @@ def run(cfg: RunConfig) -> int:
             coverage = []
             for asset, start in active:
                 try:
-                    packed = meta.get(asset, {})
-                    for bt in cfg.bar_types:
-                        from pipeline.partitions import load_partitions
-                        from pipeline.dataset import gold_dir
-                        df = load_partitions(gold_dir(cfg.data_root, bt), asset)
-                        if df is None or df.is_empty():
-                            session.info(f"[validate] {asset} {bt} no gold")
-                            continue
-                        diffs = df["ts_ms"].diff().drop_nulls() if df.height > 2 else None
-                        median = int(diffs.median()) if diffs is not None and diffs.len() else None
-                        floor_days, max_days = load_embargo_policy()
-                        embargo = embargo_bars_for(
-                            bt, windows, median,
-                            calendar_floor_days=floor_days, max_lookback_days=max_days,
-                        )
-                        if bt == "time_1m" and not packed.get("gaps"):
-                            one_m = load_bar_months(cfg.data_root, asset, "time_1m", start, cfg.end)
-                            if not one_m.is_empty():
-                                packed["gaps"] = gaps_ms(one_m)
-                        report = validate_frame(
-                            df, feature_cols=feature_columns(df), embargo_bars=embargo,
-                            n_assets_in_run=len(active), asset=asset,
-                            missing_minutes=packed.get("gaps") if bt == "time_1m" else None,
-                            min_history=windows.max_lookback,
-                        )
-                        if bt == "time_1m":
-                            ladder = {}
-                            for name in cfg.bar_types:
-                                if name in TIME_WIDTH_MS:
-                                    frame = load_bar_months(cfg.data_root, asset, name, start, cfg.end)
-                                    if not frame.is_empty():
-                                        ladder[name] = frame
-                            if "time_1m" in ladder:
-                                report.results.append(gate_time_reconcile(ladder))
-                                report.results.append(gate_trade_count(
-                                    int(ladder["time_1m"]["n_trades"].sum()),
-                                    int(packed.get("n_bronze") or 0),
-                                    what="time_1m",
-                                ))
-                        if bt == "dollar":
-                            report.results.append(gate_trade_count(
-                                int(df["n_trades"].sum()) if df.height else 0,
-                                int(packed.get("n_bronze", 0)),
-                                excluded_tail=int(packed.get("dollar_excluded", 0)),
-                                what="dollar",
-                            ))
-                        session.info(f"[validate] {asset} {bt} exit={report.code}")
-                        for item in report.results:
-                            if item.severity != "pass":
-                                session.info(f"  {item.severity}: {item.name}: {item.detail}")
-                        worst = max(worst, report.code)
-                        coverage.append({
-                            "asset": asset, "bar_type": bt, "rows": df.height,
-                            "status": "pass" if report.code == 0 else ("warn" if report.code == 1 else "fail"),
-                        })
+                    packed = meta.setdefault(asset, {})
+                    worst = max(worst, _validate_asset(cfg, asset, start, len(active), packed, session))
+                    coverage.extend(packed.pop("_coverage", []))
                 except KeyboardInterrupt:
                     raise
                 except Exception as exc:
@@ -541,22 +697,13 @@ def run(cfg: RunConfig) -> int:
 
 
 def _fx_weekday_gaps(missing: list[int]) -> list[int]:
-    """The Friday-Sunday close is the FX calendar, not a missing-data hole.
+    """The Friday-Sunday close (and the year-end holidays) is the FX calendar, not a hole.
 
     Close and reopen are 17:00 America/New_York, so the UTC hour follows US DST.
+    The rule is ``validate_run._fx_weekend_expected``, shared with the independent checks.
     """
-    ny = ZoneInfo("America/New_York")
-    kept = []
-    for ts in missing:
-        dt = datetime.fromtimestamp(ts / 1000.0, tz=timezone.utc).astimezone(ny)
-        if dt.weekday() == 5:
-            continue
-        if dt.weekday() == 6 and (dt.hour, dt.minute) < (17, 0):
-            continue
-        if dt.weekday() == 4 and (dt.hour, dt.minute) >= (17, 0):
-            continue
-        kept.append(ts)
-    return kept
+    from pipeline.validate_run import _fx_weekend_expected
+    return [ts for ts in missing if not _fx_weekend_expected(ts)]
 
 
 def run_fx(cfg: RunConfig) -> int:
@@ -681,48 +828,9 @@ def run_fx(cfg: RunConfig) -> int:
             coverage = []
             for asset, start in active:
                 try:
-                    for bt in cfg.bar_types:
-                        from pipeline.partitions import load_partitions
-                        from pipeline.dataset import gold_dir
-                        df = load_partitions(gold_dir(cfg.data_root, bt), asset)
-                        if df is None or df.is_empty():
-                            session.info(f"[validate] {asset} {bt} no gold")
-                            continue
-                        floor_days, cap_days = load_embargo_policy()
-                        scaled = scale_windows(windows, bt, max_lookback_days=cap_days)
-                        embargo = embargo_bars_for(
-                            bt, windows, calendar_floor_days=floor_days, max_lookback_days=cap_days,
-                        )
-                        missing = None
-                        if bt == "time_1m":
-                            missing = _fx_weekday_gaps(gaps.get(asset) or [])
-                        report = validate_frame(
-                            df, feature_cols=feature_columns(df), embargo_bars=embargo,
-                            n_assets_in_run=len(active), asset=asset,
-                            missing_minutes=missing, min_history=max(scaled.max_lookback, 100),
-                        )
-                        if bt == "time_1m":
-                            ladder = {}
-                            for name in cfg.bar_types:
-                                frame = load_bar_months(cfg.data_root, asset, name, start, cfg.end)
-                                if not frame.is_empty():
-                                    ladder[name] = frame
-                            if "time_1m" in ladder:
-                                report.results.append(gate_time_reconcile(ladder))
-                                report.results.append(gate_trade_count(
-                                    int(ladder["time_1m"]["n_trades"].sum()),
-                                    int(tick_counts.get(asset, 0)),
-                                    what="fx_ticks",
-                                ))
-                        session.info(f"[validate] {asset} {bt} exit={report.code}")
-                        for item in report.results:
-                            if item.severity != "pass":
-                                session.info(f"  {item.severity}: {item.name}: {item.detail}")
-                        worst = max(worst, report.code)
-                        coverage.append({
-                            "asset": asset, "bar_type": bt, "rows": df.height,
-                            "status": "pass" if report.code == 0 else ("warn" if report.code == 1 else "fail"),
-                        })
+                    packed: dict = {}
+                    worst = max(worst, _validate_asset(cfg, asset, start, len(active), packed, session))
+                    coverage.extend(packed.pop("_coverage", []))
                 except KeyboardInterrupt:
                     raise
                 except Exception as exc:
@@ -792,8 +900,18 @@ def _status_range(cfg: RunConfig) -> int:
                 have = sum(1 for h in hours if fx_hour_path(root, asset, h.date(), h.hour).exists())
                 total = len(hours)
             else:
+                # A day Vision answered with no rows (empty) or a 404 long after the
+                # fact (absent) is complete: there is nothing more to fetch.
+                import json as _json
+                from pipeline.paths import manifest_path
+                man = manifest_path(root, "trades", asset)
+                arts = _json.loads(man.read_text()).get("artifacts", {}) if man.exists() else {}
                 days = list(iter_days(start, cfg.end))
-                have = sum(1 for d in days if trades_path(root, asset, d).exists())
+                have = sum(
+                    1 for d in days
+                    if trades_path(root, asset, d).exists()
+                    or arts.get(d.isoformat(), {}).get("status") in ("empty", "absent")
+                )
                 total = len(days)
             parts.append(f"fetch {have}/{total}")
             if have < total:
@@ -832,6 +950,6 @@ def _status_range(cfg: RunConfig) -> int:
                 any_incomplete = 1
         print("  " + "  ".join(parts))
     print(f"[status] {'complete' if any_incomplete == 0 else 'incomplete'}")
-    return 0
+    return 0 if any_incomplete == 0 else 1
 
 

@@ -33,6 +33,35 @@ def sidecar_ok(path: Path) -> bool:
         return False
 
 
+def sidecar_digest(path: Path) -> str:
+    """The recorded sha256 of ``path`` (its sidecar), or ``-`` when there is none."""
+    sidecar = path.with_suffix(path.suffix + ".sha256")
+    try:
+        if path.exists() and sidecar.exists():
+            return sidecar.read_text().strip()
+    except OSError:
+        pass
+    return "-"
+
+
+def inputs_digest(paths) -> str:
+    """One short digest of the files a partition was built from.
+
+    Partition params carry this so a stage is rebuilt whenever an upstream file
+    changes (a refetched bronze day, a month whose funding was published late, a
+    rebuilt bar month), not only when the date range or settings change. It reads
+    the ``.sha256`` sidecars, never the files, so it costs one small read per input.
+    A missing input hashes as ``-``, so its later arrival is a change too.
+    """
+    import hashlib
+
+    h = hashlib.sha256()
+    for p in paths:
+        p = Path(p)
+        h.update(f"{p.parent.name}/{p.name}={sidecar_digest(p)}\n".encode())
+    return h.hexdigest()[:32]
+
+
 def partition_fresh(path: Path, params: dict, *, force: bool = False) -> bool:
     """True when the file is complete, hashed, and was built with the same params."""
     if force:

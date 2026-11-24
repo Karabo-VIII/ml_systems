@@ -23,7 +23,12 @@ from datetime import date, datetime, timedelta, timezone
 import polars as pl
 
 from pipeline.config import fx_price_divisor, load_fx
-from pipeline.fetch_crypto import http_get
+from pipeline.fetch_crypto import _http_get_once
+
+
+def http_get(url: str, timeout: int = 60):
+    """One attempt. ``fetch_hour`` owns the retry policy for Dukascopy (``fx.max_retries``)."""
+    return _http_get_once(url, timeout)
 from pipeline.io import atomic_write_parquet
 from pipeline.paths import fx_hour_path
 from pipeline.symbols import canonical_fx_symbol
@@ -62,12 +67,13 @@ def decode_bi5(blob: bytes, hour_start_ms: int, price_divisor: float) -> pl.Data
     ts, bid, ask, mid, spread = [], [], [], [], []
     for off in range(0, len(raw), _REC.size):
         ms, ask_i, bid_i, _ask_vol, _bid_vol = _REC.unpack_from(raw, off)
-        if ms > 3_600_000:
+        if ms >= 3_600_000:
             raise ValueError(f"tick offset {ms} ms is outside the hour")
         a = ask_i / price_divisor
         b = bid_i / price_divisor
-        if a <= 0 or b <= 0 or a < b:
+        if a <= 0 or b <= 0:
             raise ValueError(f"bad quote bid={b} ask={a}")
+        # A crossed quote (ask < bid) is kept as shipped; the validator counts them.
         ts.append(hour_start_ms + int(ms))
         bid.append(b)
         ask.append(a)
@@ -134,15 +140,26 @@ def fetch_hour(
             return frame
         if status in (404, 204):
             frame = pl.DataFrame(schema=_TICK_SCHEMA)
-            atomic_write_parquet(
-                frame, path, schema_name="fx_ticks_v1",
-                params={"pair": pair, "hour": hour_start.isoformat(), "empty": True},
-            )
+            # Cache an empty hour only once it is safely in the past. A recent or
+            # future hour may simply not be published yet.
+            if _hour_settled(hour_start):
+                atomic_write_parquet(
+                    frame, path, schema_name="fx_ticks_v1",
+                    params={"pair": pair, "hour": hour_start.isoformat(), "empty": True},
+                )
             return frame
         last_err = err or f"HTTP {status}"
         # 503, 429, connection reset, timeout.
         time.sleep(min(32.0, 2.0 ** attempt))
     raise RuntimeError(f"{pair} {hour_start.isoformat()} failed after {retries} tries: {last_err}")
+
+
+SETTLE_HOURS = 6
+
+
+def _hour_settled(hour_start: datetime, now: datetime | None = None) -> bool:
+    now = now or datetime.now(tz=timezone.utc)
+    return hour_start + timedelta(hours=1 + SETTLE_HOURS) <= now
 
 
 def iter_hours(start: date, end: date):
@@ -178,6 +195,9 @@ def fetch_fx_range(root, pair: str, start: date, end: date, **kwargs) -> int:
             try:
                 fetch_hour(root, pair, hour, **kwargs)
                 last_err = None
+                break
+            except ValueError as exc:  # a corrupt file: not cached, reported, range continues
+                last_err = exc
                 break
             except RuntimeError as exc:
                 last_err = exc
