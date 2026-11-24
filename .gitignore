@@ -25,6 +25,15 @@ Thumbs.db
 /data_verify/
 /runs/
 
+# Local trees left on disk from before the flat rebuild (the tracked copy is
+# ml_systems_v1/), per-machine Claude Code state, and scratch output.
+/.claude/
+/archive/
+/crypto/
+/dataclear/
+/games/
+/scratch_out*.txt
+
 # ---------------------------------------------------------------------------
 # Archived tree. Each path-specific rule from the pre-rebuild gitignore is
 # prefixed with ml_systems_v1/ so the same data stays untracked after git mv.
