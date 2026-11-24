@@ -1,5 +1,5 @@
 windows:
-  version: windows_v1
+  version: windows_v2
   z: 200
   fast: 20
   vol_cluster: 50
@@ -13,9 +13,13 @@ windows:
   kyle: 50
   yz: 20
   cs_block: 10
-  funding_mom: 30
   hawkes_span: 20
   ma: 200
+  # Every EMA is evaluated over its last `ema` bars (normalised weights), so
+  # no feature has infinite memory; scaled down on coarse cadences.
+  ema: 240
+  # Rolling median that caps open interest (--include-oi only).
+  oi_median: 50
   horizons:
   - 1
   - 4
@@ -61,7 +65,7 @@ backtest:
     # Not a typical pip width presented as fact.
     half_spread_bps: 0.0
 lags:
-  version: lags_v2
+  version: lags_v3
   day_ms: 86400000
   families:
     trades: 0
@@ -83,113 +87,36 @@ lags:
     defillama: 86400000
     deribit: 86400000
     whale: 86400000
-    liq_proxy: 86400000
     realized_vol: 86400000
     hawkes_daily: 86400000
     basis: 86400000
-    metrics_daily: 86400000
+    # The day-D mean of Vision metrics includes the window stamped D 23:55, which is
+    # knowable 10 minutes after its stamp (open_interest), at (D+1) 00:05: so the mean
+    # is knowable one day plus five minutes after D 00:00.
+    metrics_daily: 86700000
 dollar_thresholds:
-  version: dollar_thresholds_v2
-  # Adaptive size (contract 2.2.0). The threshold for UTC day D is
+  version: dollar_thresholds_v3
+  # Adaptive size (contract 2.2.0; calibration day since 2.5.0). The threshold for UTC day D is
   #   median(USD notional of the last window_days complete days before D) / target_bars_per_day
   # so every asset carries about target_bars_per_day dollar bars per day in 2020 and
   # in 2026 alike (288 = the count of 5-minute time bars, so the two fabrics are
   # directly comparable). It is causal: day D's own trades never set day D's size,
-  # and a bar that is open at midnight keeps the size it opened with.
-  # `assets` below is only the bootstrap: the size used on an asset's first day,
-  # before any history exists. It is a 2024-era table and is not used afterwards.
+  # and a bar that is open at midnight keeps the size it opened with. The first day
+  # of a chain has no history: it is a calibration day whose trades seed the history
+  # and close no bar. No size is taken from a static table.
   calibration:
     method: trailing_median_daily_notional
     window_days: 30
     target_bars_per_day: 288
-  assets:
-    BTCUSDT: 2000000
-    ETHUSDT: 700000
-    SOLUSDT: 200000
-    BNBUSDT: 300000
-    XRPUSDT: 350000
-    DOGEUSDT: 400000
-    ADAUSDT: 100000
-    AVAXUSDT: 80000
-    LINKUSDT: 70000
-    LTCUSDT: 50000
-  tick_trades_per_bar:
-    BTCUSDT: 5000
-    ETHUSDT: 4000
-    SOLUSDT: 3000
-    BNBUSDT: 2500
-    XRPUSDT: 2500
-    DOGEUSDT: 2500
-    ADAUSDT: 2000
-    AVAXUSDT: 2000
-    LINKUSDT: 2000
-    LTCUSDT: 2000
-    default: 2000
-  volume_base_qty_per_bar:
-    BTCUSDT: 5
-    ETHUSDT: 50
-    SOLUSDT: 500
-    BNBUSDT: 100
-    XRPUSDT: 20000
-    DOGEUSDT: 200000
-    ADAUSDT: 50000
-    AVAXUSDT: 2000
-    LINKUSDT: 2000
-    LTCUSDT: 200
-    default: 1000
 daily_thresholds:
-  version: daily_thresholds_v2
+  version: daily_thresholds_v3
+  # The whale size of UTC day D is the `quantile` of per-trade notional over the
+  # last `window_days` complete days before D. An asset's first day has no history,
+  # so its wh_* columns are null (no static bootstrap size).
   whale:
     method: trailing_quantile_trade_notional
     window_days: 30
     quantile: 0.999
-  whale_usd:
-    # Bootstrap only: used on an asset's first day, before any complete day exists.
-    BTCUSDT:
-    - 500000
-    - 1000000
-    ETHUSDT:
-    - 250000
-    - 500000
-    SOLUSDT:
-    - 100000
-    - 250000
-    BNBUSDT:
-    - 100000
-    - 250000
-    XRPUSDT:
-    - 50000
-    - 100000
-    DOGEUSDT:
-    - 50000
-    - 100000
-    ADAUSDT:
-    - 50000
-    - 100000
-    AVAXUSDT:
-    - 50000
-    - 100000
-    LINKUSDT:
-    - 50000
-    - 100000
-    LTCUSDT:
-    - 50000
-    - 100000
-    default:
-    - 50000
-    - 100000
-  liq_proxy_usd:
-    BTCUSDT: 100000
-    ETHUSDT: 50000
-    SOLUSDT: 25000
-    BNBUSDT: 30000
-    XRPUSDT: 15000
-    DOGEUSDT: 10000
-    ADAUSDT: 10000
-    AVAXUSDT: 10000
-    LINKUSDT: 10000
-    LTCUSDT: 10000
-    default: 10000
 universes:
   u10:
     name: u10

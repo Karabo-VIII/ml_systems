@@ -159,6 +159,21 @@ def test_the_crosscheck_command_end_to_end_against_a_fake_venue(tmp_path, monkey
     monkeypatch.setattr(cc, "_get_json", lambda url: pytest.fail(f"refetched {url}"))
     assert cc.crosscheck(tmp_path, ["BTCUSDT"], date(2020, 3, 2), date(2020, 3, 2),
                          ["time_1m", "time_1h"], venue=False, funding=False).code == 0
+    # --refresh fetches live again and proves the cache equals the venue, without overwriting it.
+    monkeypatch.setattr(cc, "_get_json", fake)
+    cache = tmp_path / "crosscheck" / "binance_rest" / "1h" / "BTCUSDT_2020-03.parquet"
+    before = cache.read_bytes()
+    live = cc.crosscheck(tmp_path, ["BTCUSDT"], date(2020, 3, 2), date(2020, 3, 2),
+                         ["time_1m", "time_1h"], venue=False, funding=False, refresh=True)
+    checks = {c.name: c for c in live.checks}
+    assert checks["live_refetch"].severity == "PASS" and "2 had a copy" in checks["live_refetch"].detail
+    assert cache.read_bytes() == before
+    # A cached copy that no longer matches the venue is reported, and still not overwritten.
+    served["1h"] = h.with_columns((pl.col("close") * 1.01).alias("close"))
+    stale = cc.crosscheck(tmp_path, ["BTCUSDT"], date(2020, 3, 2), date(2020, 3, 2),
+                          ["time_1h"], venue=False, funding=False, refresh=True)
+    assert {c.name: c.severity for c in stale.checks}["live_refetch"] == "FAIL"
+    assert cache.read_bytes() == before
 
 
 def test_the_every_view_report_writes_an_index_and_a_page(tmp_path):

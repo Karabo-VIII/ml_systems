@@ -17,16 +17,36 @@ def add_targets(
     *,
     clipped: bool = False,
     voladj: bool = False,
+    width_ms: int | None = None,
 ) -> pl.DataFrame:
-    """Uncapped forward returns. The last ``h`` rows stay null. Nothing is filled with 0.
+    """Uncapped forward returns. Nothing is filled with 0.
 
-    ``voladj`` divides by future realized volatility. It is a label, never a feature.
+    With ``width_ms`` (crypto time bars) the horizon is clock time: the target
+    of the bar closing at ``t`` uses the last close at or before ``t + h * width``
+    (the last trade price then; a minute without trades has no bar and leaves
+    the price where it was), and is null when ``t + h * width`` is past the last
+    bar of the frame. Without it (event bars, FX) the target is ``h`` bars ahead
+    and the last ``h`` rows stay null.
+
+    ``voladj`` divides by future realized volatility over the next ``h`` bars.
+    It is a label, never a feature.
     """
     if df.is_empty():
         return df
     df = df.sort("ts_ms")
+    last_ts = int(df["ts_ms"].max())
     for h in horizons:
-        raw = (pl.col("close").shift(-h) - pl.col("close")) / pl.col("close")
+        if width_ms:
+            ahead = int(h) * int(width_ms)
+            probe = df.select((pl.col("ts_ms") + ahead).alias("_tq"))
+            ref = df.select(pl.col("ts_ms").alias("_tf"), pl.col("close").alias("_cf"))
+            fwd = probe.join_asof(ref, left_on="_tq", right_on="_tf", strategy="backward")
+            fwd_close = fwd.select(
+                pl.when(pl.col("_tq") <= last_ts).then(pl.col("_cf")).otherwise(None).alias("_cf")
+            )["_cf"]
+            raw = (pl.lit(fwd_close) - pl.col("close")) / pl.col("close")
+        else:
+            raw = (pl.col("close").shift(-h) - pl.col("close")) / pl.col("close")
         df = df.with_columns(raw.alias(f"target_return_{h}"))
         if clipped:
             cap = CLIP_H1 if h == 1 else CLIP_OTHER
@@ -130,7 +150,7 @@ def null_fraction(df: pl.DataFrame, cols: list[str]) -> dict[str, float]:
 # column names or prefixes that belong to the family.
 INPUT_FAMILIES: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("funding", ("funding_rate",)),
-    ("daily_panel", ("wh_", "liq_", "rv_", "hbr_")),
+    ("daily_panel", ("wh_", "rv_", "hbr_")),
     ("funding_daily", ("funding_day_",)),
     ("metrics_daily", ("s3_",)),
     ("basis", ("bs_",)),

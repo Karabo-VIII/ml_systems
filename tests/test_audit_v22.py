@@ -60,11 +60,11 @@ def test_dollar_bar_ids_are_dense_and_unique():
     assert (bars["volume_usd"] >= 200.0 - 1e-9).all()
 
 
-def test_trailing_threshold_is_median_over_target_with_bootstrap():
-    assert trailing_threshold([], 288, 777.0) == 777.0
-    assert trailing_threshold([288.0, 576.0, 2880.0], 288, 777.0) == 2.0
+def test_trailing_threshold_is_median_over_target_and_none_without_history():
+    assert trailing_threshold([], 288) is None
+    assert trailing_threshold([288.0, 576.0, 2880.0], 288) == 2.0
     # junk in the history never produces a zero or NaN threshold
-    assert trailing_threshold([0.0, float("nan")], 288, 5.0) == 5.0
+    assert trailing_threshold([0.0, float("nan")], 288) is None
 
 
 def test_adaptive_threshold_is_causal():
@@ -72,14 +72,15 @@ def test_adaptive_threshold_is_causal():
     days = [_ms(2024, 6, d) for d in (1, 2, 3)]
 
     def run_acc(day3_scale: float) -> DollarAccumulator:
-        acc = DollarAccumulator(10.0, target_bars_per_day=100.0, window_days=30)
+        acc = DollarAccumulator(None, target_bars_per_day=100.0, window_days=30)
         for i, base in enumerate(days):
             scale = day3_scale if i == 2 else 1.0
             acc.add(_trades([base + k * 1000 for k in range(200)], [scale * 50.0] * 200))
         return acc
 
     a, b = run_acc(1.0), run_acc(1000.0)
-    # day 1 -> bootstrap; day 2 -> notional(day1)/100 = 100; day 3 -> median(day1, day2)/100 = 100
+    # day 1 -> calibration (no bar); day 2 -> notional(day1)/100 = 100; day 3 -> median(day1, day2)/100 = 100
+    assert a.calibration_trades == 200
     assert a.history[-2:] == [10000.0, 10000.0]
     assert a.cur_day_threshold == 100.0
     assert b.cur_day_threshold == 100.0  # day 3's own flood did not change day 3's size
@@ -96,7 +97,7 @@ def test_accumulator_state_roundtrip_matches_one_shot_across_midnight_and_months
         tid += 3000
 
     def make():
-        return DollarAccumulator(300.0, target_bars_per_day=50.0, window_days=30)
+        return DollarAccumulator(None, target_bars_per_day=50.0, window_days=30)
 
     whole = make()
     for p in parts:
@@ -273,7 +274,7 @@ def test_splits_and_embargo_hold_across_month_partitions(tmp_path):
                     unseen_start=date(2031, 1, 1), live_start=date(2032, 1, 1))
     windows = small_windows(
         z=3, fast=3, vol_cluster=3, frac_diff=4, hurst=4, kurtosis=3, efficiency=2, perm_entropy=4,
-        kyle=3, yz=3, cs_block=2, funding_mom=3, hawkes_span=3, ma=3, slow_span=3, horizons=(1, 2))
+        kyle=3, yz=3, cs_block=2, hawkes_span=3, ma=3, slow_span=3, ema=3, oi_median=3, horizons=(1, 2))
     cfg = _cfg(tmp_path, d1, d2, splits=splits, bar_types=["time_1d"], windows=windows)
     assert run(cfg) == 0
     gold = tmp_path / "gold" / "time_1d"

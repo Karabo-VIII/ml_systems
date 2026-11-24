@@ -94,7 +94,44 @@ def _settled(last_day: date) -> bool:
     return last_day < datetime.now(tz=timezone.utc).date() - timedelta(days=1)
 
 
+class _Live:
+    """``--refresh``: every response is fetched from the venue again, even when a
+    cached copy exists. The cached copy is compared with the live one and is
+    never overwritten, so the run also proves the cache still equals the venue."""
+
+    def __init__(self) -> None:
+        import threading
+        self.on = False
+        self.lock = threading.Lock()
+        self.reset()
+
+    def reset(self) -> None:
+        self.fetched = 0
+        self.had_cache = 0
+        self.identical = 0
+        self.differ: list[str] = []
+
+
+LIVE = _Live()
+
+
 def _cached(path: Path, fetch, params: dict, settled: bool) -> pl.DataFrame:
+    if LIVE.on:
+        df = fetch()
+        same = None
+        if path.exists():
+            same = pl.read_parquet(path).equals(df)
+        elif settled:
+            atomic_write_parquet(df, path, schema_name="crosscheck_v1", params=params)
+        with LIVE.lock:
+            LIVE.fetched += 1
+            if same is not None:
+                LIVE.had_cache += 1
+                if same:
+                    LIVE.identical += 1
+                else:
+                    LIVE.differ.append(f"{path.parent.name}/{path.name}")
+        return df
     if path.exists():
         return pl.read_parquet(path)
     df = fetch()
@@ -466,9 +503,29 @@ def crosscheck(
     bar_types: list[str] | None = None,
     venue: bool = True,
     funding: bool = True,
+    refresh: bool = False,
+) -> Report:
+    """See the module docstring. ``refresh`` fetches every response live (``LIVE``)."""
+    LIVE.on = bool(refresh)
+    LIVE.reset()
+    try:
+        return _crosscheck(root, assets, start, end, bar_types, venue, funding)
+    finally:
+        LIVE.on = False
+
+
+def _crosscheck(
+    root: Path,
+    assets: list[str],
+    start: date,
+    end: date,
+    bar_types: list[str] | None,
+    venue: bool,
+    funding: bool,
 ) -> Report:
     report = Report()
     summary: dict = defaultdict(dict)
+    started = datetime.now(tz=timezone.utc).isoformat(timespec="seconds")
     wanted = list(bar_types or [*REST_INTERVAL, "dollar"])
     time_types = [bt for bt in REST_INTERVAL if bt in wanted or (bt == "time_1m" and "dollar" in wanted)]
     for asset in assets:
@@ -553,10 +610,20 @@ def crosscheck(
                 report.add(f"venue_{bt}", sev, detail)
                 summary[asset][f"venue_{bt}"] = s | {"venue": name, "severity": sev}
                 print(f"  venue {bt:<8} {sev}  {detail}", flush=True)
+    live = None
+    if LIVE.on:
+        live = {"started": started, "fetched": LIVE.fetched, "had_cache": LIVE.had_cache,
+                "identical": LIVE.identical, "differ": LIVE.differ[:20]}
+        sev = "FAIL" if LIVE.differ else "PASS"
+        report.add("live_refetch", sev,
+                   f"{LIVE.fetched} responses fetched live from the venues starting {started}; "
+                   f"{LIVE.had_cache} had a copy cached by an earlier run and {LIVE.identical} of them are "
+                   f"identical" + (f"; differ: {LIVE.differ[:5]}" if LIVE.differ else ""))
     out = root / "crosscheck" / "report.json"
     atomic_write_json(out, {
         "start": str(start), "end": str(end), "assets": assets,
         "generated_at": datetime.now(tz=timezone.utc).isoformat(timespec="seconds"),
+        "live": live,
         "checks": [{"name": c.name, "severity": c.severity, "detail": c.detail} for c in report.checks],
         "per_asset": summary,
     })

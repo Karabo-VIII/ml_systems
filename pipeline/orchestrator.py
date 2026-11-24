@@ -25,12 +25,10 @@ from pipeline.config import (
     effective_start,
     embargo_bars_for,
     lag_ms,
-    liq_proxy_usd,
     load_embargo_policy,
     load_listing_dates,
     load_splits,
     load_windows,
-    optional_threshold,
     scale_windows,
     universe_symbols,
 )
@@ -144,7 +142,7 @@ def resolve_assets(cfg: RunConfig) -> list[str]:
 
 
 def feature_columns(df: pl.DataFrame) -> list[str]:
-    prefixes = ("norm_", "xd_", "wh_", "liq_", "rv_", "hbr_", "funding_day", "s3_", "bs_")
+    prefixes = ("norm_", "xd_", "wh_", "rv_", "hbr_", "funding_day", "s3_", "bs_")
     cols = [c for c in df.columns if c.startswith(prefixes) or c == "hurst_regime"]
     cols += [c for c in FX_FEATURES if c in df.columns and c not in cols]
     return cols
@@ -342,9 +340,8 @@ def _causality_gate(cfg: "RunConfig", asset: str, bar_type: str, chunk_end: date
     """
     import dataclasses
     import math
-    from datetime import timedelta
 
-    from pipeline.chunked import _asset_range, feature_lookback_days, load_daily_months
+    from pipeline.chunked import _asset_range, feature_warm_start, load_daily_months
     from pipeline.validate import GateResult
 
     y, m = chunk_end.year, chunk_end.month
@@ -358,7 +355,7 @@ def _causality_gate(cfg: "RunConfig", asset: str, bar_type: str, chunk_end: date
     stored = pl.read_parquet(path).sort("ts_ms")
     if stored.height < 2:
         return None
-    warm_start = first - timedelta(days=feature_lookback_days(cfg, bar_type))
+    warm_start = feature_warm_start(cfg, asset, bar_type, first)
     bars = load_bar_months(cfg.data_root, asset, bar_type, warm_start, last).sort("ts_ms")
     daily = load_daily_months(cfg.data_root, asset, warm_start, last)
     lag = lag_ms("daily_panel")
@@ -479,7 +476,7 @@ def _validate_asset(cfg: "RunConfig", asset: str, start: date, n_assets: int, pa
                     cfg.data_root, asset, dollar_spec_for(cfg, asset),
                     through=f"{cfg.end.year:04d}-{cfg.end.month:02d}",
                 )
-                packed["dollar_excluded"] = state.tail_trades() if state is not None else 0
+                packed["dollar_excluded"] = state.excluded_trades() if state is not None else 0
             _merge_gate(results, gate_trade_count(
                 int(d["n_trades"].sum()) if d.height else 0, n_bronze,
                 excluded_tail=int(packed.get("dollar_excluded") or 0), what="dollar",
@@ -607,7 +604,10 @@ def run(cfg: RunConfig) -> int:
                     f, acc = plan_dollar(cfg, asset, months, start)
                     n_bronze = 0
                     gaps = []
-                    excluded = 0
+                    # None unless a month reports it: validate then reads the saved state.
+                    # (0 here made validate skip that fallback when the dollar fabric was
+                    # fresh but another artifact of every month was stale.)
+                    excluded = None
                     with session.bar(f"bars {asset}", len(months), "month") as bar:
                         for i, (year, month) in enumerate(months):
                             packed = write_bars_month(

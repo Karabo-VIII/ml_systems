@@ -507,6 +507,11 @@ def check_dollar_fabric(
         report.add(f"dollar_notional:{asset}", "WARN", "no dollar bars")
         return
     dollar = clip_frame(pl.concat(frames).sort("ts_ms"), start, end)
+    if start is not None:
+        # A bar that opened before the range holds trades from outside it: leave it
+        # out, so its in-range trades count as leftover like the open tail at the end.
+        lo_ms = int(datetime(start.year, start.month, start.day, tzinfo=timezone.utc).timestamp() * 1000)
+        dollar = dollar.filter(pl.col("ts_open_ms") >= lo_ms)
     days = _trade_days(root, asset, start, end)
     bronze = sum(_row_count(trades_path(root, asset, d)) for d in days)
     if bronze:
@@ -530,23 +535,24 @@ def _daily_notional(root: Path, asset: str, start: date | None = None) -> dict[i
     return out
 
 
-def dollar_schedule(daily: dict[int, float], spec) -> dict[int, float]:
+def dollar_schedule(daily: dict[int, float], spec) -> dict[int, float | None]:
     """Threshold per UTC day, recomputed here from bronze only (no state files).
 
     Mirrors the contract: the size of day D is the median notional of the last
-    ``window_days`` observed days before D divided by the bars-per-day target,
-    and the static bootstrap on the first day. ``spec.target_bars_per_day is
-    None`` means a constant size.
+    ``window_days`` observed days before D divided by the bars-per-day target.
+    The first day has no history and no size (``None``: the calibration day, on
+    which no bar may open). ``spec.target_bars_per_day is None`` means a
+    constant size.
     """
     from pipeline.bars import trailing_threshold
 
-    out: dict[int, float] = {}
+    out: dict[int, float | None] = {}
     hist: list[float] = []
     for d in sorted(daily):
         if spec.target_bars_per_day is None:
-            out[d] = spec.bootstrap
+            out[d] = spec.constant
         else:
-            out[d] = trailing_threshold(hist, spec.target_bars_per_day, spec.bootstrap)
+            out[d] = trailing_threshold(hist, spec.target_bars_per_day)
         hist.append(daily[d])
         hist = hist[-spec.window_days:]
     return out
@@ -570,13 +576,40 @@ def check_dollar(
         report.add(name, "WARN", "no dollar bars")
         return
     spec = dollar_spec(asset, (threshold_overrides or {}).get(asset))
-    daily = _daily_notional(root, asset, start or (days[0] if days else None))
+    # The schedule starts where the chain started: its calibration day, read from the
+    # saved state (validating a later sub-range must not restart the schedule there).
+    calib_day = None
+    if spec.target_bars_per_day is not None:
+        from pipeline.paths import dollar_state_meta_path
+        state_path = dollar_state_meta_path(root, asset)
+        try:
+            calib_day = json.loads(state_path.read_text()).get("calibration_day") if state_path.exists() else None
+        except (OSError, ValueError):
+            calib_day = None
+    if calib_day is not None:
+        origin = datetime.fromtimestamp(int(calib_day) * DAY_MS / 1000, tz=timezone.utc).date()
+    else:
+        origin = start or (days[0] if days else None)
+    daily = _daily_notional(root, asset, origin)
     in_range = {
         int(datetime(d.year, d.month, d.day, tzinfo=timezone.utc).timestamp() * 1000) // DAY_MS for d in days
     }
     usd = sum(v for k, v in daily.items() if k in in_range)
     bar_usd = float(dollar["volume_usd"].sum())
     bar_n = int(dollar["n_trades"].sum())
+    # The calibration day (the chain's first day, adaptive sizing) closes no bar.
+    calib_n, calib_usd = 0, 0.0
+    if spec.target_bars_per_day is not None and daily:
+        if calib_day is None:
+            calib_day = min(daily)
+        if calib_day in in_range:
+            calib_date = datetime.fromtimestamp(calib_day * DAY_MS / 1000, tz=timezone.utc).date()
+            import pyarrow.parquet as pq
+            cpath = trades_path(root, asset, calib_date)
+            calib_n = int(pq.read_metadata(cpath).num_rows) if cpath.exists() else 0
+            calib_usd = float(daily[calib_day])
+    usd -= calib_usd
+    bronze_n -= calib_n
     tail_n = bronze_n - bar_n
     if tail_n < 0:
         report.add(name, "FAIL", f"dollar n_trades {bar_n} exceeds bronze {bronze_n}")
@@ -603,7 +636,8 @@ def check_dollar(
     sched = pl.DataFrame({"_day": list(schedule), "_t": list(schedule.values())}, schema={"_day": pl.Int64, "_t": pl.Float64})
     chk = dollar.with_columns((pl.col("ts_open_ms") // DAY_MS).alias("_day")).join(sched, on="_day", how="left")
     if chk["_t"].null_count():
-        report.add(name, "FAIL", f"{chk['_t'].null_count()} dollar bars open on a day with no bronze trades")
+        report.add(name, "FAIL", f"{chk['_t'].null_count()} dollar bars open on a day with no bronze trades "
+                                  f"or on the calibration day (no size yet)")
         return
     # A bar closes on the trade that reaches the size it opened with, so no completed bar is smaller.
     short = chk.filter(pl.col("volume_usd") < pl.col("_t") * (1.0 - 1e-6))
@@ -620,7 +654,7 @@ def check_dollar(
     med = float(dollar["volume_usd"].median())
     mx = float(dollar["volume_usd"].max())
     mode = (
-        f"constant {spec.bootstrap:.0f}" if spec.target_bars_per_day is None
+        f"constant {spec.constant:.0f}" if spec.target_bars_per_day is None
         else f"trailing-{spec.window_days}d median/{spec.target_bars_per_day:.0f} per day"
     )
     # Overshoot comes from single large prints; the typical bar should sit near its size.
@@ -636,7 +670,7 @@ def check_dollar(
         name, "PASS",
         f"{dollar.height} bars, size={mode}, median_usd={med:.0f}, median_bars_per_day={med_bars:.0f}, "
         f"max_usd={mx:.0f}, tail_trades={tail_n}, leftover_usd={leftover:.0f}, "
-        f"trades {bar_n}+{tail_n}={bronze_n}",
+        f"trades {bar_n}+{tail_n}+{calib_n} (calibration day)={bronze_n + calib_n}",
     )
 
 
@@ -1169,19 +1203,21 @@ def check_asof_and_hand_features(
     families_checked: set[str] = set()
 
     def _rolling_z(values, window: int) -> list:
+        # Contract 2.5.0: mean and sample std of the defined values among the last
+        # `window`, at least 80% of them defined; null at an undefined x or a flat window.
+        need = max(2, -(-4 * window // 5))
         out = [None] * len(values)
-        for i in range(window - 1, len(values)):
-            chunk = values[i - window + 1:i + 1]
-            if any(v is None for v in chunk):
+        for i in range(len(values)):
+            x = values[i]
+            chunk = [v for v in values[max(0, i - window + 1):i + 1] if v is not None]
+            if x is None or len(chunk) < need:
                 continue
-            mu = sum(chunk) / window
-            var = sum((v - mu) ** 2 for v in chunk) / (window - 1) if window > 1 else 0.0
-            sd = var ** 0.5
-            x = chunk[-1]
-            if sd < 1e-12:
+            n = len(chunk)
+            mu = sum(chunk) / n
+            sd = (sum((v - mu) ** 2 for v in chunk) / (n - 1)) ** 0.5
+            if sd <= 1e-10 * (abs(mu) + sd):
                 continue
-            z = (x - mu) / (sd + 1e-5)
-            out[i] = max(-5.0, min(5.0, z))
+            out[i] = max(-5.0, min(5.0, (x - mu) / sd))
         return out
 
     for asset, path in sorted(assets.items()):
@@ -1192,11 +1228,25 @@ def check_asof_and_hand_features(
         ts = df["ts_ms"].to_list()
 
         if "target_return_1" in df.columns:
+            import bisect
+
             series = df["target_return_1"].to_list()
+            # Crypto time bars: clock horizon (last close at or before ts + width).
+            # FX and event bars: the next bar.
+            clock_w = TIME_WIDTH_MS.get(bt) if not _is_fx(asset) else None
             for i in range(len(close) - 1):
-                if not close[i] or close[i] <= 0 or close[i + 1] is None:
+                if not close[i] or close[i] <= 0:
                     continue
-                expected = close[i + 1] / close[i] - 1.0
+                if clock_w:
+                    t_q = ts[i] + clock_w
+                    if t_q > ts[-1]:
+                        continue  # the horizon's bar is past this frame
+                    j = bisect.bisect_right(ts, t_q) - 1
+                else:
+                    j = i + 1
+                if close[j] is None:
+                    continue
+                expected = close[j] / close[i] - 1.0
                 got = series[i]
                 if got is None:
                     ret_problems.append(f"{asset} target_return_1 null at {_utc(ts[i]).isoformat()}")
@@ -1275,7 +1325,7 @@ def check_asof_and_hand_features(
                             (pl.col("ts_ms") > day_start) & (pl.col("ts_ms") <= day_start + DAY_MS)
                         )
                     thresh = whale_threshold(whale_hists, wspec)
-                    daily_rows.append(summarize_day(trades, one_m, asset=asset, day=day, whale_usd=thresh, liq_usd=1e18))
+                    daily_rows.append(summarize_day(trades, one_m, asset=asset, day=day, whale_usd=thresh))
                     if trades is not None and not trades.is_empty():
                         whale_hists.append(trade_notional_hist((trades["price"] * trades["qty"]).to_numpy()))
                         whale_hists = whale_hists[-wspec.window_days:]
@@ -1437,7 +1487,7 @@ def check_dead_columns(report: Report, gold_files: dict[str, dict[str, Path]], s
         "is_warmup", "asset_dna", "listing_date", "bar_id",
         "is_tokyo", "is_london", "is_newyork", "is_ldn_ny_overlap",
     }
-    funding_prefix = ("norm_funding", "funding_", "xd_funding")
+    funding_prefix = ("funding_", "xd_funding")
     lo, hi = range_ms(start, end)
     for bt, assets in sorted(gold_files.items()):
         for asset, path in sorted(assets.items()):

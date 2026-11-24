@@ -1140,4 +1140,5 @@ class BinanceVisionSource:
         return "24/7"
 
     def default_lags(self) -> dict[str, int]:
-        return {"trades": 0, "klines": 60_000, "funding": 0, "metrics_daily": 86_400_000}
+        from pipeline.config import lag_ms
+        return {"trades": 0, "klines": 60_000, "funding": 0, "metrics_daily": lag_ms("metrics_daily")}

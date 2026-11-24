@@ -44,25 +44,38 @@ class Windows:
     kyle: int = 50
     yz: int = 20
     cs_block: int = 10
-    funding_mom: int = 30
     hawkes_span: int = 20
     ma: int = 200
     slow_span: int = 50
+    # Every exponential average is evaluated over its last ``ema`` bars (weights
+    # (1 - alpha)^k, normalised), so no feature has infinite memory. 240 bars drop
+    # under 1e-8 of the weight of a span-26 EMA. Scaled down on coarse cadences.
+    ema: int = 240
+    # Rolling median that caps open interest before its change is taken (--include-oi).
+    oi_median: int = 50
     horizons: tuple[int, ...] = (1, 4, 16, 64)
 
     def input_window(self) -> int:
-        """Longest window of any series that is later z-scored (in bars).
+        """Rows before a bar that the longest z-scored input reads, plus one.
 
-        Every ``norm_*`` feature is ``rolling_z(x, z)`` of a series ``x`` that is
-        itself built over one of these windows, so the total lookback is
-        ``input_window + z``. 17 is ``_ret16`` (one shift plus 16).
+        Every ``norm_*`` feature is ``rolling_z(x, z)`` of a series ``x`` built
+        over one window, or over a chain of two: the EMA deviation followed by
+        its rolling std (``vol_cluster``), one diff followed by the Hawkes EMA,
+        and the open-interest median followed by the divergence EMAs. The total
+        lookback is ``input_window + z``. 17 is ``_ret16`` (one shift plus 16).
         """
-        return max(
+        plain = max(
             self.frac_diff, self.hurst, self.perm_entropy, self.kyle,
-            self.vol_cluster, self.ma, self.kurtosis, self.funding_mom,
-            self.yz, self.efficiency, self.fast, self.slow_span,
+            self.vol_cluster, self.ma, self.kurtosis,
+            self.yz, self.efficiency, self.fast,
             2 * self.cs_block, 17,
         ) + 1
+        chained = max(
+            self.ema + self.vol_cluster - 1,
+            self.ema + 1,
+            self.oi_median + self.ema,
+        )
+        return max(plain, chained)
 
     @property
     def max_lookback(self) -> int:
@@ -121,10 +134,23 @@ def scale_windows(
     def cap_n(n: int, limit: int = rest, floor: int = 2) -> int:
         return max(floor, min(int(n), limit))
 
-    return Windows(
+    # Chains of two windows share the budget: the deviation EMA feeds a rolling
+    # std (vol_cluster), and the open-interest median feeds the divergence EMAs.
+    ema = cap_n(windows.ema)
+    vol_cluster = cap_n(windows.vol_cluster)
+    if ema + vol_cluster - 1 > rest + 1:
+        vol_cluster = max(2, min(vol_cluster, (rest + 2) // 2))
+        ema = max(2, min(ema, rest + 2 - vol_cluster))
+    oi_median = cap_n(windows.oi_median)
+    if oi_median + ema > rest + 1:
+        oi_median = max(2, rest + 1 - ema)
+        if oi_median + ema > rest + 1:  # the EMA took the whole budget
+            ema = max(2, rest + 1 - oi_median)
+
+    scaled = Windows(
         z=z,
         fast=cap_n(windows.fast),
-        vol_cluster=cap_n(windows.vol_cluster),
+        vol_cluster=vol_cluster,
         frac_diff=cap_n(windows.frac_diff),
         frac_diff_d=windows.frac_diff_d,
         hurst=cap_n(windows.hurst),
@@ -135,13 +161,20 @@ def scale_windows(
         kyle=cap_n(windows.kyle),
         yz=cap_n(windows.yz),
         cs_block=max(2, min(int(windows.cs_block), rest // 2)),
-        funding_mom=cap_n(windows.funding_mom),
         hawkes_span=cap_n(windows.hawkes_span),
         # The regime label chains ma twice.
         ma=cap_n(windows.ma, min(rest, max(2, (cap - 1) // 2))),
         slow_span=cap_n(windows.slow_span),
+        ema=ema,
+        oi_median=oi_median,
         horizons=windows.horizons,
     )
+    if scaled.max_lookback > cap:
+        # Only on bars wider than about 2.5 days, where a fixed reach (the 16-bar
+        # return) no longer fits beside half the cap: z gets what is left.
+        import dataclasses
+        scaled = dataclasses.replace(scaled, z=max(2, cap - scaled.input_window()))
+    return scaled
 
 
 def embargo_bars_for(
@@ -172,7 +205,7 @@ def load_windows(path: Path | None = None) -> Windows:
     fields = {k: raw[k] for k in (
         "z", "fast", "vol_cluster", "frac_diff", "frac_diff_d", "hurst",
         "kurtosis", "efficiency", "perm_entropy", "perm_m", "kyle", "yz",
-        "cs_block", "funding_mom", "hawkes_span", "ma", "slow_span",
+        "cs_block", "hawkes_span", "ma", "slow_span", "ema", "oi_median",
     ) if k in raw}
     return Windows(horizons=horizons, **fields)
 
@@ -218,58 +251,30 @@ def lag_ms(family: str, table: dict | None = None) -> int:
 
 
 def load_dollar_thresholds(path: Path | None = None) -> dict:
-    return _section(path, "dollar_thresholds", "assets")
-
-
-def dollar_threshold(asset: str, table: dict | None = None) -> float:
-    """First-day (bootstrap) dollar size of ``asset``.
-
-    The ``dollar_thresholds.assets`` table covers u10. Any other asset uses its
-    measured ``median_dollar_vol_30d`` from the universe tables divided by the
-    bars-per-day target, the same quantity the trailing rule computes once
-    history exists. It only sizes the asset's first day. An asset with neither
-    is an error: a size is never invented.
-    """
-    table = table if table is not None else load_dollar_thresholds()
-    asset = canonical_symbol(asset)
-    assets = table["assets"]
-    if asset in assets:
-        return float(assets[asset])
-    target = (table.get("calibration") or {}).get("target_bars_per_day")
-    median = _universe_median_dollar_volume(asset)
-    if target and median:
-        return float(median) / float(target)
-    raise KeyError(
-        f"no dollar threshold for {asset}: not in dollar_thresholds.assets and no "
-        f"median_dollar_vol_30d in any universe. Add one; do not invent a size."
-    )
-
-
-def _universe_median_dollar_volume(asset: str) -> float | None:
-    universes = _read(config_file()).get("universes") or {}
-    for data in universes.values():
-        for row in list(data.get("assets") or []) + list(data.get("extra_assets") or []):
-            if canonical_symbol(row.get("symbol", "")) == asset and row.get("median_dollar_vol_30d"):
-                return float(row["median_dollar_vol_30d"])
-    return None
+    return _section(path, "dollar_thresholds", "calibration")
 
 
 @dataclass(frozen=True)
 class DollarSpec:
     """How dollar bars are sized for one asset.
 
-    ``target_bars_per_day`` is ``None`` for a constant size (tests and explicit
-    overrides): every bar uses ``bootstrap``. Otherwise ``bootstrap`` is only the
-    first-day size and later days use the trailing median (see ``bars.trailing_threshold``).
+    Adaptive (production): ``constant`` is ``None``. The size of UTC day D is the
+    trailing median of daily notional before D over ``target_bars_per_day`` (see
+    ``bars.trailing_threshold``). The first day of the chain has no history, so it
+    is a calibration day: its trades seed the history and close no bar. No size
+    is ever taken from a static table.
+
+    Constant (tests and explicit overrides): ``target_bars_per_day`` is ``None``
+    and every bar uses ``constant``.
     """
 
-    bootstrap: float
+    constant: float | None
     target_bars_per_day: float | None
     window_days: int
 
     def as_params(self) -> dict:
         return {
-            "bootstrap": self.bootstrap,
+            "constant": self.constant,
             "target_bars_per_day": self.target_bars_per_day,
             "window_days": self.window_days,
         }
@@ -277,38 +282,17 @@ class DollarSpec:
 
 def dollar_spec(asset: str, override: float | None = None, table: dict | None = None) -> DollarSpec:
     """Dollar-bar sizing. An explicit ``override`` means a constant threshold."""
-    table = table if table is not None else load_dollar_thresholds()
     if override is not None:
         return DollarSpec(float(override), None, 30)
-    cal = table.get("calibration") or {}
-    if not isinstance(cal, dict) or "target_bars_per_day" not in cal:
-        return DollarSpec(dollar_threshold(asset, table), None, 30)
-    return DollarSpec(
-        dollar_threshold(asset, table),
-        float(cal["target_bars_per_day"]),
-        int(cal.get("window_days", 30)),
-    )
-
-
-def optional_threshold(asset: str, kind: str, table: dict | None = None) -> float:
     table = table if table is not None else load_dollar_thresholds()
-    asset = canonical_symbol(asset)
-    block = table[kind]
-    if asset in block:
-        return float(block[asset])
-    return float(block["default"])
+    cal = table.get("calibration") or {}
+    if not isinstance(cal, dict) or not cal.get("target_bars_per_day"):
+        raise KeyError("dollar_thresholds.calibration.target_bars_per_day is required in config/pipeline.yaml")
+    return DollarSpec(None, float(cal["target_bars_per_day"]), int(cal.get("window_days", 30)))
 
 
 def load_daily_thresholds(path: Path | None = None) -> dict:
-    return _section(path, "daily_thresholds", "whale_usd")
-
-
-def whale_large_usd(asset: str, table: dict | None = None) -> float:
-    """Bootstrap whale size (the upper of the static pair). Used only with no history."""
-    table = table if table is not None else load_daily_thresholds()
-    asset = canonical_symbol(asset)
-    pair = table["whale_usd"].get(asset, table["whale_usd"]["default"])
-    return float(pair[1])
+    return _section(path, "daily_thresholds", "whale")
 
 
 @dataclass(frozen=True)
@@ -317,17 +301,16 @@ class WhaleSpec:
 
     The threshold of UTC day D is the ``quantile`` of per-trade notional over
     the last ``window_days`` observed complete days *before* D. Day D's own
-    trades never move day D's size. With no history the static bootstrap is used.
+    trades never move day D's size. With no history (an asset's first day) there
+    is no size, and the day's ``wh_*`` columns are null.
     """
 
-    bootstrap: float
     quantile: float
     window_days: int
     version: str
 
     def as_params(self) -> dict:
         return {
-            "bootstrap": self.bootstrap,
             "quantile": self.quantile,
             "window_days": self.window_days,
             "version": self.version,
@@ -338,18 +321,10 @@ def whale_spec(asset: str, table: dict | None = None) -> WhaleSpec:
     table = table if table is not None else load_daily_thresholds()
     cal = table.get("whale") or {}
     return WhaleSpec(
-        whale_large_usd(asset, table),
         float(cal.get("quantile", 0.999)),
         int(cal.get("window_days", 30)),
-        str(table.get("version", "daily_thresholds_v2")),
+        str(table.get("version", "daily_thresholds_v3")),
     )
-
-
-def liq_proxy_usd(asset: str, table: dict | None = None) -> float:
-    table = table if table is not None else load_daily_thresholds()
-    asset = canonical_symbol(asset)
-    block = table["liq_proxy_usd"]
-    return float(block.get(asset, block["default"]))
 
 
 def load_fx() -> dict:

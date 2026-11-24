@@ -306,6 +306,7 @@ written, and their count is returned so the reconciliation gate can add it back.
 The dollar threshold can change from one UTC day to the next (see
 :class:`DollarAccumulator`). It is fixed when a bar opens and never changes
 mid-bar, so a bar's size is known from information before its first trade.
+The first day of an adaptive chain has no history and closes no bar.
 """
 
 import math
@@ -434,18 +435,18 @@ def volume_bars(trades: pl.DataFrame, qty_per_bar: float, asset: str) -> tuple[p
     return bars, excluded
 
 
-def trailing_threshold(history: list[float], target_bars_per_day: float, bootstrap: float) -> float:
-    """Dollar threshold for a new UTC day.
+def trailing_threshold(history: list[float], target_bars_per_day: float) -> float | None:
+    """Dollar threshold for a new UTC day, or ``None`` when there is no history.
 
     ``history`` holds the notional of the most recent complete days, oldest first.
     The threshold is their median divided by the bars-per-day target, so the
     fabric carries about the same number of bars per day in 2020 and in 2026.
-    With no usable history (the first day of an asset) the static bootstrap is
-    used. Only days before the day being opened ever enter ``history``.
+    Only days before the day being opened ever enter ``history``. With no usable
+    history (the first day of a chain) there is no size: that day calibrates.
     """
     usable = [float(x) for x in history if x is not None and math.isfinite(x) and x > 0]
     if not usable:
-        return float(bootstrap)
+        return None
     return float(np.median(usable)) / float(target_bars_per_day)
 
 
@@ -453,39 +454,46 @@ class DollarAccumulator:
     """Day-at-a-time dollar bars with a carried open bar.
 
     Constant mode (``target_bars_per_day=None``): every bar uses ``threshold``.
-    Adaptive mode: the threshold for UTC day D is
+    Adaptive mode (``threshold=None``): the threshold for UTC day D is
     ``median(notional of the last window_days complete days before D) /
-    target_bars_per_day`` (see :func:`trailing_threshold`), falling back to
-    ``threshold`` as the bootstrap on an asset's first day. It is causal: day D's
+    target_bars_per_day`` (see :func:`trailing_threshold`). It is causal: day D's
     own trades never move day D's threshold. A bar that is still open at
-    midnight keeps the threshold it opened with.
+    midnight keeps the threshold it opened with. The first day of the chain has
+    no history and therefore no size: it is a calibration day. Its trades seed
+    the history and close no bar; they are counted in ``calibration_trades``.
 
     State across calls (and across months, via :meth:`state` / :meth:`restore`):
     the open bar's partial trades, its running total and threshold, the next bar
-    id, the day-notional history, and the current day's running notional.
+    id, the day-notional history, the current day's running notional, and the
+    calibration count.
     """
 
     def __init__(
         self,
-        threshold: float,
+        threshold: float | None,
         *,
         target_bars_per_day: float | None = None,
         window_days: int = 30,
     ):
-        if threshold <= 0:
-            raise ValueError("threshold must be positive")
-        if target_bars_per_day is not None and target_bars_per_day <= 0:
+        if target_bars_per_day is None:
+            if threshold is None or threshold <= 0:
+                raise ValueError("a constant dollar size must be positive")
+        elif target_bars_per_day <= 0:
             raise ValueError("target_bars_per_day must be positive")
-        self.threshold = float(threshold)  # constant size, or the bootstrap in adaptive mode
+        elif threshold is not None:
+            raise ValueError("adaptive dollar bars take no static size (the first day calibrates)")
+        self.threshold = None if threshold is None else float(threshold)  # constant size only
         self.target_bars_per_day = None if target_bars_per_day is None else float(target_bars_per_day)
         self.window_days = int(window_days)
         self.history: list[float] = []
         self.cur_day: int | None = None
         self.cur_day_notional = 0.0
-        self.cur_day_threshold: float = self.threshold
+        self.cur_day_threshold: float | None = self.threshold
         self.cum = 0.0  # running total inside the open bar
         self.open_threshold: float | None = None
         self.next_id = 0
+        self.calibration_trades = 0  # trades of the calibration day (in no bar)
+        self.calibration_day: int | None = None  # UTC day index (ts_ms // DAY_MS) it calibrated on
         self.through: str | None = None  # last month whose bars are written ("YYYY-MM")
         self._open: list[pl.DataFrame] = []  # fragments of the open bar
         self._done: list[pl.DataFrame] = []  # completed bars not yet emitted
@@ -500,9 +508,7 @@ class DollarAccumulator:
         if self.target_bars_per_day is None:
             self.cur_day_threshold = self.threshold
         else:
-            self.cur_day_threshold = trailing_threshold(
-                self.history, self.target_bars_per_day, self.threshold,
-            )
+            self.cur_day_threshold = trailing_threshold(self.history, self.target_bars_per_day)
 
     # -- feeding trades -----------------------------------------------------
     def add(self, trades: pl.DataFrame) -> None:
@@ -522,6 +528,13 @@ class DollarAccumulator:
                 raise ValueError("trades must be added in day order")
             self._open_day(day)
         usd = df["_value"].to_numpy()
+        if self.cur_day_threshold is None and self.open_threshold is None:
+            # Calibration: no history yet, so no size. The trades seed the history.
+            if self.calibration_day is None:
+                self.calibration_day = int(day)
+            self.calibration_trades += int(df.height)
+            self.cur_day_notional += float(usd.sum())
+            return
         carried_id = self.next_id if self.open_threshold is not None else None
         ids, next_id, open_t, open_cum = assign_ids(
             usd, open_threshold=self.open_threshold, open_cum=self.cum,
@@ -572,13 +585,22 @@ class DollarAccumulator:
 
     # -- reading bars out ---------------------------------------------------
     def tail_trades(self) -> int:
+        """Trades in the bar that is still open."""
         if not self._open:
             return 0
         return int(pl.concat(self._open, how="diagonal_relaxed")["n_trades"].sum() or 0)
 
+    def excluded_trades(self) -> int:
+        """Trades fed so far that are in no completed bar: the open tail plus the calibration day."""
+        return self.tail_trades() + int(self.calibration_trades)
+
     def emit_completed(self, asset: str) -> tuple[pl.DataFrame, int]:
-        """Completed bars since the last call. The open tail stays for the next chunk."""
-        excluded = self.tail_trades()
+        """Completed bars since the last call, and the trades in no completed bar yet.
+
+        The open tail stays for the next chunk. The count includes the
+        calibration day, so bars + count always equals the trades fed in.
+        """
+        excluded = self.excluded_trades()
         if not self._done:
             return finalize(pl.DataFrame(), asset, "dollar"), excluded
         merged = pl.concat(self._done, how="diagonal_relaxed").sort("_raw")
@@ -603,27 +625,34 @@ class DollarAccumulator:
             "cum": self.cum,
             "open_threshold": self.open_threshold,
             "next_id": self.next_id,
+            "calibration_trades": self.calibration_trades,
+            "calibration_day": self.calibration_day,
             "through": self.through,
             "n_partials": len(self._open),
-            "excluded": self.tail_trades(),
+            "excluded": self.excluded_trades(),
         }
         frag = pl.concat(self._open, how="diagonal_relaxed") if self._open else None
         return meta, frag
 
     @classmethod
     def restore(cls, meta: dict, frag: pl.DataFrame | None) -> "DollarAccumulator":
+        raw = meta.get("threshold")
         acc = cls(
-            float(meta["threshold"]),
+            None if raw is None else float(raw),
             target_bars_per_day=meta.get("target_bars_per_day"),
             window_days=int(meta.get("window_days", 30)),
         )
         acc.history = [float(x) for x in meta.get("history", [])]
         acc.cur_day = meta.get("cur_day")
         acc.cur_day_notional = float(meta.get("cur_day_notional", 0.0))
-        acc.cur_day_threshold = float(meta.get("cur_day_threshold", acc.threshold))
+        day_t = meta.get("cur_day_threshold", acc.threshold)
+        acc.cur_day_threshold = None if day_t is None else float(day_t)
         acc.cum = float(meta.get("cum", 0.0))
         acc.open_threshold = meta.get("open_threshold")
         acc.next_id = int(meta.get("next_id", 0))
+        acc.calibration_trades = int(meta.get("calibration_trades", 0))
+        cal_day = meta.get("calibration_day")
+        acc.calibration_day = None if cal_day is None else int(cal_day)
         acc.through = meta.get("through")
         if frag is not None and not frag.is_empty():
             acc._open = [frag]

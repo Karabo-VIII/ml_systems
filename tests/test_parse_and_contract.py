@@ -10,7 +10,7 @@ import polars as pl
 import pytest
 
 from pipeline.constants import OMITTED_BAR_TYPES
-from pipeline.config import dollar_threshold, load_windows
+from pipeline.config import dollar_spec, load_windows
 from pipeline.fetch_crypto import (
     empty_venue_frame,
     funding_url,
@@ -29,12 +29,10 @@ def test_symbols():
     assert canonical_symbol("eth-usdt") == "ETHUSDT"
 
 
-def test_dollar_table_matches_the_fixed_v1_sizes():
-    assert dollar_threshold("BTCUSDT") == 2_000_000
-    assert dollar_threshold("ETH") == 700_000
-    assert dollar_threshold("LTCUSDT") == 50_000
-    with pytest.raises(KeyError):
-        dollar_threshold("NOSUCHUSDT")
+def test_dollar_sizing_is_adaptive_with_no_static_table():
+    # The v1 per-asset sizes (BTC $2M, ...) were removed in 2.5.0: the first day calibrates.
+    spec = dollar_spec("ETH")
+    assert spec.constant is None and spec.target_bars_per_day == 288
 
 
 def test_embargo_is_cadence_aware_not_a_flat_1200():

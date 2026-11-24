@@ -104,6 +104,9 @@ def build_parser() -> argparse.ArgumentParser:
     cc.add_argument("--data-root", type=Path, default=None)
     cc.add_argument("--skip-venue", action="store_true", help="skip the second-venue close comparison")
     cc.add_argument("--skip-funding", action="store_true", help="skip the funding comparison")
+    cc.add_argument("--refresh", action="store_true",
+                    help="fetch every response live from the venues instead of the cache; "
+                         "cached copies are compared with it, never overwritten")
     return p
 
 
@@ -161,7 +164,8 @@ def main(argv: list[str] | None = None) -> int:
             return 2
         bar_types = [s.strip() for s in args.bar_types.split(",") if s.strip()] if args.bar_types else None
         report = crosscheck(root, assets, args.start, args.end, bar_types,
-                            venue=not args.skip_venue, funding=not args.skip_funding)
+                            venue=not args.skip_venue, funding=not args.skip_funding,
+                            refresh=args.refresh)
         print()
         report.print()
         return report.code

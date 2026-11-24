@@ -16,7 +16,7 @@ def small_windows(**overrides) -> Windows:
     base = dict(
         z=20, fast=10, vol_cluster=10, frac_diff=30, frac_diff_d=0.4,
         hurst=20, kurtosis=15, efficiency=5, perm_entropy=20, perm_m=3,
-        kyle=15, yz=10, cs_block=5, funding_mom=8, hawkes_span=8, ma=20,
+        kyle=15, yz=10, cs_block=5, hawkes_span=8, ma=20, ema=20, oi_median=8,
         horizons=(1, 4, 16, 64),
     )
     base.update(overrides)

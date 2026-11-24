@@ -10,13 +10,70 @@ import numpy as np
 import polars as pl
 
 
+# A rolling standard deviation at or below this fraction of the window's scale
+# (|mean| + std) is a flat window, not a measurement.
+SD_FLOOR_REL = 1e-10
+# Permutation entropy ranks returns rounded to this many decimals (far below one tick).
+PERM_DECIMALS = 12
+# A z-score needs this share of its window to be defined values (4/5, kept in
+# integers: 0.8 * 45 is 36.000000000000004 in floating point and would round up).
+Z_MIN_NUM, Z_MIN_DEN = 4, 5
+
+
+def z_min_samples(window: int) -> int:
+    """Defined values a ``window``-row z-score needs: ceil(4/5 of the window), at least 2."""
+    return max(2, -(-Z_MIN_NUM * int(window) // Z_MIN_DEN))
+
+
 def rolling_z(col: str, window: int) -> pl.Expr:
-    """Trailing z-score. Null until ``window`` finite observations. Null when sigma is ~0."""
-    x = pl.col(col)
-    mu = x.rolling_mean(window_size=window, min_samples=window)
-    sd = x.rolling_std(window_size=window, min_samples=window)
-    z = (x - mu) / (sd + 1e-5)
-    return pl.when(sd.is_null() | (sd < 1e-12) | x.is_null()).then(None).otherwise(z.clip(-5.0, 5.0))
+    """Trailing z-score ``(x - mean) / std``, clipped to +-5.
+
+    Mean and sample std are taken over the defined values among the last
+    ``window`` rows, and at least 4/5 of them must be defined. An
+    occasional undefined input (the efficiency ratio of a flat path) therefore
+    blanks only its own row, not the ``window`` rows after it. No additive
+    epsilon (2.4.x divided by ``std + 1e-5``, which shrank the z-scores of
+    series whose std is of that order). Null where ``x`` is null and when the
+    window is flat.
+    """
+    x = pl.col(col).cast(pl.Float64).fill_nan(None)
+    need = z_min_samples(window)
+    mu = x.rolling_mean(window_size=window, min_samples=need)
+    sd = x.rolling_std(window_size=window, min_samples=need)
+    flat = (sd.is_null() | sd.is_nan() | (sd <= SD_FLOOR_REL * (mu.abs() + sd))).fill_null(True)
+    z = ((x - mu) / sd).clip(-5.0, 5.0)
+    return pl.when(flat | x.is_null()).then(None).otherwise(z)
+
+
+def ewm_finite(values: np.ndarray, span: float, length: int) -> np.ndarray:
+    """Exponentially weighted mean over exactly the last ``length`` values.
+
+    Weights ``(1 - alpha)^k`` for ``k = 0`` (newest) to ``length - 1``, normalised
+    to sum to one, ``alpha = 2 / (span + 1)``. NaN until ``length`` values exist
+    and wherever the window holds a NaN. A recursive EMA has infinite memory, so
+    its value depended on where a partition's warm-up frame began (at 1d by up to
+    1.7 z); this one depends on the last ``length`` rows only.
+    """
+    x = np.asarray(values, dtype=np.float64)
+    n = len(x)
+    out = np.full(n, np.nan)
+    length = int(length)
+    if length < 1 or n < length:
+        return out
+    alpha = 2.0 / (float(span) + 1.0)
+    w = (1.0 - alpha) ** np.arange(length, dtype=np.float64)  # newest first
+    w /= w.sum()
+    # np.convolve(x, w, "valid")[j] = sum_k w[k] * x[j + length - 1 - k]
+    out[length - 1:] = np.convolve(x, w, mode="valid")
+    return out
+
+
+def _ratio(num: np.ndarray, den: np.ndarray) -> np.ndarray:
+    """``num / den`` where the denominator is positive, NaN elsewhere."""
+    out = np.full(len(num), np.nan)
+    ok = np.isfinite(num) & np.isfinite(den) & (den > 0)
+    out[ok] = num[ok] / den[ok]
+    return out
 
 
 def frac_diff(series: np.ndarray, d: float, window: int) -> np.ndarray:
@@ -44,7 +101,10 @@ def frac_diff(series: np.ndarray, d: float, window: int) -> np.ndarray:
 
 
 def hurst_rs(log_returns: np.ndarray, window: int) -> np.ndarray:
-    """Rescaled-range Hurst on a trailing window of log returns. Null during warmup."""
+    """Rescaled-range Hurst on the ``window`` log returns before ``i`` (excludes ``i``).
+
+    Null during warmup and on a flat window, where R/S is undefined (2.4.x wrote 0.5).
+    """
     n = len(log_returns)
     out = np.full(n, np.nan)
     if n <= window:
@@ -55,16 +115,11 @@ def hurst_rs(log_returns: np.ndarray, window: int) -> np.ndarray:
         chunk = values[i - window:i]
         if not np.isfinite(chunk).all():
             continue
-        if np.max(chunk) == np.min(chunk):
-            out[i] = 0.5
-            continue
         mean = chunk.mean()
         z = np.cumsum(chunk - mean)
         r = float(np.max(z) - np.min(z))
         s = float(np.std(chunk))
-        if s < 1e-12 or r <= 0:
-            out[i] = 0.5
-        else:
+        if s > SD_FLOOR_REL * (abs(mean) + s) and r > 0:
             out[i] = math.log(r / s) / log_w
     return out
 
@@ -93,7 +148,10 @@ def permutation_entropy(returns: np.ndarray, window: int, m: int = 3) -> np.ndar
     out = np.full(n, np.nan)
     if m != 3 or window < m or n < window:
         return out
-    values = np.asarray(returns, dtype=np.float64)
+    # Rounded so that returns equal up to float error tie exactly: otherwise the
+    # pattern of two equal returns (common on a tick grid) is decided by rounding
+    # noise in how the return was computed.
+    values = np.round(np.asarray(returns, dtype=np.float64), PERM_DECIMALS)
     log_nf = math.log(6.0)
     for t in range(window - 1, n):
         counts = [0, 0, 0, 0, 0, 0]
@@ -118,7 +176,13 @@ def permutation_entropy(returns: np.ndarray, window: int, m: int = 3) -> np.ndar
 
 
 def kyle_lambda(close: np.ndarray, signed_usd: np.ndarray, window: int) -> np.ndarray:
-    """Trailing correlation of log return with signed USD. Null during warmup."""
+    """Kyle's lambda: the OLS slope of log return on signed USD volume (taker buy
+    minus taker sell notional) over the ``window`` bars before ``t`` (excludes ``t``).
+
+    Price impact per USD of net aggressive flow. 2.4.x returned the correlation,
+    which drops the scale ratio sd(return) / sd(flow) that makes it an impact.
+    Null during warmup and when the flow does not vary over the window.
+    """
     n = len(close)
     out = np.full(n, np.nan)
     log_ret = np.full(n, np.nan)
@@ -130,16 +194,13 @@ def kyle_lambda(close: np.ndarray, signed_usd: np.ndarray, window: int) -> np.nd
     for t in range(window, n):
         lr = log_ret[t - window:t]
         sv = signed[t - window:t]
-        mask = np.isfinite(lr) & np.isfinite(sv)
-        if int(mask.sum()) < window:
+        if not (np.isfinite(lr).all() and np.isfinite(sv).all()):
             continue
-        x = sv[mask]
-        y = lr[mask]
-        x = x - x.mean()
-        y = y - y.mean()
-        denom = math.sqrt(float(np.dot(x, x) * np.dot(y, y)))
-        if denom > 1e-15:
-            out[t] = float(np.dot(x, y) / denom)
+        x = sv - sv.mean()
+        y = lr - lr.mean()
+        sxx = float(np.dot(x, x))
+        if sxx > (SD_FLOOR_REL * (abs(float(sv.mean())) + math.sqrt(sxx / window))) ** 2 * window:
+            out[t] = float(np.dot(x, y)) / sxx
     return out
 
 
@@ -168,23 +229,18 @@ PHYSICS_FEATURES = (
     "norm_vpin",
     "norm_flow_imbalance",
     "norm_vol_cluster",
-    "norm_funding",
     "norm_tick_count",
     "norm_log_volume",
-    "norm_hl_spread",
+    "norm_rs_volatility",
     "hurst_regime",
     "norm_return_1",
     "norm_return_4",
     "norm_return_16",
-    "norm_spread_bps",
     "norm_ma_distance",
     "norm_whale",
     "norm_efficiency",
     "norm_return_kurtosis",
-    "norm_funding_momentum",
     "norm_hawkes_intensity",
-    "norm_hawkes_buy_intensity",
-    "norm_hawkes_sell_intensity",
     "norm_hawkes_imbalance",
     "norm_momentum_accel",
     "norm_vol_price_corr",
@@ -206,16 +262,22 @@ def _log_ratio(num: str, den: str) -> pl.Expr:
 
 
 def _corr_roll(x: str, y: str, window: int, out: str) -> pl.Expr:
-    """Trailing Pearson correlation. Null until the window is full. No zero-fill."""
-    xs = pl.col(x)
-    ys = pl.col(y)
-    mx = xs.rolling_mean(window_size=window, min_samples=window)
-    my = ys.rolling_mean(window_size=window, min_samples=window)
-    cov = ((xs - mx) * (ys - my)).rolling_mean(window_size=window, min_samples=window)
-    sx = xs.rolling_std(window_size=window, min_samples=window)
-    sy = ys.rolling_std(window_size=window, min_samples=window)
-    corr = cov / (sx * sy + 1e-12)
-    return pl.when(sx.is_null() | sy.is_null() | (sx < 1e-12) | (sy < 1e-12)).then(None).otherwise(corr.clip(-1.0, 1.0)).alias(out)
+    """Trailing Pearson correlation over the last ``window`` rows.
+
+    Both series are centred on the same window's own means (2.4.x centred each
+    product on per-row trailing means, which is not a correlation). Null until
+    the window is full, when it holds a null, or when either series is flat.
+    """
+    xs = pl.col(x).cast(pl.Float64).fill_nan(None)
+    ys = pl.col(y).cast(pl.Float64).fill_nan(None)
+    r = pl.rolling_corr(xs, ys, window_size=window, min_samples=window)
+    flat = pl.lit(False)
+    for s in (xs, ys):
+        mu = s.rolling_mean(window_size=window, min_samples=window)
+        sd = s.rolling_std(window_size=window, min_samples=window)
+        flat = flat | sd.is_null() | (sd <= SD_FLOOR_REL * (mu.abs() + sd))
+    bad = (flat | r.is_null() | r.is_nan()).fill_null(True)
+    return pl.when(bad).then(None).otherwise(r.clip(-1.0, 1.0)).alias(out)
 
 
 def compute_physics(
@@ -225,6 +287,8 @@ def compute_physics(
     include_oi: bool = False,
     include_bar_duration: bool | None = None,
 ) -> pl.DataFrame:
+    """On-bar physics. Every input is a trailing window (or a chain of two) that
+    ``windows.input_window()`` accounts for, then a ``z``-bar z-score."""
     if df.is_empty():
         return df
     bar_type = df["bar_type"][0] if "bar_type" in df.columns else ""
@@ -236,18 +300,21 @@ def compute_physics(
         df = df.with_columns(pl.lit(None, dtype=pl.Float64).alias("funding_rate"))
 
     w = windows
+    close_np = df["close"].to_numpy().astype(np.float64)
+    # MACD-style deviation from finite-memory EMAs (spans 12 and 26).
+    ema_fast = ewm_finite(close_np, 12, w.ema)
+    ema_slow = ewm_finite(close_np, 26, w.ema)
+    vol = pl.col("volume")
     df = df.with_columns([
         pl.col("close").pct_change().alias("_ret"),
-        ((pl.col("buy_volume") - pl.col("sell_volume")) / pl.col("volume")).alias("_flow"),
-        ((pl.col("buy_volume") - pl.col("sell_volume")).abs() / pl.col("volume")).alias("_vpin"),
-        (pl.col("close").ewm_mean(span=12, adjust=False) - pl.col("close").ewm_mean(span=26, adjust=False))
-        .truediv(pl.col("close").ewm_mean(span=26, adjust=False))
-        .alias("_dev"),
+        pl.when(vol > 0).then((pl.col("buy_volume") - pl.col("sell_volume")) / vol).otherwise(None).alias("_flow"),
+        pl.when(vol > 0).then((pl.col("buy_volume") - pl.col("sell_volume")).abs() / vol).otherwise(None).alias("_vpin"),
+        to_series("_dev", _ratio(ema_fast - ema_slow, ema_slow)),
         pl.when(pl.col("n_trades") > 0).then(pl.col("volume") / pl.col("n_trades")).otherwise(None).alias("_whale"),
-        pl.when(pl.col("volume") > 0).then(pl.col("volume").log()).otherwise(None).alias("_log_vol"),
+        pl.when(vol > 0).then(vol.log()).otherwise(None).alias("_log_vol"),
         pl.when(pl.col("n_trades") > 0).then(pl.col("n_trades").cast(pl.Float64)).otherwise(None).alias("_ticks"),
     ])
-    # Rogers-Satchell, null when a price is not positive.
+    # Rogers-Satchell per-bar variance (>= 0 for valid OHLC; a float-error negative is 0).
     rs_var = (
         _log_ratio("high", "close") * _log_ratio("high", "open")
         + _log_ratio("low", "close") * _log_ratio("low", "open")
@@ -257,9 +324,10 @@ def compute_physics(
         pl.when(pl.col("_rs_var").is_null()).then(None)
         .when(pl.col("_rs_var") < 0).then(pl.lit(0.0))
         .otherwise(pl.col("_rs_var"))
-        .sqrt()
-        .alias("_rs")
+        .alias("_rs_var")
     )
+    df = df.with_columns(pl.col("_rs_var").sqrt().alias("_rs"))
+    path = (pl.col("close") - pl.col("close").shift(1)).abs().rolling_sum(window_size=w.efficiency, min_samples=w.efficiency)
     df = df.with_columns([
         pl.col("_dev").rolling_std(window_size=w.vol_cluster, min_samples=w.vol_cluster).alias("_vol_cluster"),
         (pl.col("close").shift(1) - pl.col("close").shift(1 + 4))
@@ -269,26 +337,19 @@ def compute_physics(
         .truediv(pl.col("close").shift(1 + 16))
         .alias("_ret16"),
         pl.col("_ret").shift(1).alias("_ret1"),
-        pl.when((pl.col("buy_volume") + pl.col("sell_volume")) > 0)
-        .then(
-            ((pl.col("high") - pl.col("low")) / pl.col("close"))
-            * (1.0 + ((pl.col("buy_volume") - pl.col("sell_volume")).abs() / (pl.col("buy_volume") + pl.col("sell_volume"))))
-            * 10_000.0
-        )
+        # Kaufman efficiency: net move over path length. Undefined on a flat path.
+        pl.when(path > 0)
+        .then((pl.col("close") - pl.col("close").shift(w.efficiency)).abs() / path)
         .otherwise(None)
-        .alias("_spread_bps"),
-        (
-            (pl.col("close") - pl.col("close").shift(w.efficiency)).abs()
-            / ((pl.col("close") - pl.col("close").shift(1)).abs().rolling_sum(window_size=w.efficiency, min_samples=w.efficiency) + 1e-12)
-        ).alias("_eff"),
-        (pl.col("funding_rate") - pl.col("funding_rate").rolling_mean(window_size=w.funding_mom, min_samples=w.funding_mom)).alias("_fund_mom"),
+        .alias("_eff"),
         (
             (pl.col("close") - pl.col("close").rolling_mean(window_size=w.ma, min_samples=w.ma))
             / pl.col("close").rolling_mean(window_size=w.ma, min_samples=w.ma)
         ).alias("_ma_dist"),
     ])
     # Duration and Hawkes. Duration is almost constant on time bars, so the
-    # feature is omitted there; the rate-versus-EMA Hawkes signal is not.
+    # feature is omitted there; the rate-versus-EMA Hawkes signal is not. The
+    # rate is trades (or volume) per second since the previous bar's close.
     dur_s = pl.col("ts_ms").diff() / 1000.0
     df = df.with_columns(dur_s.alias("_dur_s"))
     df = df.with_columns([
@@ -297,37 +358,28 @@ def compute_physics(
         pl.when(pl.col("_dur_s") > 0).then(pl.col("buy_volume") / pl.col("_dur_s")).otherwise(None).alias("_buy_rate"),
         pl.when(pl.col("_dur_s") > 0).then(pl.col("sell_volume") / pl.col("_dur_s")).otherwise(None).alias("_sell_rate"),
     ])
+    surge = {}
+    for name, col in (("_h_all", "_tick_rate"), ("_h_buy", "_buy_rate"), ("_h_sell", "_sell_rate")):
+        rate = df[col].to_numpy().astype(np.float64)
+        surge[name] = _ratio(rate, ewm_finite(rate, w.hawkes_span, w.ema)) - 1.0
     df = df.with_columns([
-        (pl.col("_tick_rate") / pl.col("_tick_rate").ewm_mean(span=w.hawkes_span, adjust=False, ignore_nulls=True) - 1.0).alias("_h_all"),
-        (pl.col("_buy_rate") / pl.col("_buy_rate").ewm_mean(span=w.hawkes_span, adjust=False, ignore_nulls=True) - 1.0).alias("_h_buy"),
-        (pl.col("_sell_rate") / pl.col("_sell_rate").ewm_mean(span=w.hawkes_span, adjust=False, ignore_nulls=True) - 1.0).alias("_h_sell"),
+        to_series("_h_all", surge["_h_all"]),
+        to_series("_h_imb", surge["_h_buy"] - surge["_h_sell"]),
+        (pl.col("_ret4") - pl.col("_ret4").shift(4)).alias("_mom_acc"),
     ])
-    df = df.with_columns((pl.col("_h_buy") - pl.col("_h_sell")).alias("_h_imb"))
-    df = df.with_columns((pl.col("_ret4") - pl.col("_ret4").shift(4)).alias("_mom_acc"))
 
     # Excess kurtosis of returns over one window of k bars (population moments,
     # all centred on that window's mean). Null while the window is incomplete.
-    # The 2.4.0 form centred each 4th power on a different trailing mean, which
-    # was not a kurtosis and needed 2k-1 bars, more than the declared lookback.
     k = w.kurtosis
     df = df.with_columns(
         pl.col("_ret").rolling_kurtosis(window_size=k, fisher=True, bias=True, min_samples=k).alias("_kurt")
     )
 
-    # Vol term structure on Rogers-Satchell.
-    df = df.with_columns(
-        (pl.col("_rs").ewm_mean(span=10, adjust=False, ignore_nulls=True)
-         / pl.col("_rs").ewm_mean(span=max(w.fast, 2), adjust=False, ignore_nulls=True)
-         - 1.0).alias("_vol_ratio")
-    )
-    # The long leg of the ratio is a slower EMA (``slow_span``, capped with the other windows).
-    df = df.with_columns(
-        (pl.col("_rs").ewm_mean(span=10, adjust=False, ignore_nulls=True)
-         / (pl.col("_rs").ewm_mean(span=w.slow_span, adjust=False, ignore_nulls=True) + 1e-12)
-         - 1.0).alias("_vol_ratio")
-    )
-
+    # Vol term structure on Rogers-Satchell: fast (span 10) over slow (slow_span) EMA, minus one.
+    rs_np = df["_rs"].to_numpy().astype(np.float64)
+    vol_ratio = _ratio(ewm_finite(rs_np, 10, w.ema), ewm_finite(rs_np, w.slow_span, w.ema)) - 1.0
     df = df.with_columns([
+        to_series("_vol_ratio", vol_ratio),
         pl.col("_ret").abs().alias("_abs_ret"),
         pl.col("_flow").shift(1).alias("_flow_lag"),
     ])
@@ -336,7 +388,8 @@ def compute_physics(
         _corr_roll("_flow", "_flow_lag", w.fast, "_flow_pers"),
     ])
 
-    # Yang-Zhang.
+    # Yang-Zhang (2000): sample variances of the open jump and the open-to-close
+    # return plus the Rogers-Satchell mean, k = 0.34 / (1.34 + (n + 1) / (n - 1)).
     n_yz = w.yz
     yz_k = 0.34 / (1.34 + (n_yz + 1) / (n_yz - 1)) if n_yz > 1 else 0.34
     df = df.with_columns([
@@ -351,42 +404,48 @@ def compute_physics(
     ])
     df = df.with_columns(
         (
-            pl.col("_yz_on").pow(2).rolling_mean(window_size=n_yz, min_samples=n_yz)
-            + yz_k * pl.col("_yz_oc").pow(2).rolling_mean(window_size=n_yz, min_samples=n_yz)
-            + (1.0 - yz_k) * pl.when(pl.col("_rs_var") < 0).then(0.0).otherwise(pl.col("_rs_var")).rolling_mean(window_size=n_yz, min_samples=n_yz)
+            pl.col("_yz_on").rolling_var(window_size=n_yz, min_samples=n_yz)
+            + yz_k * pl.col("_yz_oc").rolling_var(window_size=n_yz, min_samples=n_yz)
+            + (1.0 - yz_k) * pl.col("_rs_var").rolling_mean(window_size=n_yz, min_samples=n_yz)
         ).clip(lower_bound=0.0).sqrt().alias("_yz")
     )
 
-    # Corwin-Schultz alpha over a trailing block. Null when the range is zero.
+    # Corwin-Schultz (2012) spread from two adjacent blocks of b bars:
+    # beta = ln(H1/L1)^2 + ln(H2/L2)^2 (the sum over both blocks), gamma = ln(H12/L12)^2,
+    # alpha = (sqrt(2 beta) - sqrt(beta)) / (3 - 2 sqrt 2) - sqrt(gamma / (3 - 2 sqrt 2)),
+    # S = 2 (e^alpha - 1) / (1 + e^alpha). A negative S is kept (no floor at 0).
+    # A block without range is a defined input (ln(H/L) = 0; a flat 2b-bar
+    # stretch gives S = 0); only a non-positive price is undefined.
     b = w.cs_block
     h_block = pl.col("high").rolling_max(window_size=b, min_samples=b)
     l_block = pl.col("low").rolling_min(window_size=b, min_samples=b)
     h_prev = pl.col("high").shift(b).rolling_max(window_size=b, min_samples=b)
     l_prev = pl.col("low").shift(b).rolling_min(window_size=b, min_samples=b)
     beta = (
-        pl.when((h_block > l_block) & (l_block > 0) & (h_prev > l_prev) & (l_prev > 0))
-        .then(((h_block / l_block).log().pow(2) + (h_prev / l_prev).log().pow(2)) / 2.0)
+        pl.when((l_block > 0) & (l_prev > 0))
+        .then((h_block / l_block).log().pow(2) + (h_prev / l_prev).log().pow(2))
         .otherwise(None)
     )
     h2 = pl.col("high").rolling_max(window_size=2 * b, min_samples=2 * b)
     l2 = pl.col("low").rolling_min(window_size=2 * b, min_samples=2 * b)
-    gamma = pl.when((h2 > l2) & (l2 > 0)).then((h2 / l2).log().pow(2)).otherwise(None)
-    sqrt2 = math.sqrt(2.0)
-    denom = 3.0 - 2.0 * sqrt2
+    gamma = pl.when(l2 > 0).then((h2 / l2).log().pow(2)).otherwise(None)
+    denom = 3.0 - 2.0 * math.sqrt(2.0)
     alpha = ((2.0 * beta).sqrt() - beta.sqrt()) / denom - (gamma / denom).sqrt()
-    df = df.with_columns(alpha.alias("_cs"))
+    df = df.with_columns((2.0 * (alpha.exp() - 1.0) / (1.0 + alpha.exp())).alias("_cs"))
 
     # Numpy features on the close path. They see only the past.
-    close = df["close"].to_numpy().astype(np.float64)
-    log_close = np.where(close > 0, np.log(close), np.nan)
-    log_ret = np.full(len(close), np.nan)
+    log_close = np.where(close_np > 0, np.log(np.where(close_np > 0, close_np, 1.0)), np.nan)
+    log_ret = np.full(len(close_np), np.nan)
     log_ret[1:] = np.diff(log_close)
     fd = frac_diff(log_close, d=w.frac_diff_d, window=w.frac_diff)
     hurst = hurst_rs(log_ret, window=w.hurst)
     ret_np = df["_ret"].to_numpy().astype(np.float64)
     pent = permutation_entropy(ret_np, window=w.perm_entropy, m=w.perm_m)
-    signed = df["signed_usd"].to_numpy().astype(np.float64) if "signed_usd" in df.columns else np.zeros(len(close))
-    kyle = kyle_lambda(close, signed, window=w.kyle)
+    if "signed_usd" in df.columns:
+        signed = df["signed_usd"].to_numpy().astype(np.float64)
+    else:
+        signed = np.full(len(close_np), np.nan)
+    kyle = kyle_lambda(close_np, signed, window=w.kyle)
     df = df.with_columns([
         to_series("_fd", fd),
         to_series("_hurst", hurst),
@@ -400,23 +459,18 @@ def compute_physics(
         "norm_vpin": ("_vpin", w.z),
         "norm_flow_imbalance": ("_flow", w.z),
         "norm_vol_cluster": ("_vol_cluster", w.z),
-        "norm_funding": ("funding_rate", w.z),
         "norm_tick_count": ("_ticks", w.z),
         "norm_log_volume": ("_log_vol", w.z),
-        "norm_hl_spread": ("_rs", w.z),
+        "norm_rs_volatility": ("_rs", w.z),
         "hurst_regime": ("_hurst", w.z),
         "norm_return_1": ("_ret1", w.z),
         "norm_return_4": ("_ret4", w.z),
         "norm_return_16": ("_ret16", w.z),
-        "norm_spread_bps": ("_spread_bps", w.z),
         "norm_ma_distance": ("_ma_dist", w.z),
         "norm_whale": ("_whale", w.z),
         "norm_efficiency": ("_eff", w.z),
         "norm_return_kurtosis": ("_kurt", w.z),
-        "norm_funding_momentum": ("_fund_mom", w.z),
         "norm_hawkes_intensity": ("_h_all", w.z),
-        "norm_hawkes_buy_intensity": ("_h_buy", w.z),
-        "norm_hawkes_sell_intensity": ("_h_sell", w.z),
         "norm_hawkes_imbalance": ("_h_imb", w.z),
         "norm_momentum_accel": ("_mom_acc", w.z),
         "norm_vol_price_corr": ("_vp_corr", w.z),
@@ -442,16 +496,16 @@ def compute_physics(
         df = df.with_columns(rolling_z("_bar_dur", w.z).alias("norm_bar_duration"))
 
     if include_oi and "oi_value" in df.columns:
-        med = pl.col("oi_value").rolling_median(window_size=w.slow_span, min_samples=min(20, w.slow_span))
+        m = w.oi_median
+        med = pl.col("oi_value").rolling_median(window_size=m, min_samples=min(20, m))
         capped = pl.when(pl.col("oi_value").is_not_null() & med.is_not_null() & (pl.col("oi_value") > 5.0 * med)).then(5.0 * med).otherwise(pl.col("oi_value"))
         df = df.with_columns(capped.alias("_oi_cap"))
         df = df.with_columns(pl.col("_oi_cap").pct_change().alias("_oi_chg"))
         df = df.with_columns(rolling_z("_oi_chg", w.z).alias("norm_oi_change"))
-        df = df.with_columns(
-            (pl.col("_oi_chg").abs().ewm_mean(span=10, adjust=False, ignore_nulls=True)
-             / (pl.col("_ret").abs().ewm_mean(span=10, adjust=False, ignore_nulls=True) + 1e-12)
-             - 1.0).alias("_oi_div")
-        )
+        oi_abs = df["_oi_chg"].abs().to_numpy().astype(np.float64)
+        ret_abs = df["_abs_ret"].to_numpy().astype(np.float64)
+        oi_div = _ratio(ewm_finite(oi_abs, 10, w.ema), ewm_finite(ret_abs, 10, w.ema)) - 1.0
+        df = df.with_columns(to_series("_oi_div", oi_div))
         df = df.with_columns(rolling_z("_oi_div", w.z).alias("norm_oi_price_divergence"))
 
     # Regime label. Null during the moving-average warmup. Not a training feature.
@@ -469,14 +523,6 @@ def compute_physics(
     df = df.with_columns((pl.col("_i") < lookback).alias("is_warmup"))
 
     keep = [c for c in df.columns if c in MARKET_COLUMNS or c in PHYSICS_FEATURES or c in OI_FEATURES or c in ("norm_bar_duration", "regime_label", "is_warmup", "funding_rate", "oi_value")]
-    # Preserve market columns that were on the input even if not in the constant tuple.
-    for c in df.columns:
-        if c.startswith("_"):
-            continue
-        if c not in keep:
-            # drop raw helpers only
-            if c in ("funding_rate", "oi_value"):
-                keep.append(c)
     return df.select(keep)
 
 """Daily panels from trades and from small bronze series.
@@ -528,10 +574,11 @@ def _minute_counts(ts_ms: np.ndarray, mask: np.ndarray, day_ms: int) -> np.ndarr
 
 
 # Causal whale size: a log-histogram of per-trade notional, one day at a time.
-# Bins cover [$1, $100M] in log10 space (16 per decade) plus under/overflow.
+# Bins cover [$1, $100M] in log10 space (64 per decade, 3.7% wide) plus
+# under/overflow; the quantile is interpolated inside its bin.
 WHALE_LOG_LO = 0.0
 WHALE_LOG_HI = 8.0
-WHALE_BINS_PER_DECADE = 16
+WHALE_BINS_PER_DECADE = 64
 WHALE_N_BINS = int((WHALE_LOG_HI - WHALE_LOG_LO) * WHALE_BINS_PER_DECADE)
 
 
@@ -551,35 +598,43 @@ def trade_notional_hist(usd: np.ndarray | None) -> np.ndarray:
 
 
 def quantile_from_hists(hists: list[np.ndarray], q: float) -> float | None:
-    """Approximate ``q``-quantile of the pooled histograms, in USD."""
+    """``q``-quantile of the pooled histograms, in USD.
+
+    The bin that holds the ``q * total``-th trade is found from the cumulative
+    counts, and the value is interpolated log-linearly inside that bin (trades
+    spread evenly in log size), so the error is a fraction of one 3.7% bin.
+    """
     if not hists:
         return None
-    hist = np.sum(np.stack(hists, axis=0), axis=0)
-    total = int(hist.sum())
+    hist = np.sum(np.stack(hists, axis=0), axis=0).astype(np.float64)
+    total = float(hist.sum())
     if total <= 0:
         return None
     target = float(q) * total
-    cum = 0.0
+    cum = np.cumsum(hist)
+    i = int(np.searchsorted(cum, target, side="left"))
+    if i <= 0:
+        return 10.0 ** WHALE_LOG_LO
+    if i >= WHALE_N_BINS + 1:
+        return 10.0 ** WHALE_LOG_HI
     width = (WHALE_LOG_HI - WHALE_LOG_LO) / WHALE_N_BINS
-    for i, n in enumerate(hist):
-        cum += n
-        if cum >= target:
-            if i == 0:
-                return 10.0 ** WHALE_LOG_LO
-            if i >= WHALE_N_BINS + 1:
-                return 10.0 ** WHALE_LOG_HI
-            lo = WHALE_LOG_LO + (i - 1) * width
-            return float(10.0 ** (lo + 0.5 * width))
-    return 10.0 ** WHALE_LOG_HI
+    below = float(cum[i - 1])
+    frac = min(1.0, max(0.0, (target - below) / hist[i]))
+    lo = WHALE_LOG_LO + (i - 1) * width
+    return float(10.0 ** (lo + frac * width))
 
 
-def whale_threshold(history: list[np.ndarray], spec) -> float:
-    """Size for a new UTC day from complete days already in ``history``. Causal."""
+def whale_threshold(history: list[np.ndarray], spec) -> float | None:
+    """Size for a new UTC day from complete days already in ``history``. Causal.
+
+    ``None`` with no history (an asset's first day): there is no size, and the
+    day's ``wh_*`` columns are null rather than measured against a static table.
+    """
     usable = [h for h in history if h is not None and int(np.asarray(h).sum()) > 0]
     if not usable:
-        return float(spec.bootstrap)
+        return None
     value = quantile_from_hists(usable[-int(spec.window_days):], float(spec.quantile))
-    return float(value) if value is not None else float(spec.bootstrap)
+    return None if value is None else float(value)
 
 
 def load_whale_hists(root, asset: str, before: date, window_days: int) -> list[np.ndarray]:
@@ -605,30 +660,36 @@ def load_whale_hists(root, asset: str, before: date, window_days: int) -> list[n
     return out
 
 
+WH_COLUMNS = (
+    "wh_large_count", "wh_large_usd", "wh_large_buy_usd", "wh_large_sell_usd",
+    "wh_max_print_usd", "wh_threshold_usd",
+)
+
+
 def summarize_day(
     trades: pl.DataFrame,
     bars_1m: pl.DataFrame,
     *,
     asset: str,
     day: date,
-    whale_usd: float,
-    liq_usd: float,
+    whale_usd: float | None,
 ) -> dict:
-    """One row of whale, liquidation-proxy, realized-vol, and Hawkes features."""
+    """One row of whale, realized-vol, and Hawkes-branching features for UTC day D.
+
+    ``whale_usd`` is the day's causal whale size; ``None`` (no history yet) leaves
+    every ``wh_*`` column null. Counts and sums of large prints are real zeros
+    when the day had trades but none that large.
+    """
     event = day_start_ms(day)
     row: dict = {
         "asset": asset,
         "event_time_ms": event,
-        "wh_large_count": 0,
-        "wh_large_usd": 0.0,
-        "wh_large_buy_usd": 0.0,
-        "wh_large_sell_usd": 0.0,
-        "wh_max_print_usd": 0.0,
-        "wh_threshold_usd": float(whale_usd),
-        "liq_proxy_count": 0,
-        "liq_proxy_usd": 0.0,
-        "liq_proxy_buy_usd": 0.0,
-        "liq_proxy_sell_usd": 0.0,
+        "wh_large_count": None,
+        "wh_large_usd": None,
+        "wh_large_buy_usd": None,
+        "wh_large_sell_usd": None,
+        "wh_max_print_usd": None,
+        "wh_threshold_usd": None if whale_usd is None else float(whale_usd),
         "rv_realized": None,
         "rv_bpv": None,
         "rv_jv": None,
@@ -643,17 +704,13 @@ def summarize_day(
         t = trades.with_columns((pl.col("price") * pl.col("qty")).alias("_usd"))
         usd = t["_usd"].to_numpy()
         maker = t["is_buyer_maker"].to_numpy().astype(bool)
-        large = usd >= whale_usd
-        proxy = usd >= liq_usd
-        row["wh_large_count"] = int(large.sum())
-        row["wh_large_usd"] = float(usd[large].sum()) if large.any() else 0.0
-        row["wh_large_buy_usd"] = float(usd[large & ~maker].sum()) if large.any() else 0.0
-        row["wh_large_sell_usd"] = float(usd[large & maker].sum()) if large.any() else 0.0
-        row["wh_max_print_usd"] = float(usd.max()) if len(usd) else 0.0
-        row["liq_proxy_count"] = int(proxy.sum())
-        row["liq_proxy_usd"] = float(usd[proxy].sum()) if proxy.any() else 0.0
-        row["liq_proxy_buy_usd"] = float(usd[proxy & ~maker].sum()) if proxy.any() else 0.0
-        row["liq_proxy_sell_usd"] = float(usd[proxy & maker].sum()) if proxy.any() else 0.0
+        row["wh_max_print_usd"] = float(usd.max())
+        if whale_usd is not None:
+            large = usd >= whale_usd
+            row["wh_large_count"] = int(large.sum())
+            row["wh_large_usd"] = float(usd[large].sum()) if large.any() else 0.0
+            row["wh_large_buy_usd"] = float(usd[large & ~maker].sum()) if large.any() else 0.0
+            row["wh_large_sell_usd"] = float(usd[large & maker].sum()) if large.any() else 0.0
         row["hbr_n_trades"] = int(t.height)
         ts = t["ts_ms"].to_numpy()
         row["hbr_eta"] = _eta(_minute_counts(ts, np.ones(len(ts), dtype=bool), event))
@@ -684,10 +741,37 @@ def summarize_day(
     return row
 
 
+DAILY_PANEL_SCHEMA: dict[str, pl.DataType] = {
+    "asset": pl.Utf8,
+    "event_time_ms": pl.Int64,
+    "wh_large_count": pl.Int64,
+    "wh_large_usd": pl.Float64,
+    "wh_large_buy_usd": pl.Float64,
+    "wh_large_sell_usd": pl.Float64,
+    "wh_max_print_usd": pl.Float64,
+    "wh_threshold_usd": pl.Float64,
+    "rv_realized": pl.Float64,
+    "rv_bpv": pl.Float64,
+    "rv_jv": pl.Float64,
+    "rv_jump_frac": pl.Float64,
+    "hbr_eta": pl.Float64,
+    "hbr_eta_buy": pl.Float64,
+    "hbr_eta_sell": pl.Float64,
+    "hbr_eta_imbalance": pl.Float64,
+    "hbr_n_trades": pl.Int64,
+}
+
+
 def rows_to_frame(rows: list[dict]) -> pl.DataFrame:
+    """The daily panel with fixed dtypes, so a month whose only day has no whale
+    size still writes typed (all-null) columns. A key outside the schema is an
+    error: polars would drop it silently."""
     if not rows:
         return pl.DataFrame(schema={"asset": pl.Utf8, "event_time_ms": pl.Int64})
-    return pl.DataFrame(rows).sort(["asset", "event_time_ms"])
+    unknown = sorted({k for row in rows for k in row} - set(DAILY_PANEL_SCHEMA))
+    if unknown:
+        raise ValueError(f"daily panel columns {unknown} are not in DAILY_PANEL_SCHEMA")
+    return pl.DataFrame(rows, schema=DAILY_PANEL_SCHEMA).sort(["asset", "event_time_ms"])
 
 
 def funding_daily(funding: pl.DataFrame, asset: str) -> pl.DataFrame:
@@ -856,13 +940,19 @@ def add_cross_asset(
             btc_ret = pl.col("_pr_BTCUSDT") if "_pr_BTCUSDT" in peer_ret else pl.lit(None, dtype=pl.Float64)
             btc_vol = pl.col("_pv_BTCUSDT") if "_pv_BTCUSDT" in peer_vol else pl.lit(None, dtype=pl.Float64)
 
-        # Rank: 1 + number of peers with a strictly higher return. Null below 3 names.
+        # Percentile rank in [0, 1]: the share of the other names with a lower return,
+        # ties counting half (1 = best of the cohort). Dividing by the names present
+        # keeps it comparable when SOL and AVAX join mid-year. Null below 3 names.
         if peer_ret:
-            n_higher = pl.sum_horizontal([
-                (pl.col(c) > pl.col("_ret")).fill_null(False).cast(pl.Float64) for c in peer_ret
+            n_lower = pl.sum_horizontal([
+                (pl.col(c) < pl.col("_ret")).fill_null(False).cast(pl.Float64) for c in peer_ret
             ])
+            n_equal = pl.sum_horizontal([
+                (pl.col(c) == pl.col("_ret")).fill_null(False).cast(pl.Float64) for c in peer_ret
+            ])
+            pct_rank = (n_lower + 0.5 * n_equal) / (n_with_self - 1).cast(pl.Float64)
         else:
-            n_higher = pl.lit(None, dtype=pl.Float64)
+            pct_rank = pl.lit(None, dtype=pl.Float64)
 
         df = df.with_columns([
             pl.when(enough).then(btc_ret).otherwise(None).alias("xd_btc_return"),
@@ -871,7 +961,7 @@ def add_cross_asset(
             pl.when(enough).then(_horizontal_mean(peer_ret)).otherwise(None).alias("xd_cross_return_mean"),
             pl.when(enough).then(_horizontal_mean(peer_vol)).otherwise(None).alias("xd_cross_vol_mean"),
             pl.when(enough).then(pl.col("_ma") - _horizontal_mean(peer_ma)).otherwise(None).alias("xd_ma_distance"),
-            pl.when(enough_rank & pl.col("_ret").is_not_null()).then(1.0 + n_higher).otherwise(None).alias("xd_momentum_rank"),
+            pl.when(enough_rank & pl.col("_ret").is_not_null()).then(pct_rank).otherwise(None).alias("xd_momentum_rank"),
         ])
         drop = [c for c in df.columns if c.startswith("_pr_") or c.startswith("_pv_") or c.startswith("_pm_") or c.startswith("_pf_") or c in ("_ret", "_vol", "_ma")]
         out[asset] = df.drop(drop)

@@ -16,7 +16,7 @@ from pipeline.validate_run import clip_frame, range_ms
 
 KEY_COLS = (
     "close", "volume", "volume_usd", "n_trades",
-    "funding_rate", "norm_funding", "stbl_supply_usd", "soc_wiki_views",
+    "funding_rate", "funding_day_mean", "stbl_supply_usd", "soc_wiki_views",
     "etf_total_usdm",
 )
 
@@ -385,8 +385,14 @@ def write_asset_report(path: Path, root: Path, asset: str, start: date, end: dat
         b = base["daily"].rename({"volume_usd": "base"})
         for bt, s in stats.items():
             j = s["daily"].join(b, on="day", how="full", coalesce=True)
+            if bt == "dollar" and s["daily"].height:
+                # The chain's first day calibrates (no bar) and its last bar is still open,
+                # so only the days between are expected to reconcile (to within the bar
+                # that opens before midnight and closes after it).
+                lo, hi = int(s["daily"]["day"].min()), int(s["daily"]["day"].max())
+                j = j.filter((pl.col("day") >= lo) & (pl.col("day") < hi))
             rel = ((j["volume_usd"].fill_null(0) - j["base"].fill_null(0)).abs() / j["base"].fill_null(0).clip(1e-9))
-            recon[bt] = float(rel.max())
+            recon[bt] = float(rel.max()) if rel.len() else float("nan")
     titles = (
         "close in every view (1m/5m drawn as an hourly high-low band; dots: dollar bars)",
         "notional per UTC day, every view (lines should coincide; dollar bars are bucketed by the day they open)",

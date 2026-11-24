@@ -118,9 +118,9 @@ def test_empty_day_in_monthly_zip_is_recorded_and_not_refetched(tmp_path, monkey
 
 # --- whale -------------------------------------------------------------------
 
-def test_trailing_whale_quantile_is_causal_and_bootstraps():
-    spec = WhaleSpec(bootstrap=1_000.0, quantile=0.9, window_days=3, version="t")
-    assert whale_threshold([], spec) == 1_000.0
+def test_trailing_whale_quantile_is_causal_and_null_without_history():
+    spec = WhaleSpec(quantile=0.9, window_days=3, version="t")
+    assert whale_threshold([], spec) is None
     small = trade_notional_hist(np.full(100, 10.0))
     t2 = whale_threshold([small], spec)
     assert 5.0 < t2 < 20.0
@@ -134,7 +134,7 @@ def test_trailing_whale_quantile_is_causal_and_bootstraps():
 def test_bnb_2020_scale_prints_are_not_all_zero_after_the_first_day():
     """A $250k static floor made BNB 2020 `wh_*` a constant 0; the adaptive size must not."""
     spec = whale_spec("BNBUSDT")
-    assert spec.bootstrap >= 100_000  # the old static floor
+    assert not hasattr(spec, "bootstrap")  # 2.5.0: no static first-day size
     # Day 1: typical 2020 BNB prints, plus a handful of larger ones at $8k.
     day1 = np.concatenate([np.full(10_000, 80.0), np.full(2, 8_000.0)])
     hist = trade_notional_hist(day1)
@@ -146,7 +146,7 @@ def test_bnb_2020_scale_prints_are_not_all_zero_after_the_first_day():
         "is_buyer_maker": [False] * 105,
         "ts_ms": list(range(105)),
     })
-    row = summarize_day(trades, None, asset="BNBUSDT", day=date(2020, 8, 31), whale_usd=thresh, liq_usd=1e18)
+    row = summarize_day(trades, None, asset="BNBUSDT", day=date(2020, 8, 31), whale_usd=thresh)
     assert row["wh_large_count"] == 5
     assert row["wh_large_usd"] == 40_000.0
     assert row["wh_threshold_usd"] == thresh
@@ -198,7 +198,7 @@ def test_dollar_embargo_is_identical_across_a_month_boundary(tmp_path, monkeypat
         stages=["bars", "features", "dataset"], bar_types=["dollar"],
         data_root=tmp_path, windows=small_windows(
             z=3, fast=3, vol_cluster=3, frac_diff=4, hurst=4, kurtosis=3, efficiency=2,
-            perm_entropy=4, kyle=3, yz=3, cs_block=2, funding_mom=3, hawkes_span=3, ma=3,
+            perm_entropy=4, kyle=3, yz=3, cs_block=2, hawkes_span=3, ma=3, ema=3, oi_median=3,
             horizons=(1, 2),
         ),
         threshold_overrides={"BTCUSDT": 500.0},

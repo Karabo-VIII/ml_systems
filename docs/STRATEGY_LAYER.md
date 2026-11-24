@@ -24,7 +24,7 @@ Inputs: `close`. The pipeline has it for crypto and FX. Typical crypto use here 
 
 Signal: long when close breaks the prior N-bar high, flat when it breaks the prior M-bar low. Donchian is that rule with no volatility term. Brock, Lakonishok, and LeBaron's second rule is the same idea on the Dow (50, 150, and 200 day highs and lows, optional 1% band); that is the evidence opened for this family, on equities, not on crypto or FX. Keltner is the same break of an average-true-range band around an average. Bollinger is a break of an average plus or minus k standard deviations, or the opposite (fade the band) for mean reversion.
 
-Inputs: high, low, close. ATR needs those plus the previous close. The pipeline has OHLC. Crypto also has `norm_hl_spread` and `norm_yz_volatility`. FX has `atr_pips_*`. Typical parameters: Donchian 20/55 or 20 entry and 10 exit; Keltner 20-period, 2 ATR; Bollinger 20-period, 2 standard deviations. Failure modes: a breakout system pays for a long tail and loses in chop; a fade of Bollinger bands is the opposite bet and is run over in a trend. The channel width is a free parameter and is where overfitting shows up.
+Inputs: high, low, close. ATR needs those plus the previous close. The pipeline has OHLC. Crypto also has `norm_rs_volatility` (Rogers–Satchell) and `norm_yz_volatility`. FX has `atr_pips_*`. Typical parameters: Donchian 20/55 or 20 entry and 10 exit; Keltner 20-period, 2 ATR; Bollinger 20-period, 2 standard deviations. Failure modes: a breakout system pays for a long tail and loses in chop; a fade of Bollinger bands is the opposite bet and is run over in a trend. The channel width is a free parameter and is where overfitting shows up.
 
 ### Mean reversion
 
@@ -54,7 +54,7 @@ VPIN: a rolling bucketed imbalance of buy and sell volume. Crypto gold has `norm
 
 Footprint and absorption need trades at price levels inside the bar, or a book. The pipeline stores one OHLCV row per bar. Those strategies cannot be built from gold. They need a new bronze pass over raw trades, which this note does not add.
 
-Funding, open interest, and basis are crypto-only. Funding is on gold when the monthly Vision file was fetched (`norm_funding`). Open interest is off unless `--include-oi`. A basis column exists on the daily panel path (`basis_daily` in `pipeline/features.py`) when the perp daily kline was fetched. Failure mode, already measured: using funding to tilt a long-only book did not beat equal weight. See below. No Easley–López de Prado–O'Hara paper was opened for this note.
+Funding, open interest, and basis are crypto-only. Funding is on gold when the monthly Vision file was fetched (`funding_rate`, the daily `funding_day_*`, and `xd_funding_spread`). Open interest is off unless `--include-oi`. A basis column exists on the daily panel path (`basis_daily` in `pipeline/features.py`) when the perp daily kline was fetched. Failure mode, already measured: using funding to tilt a long-only book did not beat equal weight. See below. No Easley–López de Prado–O'Hara paper was opened for this note.
 
 ## ML families
 

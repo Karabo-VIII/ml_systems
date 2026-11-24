@@ -18,10 +18,9 @@ from pipeline.constants import (
 )
 from pipeline.features import PHYSICS_FEATURES
 
-OHLCV_FEATURES = tuple(
-    c for c in PHYSICS_FEATURES if c not in ("norm_funding", "norm_funding_momentum")
-)
-FUNDING_FEATURES = ("norm_funding", "norm_funding_momentum")
+# Every physics feature is built from the bars alone (the funding z-scores were
+# dropped in 2.5.0), so an all-null or constant one is a defect.
+OHLCV_FEATURES = tuple(PHYSICS_FEATURES)
 # Features whose lookahead failure fails the run. FX features only warn: 1-minute
 # FX mid returns have real short-lag autocorrelation, so a trailing return can
 # exceed the threshold without seeing the future.
@@ -197,11 +196,9 @@ def gate_constants(
                 continue
             if col in OHLCV_FEATURES:
                 results.append(GateResult("constant", "fail", f"{col} is entirely null"))
-            elif col in FUNDING_FEATURES:
-                results.append(GateResult("constant", "warn", f"{col} is entirely null (funding missing)"))
             continue
         if s.len() >= min_rows and s.n_unique() == 1:
-            level = "fail" if col in OHLCV_FEATURES or col in FUNDING_FEATURES else "warn"
+            level = "fail" if col in OHLCV_FEATURES else "warn"
             results.append(GateResult("constant", level, f"{col} is constant ({s[0]}) over {s.len()} rows"))
     if not results:
         results.append(GateResult("constant", "pass", "no invented constants"))

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-CONTRACT_VERSION = "2.4.1"
+CONTRACT_VERSION = "2.5.0"
 PRODUCER = "pipeline"
 
 # Core chart/ML fabrics. Time bars are real OHLCV aggregates, not "last dollar bar".
@@ -101,4 +101,27 @@ DROPPED_FAMILIES = {
     "dib_runs_range_adaptive": "research-only; omitted from v2.",
     "target_voladj_as_feature": "optional label only; the denominator is future volatility.",
     "norm_bar_duration_on_time_bars": "the clock is fixed, so the column would be dead.",
+    "norm_funding": (
+        "a 200-bar z-score of a series that is flat for weeks (2020 funding pinned at 0.01%): "
+        "null on 43-84% of rows, and where defined on 1m/dollar bars the denominator was the "
+        "1e-5 epsilon, not the data. funding_rate, funding_day_* and xd_funding_spread carry it."
+    ),
+    "norm_funding_momentum": "same step-series defect as norm_funding (dropped in 2.5.0).",
+    "liq_proxy": (
+        "spot prints above a static per-asset size: not liquidations (spot has none), a "
+        "duplicate of wh_* with a size that drifts across years."
+    ),
+    "norm_spread_bps": "high-low range times (1 + |flow imbalance|): not a spread; r=0.91 with the RS volatility.",
+    "norm_hawkes_buy_sell_intensity": (
+        "r=0.96-0.98 with norm_hawkes_intensity; norm_hawkes_imbalance keeps the buy/sell split."
+    ),
+    "static_bootstrap_sizes": (
+        "first-day dollar and whale sizes from a 2024-era table: the first day now calibrates "
+        "(dollar) or is null (wh_*). Tick/volume per-asset tables were unused and are removed."
+    ),
+}
+
+# Renamed in 2.5.0 (old -> new), for readers of older gold.
+RENAMED_COLUMNS = {
+    "norm_hl_spread": "norm_rs_volatility",
 }

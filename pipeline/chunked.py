@@ -14,7 +14,6 @@ from pipeline.config import (
     Windows,
     dollar_spec,
     embargo_bars_for,
-    liq_proxy_usd,
     load_embargo_policy,
     load_lags,
     load_listing_dates,
@@ -172,8 +171,10 @@ def read_dollar_state(root: Path, asset: str, spec, through: str | None = None) 
         meta = json.loads(meta_path.read_text())
     except (OSError, ValueError):
         return None
+    saved = meta.get("threshold")
     if (
-        abs(float(meta.get("threshold", -1)) - spec.bootstrap) > 1e-9
+        (saved is None) != (spec.constant is None)
+        or (saved is not None and abs(float(saved) - float(spec.constant)) > 1e-9)
         or meta.get("target_bars_per_day") != spec.target_bars_per_day
         or int(meta.get("window_days", -1)) != spec.window_days
     ):
@@ -206,7 +207,7 @@ def read_dollar_state(root: Path, asset: str, spec, through: str | None = None) 
 
 def new_accumulator(spec) -> DollarAccumulator:
     return DollarAccumulator(
-        spec.bootstrap, target_bars_per_day=spec.target_bars_per_day, window_days=spec.window_days,
+        spec.constant, target_bars_per_day=spec.target_bars_per_day, window_days=spec.window_days,
     )
 
 
@@ -304,10 +305,7 @@ def build_crypto_month(cfg, asset: str, first: date, last: date, acc: DollarAccu
         if acc is not None:
             acc.add(trades)
         thresh = whale_threshold(whale_hists, wspec)
-        daily_rows.append(summarize_day(
-            trades, one_m, asset=asset, day=day,
-            whale_usd=thresh, liq_usd=liq_proxy_usd(asset),
-        ))
+        daily_rows.append(summarize_day(trades, one_m, asset=asset, day=day, whale_usd=thresh))
         usd = (trades["price"] * trades["qty"]).to_numpy()
         whale_hists.append(trade_notional_hist(usd))
         whale_hists = whale_hists[-wspec.window_days:]
@@ -370,7 +368,7 @@ def write_bars_month(
         return {
             "cached": True,
             "n_bronze": count_bronze_trades(cfg.data_root, asset, first, last),
-            "dollar_excluded": acc.tail_trades() if acc is not None else None,
+            "dollar_excluded": acc.excluded_trades() if acc is not None else None,
             "gaps": [],
         }
     use_acc = acc if (want_dollar and rebuild_dollar) else None
@@ -447,6 +445,47 @@ def feature_lookback_days(cfg, bar_type: str, n_bars: int | None = None) -> int:
     return max(floor_days, int((bars * width) / DAY_MS) + 2)
 
 
+def _bars_before(root: Path, asset: str, bar_type: str, lo: date, first: date) -> int:
+    """Bars of the months ``[lo's month, first's month]`` that close at or before ``first`` 00:00."""
+    import pyarrow.parquet as pq
+
+    cut = _day_ms(first)
+    n = 0
+    for y, m in iter_months(lo, first):
+        path = bars_month_path(root, bar_type, asset, y, m)
+        if not sidecar_ok(path):
+            continue
+        if (y, m) < (first.year, first.month):
+            n += int(pq.read_metadata(path).num_rows)
+        else:
+            n += int(pl.scan_parquet(path).filter(pl.col("ts_ms") <= cut).select(pl.len()).collect().item())
+    return n
+
+
+def feature_warm_start(cfg, asset: str, bar_type: str, first: date, need: int | None = None) -> date:
+    """First day of the frame a feature month is computed on.
+
+    At least ``feature_lookback_days`` before the month, and moved back a month
+    at a time until ``need`` bars precede it (or the asset's history starts);
+    ``need`` defaults to the cadence's ``max_lookback``. Every window is finite
+    and fits in ``need`` bars, so a month's features then equal a computation
+    over the asset's whole history: the partition a bar lands in, and where a
+    run started, cannot change it. On sparse fabrics (dollar bars in a quiet
+    week, 1m bars of an illiquid coin, FX across weekends) a fixed number of
+    days can hold fewer bars than that.
+    """
+    if need is None:
+        windows = cfg.windows or load_windows()
+        _floor_days, max_days = load_embargo_policy()
+        need = scale_windows(windows, bar_type, None, max_lookback_days=max_days).max_lookback
+    asset_start = _asset_range(cfg, asset)[0]
+    warm = first - timedelta(days=feature_lookback_days(cfg, bar_type))
+    while warm > asset_start and _bars_before(cfg.data_root, asset, bar_type, warm, first) < need:
+        prev = month_first(warm.year, warm.month) - timedelta(days=1)
+        warm = month_first(prev.year, prev.month)
+    return warm
+
+
 def _months_overlapping(first: date, last: date) -> list[tuple[int, int]]:
     return list(iter_months(first, last))
 
@@ -511,15 +550,32 @@ def features_inputs_digest(cfg, asset: str, bar_type: str, warm_start: date, las
     return inputs_digest(paths) + _external_slice_digest(root, warm_start - timedelta(days=3), last + timedelta(days=1), asset)
 
 
+def windows_params(cfg, bar_type: str) -> dict:
+    """The scaled windows a cadence's features use, for partition params."""
+    import dataclasses
+
+    windows = cfg.windows or load_windows()
+    _floor_days, max_days = load_embargo_policy()
+    out = dataclasses.asdict(scale_windows(windows, bar_type, None, max_lookback_days=max_days))
+    out["horizons"] = list(out["horizons"])
+    return out
+
+
 def write_features_month(cfg, asset: str, bar_type: str, year: int, month: int, attach_fn) -> str:
-    """Compute features for one month with a lookback warmup; write only the month's rows."""
+    """Compute features for one month with a lookback warmup; write only the month's rows.
+
+    Params carry the inputs' digest and the settings that shape the values (the
+    scaled windows and the lag table), so editing ``windows`` or ``lags`` in
+    config rebuilds exactly the feature months, without a contract bump.
+    """
     first, last = clip_month(year, month, *(_asset_range(cfg, asset)))
-    lookback = feature_lookback_days(cfg, bar_type)
-    warm_start = first - timedelta(days=lookback)
+    warm_start = feature_warm_start(cfg, asset, bar_type, first)
     params = partition_params(
         asset=asset, bar_type=bar_type, start=first, end=last,
         extra={
             "include_oi": cfg.include_oi, "stage": "features",
+            "windows": windows_params(cfg, bar_type),
+            "lags": load_lags(),
             "inputs": features_inputs_digest(cfg, asset, bar_type, warm_start, last),
         },
     )
@@ -557,12 +613,18 @@ def _dataset_params(cfg, asset: str, bar_type: str, first: date, last: date,
     """Gold params. ``inputs`` digests every feature month the partition reads
     (its own, with the warm-up and the look-ahead of the targets, and the peers'
     when cross-asset columns are built), so gold is rebuilt when month M+1
-    appears, when a feature month is rebuilt, or when the peer set changes."""
+    appears, when a feature month is rebuilt, or when the peer set changes. The
+    windows gold itself uses (target horizons, cross-asset fast and ma) and the
+    target clock are in the params too."""
+    windows = cfg.windows or load_windows()
+    clock = TIME_WIDTH_MS.get(bar_type) if getattr(cfg, "market", "crypto") != "fx" else None
     return partition_params(
         asset=asset, bar_type=bar_type, start=first, end=last,
         extra={
             "stage": "dataset", "include_oi": cfg.include_oi, "voladj": cfg.voladj,
             "clipped": cfg.clipped, "embargo_bars": int(embargo_n),
+            "horizons": list(windows.horizons), "xd_windows": [windows.fast, windows.ma],
+            "target_clock_ms": clock,
             "cohort": cohort, "inputs": inputs,
             "splits": [str(x) for x in (cfg.splits.train_end, cfg.splits.val_end, cfg.splits.oos_end)] if cfg.splits else None,
         },
@@ -685,7 +747,10 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
         df = todo[asset]
         first, last, _warm, _tail = ranges[asset]
         params = params_for[asset]
-        df = add_targets(df, windows.horizons, clipped=cfg.clipped, voladj=cfg.voladj)
+        # Crypto time bars exist only where trades exist, so their horizon is clock
+        # time; event bars and FX (whose weekend close is not a quiet minute) count bars.
+        clock = TIME_WIDTH_MS.get(bar_type) if getattr(cfg, "market", "crypto") != "fx" else None
+        df = add_targets(df, windows.horizons, clipped=cfg.clipped, voladj=cfg.voladj, width_ms=clock)
         df = assign_split(df, splits)
         embargo_n = embargo_for[asset]
         df = apply_embargo(df, embargo_n)
@@ -698,7 +763,7 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
         digest = write_frame(month_df, path, "dataset_v1", params)
         feats = [
             c for c in month_df.columns
-            if c.startswith(("norm_", "xd_", "wh_", "liq_", "rv_", "hbr_", "funding_day", "s3_", "bs_",
+            if c.startswith(("norm_", "xd_", "wh_", "rv_", "hbr_", "funding_day", "s3_", "bs_",
                              "etf_", "dv_", "soc_", "stbl_"))
             or c in ("hurst_regime", "funding_rate", "oi_value")
         ]
@@ -772,8 +837,9 @@ def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, mo
     from pipeline.config import fx_pip
     from pipeline.features import add_usd_strength, compute_fx_features
 
+    from pipeline.features import FX_MAX_WINDOW
+
     status: dict[str, str] = {}
-    lookback = feature_lookback_days(cfg, bar_type)
     ranges = {}
     members = []
     for asset in assets:
@@ -781,7 +847,9 @@ def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, mo
         if (year, month) < (a_start.year, a_start.month) or (year, month) > (a_end.year, a_end.month):
             continue
         first, last = clip_month(year, month, a_start, a_end)
-        ranges[asset] = (first, last, first - timedelta(days=lookback))
+        # FX windows are fixed (up to FX_MAX_WINDOW bars at every cadence); with five
+        # trading days a week, 92 calendar days can hold fewer 1d bars than that.
+        ranges[asset] = (first, last, feature_warm_start(cfg, asset, bar_type, first, need=FX_MAX_WINDOW + 1))
         members.append(asset)
     cohort = sorted(members)
     params_for = {}

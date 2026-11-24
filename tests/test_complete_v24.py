@@ -15,7 +15,7 @@ import pytest
 import pipeline.chunked as chunked
 import pipeline.fetch_crypto as fc
 from pipeline.config import (
-    Windows, dollar_threshold, embargo_bars_for, load_dollar_thresholds,
+    Windows, dollar_spec, embargo_bars_for,
     load_splits, load_windows, scale_windows,
 )
 from pipeline.constants import DAY_MS, TIME_WIDTH_MS
@@ -53,9 +53,13 @@ def test_fine_cadences_keep_their_windows():
 
 def test_lookback_counts_every_chained_input():
     w = Windows(z=10, frac_diff=5, hurst=5, perm_entropy=5, kyle=5, vol_cluster=5, ma=5,
-                kurtosis=40, funding_mom=5, yz=5, efficiency=5, fast=5, slow_span=5, cs_block=2)
+                kurtosis=40, yz=5, efficiency=5, fast=5, slow_span=5, cs_block=2, ema=5, oi_median=5)
     # kurtosis(40) is the longest input; 2.3.0 ignored it.
     assert w.max_lookback == 41 + 10
+    # A chain of two windows counts both: the EMA deviation feeds a 30-bar std.
+    chained = Windows(z=10, frac_diff=5, hurst=5, perm_entropy=5, kyle=5, vol_cluster=30, ma=5,
+                      kurtosis=5, yz=5, efficiency=5, fast=5, slow_span=5, cs_block=2, ema=25, oi_median=5)
+    assert chained.max_lookback == (25 + 30 - 1) + 10
 
 
 # --- fetch: adopt finished files, record permanent absences, retry transients ----------
@@ -135,16 +139,12 @@ def test_external_write_merges_and_new_rows_win(tmp_path):
 
 # --- dollar sizes beyond u10 ------------------------------------------------------------
 
-def test_dollar_bootstrap_for_an_asset_outside_the_table_uses_its_measured_volume():
-    table = load_dollar_thresholds()
-    assert "SUIUSDT" not in table["assets"]
-    size = dollar_threshold("SUIUSDT", table)
-    assert size == pytest.approx(23323552 / 288)
-
-
-def test_dollar_bootstrap_without_any_source_is_an_error():
-    with pytest.raises(KeyError):
-        dollar_threshold("NOTACOINUSDT", load_dollar_thresholds())
+def test_adaptive_dollar_sizing_has_no_static_size_for_any_asset():
+    # 2.5.0: no 2024-era first-day table. Any asset, in u10 or not, calibrates on its first day.
+    for asset in ("BTCUSDT", "SUIUSDT", "NOTACOINUSDT"):
+        spec = dollar_spec(asset)
+        assert spec.constant is None and spec.target_bars_per_day == 288 and spec.window_days == 30
+    assert dollar_spec("BTCUSDT", 500.0).constant == 500.0  # explicit override = constant size
 
 
 # --- runs: resume, incremental extension, listings, cohort -------------------------------
