@@ -118,6 +118,14 @@ For FX, `mlsys crosscheck --market fx --universe majors --start ... --end ... --
 
 `crosscheck` caches the venue responses of finished months under `<data-root>/crosscheck/`. Add `--refresh` to fetch every response live again: the run then also reports whether each cached copy still equals the venue (cached copies are never overwritten).
 
+Before a range is promoted, certify it with one command:
+
+```bash
+mlsys certify --universe u10 --start 2020-01-01 --end 2020-12-31 --data-root data/u10 --refresh
+```
+
+It checks that every stage is complete, rebuilds the range in place from bronze with `--force` and requires every silver and gold file to come out byte-identical, runs the validate stage, proves the cross-sectional columns causal (crypto `xd_*`, every FX feature column) by recomputing them with every input cut at sampled bars, and runs the public-API cross-check. The result is one PASS/WARN/FAIL line per step and a certificate at `<data-root>/certify/<market>_<start>_<end>.json` that names the git commit. Certify with the range and assets the data was built with: a rebuild that would rewrite data built from another start or asset list is refused. `--no-rebuild` skips the rebuild (about 40 minutes for u10 2020) and `--skip-network` the cross-check; each then shows as a warning.
+
 `run` ends with one `SUMMARY  PASS=...  WARN=...  FAIL=...  EXIT=...` line (exit 0 pass, 1 warn, 2 fail). `status` exits 0 when the range is complete and 1 when it is not. `inspect --html` needs `pip install -e ".[viz]"`.
 
 A recent 7-day window (Monday 9 Nov 2026 to Sunday 15 Nov 2026; US and UK standard time, after the 2026 DST fallbacks):

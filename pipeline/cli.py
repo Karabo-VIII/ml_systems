@@ -6,6 +6,7 @@
     python -m pipeline.cli validate --data-root data --skip-network
     python -m pipeline.cli inspect --asset BTCUSDT --start 2020-03-11 --end 2020-03-13
     python -m pipeline.cli crosscheck --universe u10 --start 2020-01-01 --end 2020-12-31 --data-root data/u10
+    python -m pipeline.cli certify --universe u10 --start 2020-01-01 --end 2020-12-31 --data-root data/u10
 """
 
 from __future__ import annotations
@@ -32,7 +33,7 @@ def _date(s: str):
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="pipeline",
-        description="run, status, validate, inspect, and crosscheck a crypto or FX data root",
+        description="run, status, validate, inspect, crosscheck, and certify a crypto or FX data root",
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -109,6 +110,24 @@ def build_parser() -> argparse.ArgumentParser:
     cc.add_argument("--refresh", action="store_true",
                     help="fetch every response live from the venues instead of the cache; "
                          "cached copies are compared with it, never overwritten")
+
+    ce = sub.add_parser(
+        "certify",
+        help="certify a range before promoting it: completeness, a rebuild from bronze, validation, "
+             "causality proofs and the public-API cross-check, recorded in a certificate",
+    )
+    ce.add_argument("--start", required=True, type=_date)
+    ce.add_argument("--end", required=True, type=_date)
+    ce.add_argument("--assets", nargs="*", default=None)
+    ce.add_argument("--universe", default=None, help="crypto: u10, u50, u100. fx: majors")
+    ce.add_argument("--market", default="crypto", choices=("crypto", "fx"))
+    ce.add_argument("--bar-types", default=None, help="default: crypto core bars, or fx time bars")
+    ce.add_argument("--data-root", type=Path, default=None)
+    ce.add_argument("--no-rebuild", action="store_true",
+                    help="skip the in-place rebuild from bronze; the certificate then says the data was not reproduced")
+    ce.add_argument("--skip-network", action="store_true",
+                    help="skip the public-API cross-check and the venue checks of validate")
+    ce.add_argument("--refresh", action="store_true", help="fetch every cross-check response live")
     return p
 
 
@@ -173,6 +192,31 @@ def main(argv: list[str] | None = None) -> int:
                             refresh=args.refresh, market=args.market)
         print()
         report.print()
+        return report.code
+    if args.cmd == "certify":
+        from pipeline.certify import certify
+        if args.market == "fx":
+            assets = [canonical_fx_symbol(p) for item in (args.assets or []) for p in item.split(",") if p.strip()]
+        else:
+            assets = parse_symbol_list(args.assets) if args.assets else []
+        if not assets and not args.universe:
+            print("certify needs --assets or --universe", file=sys.stderr)
+            return 2
+        if args.bar_types:
+            bar_types = [s.strip() for s in args.bar_types.split(",") if s.strip()]
+        else:
+            bar_types = list(TIME_WIDTH_MS) if args.market == "fx" else list(CORE_BAR_TYPES)
+        cfg = RunConfig(
+            start=args.start, end=args.end, assets=assets, universe=args.universe, bar_types=bar_types,
+            data_root=root, windows=load_windows(), splits=load_splits(), market=args.market,
+        )
+        try:
+            report = certify(cfg, rebuild=not args.no_rebuild, network=not args.skip_network, refresh=args.refresh)
+        except KeyboardInterrupt:
+            return 130
+        except (ValueError, FileNotFoundError, KeyError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 2
         return report.code
     if args.cmd == "status":
         if args.start is None or args.end is None:

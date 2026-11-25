@@ -442,7 +442,7 @@ def test_validate_counts_dollar_trades_when_only_other_bars_were_rebuilt(tmp_pat
         return r
 
     monkeypatch.setattr(orch, "gate_trade_count", spy)
-    monkeypatch.setattr(orch, "_independent_validate", lambda cfg, worst: worst)
+    monkeypatch.setattr(orch, "_independent_validate", lambda cfg, worst, reports=None: worst)
     run(RunConfig(stages=["bars", "features", "dataset", "validate"], bar_types=["time_1h", "dollar"], **base))
     state = read_dollar_state(tmp_path, "BTCUSDT", dollar_spec_for(RunConfig(**base), "BTCUSDT"), through="2024-06")
     dollar = [c for c in calls if c[0] == "dollar"]

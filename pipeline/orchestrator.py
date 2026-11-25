@@ -503,8 +503,9 @@ def _validate_asset(cfg: "RunConfig", asset: str, start: date, n_assets: int, pa
 
 
 
-def _independent_validate(cfg: RunConfig, worst: int) -> int:
-    """Run scripts-compatible independent checks and print one PASS/WARN/FAIL summary."""
+def _independent_validate(cfg: RunConfig, worst: int, reports: dict | None = None) -> int:
+    """Run scripts-compatible independent checks and print one PASS/WARN/FAIL summary.
+    ``reports``, when given, receives the report under ``"validate"``."""
     from pipeline.validate_run import Report, run_validation
 
     report = Report()
@@ -528,12 +529,16 @@ def _independent_validate(cfg: RunConfig, worst: int) -> int:
     print()
     print("=== data layer validation ===")
     report.print()
+    if reports is not None:
+        reports["validate"] = report
     return max(worst, report.code)
 
 
-def run(cfg: RunConfig) -> int:
+def run(cfg: RunConfig, *, reports: dict | None = None) -> int:
+    """Run the stages of ``cfg``. ``reports``, when given, receives the validate stage's
+    report under ``"validate"`` (``mlsys certify`` reads it)."""
     if cfg.market == "fx":
-        return run_fx(cfg)
+        return run_fx(cfg, reports=reports)
     assets = resolve_assets(cfg)
     listings = load_listing_dates()
     windows = cfg.windows or load_windows()
@@ -696,7 +701,7 @@ def run(cfg: RunConfig) -> int:
                     worst = 2
             if coverage:
                 print_coverage_report(coverage)
-            worst = _independent_validate(cfg, worst)
+            worst = _independent_validate(cfg, worst, reports)
     except KeyboardInterrupt:
         session.info("[run] interrupted (Ctrl+C). Re-run the same command to resume.")
         session.finish(130)
@@ -714,7 +719,7 @@ def _fx_weekday_gaps(missing: list[int]) -> list[int]:
     return [ts for ts in missing if not _fx_weekend_expected(ts)]
 
 
-def run_fx(cfg: RunConfig) -> int:
+def run_fx(cfg: RunConfig, *, reports: dict | None = None) -> int:
     """FX uses the same stages. Fetch is Dukascopy hours; bars and features are shared code."""
     from pipeline.fetch_fx import fetch_fx_range
 
@@ -859,7 +864,7 @@ def run_fx(cfg: RunConfig) -> int:
                     worst = 2
             if coverage:
                 print_coverage_report(coverage)
-            worst = _independent_validate(cfg, worst)
+            worst = _independent_validate(cfg, worst, reports)
     except KeyboardInterrupt:
         session.info("[run] interrupted (Ctrl+C). Re-run the same command to resume.")
         session.finish(130)

@@ -691,14 +691,22 @@ def _embargo_padding(cfg, asset: str, bar_type: str, windows, floor_days: int, m
     return embargo_n, max(floor_days, span_days, horizon_days)
 
 
-def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month: int, meta: dict, *, cross_asset: bool = True) -> dict[str, str]:
+def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month: int, meta: dict, *,
+                        cross_asset: bool = True, cut_ms: int | None = None, sink=None) -> dict[str, str]:
     """Cross-asset, targets, splits, embargo for one month; write gold partitions.
 
     An asset whose history does not reach this month (listed later) is skipped,
     not an error for the whole cohort. Cross-asset columns use every cohort
     member that has features for the month as a peer, whether or not that
     member's own gold is stale, and the cohort is part of the params.
+
+    With ``sink``, nothing is written: every member's month is computed from the
+    feature months as stored, without rows after ``cut_ms`` when it is given, and
+    handed to ``sink(asset, frame)``. The truncation proof of ``mlsys certify``
+    uses this.
     """
+    if cut_ms is not None and sink is None:
+        raise ValueError("cut_ms needs a sink: a frame cut at a bar is never written")
     windows: Windows = cfg.windows or load_windows()
     splits = cfg.splits
     floor_days, max_days = load_embargo_policy()
@@ -728,7 +736,7 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
         params = _dataset_params(cfg, asset, bar_type, first, last, embargo_for[asset], digest, cohort)
         params_for[asset] = params
         path = gold_month_path(cfg.data_root, bar_type, asset, year, month)
-        if partition_fresh(path, params, force=cfg.force):
+        if sink is None and partition_fresh(path, params, force=cfg.force):
             status[asset] = "cached"
         else:
             stale.append(asset)
@@ -738,6 +746,8 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
     for asset in (members if cohort else stale):
         first, last, warm, tail = ranges[asset]
         feat = load_feature_months(cfg.data_root, asset, bar_type, warm, tail)
+        if cut_ms is not None and not feat.is_empty():
+            feat = feat.filter(pl.col("ts_ms") <= cut_ms)
         if not feat.is_empty():
             frames[asset] = feat
     todo = frames
@@ -762,6 +772,10 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
         month_df = _in_month(df, first, last)
         if month_df.is_empty():
             status[asset] = "empty"
+            continue
+        if sink is not None:
+            sink(asset, month_df)
+            status[asset] = "computed"
             continue
         path = gold_month_path(cfg.data_root, bar_type, asset, year, month)
         digest = write_frame(month_df, path, "dataset_v1", params)
@@ -908,18 +922,26 @@ def attach_fx_slow(df: pl.DataFrame, pair: str, daily: pl.DataFrame, policy: pl.
     return df
 
 
-def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, month: int) -> dict[str, str]:
+def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, month: int, *,
+                            cut_ms: int | None = None, sink=None) -> dict[str, str]:
     """FX features, currency strength and the slow series for one month, one cadence.
 
     The currency strengths use every pair of the run, so the whole cohort is
     loaded whenever any member is stale, and the cohort plus the digest of every
     pair's bars are part of the params, with the pair's daily panel, the policy
     rates of its two currency areas, the FX windows of the cadence and the lags.
+
+    With ``sink``, nothing is written: every pair's month is computed and handed to
+    ``sink(pair, frame)``. With ``cut_ms`` too, the inputs hold only what is knowable
+    at that instant: bars up to it, and daily-panel and policy-rate rows whose lag
+    has passed. The truncation proof of ``mlsys certify`` uses this.
     """
-    from pipeline.config import fx_pip
+    from pipeline.config import fx_pip, lag_ms
     from pipeline.features import add_currency_strength, compute_fx_features, fx_lookback, fx_z_window
     from pipeline.fetch_external import BIS_LEAD_DAYS, CURRENCY_AREA, load_external
 
+    if cut_ms is not None and sink is None:
+        raise ValueError("cut_ms needs a sink: a frame cut at a bar is never written")
     status: dict[str, str] = {}
     ranges = {}
     members = []
@@ -955,16 +977,20 @@ def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, mo
         )
         params_for[asset] = params
         path = features_month_path(cfg.data_root, bar_type, asset, year, month)
-        if partition_fresh(path, params, force=cfg.force):
+        if sink is None and partition_fresh(path, params, force=cfg.force):
             status[asset] = "cached"
         else:
             stale.append(asset)
     if not stale:
         return status
+    if cut_ms is not None and not policy.is_empty():
+        policy = policy.filter(pl.col("event_time_ms") + lag_ms("policy_rate") <= cut_ms)
     frames: dict[str, pl.DataFrame] = {}
     for asset in members:
         first, last, warm = ranges[asset]
         bars = load_bar_months(cfg.data_root, asset, bar_type, warm, last)
+        if cut_ms is not None and not bars.is_empty():
+            bars = bars.filter(pl.col("ts_ms") <= cut_ms)
         if not bars.is_empty():
             frames[asset] = compute_fx_features(bars, fx_pip(asset), max_lookback_days=max_days)
     if frames:
@@ -975,9 +1001,15 @@ def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, mo
             continue
         first, last, warm = ranges[asset]
         daily = load_daily_months(cfg.data_root, asset, warm, last)
+        if cut_ms is not None and "event_time_ms" in daily.columns:
+            daily = daily.filter(pl.col("event_time_ms") + lag_ms("daily_panel") <= cut_ms)
         month_df = _in_month(attach_fx_slow(frames[asset], asset, daily, policy), first, last)
         if month_df.is_empty():
             status[asset] = "empty"
+            continue
+        if sink is not None:
+            sink(asset, month_df)
+            status[asset] = "computed"
             continue
         path = features_month_path(cfg.data_root, bar_type, asset, year, month)
         write_frame(month_df, path, "features_v1", params_for[asset])
