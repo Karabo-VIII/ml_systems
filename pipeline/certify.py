@@ -2,7 +2,8 @@
 
 One command runs these steps and reports each as PASS, WARN or FAIL:
 
-- ``code``: the git commit of this code, and whether the working tree differs from it.
+- ``code``: the git commit of this code, and whether ``pipeline/``, ``config/`` or
+  ``pyproject.toml`` differ from it.
 - ``status``: every stage complete over the range.
 - ``reproduce``: the range is rebuilt in place from bronze with ``--force`` (bars, features,
   dataset), and every silver and gold partition of it must equal the stored file byte for
@@ -85,8 +86,13 @@ def _now() -> str:
 
 # --- code identity ---------------------------------------------------------------------
 
+CODE_PATHS = ("pipeline", "config", "pyproject.toml")
+
+
 def code_identity(repo: Path = REPO) -> dict:
-    """The commit this code is at, its branch, and the paths that differ from it."""
+    """The commit this code is at, its branch, and the paths of the code (``pipeline/``,
+    ``config/``, ``pyproject.toml``) that differ from it, untracked files included. A change
+    elsewhere (a document, a scratch file) does not change what the pipeline builds."""
 
     def git(*args: str) -> str | None:
         try:
@@ -96,7 +102,7 @@ def code_identity(repo: Path = REPO) -> dict:
         return out.stdout if out.returncode == 0 else None
 
     commit, branch = git("rev-parse", "HEAD"), git("rev-parse", "--abbrev-ref", "HEAD")
-    changes = git("status", "--porcelain", "--untracked-files=normal")
+    changes = git("status", "--porcelain", "--untracked-files=normal", "--", *CODE_PATHS)
     changed = [line[3:] for line in (changes or "").splitlines() if line.strip()]
     return {
         "commit": commit.strip() if commit else None,
