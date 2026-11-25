@@ -194,6 +194,7 @@ The second table lists on-disk data families. Those paths are created at runtime
 | `config/asset_launch_dates.json` | Per-asset listing dates used as the history floor |
 | `config/pipeline.yaml` | Universes, dollar thresholds, windows, lags, FX settings, and splits |
 | `docs/DATA_CONTRACT.md` | This contract, including the artifact registry |
+| `docs/STRATEGY_CATALOG.md` | Catalog of strategy families for crypto and FX, with archive priors |
 | `docs/STRATEGY_LAYER.md` | Backtest engine and the first three strategies |
 | `pipeline/__init__.py` | Package docstring and `__version__` |
 | `pipeline/align.py` | As-of joins on `knowable_at` |
