@@ -47,6 +47,8 @@ A symbol listed after `--start` begins at its Binance listing date in `config/as
 
 **FX** (`--market fx`), from Dukascopy hourly tick files. Majors: EURUSD, GBPUSD, USDJPY, AUDUSD, NZDUSD, USDCAD, USDCHF. `volume` / `n_trades` are the tick count. There is no traded notional and no aggressor side.
 
+FX status (2026-11-25): the FX path is tested by unit tests, including planted clock and price-scale errors against the ECB check, and end to end on a synthetic week. It has not yet run on real Dukascopy ticks: Dukascopy throttles the machine it was built on (HTTP 503). A real FX build checks itself: `validate` compares every pair's 1m mid with the ECB reference rate and fails on a clock or price-scale error.
+
 ### How each view is processed
 
 ```

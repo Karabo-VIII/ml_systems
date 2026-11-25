@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 import polars as pl
+import pytest
 
 from pipeline.align import asof_join_knowable
 from pipeline.constants import DAY_MS
@@ -82,6 +83,36 @@ def test_gold_loader_reads_the_latest_file(tmp_path):
     )
     loaded = load_gold("btc", "time_1h", root=tmp_path)
     assert loaded["close"][0] == 11.0
+
+
+def test_gold_loader_columns_that_a_month_lacks_come_back_null(tmp_path):
+    """A series that starts mid-history (Vision metrics, a perpetual listed after the spot pair)
+    is absent from the earlier months.
+
+    ``columns=`` returns what the full load would select: null where a month has no such column,
+    in time order, without ``ts_ms`` unless it is asked for. A column that no month has raises,
+    so a misspelt name is not read as an all-null feature.
+    """
+    folder = tmp_path / "gold" / "time_1d"
+    folder.mkdir(parents=True)
+    jan = pl.DataFrame({
+        "asset": ["BTCUSDT"] * 2, "bar_type": ["time_1d"] * 2, "ts_ms": [1, 2], "close": [1.0, 2.0],
+    })
+    sep = jan.with_columns(pl.Series("ts_ms", [3, 4]), pl.Series("close", [3.0, 4.0]),
+                           pl.Series("s3_oi_mean", [30.0, 40.0]))
+    for name, frame in (("BTCUSDT_2020-01.parquet", jan), ("BTCUSDT_2020-09.parquet", sep)):
+        atomic_write_parquet(frame, folder / name, schema_name="dataset_v1", params={"v": 1}, sort_cols=["ts_ms"])
+    full = load_gold("btc", "time_1d", root=tmp_path)
+
+    picked = load_gold("btc", "time_1d", root=tmp_path, columns=["ts_ms", "s3_oi_mean"])
+    assert picked.equals(full.select(["ts_ms", "s3_oi_mean"]))
+    assert picked["s3_oi_mean"].to_list() == [None, None, 30.0, 40.0]
+
+    no_clock = load_gold("btc", "time_1d", root=tmp_path, columns=["s3_oi_mean", "close"])
+    assert no_clock.equals(full.select(["s3_oi_mean", "close"]))
+
+    with pytest.raises(pl.exceptions.ColumnNotFoundError):
+        load_gold("btc", "time_1d", root=tmp_path, columns=["ts_ms", "s3_oi_mena"])
 
 
 def test_farside_mixed_ints_and_floats_across_many_rows():

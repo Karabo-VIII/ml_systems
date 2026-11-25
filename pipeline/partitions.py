@@ -111,18 +111,35 @@ def load_partitions(
     *,
     columns: list[str] | None = None,
 ) -> pl.DataFrame | None:
+    """Every partition of ``asset`` under ``directory``, in time order, one row per ``ts_ms``.
+
+    The months of one asset need not have the same columns: a series enters with the month its
+    source begins. A month without a column gives null there, with or without ``columns``:
+    ``columns`` returns the full load's selection, and a column that no partition has raises,
+    so a misspelt name is not read as an all-null series. ``ts_ms`` is always read, for the
+    order and the de-duplication, and returned only when it is requested.
+    """
     files = list_partition_paths(directory, asset)
     if not files:
         return None
+    want = list(dict.fromkeys(columns)) if columns else None
     frames = []
     for path in files:
-        df = pl.read_parquet(path, columns=columns) if columns else pl.read_parquet(path)
-        frames.append(df)
+        if want is None:
+            frames.append(pl.read_parquet(path))
+        else:
+            have = pl.read_parquet_schema(path)
+            frames.append(pl.read_parquet(path, columns=[c for c in dict.fromkeys(["ts_ms", *want]) if c in have]))
     # A stable sort, so "last" among equal timestamps is the later file on every run.
     out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True)
     if "ts_ms" in out.columns:
         out = out.unique(subset=["ts_ms"], keep="last", maintain_order=True)
-    return out
+    if want is None:
+        return out
+    missing = [c for c in want if c not in out.columns]
+    if missing:
+        raise pl.exceptions.ColumnNotFoundError(f"{asset}: no partition under {directory} has {missing}")
+    return out.select(want)
 
 
 def expected_months_present(
