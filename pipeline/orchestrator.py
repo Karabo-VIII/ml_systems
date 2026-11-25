@@ -40,7 +40,7 @@ from pipeline.dataset import (
     manifest_payload,
     utc_now_ms,
 )
-from pipeline.features import FX_FEATURES, XD_COLUMNS, add_cross_asset, add_usd_strength, compute_fx_features
+from pipeline.features import FX_FEATURES, XD_COLUMNS, add_cross_asset, compute_fx_features
 from pipeline.features import (
     basis_daily,
     funding_daily,
@@ -143,7 +143,7 @@ def resolve_assets(cfg: RunConfig) -> list[str]:
 
 def feature_columns(df: pl.DataFrame) -> list[str]:
     prefixes = ("norm_", "xd_", "wh_", "rv_", "hbr_", "funding_day", "s3_", "bs_")
-    cols = [c for c in df.columns if c.startswith(prefixes) or c == "hurst_regime"]
+    cols = [c for c in df.columns if c.startswith(prefixes) or c in ("hurst_regime", "carry_pct")]
     cols += [c for c in FX_FEATURES if c in df.columns and c not in cols]
     return cols
 
@@ -160,7 +160,9 @@ def _read_funding(root: Path, asset: str, start: date, end: date) -> pl.DataFram
             y, m = y + 1, 1
     if not frames:
         return pl.DataFrame(schema={"ts_ms": pl.Int64, "funding_rate": pl.Float64})
-    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms").unique(subset=["ts_ms"], keep="last", maintain_order=True)
+    # A stable sort, so "last" among equal timestamps is the later file and row on every run.
+    return (pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True)
+            .unique(subset=["ts_ms"], keep="last", maintain_order=True))
 
 
 def _read_metrics(root: Path, asset: str, start: date, end: date) -> pl.DataFrame:
@@ -171,7 +173,7 @@ def _read_metrics(root: Path, asset: str, start: date, end: date) -> pl.DataFram
             frames.append(pl.read_parquet(path))
     if not frames:
         return pl.DataFrame()
-    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms")
+    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True)
 
 
 def _read_perp(root: Path, asset: str, start: date, end: date) -> pl.DataFrame:
@@ -182,7 +184,7 @@ def _read_perp(root: Path, asset: str, start: date, end: date) -> pl.DataFrame:
             frames.append(pl.read_parquet(path))
     if not frames:
         return pl.DataFrame()
-    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms")
+    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True)
 
 
 def _join_funding(bars: pl.DataFrame, funding: pl.DataFrame) -> pl.DataFrame:
@@ -314,15 +316,20 @@ def _load_gold_range(root: Path, bar_type: str, asset: str, lo: date, hi: date, 
         return pl.DataFrame()
     lo_ms = int(datetime(lo.year, lo.month, lo.day, tzinfo=timezone.utc).timestamp() * 1000)
     hi_ms = int(datetime(hi.year, hi.month, hi.day, tzinfo=timezone.utc).timestamp() * 1000) + DAY_MS
-    out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms")
+    out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True)
     return out.filter((pl.col("ts_ms") > lo_ms) & (pl.col("ts_ms") <= hi_ms))
 
 
 def _merge_gate(results: dict, item, label: str) -> None:
+    """Keep every finding at a gate's worst severity. One result per gate hid the second
+    constant column of a frame, and a later chunk's failure behind an earlier one."""
     rank = {"pass": 0, "warn": 1, "fail": 2}
+    detail = f"[{label}] {item.detail}"
     prev = results.get(item.name)
     if prev is None or rank[item.severity] > rank[prev[0]]:
-        results[item.name] = (item.severity, f"[{label}] {item.detail}")
+        results[item.name] = (item.severity, [detail])
+    elif item.severity == prev[0] and item.severity != "pass":
+        prev[1].append(detail)
 
 
 CAUSALITY_CUTS = 2
@@ -483,9 +490,10 @@ def _validate_asset(cfg: "RunConfig", asset: str, start: date, n_assets: int, pa
             ), f"{start}..{cfg.end}")
         code = max(({"pass": 0, "warn": 1, "fail": 2}[sev] for sev, _ in results.values()), default=0)
         session.info(f"[validate] {asset} {bt} rows={n_rows} exit={code}")
-        for name, (sev, detail) in results.items():
+        for name, (sev, details) in results.items():
             if sev != "pass":
-                session.info(f"  {sev}: {name}: {detail}")
+                for detail in details:
+                    session.info(f"  {sev}: {name}: {detail}")
         worst = max(worst, code)
         packed.setdefault("_coverage", []).append({
             "asset": asset, "bar_type": bt, "rows": n_rows,
@@ -757,6 +765,19 @@ def run_fx(cfg: RunConfig) -> int:
                 except Exception as exc:
                     session.error(asset, "fetch", exc)
                     worst = 2
+
+            if active:
+                # Policy rates for the carry (one request; a failure is reported, not fatal).
+                from pipeline.fetch_external import fetch_bis_policy
+                try:
+                    status_bis, n_bis = fetch_bis_policy(
+                        cfg.data_root, min(s for _, s in active), cfg.end, timeout=cfg.fetch_timeout,
+                    )
+                except Exception as exc:  # noqa: BLE001
+                    status_bis, n_bis = f"{type(exc).__name__}: {exc}", 0
+                session.info(f"[external] bis policy rates: {status_bis} rows={n_bis}")
+                if status_bis != "ok":
+                    worst = max(worst, 1)
 
         if "bars" in cfg.stages:
             for asset, start in active:

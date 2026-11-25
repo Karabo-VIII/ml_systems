@@ -46,8 +46,10 @@ def asof_join_knowable(
     if by is not None:
         keep.append(by)
     feat = feat.select(keep).drop_nulls([knowable])
-    # If several feature rows share a knowable instant, keep the last.
-    feat = feat.sort(knowable).unique(subset=([by, knowable] if by else [knowable]), keep="last", maintain_order=True)
+    # If several feature rows share a knowable instant, keep the last. The sort is
+    # stable so "last" is the later input row on every run.
+    feat = feat.sort(knowable, maintain_order=True).unique(
+        subset=([by, knowable] if by else [knowable]), keep="last", maintain_order=True)
 
     order = "_asof_order"
     base_tagged = base.with_row_index(order)

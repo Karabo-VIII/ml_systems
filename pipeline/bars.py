@@ -251,7 +251,7 @@ def merge_partial_time(partials: list[pl.DataFrame], asset: str, bar_type: str, 
     frames = [p for p in partials if p is not None and not p.is_empty()]
     if not frames:
         return finalize(pl.DataFrame(), asset, bar_type)
-    df = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms")
+    df = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True)
     # Re-aggregate on the 1m close so a split midnight bucket becomes one bar.
     df = df.with_columns(pl.col("ts_ms").alias("_close"))
     grouped = aggregate_child_bars(df, "_close")
@@ -689,18 +689,20 @@ def fx_ticks_to_time(ticks: pl.DataFrame, width_ms: int, asset: str, bar_type: s
     """
     if ticks.is_empty():
         return finalize(ticks, asset, bar_type)
-    df = ticks.sort("ts_ms").with_columns(event_close_of(pl.col("ts_ms"), width_ms).alias("_close"))
+    # Stable sort: ticks in the same millisecond keep the feed's order, so the
+    # open and close of a bar never depend on how a sort breaks a tie.
+    df = ticks.sort("ts_ms", maintain_order=True).with_columns(event_close_of(pl.col("ts_ms"), width_ms).alias("_close"))
     grouped = df.group_by("_close", maintain_order=True).agg([
-        pl.col("mid").sort_by("ts_ms").first().alias("open"),
+        pl.col("mid").first().alias("open"),
         pl.col("mid").max().alias("high"),
         pl.col("mid").min().alias("low"),
-        pl.col("mid").sort_by("ts_ms").last().alias("close"),
+        pl.col("mid").last().alias("close"),
         pl.col("mid").mean().alias("vwap"),
         pl.len().cast(pl.Float64).alias("volume"),
         *_fx_null_sides(),
         pl.len().cast(pl.Int64).alias("n_trades"),
-        pl.col("bid").sort_by("ts_ms").last().alias("bid_close"),
-        pl.col("ask").sort_by("ts_ms").last().alias("ask_close"),
+        pl.col("bid").last().alias("bid_close"),
+        pl.col("ask").last().alias("ask_close"),
         pl.col("spread").mean().alias("spread_mean"),
         pl.col("spread").max().alias("spread_max"),
     ]).with_columns([

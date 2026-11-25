@@ -86,6 +86,9 @@ lags:
     etf: 172800000
     defillama: 86400000
     deribit: 86400000
+    # Central-bank policy rates (BIS WS_CBPOL): the rate in force on day D is public
+    # by the end of D (decisions are announced before they take effect).
+    policy_rate: 86400000
     whale: 86400000
     realized_vol: 86400000
     hawkes_daily: 86400000
@@ -840,5 +843,10 @@ fx:
   pip:
     default: 0.0001
     jpy: 0.01
-  min_interval_s: 0.35
+  # Floor of the adaptive request spacing (pipeline.fetch_fx._Pacer): Dukascopy throttles
+  # a fast client, so the spacing doubles on a 503 or timeout and shrinks slowly on success.
+  min_interval_s: 1.0
   max_retries: 6
+  # Hours wholly inside the weekend close (Fri 22:00 to Sun 20:00 UTC) are cached as
+  # empty without a request.
+  skip_closed_hours: true

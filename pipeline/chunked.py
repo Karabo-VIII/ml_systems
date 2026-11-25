@@ -32,7 +32,7 @@ from pipeline.dataset import (
     utc_now_ms,
 )
 from pipeline.features import (
-    add_cross_asset, load_whale_hists, rows_to_frame, summarize_day,
+    FX_FEATURES, add_cross_asset, load_whale_hists, rows_to_frame, summarize_day,
     trade_notional_hist, whale_threshold,
 )
 from pipeline.fetch_crypto import iter_days as _iter_days  # noqa: F401
@@ -422,7 +422,8 @@ def load_bar_months(root: Path, asset: str, bar_type: str, start: date, end: dat
                 frames.append(df)
     if not frames:
         return pl.DataFrame()
-    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms").unique(subset=["ts_ms"], keep="last", maintain_order=True)
+    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True).unique(
+        subset=["ts_ms"], keep="last", maintain_order=True)
 
 
 def load_daily_months(root: Path, asset: str, start: date, end: date) -> pl.DataFrame:
@@ -605,7 +606,8 @@ def load_feature_months(root: Path, asset: str, bar_type: str, start: date, end:
                 frames.append(df)
     if not frames:
         return pl.DataFrame()
-    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms").unique(subset=["ts_ms"], keep="last", maintain_order=True)
+    return pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True).unique(
+        subset=["ts_ms"], keep="last", maintain_order=True)
 
 
 def _dataset_params(cfg, asset: str, bar_type: str, first: date, last: date,
@@ -670,14 +672,16 @@ def _embargo_padding(cfg, asset: str, bar_type: str, windows, floor_days: int, m
     density varies.
     """
     width = nominal_bar_ms(cfg, asset, bar_type)
-    embargo_n = embargo_bars_for(
-        bar_type, windows, width, calendar_floor_days=floor_days, max_lookback_days=max_days,
-    )
     if getattr(cfg, "market", "crypto") == "fx":
-        # FX features use fixed windows of up to FX_MAX_WINDOW bars at every cadence,
-        # so the embargo must cover them (it can exceed 90 days on 6h-1d FX).
-        from pipeline.features import FX_MAX_WINDOW
-        embargo_n = max(embargo_n, FX_MAX_WINDOW + 1)
+        # FX features have their own windows (features.fx_lookback), in FX bars and
+        # capped at 90 calendar days of trading time, like crypto's chained lookback.
+        from pipeline.features import fx_embargo_bars
+        embargo_n = fx_embargo_bars(bar_type, windows.horizons, calendar_floor_days=floor_days,
+                                    max_lookback_days=max_days)
+    else:
+        embargo_n = embargo_bars_for(
+            bar_type, windows, width, calendar_floor_days=floor_days, max_lookback_days=max_days,
+        )
     span_days = int((embargo_n * width) / DAY_MS) + 2
     if bar_type not in TIME_WIDTH_MS:
         span_days *= 3
@@ -765,7 +769,8 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
             c for c in month_df.columns
             if c.startswith(("norm_", "xd_", "wh_", "rv_", "hbr_", "funding_day", "s3_", "bs_",
                              "etf_", "dv_", "soc_", "stbl_"))
-            or c in ("hurst_regime", "funding_rate", "oi_value")
+            or c in ("hurst_regime", "funding_rate", "oi_value", "carry_pct")
+            or c in FX_FEATURES
         ]
         inputs, lags = input_families(month_df.columns, load_lags())
         man = manifest_payload(
@@ -784,12 +789,30 @@ def write_dataset_month(cfg, assets: list[str], bar_type: str, year: int, month:
 
 
 def build_fx_month(cfg, asset: str, first: date, last: date) -> dict:
+    """Time bars from the month's ticks (month boundaries never split a time bar),
+    plus the daily realized-variance panel of the 1m mids."""
+    from pipeline.features import fx_daily_panel
+
     ticks = read_fx_ticks(cfg.data_root, asset, first, last)
     if ticks.is_empty():
-        return {"bars": {}, "n_ticks": 0, "gaps": []}
-    # Include a 1-day pad of previous ticks? Month boundaries do not split time bars.
-    ladder = build_fx_ladder(ticks, asset, [b for b in cfg.bar_types if b in TIME_WIDTH_MS])
-    return {"bars": ladder, "n_ticks": ticks.height, "gaps": gaps_ms(ladder.get("time_1m", pl.DataFrame()))}
+        return {"bars": {}, "daily": fx_daily_panel(pl.DataFrame(), asset), "n_ticks": 0, "gaps": []}
+    wanted = [b for b in cfg.bar_types if b in TIME_WIDTH_MS]
+    ladder = build_fx_ladder(ticks, asset, sorted(set(wanted) | {"time_1m"}, key=list(TIME_WIDTH_MS).index))
+    one_m = ladder.get("time_1m", pl.DataFrame())
+    return {
+        "bars": {k: v for k, v in ladder.items() if k in wanted},
+        "daily": fx_daily_panel(one_m, asset),
+        "n_ticks": ticks.height,
+        "gaps": gaps_ms(one_m),
+    }
+
+
+def fx_ticks_digest(root: Path, asset: str, first: date, last: date) -> str:
+    """Digest of the bronze hour files an FX bar month is built from."""
+    from pipeline.fetch_fx import iter_hours
+    from pipeline.paths import fx_hour_path
+
+    return inputs_digest(fx_hour_path(root, asset, h.date(), h.hour) for h in iter_hours(first, last))
 
 
 def count_fx_ticks(root: Path, asset: str, first: date, last: date) -> int:
@@ -807,62 +830,128 @@ def count_fx_ticks(root: Path, asset: str, first: date, last: date) -> int:
 
 
 def write_fx_bars_month(cfg, asset: str, year: int, month: int) -> dict:
+    """FX bar months and the daily panel. Params digest the month's tick hours, so
+    a refetched hour rebuilds what it feeds (as bronze does for crypto)."""
     first, last = clip_month(year, month, *(_asset_range(cfg, asset)))
+    ticks = {"ticks": fx_ticks_digest(cfg.data_root, asset, first, last)}
+    daily_params = bars_params(asset, "daily", first, last, extra={"market": "fx", **ticks})
     needed = []
     for bt in cfg.bar_types:
         path = bars_month_path(cfg.data_root, bt, asset, year, month)
-        params = bars_params(asset, bt, first, last)
-        if not partition_fresh(path, params, force=cfg.force):
+        if not partition_fresh(path, bars_params(asset, bt, first, last, ticks), force=cfg.force):
             needed.append(bt)
-    if not needed:
+    daily_path = _daily_path(cfg.data_root, asset, year, month)
+    if not needed and partition_fresh(daily_path, daily_params, force=cfg.force):
         return {"cached": True, "n_ticks": count_fx_ticks(cfg.data_root, asset, first, last), "gaps": []}
     packed = build_fx_month(cfg, asset, first, last)
     for bt, df in packed["bars"].items():
         if df.is_empty():
             continue
         path = bars_month_path(cfg.data_root, bt, asset, year, month)
-        params = bars_params(asset, bt, first, last)
-        write_frame(df, path, "bars_v1", params)
+        write_frame(df, path, "bars_v1", bars_params(asset, bt, first, last, ticks))
+    if not packed["daily"].is_empty():
+        write_frame(packed["daily"], daily_path, "daily_panel_v1", daily_params)
     packed["cached"] = False
     return packed
 
 
-def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, month: int) -> dict[str, str]:
-    """FX physics + USD-strength for one month, one cadence.
+def _policy_digest(policy: pl.DataFrame, areas: list[str], lo: date, hi: date) -> str:
+    """Digest of the policy-rate rows of ``areas`` with event day in ``[lo, hi]``."""
+    import hashlib
 
-    ``usd_strength_ret`` averages the USD legs of every pair in the run, so the
-    whole cohort is loaded whenever any member is stale, and the cohort plus the
-    digest of every pair's bars are part of the params.
+    if policy.is_empty():
+        return "-"
+    part = policy.filter(
+        pl.col("area").is_in(areas)
+        & (pl.col("event_time_ms") >= _day_ms(lo)) & (pl.col("event_time_ms") < _day_ms(hi + timedelta(days=1)))
+    ).sort(["area", "event_time_ms"])
+    return hashlib.sha256(part.write_csv().encode()).hexdigest()[:32]
+
+
+def attach_fx_slow(df: pl.DataFrame, pair: str, daily: pl.DataFrame, policy: pl.DataFrame) -> pl.DataFrame:
+    """As-of join of the FX slow series onto one pair's bars.
+
+    ``rv_*`` (the pair's daily realized variance) with the ``daily_panel`` lag;
+    ``carry_pct``, the policy rate of the base currency's area minus the quote's
+    (BIS, percent a year: the financing earned for holding the pair long), with
+    the ``policy_rate`` lag. A missing series leaves the column null.
+    """
+    from pipeline.align import asof_join_knowable
+    from pipeline.config import lag_ms
+    from pipeline.features import RV_COLUMNS
+    from pipeline.fetch_external import CURRENCY_AREA
+
+    if daily is not None and not daily.is_empty():
+        # rv_n_bars: the 1m bars behind the day's figure (the Sunday reopen is two or
+        # three hours, a full weekday about 1440).
+        n_bars = pl.col("n_bars").cast(pl.Int64) if "n_bars" in daily.columns else pl.lit(None, dtype=pl.Int64)
+        df = asof_join_knowable(
+            df, daily.select(["event_time_ms", *RV_COLUMNS, n_bars.alias("rv_n_bars")]),
+            [*RV_COLUMNS, "rv_n_bars"], lag_ms("daily_panel"), feature_time_col="event_time_ms",
+        )
+    else:
+        df = df.with_columns([pl.lit(None, dtype=pl.Float64).alias(c) for c in RV_COLUMNS]
+                             + [pl.lit(None, dtype=pl.Int64).alias("rv_n_bars")])
+    base, quote = CURRENCY_AREA.get(pair[:3]), CURRENCY_AREA.get(pair[3:])
+    if policy is not None and not policy.is_empty():
+        # A non-finite rate (an older fetch may hold BIS "NaN" days) is not a rate.
+        policy = policy.filter(pl.col("rate_pct").is_finite())
+    have = set(policy["area"].unique().to_list()) if policy is not None and not policy.is_empty() else set()
+    if base in have and quote in have:
+        lag = lag_ms("policy_rate")
+        for side, area in (("_pol_base", base), ("_pol_quote", quote)):
+            rows = policy.filter(pl.col("area") == area).select(["event_time_ms", pl.col("rate_pct").alias(side)])
+            df = asof_join_knowable(df, rows, [side], lag, feature_time_col="event_time_ms")
+        df = df.with_columns((pl.col("_pol_base") - pl.col("_pol_quote")).alias("carry_pct")).drop(["_pol_base", "_pol_quote"])
+    else:
+        df = df.with_columns(pl.lit(None, dtype=pl.Float64).alias("carry_pct"))
+    return df
+
+
+def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, month: int) -> dict[str, str]:
+    """FX features, currency strength and the slow series for one month, one cadence.
+
+    The currency strengths use every pair of the run, so the whole cohort is
+    loaded whenever any member is stale, and the cohort plus the digest of every
+    pair's bars are part of the params, with the pair's daily panel, the policy
+    rates of its two currency areas, the FX windows of the cadence and the lags.
     """
     from pipeline.config import fx_pip
-    from pipeline.features import add_usd_strength, compute_fx_features
-
-    from pipeline.features import FX_MAX_WINDOW
+    from pipeline.features import add_currency_strength, compute_fx_features, fx_lookback, fx_z_window
+    from pipeline.fetch_external import BIS_LEAD_DAYS, CURRENCY_AREA, load_external
 
     status: dict[str, str] = {}
     ranges = {}
     members = []
+    _floor_days, max_days = load_embargo_policy()
     for asset in assets:
         a_start, a_end = _asset_range(cfg, asset)
         if (year, month) < (a_start.year, a_start.month) or (year, month) > (a_end.year, a_end.month):
             continue
         first, last = clip_month(year, month, a_start, a_end)
-        # FX windows are fixed (up to FX_MAX_WINDOW bars at every cadence); with five
-        # trading days a week, 92 calendar days can hold fewer 1d bars than that.
-        ranges[asset] = (first, last, feature_warm_start(cfg, asset, bar_type, first, need=FX_MAX_WINDOW + 1))
+        # FX windows are fixed in bars; with five trading days a week a span of
+        # calendar days can hold fewer bars than that, so warm up by bars.
+        need = fx_lookback(bar_type, max_days) + 1
+        ranges[asset] = (first, last, feature_warm_start(cfg, asset, bar_type, first, need=need))
         members.append(asset)
     cohort = sorted(members)
+    policy = load_external(cfg.data_root, "bis")
     params_for = {}
     stale = []
+    fx_windows = {"z": fx_z_window(bar_type, max_days), "lookback": fx_lookback(bar_type, max_days)}
     for asset in members:
         first, last, warm = ranges[asset]
         digest = inputs_digest(
-            bars_month_path(cfg.data_root, bar_type, a, y, m)
-            for a in cohort for y, m in iter_months(warm, last)
+            [bars_month_path(cfg.data_root, bar_type, a, y, m)
+             for a in cohort for y, m in iter_months(warm, last)]
+            + [_daily_path(cfg.data_root, asset, y, m) for y, m in iter_months(warm, last)]
         )
+        areas = [CURRENCY_AREA.get(asset[:3], "-"), CURRENCY_AREA.get(asset[3:], "-")]
         params = partition_params(
             asset=asset, bar_type=bar_type, start=first, end=last,
-            extra={"stage": "features", "market": "fx", "cohort": cohort, "inputs": digest},
+            extra={"stage": "features", "market": "fx", "cohort": cohort, "inputs": digest,
+                   "fx_windows": fx_windows, "lags": load_lags(),
+                   "policy": _policy_digest(policy, areas, warm - timedelta(days=BIS_LEAD_DAYS), last + timedelta(days=1))},
         )
         params_for[asset] = params
         path = features_month_path(cfg.data_root, bar_type, asset, year, month)
@@ -877,15 +966,16 @@ def write_fx_features_month(cfg, assets: list[str], bar_type: str, year: int, mo
         first, last, warm = ranges[asset]
         bars = load_bar_months(cfg.data_root, asset, bar_type, warm, last)
         if not bars.is_empty():
-            frames[asset] = compute_fx_features(bars, fx_pip(asset))
+            frames[asset] = compute_fx_features(bars, fx_pip(asset), max_lookback_days=max_days)
     if frames:
-        frames = add_usd_strength(frames)
+        frames = add_currency_strength(frames)
     for asset in stale:
         if asset not in frames:
             status[asset] = "empty"
             continue
-        first, last, _warm = ranges[asset]
-        month_df = _in_month(frames[asset], first, last)
+        first, last, warm = ranges[asset]
+        daily = load_daily_months(cfg.data_root, asset, warm, last)
+        month_df = _in_month(attach_fx_slow(frames[asset], asset, daily, policy), first, last)
         if month_df.is_empty():
             status[asset] = "empty"
             continue

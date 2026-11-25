@@ -123,7 +123,7 @@ def parse_farside_html(html: str, asset: str) -> pl.DataFrame:
     # Default inference (first 100 rows) then fails when a later cell is 18.0.
     value_cols = sorted({k for rec in out for k in rec if k not in {"asset", "event_time_ms"}})
     schema = {"asset": pl.Utf8, "event_time_ms": pl.Int64, **{c: pl.Float64 for c in value_cols}}
-    df = pl.DataFrame(out, schema=schema).sort("event_time_ms")
+    df = pl.DataFrame(out, schema=schema).sort("event_time_ms", maintain_order=True)
     return df.unique(subset=["event_time_ms"], keep="last", maintain_order=True)
 
 
@@ -155,7 +155,8 @@ def parse_defillama_chart(payload: list | dict) -> pl.DataFrame:
         rows.append({"event_time_ms": _midnight(day), "stbl_supply_usd": float(circ)})
     if not rows:
         return pl.DataFrame(schema={"event_time_ms": pl.Int64, "stbl_supply_usd": pl.Float64})
-    df = pl.DataFrame(rows).sort("event_time_ms").unique(subset=["event_time_ms"], keep="last", maintain_order=True)
+    df = pl.DataFrame(rows).sort("event_time_ms", maintain_order=True).unique(
+        subset=["event_time_ms"], keep="last", maintain_order=True)
     df = df.with_columns(pl.col("stbl_supply_usd").diff().alias("stbl_flow_usd"))
     return df
 
@@ -188,7 +189,8 @@ def parse_deribit_dvol(payload: dict, asset: str) -> pl.DataFrame:
         return pl.DataFrame(schema={
             "asset": pl.Utf8, "event_time_ms": pl.Int64, "dv_dvol_close": pl.Float64,
         })
-    return pl.DataFrame(rows).sort("event_time_ms").unique(subset=["asset", "event_time_ms"], keep="last", maintain_order=True)
+    return pl.DataFrame(rows).sort("event_time_ms", maintain_order=True).unique(
+        subset=["asset", "event_time_ms"], keep="last", maintain_order=True)
 
 
 def parse_wiki_items(items: list, asset: str) -> pl.DataFrame:
@@ -209,14 +211,16 @@ def parse_wiki_items(items: list, asset: str) -> pl.DataFrame:
         rows.append({"asset": sym, "event_time_ms": _midnight(day), "soc_wiki_views": views_i})
     if not rows:
         return pl.DataFrame(schema={"asset": pl.Utf8, "event_time_ms": pl.Int64, "soc_wiki_views": pl.Int64})
-    return pl.DataFrame(rows).sort("event_time_ms").unique(subset=["event_time_ms"], keep="last", maintain_order=True)
+    return pl.DataFrame(rows).sort("event_time_ms", maintain_order=True).unique(
+        subset=["event_time_ms"], keep="last", maintain_order=True)
 
 
-def _write(df: pl.DataFrame, path: Path, schema_name: str, params: dict) -> None:
+def _write(df: pl.DataFrame, path: Path, schema_name: str, params: dict, key: list[str] | None = None) -> None:
     """Merge ``df`` into the file at ``path`` keyed by (asset, event_time_ms); new rows win."""
     if df.is_empty():
         return
-    key = ["event_time_ms"] if "asset" not in df.columns else ["asset", "event_time_ms"]
+    if key is None:
+        key = ["event_time_ms"] if "asset" not in df.columns else ["asset", "event_time_ms"]
     if path.exists():
         try:
             old = pl.read_parquet(path)
@@ -342,6 +346,56 @@ def fetch_wikipedia(root: Path, assets: list[str], start: date, end: date, *, ti
     df = pl.concat(frames, how="diagonal_relaxed")
     path = external_dir(root, "wikipedia") / "pageviews.parquet"
     _write(df, path, "external_wiki_v1", {"source": "wikipedia"})
+    return "ok", df.height
+
+
+# Central-bank policy rates (BIS WS_CBPOL, daily, the rate in force each day) for
+# the FX carry. The euro area is the ECB main refinancing rate as BIS reports it.
+BIS_POLICY_URL = "https://stats.bis.org/api/v1/data/WS_CBPOL/D.{areas}?startPeriod={start}&endPeriod={end}&format=csv"
+CURRENCY_AREA = {"USD": "US", "EUR": "XM", "JPY": "JP", "GBP": "GB", "AUD": "AU", "NZD": "NZ", "CAD": "CA", "CHF": "CH"}
+# Calendar days fetched before a run's start, so the rate in force at the first bar is known.
+BIS_LEAD_DAYS = 45
+
+
+def parse_bis_policy_csv(text: str) -> pl.DataFrame:
+    """BIS SDMX csv -> (area, event_time_ms of the UTC day, rate_pct). Blank values are dropped."""
+    import io
+    schema = {"area": pl.Utf8, "event_time_ms": pl.Int64, "rate_pct": pl.Float64}
+    if not text.strip():
+        return pl.DataFrame(schema=schema)
+    raw = pl.read_csv(io.StringIO(text), infer_schema_length=0)
+    if not {"REF_AREA", "TIME_PERIOD", "OBS_VALUE"} <= set(raw.columns):
+        return pl.DataFrame(schema=schema)
+    df = raw.select([
+        pl.col("REF_AREA").alias("area"),
+        pl.col("TIME_PERIOD").str.strptime(pl.Date, "%Y-%m-%d", strict=False).alias("_day"),
+        # BIS ships a missing day (a weekend or holiday in some series) as "NaN".
+        pl.col("OBS_VALUE").cast(pl.Float64, strict=False).fill_nan(None).alias("rate_pct"),
+    ]).drop_nulls()
+    df = df.with_columns(
+        (pl.col("_day").cast(pl.Datetime("ms")).cast(pl.Int64)).alias("event_time_ms")
+    ).select(["area", "event_time_ms", "rate_pct"])
+    return df.sort(["area", "event_time_ms"], maintain_order=True).unique(
+        subset=["area", "event_time_ms"], keep="last", maintain_order=True)
+
+
+def fetch_bis_policy(root: Path, start: date, end: date, *, timeout: int = 60) -> tuple[str, int]:
+    """Policy rates of the eight FX-major currency areas into ``bronze/external/bis``."""
+    url = BIS_POLICY_URL.format(
+        areas="+".join(sorted(set(CURRENCY_AREA.values()))),
+        start=(start - timedelta(days=BIS_LEAD_DAYS)).isoformat(), end=end.isoformat(),
+    )
+    status, body, err = http_get(url, timeout=timeout)
+    if status != 200 or err or not body:
+        return err or f"HTTP {status}", 0
+    try:
+        df = parse_bis_policy_csv(body.decode("utf-8", errors="replace"))
+    except Exception as exc:  # noqa: BLE001
+        return f"{type(exc).__name__}: {exc}", 0
+    if df.is_empty():
+        return "empty", 0
+    path = external_dir(root, "bis") / "policy_rates.parquet"
+    _write(df, path, "external_bis_policy_v1", {"source_url": BIS_POLICY_URL}, key=["area", "event_time_ms"])
     return "ok", df.height
 
 

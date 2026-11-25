@@ -719,26 +719,58 @@ def summarize_day(
         if row["hbr_eta_buy"] == row["hbr_eta_buy"] and row["hbr_eta_sell"] == row["hbr_eta_sell"]:
             row["hbr_eta_imbalance"] = row["hbr_eta_buy"] - row["hbr_eta_sell"]
 
-    if bars_1m is not None and bars_1m.height >= 3:
-        close = bars_1m.sort("ts_ms")["close"].to_numpy().astype(float)
-        prev = close[:-1]
-        ok = (prev > 0) & (close[1:] > 0)
-        r = np.full(len(close) - 1, np.nan)
-        r[ok] = np.log(close[1:][ok] / prev[ok])
-        r = r[np.isfinite(r)]
-        if len(r) >= 2:
-            rv = float(np.sum(r ** 2))
-            bpv = float((math.pi / 2.0) * np.sum(np.abs(r[1:]) * np.abs(r[:-1])))
-            jv = max(rv - bpv, 0.0)
-            row["rv_realized"] = rv
-            row["rv_bpv"] = bpv
-            row["rv_jv"] = jv
-            row["rv_jump_frac"] = (jv / rv) if rv > 0 else None
+    row.update(realized_day(bars_1m))
     # NaN -> None for parquet nulls
     for k, v in list(row.items()):
         if isinstance(v, float) and not math.isfinite(v):
             row[k] = None
     return row
+
+
+RV_COLUMNS = ("rv_realized", "rv_bpv", "rv_jv", "rv_jump_frac")
+
+
+def realized_day(bars_1m: pl.DataFrame | None) -> dict:
+    """Realized variance of one UTC day from its 1m closes (log returns between
+    consecutive bars): ``rv_realized`` = sum r^2, bipower ``rv_bpv`` =
+    pi/2 sum |r_t||r_t-1|, jump ``rv_jv`` = max(rv - bpv, 0), ``rv_jump_frac``.
+    Null with fewer than three bars. Shared by crypto (trade closes) and FX (mids)."""
+    out: dict = {c: None for c in RV_COLUMNS}
+    if bars_1m is None or bars_1m.height < 3:
+        return out
+    close = bars_1m.sort("ts_ms")["close"].to_numpy().astype(float)
+    prev = close[:-1]
+    ok = (prev > 0) & (close[1:] > 0)
+    r = np.full(len(close) - 1, np.nan)
+    r[ok] = np.log(close[1:][ok] / prev[ok])
+    r = r[np.isfinite(r)]
+    if len(r) >= 2:
+        rv = float(np.sum(r ** 2))
+        bpv = float((math.pi / 2.0) * np.sum(np.abs(r[1:]) * np.abs(r[:-1])))
+        jv = max(rv - bpv, 0.0)
+        out.update({"rv_realized": rv, "rv_bpv": bpv, "rv_jv": jv,
+                    "rv_jump_frac": (jv / rv) if rv > 0 else None})
+    return out
+
+
+FX_DAILY_SCHEMA: dict[str, pl.DataType] = {
+    "asset": pl.Utf8,
+    "event_time_ms": pl.Int64,
+    **{c: pl.Float64 for c in RV_COLUMNS},
+    "n_bars": pl.Int64,
+}
+
+
+def fx_daily_panel(bars_1m: pl.DataFrame, asset: str) -> pl.DataFrame:
+    """Per UTC day (by bar open) realized variance of the 1m mids, plus the bar
+    count, since an FX day can be partial (the Sunday reopen, the Friday close)."""
+    if bars_1m is None or bars_1m.is_empty():
+        return pl.DataFrame(schema=FX_DAILY_SCHEMA)
+    rows = []
+    keyed = bars_1m.sort("ts_ms").with_columns((pl.col("ts_open_ms") // DAY_MS).alias("_day"))
+    for (day,), part in keyed.group_by("_day", maintain_order=True):
+        rows.append({"asset": asset, "event_time_ms": int(day) * DAY_MS, **realized_day(part), "n_bars": part.height})
+    return pl.DataFrame(rows, schema=FX_DAILY_SCHEMA).sort("event_time_ms")
 
 
 DAILY_PANEL_SCHEMA: dict[str, pl.DataType] = {
@@ -781,15 +813,49 @@ def funding_daily(funding: pl.DataFrame, asset: str) -> pl.DataFrame:
             "funding_day_mean": pl.Float64, "funding_day_sum": pl.Float64,
             "funding_day_last": pl.Float64,
         })
-    df = funding.with_columns(((pl.col("ts_ms") // DAY_MS_I) * DAY_MS_I).alias("event_time_ms"))
     # Settlement count is usually 3 and would be a constant feature. Keep the
     # rate statistics, which are the actual signal.
-    out = df.group_by("event_time_ms", maintain_order=True).agg([
-        pl.col("funding_rate").mean().alias("funding_day_mean"),
-        pl.col("funding_rate").sum().alias("funding_day_sum"),
-        pl.col("funding_rate").sort_by("ts_ms").last().alias("funding_day_last"),
-    ])
-    return out.with_columns(pl.lit(asset).alias("asset")).sort("event_time_ms")
+    days, sums, counts, last = _per_day(funding, ["funding_rate"])
+    s, n = sums["funding_rate"], counts["funding_rate"]
+    return pl.DataFrame({
+        "event_time_ms": days,
+        "funding_day_mean": np.where(n > 0, s / np.maximum(n, 1), np.nan),
+        "funding_day_sum": np.where(n > 0, s, np.nan),
+        "funding_day_last": last["funding_rate"],
+    }).with_columns([pl.col(c).fill_nan(None) for c in ("funding_day_mean", "funding_day_sum", "funding_day_last")]
+                    ).with_columns(pl.lit(asset).alias("asset")).sort("event_time_ms")
+
+
+def _per_day(df: pl.DataFrame, cols: list[str]):
+    """Per-UTC-day sums, counts of defined values, and last defined values.
+
+    The sums are correctly rounded (``math.fsum``), so they do not depend on row
+    order or on the frame's layout. Polars' group-by can sum the same group along a
+    different path from one run to the next (seen on the s3_* means, 1e-16 apart),
+    which breaks the byte-identical rebuild the contract promises. The last value
+    is the last defined one in time order; equal timestamps keep the input order,
+    which the readers fix with a stable sort.
+    """
+    df = df.with_columns(((pl.col("ts_ms") // DAY_MS_I) * DAY_MS_I).alias("_day")).sort(
+        ["_day", "ts_ms"], maintain_order=True)
+    keys = df["_day"].to_numpy()
+    starts = np.r_[0, np.flatnonzero(np.diff(keys)) + 1].astype(np.int64)
+    ends = np.r_[starts[1:], len(keys)]
+    sums, counts, last = {}, {}, {}
+    for c in cols:
+        v = df[c].cast(pl.Float64).to_numpy()
+        ok = np.isfinite(v)
+        s = np.empty(len(starts))
+        lv = np.full(len(starts), np.nan)
+        for k, (a, b) in enumerate(zip(starts, ends)):
+            s[k] = math.fsum(v[a:b][ok[a:b]])
+            idx = np.flatnonzero(ok[a:b])
+            if idx.size:
+                lv[k] = v[a + idx[-1]]
+        sums[c] = s
+        counts[c] = np.add.reduceat(ok.astype(np.int64), starts) if len(starts) else np.zeros(0, np.int64)
+        last[c] = lv
+    return keys[starts], sums, counts, last
 
 
 def metrics_daily(metrics: pl.DataFrame, asset: str) -> pl.DataFrame:
@@ -805,9 +871,12 @@ def metrics_daily(metrics: pl.DataFrame, asset: str) -> pl.DataFrame:
     ]
     if not numeric:
         return pl.DataFrame(schema={"asset": pl.Utf8, "event_time_ms": pl.Int64})
-    df = metrics.with_columns(((pl.col("ts_ms") // DAY_MS_I) * DAY_MS_I).alias("event_time_ms"))
-    aggs = [pl.col(c).mean().alias(f"s3_{c}_mean") for c in numeric]
-    out = df.group_by("event_time_ms", maintain_order=True).agg(aggs)
+    days, sums, counts, _last = _per_day(metrics, numeric)
+    out = pl.DataFrame({
+        "event_time_ms": days,
+        **{f"s3_{c}_mean": np.where(counts[c] > 0, sums[c] / np.maximum(counts[c], 1), np.nan) for c in numeric},
+    })
+    out = out.with_columns([pl.col(f"s3_{c}_mean").fill_nan(None) for c in numeric])
     return out.with_columns(pl.lit(asset).alias("asset")).sort("event_time_ms")
 
 
@@ -866,10 +935,22 @@ def _prep(df: pl.DataFrame, fast: int, ma: int) -> pl.DataFrame:
     return out
 
 
+def _fold_sum(exprs: list[pl.Expr]) -> pl.Expr:
+    """Left-to-right sum in the order given, a null counting as 0.0.
+
+    polars' sum_horizontal changes its rounding with the number of columns, so one
+    more all-null column (a peer that lists later in the month's cohort) moved the
+    cross-asset means by an ulp. A left fold adds that column as an exact 0.0.
+    """
+    return pl.fold(acc=pl.lit(0.0, dtype=pl.Float64), function=lambda acc, x: acc + x,
+                   exprs=[e.cast(pl.Float64).fill_null(0.0) for e in exprs])
+
+
 def _horizontal_mean(cols: list[str]) -> pl.Expr:
+    """Mean of the defined values among ``cols``, summed in the order given."""
     if not cols:
         return pl.lit(None, dtype=pl.Float64)
-    num = pl.sum_horizontal([pl.col(c).fill_null(0.0) for c in cols])
+    num = _fold_sum([pl.col(c) for c in cols])
     den = pl.sum_horizontal([pl.col(c).is_not_null().cast(pl.Float64) for c in cols])
     return pl.when(den > 0).then(num / den).otherwise(None)
 
@@ -902,7 +983,10 @@ def add_cross_asset(
         peer_vol: list[str] = []
         peer_ma: list[str] = []
         peer_fund: list[str] = []
-        for other, other_df in prepped.items():
+        # Peers in name order: the means are then summed in the same order whatever
+        # order the frames arrived in.
+        for other in sorted(prepped):
+            other_df = prepped[other]
             if other == asset:
                 continue
             feat = other_df.select([
@@ -972,8 +1056,9 @@ def add_cross_asset(
     return out
 
 
-# Sound subset of the old EURUSD 1h manifest. Windows are in bars of the
-# frame they are computed on. Warmup is null. Nothing is filled with 0.
+# FX features. Windows are in bars of the frame they are computed on. Warmup is
+# null. Nothing is filled with 0. The two z-scores use a 100-bar window, cut on
+# coarse cadences so no FX lookback spans more than 90 calendar days (1d: 63).
 FX_FEATURES = (
     "log_ret_1",
     "ret_1", "ret_3", "ret_5", "ret_10", "ret_20", "ret_50",
@@ -981,18 +1066,61 @@ FX_FEATURES = (
     "parkinson_10", "parkinson_20", "parkinson_50",
     "garman_klass_20",
     "atr_pips_10", "atr_pips_20", "atr_pips_50",
-    "spread_pips", "rel_spread_bps", "spread_z_100",
-    "tick_intensity_z_100",
+    "spread_pips", "rel_spread_bps", "spread_z",
+    "tick_intensity_z",
     "efficiency_ratio_20", "efficiency_ratio_50",
     "is_tokyo", "is_london", "is_newyork", "is_ldn_ny_overlap",
     "weekend_gap_pips",
-    "usd_strength_ret",
+    "base_strength_ret", "quote_strength_ret",
 )
+
+# The FX week is Sunday 17:00 to Friday 17:00 America/New_York: 120 of 168 hours.
+FX_TRADING_SHARE = 5.0 / 7.0
+FX_Z_WINDOW = 100
+# The longest fixed reach besides the z-scores: ret_50, rv_50, atr_pips_50 and
+# efficiency_ratio_50 read the bar and the 50 before it.
+FX_FIXED_REACH = 51
 
 _LN2 = math.log(2.0)
 _TOKYO = ZoneInfo("Asia/Tokyo")
 _LONDON = ZoneInfo("Europe/London")
 _NY = ZoneInfo("America/New_York")
+
+
+def fx_cap_bars(bar_type: str, max_lookback_days: int = 90) -> int:
+    """FX bars that fit in ``max_lookback_days`` calendar days (trading time only)."""
+    from pipeline.constants import TIME_WIDTH_MS
+    return int(max_lookback_days * DAY_MS * FX_TRADING_SHARE // TIME_WIDTH_MS[bar_type])
+
+
+def fx_z_window(bar_type: str, max_lookback_days: int = 90) -> int:
+    """Window of ``spread_z`` and ``tick_intensity_z``: 100 bars, cut to fit the cap (1d: 63)."""
+    return max(2, min(FX_Z_WINDOW, fx_cap_bars(bar_type, max_lookback_days) - 1))
+
+
+def fx_lookback(bar_type: str, max_lookback_days: int = 90) -> int:
+    """Rows (the bar and those before it) that the longest FX feature reads.
+
+    The 50-bar windows are part of the feature names and are not cut: a cap too
+    short to hold them on a cadence is a configuration error, not a silent overrun.
+    """
+    cap = fx_cap_bars(bar_type, max_lookback_days)
+    if FX_FIXED_REACH > cap:
+        raise ValueError(
+            f"windows.max_lookback_days={max_lookback_days} holds {cap} FX bars on {bar_type}, "
+            f"fewer than the {FX_FIXED_REACH} the 50-bar FX features read"
+        )
+    return max(FX_FIXED_REACH, fx_z_window(bar_type, max_lookback_days))
+
+
+def fx_embargo_bars(bar_type: str, horizons: tuple[int, ...], *, calendar_floor_days: int = 7,
+                    max_lookback_days: int = 90) -> int:
+    """FX embargo in bars of this cadence: ``max(horizon, lookback)``, and at least
+    ``calendar_floor_days`` of calendar time (five trading days in seven)."""
+    from pipeline.constants import TIME_WIDTH_MS
+    width = TIME_WIDTH_MS[bar_type]
+    floor_bars = max(1, math.ceil(calendar_floor_days * DAY_MS * FX_TRADING_SHARE / width))
+    return max(max(horizons), fx_lookback(bar_type, max_lookback_days), floor_bars)
 
 
 def _session_bounds(day, zone: ZoneInfo, start_h: int, end_h: int) -> tuple[int, int]:
@@ -1064,15 +1192,13 @@ def _rolling_sqrt_mean(expr: pl.Expr, window: int) -> pl.Expr:
     return pl.when(mu.is_null() | (mu < 0)).then(None).otherwise(mu.sqrt())
 
 
-# Longest fixed window of any FX feature (spread_z_100, tick_intensity_z_100).
-FX_MAX_WINDOW = 100
-
-
-def compute_fx_features(bars: pl.DataFrame, pip: float) -> pl.DataFrame:
-    """Causal FX features. ``usd_strength_ret`` is filled by ``add_usd_strength``."""
+def compute_fx_features(bars: pl.DataFrame, pip: float, *, max_lookback_days: int = 90) -> pl.DataFrame:
+    """Causal FX features. The currency strengths are filled by ``add_currency_strength``."""
     if bars.is_empty():
         return bars
     df = bars.sort("ts_ms")
+    bar_type = str(df["bar_type"][0]) if "bar_type" in df.columns else "time_1m"
+    zw = fx_z_window(bar_type, max_lookback_days)
     df = df.with_columns([
         pl.when((pl.col("close") > 0) & (pl.col("close").shift(1) > 0))
         .then((pl.col("close") / pl.col("close").shift(1)).log())
@@ -1106,8 +1232,8 @@ def compute_fx_features(bars: pl.DataFrame, pip: float) -> pl.DataFrame:
         .then(pl.col("spread_mean") / pl.col("close") * 1e4)
         .otherwise(None)
         .alias("rel_spread_bps"),
-        rolling_z("spread_mean", 100).alias("spread_z_100"),
-        rolling_z("n_trades", 100).alias("tick_intensity_z_100"),
+        rolling_z("spread_mean", zw).alias("spread_z"),
+        rolling_z("n_trades", zw).alias("tick_intensity_z"),
     ])
     for n in (20, 50):
         change = (pl.col("close") - pl.col("close").shift(n)).abs()
@@ -1126,44 +1252,75 @@ def compute_fx_features(bars: pl.DataFrame, pip: float) -> pl.DataFrame:
     df = df.with_columns([
         pl.Series(name, values) for name, values in flags.items()
     ]).with_columns([
-        pl.Series("weekend_gap_pips", gap),
-        pl.lit(None, dtype=pl.Float64).alias("usd_strength_ret"),
+        pl.Series("weekend_gap_pips", gap, dtype=pl.Float64),
+        pl.lit(None, dtype=pl.Float64).alias("base_strength_ret"),
+        pl.lit(None, dtype=pl.Float64).alias("quote_strength_ret"),
     ])
     return df
 
 
-def add_usd_strength(frames: dict[str, pl.DataFrame]) -> dict[str, pl.DataFrame]:
-    """Mean of USD-leg returns across the pairs present at each timestamp.
+FX_CURRENCIES = ("USD", "EUR", "JPY", "GBP", "AUD", "NZD", "CAD", "CHF")
 
-    USD as the base (USDJPY) contributes ``+ret``. USD as the quote (EURUSD)
-    contributes ``-ret``. One pair is not an index: the column stays null.
-    A cross with no USD leg is left null.
+
+def add_currency_strength(frames: dict[str, pl.DataFrame]) -> dict[str, pl.DataFrame]:
+    """Base and quote currency strength of every pair, from the USD pairs present.
+
+    Each currency's log return against USD at a bar comes from its USD pair
+    (``log_ret_1`` of XXXUSD, or minus that of USDXXX); USD's own is 0. With N
+    currencies present at the bar, the strength of currency C is its mean log
+    return against the other N - 1: ``(N * r_C - sum_X r_X) / (N - 1)``. A pair
+    gets ``base_strength_ret`` and ``quote_strength_ret``, so one of them is the
+    USD strength for every major. Null below three currencies (one pair is not a
+    basket) and for a currency absent at the bar. Crosses add no currency.
     """
-    signed = []
+    legs = []
     for pair, df in frames.items():
-        if df.is_empty() or "ret_1" not in df.columns:
+        if df.is_empty() or "log_ret_1" not in df.columns or len(pair) != 6:
             continue
-        if pair.startswith("USD"):
-            sign = 1.0
-        elif pair.endswith("USD"):
-            sign = -1.0
+        base, quote = pair[:3], pair[3:]
+        if quote == "USD" and base != "USD":
+            ccy, sign = base, 1.0
+        elif base == "USD" and quote != "USD":
+            ccy, sign = quote, -1.0
         else:
             continue
-        signed.append(df.select(["ts_ms", (pl.col("ret_1") * sign).alias(pair)]))
-    if len(signed) < 2:
-        return frames
-    wide = signed[0]
-    for part in signed[1:]:
-        wide = wide.join(part, on="ts_ms", how="full", coalesce=True)
-    names = [c for c in wide.columns if c != "ts_ms"]
-    wide = wide.with_columns(
-        pl.mean_horizontal([pl.col(c) for c in names]).alias("usd_strength_ret")
-    ).select(["ts_ms", "usd_strength_ret"])
+        legs.append(df.select(["ts_ms", (pl.col("log_ret_1") * sign).alias(ccy)]))
     out = {}
+    if not legs:
+        return {p: (df if df.is_empty() else df.with_columns([
+            pl.lit(None, dtype=pl.Float64).alias("base_strength_ret"),
+            pl.lit(None, dtype=pl.Float64).alias("quote_strength_ret"),
+        ])) for p, df in frames.items()}
+    wide = legs[0]
+    for part in legs[1:]:
+        wide = wide.join(part, on="ts_ms", how="full", coalesce=True)
+    # Currency order is fixed, so the basket sums the same way whatever order the pairs came in.
+    ccys = sorted(c for c in wide.columns if c != "ts_ms")
+    # USD against itself is 0 by definition, at every bar some USD pair printed.
+    wide = wide.with_columns(
+        pl.when(pl.any_horizontal([pl.col(c).is_not_null() for c in ccys])).then(0.0).otherwise(None).alias("USD")
+    )
+    present = [*ccys, "USD"]
+    n = pl.sum_horizontal([pl.col(c).is_not_null().cast(pl.Float64) for c in present])
+    total = _fold_sum([pl.col(c) for c in present])
+    strength = wide.select([
+        "ts_ms",
+        *[
+            pl.when(pl.col(c).is_not_null() & (n >= 3)).then((n * pl.col(c) - total) / (n - 1.0)).otherwise(None).alias(f"_str_{c}")
+            for c in present
+        ],
+    ])
     for pair, df in frames.items():
         if df.is_empty():
             out[pair] = df
             continue
-        joined = df.drop("usd_strength_ret") if "usd_strength_ret" in df.columns else df
-        out[pair] = joined.join(wide, on="ts_ms", how="left")
+        base, quote = pair[:3], pair[3:]
+        cols = [c for c in ("base_strength_ret", "quote_strength_ret") if c in df.columns]
+        joined = df.drop(cols).join(strength, on="ts_ms", how="left")
+        null = pl.lit(None, dtype=pl.Float64)
+        joined = joined.with_columns([
+            (pl.col(f"_str_{base}") if f"_str_{base}" in strength.columns else null).alias("base_strength_ret"),
+            (pl.col(f"_str_{quote}") if f"_str_{quote}" in strength.columns else null).alias("quote_strength_ret"),
+        ])
+        out[pair] = joined.drop([c for c in joined.columns if c.startswith("_str_")])
     return out

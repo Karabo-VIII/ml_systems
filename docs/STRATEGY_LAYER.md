@@ -34,7 +34,7 @@ Signal: long when a trailing z-score of close, or the distance from a band, is b
 
 Time-series momentum: long when the trailing return over h bars is positive, flat otherwise, often scaled by the inverse of trailing volatility. Inputs: `close` or `ret_*`, and a vol column. Crypto has `norm_return_*` and `norm_vol_cluster`. FX has `ret_{1,3,5,10,20,50}` and `rv_*`. Typical horizons in the equity and futures literature are 1, 3, and 12 months. On a 1-day bar those are 21, 63, and 252 bars. Failure mode: the signal is slow, the crash reversal (a positive trailing return into a gap down) is the left tail, and a single-asset book does not get the diversification the futures result is about. The previous project's note on that limit is cited below. No Moskowitz–Ooi–Pedersen paper was opened for this note.
 
-FX carry: long the currency with the higher interest rate. Inputs: a rate or a forward point for each leg. The pipeline does not have them. `usd_strength_ret` is a price index, not a carry. Failure mode: the carry return is the interest differential minus the spot move, and the spot move in a funding crisis is larger than the carry. Do not approximate carry with the price trend.
+FX carry: long the currency with the higher interest rate. Inputs: a rate or a forward point for each leg. FX gold has `carry_pct`, the policy-rate differential (base minus quote, BIS, lagged one day); a policy rate is a proxy for the overnight rate the position actually earns. `base_strength_ret` / `quote_strength_ret` are price indices, not a carry. Failure mode: the carry return is the interest differential minus the spot move, and the spot move in a funding crisis is larger than the carry. Do not approximate carry with the price trend.
 
 ### Volatility regime
 

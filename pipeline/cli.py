@@ -104,6 +104,8 @@ def build_parser() -> argparse.ArgumentParser:
     cc.add_argument("--data-root", type=Path, default=None)
     cc.add_argument("--skip-venue", action="store_true", help="skip the second-venue close comparison")
     cc.add_argument("--skip-funding", action="store_true", help="skip the funding comparison")
+    cc.add_argument("--market", choices=["crypto", "fx"], default="crypto",
+                    help="crypto: Binance REST, funding, OKX/KuCoin; fx: ECB reference rates")
     cc.add_argument("--refresh", action="store_true",
                     help="fetch every response live from the venues instead of the cache; "
                          "cached copies are compared with it, never overwritten")
@@ -156,7 +158,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "crosscheck":
         from pipeline.config import universe_symbols
         from pipeline.crosscheck import crosscheck
-        assets = parse_symbol_list(args.assets) if args.assets else []
+        if args.market == "fx":
+            assets = [canonical_fx_symbol(p) for item in (args.assets or []) for p in item.split(",") if p.strip()]
+        else:
+            assets = parse_symbol_list(args.assets) if args.assets else []
         if args.universe:
             assets += [a for a in universe_symbols(args.universe) if a not in assets]
         if not assets:
@@ -165,7 +170,7 @@ def main(argv: list[str] | None = None) -> int:
         bar_types = [s.strip() for s in args.bar_types.split(",") if s.strip()] if args.bar_types else None
         report = crosscheck(root, assets, args.start, args.end, bar_types,
                             venue=not args.skip_venue, funding=not args.skip_funding,
-                            refresh=args.refresh)
+                            refresh=args.refresh, market=args.market)
         print()
         report.print()
         return report.code

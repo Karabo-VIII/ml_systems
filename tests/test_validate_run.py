@@ -86,11 +86,11 @@ def test_fx_null_volume_and_short_lookbacks_are_allowed(tmp_path):
         "buy_usd": [None] * n,
         "sell_usd": [None] * n,
         "signed_usd": [None] * n,
-        "usd_strength_ret": [None] * n,
+        "base_strength_ret": [None] * n,
         "ret_10": [None] * n,
         "ret_50": [None] * n,
         "rv_20": [None] * n,
-        "spread_z_100": [None] * n,
+        "spread_z": [None] * n,
     })
     atomic_write_parquet(frame, path, schema_name="dataset_v1", params={"v": 1}, sort_cols=["ts_ms"])
     report = vr.Report()

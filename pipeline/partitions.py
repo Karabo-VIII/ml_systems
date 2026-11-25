@@ -118,7 +118,8 @@ def load_partitions(
     for path in files:
         df = pl.read_parquet(path, columns=columns) if columns else pl.read_parquet(path)
         frames.append(df)
-    out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms")
+    # A stable sort, so "last" among equal timestamps is the later file on every run.
+    out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True)
     if "ts_ms" in out.columns:
         out = out.unique(subset=["ts_ms"], keep="last", maintain_order=True)
     return out

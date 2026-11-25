@@ -159,10 +159,11 @@ INPUT_FAMILIES: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("etf", ("etf_",)),
     ("wikipedia", ("soc_",)),
     ("open_interest", ("oi_value", "norm_oi_")),
+    ("policy_rate", ("carry_pct",)),
 )
 
 # Columns that are empty because the source did not publish yet (not a bug).
-_SOURCE_FAMILIES = {"deribit", "etf", "wikipedia", "defillama", "metrics_daily", "basis", "open_interest", "funding", "funding_daily"}
+_SOURCE_FAMILIES = {"deribit", "etf", "wikipedia", "defillama", "metrics_daily", "basis", "open_interest", "funding", "funding_daily", "policy_rate"}
 
 
 def input_families(columns: list[str], lag_table: dict[str, int]) -> tuple[list[dict], dict[str, int]]:

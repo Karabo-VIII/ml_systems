@@ -294,7 +294,7 @@ NON_FEATURE = {
 }
 LINE_MAX = 20_000
 ENVELOPE_VIEWS = ("time_1m", "time_5m")  # too many bars for a line: plotted as an hourly high/low band
-EXTERNAL_COLS = ("stbl_supply_usd", "soc_wiki_views", "dv_btc_dvol_close", "funding_day_mean")
+EXTERNAL_COLS = ("stbl_supply_usd", "soc_wiki_views", "dv_btc_dvol_close", "funding_day_mean", "carry_pct", "rv_realized")
 
 
 def view_stats(root: Path, bar_type: str, asset: str, start: date, end: date) -> dict | None:
@@ -311,9 +311,12 @@ def view_stats(root: Path, bar_type: str, asset: str, start: date, end: date) ->
         coverage[c] = 1.0 - (s.null_count() + s.is_nan().sum()) / settled.height if settled.height else 0.0
         finite = s.filter(s.is_finite())
         scale[c] = float(finite.abs().quantile(0.99)) if finite.len() else None
+    # Activity per UTC day: traded notional (crypto), or the quote-tick count where
+    # the market has no notional (FX).
+    act = "volume_usd" if "volume_usd" in df.columns and df["volume_usd"].null_count() < df.height else "volume"
     daily = (
         df.group_by((pl.col("ts_open_ms") // DAY_MS).alias("day"))
-        .agg(pl.col("volume_usd").sum(), pl.len().alias("bars"))
+        .agg(pl.col(act).sum().alias("activity"), pl.len().alias("bars"))
         .sort("day")
     )
     if bar_type in ENVELOPE_VIEWS:
@@ -382,7 +385,7 @@ def write_asset_report(path: Path, root: Path, asset: str, start: date, end: dat
     base = stats.get("time_1m")
     recon: dict[str, float] = {}
     if base is not None:
-        b = base["daily"].rename({"volume_usd": "base"})
+        b = base["daily"].select(["day", pl.col("activity").alias("base")])
         for bt, s in stats.items():
             j = s["daily"].join(b, on="day", how="full", coalesce=True)
             if bt == "dollar" and s["daily"].height:
@@ -391,13 +394,13 @@ def write_asset_report(path: Path, root: Path, asset: str, start: date, end: dat
                 # that opens before midnight and closes after it).
                 lo, hi = int(s["daily"]["day"].min()), int(s["daily"]["day"].max())
                 j = j.filter((pl.col("day") >= lo) & (pl.col("day") < hi))
-            rel = ((j["volume_usd"].fill_null(0) - j["base"].fill_null(0)).abs() / j["base"].fill_null(0).clip(1e-9))
+            rel = ((j["activity"].fill_null(0) - j["base"].fill_null(0)).abs() / j["base"].fill_null(0).clip(1e-9))
             recon[bt] = float(rel.max()) if rel.len() else float("nan")
     titles = (
         "close in every view (1m/5m drawn as an hourly high-low band; dots: dollar bars)",
-        "notional per UTC day, every view (lines should coincide; dollar bars are bucketed by the day they open)",
+        "activity per UTC day, every view: notional (crypto) or quote ticks (FX); lines should coincide (dollar bars are bucketed by the day they open)",
         "bars per day (1m: 1440 when no minute is missing; dollar: event count)",
-        "funding_rate (8h gold) and the daily external series (1d gold, each scaled to its max)",
+        "funding_rate (8h gold) and the daily slow series (1d gold, each scaled to its max; FX: carry_pct, rv_realized)",
         "feature coverage after warmup (share non-null), view x column",
         "feature scale: log10 of p99 |value| after warmup, view x column",
     )
@@ -421,8 +424,8 @@ def write_asset_report(path: Path, root: Path, asset: str, start: date, end: dat
                                        name=f"{bt} close"), row=1, col=1)
         d = s["daily"]
         dx = [_dt(int(t) * DAY_MS) for t in d["day"].to_list()]
-        fig.add_trace(go.Scattergl(x=dx, y=d["volume_usd"], mode="lines", line=dict(width=1, color=color[bt]),
-                                   name=f"{bt} notional/day", legendgroup=bt, showlegend=False), row=2, col=1)
+        fig.add_trace(go.Scattergl(x=dx, y=d["activity"], mode="lines", line=dict(width=1, color=color[bt]),
+                                   name=f"{bt} activity/day", legendgroup=bt, showlegend=False), row=2, col=1)
         if bt in ("time_1m", "dollar"):
             fig.add_trace(go.Scattergl(x=dx, y=d["bars"], mode="lines", line=dict(width=1, color=color[bt]),
                                        name=f"{bt} bars/day", legendgroup=bt, showlegend=False), row=3, col=1)
@@ -463,7 +466,7 @@ def write_asset_report(path: Path, root: Path, asset: str, start: date, end: dat
     head = (
         f"<h1>{_h.escape(asset)} &middot; {start} to {end}</h1>"
         "<h2>Views</h2><table class='t'><tr><th>view</th><th>rows</th><th>first close (UTC)</th>"
-        "<th>last close (UTC)</th><th>max daily notional diff vs 1m (relative)</th></tr>"
+        "<th>last close (UTC)</th><th>max daily activity diff vs 1m (relative)</th></tr>"
         f"{view_rows}</table>"
     )
     cc = _crosscheck_rows(root, asset)
@@ -501,7 +504,7 @@ def write_report(out_dir: Path, root: Path, assets: list[str], start: date, end:
     page = (
         "<!doctype html><html><head><meta charset='utf-8'><title>Views report</title>" + PAGE_CSS + "</head><body>"
         f"<h1>Views report &middot; {start} to {end} &middot; {_h.escape(str(root))}</h1>"
-        "<table class='t'><tr><th>asset</th><th>views</th><th>bars</th><th>worst daily notional diff vs 1m</th>"
+        "<table class='t'><tr><th>asset</th><th>views</th><th>bars</th><th>worst daily activity diff vs 1m</th>"
         "<th>cross-check PASS</th><th>WARN</th><th>FAIL</th></tr>" + "".join(rows) + "</table></body></html>"
     )
     index = out_dir / "index.html"

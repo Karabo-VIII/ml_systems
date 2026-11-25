@@ -382,7 +382,7 @@ def _finalize_aggtrades(df: pl.DataFrame) -> pl.DataFrame:
     if df is None or df.is_empty():
         return df if df is not None else pl.DataFrame()
     return (
-        df.sort(["ts_us", "agg_trade_id"])
+        df.sort(["ts_us", "agg_trade_id"], maintain_order=True)
         .unique(subset=["agg_trade_id"], keep="last", maintain_order=True)
         .sort(["ts_us", "agg_trade_id"])
     )
@@ -448,7 +448,7 @@ def parse_funding(content: bytes) -> pl.DataFrame:
     else:
         out_cols.append(pl.lit(None, dtype=pl.Int32).alias("funding_interval_hours"))
     df = df.select(out_cols).drop_nulls(["ts_ms", "funding_rate"])
-    return df.sort("ts_ms").unique(subset=["ts_ms"], keep="last", maintain_order=True)
+    return df.sort("ts_ms", maintain_order=True).unique(subset=["ts_ms"], keep="last", maintain_order=True)
 
 
 _KLINE_HEADERLESS = [
@@ -489,7 +489,7 @@ def _normalize_klines(df: pl.DataFrame, width_ms: int) -> pl.DataFrame:
 def _finalize_klines(df: pl.DataFrame) -> pl.DataFrame:
     if df is None or df.is_empty():
         return df if df is not None else pl.DataFrame()
-    return df.sort("ts_open_ms").unique(subset=["ts_open_ms"], keep="last", maintain_order=True)
+    return df.sort("ts_open_ms", maintain_order=True).unique(subset=["ts_open_ms"], keep="last", maintain_order=True)
 
 
 def iter_klines(source: bytes | Path, *, width_ms: int = 60_000, chunk_rows: int = CSV_CHUNK_ROWS):
@@ -537,7 +537,7 @@ def parse_metrics(content: bytes) -> pl.DataFrame:
     out = df.select(keep).drop_nulls(["ts_ms"])
     if "sum_open_interest_value" not in out.columns and "sumopeninterestvalue" in out.columns:
         out = out.rename({"sumopeninterestvalue": "sum_open_interest_value"})
-    return out.sort("ts_ms").unique(subset=["ts_ms"], keep="last", maintain_order=True)
+    return out.sort("ts_ms", maintain_order=True).unique(subset=["ts_ms"], keep="last", maintain_order=True)
 
 
 def empty_venue_frame(df: pl.DataFrame | None, required: str = "date") -> pl.DataFrame:

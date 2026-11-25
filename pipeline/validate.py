@@ -10,10 +10,12 @@ from dataclasses import dataclass, field
 import numpy as np
 import polars as pl
 
+from pipeline.calendar import spans_fx_weekend
 from pipeline.constants import (
     BTC_MAX_GAP_MS,
     CONSTANT_ALLOW,
     MARKET_COLUMNS,
+    STEADY_ON_WEEKDAYS,
     TIME_WIDTH_MS,
 )
 from pipeline.features import PHYSICS_FEATURES
@@ -187,7 +189,11 @@ def gate_constants(
         # past its warmup: a slow feature that never settled is still warmup.
         settled = df.height - int(df["is_warmup"].fill_null(True).sum())
         short = short or settled < min_rows
+    # Without a clock the frame cannot show it holds no weekend, so nothing is excused.
+    weekend = "ts_ms" not in df.columns or df.is_empty() or spans_fx_weekend(df["ts_ms"].min(), df["ts_ms"].max())
     for col in cols:
+        if col in STEADY_ON_WEEKDAYS and not weekend:
+            continue
         if col not in df.columns or col in CONSTANT_ALLOW or col.startswith("target_"):
             continue
         s = df[col].drop_nulls()

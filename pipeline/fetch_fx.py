@@ -20,6 +20,7 @@ import struct
 import time
 from datetime import date, datetime, timedelta, timezone
 
+import numpy as np
 import polars as pl
 
 from pipeline.config import fx_price_divisor, load_fx
@@ -34,6 +35,7 @@ from pipeline.paths import fx_hour_path
 from pipeline.symbols import canonical_fx_symbol
 
 _REC = struct.Struct(">IIIff")
+_REC_DTYPE = np.dtype([("ms", ">u4"), ("ask", ">u4"), ("bid", ">u4"), ("ask_vol", ">f4"), ("bid_vol", ">f4")])
 _TICK_SCHEMA = {
     "ts_ms": pl.Int64,
     "bid": pl.Float64,
@@ -42,7 +44,55 @@ _TICK_SCHEMA = {
     "spread": pl.Float64,
 }
 _FEED = "https://datafeed.dukascopy.com/datafeed"
-_last_request = 0.0
+
+
+class _Pacer:
+    """Request spacing for Dukascopy, which throttles a fast client with 503s,
+    timeouts and resets. The interval doubles on each of those (up to
+    ``MAX_INTERVAL_S``) and shrinks by 15% after each answered request, never
+    below ``fx.min_interval_s``: the client settles near the rate the server
+    tolerates instead of retrying into the throttle."""
+
+    MAX_INTERVAL_S = 60.0
+
+    def __init__(self) -> None:
+        self.interval = 0.0
+        self.last = 0.0
+
+    def wait(self, min_interval: float) -> None:
+        self.interval = max(self.interval, float(min_interval))
+        delay = self.interval - (time.monotonic() - self.last)
+        if delay > 0:
+            time.sleep(delay)
+        self.last = time.monotonic()
+
+    def answered(self, min_interval: float) -> None:
+        self.interval = max(float(min_interval), self.interval * 0.85)
+
+    def throttled(self) -> None:
+        self.interval = min(self.MAX_INTERVAL_S, max(2.0, self.interval * 2.0))
+
+
+_PACER = _Pacer()
+
+
+def fx_market_closed(hour_start: datetime) -> bool:
+    """True for an hour wholly inside the weekend close under either DST regime.
+
+    The FX week closes Friday 17:00 and reopens Sunday 17:00 America/New_York,
+    which is 21:00 or 22:00 UTC. Every hour from Friday 22:00 UTC to Sunday
+    20:00 UTC is therefore shut in summer and in winter, so it is recorded as
+    an empty, closed hour without a request. The hours at the edges are fetched.
+    """
+    h = hour_start.astimezone(timezone.utc)
+    wd = h.weekday()  # Monday = 0
+    if wd == 5:
+        return True
+    if wd == 4 and h.hour >= 22:
+        return True
+    if wd == 6 and h.hour < 20:
+        return True
+    return False
 
 
 def hour_url(pair: str, hour_start: datetime) -> str:
@@ -55,7 +105,11 @@ def hour_url(pair: str, hour_start: datetime) -> str:
 
 
 def decode_bi5(blob: bytes, hour_start_ms: int, price_divisor: float) -> pl.DataFrame:
-    """Decode one hour. An empty blob is an empty hour, not an error."""
+    """Decode one hour. An empty blob is an empty hour, not an error.
+
+    Vectorised (numpy structured dtype). Ticks keep the file's order, which is
+    time order; ticks in the same millisecond stay in that order (stable sort).
+    """
     if not blob:
         return pl.DataFrame(schema=_TICK_SCHEMA)
     try:
@@ -64,45 +118,33 @@ def decode_bi5(blob: bytes, hour_start_ms: int, price_divisor: float) -> pl.Data
         raw = lzma.decompress(blob, format=lzma.FORMAT_ALONE)
     if len(raw) % _REC.size != 0:
         raise ValueError(f"bi5 payload length {len(raw)} is not a multiple of 20")
-    ts, bid, ask, mid, spread = [], [], [], [], []
-    for off in range(0, len(raw), _REC.size):
-        ms, ask_i, bid_i, _ask_vol, _bid_vol = _REC.unpack_from(raw, off)
-        if ms >= 3_600_000:
-            raise ValueError(f"tick offset {ms} ms is outside the hour")
-        a = ask_i / price_divisor
-        b = bid_i / price_divisor
-        if a <= 0 or b <= 0:
-            raise ValueError(f"bad quote bid={b} ask={a}")
-        # A crossed quote (ask < bid) is kept as shipped; the validator counts them.
-        ts.append(hour_start_ms + int(ms))
-        bid.append(b)
-        ask.append(a)
-        mid.append((a + b) / 2.0)
-        spread.append(a - b)
-    if not ts:
+    rec = np.frombuffer(raw, dtype=_REC_DTYPE)
+    if len(rec) == 0:
         return pl.DataFrame(schema=_TICK_SCHEMA)
+    ms = rec["ms"].astype(np.int64)
+    if (ms >= 3_600_000).any():
+        raise ValueError(f"tick offset {int(ms.max())} ms is outside the hour")
+    ask = rec["ask"].astype(np.float64) / price_divisor
+    bid = rec["bid"].astype(np.float64) / price_divisor
+    if (ask <= 0).any() or (bid <= 0).any():
+        bad = int(np.argmax((ask <= 0) | (bid <= 0)))
+        raise ValueError(f"bad quote bid={bid[bad]} ask={ask[bad]}")
+    # A crossed quote (ask < bid) is kept as shipped; the validator counts them.
     return pl.DataFrame({
-        "ts_ms": ts, "bid": bid, "ask": ask, "mid": mid, "spread": spread,
-    }).sort("ts_ms")
+        "ts_ms": hour_start_ms + ms, "bid": bid, "ask": ask,
+        "mid": (ask + bid) / 2.0, "spread": ask - bid,
+    }, schema=_TICK_SCHEMA).sort("ts_ms", maintain_order=True)
 
 
 def encode_bi5(ticks: pl.DataFrame, hour_start_ms: int, price_divisor: float) -> bytes:
     """Test helper. The inverse of ``decode_bi5`` for a synthetic hour."""
     raw = bytearray()
-    for row in ticks.sort("ts_ms").iter_rows(named=True):
+    for row in ticks.sort("ts_ms", maintain_order=True).iter_rows(named=True):
         ms = int(row["ts_ms"]) - hour_start_ms
         ask_i = int(round(float(row["ask"]) * price_divisor))
         bid_i = int(round(float(row["bid"]) * price_divisor))
         raw += _REC.pack(ms, ask_i, bid_i, float(row.get("ask_vol", 0.0)), float(row.get("bid_vol", 0.0)))
     return lzma.compress(bytes(raw), format=lzma.FORMAT_ALONE)
-
-
-def _pause(min_interval_s: float) -> None:
-    global _last_request
-    wait = min_interval_s - (time.monotonic() - _last_request)
-    if wait > 0:
-        time.sleep(wait)
-    _last_request = time.monotonic()
 
 
 def fetch_hour(
@@ -115,13 +157,24 @@ def fetch_hour(
     min_interval_s: float | None = None,
     max_retries: int | None = None,
 ) -> pl.DataFrame:
-    """Fetch one UTC hour, or read the cached parquet. Retries 503 and timeouts."""
+    """Fetch one UTC hour, or read the cached parquet. Retries 503 and timeouts.
+
+    An hour inside the weekend close (:func:`fx_market_closed`) is cached as an
+    empty, closed hour without a request (``fx.skip_closed_hours``).
+    """
     pair = canonical_fx_symbol(pair)
     hour_start = hour_start.astimezone(timezone.utc).replace(minute=0, second=0, microsecond=0)
     path = fx_hour_path(root, pair, hour_start.date(), hour_start.hour)
     if path.exists() and not force:
         return pl.read_parquet(path)
     cfg = load_fx()
+    if cfg.get("skip_closed_hours", True) and fx_market_closed(hour_start):
+        frame = pl.DataFrame(schema=_TICK_SCHEMA)
+        atomic_write_parquet(
+            frame, path, schema_name="fx_ticks_v1",
+            params={"pair": pair, "hour": hour_start.isoformat(), "empty": True, "closed": True},
+        )
+        return frame
     interval = cfg["min_interval_s"] if min_interval_s is None else min_interval_s
     retries = int(cfg["max_retries"] if max_retries is None else max_retries)
     divisor = fx_price_divisor(pair)
@@ -129,11 +182,13 @@ def fetch_hour(
     url = hour_url(pair, hour_start)
     last_err = "no attempt"
     for attempt in range(retries):
-        _pause(interval)
+        _PACER.wait(interval)
         try:
             status, body, err = http_get(url, timeout=timeout)
         except Exception as exc:  # noqa: BLE001 — timeouts and resets are the retry case
             status, body, err = 0, b"", f"{type(exc).__name__}: {exc}"
+        if status in (200, 204, 404):
+            _PACER.answered(interval)
         if status == 200:
             frame = decode_bi5(body, hour_ms, divisor)
             atomic_write_parquet(frame, path, schema_name="fx_ticks_v1", params={"pair": pair, "hour": hour_start.isoformat()})
@@ -149,8 +204,8 @@ def fetch_hour(
                 )
             return frame
         last_err = err or f"HTTP {status}"
-        # 503, 429, connection reset, timeout.
-        time.sleep(min(32.0, 2.0 ** attempt))
+        # 503, 429, connection reset, timeout: the server's throttle. Slow down.
+        _PACER.throttled()
     raise RuntimeError(f"{pair} {hour_start.isoformat()} failed after {retries} tries: {last_err}")
 
 
@@ -224,9 +279,12 @@ def read_fx_ticks(root, pair: str, start: date, end: date) -> pl.DataFrame:
         path = fx_hour_path(root, pair, hour.date(), hour.hour)
         if path.exists():
             frames.append(pl.read_parquet(path))
+    frames = [f for f in frames if not f.is_empty()]
     if not frames:
         return pl.DataFrame(schema=_TICK_SCHEMA)
-    return pl.concat([f for f in frames if not f.is_empty()], how="vertical").sort("ts_ms") if any(not f.is_empty() for f in frames) else pl.DataFrame(schema=_TICK_SCHEMA)
+    # Stable: ticks sharing a millisecond keep the order Dukascopy shipped them in,
+    # which decides a bar's close. An unstable sort may swap them.
+    return pl.concat(frames, how="vertical").sort("ts_ms", maintain_order=True)
 
 
 class DukascopySource:

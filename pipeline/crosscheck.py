@@ -485,6 +485,195 @@ def _judge_venue(s: dict) -> str:
 # ---------------------------------------------------------------- driver
 
 
+# ---------------------------------------------------------------- FX: ECB reference rates
+
+# The ECB euro foreign exchange reference rates: one official rate a business day per
+# currency, units per EUR, set at 2.15 pm C.E.T. (Frankfurt local time, CET or CEST).
+ECB_EXR = "https://data-api.ecb.europa.eu/service/data/EXR/D.{ccys}.EUR.SP00.A?startPeriod={start}&endPeriod={end}&format=csvdata"
+ECB_CURRENCIES = ("USD", "JPY", "GBP", "CHF", "AUD", "NZD", "CAD")
+ECB_FIX_HM = (14, 15)
+ECB_OFFSETS_MIN = (-60, -30, -15, 0, 15, 30, 60)
+# Rounding of the published rates (4-5 digits) and of a cross is about one pip; the
+# concertation is a few minutes wide. Median |gap| at the fixing: PASS <= 5 pips,
+# FAIL above 10 (a 0.1% price-scale error is about 11 pips).
+ECB_MEDIAN_WARN_PIPS = 5.0
+ECB_MEDIAN_FAIL_PIPS = 10.0
+# Days per daylight-saving regime needed to judge that regime's lag test on its own.
+ECB_MIN_REGIME_DAYS = 3
+# Our mid at the fixing must come from a bar that closed at most this long before it.
+ECB_MAX_STALE_MS = 5 * 60_000
+
+
+def parse_ecb_exr_csv(text: str) -> pl.DataFrame:
+    """ECB SDMX csv -> (ccy, day, per_eur)."""
+    import io
+    schema = {"ccy": pl.Utf8, "day": pl.Date, "per_eur": pl.Float64}
+    if not text.strip():
+        return pl.DataFrame(schema=schema)
+    raw = pl.read_csv(io.StringIO(text), infer_schema_length=0)
+    if not {"CURRENCY", "TIME_PERIOD", "OBS_VALUE"} <= set(raw.columns):
+        return pl.DataFrame(schema=schema)
+    return raw.select([
+        pl.col("CURRENCY").alias("ccy"),
+        pl.col("TIME_PERIOD").str.strptime(pl.Date, "%Y-%m-%d", strict=False).alias("day"),
+        pl.col("OBS_VALUE").cast(pl.Float64, strict=False).alias("per_eur"),
+    ]).drop_nulls().sort(["ccy", "day"])
+
+
+def ecb_reference(root: Path, start: date, end: date) -> pl.DataFrame:
+    """ECB reference rates for the majors' currencies over ``[start, end]`` (cached when settled)."""
+    path = root / "crosscheck" / "ecb" / f"EXR_{start}_{end}.parquet"
+
+    def fetch() -> pl.DataFrame:
+        url = ECB_EXR.format(ccys="+".join(ECB_CURRENCIES), start=start.isoformat(), end=end.isoformat())
+        status, body, err = http_get(url, timeout=60)
+        time.sleep(PAUSE_S)
+        if status != 200:
+            raise RuntimeError(f"{url} -> HTTP {status or err}")
+        # A range with no ECB business day (a weekend) is answered 200 with no body.
+        return parse_ecb_exr_csv((body or b"").decode("utf-8", errors="replace"))
+
+    return _cached(path, fetch, {"source": "ecb EXR", "start": str(start), "end": str(end)}, _settled(end))
+
+
+def ecb_pair_rate(ref: pl.DataFrame, pair: str) -> pl.DataFrame:
+    """(day, rate) of ``pair`` in quote units per base unit, from the per-EUR rates."""
+    base, quote = pair[:3], pair[3:]
+
+    def leg(ccy: str) -> pl.DataFrame | None:
+        if ccy == "EUR":
+            return None
+        part = ref.filter(pl.col("ccy") == ccy).select(["day", pl.col("per_eur").alias(ccy)])
+        return part if part.height else pl.DataFrame(schema={"day": pl.Date, ccy: pl.Float64})
+
+    b, q = leg(base), leg(quote)
+    if q is None:  # XXXEUR: EUR per base = 1 / (base per EUR)
+        return b.select(["day", (1.0 / pl.col(base)).alias("rate")])
+    if b is None:  # EURXXX
+        return q.select(["day", pl.col(quote).alias("rate")])
+    return b.join(q, on="day", how="inner").select(["day", (pl.col(quote) / pl.col(base)).alias("rate")])
+
+
+def fixing_ms(day: date) -> int:
+    from zoneinfo import ZoneInfo
+    local = datetime(day.year, day.month, day.day, *ECB_FIX_HM, tzinfo=ZoneInfo("Europe/Berlin"))
+    return int(local.timestamp() * 1000)
+
+
+def fixing_regime(day: date) -> str:
+    """CET (UTC+1) or CEST (UTC+2) at the fixing: a clock error often hits one only."""
+    from zoneinfo import ZoneInfo
+    local = datetime(day.year, day.month, day.day, *ECB_FIX_HM, tzinfo=ZoneInfo("Europe/Berlin"))
+    return "CEST" if local.utcoffset() == timedelta(hours=2) else "CET"
+
+
+def _offset_medians(gaps_by_offset: dict[int, list[float]]) -> dict[int, float]:
+    return {o: float(np.median(np.abs(np.asarray(g)))) for o, g in gaps_by_offset.items() if g}
+
+
+def _shifted(medians: dict[int, float]) -> int | None:
+    """The offset (minutes) that matches clearly better than the fixing itself, if any."""
+    if 0 not in medians:
+        return None
+    best = min(medians, key=medians.get)
+    if abs(best) > 15 and medians[best] < 0.5 * medians[0]:
+        return best
+    return None
+
+
+def compare_reference(minutes: pl.DataFrame, ref: pl.DataFrame, pip: float) -> dict:
+    """Our 1m mid at each fixing instant (the last bar closing at or before it, at most
+    5 minutes stale) against the reference rate, in pips, at the fixing and at offsets.
+
+    The offsets are the lag test: a timestamp or daylight-saving error shows up as a
+    smaller gap at a non-zero offset than at the fixing itself.
+    """
+    m = minutes.sort("ts_ms")
+    ts = m["ts_ms"].to_numpy()
+    close = m["close"].to_numpy().astype(float)
+    days = ref["day"].to_list()
+    rates = ref["rate"].to_numpy().astype(float)
+    by_offset: dict[int, list[float]] = {o: [] for o in ECB_OFFSETS_MIN}
+    by_regime: dict[str, dict[int, list[float]]] = {r: {o: [] for o in ECB_OFFSETS_MIN} for r in ("CET", "CEST")}
+    worst = (0.0, None)
+    for day, rate in zip(days, rates):
+        if not np.isfinite(rate) or rate <= 0:
+            continue
+        regime = fixing_regime(day)
+        for off in ECB_OFFSETS_MIN:
+            t = fixing_ms(day) + off * 60_000
+            i = int(np.searchsorted(ts, t, side="right")) - 1
+            if i < 0 or t - int(ts[i]) > ECB_MAX_STALE_MS:
+                continue
+            gap = (close[i] - rate) / pip
+            by_offset[off].append(gap)
+            by_regime[regime][off].append(gap)
+            if off == 0 and abs(gap) > abs(worst[0]):
+                worst = (gap, str(day))
+    at0 = np.abs(np.asarray(by_offset[0]))
+    medians = _offset_medians(by_offset)
+    regimes = {}
+    for regime, gaps in by_regime.items():
+        rm = _offset_medians(gaps)
+        if gaps[0]:
+            regimes[regime] = {"days": len(gaps[0]), "median_pips": rm.get(0),
+                               "median_by_offset_min": {o: round(v, 2) for o, v in rm.items()},
+                               "shifted_to_min": _shifted(rm) if len(gaps[0]) >= ECB_MIN_REGIME_DAYS else None}
+    return {"days": int(at0.size), "median_pips": float(np.median(at0)) if at0.size else None,
+            "p90_pips": float(np.quantile(at0, 0.9)) if at0.size else None,
+            "worst_pips": worst[0], "worst_day": worst[1],
+            "median_by_offset_min": {o: round(v, 2) for o, v in medians.items()},
+            "best_offset_min": min(medians, key=medians.get) if medians else None,
+            "shifted_to_min": _shifted(medians),
+            "regimes": regimes,
+            "bias_pips": float(np.median(np.asarray(by_offset[0]))) if by_offset[0] else None}
+
+
+def _judge_reference(s: dict) -> str:
+    """Level on all days; the lag test on all days and on each daylight-saving regime
+    alone, since a clock error confined to CET or to CEST days hides in the pooled median."""
+    if not s["days"]:
+        return "WARN"
+    med = s["median_pips"]
+    shifted = s.get("shifted_to_min") is not None or any(
+        r.get("shifted_to_min") is not None for r in (s.get("regimes") or {}).values())
+    if med > ECB_MEDIAN_FAIL_PIPS or shifted:
+        return "FAIL"
+    if med > ECB_MEDIAN_WARN_PIPS:
+        return "WARN"
+    return "PASS"
+
+
+def fx_crosscheck(root: Path, pairs: list[str], start: date, end: date, report: Report, summary: dict) -> None:
+    """Every FX pair's 1m mid at the ECB fixing against the ECB reference rate."""
+    from pipeline.config import fx_pip
+
+    try:
+        ref = ecb_reference(root, start, end)
+    except Exception as exc:  # noqa: BLE001  the reference is down: report it, keep the run alive
+        report.add("ecb_reference", "WARN", f"ECB reference rates unavailable: {exc}")
+        return
+    for pair in pairs:
+        print(f"[crosscheck] {pair}", flush=True)
+        ours = load_partitions(root / "gold" / "time_1m", pair, columns=["ts_ms", "close"])
+        ours = clip_frame(ours, start, end) if ours is not None else None
+        if ours is None or ours.is_empty():
+            report.add("ecb_reference", "WARN", f"{pair}: no 1m gold to compare")
+            continue
+        s = compare_reference(ours, ecb_pair_rate(ref, pair), fx_pip(pair))
+        sev = _judge_reference(s)
+        detail = (f"{pair}: {s['days']} ECB fixing days (14:15 Frankfurt), median |mid - ECB| "
+                  f"{(s['median_pips'] or 0):.2f} pips, p90 {(s['p90_pips'] or 0):.2f}, median bias "
+                  f"{(s['bias_pips'] or 0):+.2f}, worst {s['worst_pips']:+.2f} on {s['worst_day']}; median by "
+                  f"offset (min) {s['median_by_offset_min']}; by regime "
+                  + ", ".join(f"{k} {v['days']}d {(v['median_pips'] or 0):.2f}p"
+                              + (f" SHIFTED {v['shifted_to_min']:+d}m" if v.get("shifted_to_min") is not None else "")
+                              for k, v in s["regimes"].items()))
+        report.add("ecb_reference", sev, detail)
+        summary[pair]["ecb_reference"] = s | {"severity": sev}
+        print(f"  ecb       {sev}  {detail}", flush=True)
+
+
 GOLD_COLS = [*KLINE_COLS, "funding_rate"]
 
 
@@ -504,12 +693,14 @@ def crosscheck(
     venue: bool = True,
     funding: bool = True,
     refresh: bool = False,
+    market: str = "crypto",
 ) -> Report:
-    """See the module docstring. ``refresh`` fetches every response live (``LIVE``)."""
+    """See the module docstring. ``refresh`` fetches every response live (``LIVE``).
+    ``market="fx"`` checks FX pairs against the ECB reference rates instead."""
     LIVE.on = bool(refresh)
     LIVE.reset()
     try:
-        return _crosscheck(root, assets, start, end, bar_types, venue, funding)
+        return _crosscheck(root, assets, start, end, bar_types, venue, funding, market)
     finally:
         LIVE.on = False
 
@@ -522,13 +713,16 @@ def _crosscheck(
     bar_types: list[str] | None,
     venue: bool,
     funding: bool,
+    market: str = "crypto",
 ) -> Report:
     report = Report()
     summary: dict = defaultdict(dict)
     started = datetime.now(tz=timezone.utc).isoformat(timespec="seconds")
     wanted = list(bar_types or [*REST_INTERVAL, "dollar"])
     time_types = [bt for bt in REST_INTERVAL if bt in wanted or (bt == "time_1m" and "dollar" in wanted)]
-    for asset in assets:
+    if market == "fx":
+        fx_crosscheck(root, assets, start, end, report, summary)
+    for asset in (assets if market != "fx" else []):
         print(f"[crosscheck] {asset}", flush=True)
         outage: set[int] = set()
         minutes: pl.DataFrame | None = None

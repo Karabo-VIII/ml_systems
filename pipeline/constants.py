@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-CONTRACT_VERSION = "2.5.0"
+CONTRACT_VERSION = "2.6.0"
 PRODUCER = "pipeline"
 
 # Core chart/ML fabrics. Time bars are real OHLCV aggregates, not "last dollar bar".
@@ -68,7 +68,14 @@ CONSTANT_ALLOW = {
     "asset_dna",
     "listing_date",
     "bar_id",
+    # A policy-rate differential is a step series: weeks without a rate decision are real.
+    "carry_pct",
 }
+
+# FX columns that change only across a weekend: every full weekday's daily figure rests
+# on 1440 one-minute bars, and only the Sunday session's is shorter. Constant over a
+# range without a weekend is real; constant over a range with one is not.
+STEADY_ON_WEEKDAYS = {"rv_n_bars"}
 
 MARKET_COLUMNS = (
     "asset",
@@ -121,7 +128,11 @@ DROPPED_FAMILIES = {
     ),
 }
 
-# Renamed in 2.5.0 (old -> new), for readers of older gold.
+# Renamed (old -> new), for readers of older gold: 2.5.0 crypto, 2.6.0 FX (the z-score
+# window is no longer always 100 bars: 63 on 1d).
 RENAMED_COLUMNS = {
     "norm_hl_spread": "norm_rs_volatility",
+    "spread_z_100": "spread_z",
+    "tick_intensity_z_100": "tick_intensity_z",
+    "usd_strength_ret": "base_strength_ret / quote_strength_ret (the USD leg's strength)",
 }

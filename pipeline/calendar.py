@@ -2,8 +2,22 @@
 
 from __future__ import annotations
 
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from typing import Iterator
+
+
+def spans_fx_weekend(ts_min_ms: float | None, ts_max_ms: float | None) -> bool:
+    """True when ``[ts_min_ms, ts_max_ms]`` holds a whole FX weekend close: a Saturday
+    and the Monday after it, so the Sunday reopen and the bar after it are in range."""
+    if ts_min_ms is None or ts_max_ms is None:
+        return False
+    day = datetime.fromtimestamp(int(ts_min_ms) / 1000, tz=timezone.utc).date()
+    last = datetime.fromtimestamp(int(ts_max_ms) / 1000, tz=timezone.utc).date()
+    while day <= last:
+        if day.weekday() == 5 and day + timedelta(days=2) <= last:
+            return True
+        day += timedelta(days=1)
+    return False
 
 
 def iter_days(start: date, end: date) -> Iterator[date]:

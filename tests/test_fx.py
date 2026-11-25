@@ -10,7 +10,7 @@ from pipeline.bars import build_fx_ladder, fx_ticks_to_time
 from pipeline.config import fx_pip, fx_price_divisor, universe_symbols
 from pipeline.fetch_crypto import BinanceVisionSource
 from pipeline.fetch_fx import DukascopySource, decode_bi5, encode_bi5, hour_url
-from pipeline.features import compute_fx_features, add_usd_strength
+from pipeline.features import compute_fx_features, add_currency_strength
 from pipeline.orchestrator import RunConfig, run
 
 
@@ -143,29 +143,32 @@ def test_features_do_not_look_ahead():
         assert early[col].to_list() == same[col].to_list()
 
 
-def test_usd_strength_needs_two_legs_and_signs():
+def test_currency_strength_is_each_currency_against_the_basket():
+    import pytest
     ts = [1_700_000_000_000, 1_700_003_600_000]
-    def frame(pair, rets):
-        close = [1.0]
-        for r in rets:
-            close.append(close[-1] * (1.0 + r))
-        # ret_1 is recomputed from close, so build closes that yield rets.
-        return pl.DataFrame({
-            "ts_ms": ts,
-            "close": close[1:],
-            "ret_1": rets,
-        })
-    # EURUSD up 1% is USD down. USDJPY up 1% is USD up. Index is 0.
-    frames = add_usd_strength({
-        "EURUSD": frame("EURUSD", [0.01, 0.0]),
-        "USDJPY": frame("USDJPY", [0.01, 0.0]),
+
+    def frame(lr):
+        return pl.DataFrame({"ts_ms": ts, "log_ret_1": lr}, schema={"ts_ms": pl.Int64, "log_ret_1": pl.Float64})
+
+    # Against USD: EUR +1%, JPY flat (USDJPY flat), GBP -1%; USD is 0. Sum 0, N = 4,
+    # so strength_C = (4 r_C - 0) / 3.
+    frames = add_currency_strength({
+        "EURUSD": frame([0.01, None]),
+        "USDJPY": frame([0.0, None]),
+        "GBPUSD": frame([-0.01, None]),
     })
-    assert abs(frames["EURUSD"]["usd_strength_ret"][0]) < 1e-12
-    single = frame("EURUSD", [0.01, 0.0]).with_columns(
-        pl.lit(None, dtype=pl.Float64).alias("usd_strength_ret")
-    )
-    alone = add_usd_strength({"EURUSD": single})
-    assert alone["EURUSD"]["usd_strength_ret"][0] is None
+    assert frames["EURUSD"]["base_strength_ret"][0] == pytest.approx(0.04 / 3)
+    assert frames["GBPUSD"]["base_strength_ret"][0] == pytest.approx(-0.04 / 3)
+    for pair, col in (("EURUSD", "quote_strength_ret"), ("USDJPY", "base_strength_ret"), ("USDJPY", "quote_strength_ret")):
+        assert frames[pair][col][0] == pytest.approx(0.0)
+    # A bar where no pair printed has no currency at all.
+    assert frames["EURUSD"]["base_strength_ret"][1] is None
+    # USDJPY up 1% is JPY down against USD: the sign follows the leg.
+    flipped = add_currency_strength({"EURUSD": frame([0.0, 0.0]), "USDJPY": frame([0.01, 0.0])})
+    assert flipped["USDJPY"]["quote_strength_ret"][0] == pytest.approx((3 * -0.01 - (-0.01)) / 2)
+    # One pair is two currencies, not a basket: null.
+    alone = add_currency_strength({"EURUSD": frame([0.01, 0.02])})
+    assert alone["EURUSD"]["base_strength_ret"].null_count() == 2
 
 
 def test_offline_fx_run_reconciles(tmp_path):

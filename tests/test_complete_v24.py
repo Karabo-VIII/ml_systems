@@ -407,13 +407,15 @@ def test_bronze_coverage_fails_on_a_day_missing_from_trades_and_klines(tmp_path)
     assert r.checks[0].severity == "FAIL" and "2020, 3, 2" in r.checks[0].detail
 
 
-def test_fx_embargo_covers_the_fixed_100_bar_windows(tmp_path):
-    from pipeline.features import FX_MAX_WINDOW
+def test_fx_embargo_covers_the_fx_windows_within_90_calendar_days(tmp_path):
+    from pipeline.features import fx_lookback
     cfg = RunConfig(start=date(2024, 1, 1), end=date(2024, 1, 2), assets=["EURUSD"], market="fx",
                     data_root=tmp_path, windows=load_windows())
-    n, pad = chunked._embargo_padding(cfg, "EURUSD", "time_1d", load_windows(), 7, 90)
-    assert n >= FX_MAX_WINDOW + 1
-    assert pad * 5 >= n * 7  # padding in calendar days covers n trading days
+    for bt in TIME_WIDTH_MS:
+        n, pad = chunked._embargo_padding(cfg, "EURUSD", bt, load_windows(), 7, 90)
+        assert n >= fx_lookback(bt) and n >= max(load_windows().horizons)
+        assert n * TIME_WIDTH_MS[bt] * 7 / 5 <= 90 * DAY_MS + 1, bt  # trading time -> calendar days
+        assert pad * 5 >= n * 7 * TIME_WIDTH_MS[bt] / DAY_MS  # padding covers n trading bars
 
 
 # ---------------------------------------------------------------- 2.4.1: found by the u10 2020 build

@@ -112,6 +112,8 @@ mlsys crosscheck --universe u10 --start 2020-01-01 --end 2020-12-31 --data-root 
 mlsys inspect --report data/u10/report --universe u10 --start 2020-01-01 --end 2020-12-31 --data-root data/u10
 ```
 
+For FX, `mlsys crosscheck --market fx --universe majors --start ... --end ... --data-root <fx root>` compares every pair's 1m mid at the ECB fixing (14:15 Frankfurt) with the ECB reference rate.
+
 `crosscheck` caches the venue responses of finished months under `<data-root>/crosscheck/`. Add `--refresh` to fetch every response live again: the run then also reports whether each cached copy still equals the venue (cached copies are never overwritten).
 
 `run` ends with one `SUMMARY  PASS=...  WARN=...  FAIL=...  EXIT=...` line (exit 0 pass, 1 warn, 2 fail). `status` exits 0 when the range is complete and 1 when it is not. `inspect --html` needs `pip install -e ".[viz]"`.

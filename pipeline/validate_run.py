@@ -28,7 +28,8 @@ if str(_REPO) not in sys.path:
     sys.path.insert(0, str(_REPO))
 
 from pipeline.bars import close_of, gaps_ms
-from pipeline.constants import DAY_MS, TIME_WIDTH_MS
+from pipeline.calendar import spans_fx_weekend
+from pipeline.constants import DAY_MS, STEADY_ON_WEEKDAYS, TIME_WIDTH_MS
 from pipeline.config import fx_pip, lag_ms, load_lags, whale_spec
 from pipeline.fetch_crypto import http_get, parse_klines
 from pipeline.features import (
@@ -41,11 +42,11 @@ from pipeline.symbols import canonical_instrument
 
 SEVERITY_ORDER = {"PASS": 0, "WARN": 1, "FAIL": 2}
 FX_PAIRS = {"EURUSD", "GBPUSD", "USDJPY", "AUDUSD", "NZDUSD", "USDCAD", "USDCHF"}
-# Contract: FX has no dollar volume or aggressor sides. usd_strength_ret is
-# filled only when several USD pairs are present.
+# Contract: FX has no dollar volume or aggressor sides. The currency strengths are
+# filled only when three or more currencies are present.
 FX_NULL_OK = {
     "volume_usd", "buy_volume", "sell_volume", "buy_usd", "sell_usd", "signed_usd",
-    "usd_strength_ret",
+    "base_strength_ret", "quote_strength_ret",
 }
 # Month/day (America/New_York) on which a quiet or closed FX market is not a fetch hole.
 FX_HOLIDAYS = {(12, 25), (1, 1)}
@@ -252,7 +253,19 @@ def _longest_run_minutes(ts_list: list[int]) -> int:
     return longest
 
 
-def _lookback_bars(col: str) -> int | None:
+def _listing(items: list[str], shown: int = 8) -> str:
+    """The first ``shown`` items, and how many more there are."""
+    more = f" (+{len(items) - shown} more)" if len(items) > shown else ""
+    return ", ".join(items[:shown]) + more
+
+
+def _lookback_bars(col: str, bar_type: str | None = None) -> int | None:
+    """Warm-up length of a column: its numeric suffix (ret_50), or the FX z-score window."""
+    if col in ("spread_z", "tick_intensity_z"):
+        from pipeline.config import load_embargo_policy
+        from pipeline.features import FX_Z_WINDOW, fx_z_window
+        _floor, max_days = load_embargo_policy()
+        return fx_z_window(bar_type, max_days) if bar_type in TIME_WIDTH_MS else FX_Z_WINDOW
     m = re.search(r"_(\d+)$", col)
     return int(m.group(1)) if m else None
 
@@ -405,7 +418,8 @@ def _read_fx_ticks(root: Path, asset: str, days: list[date]) -> pl.DataFrame:
                     frames.append(frame)
     if not frames:
         return pl.DataFrame(schema={"ts_ms": pl.Int64, "bid": pl.Float64, "ask": pl.Float64, "mid": pl.Float64, "spread": pl.Float64})
-    return pl.concat(frames, how="vertical").sort("ts_ms")
+    # Stable, like the bar builder: ticks sharing a millisecond keep their file order.
+    return pl.concat(frames, how="vertical").sort("ts_ms", maintain_order=True)
 
 
 def _row_count(path: Path) -> int:
@@ -506,7 +520,7 @@ def check_dollar_fabric(
     if not frames:
         report.add(f"dollar_notional:{asset}", "WARN", "no dollar bars")
         return
-    dollar = clip_frame(pl.concat(frames).sort("ts_ms"), start, end)
+    dollar = clip_frame(pl.concat(frames).sort("ts_ms", maintain_order=True), start, end)
     if start is not None:
         # A bar that opened before the range holds trades from outside it: leave it
         # out, so its in-range trades count as leftover like the open tail at the end.
@@ -1487,6 +1501,8 @@ def check_dead_columns(report: Report, gold_files: dict[str, dict[str, Path]], s
         "is_warmup", "asset_dna", "listing_date", "bar_id",
         "is_tokyo", "is_london", "is_newyork", "is_ldn_ny_overlap",
     }
+    # Step series: constant between events is real (a policy rate between decisions).
+    step_series = {"carry_pct"}
     funding_prefix = ("funding_", "xd_funding")
     lo, hi = range_ms(start, end)
     for bt, assets in sorted(gold_files.items()):
@@ -1510,6 +1526,7 @@ def check_dead_columns(report: Report, gold_files: dict[str, dict[str, Path]], s
                     aggs.append(pl.col(c).max().cast(pl.Float64).alias(f"{c}__max"))
             stats = lf.select(aggs).collect().row(0, named=True)
             height = int(stats["__n"])
+            weekend = spans_fx_weekend(stats.get("ts_ms__min"), stats.get("ts_ms__max"))
             dead, const, warmup = [], [], []
             for col in cols:
                 if col.startswith("etf_") and col != "etf_total_usdm":
@@ -1533,18 +1550,26 @@ def check_dead_columns(report: Report, gold_files: dict[str, dict[str, Path]], s
                         warmup.append(f"{col}=warmup")
                     elif _is_fx(asset) and col in FX_NULL_OK:
                         warmup.append(f"{col}=fx-null")
-                    elif (lb := _lookback_bars(col)) is not None and height < lb:
+                    elif _is_fx(asset) and col == "weekend_gap_pips" and not weekend:
+                        # Set only on the first bar after a weekend: a range inside one week has none.
+                        warmup.append(f"{col}=no-weekend-in-range")
+                    elif (lb := _lookback_bars(col, bt)) is not None and height <= lb:  # ret_5 needs 6 rows
                         warmup.append(f"{col}=warmup")
                     else:
                         dead.append(col)
-                elif nn >= 50 and f"{col}__min" in stats and stats[f"{col}__min"] is not None \
-                        and stats[f"{col}__min"] == stats[f"{col}__max"]:
-                    const.append(f"{col}={stats[f'{col}__min']}")
+                elif nn >= 50 and col not in step_series and f"{col}__min" in stats \
+                        and stats[f"{col}__min"] is not None and stats[f"{col}__min"] == stats[f"{col}__max"]:
+                    if col in STEADY_ON_WEEKDAYS and not weekend:
+                        # 1440 one-minute bars behind every full weekday; only a Sunday session differs.
+                        warmup.append(f"{col}=steady-without-weekend")
+                    else:
+                        const.append(f"{col}={stats[f'{col}__min']}")
             name = f"columns:{asset}:{bt}"
-            if dead:
-                report.add(name, "WARN", f"all-null: {', '.join(dead[:8])}")
-            elif const:
-                report.add(name, "WARN", f"constant: {', '.join(const[:8])}")
+            # Both lists, in full count: a dead column must not hide a constant one.
+            problems = [f"{label}: {_listing(cols_found)}" for label, cols_found in (("all-null", dead), ("constant", const))
+                        if cols_found]
+            if problems:
+                report.add(name, "WARN", "; ".join(problems))
             else:
                 extra = f"; {len(warmup)} warmup/not-yet-live cols" if warmup else ""
                 report.add(name, "PASS", f"{len(schema.names())} columns over {height} rows, no unexpected dead series{extra}")
@@ -1675,7 +1700,7 @@ def check_external_closes(
             report.add("crosscheck_crypto", "WARN", "no bronze 1m klines for an offline close check")
 
     fx_assets = [a for a in ladders if _is_fx(a) and "time_1d" in ladders[a]]
-    if not fx_assets:
+    if not any(_is_fx(a) for a in ladders):
         return
     # Internal consistency: the 1d mid close is the last tick mid of its UTC day.
     # Only the last non-empty hour of each day is read.
@@ -1692,7 +1717,8 @@ def check_external_closes(
                 if path.exists():
                     t = pl.read_parquet(path, columns=["ts_ms", "mid"])
                     if t.height:
-                        last_mid = float(t.sort("ts_ms")["mid"][-1])
+                        # Stable: the last tick of the hour in feed order, as the bars use.
+                        last_mid = float(t.sort("ts_ms", maintain_order=True)["mid"][-1])
                         break
             if last_mid is None:
                 continue
@@ -1709,48 +1735,36 @@ def check_external_closes(
             f"1d mid close equals the last tick mid on {', '.join(internal_ok)}",
         )
 
-    if skip_network or not fx_assets:
+    if skip_network:
         return
-    # Frankfurter (ECB reference, ~16:00 CET). Not a tick mid; report the pip gap, do not fail tightly.
-    asset = "EURUSD" if "EURUSD" in fx_assets else fx_assets[0]
-    daily = ladders[asset]["time_1d"].sort("ts_ms")
-    if daily.is_empty():
+    # ECB euro reference rates, set at 14:15 Frankfurt time: our 1m mid at that
+    # instant on every ECB business day in range, for every pair, with a lag test
+    # (a clock or daylight-saving shift matches better at an offset than at 0).
+    from pipeline.crosscheck import _judge_reference, compare_reference, ecb_pair_rate, ecb_reference
+
+    fx_pairs = [a for a in ladders if _is_fx(a)]
+    with_1m = [a for a in fx_pairs if a in ladders and not ladders[a].get("time_1m", pl.DataFrame()).is_empty()]
+    for asset in sorted(set(fx_pairs) - set(with_1m)):
+        report.add(f"crosscheck_fx_external:{asset}", "WARN", "no 1m bars: the ECB fixing check needs them")
+    if not with_1m:
         return
-    # Compare the first complete weekday in the file.
-    compared = []
-    for row in daily.iter_rows(named=True):
-        day = _utc(int(row["ts_ms"]) - DAY_MS).date()
-        if day.weekday() >= 5:
-            continue
-        url = f"https://api.frankfurter.app/{day.isoformat()}?from=EUR&to=USD"
-        if asset != "EURUSD":
-            base, quote = asset[:3], asset[3:]
-            url = f"https://api.frankfurter.app/{day.isoformat()}?from={base}&to={quote}"
-        status, body, err = http_get(url, timeout=30)
-        if status != 200 or not body:
-            report.add("crosscheck_fx_external", "WARN", f"Frankfurter HTTP {status or err} for {day}")
-            return
-        try:
-            payload = json.loads(body.decode("utf-8"))
-            quote = asset[3:] if asset != "EURUSD" else "USD"
-            ref = float(payload["rates"][quote])
-        except Exception as exc:  # noqa: BLE001
-            report.add("crosscheck_fx_external", "WARN", f"Frankfurter parse failed: {exc}")
-            return
-        mid = float(row["close"])
-        pip = fx_pip(asset)
-        gap = abs(mid - ref) / pip
-        compared.append((day, mid, ref, gap))
-        if len(compared) >= 3:
-            break
-    if compared:
-        gaps = [c[3] for c in compared]
-        # ECB ref vs Dukascopy end-of-UTC-day mid can be tens of pips. Report, warn only if huge.
-        sev = "WARN" if max(gaps) > 100 else "PASS"
-        detail = "; ".join(
-            f"{d} dukascopy_1d={m:.5f} ECB={r:.5f} gap={g:.1f} pips" for d, m, r, g in compared
+    lo = start or min(_utc(int(ladders[a]["time_1m"]["ts_ms"].min())).date() for a in with_1m)
+    hi = end or max(_utc(int(ladders[a]["time_1m"]["ts_ms"].max())).date() for a in with_1m)
+    try:
+        ref = ecb_reference(root, lo, hi)
+    except Exception as exc:  # noqa: BLE001  the reference is down: a warning, not a data failure
+        report.add("crosscheck_fx_external", "WARN", f"ECB reference rates unavailable: {exc}")
+        return
+    for asset in with_1m:
+        minutes = ladders[asset]["time_1m"]
+        s = compare_reference(minutes.select(["ts_ms", "close"]), ecb_pair_rate(ref, asset), fx_pip(asset))
+        sev = _judge_reference(s)
+        report.add(
+            f"crosscheck_fx_external:{asset}", sev,
+            f"{s['days']} ECB fixing days: median |mid - ECB| {(s['median_pips'] or 0):.2f} pips, "
+            f"p90 {(s['p90_pips'] or 0):.2f}, worst {s['worst_pips']:+.2f} on {s['worst_day']}; "
+            f"median by offset (min) {s['median_by_offset_min']}",
         )
-        report.add("crosscheck_fx_external", sev, detail)
 
 
 def load_ladders(
@@ -1794,7 +1808,8 @@ def _frame_in_range(path: Path, start: date | None, end: date | None) -> pl.Data
     frames = [f for f in frames if f.height]
     if not frames:
         return pl.DataFrame()
-    out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms").unique(subset=["ts_ms"], keep="last", maintain_order=True)
+    out = pl.concat(frames, how="diagonal_relaxed").sort("ts_ms", maintain_order=True).unique(
+        subset=["ts_ms"], keep="last", maintain_order=True)
     return clip_frame(out, start, end)
 
 

@@ -530,13 +530,13 @@ def test_fx_feature_months_warm_up_by_bars_not_calendar_days(tmp_path):
     want = compute_fx_features(bars, 1e-4).join(got.select("ts_ms"), on="ts_ms", how="semi").sort("ts_ms")
     assert got.height == want.height > 15
     for col in FX_FEATURES:
-        if col == "usd_strength_ret":
+        if col in ("base_strength_ret", "quote_strength_ret"):
             continue
         a = got[col].cast(pl.Float64).to_numpy()
         b = want[col].cast(pl.Float64).to_numpy()
         assert (np.isfinite(a) == np.isfinite(b)).all(), col
         assert np.allclose(a[np.isfinite(a)], b[np.isfinite(b)], rtol=1e-12, atol=0), col
-    assert got["spread_z_100"].null_count() == 0  # the month head is not blank
+    assert got["spread_z"].null_count() == 0  # the month head is not blank
 
 
 def datetime_utc(d):
